@@ -1,0 +1,8 @@
+---
+description: Ngữ cảnh dự án vstech-hrm — luôn áp dụng
+alwaysApply: true
+---
+
+Ngữ cảnh đầy đủ của dự án nằm ở `AGENTS.md` (root repo) — đọc file đó trước khi thực hiện bất kỳ task nào. Chi tiết sâu hơn theo từng chủ đề (PRD, architecture, design system, coding rules, git workflow, security) nằm ở `docs/*.md`, được trỏ tới từ `AGENTS.md`.
+
+Không lặp lại nội dung ở đây — mọi cập nhật ngữ cảnh dự án sửa trực tiếp ở `AGENTS.md` để tránh trôi lệch giữa các file hướng dẫn agent.
