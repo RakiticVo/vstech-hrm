@@ -1,0 +1,1982 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap">
+<style>
+*{box-sizing:border-box}
+.hrm-sc::-webkit-scrollbar{width:0}
+@keyframes hrm-spin{to{transform:rotate(360deg)}}
+@keyframes hrm-pulse{0%,100%{opacity:.35}50%{opacity:.9}}
+@keyframes hrm-pop{from{transform:scale(.88);opacity:0}to{transform:scale(1);opacity:1}}
+@keyframes hrm-up{from{transform:translateY(14px);opacity:0}to{transform:translateY(0);opacity:1}}
+@keyframes hrm-scan{0%{top:12%}50%{top:82%}100%{top:12%}}
+</style>
+</helmet>
+
+<div style="--bg:{{ t.bg }};--sf:{{ t.sf }};--sf2:{{ t.sf2 }};--tp:{{ t.tp }};--ts:{{ t.ts }};--pri:{{ t.pri }};--sec:{{ t.sec }};--acc:{{ t.acc }};--ok:{{ t.ok }};--err:{{ t.err }};--line:{{ t.line }};--onacc:{{ t.onacc }};--onpri:{{ t.onpri }};--tile:{{ t.tile }};width:390px;height:844px;position:relative;overflow:hidden;border-radius:44px;background:var(--bg);font-family:Manrope,system-ui,sans-serif;color:var(--tp);display:flex;flex-direction:column;box-shadow:0 0 0 1px var(--line)">
+
+  <!-- status bar -->
+  <div style="height:52px;flex:none;display:flex;align-items:flex-end;justify-content:space-between;padding:0 26px 6px;font-size:13px;font-weight:700;letter-spacing:.2px;position:relative;z-index:10;color:{{ statusInk }}">
+    <span style="font-variant-numeric:tabular-nums">9:41</span>
+    <div style="display:flex;align-items:center;gap:5px;opacity:.85">
+      <svg width="17" height="12" viewBox="0 0 17 12" fill="currentColor"><rect x="0" y="7" width="3" height="5" rx="1"/><rect x="4.5" y="5" width="3" height="7" rx="1"/><rect x="9" y="2.5" width="3" height="9.5" rx="1"/><rect x="13.5" y="0" width="3" height="12" rx="1"/></svg>
+      <svg width="24" height="12" viewBox="0 0 24 12" fill="none" stroke="currentColor" stroke-width="1.4"><rect x="1" y="1" width="19" height="10" rx="3"/><rect x="3" y="3" width="13" height="6" rx="1.5" fill="currentColor" stroke="none"/><path d="M22 4.5v3" stroke-linecap="round"/></svg>
+    </div>
+  </div>
+
+  <!-- ============ SPLASH ============ -->
+  <sc-if value="{{ isSplash }}">
+    <div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:26px;background-color:#0A544E;background-image:radial-gradient(circle at 0 0,transparent 12px,var(--tile) 12px 14.5px,transparent 15px),radial-gradient(circle at 100% 0,transparent 12px,var(--tile) 12px 14.5px,transparent 15px),radial-gradient(circle at 0 100%,transparent 12px,var(--tile) 12px 14.5px,transparent 15px),radial-gradient(circle at 100% 100%,transparent 12px,var(--tile) 12px 14.5px,transparent 15px),radial-gradient(circle at 50% 50%,var(--tile) 0 2.5px,transparent 3px);background-size:46px 46px;margin:-52px 0 0;padding-top:52px">
+      <div style="width:86px;height:86px;border-radius:26px;background:#FFF8EC;display:flex;align-items:center;justify-content:center;animation:hrm-pop .5s ease both">
+        <svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="#0A544E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+      </div>
+      <div style="text-align:center;color:#FFF8EC;animation:hrm-up .6s .1s ease both">
+        <div style="font-size:30px;font-weight:800;letter-spacing:-.6px">Nhân Sự</div>
+        <div style="font-size:14px;margin-top:6px;font-weight:600">{{ L.tagline }}</div>
+      </div>
+      <div style="width:92px;height:3px;border-radius:2px;background:rgba(255,248,236,.32);overflow:hidden;margin-top:12px"><div style="width:44%;height:100%;background:var(--acc);animation:hrm-pulse 1.4s infinite"></div></div>
+    </div>
+  </sc-if>
+
+  <!-- ============ LOGIN ============ -->
+  <sc-if value="{{ isLogin }}">
+    <div class="hrm-sc" style="flex:1;overflow-y:auto;padding:24px 22px 34px;display:flex;flex-direction:column">
+      <div style="width:52px;height:52px;border-radius:16px;background:var(--pri);display:flex;align-items:center;justify-content:center;margin-bottom:30px">
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="{{ t.onpri }}" stroke-width="2" stroke-linecap="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>
+      </div>
+      <div style="font-size:26px;font-weight:800;letter-spacing:-.5px;line-height:1.2">{{ L.welcome }}</div>
+      <div style="font-size:14px;color:var(--ts);margin-top:8px;line-height:1.5;font-weight:500">{{ L.welcomeSub }}</div>
+      <div style="margin-top:28px;display:flex;flex-direction:column;gap:14px">
+        <div>
+          <div style="font-size:12px;font-weight:700;color:var(--ts);margin-bottom:7px;letter-spacing:.2px">{{ L.empId }}</div>
+          <div style="height:52px;border-radius:14px;border:1px solid var(--line);background:var(--sf);display:flex;align-items:center;padding:0 15px;gap:11px">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color:var(--ts)"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M7 15h4M7 11h.01"/></svg>
+            <span style="font-size:15px;font-weight:600;font-variant-numeric:tabular-nums">NV-04821</span>
+          </div>
+        </div>
+        <div>
+          <div style="font-size:12px;font-weight:700;color:var(--ts);margin-bottom:7px;letter-spacing:.2px">{{ L.pass }}</div>
+          <div style="height:52px;border-radius:14px;border:1px solid var(--pri);background:var(--sf);display:flex;align-items:center;padding:0 15px;gap:11px">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color:var(--pri)"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+            <span style="font-size:17px;letter-spacing:4px;color:var(--ts)">••••••••</span>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color:var(--ts);margin-left:auto"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7z"/><circle cx="12" cy="12" r="3"/></svg>
+          </div>
+        </div>
+      </div>
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-top:16px">
+        <div style="display:flex;align-items:center;gap:8px;font-size:13px;font-weight:600">
+          <div style="width:19px;height:19px;border-radius:6px;background:var(--pri);display:flex;align-items:center;justify-content:center"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="{{ t.onpri }}" stroke-width="3.2" stroke-linecap="round"><path d="M20 6 9 17l-5-5"/></svg></div>
+          {{ L.remember }}
+        </div>
+        <div style="font-size:13px;font-weight:700;color:var(--pri)">{{ L.forgot }}</div>
+      </div>
+      <div onClick="{{ login }}" style="margin-top:26px;height:56px;border-radius:16px;background:var(--acc);color:var(--onacc);display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:800;letter-spacing:.2px;cursor:pointer">{{ L.signIn }}</div>
+      <div style="display:flex;align-items:center;gap:12px;margin:22px 0">
+        <div style="flex:1;height:1px;background:var(--line)"></div><div style="font-size:12px;color:var(--ts);font-weight:600">{{ L.or }}</div><div style="flex:1;height:1px;background:var(--line)"></div>
+      </div>
+      <div onClick="{{ login }}" style="height:52px;border-radius:16px;border:1px solid var(--line);background:var(--sf);display:flex;align-items:center;justify-content:center;gap:10px;font-size:15px;font-weight:700;cursor:pointer">
+        <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color:var(--pri)"><path d="M12 2a5 5 0 0 0-5 5v3H5v12h14V10h-2V7a5 5 0 0 0-5-5z" fill="none"/><circle cx="12" cy="15" r="2"/></svg>
+        {{ L.faceId }}
+      </div>
+      <div style="margin-top:auto;text-align:center;font-size:12px;color:var(--ts);font-weight:500">{{ L.needHelp }}</div>
+    </div>
+  </sc-if>
+
+  <!-- ============ HOME ============ -->
+  <sc-if value="{{ isHome }}" hint-placeholder-val="{{ true }}">
+    <div class="hrm-sc" style="flex:1;overflow-y:auto;padding:0 0 104px;margin-top:-52px">
+      <!-- tile header band -->
+      <div style="padding:62px 18px 62px;background-color:#0A544E;background-image:radial-gradient(circle at 0 0,transparent 12px,var(--tile) 12px 14.5px,transparent 15px),radial-gradient(circle at 100% 0,transparent 12px,var(--tile) 12px 14.5px,transparent 15px),radial-gradient(circle at 0 100%,transparent 12px,var(--tile) 12px 14.5px,transparent 15px),radial-gradient(circle at 100% 100%,transparent 12px,var(--tile) 12px 14.5px,transparent 15px),radial-gradient(circle at 50% 50%,var(--tile) 0 2.5px,transparent 3px);background-size:46px 46px">
+        <div style="display:flex;align-items:center;gap:12px">
+          <div style="width:42px;height:42px;border-radius:13px;background:#FFF8EC;color:#0A544E;display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:800;flex:none">MT</div>
+          <div style="flex:1;min-width:0">
+            <div style="font-size:16px;font-weight:800;color:#FFF8EC;letter-spacing:-.2px">{{ L.greet }}</div>
+            <div style="font-size:11.5px;font-weight:700;color:#FFF8EC;margin-top:2px;font-variant-numeric:tabular-nums">{{ dateLong }} · {{ L2.storeName }}</div>
+          </div>
+          <div onClick="{{ goNotif }}" style="width:38px;height:38px;border-radius:12px;background:rgba(255,248,236,.18);display:flex;align-items:center;justify-content:center;position:relative;cursor:pointer;flex:none">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#FFF8EC" stroke-width="2.1" stroke-linecap="round"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.7 21a2 2 0 0 1-3.4 0"/></svg>
+            <div style="position:absolute;top:7px;right:8px;width:7px;height:7px;border-radius:5px;background:var(--acc)"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- balance card -->
+      <div style="margin:-46px 16px 0;background:var(--sf);border-radius:22px;padding:18px;box-shadow:0 8px 24px rgba(15,23,42,.1)">
+        <div style="display:flex;align-items:center;gap:16px">
+          <div style="flex:1;min-width:0">
+            <div style="font-size:11px;font-weight:800;letter-spacing:1.5px;color:var(--ts)">{{ L2.workedLabel }}</div>
+            <div style="font-size:38px;font-weight:800;letter-spacing:-1.6px;font-variant-numeric:tabular-nums;margin-top:5px;line-height:1">{{ worked }}</div>
+            <div style="font-size:12px;font-weight:700;color:var(--ts);margin-top:3px;font-variant-numeric:tabular-nums">{{ L.todayShift }} 08:00 — 17:00</div>
+          </div>
+          <div style="position:relative;width:80px;height:80px;flex:none">
+            <svg width="80" height="80" viewBox="0 0 80 80" style="transform:rotate(-90deg)">
+              <circle cx="40" cy="40" r="34" fill="none" stroke="var(--sf2)" stroke-width="9"></circle>
+              <circle cx="40" cy="40" r="34" fill="none" stroke="{{ t.acc }}" stroke-width="9" stroke-linecap="round" stroke-dasharray="{{ ringDash }}"></circle>
+            </svg>
+            <div style="position:absolute;top:0;left:0;right:0;bottom:0;display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:800;font-variant-numeric:tabular-nums">{{ workedPct }}</div>
+          </div>
+        </div>
+        <div style="display:flex;gap:10px;margin-top:14px;padding-top:14px;border-top:1px solid var(--line)">
+          <div style="flex:1">
+            <div style="font-size:10px;font-weight:800;letter-spacing:1.2px;color:var(--ts)">{{ L.checkedIn }}</div>
+            <div style="font-size:16px;font-weight:800;font-variant-numeric:tabular-nums;margin-top:2px">{{ inTime }}</div>
+          </div>
+          <div style="flex:1">
+            <div style="font-size:10px;font-weight:800;letter-spacing:1.2px;color:var(--ts)">{{ L.checkedOut }}</div>
+            <div style="font-size:16px;font-weight:800;font-variant-numeric:tabular-nums;margin-top:2px;color:{{ outInk }}">{{ outTime }}</div>
+          </div>
+          <div onClick="{{ punch }}" style="flex:1.45;height:46px;border-radius:14px;background:{{ ctaBg2 }};color:{{ ctaFg2 }};display:flex;align-items:center;justify-content:center;gap:7px;font-size:13px;font-weight:800;letter-spacing:.6px;cursor:pointer">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M12 2v6"/><path d="M5.6 6.6a9 9 0 1 0 12.8 0"/></svg>
+            {{ ctaShort }}
+          </div>
+        </div>
+      </div>
+
+      <!-- manager strip -->
+      <sc-if value="{{ isManager }}">
+        <div onClick="{{ goApprovals }}" style="margin:14px 16px 0;background:var(--sf);border:1.5px solid var(--acc);border-radius:16px;padding:14px;display:flex;align-items:center;gap:12px;cursor:pointer">
+          <div style="width:38px;height:38px;border-radius:12px;background:var(--acc);color:var(--onacc);display:flex;align-items:center;justify-content:center;flex:none"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg></div>
+          <div style="flex:1">
+            <div style="font-size:14px;font-weight:800">{{ L.pendingApprovals }}</div>
+            <div style="font-size:12px;color:var(--ts);font-weight:600;margin-top:1px">{{ L.approvalsSub }}</div>
+          </div>
+          <div style="font-size:19px;font-weight:800;color:var(--acc);font-variant-numeric:tabular-nums">9</div>
+        </div>
+      </sc-if>
+
+      <!-- circular quick actions -->
+      <div style="display:flex;gap:6px;padding:20px 16px 0">
+        <sc-for list="{{ qa5 }}" as="q" hint-placeholder-count="4">
+          <div onClick="{{ q.on }}" style="flex:1;display:flex;flex-direction:column;align-items:center;gap:8px;cursor:pointer">
+            <div style="width:52px;height:52px;border-radius:50%;background:{{ q.bg }};border:1px solid {{ q.bd }};display:flex;align-items:center;justify-content:center;color:{{ q.ink }};position:relative">
+              <div dangerouslySetInnerHTML="{{ q.icon }}"></div>
+              <sc-if value="{{ q.badge }}"><div style="position:absolute;top:-2px;right:-2px;width:18px;height:18px;border-radius:50%;background:var(--err);color:#fff;font-size:10px;font-weight:800;display:flex;align-items:center;justify-content:center">{{ q.badge }}</div></sc-if>
+            </div>
+            <div style="font-size:10.5px;font-weight:700;text-align:center;line-height:1.3">{{ q.l }}</div>
+          </div>
+        </sc-for>
+        <div onClick="{{ goServices }}" style="flex:1;display:flex;flex-direction:column;align-items:center;gap:8px;cursor:pointer">
+          <div style="width:52px;height:52px;border-radius:50%;background:#0A544E;display:flex;align-items:center;justify-content:center;color:#FFF8EC">
+            <svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="5" cy="12" r="1.6"/><circle cx="12" cy="12" r="1.6"/><circle cx="19" cy="12" r="1.6"/></svg>
+          </div>
+          <div style="font-size:10.5px;font-weight:700;text-align:center;line-height:1.3">{{ L2.allShort }}</div>
+        </div>
+      </div>
+
+      <!-- tile divider -->
+      <div style="height:14px;margin:20px 0 0;background-color:#0A544E;background-image:radial-gradient(circle at 50% 0,var(--tile) 0 2.5px,transparent 3px),radial-gradient(circle at 0 100%,transparent 6px,var(--tile) 6px 7.5px,transparent 8px),radial-gradient(circle at 100% 100%,transparent 6px,var(--tile) 6px 7.5px,transparent 8px);background-size:22px 22px"></div>
+
+      <div style="padding:18px 16px 0">
+        <!-- summary -->
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+          <div style="background:var(--sf);border:1px solid var(--line);border-radius:16px;padding:13px">
+            <div style="font-size:10.5px;font-weight:800;letter-spacing:1px;color:var(--ts)">{{ L.workingDays }}</div>
+            <div style="font-size:21px;font-weight:800;font-variant-numeric:tabular-nums;margin-top:3px">18<span style="font-size:13px;color:var(--ts)"> / 22</span></div>
+          </div>
+          <div style="background:var(--sf);border:1px solid var(--line);border-radius:16px;padding:13px">
+            <div style="font-size:10.5px;font-weight:800;letter-spacing:1px;color:var(--ts)">{{ L.leaveLeft }}</div>
+            <div style="font-size:21px;font-weight:800;font-variant-numeric:tabular-nums;margin-top:3px;color:var(--pri)">6<span style="font-size:13px;color:var(--ts)"> {{ L.days }}</span></div>
+          </div>
+          <div style="background:var(--sf);border:1px solid var(--line);border-radius:16px;padding:13px">
+            <div style="font-size:10.5px;font-weight:800;letter-spacing:1px;color:var(--ts)">{{ L.overtime }}</div>
+            <div style="font-size:21px;font-weight:800;font-variant-numeric:tabular-nums;margin-top:3px">12<span style="font-size:13px;color:var(--ts)">h</span></div>
+          </div>
+          <div style="background:var(--sf);border:1px solid var(--line);border-radius:16px;padding:13px">
+            <div style="font-size:10.5px;font-weight:800;letter-spacing:1px;color:var(--ts)">{{ L.lateEarly }}</div>
+            <div style="font-size:21px;font-weight:800;font-variant-numeric:tabular-nums;margin-top:3px">1<span style="font-size:13px;color:var(--ts)"> / 0</span></div>
+          </div>
+        </div>
+
+
+      <!-- salary -->
+      <div onClick="{{ goPayroll }}" style="margin-top:20px;background:var(--sf);border:1px solid var(--line);border-radius:18px;padding:16px;cursor:pointer">
+        <div style="display:flex;align-items:center;justify-content:space-between">
+          <div style="font-size:10.5px;font-weight:800;letter-spacing:1.2px;color:var(--ts)">{{ L.thisMonthNet }}</div>
+          <div style="font-size:11px;font-weight:700;color:var(--pri);background:var(--sf2);padding:4px 8px;border-radius:7px">{{ L.month9 }}</div>
+        </div>
+        <div style="display:flex;align-items:center;gap:12px;margin-top:6px">
+          <div style="flex:1;min-width:0;font-size:30px;font-weight:800;letter-spacing:-1px;font-variant-numeric:tabular-nums">{{ netShown }}</div>
+          <div onClick="{{ togglePay }}" style="width:40px;height:40px;border-radius:13px;background:var(--sf2);color:var(--pri);display:flex;align-items:center;justify-content:center;flex:none;cursor:pointer" dangerouslySetInnerHTML="{{ eyeIcon }}"></div>
+        </div>
+        <div style="display:flex;align-items:center;gap:8px;margin-top:14px;padding-top:14px;border-top:1px solid var(--line)">
+          <div style="flex:1;font-size:12px;font-weight:700;color:var(--ts)">{{ payHintText }}</div>
+          <div style="color:var(--ts);flex:none"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round"><path d="m9 18 6-6-6-6"/></svg></div>
+        </div>
+      </div>
+
+      <!-- announcements -->
+      <div style="display:flex;align-items:baseline;justify-content:space-between;margin:20px 0 11px">
+        <div style="font-size:15px;font-weight:800;letter-spacing:-.2px">{{ L.latest }}</div>
+        <div onClick="{{ goNotif }}" style="font-size:12px;font-weight:700;color:var(--pri);cursor:pointer">{{ L.seeAll }}</div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:9px">
+        <sc-for list="{{ feed }}" as="n" hint-placeholder-count="2">
+          <div style="background:var(--sf);border:1px solid var(--line);border-radius:15px;padding:13px;display:flex;gap:11px;align-items:flex-start">
+            <div style="width:34px;height:34px;border-radius:11px;background:var(--sf2);display:flex;align-items:center;justify-content:center;flex:none;font-size:15px;color:var(--pri);font-weight:800">{{ n.mark }}</div>
+            <div style="flex:1;min-width:0">
+              <div style="font-size:13px;font-weight:700;line-height:1.35">{{ n.title }}</div>
+              <div style="font-size:11.5px;color:var(--ts);font-weight:600;margin-top:3px">{{ n.time }}</div>
+            </div>
+          </div>
+        </sc-for>
+      </div>
+      </div>
+    </div>
+  </sc-if>
+
+  <!-- ============ ATTENDANCE ============ -->
+  <sc-if value="{{ isAtt }}">
+    <div style="padding:2px 18px 12px;display:flex;align-items:center;gap:12px">
+      <div style="font-size:21px;font-weight:800;letter-spacing:-.4px;flex:1">{{ L.attendance }}</div>
+      <div onClick="{{ goCalendar }}" style="height:36px;padding:0 13px;border-radius:12px;border:1px solid var(--line);background:var(--sf);display:flex;align-items:center;gap:7px;font-size:12.5px;font-weight:700;cursor:pointer">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M8 2v4M16 2v4M3 10h18"/></svg>{{ L.calendar }}
+      </div>
+    </div>
+    <div class="hrm-sc" style="flex:1;overflow-y:auto;padding:0 18px 104px">
+      <div style="background:var(--sf);border:1px solid var(--line);border-radius:22px;padding:22px 18px;text-align:center">
+        <div style="font-size:12.5px;font-weight:700;color:var(--ts)">{{ dateLong }}</div>
+        <div style="font-size:46px;font-weight:800;letter-spacing:-2px;font-variant-numeric:tabular-nums;margin-top:4px">{{ clock }}</div>
+        <div style="display:inline-flex;align-items:center;gap:7px;margin-top:10px;background:{{ stateTint }};color:{{ stateInk }};padding:6px 13px;border-radius:10px;font-size:12.5px;font-weight:800">
+          <div style="width:7px;height:7px;border-radius:5px;background:currentColor"></div>{{ stateLabel }}
+        </div>
+        <div style="font-size:13px;color:var(--ts);font-weight:600;margin-top:12px;line-height:1.5">{{ stateHint }}</div>
+        <div onClick="{{ punch }}" style="margin-top:18px;height:60px;border-radius:18px;background:{{ ctaBg2 }};color:{{ ctaFg2 }};display:flex;align-items:center;justify-content:center;gap:10px;font-size:17px;font-weight:800;letter-spacing:.3px;cursor:pointer">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M12 2v6"/><path d="M5.6 6.6a9 9 0 1 0 12.8 0"/></svg>{{ ctaLabel }}
+        </div>
+        <div style="display:flex;align-items:center;justify-content:center;gap:6px;margin-top:12px;font-size:11.5px;color:var(--ts);font-weight:600">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0z"/><circle cx="12" cy="10" r="3"/></svg>{{ L.atOffice }}
+        </div>
+      </div>
+
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:14px">
+        <sc-for list="{{ todayRows }}" as="r" hint-placeholder-count="4">
+          <div style="background:var(--sf);border:1px solid var(--line);border-radius:15px;padding:13px">
+            <div style="font-size:11.5px;font-weight:700;color:var(--ts)">{{ r.k }}</div>
+            <div style="font-size:18px;font-weight:800;font-variant-numeric:tabular-nums;margin-top:3px;color:{{ r.c }}">{{ r.v }}</div>
+          </div>
+        </sc-for>
+      </div>
+
+      <div style="font-size:15px;font-weight:800;margin:22px 0 11px;letter-spacing:-.2px">{{ L.monthSummary }}</div>
+      <div style="background:var(--sf);border:1px solid var(--line);border-radius:20px;padding:17px;display:flex;align-items:center;gap:16px">
+        <div style="position:relative;width:104px;height:104px;flex:none">
+          <svg width="104" height="104" viewBox="0 0 104 104" style="transform:rotate(-90deg)">
+            <circle cx="52" cy="52" r="42" fill="none" stroke="var(--sf2)" stroke-width="11"></circle>
+            <sc-for list="{{ donut }}" as="a" hint-placeholder-count="4">
+              <circle cx="52" cy="52" r="42" fill="none" stroke="{{ a.c }}" stroke-width="11" stroke-dasharray="{{ a.dash }}" stroke-dashoffset="{{ a.off }}"></circle>
+            </sc-for>
+          </svg>
+          <div style="position:absolute;top:0;left:0;right:0;bottom:0;display:flex;flex-direction:column;align-items:center;justify-content:center">
+            <div style="font-size:20px;font-weight:800;font-variant-numeric:tabular-nums;line-height:1">18</div>
+            <div style="font-size:9px;font-weight:700;color:var(--ts);margin-top:2px">{{ L2.attRate }}</div>
+          </div>
+        </div>
+        <div style="flex:1;display:flex;flex-direction:column;gap:9px">
+          <sc-for list="{{ donutLegend }}" as="g" hint-placeholder-count="4">
+            <div style="display:flex;align-items:center;gap:8px">
+              <div style="width:8px;height:8px;border-radius:5px;background:{{ g.c }};flex:none"></div>
+              <div style="flex:1;font-size:12px;font-weight:700;color:var(--ts)">{{ g.l }}</div>
+              <div style="font-size:12.5px;font-weight:800;font-variant-numeric:tabular-nums">{{ g.v }}</div>
+            </div>
+          </sc-for>
+        </div>
+      </div>
+
+      <div style="display:flex;align-items:baseline;justify-content:space-between;margin:22px 0 11px">
+        <div style="font-size:15px;font-weight:800;letter-spacing:-.2px">{{ L2.dailyLog }}</div>
+        <div onClick="{{ goHolidays }}" style="font-size:12px;font-weight:700;color:var(--pri);cursor:pointer">{{ L2.holidays }}</div>
+      </div>
+      <div style="background:var(--sf);border:1px solid var(--line);border-radius:18px;overflow:hidden">
+        <sc-for list="{{ dailyLog }}" as="d" hint-placeholder-count="6">
+          <div style="display:flex;align-items:center;gap:12px;padding:12px 14px;border-bottom:1px solid var(--line)">
+            <div style="width:38px;height:40px;border-radius:11px;background:{{ d.tint }};display:flex;flex-direction:column;align-items:center;justify-content:center;flex:none">
+              <div style="font-size:14px;font-weight:800;font-variant-numeric:tabular-nums;color:{{ d.c }};line-height:1">{{ d.d }}</div>
+              <div style="font-size:8.5px;font-weight:700;color:{{ d.c }};margin-top:1px">{{ d.dow }}</div>
+            </div>
+            <div style="flex:1;min-width:0">
+              <div style="font-size:12.5px;font-weight:800;color:{{ d.c }}">{{ d.st }}</div>
+              <div style="font-size:11px;font-weight:600;color:var(--ts);margin-top:2px;font-variant-numeric:tabular-nums">{{ d.span }}</div>
+            </div>
+            <div style="text-align:right;flex:none">
+              <div style="font-size:13px;font-weight:800;font-variant-numeric:tabular-nums">{{ d.h }}</div>
+              <div style="font-size:9.5px;font-weight:700;color:var(--ts);margin-top:1px">{{ L2.hoursShort }}</div>
+            </div>
+          </div>
+        </sc-for>
+      </div>
+      <div onClick="{{ goCorrection }}" style="margin-top:12px;height:50px;border-radius:15px;border:1px solid var(--pri);color:var(--pri);display:flex;align-items:center;justify-content:center;gap:8px;font-size:14.5px;font-weight:800;cursor:pointer">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"/></svg>{{ L.requestFix }}
+      </div>
+    </div>
+  </sc-if>
+
+  <!-- ============ CALENDAR ============ -->
+  <sc-if value="{{ isCal }}">
+    <div style="padding:2px 18px 12px;display:flex;align-items:center;gap:12px">
+      <div onClick="{{ back }}" style="width:36px;height:36px;border-radius:12px;border:1px solid var(--line);background:var(--sf);display:flex;align-items:center;justify-content:center;cursor:pointer;flex:none"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="m15 18-6-6 6-6"/></svg></div>
+      <div style="font-size:19px;font-weight:800;letter-spacing:-.4px">{{ L.monthlyAtt }}</div>
+    </div>
+    <div class="hrm-sc" style="flex:1;overflow-y:auto;padding:0 18px 104px">
+      <div style="background:var(--sf);border:1px solid var(--line);border-radius:20px;padding:16px">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" style="color:var(--ts)"><path d="m15 18-6-6 6-6"/></svg>
+          <div style="font-size:15px;font-weight:800">{{ L.month9long }}</div>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" style="color:var(--ts)"><path d="m9 18 6-6-6-6"/></svg>
+        </div>
+        <div style="display:grid;grid-template-columns:repeat(7,1fr);gap:4px;margin-bottom:6px">
+          <sc-for list="{{ dows }}" as="w" hint-placeholder-count="7">
+            <div style="text-align:center;font-size:10.5px;font-weight:700;color:var(--ts)">{{ w }}</div>
+          </sc-for>
+        </div>
+        <div style="display:grid;grid-template-columns:repeat(7,1fr);gap:4px">
+          <sc-for list="{{ cal }}" as="c" hint-placeholder-count="35">
+            <div style="aspect-ratio:1;border-radius:11px;background:{{ c.bg }};color:{{ c.fg }};display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:12.5px;font-weight:700;font-variant-numeric:tabular-nums;border:{{ c.bd }}">
+              {{ c.d }}
+              <div style="width:4px;height:4px;border-radius:3px;background:{{ c.dot }};margin-top:2px"></div>
+            </div>
+          </sc-for>
+        </div>
+      </div>
+      <div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:14px">
+        <sc-for list="{{ legend }}" as="g" hint-placeholder-count="5">
+          <div style="display:flex;align-items:center;gap:6px;background:var(--sf);border:1px solid var(--line);border-radius:9px;padding:6px 10px;font-size:11.5px;font-weight:700">
+            <div style="width:8px;height:8px;border-radius:5px;background:{{ g.c }}"></div>{{ g.l }}
+          </div>
+        </sc-for>
+      </div>
+      <div style="font-size:15px;font-weight:800;margin:22px 0 11px">{{ L.monthSummary }}</div>
+      <div style="background:var(--sf);border:1px solid var(--line);border-radius:18px;overflow:hidden">
+        <sc-for list="{{ monthRows }}" as="r" hint-placeholder-count="5">
+          <div style="display:flex;align-items:center;justify-content:space-between;padding:13px 15px;border-bottom:1px solid var(--line)">
+            <div style="font-size:13.5px;font-weight:600;color:var(--ts)">{{ r.k }}</div>
+            <div style="font-size:14.5px;font-weight:800;font-variant-numeric:tabular-nums;color:{{ r.c }}">{{ r.v }}</div>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+  </sc-if>
+
+  <!-- ============ REQUESTS ============ -->
+  <sc-if value="{{ isReq }}">
+    <div style="padding:2px 18px 12px;display:flex;align-items:center;gap:12px">
+      <div style="font-size:21px;font-weight:800;letter-spacing:-.4px;flex:1">{{ L.requests }}</div>
+      <div onClick="{{ openSheet }}" style="width:38px;height:38px;border-radius:13px;background:var(--acc);color:var(--onacc);display:flex;align-items:center;justify-content:center;cursor:pointer;flex:none"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></div>
+    </div>
+    <div style="padding:0 18px 12px;display:flex;gap:7px">
+      <sc-for list="{{ reqTabs }}" as="tb" hint-placeholder-count="4">
+        <div onClick="{{ tb.on }}" style="padding:8px 13px;border-radius:11px;font-size:12.5px;font-weight:700;cursor:pointer;background:{{ tb.bg }};color:{{ tb.fg }};border:1px solid {{ tb.bd }}">{{ tb.l }}</div>
+      </sc-for>
+    </div>
+    <div class="hrm-sc" style="flex:1;overflow-y:auto;padding:0 18px 104px">
+      <div style="display:flex;flex-direction:column;gap:11px">
+        <sc-for list="{{ reqList }}" as="r" hint-placeholder-count="4">
+          <div onClick="{{ r.on }}" style="background:var(--sf);border:1px solid var(--line);border-radius:18px;padding:15px;cursor:pointer">
+            <div style="display:flex;align-items:flex-start;gap:11px">
+              <div style="width:36px;height:36px;border-radius:12px;background:var(--sf2);color:var(--pri);display:flex;align-items:center;justify-content:center;flex:none;font-size:15px;font-weight:800">{{ r.mark }}</div>
+              <div style="flex:1;min-width:0">
+                <div style="font-size:14px;font-weight:800">{{ r.type }}</div>
+                <div style="font-size:12px;color:var(--ts);font-weight:600;margin-top:2px">{{ r.dates }}</div>
+              </div>
+              <div style="font-size:10.5px;font-weight:800;padding:5px 9px;border-radius:8px;background:{{ r.tint }};color:{{ r.ink }};flex:none">{{ r.status }}</div>
+            </div>
+            <div style="display:flex;align-items:center;gap:5px;margin-top:13px;padding-top:12px;border-top:1px solid var(--line)">
+              <sc-for list="{{ r.steps }}" as="s" hint-placeholder-count="4">
+                <div style="flex:1;height:4px;border-radius:3px;background:{{ s.c }}"></div>
+              </sc-for>
+              <div style="font-size:11px;font-weight:700;color:var(--ts);margin-left:6px;white-space:nowrap">{{ r.stage }}</div>
+            </div>
+          </div>
+        </sc-for>
+      </div>
+      <sc-if value="{{ reqEmpty }}">
+        <div style="padding:60px 20px;text-align:center">
+          <div style="width:74px;height:74px;border-radius:24px;background:var(--sf2);display:flex;align-items:center;justify-content:center;margin:0 auto 16px;color:var(--ts)"><svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/></svg></div>
+          <div style="font-size:15.5px;font-weight:800">{{ L.emptyTitle }}</div>
+          <div style="font-size:13px;color:var(--ts);font-weight:600;margin-top:7px;line-height:1.5">{{ L.emptyBody }}</div>
+          <div onClick="{{ openSheet }}" style="margin:18px auto 0;width:200px;height:48px;border-radius:15px;background:var(--acc);color:var(--onacc);display:flex;align-items:center;justify-content:center;font-size:14.5px;font-weight:800;cursor:pointer">{{ L.newRequest }}</div>
+        </div>
+      </sc-if>
+    </div>
+  </sc-if>
+
+  <!-- ============ LEAVE ============ -->
+  <sc-if value="{{ isLeave }}">
+    <div style="padding:2px 18px 12px;display:flex;align-items:center;gap:12px">
+      <div onClick="{{ back }}" style="width:36px;height:36px;border-radius:12px;border:1px solid var(--line);background:var(--sf);display:flex;align-items:center;justify-content:center;cursor:pointer;flex:none"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="m15 18-6-6 6-6"/></svg></div>
+      <div style="font-size:19px;font-weight:800;letter-spacing:-.4px">{{ L.leaveReq }}</div>
+    </div>
+    <div class="hrm-sc" style="flex:1;overflow-y:auto;padding:0 18px 104px">
+      <div style="background-color:#0A544E;background-image:radial-gradient(circle at 0 0,transparent 12px,var(--tile) 12px 14.5px,transparent 15px),radial-gradient(circle at 100% 0,transparent 12px,var(--tile) 12px 14.5px,transparent 15px),radial-gradient(circle at 0 100%,transparent 12px,var(--tile) 12px 14.5px,transparent 15px),radial-gradient(circle at 100% 100%,transparent 12px,var(--tile) 12px 14.5px,transparent 15px),radial-gradient(circle at 50% 50%,var(--tile) 0 2.5px,transparent 3px);background-size:46px 46px;color:#FFF8EC;border-radius:20px;padding:17px">
+        <div style="font-size:10.5px;font-weight:800;letter-spacing:1.4px">{{ L.annualBalance }}</div>
+        <div style="display:flex;align-items:flex-end;gap:8px;margin-top:4px">
+          <div style="font-size:36px;font-weight:800;letter-spacing:-1.2px;font-variant-numeric:tabular-nums;line-height:1">6</div>
+          <div style="font-size:13px;font-weight:700;padding-bottom:5px">/ 12 {{ L.days }}</div>
+        </div>
+        <div style="height:6px;border-radius:4px;background:rgba(255,248,236,.28);margin-top:13px;overflow:hidden"><div style="width:50%;height:100%;background:var(--acc);border-radius:4px"></div></div>
+        <div style="display:flex;justify-content:space-between;margin-top:9px;font-size:11.5px;font-weight:700"><span>{{ L.used }} 6</span><span>{{ L.remaining }} 6</span></div>
+      </div>
+
+      <div style="font-size:13px;font-weight:800;margin:20px 0 9px">{{ L.leaveType }}</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:9px">
+        <sc-for list="{{ leaveTypes }}" as="lt" hint-placeholder-count="4">
+          <div onClick="{{ lt.on }}" style="background:var(--sf);border:1.5px solid {{ lt.bd }};border-radius:15px;padding:13px;cursor:pointer">
+            <div style="font-size:13px;font-weight:800;color:{{ lt.ink }}">{{ lt.l }}</div>
+            <div style="font-size:11px;color:var(--ts);font-weight:600;margin-top:3px">{{ lt.sub }}</div>
+          </div>
+        </sc-for>
+      </div>
+
+      <div style="font-size:13px;font-weight:800;margin:20px 0 9px">{{ L.duration }}</div>
+      <div style="background:var(--sf);border:1px solid var(--line);border-radius:18px;padding:5px 15px">
+        <div style="display:flex;align-items:center;justify-content:space-between;padding:12px 0;border-bottom:1px solid var(--line)">
+          <div style="font-size:13px;font-weight:600;color:var(--ts)">{{ L.from }}</div>
+          <div style="font-size:14px;font-weight:800;font-variant-numeric:tabular-nums">21/09/2026</div>
+        </div>
+        <div style="display:flex;align-items:center;justify-content:space-between;padding:12px 0;border-bottom:1px solid var(--line)">
+          <div style="font-size:13px;font-weight:600;color:var(--ts)">{{ L.to }}</div>
+          <div style="font-size:14px;font-weight:800;font-variant-numeric:tabular-nums">23/09/2026</div>
+        </div>
+        <div style="display:flex;align-items:center;justify-content:space-between;padding:12px 0">
+          <div style="font-size:13px;font-weight:600;color:var(--ts)">{{ L.total }}</div>
+          <div style="font-size:14px;font-weight:800;color:var(--pri)">3 {{ L.days }}</div>
+        </div>
+      </div>
+      <div style="display:flex;gap:9px;align-items:flex-start;background:var(--sf2);border-radius:14px;padding:12px;margin-top:11px">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" style="color:var(--acc);flex:none;margin-top:1px"><path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"/><path d="M12 9v4M12 17h.01"/></svg>
+        <div style="font-size:12px;font-weight:600;line-height:1.45">{{ L.conflict }}</div>
+      </div>
+
+      <div style="font-size:13px;font-weight:800;margin:20px 0 9px">{{ L.reason }}</div>
+      <div style="background:var(--sf);border:1px solid var(--line);border-radius:16px;padding:14px;min-height:88px;font-size:13.5px;font-weight:600;line-height:1.5;color:var(--tp)">{{ L.reasonText }}</div>
+      <div style="display:flex;align-items:center;gap:9px;margin-top:11px;border:1px dashed var(--line);border-radius:14px;padding:13px;color:var(--ts);font-size:12.5px;font-weight:700">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="m21.4 11.1-9.2 9.2a5 5 0 0 1-7.1-7.1l8.5-8.5a3.3 3.3 0 0 1 4.7 4.7l-8.5 8.5a1.7 1.7 0 0 1-2.4-2.4l7.8-7.8"/></svg>{{ L.attach }}
+      </div>
+      <div onClick="{{ submit }}" style="margin-top:20px;height:56px;border-radius:17px;background:var(--acc);color:var(--onacc);display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:800;cursor:pointer">{{ L.submitReq }}</div>
+    </div>
+  </sc-if>
+
+  <!-- ============ OVERTIME ============ -->
+  <sc-if value="{{ isOt }}">
+    <div style="padding:2px 18px 12px;display:flex;align-items:center;gap:12px">
+      <div onClick="{{ back }}" style="width:36px;height:36px;border-radius:12px;border:1px solid var(--line);background:var(--sf);display:flex;align-items:center;justify-content:center;cursor:pointer;flex:none"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="m15 18-6-6 6-6"/></svg></div>
+      <div style="font-size:19px;font-weight:800;letter-spacing:-.4px">{{ L.otReq }}</div>
+    </div>
+    <div class="hrm-sc" style="flex:1;overflow-y:auto;padding:0 18px 104px">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+        <div style="background:var(--sf);border:1px solid var(--line);border-radius:16px;padding:14px">
+          <div style="font-size:11.5px;font-weight:700;color:var(--ts)">{{ L.otThisMonth }}</div>
+          <div style="font-size:23px;font-weight:800;font-variant-numeric:tabular-nums;margin-top:3px">12<span style="font-size:13px;color:var(--ts)">h</span></div>
+        </div>
+        <div style="background:var(--sf);border:1px solid var(--line);border-radius:16px;padding:14px">
+          <div style="font-size:11.5px;font-weight:700;color:var(--ts)">{{ L.otPaid }}</div>
+          <div style="font-size:23px;font-weight:800;font-variant-numeric:tabular-nums;margin-top:3px;color:var(--ok)">1.8M</div>
+        </div>
+      </div>
+      <div style="font-size:13px;font-weight:800;margin:20px 0 9px">{{ L.otNew }}</div>
+      <div style="background:var(--sf);border:1px solid var(--line);border-radius:18px;padding:5px 15px">
+        <div style="display:flex;align-items:center;justify-content:space-between;padding:12px 0;border-bottom:1px solid var(--line)"><div style="font-size:13px;font-weight:600;color:var(--ts)">{{ L.date }}</div><div style="font-size:14px;font-weight:800;font-variant-numeric:tabular-nums">16/09/2026</div></div>
+        <div style="display:flex;align-items:center;justify-content:space-between;padding:12px 0;border-bottom:1px solid var(--line)"><div style="font-size:13px;font-weight:600;color:var(--ts)">{{ L.timeRange }}</div><div style="font-size:14px;font-weight:800;font-variant-numeric:tabular-nums">18:00 — 21:00</div></div>
+        <div style="display:flex;align-items:center;justify-content:space-between;padding:12px 0"><div style="font-size:13px;font-weight:600;color:var(--ts)">{{ L.total }}</div><div style="font-size:14px;font-weight:800;color:var(--pri)">3h · x1.5</div></div>
+      </div>
+      <div style="font-size:13px;font-weight:800;margin:20px 0 9px">{{ L.otHistory }}</div>
+      <div style="background:var(--sf);border:1px solid var(--line);border-radius:18px;overflow:hidden">
+        <sc-for list="{{ otHist }}" as="o" hint-placeholder-count="4">
+          <div style="display:flex;align-items:center;gap:12px;padding:13px 15px;border-bottom:1px solid var(--line)">
+            <div style="flex:1"><div style="font-size:13.5px;font-weight:700;font-variant-numeric:tabular-nums">{{ o.d }}</div><div style="font-size:11.5px;color:var(--ts);font-weight:600;margin-top:2px;font-variant-numeric:tabular-nums">{{ o.span }}</div></div>
+            <div style="font-size:13.5px;font-weight:800;font-variant-numeric:tabular-nums">{{ o.h }}</div>
+            <div style="font-size:10.5px;font-weight:800;padding:4px 8px;border-radius:8px;background:{{ o.tint }};color:{{ o.ink }}">{{ o.s }}</div>
+          </div>
+        </sc-for>
+      </div>
+      <div onClick="{{ submit }}" style="margin-top:20px;height:56px;border-radius:17px;background:var(--acc);color:var(--onacc);display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:800;cursor:pointer">{{ L.submitReq }}</div>
+    </div>
+  </sc-if>
+
+  <!-- ============ CORRECTION ============ -->
+  <sc-if value="{{ isFix }}">
+    <div style="padding:2px 18px 12px;display:flex;align-items:center;gap:12px">
+      <div onClick="{{ back }}" style="width:36px;height:36px;border-radius:12px;border:1px solid var(--line);background:var(--sf);display:flex;align-items:center;justify-content:center;cursor:pointer;flex:none"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="m15 18-6-6 6-6"/></svg></div>
+      <div style="font-size:19px;font-weight:800;letter-spacing:-.4px">{{ L.fixReq }}</div>
+    </div>
+    <div class="hrm-sc" style="flex:1;overflow-y:auto;padding:0 18px 104px">
+      <div style="display:flex;gap:10px;margin-bottom:18px">
+        <sc-for list="{{ steps3 }}" as="s" hint-placeholder-count="3">
+          <div style="flex:1">
+            <div style="height:4px;border-radius:3px;background:{{ s.c }}"></div>
+            <div style="font-size:10.5px;font-weight:700;color:{{ s.ink }};margin-top:7px">{{ s.l }}</div>
+          </div>
+        </sc-for>
+      </div>
+      <div style="font-size:13px;font-weight:800;margin-bottom:9px">{{ L.pickDate }}</div>
+      <div style="background:var(--sf);border:1px solid var(--line);border-radius:16px;padding:14px 15px;display:flex;align-items:center;gap:11px">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" style="color:var(--pri)"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M8 2v4M16 2v4M3 10h18"/></svg>
+        <div style="flex:1;font-size:14px;font-weight:800;font-variant-numeric:tabular-nums">15/09/2026 — {{ L.monday }}</div>
+      </div>
+      <div style="background:{{ errTint }};border:1px solid var(--err);border-radius:14px;padding:12px;margin-top:11px;display:flex;gap:9px">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" style="color:var(--err);flex:none;margin-top:1px"><circle cx="12" cy="12" r="9"/><path d="M12 8v4M12 16h.01"/></svg>
+        <div style="font-size:12px;font-weight:700;line-height:1.45;color:var(--err)">{{ L.missingOut }}</div>
+      </div>
+      <div style="font-size:13px;font-weight:800;margin:20px 0 9px">{{ L.issueType }}</div>
+      <div style="display:flex;flex-direction:column;gap:8px">
+        <sc-for list="{{ issues }}" as="i" hint-placeholder-count="4">
+          <div onClick="{{ i.on }}" style="background:var(--sf);border:1.5px solid {{ i.bd }};border-radius:14px;padding:13px 14px;display:flex;align-items:center;gap:11px;cursor:pointer">
+            <div style="width:19px;height:19px;border-radius:11px;border:2px solid {{ i.bd }};display:flex;align-items:center;justify-content:center;flex:none"><div style="width:9px;height:9px;border-radius:6px;background:{{ i.fill }}"></div></div>
+            <div style="font-size:13.5px;font-weight:700">{{ i.l }}</div>
+          </div>
+        </sc-for>
+      </div>
+      <div style="font-size:13px;font-weight:800;margin:20px 0 9px">{{ L.correctTo }}</div>
+      <div style="background:var(--sf);border:1px solid var(--line);border-radius:16px;padding:14px 15px;display:flex;align-items:center;justify-content:space-between">
+        <div style="font-size:13px;font-weight:600;color:var(--ts)">{{ L.checkOutAt }}</div>
+        <div style="font-size:16px;font-weight:800;font-variant-numeric:tabular-nums;color:var(--pri)">17:34</div>
+      </div>
+      <div style="font-size:13px;font-weight:800;margin:20px 0 9px">{{ L.explain }}</div>
+      <div style="background:var(--sf);border:1px solid var(--line);border-radius:16px;padding:14px;min-height:80px;font-size:13.5px;font-weight:600;line-height:1.5">{{ L.explainText }}</div>
+      <div onClick="{{ submit }}" style="margin-top:20px;height:56px;border-radius:17px;background:var(--acc);color:var(--onacc);display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:800;cursor:pointer">{{ L.submitReq }}</div>
+    </div>
+  </sc-if>
+
+  <!-- ============ PAYROLL ============ -->
+  <sc-if value="{{ isPay }}">
+    <div style="padding:2px 18px 12px;display:flex;align-items:center;gap:12px">
+      <div style="font-size:21px;font-weight:800;letter-spacing:-.4px;flex:1">{{ L.payroll }}</div>
+      <div onClick="{{ goBonus }}" style="height:36px;padding:0 13px;border-radius:12px;border:1px solid var(--line);background:var(--sf);display:flex;align-items:center;gap:7px;font-size:12.5px;font-weight:700;cursor:pointer"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" style="color:var(--acc)"><path d="M12 2l2.9 6.3 6.9.8-5 4.8 1.3 6.8-6.1-3.4-6.1 3.4L7.2 13.9l-5-4.8 6.9-.8z"/></svg>{{ L.bonusTab }}</div>
+    </div>
+    <div class="hrm-sc" style="flex:1;overflow-y:auto;padding:0 18px 104px">
+      <div style="background-color:#0A544E;background-image:radial-gradient(circle at 0 0,transparent 12px,var(--tile) 12px 14.5px,transparent 15px),radial-gradient(circle at 100% 0,transparent 12px,var(--tile) 12px 14.5px,transparent 15px),radial-gradient(circle at 0 100%,transparent 12px,var(--tile) 12px 14.5px,transparent 15px),radial-gradient(circle at 100% 100%,transparent 12px,var(--tile) 12px 14.5px,transparent 15px),radial-gradient(circle at 50% 50%,var(--tile) 0 2.5px,transparent 3px);background-size:46px 46px;color:#FFF8EC;border-radius:22px;padding:19px">
+        <div style="display:flex;align-items:center;justify-content:space-between">
+          <div style="font-size:10.5px;font-weight:800;letter-spacing:1.4px">{{ L.netSalary }}</div>
+          <div style="font-size:11.5px;font-weight:800;background:rgba(255,248,236,.2);padding:4px 9px;border-radius:8px">{{ L.month9long }}</div>
+        </div>
+        <div style="font-size:34px;font-weight:800;letter-spacing:-1.3px;font-variant-numeric:tabular-nums;margin-top:6px">25.500.000</div>
+        <div style="font-size:12.5px;font-weight:700;margin-top:2px">VND · {{ L.paidOn }} 05/10</div>
+        <div onClick="{{ goPayslip }}" style="margin-top:16px;height:50px;border-radius:15px;background:var(--acc);color:var(--onacc);display:flex;align-items:center;justify-content:center;gap:8px;font-size:15px;font-weight:800;cursor:pointer">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/></svg>{{ L.viewPayslip }}
+        </div>
+      </div>
+      <div style="font-size:15px;font-weight:800;margin:20px 0 11px">{{ L.breakdown }}</div>
+      <div style="background:var(--sf);border:1px solid var(--line);border-radius:18px;overflow:hidden">
+        <sc-for list="{{ payRows }}" as="p" hint-placeholder-count="6">
+          <div style="display:flex;align-items:center;justify-content:space-between;padding:14px 15px;border-bottom:1px solid var(--line)">
+            <div style="font-size:13.5px;font-weight:600;color:var(--ts)">{{ p.k }}</div>
+            <div style="font-size:14px;font-weight:800;font-variant-numeric:tabular-nums;color:{{ p.c }}">{{ p.v }}</div>
+          </div>
+        </sc-for>
+      </div>
+      <div style="font-size:15px;font-weight:800;margin:20px 0 11px">{{ L.history }}</div>
+      <div style="display:flex;flex-direction:column;gap:9px">
+        <sc-for list="{{ payHist }}" as="h" hint-placeholder-count="3">
+          <div onClick="{{ goPayslip }}" style="background:var(--sf);border:1px solid var(--line);border-radius:16px;padding:14px 15px;display:flex;align-items:center;gap:12px;cursor:pointer">
+            <div style="flex:1"><div style="font-size:13.5px;font-weight:800">{{ h.m }}</div><div style="font-size:11.5px;color:var(--ts);font-weight:600;margin-top:2px">{{ h.sub }}</div></div>
+            <div style="font-size:14.5px;font-weight:800;font-variant-numeric:tabular-nums">{{ h.v }}</div>
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" style="color:var(--ts)"><path d="m9 18 6-6-6-6"/></svg>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+  </sc-if>
+
+  <!-- ============ PAYSLIP ============ -->
+  <sc-if value="{{ isSlip }}">
+    <div style="padding:2px 18px 12px;display:flex;align-items:center;gap:12px">
+      <div onClick="{{ back }}" style="width:36px;height:36px;border-radius:12px;border:1px solid var(--line);background:var(--sf);display:flex;align-items:center;justify-content:center;cursor:pointer;flex:none"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="m15 18-6-6 6-6"/></svg></div>
+      <div style="font-size:19px;font-weight:800;letter-spacing:-.4px;flex:1">{{ L.payslip }}</div>
+      <div style="width:36px;height:36px;border-radius:12px;border:1px solid var(--line);background:var(--sf);display:flex;align-items:center;justify-content:center;cursor:pointer;flex:none"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round"><path d="M12 15V3M7 10l5 5 5-5"/><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/></svg></div>
+    </div>
+    <div class="hrm-sc" style="flex:1;overflow-y:auto;padding:0 18px 104px">
+      <div style="background:var(--sf);border:1px solid var(--line);border-radius:20px;padding:18px">
+        <div style="display:flex;align-items:center;gap:11px;padding-bottom:15px;border-bottom:1px solid var(--line)">
+          <div style="width:40px;height:40px;border-radius:13px;background:var(--pri);color:var(--onpri);display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:800">MT</div>
+          <div style="flex:1"><div style="font-size:14px;font-weight:800">Nguyễn Minh Tuấn</div><div style="font-size:11.5px;color:var(--ts);font-weight:600;font-variant-numeric:tabular-nums">NV-04821 · {{ L.dept }}</div></div>
+        </div>
+        <div style="text-align:center;padding:16px 0 4px">
+          <div style="font-size:11.5px;font-weight:700;color:var(--ts)">{{ L.netSalary }} · {{ L.month9long }}</div>
+          <div style="font-size:32px;font-weight:800;letter-spacing:-1.2px;font-variant-numeric:tabular-nums;margin-top:4px">25.500.000</div>
+        </div>
+      </div>
+      <div style="font-size:13px;font-weight:800;margin:20px 0 9px;color:var(--ok)">{{ L.earnings }}</div>
+      <div style="background:var(--sf);border:1px solid var(--line);border-radius:18px;overflow:hidden">
+        <sc-for list="{{ earnRows }}" as="e" hint-placeholder-count="4">
+          <div style="display:flex;align-items:center;justify-content:space-between;padding:13px 15px;border-bottom:1px solid var(--line)">
+            <div style="font-size:13px;font-weight:600;color:var(--ts)">{{ e.k }}</div>
+            <div style="font-size:13.5px;font-weight:800;font-variant-numeric:tabular-nums">{{ e.v }}</div>
+          </div>
+        </sc-for>
+      </div>
+      <div style="font-size:13px;font-weight:800;margin:20px 0 9px;color:var(--err)">{{ L.deductions }}</div>
+      <div style="background:var(--sf);border:1px solid var(--line);border-radius:18px;overflow:hidden">
+        <sc-for list="{{ dedRows }}" as="d" hint-placeholder-count="3">
+          <div style="display:flex;align-items:center;justify-content:space-between;padding:13px 15px;border-bottom:1px solid var(--line)">
+            <div style="font-size:13px;font-weight:600;color:var(--ts)">{{ d.k }}</div>
+            <div style="font-size:13.5px;font-weight:800;font-variant-numeric:tabular-nums;color:var(--err)">{{ d.v }}</div>
+          </div>
+        </sc-for>
+      </div>
+      <div style="margin-top:14px;background:var(--sf2);border-radius:16px;padding:16px;display:flex;align-items:center;justify-content:space-between">
+        <div style="font-size:14px;font-weight:800">{{ L.netSalary }}</div>
+        <div style="font-size:20px;font-weight:800;font-variant-numeric:tabular-nums;color:var(--pri)">25.500.000</div>
+      </div>
+      <div style="margin-top:12px;height:52px;border-radius:16px;border:1.5px solid var(--pri);color:var(--pri);background:var(--sf);display:flex;align-items:center;justify-content:center;gap:9px;font-size:14.5px;font-weight:800;cursor:pointer">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M12 15V3M7 10l5 5 5-5"/><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/></svg>{{ L2.downloadSlip }}
+      </div>
+    </div>
+  </sc-if>
+
+  <!-- ============ BONUS ============ -->
+  <sc-if value="{{ isBonus }}">
+    <div style="padding:2px 18px 12px;display:flex;align-items:center;gap:12px">
+      <div onClick="{{ back }}" style="width:36px;height:36px;border-radius:12px;border:1px solid var(--line);background:var(--sf);display:flex;align-items:center;justify-content:center;cursor:pointer;flex:none"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="m15 18-6-6 6-6"/></svg></div>
+      <div style="font-size:19px;font-weight:800;letter-spacing:-.4px">{{ L.bonusRewards }}</div>
+    </div>
+    <div class="hrm-sc" style="flex:1;overflow-y:auto;padding:0 18px 104px">
+      <div style="border-radius:22px;border:1.5px solid var(--acc);background:var(--sf);padding:19px;text-align:center">
+        <div style="width:44px;height:44px;border-radius:14px;background:var(--acc);color:var(--onacc);display:flex;align-items:center;justify-content:center;margin:0 auto 12px"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M12 2l2.9 6.3 6.9.8-5 4.8 1.3 6.8-6.1-3.4-6.1 3.4L7.2 13.9l-5-4.8 6.9-.8z"/></svg></div>
+        <div style="font-size:12px;font-weight:700;color:var(--ts)">{{ L.septBonus }}</div>
+        <div style="font-size:33px;font-weight:800;letter-spacing:-1.2px;font-variant-numeric:tabular-nums;margin-top:4px;color:var(--acc)">+2.500.000</div>
+        <div style="font-size:12px;font-weight:700;color:var(--ts);margin-top:3px">VND · {{ L.withSalary }}</div>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:14px">
+        <sc-for list="{{ bonusKinds }}" as="b" hint-placeholder-count="4">
+          <div style="background:var(--sf);border:1px solid var(--line);border-radius:16px;padding:14px">
+            <div style="font-size:11.5px;font-weight:700;color:var(--ts)">{{ b.k }}</div>
+            <div style="font-size:17px;font-weight:800;font-variant-numeric:tabular-nums;margin-top:4px">{{ b.v }}</div>
+          </div>
+        </sc-for>
+      </div>
+      <div style="font-size:15px;font-weight:800;margin:20px 0 11px">{{ L.whyBonus }}</div>
+      <div style="background:var(--sf);border:1px solid var(--line);border-radius:18px;padding:16px">
+        <div style="display:flex;gap:11px;align-items:flex-start">
+          <div style="width:34px;height:34px;border-radius:11px;background:var(--sf2);color:var(--ok);display:flex;align-items:center;justify-content:center;flex:none"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M20 6 9 17l-5-5"/></svg></div>
+          <div><div style="font-size:13.5px;font-weight:800">{{ L.kpiTitle }}</div><div style="font-size:12px;color:var(--ts);font-weight:600;margin-top:3px;line-height:1.5">{{ L.kpiBody }}</div></div>
+        </div>
+      </div>
+      <div style="font-size:15px;font-weight:800;margin:20px 0 11px">{{ L.bonusHistory }}</div>
+      <div style="background:var(--sf);border:1px solid var(--line);border-radius:18px;overflow:hidden">
+        <sc-for list="{{ bonusHist }}" as="b" hint-placeholder-count="4">
+          <div style="display:flex;align-items:center;gap:12px;padding:14px 15px;border-bottom:1px solid var(--line)">
+            <div style="flex:1"><div style="font-size:13.5px;font-weight:700">{{ b.m }}</div><div style="font-size:11.5px;color:var(--ts);font-weight:600;margin-top:2px">{{ b.k }}</div></div>
+            <div style="font-size:14px;font-weight:800;font-variant-numeric:tabular-nums;color:var(--ok)">{{ b.v }}</div>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+  </sc-if>
+
+  <!-- ============ JOBS ============ -->
+  <sc-if value="{{ isJobs }}">
+    <div style="padding:2px 18px 12px;display:flex;align-items:center;gap:12px">
+      <div onClick="{{ back }}" style="width:36px;height:36px;border-radius:12px;border:1px solid var(--line);background:var(--sf);display:flex;align-items:center;justify-content:center;cursor:pointer;flex:none"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="m15 18-6-6 6-6"/></svg></div>
+      <div style="font-size:19px;font-weight:800;letter-spacing:-.4px">{{ L.internalJobs }}</div>
+    </div>
+    <div class="hrm-sc" style="flex:1;overflow-y:auto;padding:0 18px 104px">
+      <div style="height:46px;border-radius:14px;background:var(--sf);border:1px solid var(--line);display:flex;align-items:center;gap:10px;padding:0 14px;color:var(--ts)">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-4.3-4.3"/></svg>
+        <span style="font-size:13.5px;font-weight:600">{{ L.searchJobs }}</span>
+      </div>
+      <div style="font-size:12.5px;color:var(--ts);font-weight:700;margin:16px 0 11px">{{ L.jobsOpen }}</div>
+      <div style="display:flex;flex-direction:column;gap:11px">
+        <sc-for list="{{ jobs }}" as="j" hint-placeholder-count="4">
+          <div onClick="{{ goJob }}" style="background:var(--sf);border:1px solid var(--line);border-radius:18px;padding:16px;cursor:pointer">
+            <div style="display:flex;align-items:flex-start;gap:11px">
+              <div style="flex:1;min-width:0">
+                <div style="font-size:15px;font-weight:800;letter-spacing:-.2px">{{ j.title }}</div>
+                <div style="font-size:12px;color:var(--ts);font-weight:600;margin-top:3px">{{ j.dept }}</div>
+              </div>
+              <sc-if value="{{ j.isNew }}"><div style="font-size:10px;font-weight:800;padding:4px 8px;border-radius:7px;background:var(--acc);color:var(--onacc);flex:none">{{ L.newTag }}</div></sc-if>
+            </div>
+            <div style="display:flex;flex-wrap:wrap;gap:7px;margin-top:12px">
+              <div style="font-size:11px;font-weight:700;padding:5px 9px;border-radius:8px;background:var(--sf2);color:var(--ts)">{{ j.loc }}</div>
+              <div style="font-size:11px;font-weight:700;padding:5px 9px;border-radius:8px;background:var(--sf2);color:var(--ts)">{{ j.type }}</div>
+              <div style="font-size:11px;font-weight:700;padding:5px 9px;border-radius:8px;background:var(--sf2);color:var(--pri)">{{ j.close }}</div>
+            </div>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+  </sc-if>
+
+  <!-- ============ JOB DETAIL ============ -->
+  <sc-if value="{{ isJob }}">
+    <div style="padding:2px 18px 12px;display:flex;align-items:center;gap:12px">
+      <div onClick="{{ back }}" style="width:36px;height:36px;border-radius:12px;border:1px solid var(--line);background:var(--sf);display:flex;align-items:center;justify-content:center;cursor:pointer;flex:none"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="m15 18-6-6 6-6"/></svg></div>
+      <div style="font-size:19px;font-weight:800;letter-spacing:-.4px">{{ L.jobDetail }}</div>
+    </div>
+    <div class="hrm-sc" style="flex:1;overflow-y:auto;padding:0 18px 118px">
+      <div style="background:var(--sf);border:1px solid var(--line);border-radius:20px;padding:18px">
+        <div style="font-size:21px;font-weight:800;letter-spacing:-.5px;line-height:1.25">{{ L.jobTitle }}</div>
+        <div style="font-size:13px;color:var(--ts);font-weight:600;margin-top:5px">{{ L.jobDept }}</div>
+        <div style="display:flex;flex-wrap:wrap;gap:7px;margin-top:14px">
+          <div style="font-size:11px;font-weight:700;padding:5px 10px;border-radius:8px;background:var(--sf2);color:var(--ts)">Hồ Chí Minh</div>
+          <div style="font-size:11px;font-weight:700;padding:5px 10px;border-radius:8px;background:var(--sf2);color:var(--ts)">{{ L.fullTime }}</div>
+          <div style="font-size:11px;font-weight:700;padding:5px 10px;border-radius:8px;background:var(--sf2);color:var(--pri)">{{ L.deadline }} 30/09</div>
+        </div>
+      </div>
+      <sc-for list="{{ jobSections }}" as="s" hint-placeholder-count="3">
+        <div style="margin-top:20px">
+          <div style="font-size:14px;font-weight:800;margin-bottom:9px">{{ s.t }}</div>
+          <div style="background:var(--sf);border:1px solid var(--line);border-radius:16px;padding:15px;display:flex;flex-direction:column;gap:9px">
+            <sc-for list="{{ s.items }}" as="it" hint-placeholder-count="3">
+              <div style="display:flex;gap:9px;align-items:flex-start">
+                <div style="width:5px;height:5px;border-radius:3px;background:var(--pri);flex:none;margin-top:7px"></div>
+                <div style="font-size:13px;font-weight:600;line-height:1.5;color:var(--tp)">{{ it }}</div>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+      </sc-for>
+      <div style="margin-top:20px;background:var(--sf);border:1px solid var(--line);border-radius:16px;padding:15px;display:flex;align-items:center;gap:11px">
+        <div style="width:38px;height:38px;border-radius:12px;background:var(--sf2);color:var(--pri);display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:800">LH</div>
+        <div><div style="font-size:11.5px;color:var(--ts);font-weight:700">{{ L.hiringManager }}</div><div style="font-size:13.5px;font-weight:800;margin-top:2px">Lê Thu Hà</div></div>
+      </div>
+    </div>
+    <div style="position:absolute;left:0;right:0;bottom:0;padding:12px 18px 26px;background:var(--bg);border-top:1px solid var(--line);display:flex;gap:10px">
+      <div onClick="{{ submit }}" style="flex:1;height:52px;border-radius:16px;background:var(--acc);color:var(--onacc);display:flex;align-items:center;justify-content:center;font-size:15.5px;font-weight:800;cursor:pointer">{{ L.apply }}</div>
+      <div style="width:52px;height:52px;border-radius:16px;border:1px solid var(--pri);color:var(--pri);display:flex;align-items:center;justify-content:center;cursor:pointer"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M19 8v6M22 11h-6"/></svg></div>
+    </div>
+  </sc-if>
+
+  <!-- ============ NOTIFICATIONS ============ -->
+  <sc-if value="{{ isNotif }}">
+    <div style="padding:2px 18px 12px;display:flex;align-items:center;gap:12px">
+      <div onClick="{{ back }}" style="width:36px;height:36px;border-radius:12px;border:1px solid var(--line);background:var(--sf);display:flex;align-items:center;justify-content:center;cursor:pointer;flex:none"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="m15 18-6-6 6-6"/></svg></div>
+      <div style="font-size:19px;font-weight:800;letter-spacing:-.4px;flex:1">{{ L.notifications }}</div>
+      <div style="font-size:12px;font-weight:700;color:var(--pri);cursor:pointer">{{ L.markRead }}</div>
+    </div>
+    <div style="padding:0 18px 12px;display:flex;gap:7px;overflow-x:auto">
+      <sc-for list="{{ notifTabs }}" as="tb" hint-placeholder-count="4">
+        <div style="padding:8px 13px;border-radius:11px;font-size:12.5px;font-weight:700;white-space:nowrap;background:{{ tb.bg }};color:{{ tb.fg }};border:1px solid {{ tb.bd }}">{{ tb.l }}</div>
+      </sc-for>
+    </div>
+    <div class="hrm-sc" style="flex:1;overflow-y:auto;padding:0 18px 104px">
+      <div style="display:flex;flex-direction:column;gap:9px">
+        <sc-for list="{{ notifs }}" as="n" hint-placeholder-count="6">
+          <div onClick="{{ n.on }}" style="background:{{ n.bg }};border:1px solid var(--line);border-radius:16px;padding:14px;display:flex;gap:11px;align-items:flex-start;cursor:pointer">
+            <div style="width:36px;height:36px;border-radius:12px;background:{{ n.tint }};color:{{ n.ink }};display:flex;align-items:center;justify-content:center;flex:none;font-size:15px;font-weight:800">{{ n.mark }}</div>
+            <div style="flex:1;min-width:0">
+              <div style="display:flex;align-items:center;gap:7px">
+                <div style="font-size:10.5px;font-weight:800;color:{{ n.ink }}">{{ n.cat }}</div>
+                <div style="font-size:10.5px;font-weight:600;color:var(--ts)">· {{ n.time }}</div>
+              </div>
+              <div style="font-size:13.5px;font-weight:700;line-height:1.4;margin-top:4px">{{ n.title }}</div>
+            </div>
+            <sc-if value="{{ n.unread }}"><div style="width:8px;height:8px;border-radius:5px;background:var(--pri);flex:none;margin-top:6px"></div></sc-if>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+  </sc-if>
+
+  <!-- ============ PROFILE ============ -->
+  <sc-if value="{{ isProfile }}">
+    <div class="hrm-sc" style="flex:1;overflow-y:auto;padding:0 18px 104px">
+      <div style="display:flex;align-items:center;justify-content:space-between;padding:2px 0 16px">
+        <div style="font-size:21px;font-weight:800;letter-spacing:-.4px">{{ L.profile }}</div>
+        <div onClick="{{ goSettings }}" style="width:38px;height:38px;border-radius:13px;border:1px solid var(--line);background:var(--sf);display:flex;align-items:center;justify-content:center;cursor:pointer"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.9l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-2.9 1.2V21a2 2 0 1 1-4 0v-.1A1.7 1.7 0 0 0 7 19.4a1.7 1.7 0 0 0-1.9.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0-1.2-2.9H1a2 2 0 1 1 0-4h.1A1.7 1.7 0 0 0 2.6 7a1.7 1.7 0 0 0-.3-1.9l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 2.9-1.2V1a2 2 0 1 1 4 0v.1A1.7 1.7 0 0 0 17 2.6a1.7 1.7 0 0 0 1.9-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0 1.2 2.9H23a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1.2z"/></svg></div>
+      </div>
+      <div style="background:var(--sf);border:1px solid var(--line);border-radius:20px;padding:18px;display:flex;align-items:center;gap:14px">
+        <div style="width:58px;height:58px;border-radius:19px;background:var(--pri);color:var(--onpri);display:flex;align-items:center;justify-content:center;font-size:20px;font-weight:800;flex:none">MT</div>
+        <div style="flex:1;min-width:0">
+          <div style="font-size:17px;font-weight:800;letter-spacing:-.3px">Nguyễn Minh Tuấn</div>
+          <div style="font-size:12.5px;color:var(--ts);font-weight:600;margin-top:3px">{{ L.position }}</div>
+          <div style="display:inline-flex;align-items:center;gap:5px;margin-top:8px;background:var(--sf2);padding:4px 9px;border-radius:8px;font-size:11px;font-weight:800;color:var(--pri);font-variant-numeric:tabular-nums">NV-04821</div>
+        </div>
+      </div>
+      <sc-for list="{{ profileGroups }}" as="g" hint-placeholder-count="3">
+        <div style="margin-top:20px">
+          <div style="font-size:12.5px;font-weight:800;color:var(--ts);margin-bottom:9px;letter-spacing:.2px">{{ g.t }}</div>
+          <div style="background:var(--sf);border:1px solid var(--line);border-radius:18px;overflow:hidden">
+            <sc-for list="{{ g.rows }}" as="r" hint-placeholder-count="4">
+              <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;padding:13px 15px;border-bottom:1px solid var(--line)">
+                <div style="font-size:13px;font-weight:600;color:var(--ts);flex:none">{{ r.k }}</div>
+                <div style="font-size:13px;font-weight:700;text-align:right">{{ r.v }}</div>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+      </sc-for>
+      <div style="margin-top:20px;background:var(--sf);border:1px solid var(--line);border-radius:18px;overflow:hidden">
+        <sc-for list="{{ profileLinks }}" as="l" hint-placeholder-count="4">
+          <div onClick="{{ l.on }}" style="display:flex;align-items:center;gap:12px;padding:15px;border-bottom:1px solid var(--line);cursor:pointer">
+            <div style="width:34px;height:34px;border-radius:11px;background:var(--sf2);color:var(--pri);display:flex;align-items:center;justify-content:center;flex:none;font-size:14px;font-weight:800">{{ l.mark }}</div>
+            <div style="flex:1;font-size:13.5px;font-weight:700">{{ l.l }}</div>
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" style="color:var(--ts)"><path d="m9 18 6-6-6-6"/></svg>
+          </div>
+        </sc-for>
+      </div>
+      <div onClick="{{ logout }}" style="margin-top:16px;height:50px;border-radius:15px;border:1px solid var(--err);color:var(--err);display:flex;align-items:center;justify-content:center;gap:8px;font-size:14.5px;font-weight:800;cursor:pointer">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><path d="M16 17l5-5-5-5M21 12H9"/></svg>{{ L.signOut }}
+      </div>
+    </div>
+  </sc-if>
+
+  <!-- ============ APPROVALS ============ -->
+  <sc-if value="{{ isAppr }}">
+    <div style="padding:2px 18px 12px;display:flex;align-items:center;gap:12px">
+      <div onClick="{{ back }}" style="width:36px;height:36px;border-radius:12px;border:1px solid var(--line);background:var(--sf);display:flex;align-items:center;justify-content:center;cursor:pointer;flex:none"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="m15 18-6-6 6-6"/></svg></div>
+      <div style="font-size:19px;font-weight:800;letter-spacing:-.4px">{{ L.approvalCenter }}</div>
+    </div>
+    <div class="hrm-sc" style="flex:1;overflow-y:auto;padding:0 18px 104px">
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:9px">
+        <sc-for list="{{ apprStats }}" as="a" hint-placeholder-count="3">
+          <div style="background:var(--sf);border:1px solid var(--line);border-radius:15px;padding:12px">
+            <div style="font-size:21px;font-weight:800;font-variant-numeric:tabular-nums;color:var(--acc)">{{ a.n }}</div>
+            <div style="font-size:10.5px;font-weight:700;color:var(--ts);margin-top:3px;line-height:1.3">{{ a.l }}</div>
+          </div>
+        </sc-for>
+      </div>
+      <div style="font-size:15px;font-weight:800;margin:20px 0 11px">{{ L.waitingYou }}</div>
+      <div style="display:flex;flex-direction:column;gap:11px">
+        <sc-for list="{{ approvals }}" as="a" hint-placeholder-count="3">
+          <div style="background:var(--sf);border:1px solid var(--line);border-radius:18px;padding:15px">
+            <div style="display:flex;align-items:flex-start;gap:11px">
+              <div style="width:38px;height:38px;border-radius:13px;background:var(--sf2);color:var(--pri);display:flex;align-items:center;justify-content:center;flex:none;font-size:13.5px;font-weight:800">{{ a.ini }}</div>
+              <div style="flex:1;min-width:0">
+                <div style="font-size:14px;font-weight:800">{{ a.name }}</div>
+                <div style="font-size:12px;color:var(--ts);font-weight:600;margin-top:2px">{{ a.type }} · {{ a.dates }}</div>
+              </div>
+              <div style="font-size:10.5px;font-weight:800;padding:5px 9px;border-radius:8px;background:{{ warnTint }};color:var(--acc);flex:none">{{ L.pending }}</div>
+            </div>
+            <div style="font-size:12.5px;font-weight:600;color:var(--ts);line-height:1.5;margin-top:11px;padding:11px;background:var(--sf2);border-radius:12px">{{ a.reason }}</div>
+            <div style="display:flex;gap:9px;margin-top:12px">
+              <div onClick="{{ a.rej }}" style="flex:1;height:44px;border-radius:13px;border:1px solid var(--err);color:var(--err);display:flex;align-items:center;justify-content:center;font-size:13.5px;font-weight:800;cursor:pointer">{{ L.reject }}</div>
+              <div onClick="{{ a.app }}" style="flex:1.4;height:44px;border-radius:13px;background:var(--ok);color:#fff;display:flex;align-items:center;justify-content:center;gap:7px;font-size:13.5px;font-weight:800;cursor:pointer">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round"><path d="M20 6 9 17l-5-5"/></svg>{{ L.approve }}
+              </div>
+            </div>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+  </sc-if>
+
+  <!-- ============ SETTINGS ============ -->
+  <sc-if value="{{ isSet }}">
+    <div style="padding:2px 18px 12px;display:flex;align-items:center;gap:12px">
+      <div onClick="{{ back }}" style="width:36px;height:36px;border-radius:12px;border:1px solid var(--line);background:var(--sf);display:flex;align-items:center;justify-content:center;cursor:pointer;flex:none"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="m15 18-6-6 6-6"/></svg></div>
+      <div style="font-size:19px;font-weight:800;letter-spacing:-.4px">{{ L.settings }}</div>
+    </div>
+    <div class="hrm-sc" style="flex:1;overflow-y:auto;padding:0 18px 104px">
+      <sc-for list="{{ setGroups }}" as="g" hint-placeholder-count="3">
+        <div style="margin-bottom:20px">
+          <div style="font-size:12.5px;font-weight:800;color:var(--ts);margin-bottom:9px">{{ g.t }}</div>
+          <div style="background:var(--sf);border:1px solid var(--line);border-radius:18px;overflow:hidden">
+            <sc-for list="{{ g.rows }}" as="r" hint-placeholder-count="3">
+              <div onClick="{{ r.on }}" style="display:flex;align-items:center;gap:12px;padding:14px 15px;border-bottom:1px solid var(--line);cursor:pointer">
+                <div style="flex:1"><div style="font-size:13.5px;font-weight:700">{{ r.l }}</div><div style="font-size:11.5px;color:var(--ts);font-weight:600;margin-top:2px">{{ r.sub }}</div></div>
+                <sc-if value="{{ r.toggle }}">
+                  <div style="width:44px;height:26px;border-radius:14px;background:{{ r.on2 }};padding:3px;display:flex;justify-content:{{ r.just }};flex:none"><div style="width:20px;height:20px;border-radius:11px;background:#fff"></div></div>
+                </sc-if>
+                <sc-if value="{{ r.value }}"><div style="font-size:13px;font-weight:700;color:var(--pri)">{{ r.value }}</div></sc-if>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+      </sc-for>
+      <div style="text-align:center;font-size:11.5px;color:var(--ts);font-weight:600">{{ L.version }}</div>
+    </div>
+  </sc-if>
+
+  <!-- ============ EXEC DASHBOARD ============ -->
+  <sc-if value="{{ isExec }}">
+    <div class="hrm-sc" style="flex:1;overflow-y:auto;padding:0 0 104px;margin-top:-52px">
+      <div style="padding:62px 18px 54px;background-color:#0A544E;background-image:radial-gradient(circle at 0 0,transparent 12px,var(--tile) 12px 14.5px,transparent 15px),radial-gradient(circle at 100% 0,transparent 12px,var(--tile) 12px 14.5px,transparent 15px),radial-gradient(circle at 0 100%,transparent 12px,var(--tile) 12px 14.5px,transparent 15px),radial-gradient(circle at 100% 100%,transparent 12px,var(--tile) 12px 14.5px,transparent 15px),radial-gradient(circle at 50% 50%,var(--tile) 0 2.5px,transparent 3px);background-size:46px 46px">
+        <div style="display:flex;align-items:center;gap:12px">
+          <div style="width:42px;height:42px;border-radius:13px;background:#FFF8EC;color:#0A544E;display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:800;flex:none">LH</div>
+          <div style="flex:1;min-width:0">
+            <div style="font-size:10.5px;font-weight:800;letter-spacing:1.5px;color:#FFF8EC">{{ L4.roleTag }}</div>
+            <div style="font-size:16px;font-weight:800;color:#FFF8EC;letter-spacing:-.2px;margin-top:3px">{{ L4.execGreet }}</div>
+          </div>
+          <div onClick="{{ goNotif }}" style="width:38px;height:38px;border-radius:12px;background:rgba(255,248,236,.18);display:flex;align-items:center;justify-content:center;position:relative;cursor:pointer;flex:none">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#FFF8EC" stroke-width="2.1" stroke-linecap="round"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.7 21a2 2 0 0 1-3.4 0"/></svg>
+            <div style="position:absolute;top:7px;right:8px;width:7px;height:7px;border-radius:5px;background:var(--acc)"></div>
+          </div>
+        </div>
+      </div>
+
+      <div onClick="{{ goFinal }}" style="margin:-38px 16px 0;background:var(--sf);border-radius:22px;padding:18px;box-shadow:0 8px 24px rgba(15,23,42,.1);cursor:pointer">
+        <div style="display:flex;align-items:center;gap:16px">
+          <div style="flex:1;min-width:0">
+            <div style="font-size:11px;font-weight:800;letter-spacing:1.5px;color:var(--ts)">{{ L4.finalWaiting }}</div>
+            <div style="font-size:38px;font-weight:800;letter-spacing:-1.6px;font-variant-numeric:tabular-nums;margin-top:5px;line-height:1">4</div>
+            <div style="font-size:12px;font-weight:700;color:var(--ts);margin-top:3px">{{ L4.finalSub }}</div>
+          </div>
+          <div style="width:52px;height:52px;border-radius:50%;background:var(--acc);color:var(--onacc);display:flex;align-items:center;justify-content:center;flex:none">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+          </div>
+        </div>
+        <div style="display:flex;align-items:center;gap:8px;margin-top:14px;padding-top:14px;border-top:1px solid var(--line)">
+          <div style="flex:1;font-size:12px;font-weight:700;color:{{ t.errInk }}">{{ L4.oldest }}</div>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" style="color:var(--ts);flex:none"><path d="m9 18 6-6-6-6"/></svg>
+        </div>
+      </div>
+
+      <div style="height:14px;margin:20px 0 0;background-color:#0A544E;background-image:radial-gradient(circle at 50% 0,var(--tile) 0 2.5px,transparent 3px),radial-gradient(circle at 0 100%,transparent 6px,var(--tile) 6px 7.5px,transparent 8px),radial-gradient(circle at 100% 100%,transparent 6px,var(--tile) 6px 7.5px,transparent 8px);background-size:22px 22px"></div>
+
+      <div style="padding:18px 16px 0">
+        <div style="font-size:15px;font-weight:800;letter-spacing:-.2px;margin-bottom:11px">{{ L4.companyNow }}</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+          <sc-for list="{{ execStats }}" as="e" hint-placeholder-count="4">
+            <div style="background:var(--sf);border:1px solid var(--line);border-radius:16px;padding:13px">
+              <div style="font-size:10.5px;font-weight:800;letter-spacing:1px;color:var(--ts)">{{ e.k }}</div>
+              <div style="font-size:21px;font-weight:800;font-variant-numeric:tabular-nums;margin-top:3px;color:{{ e.c }}">{{ e.v }}</div>
+              <div style="font-size:10.5px;font-weight:700;color:var(--ts);margin-top:3px">{{ e.sub }}</div>
+            </div>
+          </sc-for>
+        </div>
+
+        <div style="display:flex;align-items:baseline;justify-content:space-between;margin:22px 0 11px">
+          <div style="font-size:15px;font-weight:800;letter-spacing:-.2px">{{ L4.needAttention }}</div>
+          <div style="font-size:11px;font-weight:800;padding:4px 9px;border-radius:8px;background:{{ errTint }};color:{{ t.errInk }};font-variant-numeric:tabular-nums">{{ L5.alertCount }}</div>
+        </div>
+        <div style="background:var(--sf);border:1px solid var(--line);border-radius:18px;padding:5px 15px 15px">
+          <sc-for list="{{ execFlags }}" as="f" hint-placeholder-count="2">
+            <div style="display:flex;align-items:flex-start;gap:11px;padding:14px 0;border-bottom:1px solid var(--line)">
+              <div style="width:8px;height:8px;border-radius:5px;background:{{ f.c }};flex:none;margin-top:5px"></div>
+              <div style="flex:1;min-width:0">
+                <div style="font-size:13px;font-weight:800;line-height:1.35">{{ f.t }}</div>
+                <div style="font-size:11.5px;font-weight:600;color:var(--ts);margin-top:4px;line-height:1.5">{{ f.b }}</div>
+              </div>
+              <div style="font-size:13px;font-weight:800;font-variant-numeric:tabular-nums;color:{{ f.c }};flex:none">{{ f.v }}</div>
+            </div>
+          </sc-for>
+          <div onClick="{{ goRisk }}" style="margin-top:15px;height:46px;border-radius:14px;border:1.5px solid var(--pri);color:var(--pri);display:flex;align-items:center;justify-content:center;gap:8px;font-size:13.5px;font-weight:800;cursor:pointer">
+            {{ L5.seeAllAlerts }}
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="m9 18 6-6-6-6"/></svg>
+          </div>
+        </div>
+
+        <div style="font-size:15px;font-weight:800;letter-spacing:-.2px;margin:22px 0 11px">{{ L4.byDept }}</div>
+        <div style="background:var(--sf);border:1px solid var(--line);border-radius:18px;overflow:hidden">
+          <sc-for list="{{ execDepts }}" as="d" hint-placeholder-count="4">
+            <div style="padding:13px 15px;border-bottom:1px solid var(--line)">
+              <div style="display:flex;align-items:center;gap:10px">
+                <div style="flex:1;font-size:13px;font-weight:800">{{ d.l }}</div>
+                <div style="font-size:11.5px;font-weight:700;color:var(--ts);font-variant-numeric:tabular-nums">{{ d.n }}</div>
+                <div style="font-size:13px;font-weight:800;font-variant-numeric:tabular-nums;color:{{ d.c }};width:52px;text-align:right">{{ d.v }}</div>
+              </div>
+              <div style="height:5px;border-radius:3px;background:var(--sf2);margin-top:9px;overflow:hidden"><div style="height:100%;border-radius:3px;background:{{ d.bar }};width:{{ d.pct }}"></div></div>
+            </div>
+          </sc-for>
+        </div>
+      </div>
+    </div>
+  </sc-if>
+
+  <!-- ============ FINAL APPROVAL (C-LEVEL) ============ -->
+  <sc-if value="{{ isFinal }}">
+    <div style="padding:2px 18px 12px;display:flex;align-items:center;gap:12px">
+      <div onClick="{{ back }}" style="width:36px;height:36px;border-radius:12px;border:1px solid var(--line);background:var(--sf);display:flex;align-items:center;justify-content:center;cursor:pointer;flex:none"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="m15 18-6-6 6-6"/></svg></div>
+      <div style="flex:1;min-width:0">
+        <div style="font-size:19px;font-weight:800;letter-spacing:-.4px">{{ L4.finalTitle }}</div>
+        <div style="font-size:11.5px;font-weight:700;color:var(--ts);margin-top:2px">{{ L4.finalCaption }}</div>
+      </div>
+      <div onClick="{{ goDelegate }}" style="display:flex;align-items:center;gap:6px;font-size:12.5px;font-weight:800;color:var(--pri);cursor:pointer;flex:none">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M19 8v6M22 11h-6"/></svg>
+        {{ L5.delegateShort }}
+      </div>
+    </div>
+    <div class="hrm-sc" style="flex:1;overflow-y:auto;padding:0 18px 104px">
+      <div style="background:var(--sf);border:1px solid var(--line);border-radius:16px;padding:13px 15px;display:flex;align-items:center;gap:12px">
+        <div style="flex:1;font-size:12px;font-weight:700;color:var(--ts);line-height:1.45">{{ L4.batchHint }}</div>
+        <div onClick="{{ approveAll }}" style="height:38px;padding:0 14px;border-radius:12px;border:1.5px solid var(--ok);color:var(--ok);display:flex;align-items:center;justify-content:center;gap:7px;font-size:12.5px;font-weight:800;cursor:pointer;flex:none">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round"><path d="M20 6 9 17l-5-5"/></svg>{{ L4.approveAll }}
+        </div>
+      </div>
+
+      <div style="display:flex;flex-direction:column;gap:12px;margin-top:14px">
+        <sc-for list="{{ finalQueue }}" as="q" hint-placeholder-count="3">
+          <div style="background:var(--sf);border:1px solid var(--line);border-radius:18px;padding:16px">
+            <div style="display:flex;align-items:flex-start;gap:11px">
+              <div style="width:38px;height:38px;border-radius:13px;background:var(--sf2);color:var(--pri);display:flex;align-items:center;justify-content:center;flex:none;font-size:13.5px;font-weight:800">{{ q.ini }}</div>
+              <div style="flex:1;min-width:0">
+                <div style="font-size:14px;font-weight:800">{{ q.name }}</div>
+                <div style="font-size:11.5px;font-weight:600;color:var(--ts);margin-top:2px">{{ q.role }} · {{ q.dept }}</div>
+              </div>
+              <div style="font-size:10.5px;font-weight:800;padding:5px 9px;border-radius:8px;background:{{ q.tint }};color:{{ q.ink }};flex:none">{{ q.tag }}</div>
+            </div>
+
+            <div style="display:flex;align-items:flex-end;justify-content:space-between;margin-top:14px;padding:13px;background:var(--sf2);border-radius:13px">
+              <div style="min-width:0">
+                <div style="font-size:10.5px;font-weight:800;letter-spacing:1px;color:var(--ts)">{{ q.impactLabel }}</div>
+                <div style="font-size:20px;font-weight:800;letter-spacing:-.6px;font-variant-numeric:tabular-nums;margin-top:3px">{{ q.impact }}</div>
+              </div>
+              <div style="text-align:right;flex:none">
+                <div style="font-size:10.5px;font-weight:800;letter-spacing:1px;color:var(--ts)">{{ L4.budget }}</div>
+                <div style="font-size:12.5px;font-weight:800;font-variant-numeric:tabular-nums;margin-top:4px;color:{{ q.bc }}">{{ q.budget }}</div>
+              </div>
+            </div>
+
+            <div style="font-size:13px;font-weight:800;margin:16px 0 10px">{{ q.type }}</div>
+            <div style="display:flex;flex-direction:column;gap:0">
+              <sc-for list="{{ q.chain }}" as="c" hint-placeholder-count="4">
+                <div style="display:flex;gap:11px">
+                  <div style="width:20px;flex:none;display:flex;flex-direction:column;align-items:center">
+                    <div style="width:18px;height:18px;border-radius:50%;background:{{ c.dot }};border:2px solid {{ c.ring }};display:flex;align-items:center;justify-content:center;flex:none" dangerouslySetInnerHTML="{{ c.mark }}"></div>
+                    <div style="flex:1;width:2px;background:{{ c.bar }};min-height:14px"></div>
+                  </div>
+                  <div style="flex:1;padding-bottom:12px;min-width:0">
+                    <div style="font-size:12.5px;font-weight:800;color:{{ c.ink }}">{{ c.l }}</div>
+                    <div style="font-size:11px;font-weight:600;color:var(--ts);margin-top:2px;font-variant-numeric:tabular-nums">{{ c.sub }}</div>
+                  </div>
+                </div>
+              </sc-for>
+            </div>
+
+            <div style="font-size:12.5px;font-weight:600;color:var(--ts);line-height:1.55;padding:12px;background:var(--sf2);border-radius:12px">{{ q.note }}</div>
+
+            <div style="display:flex;gap:9px;margin-top:13px">
+              <div onClick="{{ q.rej }}" style="flex:1;height:46px;border-radius:14px;border:1.5px solid var(--err);color:var(--err);display:flex;align-items:center;justify-content:center;font-size:13.5px;font-weight:800;cursor:pointer">{{ L.reject }}</div>
+              <div onClick="{{ q.app }}" style="flex:1.5;height:46px;border-radius:14px;background:var(--acc);color:var(--onacc);display:flex;align-items:center;justify-content:center;gap:8px;font-size:14px;font-weight:800;cursor:pointer">
+                <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round"><path d="M20 6 9 17l-5-5"/></svg>{{ L4.finalApprove }}
+              </div>
+            </div>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+  </sc-if>
+
+  <!-- ============ RISK & COMPLIANCE ============ -->
+  <sc-if value="{{ isRisk }}">
+    <div style="padding:2px 18px 12px;display:flex;align-items:center;gap:12px">
+      <div onClick="{{ back }}" style="width:36px;height:36px;border-radius:12px;border:1px solid var(--line);background:var(--sf);display:flex;align-items:center;justify-content:center;cursor:pointer;flex:none"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="m15 18-6-6 6-6"/></svg></div>
+      <div style="flex:1;min-width:0">
+        <div style="font-size:19px;font-weight:800;letter-spacing:-.4px">{{ L5.riskTitle }}</div>
+        <div style="font-size:11.5px;font-weight:700;color:var(--ts);margin-top:2px">{{ L5.riskCaption }}</div>
+      </div>
+    </div>
+    <div style="padding:0 18px 12px;display:grid;grid-template-columns:repeat(3,1fr);gap:8px">
+      <sc-for list="{{ riskTiers }}" as="r" hint-placeholder-count="3">
+        <div style="background:{{ r.tint }};border:1px solid {{ r.edge }};border-radius:14px;padding:11px 12px">
+          <div style="font-size:19px;font-weight:800;font-variant-numeric:tabular-nums;color:{{ r.ink }};line-height:1">{{ r.n }}</div>
+          <div style="font-size:10px;font-weight:800;letter-spacing:.6px;color:{{ r.ink }};margin-top:4px">{{ r.l }}</div>
+        </div>
+      </sc-for>
+    </div>
+    <div class="hrm-sc" style="flex:1;overflow-y:auto;padding:0 18px 104px">
+      <div style="display:flex;flex-direction:column;gap:11px">
+        <sc-for list="{{ risks }}" as="r" hint-placeholder-count="6">
+          <div style="background:var(--sf);border:1px solid var(--line);border-left:4px solid {{ r.edge }};border-radius:16px;padding:15px">
+            <div style="display:flex;align-items:flex-start;gap:10px">
+              <div style="flex:1;min-width:0">
+                <div style="font-size:10px;font-weight:800;letter-spacing:1.1px;color:{{ r.ink }}">{{ r.tier }}</div>
+                <div style="font-size:14px;font-weight:800;line-height:1.35;margin-top:5px">{{ r.t }}</div>
+              </div>
+              <div style="font-size:15px;font-weight:800;font-variant-numeric:tabular-nums;color:{{ r.ink }};flex:none">{{ r.v }}</div>
+            </div>
+            <div style="font-size:12px;font-weight:600;color:var(--ts);line-height:1.5;margin-top:8px">{{ r.b }}</div>
+            <div style="display:flex;flex-wrap:wrap;gap:7px;margin-top:12px">
+              <div style="display:flex;align-items:center;gap:5px;font-size:10.5px;font-weight:700;padding:5px 9px;border-radius:8px;background:var(--sf2);color:var(--ts)">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                {{ r.branch }}
+              </div>
+              <div style="display:flex;align-items:center;gap:5px;font-size:10.5px;font-weight:700;padding:5px 9px;border-radius:8px;background:var(--sf2);color:var(--ts);font-variant-numeric:tabular-nums">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
+                {{ r.when }}
+              </div>
+            </div>
+            <div onClick="{{ r.assign }}" style="margin-top:13px;height:44px;border-radius:13px;border:1.5px solid {{ r.edge }};color:{{ r.ink }};display:flex;align-items:center;justify-content:center;gap:8px;font-size:13px;font-weight:800;cursor:pointer">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M19 8v6M22 11h-6"/></svg>
+              {{ L5.assignHr }}
+            </div>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+  </sc-if>
+
+  <!-- ============ DELEGATION CENTRE ============ -->
+  <sc-if value="{{ isDelegate }}">
+    <div style="padding:2px 18px 12px;display:flex;align-items:center;gap:12px">
+      <div onClick="{{ back }}" style="width:36px;height:36px;border-radius:12px;border:1px solid var(--line);background:var(--sf);display:flex;align-items:center;justify-content:center;cursor:pointer;flex:none"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="m15 18-6-6 6-6"/></svg></div>
+      <div style="flex:1;min-width:0">
+        <div style="font-size:19px;font-weight:800;letter-spacing:-.4px">{{ L5.delTitle }}</div>
+        <div style="font-size:11.5px;font-weight:700;color:var(--ts);margin-top:2px">{{ L5.delCaption }}</div>
+      </div>
+    </div>
+    <div class="hrm-sc" style="flex:1;overflow-y:auto;padding:0 18px 104px">
+      <div style="font-size:13px;font-weight:800;margin-bottom:9px">{{ L5.delWho }}</div>
+      <div style="display:flex;flex-direction:column;gap:8px">
+        <sc-for list="{{ delPeople }}" as="p" hint-placeholder-count="3">
+          <div onClick="{{ p.on }}" style="background:var(--sf);border:1.5px solid {{ p.bd }};border-radius:15px;padding:12px 14px;display:flex;align-items:center;gap:11px;cursor:pointer">
+            <div style="width:36px;height:36px;border-radius:12px;background:var(--sf2);color:var(--pri);display:flex;align-items:center;justify-content:center;flex:none;font-size:13px;font-weight:800">{{ p.ini }}</div>
+            <div style="flex:1;min-width:0">
+              <div style="font-size:13.5px;font-weight:800">{{ p.n }}</div>
+              <div style="font-size:11px;font-weight:600;color:var(--ts);margin-top:2px">{{ p.r }}</div>
+            </div>
+            <div style="width:19px;height:19px;border-radius:11px;border:2px solid {{ p.bd }};display:flex;align-items:center;justify-content:center;flex:none"><div style="width:9px;height:9px;border-radius:6px;background:{{ p.fill }}"></div></div>
+          </div>
+        </sc-for>
+      </div>
+
+      <div style="font-size:13px;font-weight:800;margin:20px 0 9px">{{ L5.delWhen }}</div>
+      <div style="background:var(--sf);border:1px solid var(--line);border-radius:18px;padding:5px 15px">
+        <div style="display:flex;align-items:center;justify-content:space-between;padding:12px 0;border-bottom:1px solid var(--line)">
+          <div style="font-size:13px;font-weight:600;color:var(--ts)">{{ L.from }}</div>
+          <div style="font-size:14px;font-weight:800;font-variant-numeric:tabular-nums">20/09/2026</div>
+        </div>
+        <div style="display:flex;align-items:center;justify-content:space-between;padding:12px 0;border-bottom:1px solid var(--line)">
+          <div style="font-size:13px;font-weight:600;color:var(--ts)">{{ L.to }}</div>
+          <div style="font-size:14px;font-weight:800;font-variant-numeric:tabular-nums">27/09/2026</div>
+        </div>
+        <div style="display:flex;align-items:center;justify-content:space-between;padding:12px 0">
+          <div style="font-size:13px;font-weight:600;color:var(--ts)">{{ L.total }}</div>
+          <div style="font-size:14px;font-weight:800;color:var(--pri)">8 {{ L.days }}</div>
+        </div>
+      </div>
+
+      <div style="font-size:13px;font-weight:800;margin:20px 0 9px">{{ L5.delScope }}</div>
+      <div style="display:flex;gap:8px;margin-bottom:9px">
+        <sc-for list="{{ delModes }}" as="m" hint-placeholder-count="2">
+          <div onClick="{{ m.on }}" style="flex:1;height:44px;border-radius:13px;border:1.5px solid {{ m.bd }};background:{{ m.bg }};color:{{ m.fg }};display:flex;align-items:center;justify-content:center;font-size:12.5px;font-weight:800;cursor:pointer">{{ m.l }}</div>
+        </sc-for>
+      </div>
+      <div style="background:var(--sf);border:1px solid var(--line);border-radius:18px;overflow:hidden">
+        <sc-for list="{{ delTypes }}" as="d" hint-placeholder-count="5">
+          <div onClick="{{ d.on }}" style="display:flex;align-items:center;gap:11px;padding:13px 15px;border-bottom:1px solid var(--line);cursor:pointer">
+            <div style="flex:1;font-size:13px;font-weight:700;color:{{ d.ink }}">{{ d.l }}</div>
+            <div style="width:40px;height:24px;border-radius:13px;background:{{ d.track }};padding:3px;display:flex;justify-content:{{ d.just }};flex:none"><div style="width:18px;height:18px;border-radius:10px;background:#fff"></div></div>
+          </div>
+        </sc-for>
+      </div>
+
+      <div style="font-size:13px;font-weight:800;margin:20px 0 9px">{{ L5.delCap }}</div>
+      <div style="background:var(--sf);border:1px solid var(--line);border-radius:18px;padding:16px">
+        <div style="display:flex;align-items:flex-end;justify-content:space-between">
+          <div style="font-size:12px;font-weight:600;color:var(--ts)">{{ L5.delCapRow }}</div>
+          <div style="font-size:20px;font-weight:800;font-variant-numeric:tabular-nums;letter-spacing:-.5px">{{ L5.delCapVal }}</div>
+        </div>
+        <div style="display:flex;gap:6px;margin-top:13px">
+          <sc-for list="{{ delCaps }}" as="c" hint-placeholder-count="4">
+            <div onClick="{{ c.on }}" style="flex:1;height:36px;border-radius:11px;border:1px solid {{ c.bd }};background:{{ c.bg }};color:{{ c.fg }};display:flex;align-items:center;justify-content:center;font-size:11.5px;font-weight:800;font-variant-numeric:tabular-nums;cursor:pointer">{{ c.l }}</div>
+          </sc-for>
+        </div>
+        <div style="font-size:11.5px;font-weight:600;color:var(--ts);line-height:1.5;margin-top:12px">{{ L5.delCapHint }}</div>
+      </div>
+
+      <div onClick="{{ delSubmit }}" style="margin-top:20px;height:56px;border-radius:17px;background:var(--acc);color:var(--onacc);display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:800;cursor:pointer">{{ L5.delSubmit }}</div>
+
+      <div style="font-size:15px;font-weight:800;margin:24px 0 11px">{{ L5.delActive }}</div>
+      <div style="display:flex;flex-direction:column;gap:10px">
+        <sc-for list="{{ delActive }}" as="a" hint-placeholder-count="2">
+          <div style="background:var(--sf);border:1px solid var(--ok);border-radius:16px;padding:14px">
+            <div style="display:flex;align-items:flex-start;gap:11px">
+              <div style="width:34px;height:34px;border-radius:11px;background:{{ okTint }};color:var(--ok);display:flex;align-items:center;justify-content:center;flex:none;font-size:12.5px;font-weight:800">{{ a.ini }}</div>
+              <div style="flex:1;min-width:0">
+                <div style="font-size:13.5px;font-weight:800">{{ a.n }}</div>
+                <div style="font-size:11px;font-weight:600;color:var(--ts);margin-top:2px;font-variant-numeric:tabular-nums">{{ a.range }}</div>
+              </div>
+              <div style="font-size:10px;font-weight:800;padding:4px 8px;border-radius:7px;background:{{ okTint }};color:var(--ok);flex:none">{{ L5.running }}</div>
+            </div>
+            <div style="font-size:11.5px;font-weight:600;color:var(--ts);line-height:1.5;margin-top:10px">{{ a.scope }}</div>
+            <div onClick="{{ a.revoke }}" style="margin-top:12px;height:40px;border-radius:12px;border:1.5px solid var(--err);color:var(--err);display:flex;align-items:center;justify-content:center;gap:7px;font-size:12.5px;font-weight:800;cursor:pointer">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M5.6 5.6l12.8 12.8"/></svg>
+              {{ L5.revoke }}
+            </div>
+          </div>
+        </sc-for>
+      </div>
+
+      <div style="font-size:15px;font-weight:800;margin:24px 0 11px">{{ L5.delLog }}</div>
+      <div style="background:var(--sf);border:1px solid var(--line);border-radius:18px;overflow:hidden">
+        <sc-for list="{{ delHistory }}" as="h" hint-placeholder-count="4">
+          <div style="padding:13px 15px;border-bottom:1px solid var(--line)">
+            <div style="display:flex;align-items:center;gap:10px">
+              <div style="flex:1;font-size:13px;font-weight:800">{{ h.n }}</div>
+              <div style="font-size:10px;font-weight:800;padding:4px 8px;border-radius:7px;background:{{ h.tint }};color:{{ h.ink }};flex:none">{{ h.st }}</div>
+            </div>
+            <div style="font-size:11px;font-weight:600;color:var(--ts);margin-top:4px;font-variant-numeric:tabular-nums">{{ h.range }} · {{ h.used }}</div>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+  </sc-if>
+
+  <!-- ============ FACE SCAN ============ -->
+  <sc-if value="{{ isFace }}">
+    <div style="position:absolute;inset:0;background-color:#0A544E;background-image:radial-gradient(circle at 0 0,transparent 12px,var(--tile) 12px 14.5px,transparent 15px),radial-gradient(circle at 100% 0,transparent 12px,var(--tile) 12px 14.5px,transparent 15px),radial-gradient(circle at 0 100%,transparent 12px,var(--tile) 12px 14.5px,transparent 15px),radial-gradient(circle at 100% 100%,transparent 12px,var(--tile) 12px 14.5px,transparent 15px),radial-gradient(circle at 50% 50%,var(--tile) 0 2.5px,transparent 3px);background-size:46px 46px"></div>
+    <div style="position:relative;z-index:2;flex:1;display:flex;flex-direction:column;color:#FFF8EC">
+      <div style="padding:2px 18px 0;display:flex;align-items:center;gap:12px">
+        <div onClick="{{ cancelFace }}" style="width:36px;height:36px;border-radius:12px;background:rgba(255,248,236,.18);display:flex;align-items:center;justify-content:center;cursor:pointer;flex:none"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#FFF8EC" stroke-width="2.4" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"/></svg></div>
+        <div style="font-size:17px;font-weight:800;letter-spacing:-.3px;flex:1">{{ L3.title }}</div>
+        <div style="font-size:11px;font-weight:800;letter-spacing:1px;background:rgba(255,248,236,.18);padding:5px 9px;border-radius:8px;font-variant-numeric:tabular-nums">{{ clock }}</div>
+      </div>
+
+      <div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:0 24px">
+        <div style="position:relative;width:236px;height:290px;flex:none">
+          <div style="position:absolute;inset:0;border-radius:50%/44%;overflow:hidden;background:linear-gradient(170deg,#0d3f3b,#08201e)">
+            <div style="position:absolute;inset:0;background-image:radial-gradient(circle at 50% 34%,rgba(255,248,236,.1) 0 62px,transparent 64px),radial-gradient(circle at 50% 78%,rgba(255,248,236,.07) 0 78px,transparent 80px)"></div>
+            <div style="position:absolute;left:0;right:0;height:3px;background:{{ t.acc }};box-shadow:0 0 22px 5px {{ t.acc }};animation:hrm-scan 2.1s ease-in-out infinite;opacity:{{ scanOn }}"></div>
+          </div>
+          <svg width="236" height="290" viewBox="0 0 236 290" style="position:absolute;inset:0" fill="none" stroke="{{ frameInk }}" stroke-width="3.4" stroke-linecap="round">
+            <path d="M14 78V44a30 30 0 0 1 30-30h34"/>
+            <path d="M158 14h34a30 30 0 0 1 30 30v34"/>
+            <path d="M222 212v34a30 30 0 0 1-30 30h-34"/>
+            <path d="M78 276H44a30 30 0 0 1-30-30v-34"/>
+          </svg>
+          <sc-if value="{{ faceDone }}">
+            <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center">
+              <div style="width:86px;height:86px;border-radius:50%;background:var(--ok);display:flex;align-items:center;justify-content:center;animation:hrm-pop .4s ease both">
+                <svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.8" stroke-linecap="round"><path d="M20 6 9 17l-5-5"/></svg>
+              </div>
+            </div>
+          </sc-if>
+        </div>
+
+        <div style="text-align:center;margin-top:30px;min-height:74px">
+          <div style="font-size:19px;font-weight:800;letter-spacing:-.3px">{{ faceTitle }}</div>
+          <div style="font-size:13px;font-weight:600;margin-top:8px;line-height:1.55;max-width:280px">{{ faceBody }}</div>
+        </div>
+
+        <div style="display:flex;gap:8px;margin-top:4px">
+          <sc-for list="{{ faceSteps }}" as="f" hint-placeholder-count="3">
+            <div style="width:34px;height:4px;border-radius:3px;background:{{ f.c }}"></div>
+          </sc-for>
+        </div>
+      </div>
+
+      <div style="padding:0 18px 26px">
+        <div style="background:rgba(255,248,236,.14);border-radius:16px;padding:13px 15px;display:flex;align-items:center;gap:11px">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#FFF8EC" stroke-width="2.1" stroke-linecap="round" style="flex:none"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0z"/><circle cx="12" cy="10" r="3"/></svg>
+          <div style="flex:1;font-size:12px;font-weight:700;line-height:1.45">{{ L3.geo }}</div>
+          <div style="width:20px;height:20px;border-radius:50%;background:var(--ok);display:flex;align-items:center;justify-content:center;flex:none"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3.4" stroke-linecap="round"><path d="M20 6 9 17l-5-5"/></svg></div>
+        </div>
+        <div onClick="{{ manualPunch }}" style="margin-top:12px;height:48px;border-radius:15px;border:1.5px solid rgba(255,248,236,.5);color:#FFF8EC;display:flex;align-items:center;justify-content:center;font-size:13.5px;font-weight:800;cursor:pointer">{{ L3.manual }}</div>
+      </div>
+    </div>
+  </sc-if>
+
+  <!-- ============ ALL SERVICES ============ -->
+  <sc-if value="{{ isSvc }}">
+    <div style="padding:2px 18px 12px;display:flex;align-items:center;gap:12px">
+      <div onClick="{{ back }}" style="width:36px;height:36px;border-radius:12px;border:1px solid var(--line);background:var(--sf);display:flex;align-items:center;justify-content:center;cursor:pointer;flex:none"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="m15 18-6-6 6-6"/></svg></div>
+      <div style="font-size:19px;font-weight:800;letter-spacing:-.4px">{{ L2.services }}</div>
+    </div>
+    <div class="hrm-sc" style="flex:1;overflow-y:auto;padding:0 18px 104px">
+      <div style="height:46px;border-radius:14px;background:var(--sf);border:1px solid var(--line);display:flex;align-items:center;gap:10px;padding:0 14px;color:var(--ts)">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-4.3-4.3"/></svg>
+        <span style="font-size:13.5px;font-weight:600">{{ L2.svcSearch }}</span>
+      </div>
+      <sc-for list="{{ svcGroups }}" as="g" hint-placeholder-count="4">
+        <div style="margin-top:22px">
+          <div style="font-size:12.5px;font-weight:800;color:var(--ts);margin-bottom:11px;letter-spacing:.2px">{{ g.t }}</div>
+          <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:9px">
+            <sc-for list="{{ g.items }}" as="it" hint-placeholder-count="4">
+              <div onClick="{{ it.on }}" style="display:flex;flex-direction:column;align-items:center;gap:8px;cursor:pointer">
+                <div style="width:100%;aspect-ratio:1;border-radius:17px;background:var(--sf);border:1px solid var(--line);display:flex;align-items:center;justify-content:center;color:var(--pri)" dangerouslySetInnerHTML="{{ it.icon }}"></div>
+                <div style="font-size:10px;font-weight:700;text-align:center;line-height:1.3">{{ it.l }}</div>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+      </sc-for>
+    </div>
+  </sc-if>
+
+  <!-- ============ HOLIDAYS ============ -->
+  <sc-if value="{{ isHol }}">
+    <div style="padding:2px 18px 12px;display:flex;align-items:center;gap:12px">
+      <div onClick="{{ back }}" style="width:36px;height:36px;border-radius:12px;border:1px solid var(--line);background:var(--sf);display:flex;align-items:center;justify-content:center;cursor:pointer;flex:none"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="m15 18-6-6 6-6"/></svg></div>
+      <div style="font-size:19px;font-weight:800;letter-spacing:-.4px;flex:1">{{ L2.holidays }}</div>
+      <div style="font-size:12px;font-weight:700;color:var(--pri)">{{ L2.holidayYear }}</div>
+    </div>
+    <div class="hrm-sc" style="flex:1;overflow-y:auto;padding:0 18px 104px">
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:9px">
+        <sc-for list="{{ holStats }}" as="h" hint-placeholder-count="3">
+          <div style="background:var(--sf);border:1px solid var(--line);border-radius:15px;padding:13px">
+            <div style="font-size:21px;font-weight:800;font-variant-numeric:tabular-nums;color:var(--pri)">{{ h.n }}</div>
+            <div style="font-size:10.5px;font-weight:700;color:var(--ts);margin-top:3px">{{ h.l }}</div>
+          </div>
+        </sc-for>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:10px;margin-top:18px">
+        <sc-for list="{{ holidays }}" as="h" hint-placeholder-count="5">
+          <div style="background:var(--sf);border:1px solid var(--line);border-radius:16px;padding:13px 14px;display:flex;align-items:center;gap:13px">
+            <div style="width:46px;height:50px;border-radius:13px;background:{{ h.tint }};display:flex;flex-direction:column;align-items:center;justify-content:center;flex:none">
+              <div style="font-size:18px;font-weight:800;font-variant-numeric:tabular-nums;color:{{ h.ink }};line-height:1">{{ h.d }}</div>
+              <div style="font-size:8.5px;font-weight:800;color:{{ h.ink }};margin-top:2px;letter-spacing:.4px">{{ h.mo }}</div>
+            </div>
+            <div style="flex:1;min-width:0">
+              <div style="font-size:13.5px;font-weight:800;line-height:1.3">{{ h.l }}</div>
+              <div style="font-size:11.5px;font-weight:600;color:var(--ts);margin-top:3px">{{ h.dow }}</div>
+            </div>
+            <div style="font-size:10.5px;font-weight:800;padding:5px 9px;border-radius:8px;background:{{ h.tint }};color:{{ h.ink }};flex:none">{{ h.tag }}</div>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+  </sc-if>
+
+  <!-- ============ STATE SCREENS ============ -->
+  <sc-if value="{{ isLoading }}">
+    <div style="padding:2px 18px 12px;font-size:21px;font-weight:800;letter-spacing:-.4px">{{ L.payroll }}</div>
+    <div style="flex:1;padding:0 18px">
+      <div style="border-radius:22px;background:var(--sf2);height:150px;animation:hrm-pulse 1.5s infinite"></div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:14px">
+        <div style="height:78px;border-radius:16px;background:var(--sf2);animation:hrm-pulse 1.5s .1s infinite"></div>
+        <div style="height:78px;border-radius:16px;background:var(--sf2);animation:hrm-pulse 1.5s .2s infinite"></div>
+      </div>
+      <div style="height:18px;width:130px;border-radius:6px;background:var(--sf2);margin:22px 0 12px;animation:hrm-pulse 1.5s .1s infinite"></div>
+      <div style="display:flex;flex-direction:column;gap:9px">
+        <div style="height:56px;border-radius:16px;background:var(--sf2);animation:hrm-pulse 1.5s .15s infinite"></div>
+        <div style="height:56px;border-radius:16px;background:var(--sf2);animation:hrm-pulse 1.5s .25s infinite"></div>
+        <div style="height:56px;border-radius:16px;background:var(--sf2);animation:hrm-pulse 1.5s .35s infinite"></div>
+      </div>
+      <div style="display:flex;align-items:center;justify-content:center;gap:9px;margin-top:28px;color:var(--ts);font-size:12.5px;font-weight:700">
+        <div style="width:16px;height:16px;border-radius:9px;border:2px solid var(--line);border-top-color:var(--pri);animation:hrm-spin .8s linear infinite"></div>{{ L.loading }}
+      </div>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{ isEmpty }}">
+    <div style="padding:2px 18px 12px;font-size:21px;font-weight:800;letter-spacing:-.4px">{{ L.requests }}</div>
+    <div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:0 34px;text-align:center">
+      <div style="width:96px;height:96px;border-radius:30px;background:var(--sf2);display:flex;align-items:center;justify-content:center;color:var(--ts);margin-bottom:20px"><svg width="42" height="42" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/></svg></div>
+      <div style="font-size:17px;font-weight:800">{{ L.emptyTitle }}</div>
+      <div style="font-size:13.5px;color:var(--ts);font-weight:600;margin-top:8px;line-height:1.55">{{ L.emptyBody }}</div>
+      <div style="margin-top:22px;height:50px;padding:0 26px;border-radius:16px;background:var(--acc);color:var(--onacc);display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:800;cursor:pointer">{{ L.newRequest }}</div>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{ isError }}">
+    <div style="padding:2px 18px 12px;font-size:21px;font-weight:800;letter-spacing:-.4px">{{ L.attendance }}</div>
+    <div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:0 34px;text-align:center">
+      <div style="width:96px;height:96px;border-radius:30px;background:{{ errTint }};display:flex;align-items:center;justify-content:center;color:var(--err);margin-bottom:20px"><svg width="42" height="42" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0z"/><path d="M12 7v4M12 14h.01"/></svg></div>
+      <div style="font-size:17px;font-weight:800">{{ L.errTitle }}</div>
+      <div style="font-size:13.5px;color:var(--ts);font-weight:600;margin-top:8px;line-height:1.55">{{ L.errBody }}</div>
+      <div style="margin-top:22px;height:50px;padding:0 26px;border-radius:16px;background:var(--acc);color:var(--onacc);display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:800;cursor:pointer">{{ L.retry }}</div>
+      <div style="margin-top:12px;font-size:13px;font-weight:700;color:var(--ts);cursor:pointer">{{ L.contactHr }}</div>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{ isSuccess }}">
+    <div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:0 34px;text-align:center">
+      <div style="width:104px;height:104px;border-radius:34px;background:var(--ok);display:flex;align-items:center;justify-content:center;color:#fff;margin-bottom:24px;animation:hrm-pop .45s ease both"><svg width="50" height="50" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M20 6 9 17l-5-5"/></svg></div>
+      <div style="font-size:22px;font-weight:800;letter-spacing:-.5px;animation:hrm-up .5s .1s ease both">{{ L.okTitle }}</div>
+      <div style="font-size:13.5px;color:var(--ts);font-weight:600;margin-top:9px;line-height:1.55;animation:hrm-up .5s .15s ease both">{{ L.okBody }}</div>
+      <div style="margin-top:22px;background:var(--sf);border:1px solid var(--line);border-radius:16px;padding:15px;width:100%;display:flex;flex-direction:column;gap:10px;animation:hrm-up .5s .2s ease both">
+        <div style="display:flex;justify-content:space-between"><span style="font-size:12.5px;font-weight:600;color:var(--ts)">{{ L.reqCode }}</span><span style="font-size:13px;font-weight:800;font-variant-numeric:tabular-nums">RQ-2026-0918</span></div>
+        <div style="display:flex;justify-content:space-between"><span style="font-size:12.5px;font-weight:600;color:var(--ts)">{{ L.approver }}</span><span style="font-size:13px;font-weight:800">Lê Thu Hà</span></div>
+      </div>
+      <div onClick="{{ goHome }}" style="margin-top:22px;height:52px;width:100%;border-radius:16px;background:var(--acc);color:var(--onacc);display:flex;align-items:center;justify-content:center;font-size:15.5px;font-weight:800;cursor:pointer">{{ L.backHome }}</div>
+    </div>
+  </sc-if>
+
+  <!-- ============ BOTTOM SHEET ============ -->
+  <sc-if value="{{ sheetOpen }}">
+    <div onClick="{{ closeSheet }}" style="position:absolute;inset:0;background:rgba(17,24,39,.5);z-index:40"></div>
+    <div style="position:absolute;left:0;right:0;bottom:0;z-index:41;background:var(--sf);border-radius:26px 26px 0 0;padding:10px 18px 30px;animation:hrm-up .3s ease both">
+      <div style="width:40px;height:4px;border-radius:3px;background:var(--line);margin:0 auto 16px"></div>
+      <div style="font-size:17px;font-weight:800;margin-bottom:4px">{{ L.newRequest }}</div>
+      <div style="font-size:12.5px;color:var(--ts);font-weight:600;margin-bottom:16px">{{ L.pickType }}</div>
+      <div style="display:flex;flex-direction:column;gap:9px">
+        <sc-for list="{{ sheetItems }}" as="s" hint-placeholder-count="4">
+          <div onClick="{{ s.on }}" style="border:1px solid var(--line);border-radius:15px;padding:14px;display:flex;align-items:center;gap:12px;cursor:pointer">
+            <div style="width:36px;height:36px;border-radius:12px;background:var(--sf2);color:var(--pri);display:flex;align-items:center;justify-content:center;flex:none;font-size:15px;font-weight:800">{{ s.mark }}</div>
+            <div style="flex:1"><div style="font-size:13.5px;font-weight:800">{{ s.l }}</div><div style="font-size:11.5px;color:var(--ts);font-weight:600;margin-top:2px">{{ s.sub }}</div></div>
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" style="color:var(--ts)"><path d="m9 18 6-6-6-6"/></svg>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+  </sc-if>
+
+  <!-- ============ TOAST ============ -->
+  <sc-if value="{{ toast }}">
+    <div style="position:absolute;left:18px;right:18px;bottom:104px;z-index:50;background:{{ toastBg }};color:#fff;border-radius:15px;padding:14px 16px;display:flex;align-items:center;gap:11px;animation:hrm-up .3s ease both;box-shadow:0 10px 24px rgba(0,0,0,.22)">
+      <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" style="flex:none"><path d="M20 6 9 17l-5-5"/></svg>
+      <div style="font-size:13.5px;font-weight:700;line-height:1.4">{{ toast }}</div>
+    </div>
+  </sc-if>
+
+  <!-- ============ BOTTOM NAV ============ -->
+  <sc-if value="{{ showNav }}">
+    <div style="position:absolute;left:0;right:0;bottom:0;height:84px;background:var(--sf);border-top:1px solid var(--line);display:flex;align-items:flex-start;padding:9px 6px 0;z-index:30">
+      <sc-for list="{{ nav }}" as="n" hint-placeholder-count="5">
+        <div onClick="{{ n.on }}" style="flex:1;display:flex;flex-direction:column;align-items:center;gap:5px;cursor:pointer;color:{{ n.c }};position:relative">
+          <div style="width:100%;display:flex;justify-content:center"><div style="width:26px;height:3px;border-radius:2px;background:{{ n.bar }};margin-top:-9px"></div></div>
+          <div style="margin-top:4px" dangerouslySetInnerHTML="{{ n.icon }}"></div>
+          <div style="font-size:10.5px;font-weight:700">{{ n.l }}</div>
+          <sc-if value="{{ n.badge }}"><div style="position:absolute;top:2px;right:24px;min-width:16px;height:16px;border-radius:9px;background:var(--err);color:#fff;font-size:9.5px;font-weight:800;display:flex;align-items:center;justify-content:center;padding:0 4px">{{ n.badge }}</div></sc-if>
+        </div>
+      </sc-for>
+    </div>
+  </sc-if>
+
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:390,&quot;height&quot;:844},&quot;screen&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;splash&quot;,&quot;login&quot;,&quot;home&quot;,&quot;attendance&quot;,&quot;facescan&quot;,&quot;calendar&quot;,&quot;requests&quot;,&quot;leave&quot;,&quot;overtime&quot;,&quot;correction&quot;,&quot;payroll&quot;,&quot;payslip&quot;,&quot;bonus&quot;,&quot;services&quot;,&quot;holidays&quot;,&quot;jobs&quot;,&quot;job&quot;,&quot;notifications&quot;,&quot;profile&quot;,&quot;approvals&quot;,&quot;exec&quot;,&quot;final&quot;,&quot;risk&quot;,&quot;delegate&quot;,&quot;settings&quot;,&quot;loading&quot;,&quot;empty&quot;,&quot;error&quot;,&quot;success&quot;],&quot;default&quot;:&quot;home&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;lang&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;vi&quot;,&quot;en&quot;],&quot;default&quot;:&quot;vi&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;theme&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;light&quot;,&quot;dark&quot;],&quot;default&quot;:&quot;light&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;role&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;employee&quot;,&quot;manager&quot;,&quot;exec&quot;],&quot;default&quot;:&quot;employee&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Vai trò&quot;},&quot;manager&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:false,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Vai trò&quot;},&quot;att&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;out&quot;,&quot;in&quot;,&quot;done&quot;],&quot;default&quot;:&quot;in&quot;,&quot;tsType&quot;:&quot;string&quot;}}">
+const LT = {bg:'#F6F4EF',sf:'#FFFFFF',sf2:'#F0EDE5',tp:'#111827',ts:'#5B6572',pri:'#0F766E',deep:'#0A544E',cream:'#FFF8EC',sec:'#14B8A6',acc:'#F59E0B',ok:'#10B981',err:'#EF4444',accInk:'#B45309',accInkT:'#92400E',okInk:'#047857',errInk:'#B91C1C',line:'#E3DFD6',onacc:'#1C1408',onpri:'#FFF8EC',tile:'rgba(255,248,236,.19)'};
+const DK = {bg:'#111827',sf:'#1F2937',sf2:'#263243',tp:'#F8FAFC',ts:'#94A3B8',pri:'#2DD4BF',deep:'#0A544E',cream:'#FFF8EC',sec:'#5EEAD4',acc:'#FBBF24',ok:'#34D399',err:'#F87171',accInk:'#FBBF24',accInkT:'#FBBF24',okInk:'#34D399',errInk:'#F87171',line:'#374151',onacc:'#1C1408',onpri:'#FFF8EC',tile:'rgba(45,212,191,.16)'};
+
+const STR = {
+  en:{tagline:'Everything HR, in one place',welcome:'Welcome back',welcomeSub:'Sign in with your employee ID to see today’s shift, leave and payslip.',empId:'Employee ID',pass:'Password',remember:'Keep me signed in',forgot:'Forgot?',signIn:'Sign in',or:'or',faceId:'Sign in with Face ID',needHelp:'Need help? Contact HR · ext. 1180',
+  greet:'Good morning, Minh 👋',todayShift:'Today’s shift',workedToday:'worked today',checkedIn:'Checked in',checkedOut:'Checked out',workingDays:'Working days',leaveLeft:'Leave remaining',overtime:'Overtime',lateEarly:'Late / early',days:'days',quickActions:'Quick actions',qaLeave:'Request leave',qaFix:'Fix attendance',qaOt:'Overtime',qaPayslip:'Payslip',thisMonthNet:'Net salary this month',month9:'Sep',month9long:'September 2026',bonus:'Bonus',allowance:'Allowances',latest:'Latest updates',seeAll:'See all',pendingApprovals:'Pending approvals',approvalsSub:'Leave, overtime and corrections',
+  attendance:'Attendance',calendar:'Calendar',atOffice:'Ho Chi Minh Office · location verified',thisWeek:'This week',requestFix:'Request attendance correction',monthlyAtt:'Monthly attendance',monthSummary:'September summary',
+  requests:'Requests',newRequest:'New request',pickType:'What do you need to submit?',emptyTitle:'No requests yet',emptyBody:'When you request leave, overtime or an attendance fix, it will show up here with its approval status.',
+  leaveReq:'Request leave',annualBalance:'Annual leave balance',used:'Used',remaining:'Left',leaveType:'Leave type',duration:'Duration',from:'From',to:'To',total:'Total',conflict:'Trần Văn Nam is also on leave 22–23 Sep. Your manager may ask you to shift a day.',reason:'Reason',reasonText:'Family trip already booked. Work handed over to Nam, no client deadlines that week.',attach:'Add an attachment (optional)',submitReq:'Submit request',
+  otReq:'Overtime request',otThisMonth:'This month',otPaid:'Paid out',otNew:'New overtime',date:'Date',timeRange:'Time',otHistory:'Overtime history',
+  fixReq:'Attendance correction',pickDate:'Which day?',monday:'Monday',missingOut:'No check-out recorded. This day counts as incomplete until corrected.',issueType:'What went wrong?',correctTo:'Correct to',checkOutAt:'Check-out time',explain:'Explanation',explainText:'Phone battery died at the end of the shift. Security log shows I left at 17:34.',
+  payroll:'Payroll',bonusTab:'Bonus',netSalary:'Net salary',paidOn:'paid',viewPayslip:'View payslip',breakdown:'Breakdown',history:'Payroll history',payslip:'Payslip',dept:'Operations',earnings:'Earnings',deductions:'Deductions',
+  bonusRewards:'Bonus & rewards',septBonus:'September bonus',withSalary:'paid with September salary',whyBonus:'Why you received this',kpiTitle:'Q3 KPI target met — 112%',kpiBody:'Store revenue and customer-satisfaction targets both cleared for July–September. Reviewed by Lê Thu Hà.',bonusHistory:'Bonus history',
+  internalJobs:'Internal openings',searchJobs:'Search role, department…',jobsOpen:'8 roles open to internal applicants',newTag:'NEW',jobDetail:'Job detail',jobTitle:'Store Manager',jobDept:'Operations Department',fullTime:'Full-time',deadline:'Apply by',hiringManager:'Hiring manager',apply:'Apply now',
+  notifications:'Notifications',markRead:'Mark all read',profile:'Profile',position:'Senior Store Supervisor · Operations',signOut:'Sign out',
+  approvalCenter:'Approval centre',waitingYou:'Waiting on you',pending:'Pending',approve:'Approve',reject:'Reject',
+  settings:'Settings',version:'Version 2.4.0 · Build 3812',loading:'Loading your payroll…',errTitle:'Couldn’t check you in',errBody:'We can’t confirm you’re at the office. Turn on location, then try again — or ask your manager to check you in.',retry:'Try again',contactHr:'Contact HR instead',okTitle:'Leave request sent',okBody:'3 days of annual leave, 21–23 September. Lê Thu Hà has been notified and usually replies within a day.',reqCode:'Request code',approver:'Approver',backHome:'Back to home',
+  navHome:'Home',navAtt:'Attendance',navReq:'Requests',navPay:'Payroll',navProfile:'Profile',
+  stIn:'Checked in',stOut:'Not checked in',stDone:'Shift complete',hintOut:'Your shift starts at 08:00. Check in when you arrive.',hintIn:'You checked in at 07:56 — 4 minutes early.',hintDone:'Today’s attendance is complete. Nothing else to do.',ctaIn:'CHECK IN',ctaOut:'CHECK OUT',ctaDone:'DAY CLOSED',
+  toastIn:'Checked in at 07:56 · Ho Chi Minh Office',toastOut:'Checked out. 8h 34m worked today.',toastSent:'Request sent to Lê Thu Hà',toastAppr:'Approved. The employee has been notified.',toastRej:'Rejected. Please add a note for the employee.'},
+  vi:{tagline:'Mọi việc nhân sự, trong một nơi',welcome:'Chào bạn trở lại',welcomeSub:'Đăng nhập bằng mã nhân viên để xem ca làm, phép và phiếu lương.',empId:'Mã nhân viên',pass:'Mật khẩu',remember:'Ghi nhớ đăng nhập',forgot:'Quên?',signIn:'Đăng nhập',or:'hoặc',faceId:'Đăng nhập bằng Face ID',needHelp:'Cần hỗ trợ? Liên hệ HR · nội bộ 1180',
+  greet:'Chào buổi sáng, Minh 👋',todayShift:'Ca hôm nay',workedToday:'đã làm hôm nay',checkedIn:'Vào làm',checkedOut:'Ra về',workingDays:'Ngày công',leaveLeft:'Phép còn lại',overtime:'Tăng ca',lateEarly:'Muộn / sớm',days:'ngày',quickActions:'Tác vụ nhanh',qaLeave:'Xin nghỉ phép',qaFix:'Sửa công',qaOt:'Tăng ca',qaPayslip:'Phiếu lương',thisMonthNet:'Lương thực nhận tháng này',month9:'Th9',month9long:'Tháng 9 2026',bonus:'Thưởng',allowance:'Phụ cấp',latest:'Cập nhật mới',seeAll:'Xem tất cả',pendingApprovals:'Chờ bạn phê duyệt',approvalsSub:'Phép, tăng ca và sửa công',
+  attendance:'Chấm công',calendar:'Lịch',atOffice:'Văn phòng HCM · đã xác thực vị trí',thisWeek:'Tuần này',requestFix:'Gửi yêu cầu sửa công',monthlyAtt:'Công theo tháng',monthSummary:'Tổng hợp tháng 9',
+  requests:'Yêu cầu',newRequest:'Tạo yêu cầu',pickType:'Bạn muốn gửi yêu cầu gì?',emptyTitle:'Chưa có yêu cầu nào',emptyBody:'Khi bạn xin nghỉ, đăng ký tăng ca hay sửa công, yêu cầu sẽ xuất hiện ở đây kèm trạng thái duyệt.',
+  leaveReq:'Xin nghỉ phép',annualBalance:'Số phép năm',used:'Đã dùng',remaining:'Còn lại',leaveType:'Loại phép',duration:'Thời gian',from:'Từ ngày',to:'Đến ngày',total:'Tổng cộng',conflict:'Trần Văn Nam cũng nghỉ 22–23/09. Quản lý có thể đề nghị bạn đổi một ngày.',reason:'Lý do',reasonText:'Gia đình đã đặt chuyến đi. Công việc đã bàn giao cho Nam, tuần đó không có hạn chót với khách.',attach:'Thêm tệp đính kèm (không bắt buộc)',submitReq:'Gửi yêu cầu',
+  otReq:'Đăng ký tăng ca',otThisMonth:'Tháng này',otPaid:'Đã thanh toán',otNew:'Tăng ca mới',date:'Ngày',timeRange:'Giờ',otHistory:'Lịch sử tăng ca',
+  fixReq:'Sửa công',pickDate:'Ngày nào?',monday:'Thứ Hai',missingOut:'Chưa có giờ ra. Ngày này bị tính thiếu công cho đến khi được sửa.',issueType:'Vấn đề là gì?',correctTo:'Sửa thành',checkOutAt:'Giờ ra',explain:'Giải trình',explainText:'Điện thoại hết pin cuối ca. Log bảo vệ ghi nhận tôi ra lúc 17:34.',
+  payroll:'Lương',bonusTab:'Thưởng',netSalary:'Lương thực nhận',paidOn:'trả ngày',viewPayslip:'Xem phiếu lương',breakdown:'Chi tiết',history:'Lịch sử lương',payslip:'Phiếu lương',dept:'Vận hành',earnings:'Thu nhập',deductions:'Khoản trừ',
+  bonusRewards:'Thưởng & ghi nhận',septBonus:'Thưởng tháng 9',withSalary:'trả cùng lương tháng 9',whyBonus:'Vì sao bạn nhận thưởng',kpiTitle:'Đạt KPI quý 3 — 112%',kpiBody:'Doanh thu cửa hàng và mức hài lòng khách hàng đều vượt mục tiêu tháng 7–9. Người xác nhận: Lê Thu Hà.',bonusHistory:'Lịch sử thưởng',
+  internalJobs:'Tuyển dụng nội bộ',searchJobs:'Tìm vị trí, bộ phận…',jobsOpen:'8 vị trí mở cho ứng viên nội bộ',newTag:'MỚI',jobDetail:'Chi tiết vị trí',jobTitle:'Quản lý cửa hàng',jobDept:'Bộ phận Vận hành',fullTime:'Toàn thời gian',deadline:'Hạn nộp',hiringManager:'Người tuyển dụng',apply:'Ứng tuyển',
+  notifications:'Thông báo',markRead:'Đọc tất cả',profile:'Cá nhân',position:'Giám sát cửa hàng · Vận hành',signOut:'Đăng xuất',
+  approvalCenter:'Trung tâm phê duyệt',waitingYou:'Chờ bạn xử lý',pending:'Chờ duyệt',approve:'Duyệt',reject:'Từ chối',
+  settings:'Cài đặt',version:'Phiên bản 2.4.0 · Build 3812',loading:'Đang tải bảng lương…',errTitle:'Không thể chấm công',errBody:'Chưa xác nhận được bạn đang ở văn phòng. Hãy bật định vị rồi thử lại — hoặc nhờ quản lý chấm công hộ.',retry:'Thử lại',contactHr:'Liên hệ HR',okTitle:'Đã gửi yêu cầu nghỉ phép',okBody:'3 ngày phép năm, 21–23/09. Lê Thu Hà đã được thông báo và thường phản hồi trong một ngày.',reqCode:'Mã yêu cầu',approver:'Người duyệt',backHome:'Về trang chủ',
+  navHome:'Trang chủ',navAtt:'Chấm công',navReq:'Yêu cầu',navPay:'Lương',navProfile:'Cá nhân',
+  stIn:'Đang làm việc',stOut:'Chưa chấm công',stDone:'Hoàn thành ca',hintOut:'Ca của bạn bắt đầu 08:00. Chấm công khi bạn đến.',hintIn:'Bạn đã vào làm lúc 07:56 — sớm 4 phút.',hintDone:'Công hôm nay đã đủ. Không cần làm gì thêm.',ctaIn:'CHẤM CÔNG VÀO',ctaOut:'CHẤM CÔNG RA',ctaDone:'ĐÃ KẾT THÚC',
+  toastIn:'Đã vào làm 07:56 · Văn phòng HCM',toastOut:'Đã ra về. Hôm nay làm 8h34.',toastSent:'Đã gửi tới Lê Thu Hà',toastAppr:'Đã duyệt. Nhân viên sẽ nhận thông báo.',toastRej:'Đã từ chối. Hãy ghi chú lý do cho nhân viên.'}
+};
+
+const IC = {
+  home:'<path d="m3 10 9-7 9 7v10a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>',
+  att:'<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>',
+  req:'<path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6M9 15h6"/>',
+  pay:'<rect x="2" y="5" width="20" height="14" rx="2"/><circle cx="12" cy="12" r="2.6"/><path d="M6 12h.01M18 12h.01"/>',
+  me:'<circle cx="12" cy="8" r="4"/><path d="M4 21v-1a6 6 0 0 1 6-6h4a6 6 0 0 1 6 6v1"/>'
+};
+
+const QIC = {
+  att:'<path d="M12 2v6"/><path d="M5.6 6.6a9 9 0 1 0 12.8 0"/>',
+  cal:'<rect x="3" y="4" width="18" height="18" rx="2"/><path d="M8 2v4M16 2v4M3 10h18"/>',
+  slip:'<path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6M8 13h8M8 17h5"/>',
+  clock:'<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>',
+  edit:'<path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"/>',
+  star:'<path d="M12 2l2.9 6.3 6.9.8-5 4.8 1.3 6.8-6.1-3.4-6.1 3.4L7.2 13.9l-5-4.8 6.9-.8z"/>',
+  list:'<path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01"/>',
+  flag:'<path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V4s-1 1-4 1-5-2-8-2-4 1-4 1z"/><path d="M4 22v-7"/>',
+  pay:'<rect x="2" y="5" width="20" height="14" rx="2"/><circle cx="12" cy="12" r="2.6"/><path d="M6 12h.01M18 12h.01"/>',
+  user:'<circle cx="12" cy="8" r="4"/><path d="M4 21v-1a6 6 0 0 1 6-6h4a6 6 0 0 1 6 6v1"/>',
+  set:'<circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.9M4.6 9a1.7 1.7 0 0 0-.3-1.9"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3"/>',
+  check:'<path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/>'
+};
+
+class Component extends DCLogic {
+  constructor(p){
+    super(p);
+    this.state = {screen:p.screen||'home', hist:[], att:p.att||'in', tab:0, ntab:0, lv:0, iss:1, sheet:false, toast:null, payShown:false};
+  }
+  componentDidUpdate(prev){
+    if(prev.att !== this.props.att && this.props.att){
+      clearTimeout(this._f1); clearTimeout(this._f2);
+      this.setState(st=>({att:this.props.att, screen:st.screen==='facescan'?'home':st.screen}));
+    }
+    if(prev.role !== this.props.role || prev.manager !== this.props.manager){
+      const r = this.props.role || (this.props.manager?'manager':'employee');
+      const cur = this.state.screen;
+      if(r==='exec' && cur==='home') this.setState({screen:'exec',hist:[]});
+      else if(r!=='exec' && (cur==='exec'||cur==='final')) this.setState({screen:'home',hist:[]});
+      else if(r==='employee' && cur==='approvals') this.setState({screen:'home',hist:[]});
+    }
+    if(prev.screen !== this.props.screen && this.props.screen){
+      this.setState({screen:this.props.screen, hist:[]});
+    }
+  }
+  componentWillUnmount(){ clearTimeout(this._t); clearTimeout(this._f1); clearTimeout(this._f2); }
+  go(s){ this.setState(st=>({screen:s, hist:[...st.hist, st.screen], sheet:false})); }
+  pop(){ this.setState(st=>({screen:st.hist.length?st.hist[st.hist.length-1]:'home', hist:st.hist.slice(0,-1)})); }
+  flash(m){ clearTimeout(this._t); this.setState({toast:m}); this._t=setTimeout(()=>this.setState({toast:null}),2600); }
+
+  renderVals(){
+    const L = STR[this.props.lang==='vi'?'vi':'en'];
+    const t = this.props.theme==='dark'?DK:LT;
+    const s = this.state.screen;
+    const att = this.state.att;
+    const V = this.props.lang==='vi';
+    const role = this.props.role || (this.props.manager ? 'manager' : 'employee');
+    const exec = role === 'exec';
+    const mgr = role === 'manager' || exec;
+    const mix=(c,a)=>'color-mix(in srgb, '+c+' '+a+'%, transparent)';
+    const okT=mix(t.ok,14), acT=mix(t.acc,16), erT=mix(t.err,14), prT=mix(t.pri,12);
+
+    const stMap = {out:[L.stOut, acT, t.acc, L.hintOut, L.ctaIn], in:[L.stIn, okT, t.ok, L.hintIn, L.ctaOut], done:[L.stDone, prT, t.pri, L.hintDone, L.ctaDone]};
+    const cur = stMap[att];
+
+    const applyPunch = ()=>{
+      if(att==='out'){ this.setState({att:'in'}); this.flash(L.toastIn); }
+      else if(att==='in'){ this.setState({att:'done'}); this.flash(L.toastOut); }
+    };
+    const punch = ()=>{
+      if(att==='done') return;
+      clearTimeout(this._f1); clearTimeout(this._f2);
+      this.setState(st=>({screen:'facescan', hist:[...st.hist, st.screen], facePhase:'align', sheet:false}));
+      this._f1 = setTimeout(()=>this.setState({facePhase:'scan'}), 1100);
+      this._f2 = setTimeout(()=>{
+        this.setState({facePhase:'done'});
+        setTimeout(()=>{ this.pop(); applyPunch(); }, 950);
+      }, 2900);
+    };
+    const manualPunch = ()=>{
+      clearTimeout(this._f1); clearTimeout(this._f2);
+      this.pop(); applyPunch();
+    };
+    const cancelFace = ()=>{ clearTimeout(this._f1); clearTimeout(this._f2); this.pop(); };
+    const fp = this.state.facePhase || 'align';
+    const faceCopy = V
+      ? {align:['Đưa khuôn mặt vào khung','Giữ điện thoại ngang mắt, ở nơi đủ sáng.'],
+         scan:['Đang nhận diện…','Giữ yên khoảng một giây. Đừng che mặt hay đeo khẩu trang.'],
+         done:['Đã xác thực khuôn mặt','Nguyễn Minh Tuấn · NV-04821. Đang ghi nhận giờ chấm công.']}
+      : {align:['Fit your face in the frame','Hold the phone at eye level in decent light.'],
+         scan:['Recognising…','Hold still for about a second. Keep your face uncovered.'],
+         done:['Face verified','Nguyễn Minh Tuấn · NV-04821. Recording your punch now.']};
+
+    const dows = this.props.lang==='vi'?['T2','T3','T4','T5','T6','T7','CN']:['Mo','Tu','We','Th','Fr','Sa','Su'];
+    // Sept 2026: 1st is Tuesday -> one leading blank on a Monday-first grid
+    const cal=[{d:'',bg:'transparent',fg:t.ts,dot:'transparent',bd:'none'}];
+    const leaveDays=[7,8], lateDays=[11], missDays=[15], holiday=[2];
+    for(let d=1;d<=30;d++){
+      const dow=(d)%7; // 1 Sep = Tue
+      const weekend = dow===5||dow===6;
+      let bg=t.sf2, fg=t.tp, dot='transparent', bd='none';
+      if(weekend){ bg='transparent'; fg=t.ts; }
+      else if(holiday.includes(d)){ bg=prT; fg=t.pri; dot=t.pri; }
+      else if(leaveDays.includes(d)){ bg=acT; fg=t.acc; dot=t.acc; }
+      else if(missDays.includes(d)){ bg=erT; fg=t.err; dot=t.err; }
+      else if(lateDays.includes(d)){ bg=t.sf2; fg=t.tp; dot=t.acc; }
+      else if(d<=16){ bg=okT; fg=t.ok; dot=t.ok; }
+      if(d===16){ bd='1.5px solid '+t.pri; }
+      cal.push({d:String(d),bg,fg,dot,bd});
+    }
+
+    const badge=(l,tint,ink)=>({l,tint,ink});
+    const wkTag = this.props.lang==='vi'
+      ? {ok:'Đủ công',late:'Muộn 12p',miss:'Thiếu giờ ra',leave:'Nghỉ phép',now:'Đang làm'}
+      : {ok:'Complete',late:'Late 12m',miss:'No check-out',leave:'On leave',now:'In progress'};
+
+    const nav = [
+      {k:'home',l:L.navHome,ic:IC.home},
+      {k:'attendance',l:L.navAtt,ic:IC.att},
+      {k:'requests',l:L.navReq,ic:IC.req,badge:mgr?'9':null},
+      {k:'payroll',l:L.navPay,ic:IC.pay},
+      {k:'profile',l:L.navProfile,ic:IC.me}
+    ].map(n=>{
+      const on = s===n.k || (n.k==='home'&&s==='exec') || (n.k==='attendance'&&(s==='calendar'||s==='facescan')) || (n.k==='payroll'&&(s==='payslip'||s==='bonus')) || (n.k==='profile'&&s==='settings') || (n.k==='requests'&&['leave','overtime','correction','approvals','final','delegate'].includes(s));
+      const dest = (n.k==='home'&&exec) ? 'exec' : (n.k==='requests'&&exec ? 'final' : n.k);
+      return {l:(n.k==='home'&&exec)?(V?'Điều hành':'Exec'):n.l, badge:(n.k==='requests'&&exec)?'4':n.badge, c:on?t.pri:t.ts, bar:on?t.pri:'transparent',
+        icon:{__html:'<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="'+(on?2.3:1.9)+'" stroke-linecap="round" stroke-linejoin="round">'+n.ic+'</svg>'},
+        on:()=>this.setState({screen:dest,hist:[]})};
+    });
+
+    const reqTabLabels = this.props.lang==='vi'?['Tất cả','Chờ duyệt','Đã duyệt','Từ chối']:['All','Pending','Approved','Rejected'];
+    const reqTabs = reqTabLabels.map((l,i)=>({l, bg:this.state.tab===i?t.pri:t.sf, fg:this.state.tab===i?t.onpri:t.ts, bd:this.state.tab===i?t.pri:t.line, on:()=>this.setState({tab:i})}));
+
+    const ST = this.props.lang==='vi'
+      ? {pending:'Chờ duyệt',approved:'Đã duyệt',rejected:'Từ chối',cancel:'Đã huỷ',fixneed:'Cần bổ sung'}
+      : {pending:'Pending',approved:'Approved',rejected:'Rejected',cancel:'Cancelled',fixneed:'Needs info'};
+    const stageTxt = this.props.lang==='vi'?['Chờ quản lý','Chờ HR','Chờ giám đốc','Hoàn tất']:['Manager','HR review','Director','Done'];
+    const allReq = [
+      {mark:'P',type:this.props.lang==='vi'?'Nghỉ phép năm · 3 ngày':'Annual leave · 3 days',dates:'21–23/09/2026',status:ST.pending,tint:acT,ink:t.acc,stage:stageTxt[0],k:1,steps:[t.acc,t.line,t.line,t.line]},
+      {mark:'T',type:this.props.lang==='vi'?'Tăng ca · 3 giờ':'Overtime · 3 hours',dates:'12/09/2026',status:ST.approved,tint:okT,ink:t.ok,stage:stageTxt[3],k:2,steps:[t.ok,t.ok,t.ok,t.ok]},
+      {mark:'C',type:this.props.lang==='vi'?'Công tác · Hà Nội':'Business trip · Hanoi',dates:'21–23/09/2026',status:ST.pending,tint:acT,ink:t.acc,stage:stageTxt[2],k:1,steps:[t.ok,t.ok,t.acc,t.line]},
+      {mark:'S',type:this.props.lang==='vi'?'Sửa công · thiếu giờ ra':'Correction · missing check-out',dates:'15/09/2026',status:ST.fixneed,tint:erT,ink:t.err,stage:stageTxt[1],k:4,steps:[t.ok,t.err,t.line,t.line]},
+      {mark:'P',type:this.props.lang==='vi'?'Nghỉ không lương · 1 ngày':'Unpaid leave · 1 day',dates:'28/08/2026',status:ST.rejected,tint:erT,ink:t.err,stage:stageTxt[0],k:3,steps:[t.err,t.line,t.line,t.line]}
+    ].map(r=>({...r,on:()=>this.go('leave')}));
+    const tabFilter = [null,1,2,3][this.state.tab];
+    const reqList = tabFilter?allReq.filter(r=>r.k===tabFilter||(tabFilter===1&&r.k===4)):allReq;
+
+    const ltLabels = this.props.lang==='vi'
+      ? [['Phép năm','Còn 6 ngày'],['Nghỉ bệnh','Cần giấy bác sĩ'],['Không lương','Trừ lương ngày'],['Phép đặc biệt','Cưới, tang, thai sản']]
+      : [['Annual leave','6 days left'],['Sick leave','Doctor’s note needed'],['Unpaid leave','Deducted per day'],['Special leave','Wedding, bereavement']];
+    const leaveTypes = ltLabels.map((x,i)=>({l:x[0],sub:x[1],bd:this.state.lv===i?t.pri:t.line,ink:this.state.lv===i?t.pri:t.tp,on:()=>this.setState({lv:i})}));
+
+    const issLabels = this.props.lang==='vi'?['Thiếu giờ vào','Thiếu giờ ra','Sai ca làm','Lỗi máy chấm công']:['Missing check-in','Missing check-out','Wrong shift assigned','Terminal error'];
+    const issues = issLabels.map((l,i)=>({l,bd:this.state.iss===i?t.pri:t.line,fill:this.state.iss===i?t.pri:'transparent',on:()=>this.setState({iss:i})}));
+
+    const stepLabels = this.props.lang==='vi'?['Chọn ngày','Chi tiết','Xác nhận']:['Pick day','Details','Review'];
+    const steps3 = stepLabels.map((l,i)=>({l,c:i<=1?t.pri:t.line,ink:i<=1?t.pri:t.ts}));
+
+    const catNames = this.props.lang==='vi'
+      ? {leave:'PHÉP',pay:'LƯƠNG',att:'CHẤM CÔNG',ann:'THÔNG BÁO',bonus:'THƯỞNG',job:'TUYỂN DỤNG'}
+      : {leave:'LEAVE',pay:'PAYROLL',att:'ATTENDANCE',ann:'COMPANY',bonus:'BONUS',job:'RECRUITMENT'};
+    const nText = this.props.lang==='vi'
+      ? ['Yêu cầu nghỉ phép 21–23/09 đã được Lê Thu Hà duyệt.','Phiếu lương tháng 9 đã có. Thực nhận 25.500.000 ₫.','Ngày 15/09 thiếu giờ ra. Vui lòng gửi yêu cầu sửa công trước 20/09.','Thưởng KPI quý 3: 2.500.000 ₫ sẽ trả cùng lương tháng 9.','Vị trí Quản lý cửa hàng mở cho ứng viên nội bộ đến 30/09.','Nghỉ lễ Quốc khánh 02/09 — cửa hàng đóng cửa.']
+      : ['Your leave request for 21–23 Sep was approved by Lê Thu Hà.','September payslip is ready. Net 25,500,000 ₫.','No check-out on 15 Sep. Please submit a correction before 20 Sep.','Q3 KPI bonus: 2,500,000 ₫ will be paid with September salary.','Store Manager is open to internal applicants until 30 Sep.','National Day holiday 2 Sep — store closed.'];
+    const nMeta = [['P',catNames.leave,t.ok,okT,'2h',true,'requests'],['L',catNames.pay,t.pri,prT,'1d',true,'payslip'],['C',catNames.att,t.err,erT,'1d',true,'correction'],['T',catNames.bonus,t.acc,acT,'3d',false,'bonus'],['R',catNames.job,t.pri,prT,'4d',false,'jobs'],['A',catNames.ann,t.pri,prT,'1w',false,'notifications']];
+    const notifs = nText.map((title,i)=>({title,mark:nMeta[i][0],cat:nMeta[i][1],ink:nMeta[i][2],tint:nMeta[i][3],time:nMeta[i][4],unread:nMeta[i][5],bg:nMeta[i][5]?t.sf:'transparent',on:()=>this.go(nMeta[i][6])}));
+    const ntLabels = this.props.lang==='vi'?['Tất cả','Phép','Lương','Chấm công','Thưởng']:['All','Leave','Payroll','Attendance','Bonus'];
+    const notifTabs = ntLabels.map((l,i)=>({l,bg:i===0?t.pri:t.sf,fg:i===0?t.onpri:t.ts,bd:i===0?t.pri:t.line}));
+
+    const profileGroups = [
+      {t:V?'Thông tin cá nhân':'Personal information',rows:[{k:V?'Họ và tên':'Full name',v:'Nguyễn Minh Tuấn'},{k:V?'Ngày sinh':'Date of birth',v:'14/03/1994'},{k:V?'Điện thoại':'Phone',v:'+84 908 221 470'},{k:'Email',v:'minh.tuan@company.vn'},{k:V?'Địa chỉ':'Address',v:V?'Q.3, TP. Hồ Chí Minh':'District 3, Ho Chi Minh'}]},
+      {t:V?'Thông tin công việc':'Employment',rows:[{k:V?'Bộ phận':'Department',v:V?'Vận hành':'Operations'},{k:V?'Chức danh':'Position',v:V?'Giám sát cửa hàng':'Store Supervisor'},{k:V?'Quản lý':'Manager',v:'Lê Thu Hà'},{k:V?'Ngày vào':'Join date',v:'02/05/2021'},{k:V?'Trạng thái':'Status',v:V?'Chính thức':'Permanent'}]},
+      {t:V?'Tài khoản ngân hàng':'Bank account',rows:[{k:V?'Ngân hàng':'Bank',v:'Vietcombank'},{k:V?'Số tài khoản':'Account',v:'•••• 4821'}]}
+    ];
+    const profileLinks = [
+      {mark:'K',l:V?'Liên hệ khẩn cấp':'Emergency contact',on:()=>{}},
+      {mark:'H',l:V?'Hồ sơ & tài liệu':'Documents',on:()=>{}},
+      {mark:'T',l:V?'Tuyển dụng nội bộ':'Internal openings',on:()=>this.go('jobs')},
+      {mark:'C',l:L.settings,on:()=>this.go('settings')}
+    ];
+    const setGroups = [
+      {t:V?'Thông báo':'Notifications',rows:[
+        {l:V?'Nhắc chấm công':'Attendance reminders',sub:V?'07:45 và 17:05 mỗi ngày làm việc':'07:45 and 17:05 on workdays',toggle:true,on2:t.pri,just:'flex-end'},
+        {l:V?'Cập nhật yêu cầu':'Request updates',sub:V?'Khi được duyệt hoặc từ chối':'When approved or rejected',toggle:true,on2:t.pri,just:'flex-end'},
+        {l:V?'Thông báo công ty':'Company announcements',sub:V?'Tin nội bộ, nghỉ lễ':'Internal news, holidays',toggle:true,on2:t.line,just:'flex-start'}]},
+      {t:V?'Hiển thị':'Display',rows:[
+        {l:V?'Ngôn ngữ':'Language',sub:V?'Tiếng Việt':'English',value:V?'VI':'EN'},
+        {l:V?'Chế độ tối':'Dark mode',sub:V?'Theo hệ thống':'Follow system',value:this.props.theme==='dark'?'ON':'AUTO'}]},
+      {t:V?'Bảo mật':'Security',rows:[
+        {l:V?'Đăng nhập Face ID':'Face ID sign-in',sub:V?'Đang bật':'Enabled',toggle:true,on2:t.pri,just:'flex-end'},
+        {l:V?'Đổi mật khẩu':'Change password',sub:V?'Đổi lần cuối 04/2026':'Last changed Apr 2026'}]}
+    ];
+
+    const apprRows = V
+      ? [{ini:'TN',name:'Trần Văn Nam',type:'Nghỉ phép năm · 2 ngày',dates:'22–23/09',reason:'Về quê dự cưới em trai. Đã đổi ca với Hương.'},
+         {ini:'PH',name:'Phạm Thu Hương',type:'Sửa công · thiếu giờ vào',dates:'14/09',reason:'Máy chấm công cửa sau lỗi, bảo vệ xác nhận vào lúc 07:52.'},
+         {ini:'LD',name:'Lý Quốc Dũng',type:'Tăng ca · 4 giờ',dates:'18/09',reason:'Kiểm kê cuối tháng, cần thêm người buổi tối.'}]
+      : [{ini:'TN',name:'Trần Văn Nam',type:'Annual leave · 2 days',dates:'22–23 Sep',reason:'Brother’s wedding back home. Shift swapped with Hương.'},
+         {ini:'PH',name:'Phạm Thu Hương',type:'Correction · missing check-in',dates:'14 Sep',reason:'Back-door terminal was down; security confirms 07:52 arrival.'},
+         {ini:'LD',name:'Lý Quốc Dũng',type:'Overtime · 4 hours',dates:'18 Sep',reason:'Month-end stocktake, extra evening cover needed.'}];
+    const approvals = apprRows.map(a=>({...a,app:()=>this.flash(L.toastAppr),rej:()=>this.flash(L.toastRej)}));
+
+    return {
+      t, L, lang:this.props.lang,
+      isSplash:s==='splash', isLogin:s==='login', isHome:s==='home', isAtt:s==='attendance', isCal:s==='calendar',
+      isReq:s==='requests', isLeave:s==='leave', isOt:s==='overtime', isFix:s==='correction', isPay:s==='payroll',
+      isSlip:s==='payslip', isBonus:s==='bonus', isJobs:s==='jobs', isJob:s==='job', isNotif:s==='notifications',
+      isProfile:s==='profile', isAppr:s==='approvals', isSet:s==='settings',
+      isLoading:s==='loading', isEmpty:s==='empty', isError:s==='error', isSuccess:s==='success',
+      isSvc:s==='services', isHol:s==='holidays', isFace:s==='facescan',
+      isExec:s==='exec', isFinal:s==='final', isCLevel:exec,
+      isRisk:s==='risk', isDelegate:s==='delegate',
+      goRisk:()=>this.go('risk'), goDelegate:()=>this.go('delegate'),
+      okTint:okT,
+      goFinal:()=>this.go('final'), goExec:()=>this.go('exec'),
+      L5: V
+        ? {alertCount:'6 cảnh báo',seeAllAlerts:'Xem tất cả cảnh báo',delegateShort:'Ủy quyền',
+           riskTitle:'Cảnh báo Rủi ro & Tuân thủ',riskCaption:'Sáu cảnh báo theo ba mức · giao Nhân sự xử lý ngay trên thẻ.',assignHr:'Giao Phòng Nhân sự xử lý',
+           delTitle:'Trung tâm Ủy quyền Phê duyệt',delCaption:'Giao quyền duyệt khi bạn đi vắng · có hạn mức và thời hạn.',
+           delWho:'Người được ủy quyền',delWhen:'Khoảng thời gian',delScope:'Phạm vi loại đơn',
+           delCap:'Hạn mức giá trị tối đa',delCapRow:'Mỗi đơn không vượt',delCapVal:'50.000.000 ₫',
+           delCapHint:'Đơn vượt hạn mức vẫn chờ bạn duyệt, không chuyển cho người được ủy quyền.',
+           delSubmit:'Kích hoạt ủy quyền',delActive:'Đang hoạt động',running:'ĐANG CHẠY',revoke:'Thu hồi ủy quyền',delLog:'Nhật ký ủy quyền'}
+        : {alertCount:'6 alerts',seeAllAlerts:'See all alerts',delegateShort:'Delegate',
+           riskTitle:'Risk & Compliance alerts',riskCaption:'Six alerts across three tiers · hand to HR from the card.',assignHr:'Assign to HR',
+           delTitle:'Approval delegation',delCaption:'Hand over sign-off while you are away · capped and time-boxed.',
+           delWho:'Delegate to',delWhen:'Period',delScope:'Request types',
+           delCap:'Value ceiling',delCapRow:'Per request, up to',delCapVal:'50,000,000 ₫',
+           delCapHint:'Anything above the ceiling still waits for you — it is not passed on.',
+           delSubmit:'Activate delegation',delActive:'Active now',running:'RUNNING',revoke:'Revoke delegation',delLog:'Delegation log'},
+      riskTiers: (V?[['2','KHẨN CẤP'],['3','CẢNH BÁO'],['1','LƯU Ý']]:[['2','URGENT'],['3','WARNING'],['1','NOTE']])
+        .map((x,i)=>({n:x[0],l:x[1],
+          ink:[t.errInk,t.accInkT,t.ts][i], edge:[t.err,t.acc,t.line][i], tint:[erT,acT,t.sf2][i]})),
+      risks: (V
+        ? [['KHẨN CẤP','err','Tăng ca vượt trần luật định','14 nhân sự vượt 40 giờ tăng ca trong tháng 9. Trần theo Bộ luật Lao động là 40 giờ/tháng.','14 người','Cửa hàng Q.3, Q.7','2 giờ trước'],
+           ['KHẨN CẤP','err','Khiếu nại quá hạn SLA','Ba khiếu nại về chấm công chưa phản hồi sau 5 ngày làm việc. SLA nội bộ là 3 ngày.','3 đơn','Chi nhánh Bình Dương','Hôm nay 08:15'],
+           ['CẢNH BÁO','acc','Tỷ lệ nghỉ việc tăng đột biến','Chi nhánh Hà Nội: 7 người nghỉ trong 30 ngày, gấp 2,3 lần mức trung bình quý.','+130%','Chi nhánh Hà Nội','Hôm qua'],
+           ['CẢNH BÁO','acc','Hợp đồng sắp hết hạn hàng loạt','18 hợp đồng xác định thời hạn hết hạn trong 45 ngày tới, chưa có đề xuất gia hạn.','18 HĐ','Toàn công ty','2 ngày trước'],
+           ['CẢNH BÁO','acc','Quỹ lương vượt dự toán tháng 9','Vượt 2,2% do tăng ca kiểm kê cuối quý tại 6 cửa hàng.','+2,2%','6 cửa hàng','3 ngày trước'],
+           ['LƯU Ý','ts','Chưa hoàn tất đào tạo an toàn','42 nhân sự mới chưa hoàn thành khoá bắt buộc trong 60 ngày đầu.','42 người','Vận hành','1 tuần trước']]
+        : [['URGENT','err','Overtime above the statutory cap','14 staff passed 40 overtime hours in September. The Labour Code cap is 40 hours a month.','14 staff','District 3, District 7','2 hours ago'],
+           ['URGENT','err','Grievances past SLA','Three attendance complaints unanswered after five working days. Internal SLA is three days.','3 cases','Binh Duong branch','Today 08:15'],
+           ['WARNING','acc','Attrition spike','Hanoi branch: seven exits in 30 days, 2.3× the quarterly average.','+130%','Hanoi branch','Yesterday'],
+           ['WARNING','acc','Contracts expiring in bulk','18 fixed-term contracts expire within 45 days with no renewal proposal filed.','18 docs','Company-wide','2 days ago'],
+           ['WARNING','acc','September payroll over budget','2.2% over, driven by quarter-end stocktake overtime at six stores.','+2.2%','6 stores','3 days ago'],
+           ['NOTE','ts','Safety training incomplete','42 new hires have not finished the mandatory course within their first 60 days.','42 staff','Operations','1 week ago']]
+      ).map(x=>({
+        tier:x[0], ink:{err:t.errInk,acc:t.accInk,ts:t.ts}[x[1]], edge:{err:t.err,acc:t.acc,ts:t.line}[x[1]],
+        t:x[2], b:x[3], v:x[4], branch:x[5], when:x[6],
+        assign:()=>this.flash(V?'Đã giao Phòng Nhân sự. Bạn sẽ nhận cập nhật khi có phản hồi.':'Assigned to HR. You will be updated when they respond.')
+      })),
+      delPeople: (V
+        ? [['LQ','Lê Minh Quân','Giám đốc Nhân sự'],['NT','Nguyễn Thanh Tùng','Phó Giám đốc Vận hành'],['PT','Phạm Thu Trang','Trưởng phòng Nhân sự']]
+        : [['LQ','Lê Minh Quân','HR Director'],['NT','Nguyễn Thanh Tùng','Deputy COO'],['PT','Phạm Thu Trang','HR Manager']]
+      ).map((p,i)=>({
+        ini:p[0], n:p[1], r:p[2],
+        bd:(this.state.delWho??1)===i?t.pri:t.line, fill:(this.state.delWho??1)===i?t.pri:'transparent',
+        on:()=>this.setState({delWho:i})
+      })),
+      delModes: (V?['Toàn bộ loại đơn','Chọn lọc']:['All request types','Selected only']).map((l,i)=>({
+        l, bd:(this.state.delMode??1)===i?t.pri:t.line,
+        bg:(this.state.delMode??1)===i?prT:t.sf, fg:(this.state.delMode??1)===i?t.pri:t.ts,
+        on:()=>this.setState({delMode:i})
+      })),
+      delTypes: (V
+        ? [['Nghỉ phép',true],['Tăng ca',true],['Sửa công',true],['Công tác',false],['Thêm biên chế',false]]
+        : [['Leave',true],['Overtime',true],['Attendance fix',true],['Business trip',false],['Headcount',false]]
+      ).map((d,i)=>{
+        const all=(this.state.delMode??1)===0;
+        const on = all || ((this.state.delOn ?? [true,true,true,false,false])[i]);
+        return {l:d[0], ink:on?t.tp:t.ts, track:on?t.pri:t.line, just:on?'flex-end':'flex-start',
+          on:()=>{ if(all) return; const cur=(this.state.delOn ?? [true,true,true,false,false]).slice(); cur[i]=!cur[i]; this.setState({delOn:cur}); }};
+      }),
+      delCaps: ['10tr','20tr','50tr',V?'Không hạn':'None'].map((l,i)=>({
+        l, bd:(this.state.delCap??2)===i?t.pri:t.line,
+        bg:(this.state.delCap??2)===i?prT:t.sf, fg:(this.state.delCap??2)===i?t.pri:t.ts,
+        on:()=>this.setState({delCap:i})
+      })),
+      delSubmit:()=>{
+        const names = ['Lê Minh Quân','Nguyễn Thanh Tùng','Phạm Thu Trang'];
+        const who = names[this.state.delWho ?? 1];
+        this.flash(V?('Đã kích hoạt ủy quyền cho '+who+' đến 27/09.'):('Delegation to '+who+' active until 27 Sep.'));
+      },
+      delActive: (V
+        ? [['PT','Phạm Thu Trang','14/09 — 18/09/2026','Chỉ đơn nghỉ phép và sửa công · hạn mức 20.000.000 ₫/đơn']]
+        : [['PT','Phạm Thu Trang','14 — 18 Sep 2026','Leave and attendance fixes only · 20,000,000 ₫ per request']]
+      ).map(a=>({ini:a[0],n:a[1],range:a[2],scope:a[3],
+        revoke:()=>this.flash(V?'Đã thu hồi. Các đơn chưa duyệt quay lại chờ bạn.':'Revoked. Pending requests return to you.')})),
+      delHistory: (V
+        ? [['Lê Minh Quân','20/08 — 30/08/2026','đã duyệt 12 đơn','Hoàn tất','ok'],
+           ['Nguyễn Thanh Tùng','05/07 — 12/07/2026','đã duyệt 7 đơn','Hoàn tất','ok'],
+           ['Phạm Thu Trang','18/05 — 25/05/2026','đã duyệt 3 đơn','Thu hồi sớm','err'],
+           ['Lê Minh Quân','02/02 — 09/02/2026','đã duyệt 15 đơn','Hoàn tất','ok']]
+        : [['Lê Minh Quân','20 — 30 Aug 2026','12 requests approved','Completed','ok'],
+           ['Nguyễn Thanh Tùng','5 — 12 Jul 2026','7 requests approved','Completed','ok'],
+           ['Phạm Thu Trang','18 — 25 May 2026','3 requests approved','Revoked early','err'],
+           ['Lê Minh Quân','2 — 9 Feb 2026','15 requests approved','Completed','ok']]
+      ).map(h=>({n:h[0],range:h[1],used:h[2],st:h[3],ink:t[h[4]],tint:mix(t[h[4]],14)})),
+      approveAll:()=>this.flash(V?'Đã duyệt 4 yêu cầu. Nhân viên và HR đã được thông báo.':'4 requests approved. Employees and HR notified.'),
+      L4: V
+        ? {roleTag:'GIÁM ĐỐC VẬN HÀNH',execGreet:'Chào chị Hà',finalWaiting:'CHỜ PHÊ DUYỆT CUỐI',finalSub:'Đã qua quản lý và HR',oldest:'Cũ nhất: 3 ngày · đơn công tác của Nam',
+           companyNow:'Toàn công ty hôm nay',needAttention:'Cần chú ý',byDept:'Theo bộ phận',
+           finalTitle:'Phê duyệt cuối',finalCaption:'Cấp cuối của chu trình · quyết định của bạn là kết thúc',
+           batchHint:'4 yêu cầu đã đủ ý kiến quản lý và HR.',approveAll:'Duyệt tất cả',budget:'NGÂN SÁCH',finalApprove:'PHÊ DUYỆT CUỐI'}
+        : {roleTag:'CHIEF OPERATING OFFICER',execGreet:'Good morning, Hà',finalWaiting:'AWAITING FINAL SIGN-OFF',finalSub:'Cleared by manager and HR',oldest:'Oldest: 3 days · Nam’s business trip',
+           companyNow:'Company today',needAttention:'Needs attention',byDept:'By department',
+           finalTitle:'Final approval',finalCaption:'Last tier of the chain · your call closes it',
+           batchHint:'4 requests already cleared manager and HR.',approveAll:'Approve all',budget:'BUDGET',finalApprove:'FINAL APPROVE'},
+      execStats: V
+        ? [{k:'CÓ MẶT HÔM NAY',v:'742',sub:'/ 812 nhân sự',c:t.tp},{k:'TỶ LỆ ĐÚNG GIỜ',v:'96%',sub:'tháng 9 · +2 điểm',c:t.okInk},
+           {k:'QUỸ LƯƠNG T9',v:'18,4 tỷ',sub:'dự toán 18,0 tỷ',c:t.accInk},{k:'NGHỈ VIỆC 12TH',v:'11,3%',sub:'ngưỡng 12%',c:t.okInk}]
+        : [{k:'PRESENT TODAY',v:'742',sub:'of 812 staff',c:t.tp},{k:'ON-TIME RATE',v:'96%',sub:'September · +2 pts',c:t.okInk},
+           {k:'SEP PAYROLL',v:'18.4bn',sub:'budget 18.0bn',c:t.accInk},{k:'12-MO ATTRITION',v:'11.3%',sub:'threshold 12%',c:t.okInk}],
+      execFlags: V
+        ? [{t:'Tăng ca vượt trần luật định',b:'14 nhân sự vượt 40 giờ tăng ca trong tháng 9 tại cửa hàng Q.3 và Q.7.',v:'14',c:t.errInk},
+           {t:'Khiếu nại quá hạn SLA',b:'Ba khiếu nại chấm công chưa phản hồi sau 5 ngày làm việc.',v:'3',c:t.errInk}]
+        : [{t:'Overtime above the statutory cap',b:'14 staff passed 40 overtime hours in September at District 3 and 7.',v:'14',c:t.errInk},
+           {t:'Grievances past SLA',b:'Three attendance complaints unanswered after five working days.',v:'3',c:t.errInk}],
+      execDepts: (V
+        ? [['Vận hành','512 người','97%',t.okInk,t.ok],['Chuỗi cung ứng','168 người','94%',t.okInk,t.ok],
+           ['Nhân sự','42 người','99%',t.okInk,t.ok],['Kinh doanh','90 người','89%',t.accInk,t.acc]]
+        : [['Operations','512 staff','97%',t.okInk,t.ok],['Supply chain','168 staff','94%',t.okInk,t.ok],
+           ['People & Culture','42 staff','99%',t.okInk,t.ok],['Sales','90 staff','89%',t.accInk,t.acc]]
+      ).map(d=>({l:d[0],n:d[1],v:d[2],pct:d[2],c:d[3],bar:d[4]})),
+      finalQueue: (V
+        ? [['TN','Trần Văn Nam','Giám sát cửa hàng','Vận hành','Công tác Hà Nội · 3 ngày','CHI PHÍ DỰ KIẾN','12.400.000 ₫','Trong hạn mức','Quá 3 ngày',t.err,
+            'Khảo sát hai mặt bằng mới tại Hà Nội. HR xác nhận đủ ngày công và không trùng lịch nghỉ.'],
+           ['PH','Phạm Thu Hương','Trưởng nhóm kho','Chuỗi cung ứng','Tăng ca kiểm kê · 6 cửa hàng','TỔNG GIỜ TĂNG CA','248 giờ','Vượt 2,2%','Vượt ngân sách',t.acc,
+            'Kiểm kê cuối quý cho 6 cửa hàng phía Nam. Quản lý và HR đã duyệt; phần vượt dự toán cần bạn quyết.'],
+           ['LD','Lý Quốc Dũng','Chuyên viên tuyển dụng','Nhân sự','Mở 4 vị trí ca tối','NGÂN SÁCH NĂM','1,86 tỷ ₫','Cần bổ sung','Thêm biên chế',t.pri,
+            'Bù ca tối cho cửa hàng Bình Dương. Vượt biên chế đã phê duyệt đầu năm nên cần chữ ký cấp cuối.'],
+           ['VA','Võ Thị Ánh','Quản lý cửa hàng','Vận hành','Nghỉ không lương · 15 ngày','NGÀY VẮNG MẶT','15 ngày','Cần người thay','Dài hạn',t.pri,
+            'Điều trị cho người thân tại quê. Quản lý vùng đã xếp người thay ca; nghỉ trên 10 ngày cần cấp cuối duyệt.']]
+        : [['TN','Trần Văn Nam','Store supervisor','Operations','Hanoi business trip · 3 days','ESTIMATED COST','12,400,000 ₫','Within limit','3+ days old',t.err,
+            'Site visit for two new Hanoi locations. HR confirms attendance is clear and no leave conflicts.'],
+           ['PH','Phạm Thu Hương','Warehouse lead','Supply chain','Stocktake overtime · 6 stores','TOTAL OVERTIME','248 hours','2.2% over','Over budget',t.acc,
+            'Quarter-end stocktake for six southern stores. Manager and HR approved; the budget overrun is your call.'],
+           ['LD','Lý Quốc Dũng','Recruiter','People & Culture','Open 4 evening roles','ANNUAL BUDGET','1.86bn ₫','Needs top-up','Headcount add',t.pri,
+            'Evening cover for the Binh Duong store. Exceeds the headcount signed off in January, so it needs final sign-off.'],
+           ['VA','Võ Thị Ánh','Store manager','Operations','Unpaid leave · 15 days','DAYS ABSENT','15 days','Cover needed','Long term',t.pri,
+            'Family medical care back home. The regional manager has arranged cover; leave over 10 days needs final sign-off.']]
+      ).map(x=>({
+        ini:x[0], name:x[1], role:x[2], dept:x[3], type:x[4], impactLabel:x[5], impact:x[6], budget:x[7],
+        tag:x[8], ink:x[9], tint:mix(x[9],14), bc: x[7].indexOf('Vượt')>-1||x[7].indexOf('over')>-1?t.acc:t.ok,
+        note:x[10],
+        chain: (V
+          ? [['Nhân viên gửi','13/09 · 09:24','done'],['Quản lý trực tiếp duyệt','13/09 · 16:02 · Lê Minh Quân','done'],['HR xác nhận','14/09 · 10:15 · Phạm Thu Trang','done'],['Giám đốc phê duyệt','Đang chờ bạn','now']]
+          : [['Employee submitted','13 Sep · 09:24','done'],['Line manager approved','13 Sep · 16:02 · Lê Minh Quân','done'],['HR verified','14 Sep · 10:15 · Phạm Thu Trang','done'],['Director sign-off','Waiting on you','now']]
+        ).map((c,i,arr)=>({
+          l:c[0], sub:c[1], ink: c[2]==='now'?t.acc:t.tp,
+          dot: c[2]==='now'?t.acc:t.ok, ring: c[2]==='now'?t.acc:t.ok,
+          bar: i===arr.length-1 ? 'transparent' : t.ok,
+          mark:{__html: c[2]==='now'
+            ? '<svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="'+t.onacc+'" stroke-width="4" stroke-linecap="round"><circle cx="12" cy="12" r="6" fill="'+t.onacc+'" stroke="none"/></svg>'
+            : '<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="4" stroke-linecap="round"><path d="M20 6 9 17l-5-5"/></svg>'}
+        })),
+        app:()=>this.flash(V?'Đã phê duyệt cuối. Chu trình kết thúc, HR sẽ thực hiện.':'Final approval recorded. The chain is closed; HR will execute.'),
+        rej:()=>this.flash(V?'Đã từ chối. Yêu cầu quay lại HR kèm ghi chú của bạn.':'Rejected. Sent back to HR with your note.')
+      })),
+      manualPunch, cancelFace,
+      faceDone: fp==='done', scanOn: fp==='scan'?1:0,
+      frameInk: fp==='done'?t.ok:(fp==='scan'?t.acc:'rgba(255,248,236,.55)'),
+      faceTitle: faceCopy[fp][0], faceBody: faceCopy[fp][1],
+      faceSteps: ['align','scan','done'].map((k,i)=>({c: (['align','scan','done'].indexOf(fp)>=i) ? (fp==='done'?t.ok:t.acc) : 'rgba(255,248,236,.28)'})),
+      L3: V
+        ? {title:'Chấm công bằng khuôn mặt',geo:'Cửa hàng Q.3 · đã xác thực vị trí',manual:'Chấm công không dùng khuôn mặt'}
+        : {title:'Face check-in',geo:'District 3 store · location verified',manual:'Check in without face scan'},
+      showNav:['home','attendance','calendar','requests','payroll','payslip','bonus','profile','settings','leave','overtime','correction','approvals','jobs','notifications','services','holidays','exec','final','risk','delegate'].includes(s),
+      goServices:()=>this.go('services'), goHolidays:()=>this.go('holidays'),
+      shiftTotal: V?'ca 9 giờ':'of a 9h shift',
+      ringDash: (()=>{const c=2*Math.PI*34, p=att==='out'?0:(att==='in'?0.69:1); return (c*p).toFixed(1)+' '+c.toFixed(1);})(),
+      statusInk: ['home','splash','facescan'].includes(s)?'#FFF8EC':t.tp,
+      netShown: this.state.payShown ? '25.500.000 ₫' : '•••••••• ₫',
+      togglePay: (e)=>{ if(e&&e.stopPropagation) e.stopPropagation(); this.setState(st=>({payShown:!st.payShown})); },
+      eyeIcon: {__html: this.state.payShown
+        ? '<svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7z"/><circle cx="12" cy="12" r="3"/></svg>'
+        : '<svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round"><path d="M10.6 5.2A9.6 9.6 0 0 1 12 5c6.5 0 10 7 10 7a18 18 0 0 1-2.4 3.3M6.6 6.8A18 18 0 0 0 2 12s3.5 7 10 7a9.8 9.8 0 0 0 4-.8"/><path d="M9.9 9.9a3 3 0 0 0 4.2 4.2M3 3l18 18"/></svg>'},
+      payHintText: this.state.payShown
+        ? (V?'Gồm thưởng KPI 2.500.000 ₫ · Xem chi tiết':'Includes 2,500,000 ₫ KPI bonus · See breakdown')
+        : (V?'Bấm vào mắt để xem · Xem phiếu lương':'Tap the eye to reveal · See payslip'),
+      outInk: att==='done'?t.tp:'#9AA3AE',
+      ctaShort: att==='out'?(V?'CHẤM VÀO':'CHECK IN'):(att==='in'?(V?'CHẤM RA':'CHECK OUT'):(V?'XONG CA':'CLOSED')),
+      L2: V
+        ? {storeName:'Cửa hàng Q.3',workedLabel:'GIỜ ĐÃ LÀM HÔM NAY',allShort:'Tất cả',allServices:'Xem tất cả dịch vụ',services:'Tất cả dịch vụ',svcSearch:'Tìm dịch vụ, biểu mẫu…',allLinks:'Liên kết khác',dailyLog:'Nhật ký từng ngày',attRate:'ngày công',holidays:'Ngày lễ',holidayYear:'Năm 2026',downloadSlip:'Tải phiếu lương (PDF)',paidDays:'ngày công tính lương',managedHr:'Do HR quản lý',managedHrSub:'Cần đổi thông tin? Gửi yêu cầu để HR cập nhật.',requestChange:'Gửi yêu cầu đổi thông tin',hoursShort:'giờ',noShift:'Không có ca'}
+        : {storeName:'District 3 store',workedLabel:'WORKED TODAY',allShort:'All',allServices:'See all services',services:'All services',svcSearch:'Search a service or form…',allLinks:'Other links',dailyLog:'Daily log',attRate:'days present',holidays:'Holidays',holidayYear:'Year 2026',downloadSlip:'Download payslip (PDF)',paidDays:'paid days',managedHr:'Managed by HR',managedHrSub:'Need a change? Send a request and HR will update it.',requestChange:'Request a change',hoursShort:'hours',noShift:'No shift'},
+      qa5: (V
+        ? [['Nghỉ phép','cal','leave',null],['Tăng ca','clock','overtime',null],['Sửa công','edit','correction','1'],['Phiếu lương','slip','payslip',null]]
+        : [['Leave','cal','leave',null],['Overtime','clock','overtime',null],['Fix','edit','correction','1'],['Payslip','slip','payslip',null]]
+      ).map(x=>({
+        l:x[0], badge:x[3], ink:x[3]?t.err:t.pri, bd:x[3]?t.err:t.line, bg:t.sf,
+        icon:{__html:'<svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">'+QIC[x[1]]+'</svg>'},
+        on:()=>this.go(x[2])
+      })),
+      qa: (V
+        ? [['Chấm công','Vào / ra ca','att','pri'],['Xin nghỉ phép','Còn 6 ngày','cal','acc'],['Phiếu lương','Tháng 9 đã có','slip','pri'],['Tăng ca','12h tháng này','clock','acc'],['Sửa công','1 ngày thiếu giờ','edit','err'],['Thưởng','+2.500.000 ₫','star','ok']]
+        : [['Punch','Check in / out','att','pri'],['Request leave','6 days left','cal','acc'],['Payslip','September ready','slip','pri'],['Overtime','12h this month','clock','acc'],['Fix attendance','1 day incomplete','edit','err'],['Bonus','+2,500,000 ₫','star','ok']]
+      ).map((x,i)=>({
+        l:x[0], sub:x[1], tint:mix(t[x[3]],14), ink:t[x[3]],
+        icon:{__html:'<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round">'+QIC[x[2]]+'</svg>'},
+        on:[()=>this.go('attendance'),()=>this.go('leave'),()=>this.go('payslip'),()=>this.go('overtime'),()=>this.go('correction'),()=>this.go('bonus')][i]
+      })),
+      svcGroups: (V
+        ? [['Chấm công & thời gian',[['Chấm công vào/ra','att','attendance'],['Lịch công tháng','cal','calendar'],['Nhật ký từng ngày','list','attendance'],['Ngày lễ trong năm','flag','holidays']]],
+           ['Đơn từ',[['Xin nghỉ phép','cal','leave'],['Đăng ký tăng ca','clock','overtime'],['Sửa công','edit','correction'],['Theo dõi yêu cầu','list','requests']]],
+           ['Lương & thưởng',[['Bảng lương tháng','pay','payroll'],['Phiếu lương','slip','payslip'],['Thưởng & ghi nhận','star','bonus'],['Phụ cấp','pay','payroll']]],
+           ['Nghề nghiệp & hồ sơ',[['Tuyển dụng nội bộ','user','jobs'],['Hồ sơ cá nhân','user','profile'],['Cài đặt','set','settings'],['Phê duyệt','check','approvals']]]]
+        : [['Attendance & time',[['Check in / out','att','attendance'],['Monthly calendar','cal','calendar'],['Daily log','list','attendance'],['Holidays','flag','holidays']]],
+           ['Requests',[['Request leave','cal','leave'],['Log overtime','clock','overtime'],['Attendance fix','edit','correction'],['Track requests','list','requests']]],
+           ['Pay & rewards',[['Monthly payroll','pay','payroll'],['Payslip','slip','payslip'],['Bonus & recognition','star','bonus'],['Allowances','pay','payroll']]],
+           ['Career & profile',[['Internal openings','user','jobs'],['My profile','user','profile'],['Settings','set','settings'],['Approvals','check','approvals']]]]
+      ).map(g=>({t:g[0],items:g[1].map(it=>({
+        l:it[0], icon:{__html:'<svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">'+QIC[it[1]]+'</svg>'},
+        on:()=>this.go(it[2])
+      }))})),
+      donut: (()=>{const c=2*Math.PI*42, seg=[[18,t.ok],[2,t.acc],[1,t.err],[1,t.pri]]; let acc=0;
+        return seg.map(s=>{const len=c*s[0]/22; const o=-acc; acc+=len; return {c:s[1],dash:len.toFixed(1)+' '+c.toFixed(1),off:o.toFixed(1)};});})(),
+      donutLegend: V
+        ? [{l:'Có mặt',v:'18 ngày',c:t.ok},{l:'Nghỉ phép',v:'2 ngày',c:t.acc},{l:'Thiếu công',v:'1 ngày',c:t.err},{l:'Ngày lễ',v:'1 ngày',c:t.pri}]
+        : [{l:'Present',v:'18 days',c:t.ok},{l:'Leave',v:'2 days',c:t.acc},{l:'Missing',v:'1 day',c:t.err},{l:'Holiday',v:'1 day',c:t.pri}],
+      dailyLog: (V
+        ? [['16','T4','Đang làm','07:56 — …','—',t.pri],['15','T3','Thiếu giờ ra','08:01 — —','—',t.err],['14','T2','Đủ công','07:58 — 17:02','8h 04',t.ok],['13','CN','Nghỉ tuần','Không có ca','0h 00',t.ts],['12','T7','Đủ công · TC 3h','07:55 — 21:00','11h 05',t.ok],['11','T6','Đi muộn 12 phút','08:12 — 17:05','7h 53',t.acc]]
+        : [['16','We','In progress','07:56 — …','—',t.pri],['15','Tu','No check-out','08:01 — —','—',t.err],['14','Mo','Complete','07:58 — 17:02','8h 04',t.ok],['13','Su','Week off','No shift','0h 00',t.ts],['12','Sa','Complete · OT 3h','07:55 — 21:00','11h 05',t.ok],['11','Fr','Late 12 min','08:12 — 17:05','7h 53',t.acc]]
+      ).map(x=>({d:x[0],dow:x[1],st:x[2],span:x[3],h:x[4],c:x[5],tint:mix(x[5],13)})),
+      holStats: V
+        ? [{n:'14',l:'Ngày lễ'},{n:'3',l:'Nghỉ bù'},{n:'2',l:'Tự chọn'}]
+        : [{n:'14',l:'Public'},{n:'3',l:'In lieu'},{n:'2',l:'Optional'}],
+      holidays: (V
+        ? [['02','TH9','Quốc khánh','Thứ Tư','Ngày lễ','ok'],['30','TH4','Giải phóng miền Nam','Thứ Năm','Ngày lễ','ok'],['01','TH5','Quốc tế Lao động','Thứ Sáu','Ngày lễ','ok'],['24','TH12','Giáng sinh','Thứ Năm','Tự chọn','acc'],['17','TH2','Tết Nguyên đán','Thứ Ba','Ngày lễ','ok']]
+        : [['02','SEP','National Day','Wednesday','Public','ok'],['30','APR','Reunification Day','Thursday','Public','ok'],['01','MAY','Labour Day','Friday','Public','ok'],['24','DEC','Christmas Eve','Thursday','Optional','acc'],['17','FEB','Lunar New Year','Tuesday','Public','ok']]
+      ).map(x=>({d:x[0],mo:x[1],l:x[2],dow:x[3],tag:x[4],ink:t[x[5]],tint:mix(t[x[5]],14)})),
+      isManager:mgr,
+      dateLong: V?'Thứ Tư, 16 tháng 9':'Wednesday, 16 September',
+      clock: att==='out'?'07:42':(att==='in'?'14:08':'17:34'),
+      worked: att==='out'?'0h 00m':(att==='in'?'6h 12m':'8h 34m'),
+      workedPct: att==='out'?'0%':(att==='in'?'69%':'100%'),
+      inTime: att==='out'?'—':'07:56',
+      outTime: att==='done'?'17:34':'—',
+      ctaLabel: cur[4], ctaBg: att==='done'?'rgba(255,255,255,.16)':t.acc, ctaFg: att==='done'?t.onpri:t.onacc,
+      ctaBg2: att==='done'?t.sf2:t.acc, ctaFg2: att==='done'?t.ts:t.onacc,
+      stateLabel:cur[0], stateTint:cur[1], stateInk:cur[2], stateHint:cur[3],
+      errTint:erT, warnTint:acT,
+      punch, back:()=>this.pop(), login:()=>this.setState({screen:'home',hist:[]}), logout:()=>this.setState({screen:'login',hist:[]}),
+      goHome:()=>this.setState({screen:'home',hist:[]}),
+      goNotif:()=>this.go('notifications'), goLeave:()=>this.go('leave'), goCorrection:()=>this.go('correction'),
+      goOvertime:()=>this.go('overtime'), goPayslip:()=>this.go('payslip'), goPayroll:()=>this.go('payroll'),
+      goCalendar:()=>this.go('calendar'), goBonus:()=>this.go('bonus'), goJob:()=>this.go('job'),
+      goApprovals:()=>this.go(exec?'final':'approvals'), goSettings:()=>this.go('settings'),
+      submit:()=>this.go('success'),
+      openSheet:()=>this.setState({sheet:true}), closeSheet:()=>this.setState({sheet:false}), sheetOpen:this.state.sheet,
+      toast:this.state.toast, toastBg:t.pri,
+      nav, feed:[
+        {mark:'P',title:notifs[0].title,time:V?'2 giờ trước':'2 hours ago'},
+        {mark:'L',title:V?'Phiếu lương tháng 9 đã có.':'September payslip is ready.',time:V?'Hôm qua':'Yesterday'}
+      ],
+      net:'25.500.000 ₫',
+      todayRows: V
+        ? [{k:'Giờ vào',v:att==='out'?'—':'07:56',c:t.tp},{k:'Giờ ra',v:att==='done'?'17:34':'—',c:t.tp},{k:'Đi muộn',v:'0 phút',c:t.ok},{k:'Tăng ca',v:att==='done'?'34 phút':'—',c:t.acc}]
+        : [{k:'Check-in',v:att==='out'?'—':'07:56',c:t.tp},{k:'Check-out',v:att==='done'?'17:34':'—',c:t.tp},{k:'Late',v:'0 min',c:t.ok},{k:'Overtime',v:att==='done'?'34 min':'—',c:t.acc}],
+      week: [
+        {dow:dows[0],day:'14',span:'07:58 — 17:02',...badge(wkTag.ok,okT,t.ok)},
+        {dow:dows[1],day:'15',span:'08:01 — —',...badge(wkTag.miss,erT,t.err)},
+        {dow:dows[2],day:'16',span:att==='done'?'07:56 — 17:34':'07:56 — …',...badge(att==='done'?wkTag.ok:wkTag.now,prT,t.pri)},
+        {dow:dows[3],day:'17',span:'08:12 — 17:05',...badge(wkTag.late,acT,t.acc)},
+        {dow:dows[4],day:'18',span:V?'Nghỉ phép':'Annual leave',...badge(wkTag.leave,acT,t.acc)}
+      ].map(x=>({dow:x.dow,day:x.day,span:x.span,tag:x.l,tint:x.tint,ink:x.ink})),
+      dows, cal,
+      legend: V
+        ? [{l:'Có mặt',c:t.ok},{l:'Nghỉ phép',c:t.acc},{l:'Thiếu công',c:t.err},{l:'Ngày lễ',c:t.pri},{l:'Cuối tuần',c:t.ts}]
+        : [{l:'Present',c:t.ok},{l:'Leave',c:t.acc},{l:'Missing',c:t.err},{l:'Holiday',c:t.pri},{l:'Weekend',c:t.ts}],
+      monthRows: V
+        ? [{k:'Ngày công',v:'18 / 22',c:t.tp},{k:'Giờ làm',v:'148h 20m',c:t.tp},{k:'Tăng ca',v:'12h 00m',c:t.acc},{k:'Đi muộn',v:'1 lần · 12 phút',c:t.acc},{k:'Thiếu công',v:'1 ngày',c:t.err}]
+        : [{k:'Working days',v:'18 / 22',c:t.tp},{k:'Hours worked',v:'148h 20m',c:t.tp},{k:'Overtime',v:'12h 00m',c:t.acc},{k:'Late',v:'1 time · 12 min',c:t.acc},{k:'Missing',v:'1 day',c:t.err}],
+      reqTabs, reqList, reqEmpty:reqList.length===0,
+      leaveTypes, issues, steps3,
+      otHist: [
+        {d:'12/09/2026',span:'18:00 — 21:00',h:'3h',s:ST.approved,tint:okT,ink:t.ok},
+        {d:'05/09/2026',span:'18:00 — 22:00',h:'4h',s:ST.approved,tint:okT,ink:t.ok},
+        {d:'29/08/2026',span:'18:00 — 21:00',h:'3h',s:ST.approved,tint:okT,ink:t.ok},
+        {d:'22/08/2026',span:'18:00 — 20:00',h:'2h',s:ST.rejected,tint:erT,ink:t.err}
+      ],
+      payRows: V
+        ? [{k:'Lương cơ bản',v:'20.000.000',c:t.tp},{k:'Phụ cấp',v:'1.200.000',c:t.tp},{k:'Tăng ca',v:'1.800.000',c:t.tp},{k:'Thưởng',v:'+2.500.000',c:t.ok},{k:'Bảo hiểm',v:'−2.135.000',c:t.err},{k:'Thuế TNCN',v:'−865.000',c:t.err}]
+        : [{k:'Base salary',v:'20,000,000',c:t.tp},{k:'Allowances',v:'1,200,000',c:t.tp},{k:'Overtime',v:'1,800,000',c:t.tp},{k:'Bonus',v:'+2,500,000',c:t.ok},{k:'Insurance',v:'−2,135,000',c:t.err},{k:'Income tax',v:'−865,000',c:t.err}],
+      payHist: V
+        ? [{m:'Tháng 8 2026',sub:'Trả 05/09',v:'24.800.000'},{m:'Tháng 7 2026',sub:'Trả 05/08',v:'24.500.000'},{m:'Tháng 6 2026',sub:'Trả 05/07',v:'24.500.000'}]
+        : [{m:'August 2026',sub:'Paid 5 Sep',v:'24,800,000'},{m:'July 2026',sub:'Paid 5 Aug',v:'24,500,000'},{m:'June 2026',sub:'Paid 5 Jul',v:'24,500,000'}],
+      earnRows: V
+        ? [{k:'Lương cơ bản',v:'20.000.000'},{k:'Phụ cấp ăn trưa & xe',v:'1.200.000'},{k:'Tăng ca 12h (x1.5)',v:'1.800.000'},{k:'Thưởng KPI quý 3',v:'2.500.000'}]
+        : [{k:'Base salary',v:'20,000,000'},{k:'Meal & transport allowance',v:'1,200,000'},{k:'Overtime 12h (x1.5)',v:'1,800,000'},{k:'Q3 KPI bonus',v:'2,500,000'}],
+      dedRows: V
+        ? [{k:'BHXH, BHYT, BHTN (10.5%)',v:'−2.135.000'},{k:'Thuế TNCN',v:'−865.000'},{k:'Phí đoàn thể',v:'−0'}]
+        : [{k:'Social & health insurance (10.5%)',v:'−2,135,000'},{k:'Personal income tax',v:'−865,000'},{k:'Union fee',v:'−0'}],
+      bonusKinds: V
+        ? [{k:'Thưởng tháng',v:'1.000.000'},{k:'Thưởng KPI',v:'1.500.000'},{k:'Tổng năm 2026',v:'11.300.000'},{k:'Ghi nhận nội bộ',v:'4 lần'}]
+        : [{k:'Monthly bonus',v:'1,000,000'},{k:'KPI bonus',v:'1,500,000'},{k:'2026 total',v:'11,300,000'},{k:'Peer recognition',v:'4 times'}],
+      bonusHist: V
+        ? [{m:'Tháng 9 2026',k:'KPI quý 3 + thưởng tháng',v:'+2.500.000'},{m:'Tháng 8 2026',k:'Thưởng tháng',v:'+1.500.000'},{m:'Tháng 7 2026',k:'Thưởng tháng',v:'+1.000.000'},{m:'Tháng 6 2026',k:'KPI quý 2',v:'+2.200.000'}]
+        : [{m:'September 2026',k:'Q3 KPI + monthly',v:'+2,500,000'},{m:'August 2026',k:'Monthly bonus',v:'+1,500,000'},{m:'July 2026',k:'Monthly bonus',v:'+1,000,000'},{m:'June 2026',k:'Q2 KPI',v:'+2,200,000'}],
+      jobs: V
+        ? [{title:'Quản lý cửa hàng',dept:'Vận hành · Báo cáo cho Giám đốc vùng',loc:'Hồ Chí Minh',type:'Toàn thời gian',close:'Hạn 30/09',isNew:true},
+           {title:'Chuyên viên Đào tạo',dept:'Nhân sự',loc:'Hồ Chí Minh',type:'Toàn thời gian',close:'Hạn 05/10',isNew:true},
+           {title:'Giám sát kho',dept:'Chuỗi cung ứng',loc:'Bình Dương',type:'Toàn thời gian',close:'Hạn 12/10',isNew:false},
+           {title:'Nhân viên thu ngân cấp cao',dept:'Vận hành',loc:'Hà Nội',type:'Bán thời gian',close:'Hạn 20/10',isNew:false}]
+        : [{title:'Store Manager',dept:'Operations · Reports to Regional Director',loc:'Ho Chi Minh',type:'Full-time',close:'By 30 Sep',isNew:true},
+           {title:'Training Specialist',dept:'People & Culture',loc:'Ho Chi Minh',type:'Full-time',close:'By 5 Oct',isNew:true},
+           {title:'Warehouse Supervisor',dept:'Supply Chain',loc:'Binh Duong',type:'Full-time',close:'By 12 Oct',isNew:false},
+           {title:'Senior Cashier',dept:'Operations',loc:'Hanoi',type:'Part-time',close:'By 20 Oct',isNew:false}].map(j=>j),
+      jobSections: V
+        ? [{t:'Mô tả công việc',items:['Chịu trách nhiệm doanh thu và vận hành hàng ngày của một cửa hàng 25 nhân sự.','Xây dựng lịch làm việc, đảm bảo đủ người trong giờ cao điểm.','Phối hợp với Marketing cho các chương trình khuyến mãi tại điểm bán.']},
+           {t:'Yêu cầu',items:['Tối thiểu 2 năm ở vị trí giám sát trong bán lẻ.','Đã từng quản lý ngân sách và chỉ tiêu doanh thu.','Thành thạo tiếng Việt; tiếng Anh cơ bản là lợi thế.']},
+           {t:'Phúc lợi',items:['Phụ cấp quản lý 3.000.000 ₫/tháng.','Thưởng theo doanh thu cửa hàng, xét hàng quý.','Lộ trình lên Giám đốc vùng trong 3 năm.']}]
+        : [{t:'About the role',items:['Own daily operations and revenue for a 25-person store.','Build the shift roster and keep peak hours properly covered.','Work with Marketing on in-store promotions.']},
+           {t:'Requirements',items:['At least 2 years in a retail supervisory role.','Experience owning a budget and revenue target.','Fluent Vietnamese; working English is a plus.']},
+           {t:'Benefits',items:['Management allowance of 3,000,000 ₫ per month.','Store revenue bonus, reviewed quarterly.','Path to Regional Director within three years.']}],
+      notifs, notifTabs, profileGroups, profileLinks, setGroups,
+      apprStats: V?[{n:'3',l:'Nghỉ phép'},{n:'2',l:'Sửa công'},{n:'4',l:'Tăng ca'}]:[{n:'3',l:'Leave'},{n:'2',l:'Corrections'},{n:'4',l:'Overtime'}],
+      approvals,
+      sheetItems: (V
+        ? [['P','Nghỉ phép','Còn 6 ngày phép năm','leave'],['T','Tăng ca','Cần quản lý duyệt trước','overtime'],['S','Sửa công','1 ngày đang thiếu giờ ra','correction'],['C','Công tác','Kèm dự toán chi phí','leave']]
+        : [['P','Leave','6 annual days left','leave'],['T','Overtime','Needs manager approval first','overtime'],['S','Attendance fix','1 day missing a check-out','correction'],['C','Business trip','Include an expense estimate','leave']]
+      ).map(x=>({mark:x[0],l:x[1],sub:x[2],on:()=>this.go(x[3])}))
+    };
+  }
+}
+
+</script>
+</body>
+</html>
