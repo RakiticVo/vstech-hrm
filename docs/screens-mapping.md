@@ -55,6 +55,8 @@
 
 **Việc cần làm trước khi code 3 mục trên**: hỏi người dùng — thiết kế thêm màn mới theo đúng design system (dùng `docs/design-system.md`), hay tạm thời dùng UI tối giản (list/form chuẩn Material, chưa cần đúng thẩm mỹ Gạch bông) để không chặn tiến độ P0.
 
-## D. Screens dùng `Phone.dc.html` — file gốc chưa được cung cấp
+## D. Nguồn gốc thiết kế — `docs/source/`
 
-Cả 2 file trình bày (`HRM Employee App.dc.html`, `-print.dc.html`) đều `<dc-import>` từ 1 file `Phone.dc.html` chứa markup/CSS/logic thật của cả 29 màn — file này **chưa có** trong những gì người dùng gửi. `docs/design-system.md` đã tổng hợp đủ token (màu, type, spacing, component spec) từ `DESIGN.md` để bắt đầu code, nhưng khi cần đối chiếu pixel-perfect một chi tiết cụ thể của 1 màn (bố cục chính xác, animation, copy chính xác từng dòng), **hỏi người dùng xin thêm `Phone.dc.html`** thay vì tự suy đoán.
+Các file gốc nằm ở [docs/source/](source/): `DESIGN.md`, `Phone.dc.html` (markup/CSS/logic thật của cả 29 màn, ~190 KB), 2 file trình bày `HRM Employee App.dc.html` / `-print.dc.html` (đều `<dc-import>` từ `Phone.dc.html`), và PDF danh sách chức năng.
+
+`docs/design-system.md` được tổng hợp từ `DESIGN.md` + 2 file trình bày; **`Phone.dc.html` chưa được review chi tiết** khi viết tài liệu. Khi làm 1 màn cụ thể, đối chiếu lại markup gốc của màn đó (bố cục chính xác, animation, copy từng dòng) thay vì suy đoán. Lưu ý: các file gốc dùng Manrope/Lucide, còn code Flutter dùng Source Sans 3/Material Symbols theo quyết định đã chốt.

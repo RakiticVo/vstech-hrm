@@ -30,7 +30,7 @@ B2B SaaS HRM mobile app, module **Employee App** (ứng dụng cho nhân viên/q
 - **Đã loại khỏi P0 hiện tại**: Chấm công ngoại tuyến / hàng đợi offline — tạm hoãn, xem [docs/prd.md](docs/prd.md).
 - **Loại hình triển khai**: single-tenant (1 doanh nghiệp) trước, nhưng kiến trúc dữ liệu để mở cho multi-tenant sau (không hardcode giả định chỉ có 1 công ty ở tầng domain).
 - **Repo này** chỉ chứa **mobile app (Flutter)**. Backend là repo/team riêng, đang phát triển song song, **chưa có OpenAPI/Swagger chính thức** → xem [docs/api-contract.md](docs/api-contract.md) cho hợp đồng API kỳ vọng mà mobile team tự định nghĩa.
-- **Nguồn thiết kế UI**: `DESIGN.md` gốc (hướng "Gạch bông/Saigon tile") + 2 file trình bày `HRM Employee App.dc.html` / `HRM Employee App-print.dc.html` — đã tổng hợp lại vào [docs/design-system.md](docs/design-system.md). File `Phone.dc.html` (markup thật từng màn) **chưa có** — khi cần chi tiết pixel-level một màn cụ thể, hỏi người dùng trước khi đoán.
+- **Nguồn thiết kế UI**: `DESIGN.md` gốc (hướng "Gạch bông/Saigon tile") + 2 file trình bày `HRM Employee App.dc.html` / `HRM Employee App-print.dc.html` — đã tổng hợp lại vào [docs/design-system.md](docs/design-system.md). Toàn bộ file gốc (kể cả `Phone.dc.html` — markup thật 29 màn) nằm ở [docs/source/](docs/source/) cùng PDF chức năng; khi cần chi tiết pixel-level một màn cụ thể, đọc `docs/source/Phone.dc.html` thay vì đoán. Lưu ý các file gốc vẫn ghi Manrope/Lucide — theo quyết định đã chốt, code Flutter dùng Source Sans 3/Material Symbols.
 - **Đối chiếu 29 màn hình thiết kế ↔ 25 chức năng P0**: có khoảng lệch (một số màn trong design thuộc P1/P2, một số chức năng P0 chưa có màn thiết kế) — xem bảng đối chiếu ở [docs/screens-mapping.md](docs/screens-mapping.md) trước khi bắt đầu bất kỳ màn hình nào.
 
 ## 2. Người dùng & vai trò
@@ -150,7 +150,7 @@ Nguyên tắc phụ thuộc: `presentation → domain ← data`. `domain` không
 
 ## 10. Việc còn thiếu / cần quyết định thêm
 
-- `Phone.dc.html` (markup thật 29 màn) chưa có — khi làm màn cụ thể mà thiếu chi tiết pixel-level, hỏi người dùng thay vì đoán.
+- `docs/source/Phone.dc.html` (markup thật 29 màn) đã có trong repo nhưng chưa được review chi tiết khi viết `docs/design-system.md` — khi làm 1 màn cụ thể, đối chiếu lại markup gốc của màn đó để bắt các chi tiết pixel-level.
 - Chưa có API docs từ backend — `docs/api-contract.md` là kỳ vọng của mobile team, cần đối chiếu lại khi backend công bố OpenAPI thật.
 - Logo/app icon chính thức chưa có.
 - Đã hoãn: Chấm công ngoại tuyến (offline queue). Không build cho tới khi có quyết định mới.

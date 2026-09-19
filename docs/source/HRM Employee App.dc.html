@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<meta name="design_doc_mode" content="canvas">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap">
+<style>
+body{margin:0;background:#EDF0F3;font-family:Manrope,system-ui,sans-serif}
+a{color:#0F766E}a:hover{color:#14B8A6}
+</style>
+</helmet>
+
+<div style="min-height:100vh;background:{{ pageBg }};color:{{ ink }};padding:34px 38px 70px">
+
+  <div style="display:flex;align-items:flex-end;gap:26px;flex-wrap:wrap;margin-bottom:8px">
+    <div style="flex:1;min-width:280px">
+      <div style="font-size:11px;font-weight:800;letter-spacing:1.4px;color:{{ muted }}">HRM · MOBILE · 390×844</div>
+      <div style="font-size:30px;font-weight:800;letter-spacing:-.8px;margin-top:7px">{{ title }}</div>
+      <div style="font-size:14px;font-weight:500;color:{{ muted }};margin-top:8px;max-width:620px;line-height:1.55">{{ subtitle }}</div>
+    </div>
+    <div style="display:flex;gap:10px;flex-wrap:wrap">
+      <sc-for list="{{ controls }}" as="c" hint-placeholder-count="4">
+        <div style="background:{{ cardBg }};border:1px solid {{ lineC }};border-radius:14px;padding:9px 11px">
+          <div style="font-size:9.5px;font-weight:800;letter-spacing:.9px;color:{{ muted }};margin-bottom:7px">{{ c.k }}</div>
+          <div style="display:flex;gap:4px">
+            <sc-for list="{{ c.opts }}" as="o" hint-placeholder-count="2">
+              <div onClick="{{ o.on }}" style="padding:6px 11px;border-radius:9px;font-size:12px;font-weight:700;cursor:pointer;background:{{ o.bg }};color:{{ o.fg }}">{{ o.l }}</div>
+            </sc-for>
+          </div>
+        </div>
+      </sc-for>
+    </div>
+  </div>
+
+  <!-- live prototype -->
+  <div style="display:flex;gap:34px;flex-wrap:wrap;align-items:flex-start;margin-top:30px;padding-bottom:34px;border-bottom:1px solid {{ lineC }}">
+    <div>
+      <div style="font-size:11px;font-weight:800;letter-spacing:1.1px;color:{{ muted }};margin-bottom:12px">{{ liveLabel }}</div>
+      <div style="width:414px;height:868px;border-radius:56px;background:{{ bezel }};padding:12px;box-shadow:0 26px 60px rgba(15,23,42,.22)">
+        <dc-import name="Phone" screen="home" lang="{{ lang }}" theme="{{ theme }}" role="{{ role }}" att="{{ att }}" hint-size="390px,844px"></dc-import>
+      </div>
+    </div>
+    <div style="flex:1;min-width:300px;max-width:440px;display:flex;flex-direction:column;gap:14px">
+      <sc-for list="{{ notes }}" as="n" hint-placeholder-count="4">
+        <div style="background:{{ cardBg }};border:1px solid {{ lineC }};border-radius:16px;padding:16px 18px">
+          <div style="font-size:12.5px;font-weight:800;color:#0F766E;letter-spacing:.2px">{{ n.t }}</div>
+          <div style="font-size:13px;font-weight:500;color:{{ muted }};line-height:1.6;margin-top:6px">{{ n.b }}</div>
+        </div>
+      </sc-for>
+    </div>
+  </div>
+
+  <!-- screen board -->
+  <div style="margin-top:34px">
+    <div style="font-size:11px;font-weight:800;letter-spacing:1.1px;color:{{ muted }};margin-bottom:4px">{{ boardLabel }}</div>
+    <div style="font-size:13px;font-weight:500;color:{{ muted }};margin-bottom:22px">{{ boardSub }}</div>
+    <div style="display:flex;flex-wrap:wrap;gap:26px">
+      <sc-for list="{{ board }}" as="b" hint-placeholder-count="22">
+        <div style="width:266px">
+          <div style="display:flex;align-items:baseline;gap:8px;margin-bottom:9px">
+            <div style="font-size:10px;font-weight:800;font-variant-numeric:tabular-nums;background:{{ chipBg }};color:{{ chipFg }};padding:3px 6px;border-radius:5px">{{ b.n }}</div>
+            <div style="font-size:12.5px;font-weight:800">{{ b.l }}</div>
+          </div>
+          <div style="width:266px;height:576px;border-radius:32px;overflow:hidden;background:{{ bezel }};box-shadow:0 6px 18px rgba(15,23,42,.12)">
+            <div style="width:390px;height:844px;transform:scale(.6821);transform-origin:top left;border-radius:44px;overflow:hidden">
+              <dc-import name="Phone" screen="{{ b.s }}" lang="{{ lang }}" theme="{{ theme }}" role="{{ b.role }}" att="{{ b.att }}" hint-size="390px,844px"></dc-import>
+            </div>
+          </div>
+          <div style="font-size:11.5px;font-weight:500;color:{{ muted }};line-height:1.5;margin-top:9px">{{ b.d }}</div>
+        </div>
+      </sc-for>
+    </div>
+  </div>
+
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{}">
+class Component extends DCLogic {
+  state = {lang:'vi', theme:'light', role:'manager', att:'in'};
+
+  renderVals(){
+    const V = this.state.lang==='vi';
+    const dark = this.state.theme==='dark';
+    const pageBg = dark?'#0B1220':'#EDEAE2';
+    const cardBg = dark?'#151E2E':'#FFFFFF';
+    const lineC = dark?'#24304A':'#DCD7CC';
+    const ink = dark?'#F8FAFC':'#111827';
+    const muted = dark?'#94A3B8':'#5B6572';
+
+    const set=(k,v)=>()=>this.setState({[k]:v});
+    const opt=(l,active,on)=>({l,on,bg:active?'#0A544E':(dark?'#1E293B':'#F0EDE5'),fg:active?'#FFF8EC':muted});
+
+    const controls = [
+      {k:V?'NGÔN NGỮ':'LANGUAGE',opts:[opt('VI',V,set('lang','vi')),opt('EN',!V,set('lang','en'))]},
+      {k:V?'GIAO DIỆN':'THEME',opts:[opt(V?'Sáng':'Light',!dark,set('theme','light')),opt(V?'Tối':'Dark',dark,set('theme','dark'))]},
+      {k:V?'VAI TRÒ':'ROLE',opts:[opt(V?'Nhân viên':'Employee',this.state.role==='employee',set('role','employee')),opt(V?'Quản lý':'Manager',this.state.role==='manager',set('role','manager')),opt(V?'Giám đốc':'C-level',this.state.role==='exec',set('role','exec'))]},
+      {k:V?'TRẠNG THÁI CÔNG':'ATTENDANCE',opts:[opt(V?'Chưa vào':'Not in',this.state.att==='out',set('att','out')),opt(V?'Đang làm':'In',this.state.att==='in',set('att','in')),opt(V?'Xong':'Done',this.state.att==='done',set('att','done'))]}
+    ];
+
+    const B = V
+      ? [['Splash','splash','Màn hình mở app, 1.2 giây.'],
+         ['Đăng nhập','login','Mã nhân viên + Face ID. Không có form dài.'],
+         ['Trang chủ','home','Ca hôm nay, giờ đã làm, CTA chấm công nổi bật nhất.'],
+         ['Tất cả dịch vụ','services','Lưới icon theo nhóm — mọi thứ còn lại nằm sau một lần bấm.'],
+         ['Chấm công','attendance','Vòng tổng hợp tháng + nhật ký từng ngày.'],
+         ['Quét khuôn mặt','facescan','Ba bước: vào khung → nhận diện → xác thực. Có đường thoát thủ công.'],
+         ['Lịch công tháng','calendar','Chỉ 5 màu trạng thái, không biểu đồ.'],
+         ['Ngày lễ','holidays','Lịch nghỉ cả năm, tách khỏi lịch công.'],
+         ['Trung tâm yêu cầu','requests','Mọi yêu cầu một chỗ, kèm tiến độ duyệt.'],
+         ['Xin nghỉ phép','leave','Số ngày tự tính, cảnh báo trùng lịch.'],
+         ['Tăng ca','overtime','Đăng ký + lịch sử trên cùng màn hình.'],
+         ['Sửa công','correction','3 bước: ngày → vấn đề → giải trình.'],
+         ['Lương','payroll','Thực nhận trước, chi tiết sau.'],
+         ['Phiếu lương','payslip','Tách thu nhập và khoản trừ.'],
+         ['Thưởng','bonus','Nêu rõ vì sao được thưởng.'],
+         ['Tuyển dụng nội bộ','jobs','Tách khỏi luồng công/lương hàng ngày.'],
+         ['Chi tiết vị trí','job','CTA ứng tuyển cố định dưới màn hình.'],
+         ['Thông báo','notifications','Có nhóm, dấu chưa đọc, bấm là đi tới màn hình liên quan.'],
+         ['Cá nhân','profile','Nhóm danh sách, không đổ hết dữ liệu.'],
+         ['Phê duyệt (quản lý)','approvals','Duyệt/từ chối ngay trên thẻ.'],
+         ['Bảng điều hành (giám đốc)','exec','Số toàn công ty, việc cần chú ý, tình hình theo bộ phận.'],
+         ['Phê duyệt cuối (giám đốc)','final','Cấp cuối chu trình: chuỗi duyệt đầy đủ + tác động ngân sách.'],
+
+         ['Cài đặt','settings','Nhắc chấm công, ngôn ngữ, bảo mật.'],
+         ['Rỗng','empty','Giải thích khi nào sẽ có nội dung.'],
+         ['Đang tải','loading','Skeleton theo đúng layout thật.'],
+         ['Lỗi','error','Ngôn ngữ người dùng, kèm đường thoát.'],
+         ['Thành công','success','Xác nhận + mã yêu cầu + người duyệt.'],
+         ['Cảnh báo Rủi ro & Tuân thủ','risk','Sáu cảnh báo theo ba mức · giao Nhân sự xử lý ngay trên thẻ.'],
+         ['Trung tâm Ủy quyền Phê duyệt','delegate','Giao quyền duyệt khi đi vắng · có hạn mức, thời hạn và nhật ký.']]
+      : [['Splash','splash','App open, 1.2 seconds.'],
+         ['Login','login','Employee ID + Face ID. No long form.'],
+         ['Home','home','Today’s shift, hours worked, punch CTA dominant.'],
+         ['All services','services','Grouped icon grid — everything else is one tap away.'],
+         ['Attendance','attendance','Month donut plus a day-by-day log.'],
+         ['Face check-in','facescan','Three steps: frame → recognise → verified, with a manual fallback.'],
+         ['Monthly calendar','calendar','Five status colours, no charts.'],
+         ['Holidays','holidays','Whole-year closures, kept out of the timesheet.'],
+         ['Request centre','requests','Every request in one place with approval progress.'],
+         ['Leave request','leave','Days auto-calculated, conflict flagged.'],
+         ['Overtime','overtime','Submit and history on one screen.'],
+         ['Attendance fix','correction','Three steps: day → issue → explanation.'],
+         ['Payroll','payroll','Net first, breakdown after.'],
+         ['Payslip','payslip','Earnings and deductions kept apart.'],
+         ['Bonus','bonus','Says why the bonus was paid.'],
+         ['Internal jobs','jobs','Kept away from daily attendance and pay.'],
+         ['Job detail','job','Apply CTA pinned to the bottom.'],
+         ['Notifications','notifications','Grouped, unread dots, deep-links to the screen.'],
+         ['Profile','profile','Grouped lists, not a data dump.'],
+         ['Approvals (manager)','approvals','Approve or reject from the card.'],
+         ['Exec dashboard (C-level)','exec','Company-wide figures, flags, department standing.'],
+         ['Final approval (C-level)','final','Last tier: full approval chain plus budget impact.'],
+
+         ['Settings','settings','Reminders, language, security.'],
+         ['Empty','empty','Explains what will appear here.'],
+         ['Loading','loading','Skeleton matching the real layout.'],
+         ['Error','error','Human language plus a way out.'],
+         ['Success','success','Confirmation, request code, approver.'],
+         ['Risk & Compliance alerts','risk','Six alerts across three tiers · hand to HR from the card.'],
+         ['Approval delegation','delegate','Hand over sign-off while away · capped, time-boxed, logged.']];
+
+    const board = B.map((x,i)=>({
+      n:String(i+1).padStart(2,'0'), l:x[0], s:x[1], d:x[2],
+      role: ['exec','final','risk','delegate'].includes(x[1]) ? 'exec' : (x[1]==='approvals' ? 'manager' : this.state.role),
+      att: x[1]==='attendance' ? 'out' : this.state.att
+    }));
+
+    return {
+      pageBg, cardBg, lineC, ink, muted,
+      bezel: dark?'#1B2434':'#111827',
+      chipBg: dark?'#1E293B':'#111827', chipFg: dark?'#94A3B8':'#FFFFFF',
+      lang:this.state.lang, theme:this.state.theme, role:this.state.role, att:this.state.att,
+      controls,
+      title: V?'Ứng dụng nhân sự · Gạch bông':'Employee HR app · Saigon tile',
+      subtitle: V
+        ? 'Điện thoại bên dưới hoạt động thật: bấm chấm công, mở yêu cầu, gửi đơn nghỉ phép, duyệt đơn. Bảng bên dưới là toàn bộ 29 màn hình theo cùng một hệ thành phần.'
+        : 'The phone below is live: punch in, open a request, submit leave, approve as a manager. The board underneath is all 29 screens on one component system.',
+      liveLabel: V?'BẢN TƯƠNG TÁC':'LIVE PROTOTYPE',
+      boardLabel: V?'29 MÀN HÌNH':'29 SCREENS',
+      boardSub: V?'Mỗi màn hình cũng bấm được — đổi ngôn ngữ, giao diện hay vai trò ở trên và cả bảng cập nhật theo.':'Every tile is tappable too — switch language, theme or role above and the whole board follows.',
+      notes: V
+        ? [{t:'Cấu trúc như app ngân hàng',b:'Giờ đã làm đóng vai “số dư” trên thẻ trắng đè lên băng hoa văn. Bốn chức năng hay dùng nổi ra ngoài thành nút tròn; phần còn lại nằm sau nút “Tất cả”.'},
+           {t:'Chữ ký là hoa văn gạch bông',b:'Hoạ tiết gạch bông nhà phố Sài Gòn vẽ bằng CSS gradient, dùng ở ba chỗ: băng đầu trang, dải phân mục, và thẻ hero của lương và phép.'},
+           {t:'Ba cấp, một app',b:'Quản lý thêm dải chờ duyệt và trung tâm phê duyệt. Giám đốc đổi trang chủ thành bảng điều hành và tab Yêu cầu thành phê duyệt cuối — mắt xích cuối của chu trình. Phần còn lại không đổi.'},
+           {t:'Trạng thái là một phần thiết kế',b:'Chấm công có 3 trạng thái (chưa vào / đang làm / xong) đổi cả số liệu, nhãn và CTA. Rỗng, tải, lỗi, thành công đều được thiết kế riêng.'}]
+        : [{t:'Structured like a banking app',b:'Hours worked plays the “balance” role on a white card overlapping the tile band. Four frequent actions surface as circular buttons; everything else sits behind “All”.'},
+           {t:'The tile pattern is the signature',b:'A Saigon shophouse floor-tile motif drawn in CSS gradients, used in exactly three places: the header band, the section divider, and the payroll and leave hero cards.'},
+           {t:'Three tiers, one app',b:'Manager adds an approvals strip and the approval centre. C-level replaces home with an exec dashboard and Requests with final sign-off — the last link in the chain. Everything else is unchanged.'},
+           {t:'States are part of the design',b:'Attendance has three states (not in / working / done) that change figures, labels and the CTA. Empty, loading, error and success are each designed.'}],
+      board
+    };
+  }
+}
+
+</script>
+</body>
+</html>
