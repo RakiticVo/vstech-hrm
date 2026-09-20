@@ -10,6 +10,7 @@ import 'package:vstech_hrm/core/theme/app_text_styles.dart';
 import 'package:vstech_hrm/core/widgets/amber_cta_button.dart';
 import 'package:vstech_hrm/core/widgets/app_card.dart';
 import 'package:vstech_hrm/core/widgets/tile_header_banner.dart';
+import 'package:vstech_hrm/features/attendance/domain/entities/attendance_record_entity.dart';
 
 /// Main Home Screen for Employee (NV) and Manager (QL).
 class HomeScreen extends StatelessWidget {
@@ -174,13 +175,12 @@ class HomeScreen extends StatelessWidget {
           ),
           const SizedBox(height: 16),
           AmberCtaButton(
-            text: 'Chấm công Check-out',
-            icon: Symbols.fingerprint,
-            onPressed: () {
-              ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(content: Text('Mô phỏng ghi nhận chấm công thành công!')),
-              );
-            },
+            text: 'Chấm công Quét mặt',
+            icon: Symbols.face,
+            onPressed: () => context.push(
+              AppRoutes.checkInCamera,
+              extra: AttendanceType.checkIn,
+            ),
           ),
         ],
       ),

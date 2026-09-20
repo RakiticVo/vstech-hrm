@@ -47,7 +47,13 @@ class MockDioInterceptor extends Interceptor {
               'data': <String, dynamic>{
                 'id': 'att_${DateTime.now().millisecondsSinceEpoch}',
                 'timestamp': DateTime.now().toIso8601String(),
+                'type': path.contains('check-out') ? 'checkOut' : 'checkIn',
                 'status': 'APPROVED',
+                'classification': 'onTime',
+                'locationName': 'Trụ sở chính VSTech',
+                'lat': 10.7769,
+                'lng': 106.7009,
+                'bssid': 'vstech-office-5g',
               },
             },
           ),

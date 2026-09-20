@@ -1,11 +1,16 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:vstech_hrm/core/di/injector.dart';
 import 'package:vstech_hrm/core/router/app_shell.dart';
 import 'package:vstech_hrm/core/router/route_guards.dart';
 import 'package:vstech_hrm/core/router/routes.dart';
 import 'package:vstech_hrm/core/session/auth_cubit.dart';
 import 'package:vstech_hrm/features/approvals/presentation/screens/approvals_screen.dart';
+import 'package:vstech_hrm/features/attendance/domain/entities/attendance_record_entity.dart';
+import 'package:vstech_hrm/features/attendance/presentation/bloc/attendance_bloc.dart';
+import 'package:vstech_hrm/features/attendance/presentation/screens/face_scan_screen.dart';
 import 'package:vstech_hrm/features/auth/presentation/screens/login_screen.dart';
 import 'package:vstech_hrm/features/auth/presentation/screens/splash_screen.dart';
 import 'package:vstech_hrm/features/calendar/presentation/screens/calendar_screen.dart';
@@ -48,6 +53,18 @@ class AppRouter {
       GoRoute(
         path: AppRoutes.login,
         builder: (context, state) => const LoginScreen(),
+      ),
+      GoRoute(
+        path: AppRoutes.checkInCamera,
+        builder: (context, state) {
+          final type = state.extra is AttendanceType
+              ? state.extra! as AttendanceType
+              : AttendanceType.checkIn;
+          return BlocProvider(
+            create: (_) => sl<AttendanceBloc>(),
+            child: FaceScanScreen(type: type),
+          );
+        },
       ),
       ShellRoute(
         builder: (context, state, child) {

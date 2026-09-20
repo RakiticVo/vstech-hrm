@@ -4,6 +4,7 @@ import 'package:get_it/get_it.dart';
 import 'package:vstech_hrm/core/network/dio_client.dart';
 import 'package:vstech_hrm/core/network/logging_interceptor.dart';
 import 'package:vstech_hrm/core/session/auth_cubit.dart';
+import 'package:vstech_hrm/features/attendance/attendance_injection.dart';
 
 final GetIt sl = GetIt.instance;
 
@@ -32,4 +33,7 @@ Future<void> initDependencies() async {
   sl.registerLazySingleton<AuthCubit>(
     () => AuthCubit(secureStorage: sl<FlutterSecureStorage>()),
   );
+
+  // 5. Feature Modules
+  initAttendanceDependencies(sl);
 }

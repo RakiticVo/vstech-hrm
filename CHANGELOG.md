@@ -18,3 +18,11 @@
 - Triển khai quản lý phiên làm việc & vai trò (`AuthCubit`, `UserSession`, `FlutterSecureStorage`) hỗ trợ chuyển đổi vai trò Demo tức thì (NV / QL).
 - Thiết lập định tuyến `GoRouter` với `ShellRoute` 5 tab đáy linh hoạt theo vai trò và cơ chế bảo vệ phân quyền `authRedirectGuard`.
 - Bộ automated test ban đầu cho Domain Failures, AuthCubit, và StatusChip widget.
+- Cấu hình quyền Native Permissions trên Android (`AndroidManifest.xml`) và iOS (`Info.plist`) cho Camera, Location (GPS/Geofence), Wi-Fi và Biometrics.
+- Xây dựng module Chấm công (`lib/features/attendance/`) theo chuẩn Clean Architecture & SOLID (P0 #3, #4, #5, #6):
+  - **Domain**: Định nghĩa các thực thể nghiệp vụ (`AttendanceRecordEntity`, `AttendanceTodayEntity`, `AttendanceType`, `AttendanceClassification`), hợp đồng kho dữ liệu `AttendanceRepository`, và các Usecase chuyên biệt (`CheckInUseCase`, `CheckOutUseCase`, `GetTodayAttendanceUseCase`).
+  - **Data**: Triển khai `AttendanceRemoteDataSource` kết nối REST API / Mock Data, các model DTO chuyển đổi (`AttendanceRecordModel`, `AttendanceTodayModel`), và `AttendanceRepositoryImpl` bắt lỗi chuyển đổi sang `Failure`.
+  - **Presentation**: `AttendanceBloc` quản lý vòng đời camera, toạ độ Geofence 50m, và xác thực check-in/check-out; màn hình quét mặt `FaceScanScreen` chuẩn pixel `Phone.dc.html` với đồng hồ live ticking `HH:mm:ss`, khung oval `FaceOvalFrame` (236x290px kèm 4 góc SVG và laser scan line), `FaceScanTopBar`, `FaceScanStepProgress`, thẻ trạng thái vị trí `LocationStatusCard`, và biên lai chấm công bottom sheet `AttendanceSuccessSheet`.
+- Đấu nối định tuyến `AppRoutes.checkInCamera` (`/home/check-in`) và tích hợp nút CTA Chấm công nhanh trên màn hình chính `HomeScreen`.
+- Bổ sung bộ Unit Test cho toàn bộ UseCases và `AttendanceBloc` với Mocktail và BlocTest.
+
