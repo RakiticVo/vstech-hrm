@@ -1,0 +1,18 @@
+{
+  "success": true,
+  "data": {
+    "id": "mgr-001",
+    "employeeCode": "QL-0421",
+    "fullName": "Trần Thị Bích",
+    "avatarUrl": "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=200",
+    "role": "manager",
+    "department": "Khối Công Nghệ & Kỹ Thuật",
+    "title": "Trưởng phòng Kỹ thuật",
+    "branch": "Trụ sở chính — TP. Hồ Chí Minh",
+    "managerName": "Lê Hoàng Long",
+    "joinDate": "2021-08-01",
+    "pendingApprovalsCount": 4
+  },
+  "message": null,
+  "errorCode": null
+}

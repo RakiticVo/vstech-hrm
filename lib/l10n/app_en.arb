@@ -1,0 +1,18 @@
+{
+  "@@locale": "en",
+  "appTitle": "VSTech HRM",
+  "login": "Sign In",
+  "employeeCode": "Employee ID",
+  "password": "Password",
+  "checkIn": "Check In",
+  "checkOut": "Check Out",
+  "home": "Home",
+  "attendance": "Attendance",
+  "requests": "Requests",
+  "approvals": "Approvals",
+  "payroll": "Payroll",
+  "profile": "Profile",
+  "errorOccurred": "An error occurred",
+  "retry": "Retry",
+  "contactHr": "Contact HR"
+}

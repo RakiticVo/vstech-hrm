@@ -1,0 +1,13 @@
+{
+  "success": true,
+  "data": {
+    "totalAnnualLeave": 14.0,
+    "usedLeave": 4.5,
+    "pendingLeave": 1.0,
+    "availableLeave": 8.5,
+    "sickLeaveUsed": 2.0,
+    "specialLeaveUsed": 0.0
+  },
+  "message": null,
+  "errorCode": null
+}
