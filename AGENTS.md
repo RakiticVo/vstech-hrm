@@ -8,7 +8,7 @@
 
 Áp dụng đầy đủ quy trình này khi: bắt đầu 1 phiên/cuộc trò chuyện hoàn toàn mới, chuẩn bị nhận 1 task lớn/không rõ phạm vi, hoặc người dùng yêu cầu tường minh "đọc lại context dự án"/"nạp lại ngữ cảnh". Không cần áp dụng đầy đủ nếu task rất hẹp và rõ ràng (vd sửa 1 lỗi chính tả trong 1 file cụ thể).
 
-1. **Đọc tài liệu gốc theo thứ tự**: file này (`AGENTS.md`) → `docs/prd.md` → `docs/architecture.md` → `docs/design-system.md` → `docs/screens-mapping.md` → `docs/api-contract.md` → `docs/coding-rules.md` → `docs/git-workflow.md` → `docs/security.md` → `CHANGELOG.md` (đặc biệt mục `[Unreleased]`).
+1. **Đọc tài liệu gốc theo thứ tự**: file này (`AGENTS.md`) → `docs/roadmap.md` → `docs/prd.md` → `docs/architecture.md` → `docs/libraries-matrix.md` → `docs/coding-rules.md` (kèm `.agents/rules/solid-clean-architecture.md`) → `docs/design-system.md` → `docs/screens-mapping.md` → `docs/api-contract.md` → `docs/git-workflow.md` → `docs/security.md` → `CHANGELOG.md` (đặc biệt mục `[Unreleased]`).
 2. **Đối chiếu với trạng thái thực tế của repo** — tài liệu có thể đã lỗi thời so với code thật:
    - Kiểm tra `pubspec.yaml` có tồn tại chưa (đã scaffold Flutter thật hay vẫn ở giai đoạn planning thuần).
    - Nếu là git repo: xem lịch sử commit và trạng thái working tree để biết tiến độ thực tế, branch hiện tại, có thay đổi chưa commit không.
@@ -16,11 +16,16 @@
    - Nếu phát hiện sai khác rõ ràng giữa docs và thực tế — nêu rõ ở bước 3, **không tự ý sửa docs** khi chưa được yêu cầu.
 3. **Tóm tắt ngắn gọn cho người dùng** trước khi nhận task (không lặp nguyên văn docs):
    - Giai đoạn hiện tại của dự án (planning / đang code / đã có bao nhiêu feature).
-   - Nhắc nhanh các quyết định lớn dễ quên: đã đổi Manrope→Source Sans 3, Lucide→Material Symbols; chấm công ngoại tuyến (offline queue) đã hoãn; 3 chức năng P0 chưa có màn thiết kế (Referral, Pre-onboarding, Shift Scheduling riêng — xem `docs/screens-mapping.md` mục C).
+   - **Kỷ luật cốt lõi Clean Architecture & SOLID**: Phụ thuộc 1 chiều `presentation → domain ← data`; `domain` độc lập 100% (pure Dart, cấm import UI/network); 1 Usecase = 1 hành động nghiệp vụ; dùng Freezed sealed unions; DI qua `GetIt`; giới hạn cứng **≤ 300 dòng/file**; cấm `print()`.
+   - Nhắc nhanh các quyết định lớn dễ quên: đã đổi Manrope→Source Sans 3, Lucide→Material Symbols; chấm công ngoại tuyến (offline queue) đã hoãn; **Phase 0 chỉ làm 2 vai trò: NV và QL** (vai trò BGĐ hoãn); **3 chức năng P0 chưa có UI tạm hoãn** (#1 Referral, #2 Pre-onboarding, #8 Lịch ca riêng) chờ người dùng cung cấp UI; **chỉ dùng 2 môi trường: dev và prod**; hỗ trợ **chế độ Demo độc lập với Mock Data**.
    - Nêu rõ nếu có sai khác giữa docs và thực tế phát hiện ở bước 2, hỏi người dùng có muốn cập nhật docs không.
    - Hỏi người dùng task cụ thể muốn làm trong phiên này — **không tự đoán/tự bắt đầu code** khi chưa được giao task rõ ràng.
 
-Quy trình này áp dụng như nhau cho mọi agent đọc file này (Claude Code, ChatGPT/Codex, Antigravity, OpenCode, Cursor, Copilot, Aider...) — không phụ thuộc cơ chế "skill"/"command" riêng của từng tool. Claude Code có thêm skill `start-session` (`.claude/skills/start-session/SKILL.md`) chỉ để tiện gọi lại tường minh giữa phiên (vd `/start-session`) khi nghi ngờ context cũ/thiếu, nhưng bản chất quy trình giống hệt mục này.
+Quy trình này áp dụng như nhau cho mọi agent đọc file này (Claude Code, ChatGPT/Codex, Antigravity, OpenCode, Cursor, Copilot, Aider...). Để tiện gọi lại tường minh giữa phiên (khi nghi ngờ context cũ/thiếu hoặc người dùng yêu cầu), dự án đã cấu hình sẵn skill `start-session` cho các công cụ:
+- **Claude Code**: `.claude/skills/start-session/SKILL.md` (gọi `/start-session`).
+- **Antigravity / các agent theo chuẩn `.agents`**: `.agents/skills/start-session/SKILL.md`.
+- **Cursor**: `.cursor/rules/start-session.mdc` (gọi `@start-session`).
+Bản chất quy trình giống hệt mục này.
 
 ## 1. Sản phẩm là gì
 
@@ -35,15 +40,15 @@ B2B SaaS HRM mobile app, module **Employee App** (ứng dụng cho nhân viên/q
 
 ## 2. Người dùng & vai trò
 
-3 cấp trong cùng 1 app (không tách app riêng theo cấp):
+Ở **Phase 0/MVP**, ứng dụng tập trung hỗ trợ **2 vai trò cốt lõi**:
 
-| Vai trò | Viết tắt | Khác biệt trong UI |
-| --- | --- | --- |
-| Nhân viên | NV / ESS | Mặc định: chấm công, đơn từ, lương, hồ sơ |
-| Quản lý trực tiếp | QL / MSS | + dải chờ duyệt trên trang chủ, tab "Yêu cầu" có badge, màn Phê duyệt (duyệt cấp 1) |
-| Ban Giám đốc | BGĐ / C-level | Tab 1 → "Điều hành" (Bảng điều hành), tab 3 → "Phê duyệt cuối" (duyệt cấp cuối) |
+| Vai trò | Viết tắt | Khác biệt trong UI | Trạng thái Phase 0 |
+| --- | --- | --- | --- |
+| Nhân viên | NV / ESS | Mặc định: chấm công, đơn từ, lương, hồ sơ | **Active (MVP)** |
+| Quản lý trực tiếp | QL / MSS | + dải chờ duyệt trên trang chủ, tab "Yêu cầu" có badge, màn Phê duyệt (duyệt cấp 1) | **Active (MVP)** |
+| Ban Giám đốc | BGĐ / C-level | Tab 1 → "Điều hành" (Bảng điều hành), tab 3 → "Phê duyệt cuối" (duyệt cấp cuối) | *Tạm hoãn (Phase sau)* |
 
-Chu trình duyệt chuẩn: `Nhân viên gửi → Quản lý trực tiếp → HR xác nhận → Giám đốc phê duyệt` (4 đoạn tiến độ luôn hiển thị đủ 4 bước).
+Chu trình duyệt chuẩn: `Nhân viên gửi → Quản lý trực tiếp → HR xác nhận → Giám đốc phê duyệt` (4 đoạn tiến độ luôn hiển thị đủ 4 bước trên UI chi tiết đơn).
 
 ## 3. Tech stack đã chốt (không tự ý đổi khi code)
 
@@ -132,26 +137,31 @@ Nguyên tắc phụ thuộc: `presentation → domain ← data`. `domain` không
 
 | File | Nội dung |
 | --- | --- |
+| [docs/roadmap.md](docs/roadmap.md) | Lộ trình phân kỳ 6 Phase, chiến lược Standalone Demo (Mock Data), phân công chức năng |
 | [docs/prd.md](docs/prd.md) | 25 chức năng P0 chi tiết + acceptance criteria, backlog P1/P2, hạng mục đã hoãn |
-| [docs/architecture.md](docs/architecture.md) | Clean Architecture chi tiết, cấu trúc thư mục đầy đủ, luồng dữ liệu, DI |
+| [docs/architecture.md](docs/architecture.md) | Clean Architecture chi tiết, cấu trúc thư mục đầy đủ, luồng dữ liệu, DI, router, mock engine |
 | [docs/design-system.md](docs/design-system.md) | Màu, typography, spacing, component spec |
-| [docs/screens-mapping.md](docs/screens-mapping.md) | Đối chiếu 29 màn thiết kế ↔ 25 chức năng P0, chỉ ra khoảng lệch |
+| [docs/screens-mapping.md](docs/screens-mapping.md) | Đối chiếu 29 màn thiết kế ↔ 25 chức năng P0, khoảng lệch và quyết định chốt |
 | [docs/api-contract.md](docs/api-contract.md) | Hợp đồng API kỳ vọng cho từng feature P0 |
+| [docs/libraries-matrix.md](docs/libraries-matrix.md) | Bảng quy hoạch toàn bộ thư viện theo tầng Clean Architecture & ma trận import |
 | [docs/coding-rules.md](docs/coding-rules.md) | SOLID, quy tắc tách file/widget, validation, naming |
 | [docs/git-workflow.md](docs/git-workflow.md) | GitFlow, commit convention, PR template, CHANGELOG |
 | [docs/security.md](docs/security.md) | Toàn bộ yêu cầu bảo mật đặc thù |
 
 ## 9. Ghi chú theo từng agent/tool
 
-- **Claude Code**: đọc `CLAUDE.md` (file đó import trực tiếp nội dung file này qua `@AGENTS.md`, cộng thêm phần `.claude/skills/` riêng — `new-feature`, `design-review`, `git-commit`). Agent khác không có cơ chế "skill" thì đọc thẳng `docs/*.md` tương ứng thay thế.
-- **ChatGPT/Codex, Aider, OpenCode**: các tool này tự động tìm và đọc `AGENTS.md` ở root — file này chính là file đó, không cần thêm gì.
-- **Antigravity**: quy ước file cụ thể chưa được xác nhận chắc chắn (tool còn mới tại thời điểm viết tài liệu này) — mặc định nó có thể cũng đọc `AGENTS.md` theo xu hướng chung. Nếu xác nhận được tên file riêng, thêm 1 file pointer ngắn trỏ về `AGENTS.md` giống cách đã làm cho các tool khác.
+- **Claude Code**: đọc `CLAUDE.md` (file đó import trực tiếp nội dung file này qua `@AGENTS.md`, các skill tại `.claude/skills/`: `start-session`, `new-feature`, `design-review`, `arch-review`, `git-commit`).
+- **Antigravity / Gemini**: đọc `GEMINI.md` và `AGENTS.md`. Bộ workspace skills tương đương đã được cấu hình tại `.agents/skills/` (`start-session`, `new-feature`, `design-review`, `arch-review`, `git-commit`) và workspace rule tại `.agents/rules/solid-clean-architecture.md`.
+- **Cursor**: đọc `.cursor/rules/project-context.mdc`, rule toàn cục `.cursor/rules/solid-clean-architecture.mdc`, và `AGENTS.md`. Đã cấu hình các rule/skill tương ứng trong `.cursor/rules/` (`start-session.mdc`, `new-feature.mdc`, `design-review.mdc`, `arch-review.mdc`, `git-commit.mdc`).
+- **ChatGPT/Codex, Aider, OpenCode**: các tool này tự động tìm và đọc `AGENTS.md` ở root (hoặc chuẩn `.agents/` nếu được hỗ trợ) — đọc file này làm điểm bắt đầu.
 - **Bất kỳ agent nào khác** không có quy ước riêng: đọc file này làm điểm bắt đầu, rồi đọc `docs/` theo nhu cầu task.
 
 ## 10. Việc còn thiếu / cần quyết định thêm
 
 - `Phone.dc.html` (markup thật 29 màn) chưa có — khi làm màn cụ thể mà thiếu chi tiết pixel-level, hỏi người dùng thay vì đoán.
-- Chưa có API docs từ backend — `docs/api-contract.md` là kỳ vọng của mobile team, cần đối chiếu lại khi backend công bố OpenAPI thật.
+- Backend đang phát triển song song — app sử dụng **chế độ Demo độc lập với Mock Data** (`USE_MOCK_DATA=true`) để hoàn thiện toàn bộ luồng demo trước mà không bị block.
+- Môi trường: Chỉ duy trì **`dev`** và **`prod`** (bỏ `staging`).
+- Quyết định vai trò Phase 0: **Chỉ làm 2 vai trò: NV và QL** (vai trò BGĐ tạm hoãn).
+- Quyết định chức năng chưa có UI: **3 chức năng P0 (#1 Referral, #2 Pre-onboarding, #8 Lịch ca riêng) tạm hoãn**, người dùng sẽ cung cấp UI sau.
 - Logo/app icon chính thức chưa có.
-- Đã hoãn: Chấm công ngoại tuyến (offline queue). Không build cho tới khi có quyết định mới.
-- 3 chức năng P0 chưa có màn thiết kế (Referral, Pre-onboarding, Shift Scheduling riêng biệt) — xem [docs/screens-mapping.md](docs/screens-mapping.md) mục C.
+- Đã hoãn: Chấm công ngoại tuyến (offline queue).
