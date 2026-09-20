@@ -1,0 +1,14 @@
+---
+description: Hướng dẫn viết commit message, branch name và cập nhật CHANGELOG.md theo docs/git-workflow.md
+alwaysApply: false
+---
+
+# Git Commit / Branch / Changelog Helper
+
+Tham khảo chi tiết tại `docs/git-workflow.md` và `.agents/skills/git-commit/SKILL.md`.
+
+## Quy ước
+1. Branch: `feature/<scope>-<mo-ta>`, `release/...`, `hotfix/...`.
+2. Commit: `<type>(<scope>): <mô tả ngắn>` theo Conventional Commits.
+3. Changelog: Chỉ thêm thay đổi user-facing vào `[Unreleased]` trong `CHANGELOG.md`.
+4. Pull Request: Dùng `.github/PULL_REQUEST_TEMPLATE.md`.

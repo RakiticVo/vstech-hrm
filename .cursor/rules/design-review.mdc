@@ -1,0 +1,16 @@
+---
+description: Review UI màn hình hoặc widget so với docs/design-system.md
+alwaysApply: false
+---
+
+# Design Review Checklist
+
+Tham khảo chi tiết tại `docs/design-system.md` và `.agents/skills/design-review/SKILL.md`.
+
+## Các điểm cần kiểm tra:
+1. Đối chiếu phạm vi (nhóm A / B / C trong `docs/screens-mapping.md`).
+2. Màu sắc: Dùng token trong ThemeExtension, không hardcode hex code, `amberCta` duy nhất 1 lần/màn hình.
+3. Typography: Type scale chuẩn, tabularFigures cho số liệu, không dùng weight 900.
+4. Bo góc, spacing đúng spec.
+5. Icon: `material_symbols_icons`, Font: `Source Sans 3`.
+6. Xử lý đủ 4 trạng thái: Loading (skeleton), Empty, Error, Success.

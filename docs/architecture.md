@@ -27,6 +27,7 @@ lib/
       dio_client.dart            # cấu hình Dio + interceptors
       auth_interceptor.dart      # gắn JWT, refresh token flow
       logging_interceptor.dart   # pretty_dio_logger, chỉ bật ở dev
+      mock_dio_interceptor.dart  # nạp JSON mẫu cho chế độ Demo độc lập (USE_MOCK_DATA=true)
     router/
       app_router.dart            # go_router config
       route_guards.dart          # redirect theo role/auth state
@@ -122,9 +123,14 @@ LeaveScreen (presentation)
 
 ## 5. Routing (go_router)
 
-- `ShellRoute` bọc bottom nav 5 tab, nav bar đổi label/route theo `AuthCubit.state.role` (NV/QL/BGĐ) — xem chi tiết vai trò ở `docs/design-system.md` mục điều hướng.
-- `redirect` ở root router check `AuthCubit` để chặn truy cập route cần đăng nhập, và chặn route chỉ dành riêng 1 vai trò (vd `/final-approval` chỉ BGĐ — dù đây là màn P1, thêm route guard sẵn để tránh phải sửa lại khi build P1).
+- `ShellRoute` bọc bottom nav 5 tab, nav bar đổi label/route theo `AuthCubit.state.role`. Ở Phase 0/MVP, app chỉ hỗ trợ **2 vai trò**: **Nhân viên (NV)** và **Quản lý trực tiếp (QL)** (vai trò BGĐ tạm hoãn ở giai đoạn này, xem [roadmap.md](roadmap.md)).
+- `redirect` ở root router check `AuthCubit` để chặn truy cập route cần đăng nhập, và phân quyền màn hình theo vai trò (QL có thêm dải chờ duyệt và tab Phê duyệt `21 approvals`).
 - Deep-link từ push notification: mapping loại notification → route name, xử lý trong `NotificationCubit` khi nhận message ở background/terminated (`firebase_messaging` `onMessageOpenedApp` / `getInitialMessage`).
+
+## 5.1 Quản lý Môi trường (Environments)
+
+- Hệ thống chỉ duy trì **2 môi trường**: **`dev`** và **`prod`** (loại bỏ hoàn toàn `staging` để tinh gọn vận hành).
+- Hỗ trợ biến `USE_MOCK_DATA=true` (trong `.env.dev`) để kích hoạt chế độ **Demo độc lập**, giúp chạy đầy đủ tính năng và luồng tương tác mà không cần chờ Backend API thật.
 
 ## 6. Testing
 

@@ -1,16 +1,16 @@
-> Đọc file này đầu tiên trong mọi phiên làm việc mới với Claude Code.
+> Đọc file này đầu tiên trong mọi phiên làm việc mới với Google Antigravity / Gemini.
 
 @AGENTS.md
 
 ---
 
-## Ghi chú riêng cho Claude Code
+## Ghi chú riêng cho Antigravity / Gemini
 
-Nội dung phía trên được import trực tiếp từ [AGENTS.md](AGENTS.md) — file ngữ cảnh chuẩn dùng chung cho mọi AI coding agent (Claude Code, ChatGPT/Codex, Antigravity, OpenCode...). Sửa nội dung chung ở `AGENTS.md`, **không** copy-paste lặp lại vào đây, để tránh 2 file trôi lệch nhau.
+Nội dung phía trên được liên kết trực tiếp từ [AGENTS.md](AGENTS.md) — file ngữ cảnh chuẩn dùng chung cho mọi AI coding agent (Claude Code, Antigravity, Cursor, ChatGPT/Codex, OpenCode...). Sửa nội dung chung ở `AGENTS.md`, **không** copy-paste lặp lại vào đây, để tránh các file trôi lệch nhau.
 
-Phần dưới đây áp dụng cho Claude Code. Các agent khác cũng có bộ skill tương đương tại `.agents/skills/` (Antigravity/chuẩn `.agents`) và `.cursor/rules/` (Cursor).
+Phần dưới đây áp dụng cho Google Antigravity / Gemini CLI.
 
-### Skills (`.claude/skills/`)
+### Skills (`.agents/skills/`)
 
 | Skill | Dùng khi nào |
 | --- | --- |

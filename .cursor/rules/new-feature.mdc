@@ -1,0 +1,14 @@
+---
+description: Scaffold một feature module mới cho vstech-hrm đúng theo Clean Architecture và BLoC/Cubit
+alwaysApply: false
+---
+
+# Scaffold Feature mới
+
+Tham khảo hướng dẫn chi tiết tại `docs/architecture.md` và `.agents/skills/new-feature/SKILL.md`.
+
+## Quy trình
+1. Xác định tên feature và loại state management (Bloc hay Cubit).
+2. Tạo đủ 3 tầng: `data/`, `domain/`, `presentation/`, kèm file `<feature>_injection.dart`.
+3. Đăng ký DI trong `core/di/injector.dart` và route trong `core/router/`.
+4. Đảm bảo tuân thủ giới hạn 300 dòng/file và quy tắc tách widget.

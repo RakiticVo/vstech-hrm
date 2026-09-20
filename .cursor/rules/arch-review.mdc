@@ -1,0 +1,12 @@
+---
+description: Quy trình kiểm tra kiến trúc Clean Architecture và nguyên tắc SOLID trước khi coi 1 feature là hoàn thành
+alwaysApply: false
+---
+
+# Architecture & SOLID Review
+
+Thực hiện kiểm tra theo checklist tại `.agents/skills/arch-review/SKILL.md` và `docs/coding-rules.md`:
+
+1. **Ranh giới tầng**: Domain không phụ thuộc Data/Presentation; Presentation không import từ Data.
+2. **SOLID**: Usecase đơn trách nhiệm; Freezed union cho State/Event; Interface repository tinh gọn; Dependency Inversion qua GetIt.
+3. **Giới hạn**: Không file nào vượt 300 dòng; Widget tách file riêng nếu dùng ≥ 2 nơi hoặc có state riêng; Không dùng `print()`.

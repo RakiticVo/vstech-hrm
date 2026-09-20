@@ -4,7 +4,7 @@ Nguồn gốc: `DANH_SACH_CHUC_NANG_HRM_THEO_UU_TIEN_v2_BGD.pdf` — 71 chức n
 
 Tài liệu này chỉ mô tả chi tiết **25 chức năng P0**. P1/P2 liệt kê ở cuối làm backlog tham chiếu, chưa lên acceptance criteria.
 
-Vai trò: **NV** Nhân viên (ESS) · **QL** Quản lý (MSS) · **BGĐ** Ban Giám đốc (phê duyệt cuối).
+Vai trò: **NV** Nhân viên (ESS) · **QL** Quản lý (MSS). *(Lưu ý: Vai trò **BGĐ** Ban Giám đốc tạm hoãn ở Phase 0/MVP này, xem [roadmap.md](roadmap.md))*.
 
 ---
 
@@ -18,14 +18,14 @@ Vai trò: **NV** Nhân viên (ESS) · **QL** Quản lý (MSS) · **BGĐ** Ban Gi
 - Nhập hồ sơ ứng viên: họ tên, SĐT, email, vị trí, chi nhánh mong muốn, upload CV.
 - Theo dõi trạng thái hồ sơ real-time: Tiếp nhận → Phỏng vấn → Thử việc → Ký hợp đồng.
 - Tự động kích hoạt tiền thưởng giới thiệu thành công.
-- **Gap thiết kế**: chưa có màn hình trong bộ 29 màn `DESIGN.md` — xem [screens-mapping.md](screens-mapping.md).
+- **Trạng thái UI**: Chưa có màn hình trong bộ 29 màn — **tạm hoãn ở Phase 0/MVP, người dùng sẽ cung cấp UI sau** (xem [screens-mapping.md](screens-mapping.md) và [roadmap.md](roadmap.md)).
 
 **2. Tiếp nhận nhân sự số hoá (Digital Pre-onboarding)** — NV (ứng viên trúng tuyển)
 - Thư chào mừng, sơ đồ tổ chức, checklist việc cần chuẩn bị ngày đầu.
 - Số hoá nộp hồ sơ pháp lý: CCCD gắn chip, bằng cấp, chứng chỉ, sơ yếu lý lịch, giấy khám sức khoẻ — tích hợp OCR tự động trích xuất thông tin.
 - Ký số điện tử NDA + nội quy lao động.
 - Xem thông tin mentor/quản lý trực tiếp, kết nối nhanh.
-- **Gap thiết kế**: chưa có màn hình trong bộ 29 màn — xem [screens-mapping.md](screens-mapping.md).
+- **Trạng thái UI**: Chưa có màn hình trong bộ 29 màn — **tạm hoãn ở Phase 0/MVP, người dùng sẽ cung cấp UI sau** (xem [screens-mapping.md](screens-mapping.md) và [roadmap.md](roadmap.md)).
 
 ### Chấm công
 
@@ -60,7 +60,7 @@ Vai trò: **NV** Nhân viên (ESS) · **QL** Quản lý (MSS) · **BGĐ** Ban Gi
 - Xem ca hôm nay, lịch phân bổ theo tuần/tháng.
 - Cấu hình linh hoạt mọi loại ca: hành chính, xoay, gãy, đêm, tuần hoàn.
 - Chi tiết ca: tên, khung giờ bắt đầu/kết thúc, nghỉ giữa ca, chi nhánh chỉ định.
-- Màn hình thiết kế: một phần của `03/04 home` (ca hôm nay) — chưa có màn lịch ca riêng biệt trong 29 màn, cần xác nhận có gộp vào `08 calendar` hay cần màn mới.
+- **Trạng thái UI**: Ca hôm nay nằm trong `03/04 home`; màn hình lịch phân ca cả tuần/tháng chuyên biệt chưa có thiết kế riêng trong 29 màn — **tạm hoãn ở Phase 0, người dùng sẽ cung cấp UI sau** (xem [roadmap.md](roadmap.md)).
 
 ### Nghỉ phép & Tăng ca
 
