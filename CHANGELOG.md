@@ -26,3 +26,8 @@
 - Đấu nối định tuyến `AppRoutes.checkInCamera` (`/home/check-in`) và tích hợp nút CTA Chấm công nhanh trên màn hình chính `HomeScreen`.
 - Bổ sung bộ Unit Test cho toàn bộ UseCases và `AttendanceBloc` với Mocktail và BlocTest.
 
+### Changed
+- Cập nhật `docs/screens-mapping.md`: làm rõ nguồn gốc thiết kế pixel-level từ `docs/source/Phone.dc.html` (29 màn markup thực tế).
+- Cập nhật `docs/roadmap.md`: đồng bộ trạng thái hoàn thành thực tế của Phase 0 (Foundation & Mock Engine), Phase 1 (Navigation Shell & Session), và Phase 2 (Personal Dashboard & Core Attendance Face Scan).
+
+

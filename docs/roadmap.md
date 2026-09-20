@@ -38,15 +38,15 @@ graph TD
 ### Phase 0: Foundation, Core Architecture & Mock Engine
 **Mục tiêu**: Xây dựng khung xương dự án, Design System chuẩn Gạch bông, và nền tảng Mock Data để phục vụ demo.
 
-- [ ] **Scaffold dự án Flutter**: Cấu hình Android `minSdkVersion 26`, iOS `14.0+`, package name, cấu hình lint `very_good_analysis`.
-- [ ] **Cấu trúc Clean Architecture Core**:
+- [x] **Scaffold dự án Flutter**: Cấu hình Android `minSdkVersion 26`, iOS `14.0+`, package name, cấu hình lint `very_good_analysis`.
+- [x] **Cấu trúc Clean Architecture Core**:
   - `core/theme`: Token màu `AppColors` (ThemeExtension), Type scale `AppTextStyles` (Source Sans 3), `TilePatternPainter` (CustomPainter hoạ văn gạch bông).
   - `core/network`: Cấu hình `DioClient`, `AuthInterceptor`, `LoggingInterceptor` (chỉ bật ở `dev`), và **`MockDioInterceptor`** nạp JSON mẫu cho chế độ demo.
   - `core/di`: Cấu hình Service Locator với `GetIt`.
   - `core/router`: Cấu hình `go_router`, route constants, route guards theo vai trò.
   - `core/errors`: Định nghĩa hệ thống `Failure` và `Exception`.
   - `core/widgets`: Bộ widget cơ bản dùng chung (Nút chính, Nút phụ, Amber CTA duy nhất, Thẻ Card, InputField, StatusChip, BottomSheet).
-- [ ] **Quản lý môi trường**: Cấu hình `.env.dev` và `.env.prod`, hỗ trợ cờ `USE_MOCK_DATA`.
+- [x] **Quản lý môi trường**: Cấu hình `.env.dev` và `.env.prod`, hỗ trợ cờ `USE_MOCK_DATA`.
 
 ---
 
@@ -55,8 +55,8 @@ graph TD
 
 - [ ] **Màn hình Splash (`01 splash`)**: Hiệu ứng khởi động, kiểm tra phiên đăng nhập.
 - [ ] **Màn hình Đăng nhập (`02 login`)**: Form đăng nhập mã NV + mật khẩu, validate bằng `formz`, tích hợp chọn nhanh tài khoản mẫu (Demo NV / Demo QL).
-- [ ] **Device Binding & Session**: Lưu trữ token bảo mật (`flutter_secure_storage`), quản lý trạng thái phiên (`AuthCubit`).
-- [ ] **Navigation Shell (`ShellRoute`)**:
+- [x] **Device Binding & Session**: Lưu trữ token bảo mật (`flutter_secure_storage`), quản lý trạng thái phiên (`AuthCubit`), hỗ trợ chuyển đổi vai trò Demo tức thì (NV / QL).
+- [x] **Navigation Shell (`ShellRoute`)**:
   - Bottom navigation bar 5 tab tự động hoán đổi theo vai trò:
     - **Nhân viên (NV)**: Trang chủ · Chấm công · Yêu cầu · Bảng lương · Cá nhân.
     - **Quản lý (QL)**: Trang chủ (+ dải chờ duyệt) · Chấm công · Phê duyệt (+ badge) · Bảng lương · Cá nhân.
@@ -67,12 +67,12 @@ graph TD
 ### Phase 2: Personal Dashboard & Core Attendance
 **Mục tiêu**: Trải nghiệm cốt lõi của ứng dụng HRM — Chấm công và Bảng điều khiển cá nhân.
 
-- [ ] **Personal Dashboard**:
+- [x] **Personal Dashboard (Nền tảng MVP)**:
   - `03 home` (Nhân viên): Thông tin cá nhân, trạng thái công hôm nay, ca làm việc, nút Chấm công nhanh, tóm tắt phép/đơn chờ duyệt, số liệu lương che mặc định (`•••••••• ₫`).
   - `04 home` (Quản lý): Bổ sung dải "Chờ duyệt" nổi bật ưu tiên thao tác nhanh.
-- [ ] **Quét khuôn mặt AI (`07 facescan`)**:
-  - Giao diện 3 bước: Căn khung mặt (`frame`) → Nhận diện liveness (`recognise`) → Xác thực thành công (`verified`).
-  - Preview camera (`camera`), mô phỏng lấy toạ độ GPS (`geolocator`) và BSSID Wi-Fi (`network_info_plus`), kèm đường thoát thủ công khi gặp sự cố.
+- [x] **Quét khuôn mặt AI (`07 facescan`)**:
+  - Giao diện 3 bước: Căn khung mặt (`frame`) → Nhận diện liveness (`recognise`) → Xác thực thành công (`verified`) + Bottom Sheet biên lai chi tiết.
+  - Preview camera (`camera`), tự động fallback simulator chất lượng cao, lấy toạ độ GPS (`geolocator`) và BSSID Wi-Fi (`network_info_plus`), kiểm tra Geofence 50m, đường thoát linh hoạt.
 - [ ] **Lịch sử chấm công (`06 attendance`)**: Tra cứu công theo Ngày / Tuần / Tháng, xem giờ in/out, ảnh đối soát, số phút trễ/sớm.
 - [ ] **Bảng công tháng (`08 calendar`) & Ngày lễ (`09 holidays`)**: Lịch tháng trực quan với 5 mã màu chuẩn hoá (đủ công, muộn/sớm, thiếu công, nghỉ phép, ngày nghỉ).
 - [ ] **Điều chỉnh công & Giải trình (`13 correction`)**: Luồng 3 bước (chọn ngày phát sinh → chọn vấn đề → nhập giải trình & đính kèm minh chứng).
