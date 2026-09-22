@@ -1,0 +1,17 @@
+{
+  "success": true,
+  "data": {
+    "month": "2026-08",
+    "grossSalary": 32500000,
+    "netSalary": 28450000,
+    "actualWorkDays": 22.0,
+    "standardWorkDays": 22.0,
+    "allowance": 4500000,
+    "overtimePay": 1850000,
+    "totalDeductions": 4050000,
+    "status": "published",
+    "isSigned": false
+  },
+  "message": null,
+  "errorCode": null
+}

@@ -1,0 +1,69 @@
+import 'package:flutter/material.dart';
+import 'package:material_symbols_icons/symbols.dart';
+
+/// Toggle badge between Online server mode and Offline vector matching mode.
+class FaceScanModeToggle extends StatelessWidget {
+  const new({
+    required this.isOfflineMode,
+    required this.onToggle,
+    super.key,
+  });
+
+  final bool isOfflineMode;
+  final VoidCallback onToggle;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 4),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          InkWell(
+            borderRadius: BorderRadius.circular(20),
+            onTap: onToggle,
+            child: Container(
+              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 5),
+              decoration: BoxDecoration(
+                color: isOfflineMode
+                    ? const Color(0xFFF59E0B).withValues(alpha: 0.22)
+                    : Colors.white.withValues(alpha: 0.12),
+                borderRadius: BorderRadius.circular(20),
+                border: Border.all(
+                  color: isOfflineMode
+                      ? const Color(0xFFF59E0B)
+                      : Colors.white24,
+                ),
+              ),
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Icon(
+                    isOfflineMode ? Symbols.wifi_off : Symbols.wifi,
+                    size: 15,
+                    color: isOfflineMode
+                        ? const Color(0xFFF59E0B)
+                        : const Color(0xFFFFF8EC),
+                  ),
+                  const SizedBox(width: 6),
+                  Text(
+                    isOfflineMode
+                        ? 'Chấm công Ngoại tuyến (Vector ≥ 85%)'
+                        : 'Chế độ Trực tuyến (Online)',
+                    style: TextStyle(
+                      fontSize: 12,
+                      fontWeight: FontWeight.w700,
+                      color: isOfflineMode
+                          ? const Color(0xFFF59E0B)
+                          : const Color(0xFFFFF8EC),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}

@@ -1,0 +1,550 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<meta name="design_doc_mode" content="canvas">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Noto+Serif+Display:ital,wght@0,300;0,400;1,400&family=JetBrains+Mono:wght@400;500;700&family=Archivo:wght@400;500;600;700;800&family=Archivo+Expanded:wght@600;700&display=swap">
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#EDF0F3;font-family:Manrope,system-ui,sans-serif}
+a{color:#0F766E;text-decoration:none}a:hover{color:#14B8A6}
+.dv-turn{padding:40px 44px 34px;border-bottom:1px solid rgba(0,0,0,.08)}
+.dv-thd{display:flex;align-items:baseline;gap:10px;margin:0 0 6px}
+.dv-tid{font:800 10px ui-monospace,Menlo,monospace;padding:3px 7px;background:#111827;color:#fff;border-radius:4px}
+.dv-tname{font:800 13px/1.2 Manrope,sans-serif;color:#111827}
+.dv-sub{font:500 13px/1.6 Manrope,sans-serif;color:#6B7280;max-width:660px;margin:0 0 24px}
+.dv-opts{display:flex;flex-wrap:wrap;gap:30px;align-items:flex-start}
+.dv-opt{flex:none;width:390px;display:flex;flex-direction:column;gap:10px;scroll-margin-top:16px}
+.dv-oid{font:800 10.5px ui-monospace,Menlo,monospace;padding:3px 7px;background:rgba(0,0,0,.08);color:#111827;border-radius:5px}
+.dv-olabel{display:flex;align-items:baseline;gap:9px;font:800 13px/1.3 Manrope,sans-serif;color:#111827}
+.dv-onote{font:500 12px/1.55 Manrope,sans-serif;color:#6B7280;min-height:54px}
+.dv-card{width:390px;border-radius:30px;overflow:hidden;box-shadow:0 10px 30px rgba(15,23,42,.14)}
+.dv-opt:target .dv-oid{background:#0F766E;color:#fff}
+.dv-next{margin:26px 0 0;font:500 12px/1.6 Manrope,sans-serif;color:#6B7280}
+.px{font-variant-numeric:tabular-nums}
+</style>
+</helmet>
+
+<section class="dv-turn" id="t2">
+  <div class="dv-thd"><a class="dv-tid" href="#t2">2</a><span class="dv-tname">Ba hướng mạnh hơn · cấu trúc app ngân hàng + vốn hình Việt Nam</span></div>
+  <p class="dv-sub">Cả ba đều theo cách tổ chức của app ngân hàng: một con số chủ đạo như số dư (giờ đã làm, có vòng tiến độ ca bạn muốn giữ), hàng chức năng hay dùng nổi ra ngoài, phần còn lại nằm sau “Tất cả dịch vụ”. Khác nhau ở chất liệu — mỗi hướng lấy một vốn hình Việt Nam và vẽ bằng hình học thuần, không dùng hoạ tiết trang trí rối.</p>
+
+  <div class="dv-opts">
+
+    <!-- ============ 2a — GẠCH BÔNG ============ -->
+    <div class="dv-opt" id="2a">
+      <div class="dv-olabel"><a class="dv-oid" href="#2a">2a</a>Gạch bông · Saigon tile</div>
+      <div class="dv-onote">Hoạ tiết gạch bông nhà phố Sài Gòn làm nền đầu trang, vẽ bằng gradient chứ không phải ảnh. Thẻ số dư trắng nằm đè lên như thẻ tài khoản, hàng chức năng tròn ngay dưới. Sáng, quen tay, chữ ký riêng nằm ở mảng hoa văn.</div>
+      <div class="dv-card" style="background:#F6F4EF;color:#111827;font-family:Manrope,sans-serif">
+        <div style="padding:22px 20px 62px;background-color:#0A544E;background-image:radial-gradient(circle at 0 0,transparent 12px,rgba(255,248,236,.19) 12px 14.5px,transparent 15px),radial-gradient(circle at 100% 0,transparent 12px,rgba(255,248,236,.19) 12px 14.5px,transparent 15px),radial-gradient(circle at 0 100%,transparent 12px,rgba(255,248,236,.19) 12px 14.5px,transparent 15px),radial-gradient(circle at 100% 100%,transparent 12px,rgba(255,248,236,.19) 12px 14.5px,transparent 15px),radial-gradient(circle at 50% 50%,rgba(255,248,236,.19) 0 2.5px,transparent 3px);background-size:46px 46px">
+          <div style="display:flex;align-items:center;gap:12px">
+            <div style="width:42px;height:42px;border-radius:13px;background:#FFF8EC;color:#0A544E;display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:800;flex:none">MT</div>
+            <div style="flex:1;min-width:0">
+              <div style="font-size:16px;font-weight:800;color:#FFF8EC;letter-spacing:-.2px">Chào buổi sáng, Minh</div>
+              <div class="px" style="font-size:11.5px;font-weight:700;color:#FFF8EC;margin-top:2px">Thứ Tư · 16 tháng 9 · Cửa hàng Q.3</div>
+            </div>
+            <div style="width:38px;height:38px;border-radius:12px;background:rgba(255,248,236,.18);display:flex;align-items:center;justify-content:center;flex:none;position:relative">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#FFF8EC" stroke-width="2.1" stroke-linecap="round"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.7 21a2 2 0 0 1-3.4 0"/></svg>
+              <div style="position:absolute;top:7px;right:8px;width:7px;height:7px;border-radius:5px;background:#F59E0B"></div>
+            </div>
+          </div>
+        </div>
+
+        <div style="margin:-46px 16px 0;background:#fff;border-radius:22px;padding:18px;box-shadow:0 8px 24px rgba(15,23,42,.1)">
+          <div style="display:flex;align-items:center;gap:16px">
+            <div style="flex:1;min-width:0">
+              <div style="font-size:11px;font-weight:800;letter-spacing:1.5px;color:#5B6572">GIỜ ĐÃ LÀM HÔM NAY</div>
+              <div class="px" style="font-size:38px;font-weight:800;letter-spacing:-1.6px;margin-top:5px;line-height:1">6h 12</div>
+              <div class="px" style="font-size:12px;font-weight:700;color:#5B6572;margin-top:3px">Ca 08:00 — 17:00</div>
+            </div>
+            <div style="position:relative;width:80px;height:80px;flex:none">
+              <svg width="80" height="80" viewBox="0 0 80 80" style="transform:rotate(-90deg)">
+                <circle cx="40" cy="40" r="34" fill="none" stroke="#E6E9ED" stroke-width="9"></circle>
+                <circle cx="40" cy="40" r="34" fill="none" stroke="#F59E0B" stroke-width="9" stroke-linecap="round" stroke-dasharray="147.4 213.6"></circle>
+              </svg>
+              <div class="px" style="position:absolute;top:0;left:0;right:0;bottom:0;display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:800">69%</div>
+            </div>
+          </div>
+          <div style="display:flex;gap:10px;margin-top:14px;padding-top:14px;border-top:1px solid #EAEDF1">
+            <div style="flex:1">
+              <div style="font-size:10px;font-weight:800;letter-spacing:1.2px;color:#5B6572">VÀO</div>
+              <div class="px" style="font-size:16px;font-weight:800;margin-top:2px">07:56</div>
+            </div>
+            <div style="flex:1">
+              <div style="font-size:10px;font-weight:800;letter-spacing:1.2px;color:#5B6572">RA</div>
+              <div class="px" style="font-size:16px;font-weight:800;margin-top:2px;color:#9AA3AE">— : —</div>
+            </div>
+            <div style="flex:1.3;height:44px;border-radius:13px;background:#F59E0B;color:#1C1408;display:flex;align-items:center;justify-content:center;gap:7px;font-size:13.5px;font-weight:800;letter-spacing:.6px">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M12 2v6"/><path d="M5.6 6.6a9 9 0 1 0 12.8 0"/></svg>
+              CHẤM RA
+            </div>
+          </div>
+        </div>
+
+        <div style="display:flex;gap:6px;padding:20px 16px 0">
+          <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:8px">
+            <div style="width:52px;height:52px;border-radius:50%;background:#fff;border:1px solid #E3DFD6;display:flex;align-items:center;justify-content:center;color:#0F766E"><svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M8 2v4M16 2v4M3 10h18"/></svg></div>
+            <div style="font-size:10.5px;font-weight:700;text-align:center;line-height:1.3">Nghỉ phép</div>
+          </div>
+          <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:8px">
+            <div style="width:52px;height:52px;border-radius:50%;background:#fff;border:1px solid #E3DFD6;display:flex;align-items:center;justify-content:center;color:#0F766E"><svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></div>
+            <div style="font-size:10.5px;font-weight:700;text-align:center;line-height:1.3">Tăng ca</div>
+          </div>
+          <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:8px">
+            <div style="width:52px;height:52px;border-radius:50%;background:#fff;border:1px solid #E3DFD6;display:flex;align-items:center;justify-content:center;color:#0F766E;position:relative"><svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"/></svg><div style="position:absolute;top:-2px;right:-2px;width:18px;height:18px;border-radius:50%;background:#EF4444;color:#fff;font-size:10px;font-weight:800;display:flex;align-items:center;justify-content:center">1</div></div>
+            <div style="font-size:10.5px;font-weight:700;text-align:center;line-height:1.3">Sửa công</div>
+          </div>
+          <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:8px">
+            <div style="width:52px;height:52px;border-radius:50%;background:#fff;border:1px solid #E3DFD6;display:flex;align-items:center;justify-content:center;color:#0F766E"><svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6M8 13h8"/></svg></div>
+            <div style="font-size:10.5px;font-weight:700;text-align:center;line-height:1.3">Phiếu lương</div>
+          </div>
+          <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:8px">
+            <div style="width:52px;height:52px;border-radius:50%;background:#0F766E;display:flex;align-items:center;justify-content:center;color:#FFF8EC"><svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="5" cy="12" r="1.6"/><circle cx="12" cy="12" r="1.6"/><circle cx="19" cy="12" r="1.6"/></svg></div>
+            <div style="font-size:10.5px;font-weight:700;text-align:center;line-height:1.3">Tất cả</div>
+          </div>
+        </div>
+
+        <div style="height:14px;margin:20px 0 0;background-color:#0A544E;background-image:radial-gradient(circle at 50% 0,rgba(255,248,236,.28) 0 2.5px,transparent 3px),radial-gradient(circle at 0 100%,transparent 6px,rgba(255,248,236,.28) 6px 7.5px,transparent 8px),radial-gradient(circle at 100% 100%,transparent 6px,rgba(255,248,236,.28) 6px 7.5px,transparent 8px);background-size:22px 22px"></div>
+
+        <div style="padding:18px 16px 24px;display:flex;flex-direction:column;gap:10px">
+          <div style="background:#fff;border:1px solid #E3DFD6;border-radius:18px;padding:15px;display:flex;align-items:center;gap:13px">
+            <div style="flex:1">
+              <div style="font-size:11px;font-weight:800;letter-spacing:1.2px;color:#5B6572">THỰC NHẬN THÁNG 9</div>
+              <div class="px" style="font-size:24px;font-weight:800;letter-spacing:-.8px;margin-top:3px">25.500.000 ₫</div>
+              <div style="font-size:11.5px;font-weight:700;color:#0F766E;margin-top:4px">Thưởng KPI +2.500.000 ₫</div>
+            </div>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#5B6572" stroke-width="2.4" stroke-linecap="round"><path d="m9 18 6-6-6-6"/></svg>
+          </div>
+          <div style="display:flex;gap:10px">
+            <div style="flex:1;background:#fff;border:1px solid #E3DFD6;border-radius:16px;padding:13px">
+              <div style="font-size:10.5px;font-weight:800;letter-spacing:1px;color:#5B6572">PHÉP CÒN</div>
+              <div class="px" style="font-size:21px;font-weight:800;margin-top:3px;color:#0F766E">6 <span style="font-size:12px;color:#5B6572">ngày</span></div>
+            </div>
+            <div style="flex:1;background:#fff;border:1px solid #E3DFD6;border-radius:16px;padding:13px">
+              <div style="font-size:10.5px;font-weight:800;letter-spacing:1px;color:#5B6572">NGÀY CÔNG</div>
+              <div class="px" style="font-size:21px;font-weight:800;margin-top:3px">18 <span style="font-size:12px;color:#5B6572">/ 22</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ============ 2b — SƠN MÀI ============ -->
+    <div class="dv-opt" id="2b">
+      <div class="dv-olabel"><a class="dv-oid" href="#2b">2b</a>Sơn mài · Lacquer &amp; gold</div>
+      <div class="dv-onote">Nền sơn mài nâu đen ấm, amber thành nét vàng cẩn, chữ màu vỏ trứng. Chức năng là những tấm khảm viền vàng. Hướng mạnh nhất về thị giác — sang, đặc Việt, và vẫn chỉ có một nút vàng đặc duy nhất trên màn hình.</div>
+      <div class="dv-card" style="background:#14100D;color:#F2E9D8;font-family:Manrope,sans-serif;padding:24px 20px 26px">
+        <div style="display:flex;align-items:center;gap:12px;padding-bottom:18px;border-bottom:1px solid rgba(251,191,36,.34)">
+          <div style="width:40px;height:40px;border-radius:50%;border:1.5px solid #FBBF24;color:#FBBF24;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:800;flex:none">MT</div>
+          <div style="flex:1;min-width:0">
+            <div style="font-size:15.5px;font-weight:700;letter-spacing:-.1px">Nguyễn Minh Tuấn</div>
+            <div class="px" style="font-size:11px;font-weight:600;color:#A99B84;margin-top:2px;letter-spacing:.6px">NV-04821 · VẬN HÀNH</div>
+          </div>
+          <div class="px" style="font-size:11px;font-weight:700;color:#A99B84;letter-spacing:.8px">16.09</div>
+        </div>
+
+        <div style="display:flex;align-items:center;gap:18px;padding:24px 0 22px">
+          <div style="position:relative;width:96px;height:96px;flex:none">
+            <svg width="96" height="96" viewBox="0 0 96 96" style="transform:rotate(-90deg)">
+              <circle cx="48" cy="48" r="40" fill="none" stroke="rgba(242,233,216,.12)" stroke-width="3"></circle>
+              <circle cx="48" cy="48" r="40" fill="none" stroke="#FBBF24" stroke-width="3" stroke-linecap="round" stroke-dasharray="173.4 251.3"></circle>
+              <circle cx="48" cy="48" r="31" fill="none" stroke="rgba(45,212,191,.42)" stroke-width="1"></circle>
+            </svg>
+            <div style="position:absolute;top:0;left:0;right:0;bottom:0;display:flex;flex-direction:column;align-items:center;justify-content:center">
+              <div class="px" style="font-size:19px;font-weight:700;color:#FBBF24;line-height:1">69%</div>
+              <div style="font-size:8.5px;font-weight:700;letter-spacing:1.4px;color:#A99B84;margin-top:3px">CA NGÀY</div>
+            </div>
+          </div>
+          <div style="flex:1;min-width:0">
+            <div style="font-size:10.5px;font-weight:800;letter-spacing:2px;color:#A99B84">GIỜ ĐÃ LÀM</div>
+            <div class="px" style="font-size:40px;font-weight:700;letter-spacing:-1.8px;margin-top:5px;line-height:1">6h 12</div>
+            <div class="px" style="font-size:11.5px;font-weight:600;color:#A99B84;margin-top:5px">Vào 07:56 · Ra — : —</div>
+          </div>
+        </div>
+
+        <div style="height:60px;background:#FBBF24;color:#14100D;display:flex;align-items:center;justify-content:center;gap:11px;border-radius:4px">
+          <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M12 2v6"/><path d="M5.6 6.6a9 9 0 1 0 12.8 0"/></svg>
+          <span style="font-size:16px;font-weight:800;letter-spacing:3.4px">CHẤM CÔNG RA</span>
+        </div>
+
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:22px">
+          <div style="border:1px solid rgba(251,191,36,.34);border-radius:4px;padding:15px 14px">
+            <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="#2DD4BF" stroke-width="1.9" stroke-linecap="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M8 2v4M16 2v4M3 10h18"/></svg>
+            <div style="font-size:13px;font-weight:700;margin-top:11px">Nghỉ phép</div>
+            <div style="font-size:10.5px;font-weight:600;color:#A99B84;margin-top:3px">Còn 6 ngày</div>
+          </div>
+          <div style="border:1px solid rgba(251,191,36,.34);border-radius:4px;padding:15px 14px">
+            <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="#2DD4BF" stroke-width="1.9" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
+            <div style="font-size:13px;font-weight:700;margin-top:11px">Tăng ca</div>
+            <div style="font-size:10.5px;font-weight:600;color:#A99B84;margin-top:3px">12 giờ tháng 9</div>
+          </div>
+          <div style="border:1px solid rgba(251,191,36,.34);border-radius:4px;padding:15px 14px">
+            <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="#F87171" stroke-width="1.9" stroke-linecap="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"/></svg>
+            <div style="font-size:13px;font-weight:700;margin-top:11px">Sửa công</div>
+            <div style="font-size:10.5px;font-weight:600;color:#F87171;margin-top:3px">15.09 thiếu giờ ra</div>
+          </div>
+          <div style="border:1px solid rgba(251,191,36,.34);border-radius:4px;padding:15px 14px">
+            <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="#2DD4BF" stroke-width="1.9" stroke-linecap="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6M8 13h8"/></svg>
+            <div style="font-size:13px;font-weight:700;margin-top:11px">Phiếu lương</div>
+            <div style="font-size:10.5px;font-weight:600;color:#A99B84;margin-top:3px">Tháng 9 đã có</div>
+          </div>
+        </div>
+
+        <div style="margin-top:22px;padding-top:20px;border-top:1px solid rgba(251,191,36,.34)">
+          <div style="display:flex;align-items:flex-end;justify-content:space-between">
+            <div>
+              <div style="font-size:10.5px;font-weight:800;letter-spacing:2px;color:#A99B84">THỰC NHẬN THÁNG 9</div>
+              <div class="px" style="font-size:27px;font-weight:700;letter-spacing:-1px;margin-top:5px">25.500.000 ₫</div>
+            </div>
+            <div style="text-align:right">
+              <div style="font-size:10.5px;font-weight:800;letter-spacing:1.4px;color:#A99B84">THƯỞNG</div>
+              <div class="px" style="font-size:15px;font-weight:700;color:#34D399;margin-top:4px">+2,5tr</div>
+            </div>
+          </div>
+        </div>
+        <div style="margin-top:18px;height:48px;border:1px solid #2DD4BF;color:#2DD4BF;border-radius:4px;display:flex;align-items:center;justify-content:center;gap:9px;font-size:13.5px;font-weight:700;letter-spacing:1.6px">
+          TẤT CẢ DỊCH VỤ
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="m9 18 6-6-6-6"/></svg>
+        </div>
+      </div>
+    </div>
+
+    <!-- ============ 2c — TRỐNG ĐỒNG ============ -->
+    <div class="dv-opt" id="2c">
+      <div class="dv-olabel"><a class="dv-oid" href="#2c">2c</a>Trống đồng · Bronze drum</div>
+      <div class="dv-onote">Vòng tiến độ ca trở thành mặt trống đồng Đông Sơn: các vành đồng tâm, nan hoa, vành nét đứt. Vẽ bằng hình học SVG thuần nên vẫn sạch và đọc nhanh. Vành đồng tâm lặp lại làm đường phân mục cho cả app.</div>
+      <div class="dv-card" style="background:#FBF9F4;color:#1A1A18;font-family:Manrope,sans-serif;padding:24px 20px 26px">
+        <div style="display:flex;align-items:center;gap:12px">
+          <div style="flex:1;min-width:0">
+            <div style="font-size:11px;font-weight:800;letter-spacing:1.8px;color:#0F766E">CỬA HÀNG Q.3 · CA NGÀY</div>
+            <div style="font-size:19px;font-weight:800;letter-spacing:-.3px;margin-top:5px">Chào buổi sáng, Minh</div>
+          </div>
+          <div style="width:40px;height:40px;border-radius:50%;background:#0F766E;color:#FBF9F4;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:800;flex:none">MT</div>
+        </div>
+
+        <div style="display:flex;justify-content:center;padding:18px 0 8px">
+          <div style="position:relative;width:206px;height:206px">
+            <svg width="206" height="206" viewBox="0 0 206 206">
+              <g style="transform:rotate(-90deg);transform-origin:103px 103px">
+                <circle cx="103" cy="103" r="94" fill="none" stroke="#E4E0D5" stroke-width="11"></circle>
+                <circle cx="103" cy="103" r="94" fill="none" stroke="#F59E0B" stroke-width="11" stroke-linecap="round" stroke-dasharray="407.4 590.6"></circle>
+              </g>
+              <circle cx="103" cy="103" r="80" fill="none" stroke="#0F766E" stroke-width="1"></circle>
+              <circle cx="103" cy="103" r="74" fill="none" stroke="#0F766E" stroke-width="3" stroke-dasharray="5 7"></circle>
+              <circle cx="103" cy="103" r="66" fill="none" stroke="#0F766E" stroke-width="1"></circle>
+              <g stroke="#0F766E" stroke-width="1.6">
+                <line x1="103" y1="37" x2="103" y2="169"></line>
+                <line x1="46" y1="70" x2="160" y2="136"></line>
+                <line x1="46" y1="136" x2="160" y2="70"></line>
+                <line x1="37" y1="103" x2="169" y2="103"></line>
+                <line x1="70" y1="46" x2="136" y2="160"></line>
+                <line x1="136" y1="46" x2="70" y2="160"></line>
+              </g>
+              <circle cx="103" cy="103" r="52" fill="#FBF9F4"></circle>
+              <circle cx="103" cy="103" r="52" fill="none" stroke="#0F766E" stroke-width="1.6"></circle>
+            </svg>
+            <div style="position:absolute;top:0;left:0;right:0;bottom:0;display:flex;flex-direction:column;align-items:center;justify-content:center">
+              <div style="font-size:9.5px;font-weight:800;letter-spacing:1.8px;color:#0F766E">ĐÃ LÀM</div>
+              <div class="px" style="font-size:36px;font-weight:800;letter-spacing:-1.6px;line-height:1.05;margin-top:3px">6h12</div>
+              <div class="px" style="font-size:10.5px;font-weight:700;color:#57564E;margin-top:3px">/ 9 giờ · 69%</div>
+            </div>
+          </div>
+        </div>
+
+        <div style="display:flex;gap:11px;padding:4px 0 0">
+          <div style="flex:1;text-align:center;padding:11px 0;border-top:1px solid #1A1A18;border-bottom:1px solid #E4E0D5">
+            <div style="font-size:9.5px;font-weight:800;letter-spacing:1.4px;color:#57564E">VÀO</div>
+            <div class="px" style="font-size:17px;font-weight:800;margin-top:3px">07:56</div>
+          </div>
+          <div style="flex:1;text-align:center;padding:11px 0;border-top:1px solid #1A1A18;border-bottom:1px solid #E4E0D5">
+            <div style="font-size:9.5px;font-weight:800;letter-spacing:1.4px;color:#57564E">RA</div>
+            <div class="px" style="font-size:17px;font-weight:800;margin-top:3px;color:#A8A49A">— : —</div>
+          </div>
+          <div style="flex:1;text-align:center;padding:11px 0;border-top:1px solid #1A1A18;border-bottom:1px solid #E4E0D5">
+            <div style="font-size:9.5px;font-weight:800;letter-spacing:1.4px;color:#57564E">TĂNG CA</div>
+            <div class="px" style="font-size:17px;font-weight:800;margin-top:3px">12h</div>
+          </div>
+        </div>
+
+        <div style="margin-top:16px;height:58px;border-radius:999px;background:#F59E0B;color:#1C1408;display:flex;align-items:center;justify-content:center;gap:11px">
+          <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M12 2v6"/><path d="M5.6 6.6a9 9 0 1 0 12.8 0"/></svg>
+          <span style="font-size:16px;font-weight:800;letter-spacing:2.6px">CHẤM CÔNG RA</span>
+        </div>
+
+        <div style="display:flex;gap:8px;margin-top:20px">
+          <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:8px">
+            <div style="width:100%;aspect-ratio:1;border-radius:50%;border:1.5px solid #0F766E;display:flex;align-items:center;justify-content:center;color:#0F766E"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M8 2v4M16 2v4M3 10h18"/></svg></div>
+            <div style="font-size:10px;font-weight:700;text-align:center;line-height:1.3">Nghỉ phép</div>
+          </div>
+          <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:8px">
+            <div style="width:100%;aspect-ratio:1;border-radius:50%;border:1.5px solid #0F766E;display:flex;align-items:center;justify-content:center;color:#0F766E"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></div>
+            <div style="font-size:10px;font-weight:700;text-align:center;line-height:1.3">Tăng ca</div>
+          </div>
+          <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:8px">
+            <div style="width:100%;aspect-ratio:1;border-radius:50%;border:1.5px solid #EF4444;display:flex;align-items:center;justify-content:center;color:#EF4444"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"/></svg></div>
+            <div style="font-size:10px;font-weight:700;text-align:center;line-height:1.3">Sửa công</div>
+          </div>
+          <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:8px">
+            <div style="width:100%;aspect-ratio:1;border-radius:50%;border:1.5px solid #0F766E;display:flex;align-items:center;justify-content:center;color:#0F766E"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6M8 13h8"/></svg></div>
+            <div style="font-size:10px;font-weight:700;text-align:center;line-height:1.3">Phiếu lương</div>
+          </div>
+          <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:8px">
+            <div style="width:100%;aspect-ratio:1;border-radius:50%;background:#0F766E;display:flex;align-items:center;justify-content:center;color:#FBF9F4"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="5" cy="12" r="1.6"/><circle cx="12" cy="12" r="1.6"/><circle cx="19" cy="12" r="1.6"/></svg></div>
+            <div style="font-size:10px;font-weight:700;text-align:center;line-height:1.3">Tất cả</div>
+          </div>
+        </div>
+
+        <div style="margin:22px 0 18px">
+          <div style="height:1px;background:#0F766E"></div>
+          <div style="height:1px;background:#0F766E;margin-top:3px;opacity:.45"></div>
+          <div style="height:1px;background:#0F766E;margin-top:3px;opacity:.2"></div>
+        </div>
+
+        <div style="display:flex;align-items:flex-end;justify-content:space-between">
+          <div>
+            <div style="font-size:10.5px;font-weight:800;letter-spacing:1.6px;color:#57564E">THỰC NHẬN THÁNG 9</div>
+            <div class="px" style="font-size:26px;font-weight:800;letter-spacing:-1px;margin-top:4px">25.500.000 ₫</div>
+          </div>
+          <div class="px" style="font-size:13px;font-weight:800;color:#0F766E">Phép 6 ngày</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <p class="dv-next">Gợi ý nói tiếp: “áp <a class="dv-oid" href="#2c">2c</a> cho cả 24 màn hình” · “<a class="dv-oid" href="#2b">2b</a> nhưng nền sáng” · “lấy hoa văn gạch bông của <a class="dv-oid" href="#2a">2a</a> ghép vào mặt trống của <a class="dv-oid" href="#2c">2c</a>” · “thêm phiên bản tối cho hướng đã chọn”</p>
+</section>
+
+<section class="dv-turn" id="t1">
+  <div class="dv-thd"><a class="dv-tid" href="#t1">1</a><span class="dv-tname">Ba hướng cá tính · cùng bảng màu teal/amber, cùng nội dung</span></div>
+  <p class="dv-sub">Bản hiện tại đang là “fintech sạch” — đúng brief nhưng chưa có chữ ký riêng. Ba hướng dưới đây giữ nguyên palette và cấu trúc thông tin, chỉ đổi cách thiết kế <em>nói</em>: chất liệu, kiểu chữ, cách trình bày số liệu. Bấm chọn một hướng, tôi áp cho cả 24 màn hình.</p>
+
+  <div class="dv-opts">
+
+    <!-- ============ 1a — SỔ CÔNG ============ -->
+    <div class="dv-opt" id="1a">
+      <div class="dv-olabel"><a class="dv-oid" href="#1a">1a</a>Sổ công · Ledger</div>
+      <div class="dv-onote">Bảng công giấy. Chữ serif (Noto Serif Display, đủ dấu tiếng Việt) + số mono, kẻ chỉ mảnh thay vì thẻ, gần như không có nền màu. Số liệu là nhân vật chính. Teal chỉ làm mực và đường kẻ; amber là một nét gạch chân duy nhất.</div>
+      <div class="dv-card" style="background:#FBFAF7;color:#1A1A18;padding:26px 24px 30px;font-family:Manrope,sans-serif">
+        <div style="display:flex;align-items:flex-start;justify-content:space-between;padding-bottom:16px;border-bottom:1px solid #1A1A18">
+          <div>
+            <div style="font:500 9.5px/1 JetBrains Mono,monospace;letter-spacing:2.2px;color:#0F766E">NV-04821 · VẬN HÀNH</div>
+            <div style="font:400 25px/1.15 Noto Serif Display,serif;margin-top:9px">Nguyễn Minh Tuấn</div>
+          </div>
+          <div style="font:500 9.5px/1.5 JetBrains Mono,monospace;letter-spacing:1px;text-align:right;color:#6B6B64">T4<br>16.09.26</div>
+        </div>
+
+        <div style="display:flex;align-items:flex-end;justify-content:space-between;padding:22px 0 8px">
+          <div>
+            <div style="font:500 9.5px/1 JetBrains Mono,monospace;letter-spacing:2.2px;color:#6B6B64">GIỜ ĐÃ LÀM</div>
+            <div class="px" style="font:300 58px/.92 Noto Serif Display,serif;margin-top:8px;letter-spacing:-1.5px">6<span style="font-size:28px">h</span>12</div>
+          </div>
+          <div style="text-align:right">
+            <div style="font:500 9.5px/1 JetBrains Mono,monospace;letter-spacing:2px;color:#6B6B64">CA</div>
+            <div class="px" style="font:500 14px/1.3 JetBrains Mono,monospace;margin-top:7px">08:00<br>17:00</div>
+          </div>
+        </div>
+        <div style="height:2px;background:#F59E0B;width:69%;margin-bottom:2px"></div>
+        <div style="height:1px;background:#DCD8CE"></div>
+
+        <div style="margin-top:22px;border-top:1px solid #1A1A18">
+          <div style="display:flex;justify-content:space-between;padding:12px 0;border-bottom:1px solid #E6E2D8">
+            <div style="font:500 11.5px/1 JetBrains Mono,monospace;letter-spacing:.6px;color:#6B6B64">GIỜ VÀO</div>
+            <div class="px" style="font:700 12.5px/1 JetBrains Mono,monospace">07:56</div>
+          </div>
+          <div style="display:flex;justify-content:space-between;padding:12px 0;border-bottom:1px solid #E6E2D8">
+            <div style="font:500 11.5px/1 JetBrains Mono,monospace;letter-spacing:.6px;color:#6B6B64">GIỜ RA</div>
+            <div class="px" style="font:700 12.5px/1 JetBrains Mono,monospace;color:#B8B2A4">— : —</div>
+          </div>
+          <div style="display:flex;justify-content:space-between;padding:12px 0;border-bottom:1px solid #E6E2D8">
+            <div style="font:500 11.5px/1 JetBrains Mono,monospace;letter-spacing:.6px;color:#6B6B64">NGÀY CÔNG T9</div>
+            <div class="px" style="font:700 12.5px/1 JetBrains Mono,monospace">18 / 22</div>
+          </div>
+          <div style="display:flex;justify-content:space-between;padding:12px 0;border-bottom:1px solid #E6E2D8">
+            <div style="font:500 11.5px/1 JetBrains Mono,monospace;letter-spacing:.6px;color:#6B6B64">PHÉP CÒN</div>
+            <div class="px" style="font:700 12.5px/1 JetBrains Mono,monospace;color:#0F766E">06 NGÀY</div>
+          </div>
+          <div style="display:flex;justify-content:space-between;padding:12px 0">
+            <div style="font:500 11.5px/1 JetBrains Mono,monospace;letter-spacing:.6px;color:#6B6B64">THỰC NHẬN T9</div>
+            <div class="px" style="font:700 12.5px/1 JetBrains Mono,monospace">25.500.000</div>
+          </div>
+        </div>
+
+        <div style="margin-top:22px;height:56px;border:1.5px solid #1A1A18;display:flex;align-items:center;justify-content:center;gap:11px">
+          <div style="width:7px;height:7px;background:#F59E0B"></div>
+          <span style="font:700 13px/1 JetBrains Mono,monospace;letter-spacing:3.4px">CHẤM CÔNG RA</span>
+        </div>
+        <div style="margin-top:20px;border-top:1px solid #1A1A18">
+          <div style="display:flex;align-items:center;justify-content:space-between;height:48px;border-bottom:1px solid #E6E2D8">
+            <div style="font:400 16px/1 Noto Serif Display,serif">Xin nghỉ phép</div>
+            <div style="font:500 10.5px/1 JetBrains Mono,monospace;letter-spacing:1px;color:#0F766E">CÒN 6 NGÀY</div>
+          </div>
+          <div style="display:flex;align-items:center;justify-content:space-between;height:48px;border-bottom:1px solid #E6E2D8">
+            <div style="font:400 16px/1 Noto Serif Display,serif">Sửa công</div>
+            <div style="font:500 10.5px/1 JetBrains Mono,monospace;letter-spacing:1px;color:#A8341F">15.09 THIẾU GIỜ</div>
+          </div>
+          <div style="display:flex;align-items:center;justify-content:space-between;height:48px;border-bottom:1px solid #E6E2D8">
+            <div style="font:400 16px/1 Noto Serif Display,serif">Phiếu lương</div>
+            <div style="font:500 10.5px/1 JetBrains Mono,monospace;letter-spacing:1px;color:#57564E">THÁNG 9</div>
+          </div>
+          <div style="display:flex;align-items:center;justify-content:space-between;height:48px">
+            <div style="font:400 16px/1 Noto Serif Display,serif;color:#0F766E">Tất cả dịch vụ</div>
+            <div style="font:500 13px/1 JetBrains Mono,monospace;color:#0F766E">→</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ============ 1b — THẺ CA ============ -->
+    <div class="dv-opt" id="1b">
+      <div class="dv-olabel"><a class="dv-oid" href="#1b">1b</a>Thẻ ca · Shift ticket</div>
+      <div class="dv-onote">Một ngày làm việc là một tấm thẻ có thật: cạnh răng cưa, đường xé nét đứt, cuống vé ghi giờ vào/ra, nút chấm công như con dấu. Ẩn dụ vật lý này khiến app khác hẳn mọi HRM phẳng.</div>
+      <div class="dv-card" style="background:#FFF8EC;color:#111827;padding:24px 20px 28px;font-family:Manrope,sans-serif">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:18px">
+          <div>
+            <div style="font-size:11px;font-weight:800;letter-spacing:1.6px;color:#8A5A22">CA HÔM NAY</div>
+            <div style="font-size:19px;font-weight:800;letter-spacing:-.3px;margin-top:4px">Chào buổi sáng, Minh</div>
+          </div>
+          <div style="width:40px;height:40px;border-radius:50%;background:#0F766E;color:#fff;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:800">MT</div>
+        </div>
+
+        <!-- ticket -->
+        <div style="position:relative;background:#0F766E;color:#fff;border-radius:20px;padding:20px 20px 0">
+          <div style="display:flex;align-items:flex-start;justify-content:space-between">
+            <div>
+              <div style="font-size:10px;font-weight:800;letter-spacing:1.8px;opacity:.72">CỬA HÀNG Q.3</div>
+              <div class="px" style="font-size:31px;font-weight:800;letter-spacing:-1.1px;margin-top:6px">08:00→17:00</div>
+            </div>
+            <div style="text-align:right">
+              <div style="font-size:10px;font-weight:800;letter-spacing:1.4px;opacity:.72">MÃ CA</div>
+              <div class="px" style="font-size:14px;font-weight:800;margin-top:5px">S-412</div>
+            </div>
+          </div>
+          <div class="px" style="font-size:12.5px;font-weight:700;opacity:.8;margin-top:12px">Thứ Tư · 16 tháng 9 · Ca ngày 9 giờ</div>
+
+          <!-- perforation -->
+          <div style="position:relative;margin:18px -20px 0;height:22px">
+            <div style="position:absolute;top:10px;left:14px;right:14px;height:2px;background:repeating-linear-gradient(90deg,rgba(255,255,255,.55) 0 7px,transparent 7px 14px)"></div>
+            <div style="position:absolute;top:0;left:-11px;width:22px;height:22px;border-radius:50%;background:#FFF8EC"></div>
+            <div style="position:absolute;top:0;right:-11px;width:22px;height:22px;border-radius:50%;background:#FFF8EC"></div>
+          </div>
+
+          <!-- stub -->
+          <div style="display:flex;gap:14px;padding:16px 0 20px">
+            <div style="flex:1">
+              <div style="font-size:9.5px;font-weight:800;letter-spacing:1.5px;opacity:.7">ĐÃ VÀO</div>
+              <div class="px" style="font-size:20px;font-weight:800;margin-top:4px">07:56</div>
+            </div>
+            <div style="width:1px;background:rgba(255,255,255,.28)"></div>
+            <div style="flex:1">
+              <div style="font-size:9.5px;font-weight:800;letter-spacing:1.5px;opacity:.7">ĐÃ LÀM</div>
+              <div class="px" style="font-size:20px;font-weight:800;margin-top:4px">6h 12</div>
+            </div>
+            <div style="width:1px;background:rgba(255,255,255,.28)"></div>
+            <div style="flex:1">
+              <div style="font-size:9.5px;font-weight:800;letter-spacing:1.5px;opacity:.7">RA VỀ</div>
+              <div class="px" style="font-size:20px;font-weight:800;margin-top:4px;opacity:.5">— —</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- stamp CTA -->
+        <div style="margin-top:14px;height:60px;border-radius:18px;background:#F59E0B;color:#1C1408;display:flex;align-items:center;justify-content:center;gap:11px;border:2.5px dashed rgba(28,20,8,.32)">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M12 2v6"/><path d="M5.6 6.6a9 9 0 1 0 12.8 0"/></svg>
+          <span style="font-size:16px;font-weight:800;letter-spacing:2.2px">ĐÓNG DẤU RA</span>
+        </div>
+
+        <div style="display:flex;gap:10px;margin-top:16px">
+          <div style="flex:1;background:#fff;border:1px solid #EADFC9;border-radius:16px;padding:13px">
+            <div style="font-size:10.5px;font-weight:800;letter-spacing:.8px;color:#6F6047">PHÉP CÒN</div>
+            <div class="px" style="font-size:22px;font-weight:800;margin-top:3px;color:#0F766E">6 <span style="font-size:12px;color:#6F6047">ngày</span></div>
+          </div>
+          <div style="flex:1;background:#fff;border:1px solid #EADFC9;border-radius:16px;padding:13px">
+            <div style="font-size:10.5px;font-weight:800;letter-spacing:.8px;color:#6F6047">THỰC NHẬN T9</div>
+            <div class="px" style="font-size:22px;font-weight:800;margin-top:3px">25,5<span style="font-size:12px;color:#6F6047">tr</span></div>
+          </div>
+        </div>
+        <div style="margin-top:14px;display:flex;align-items:center;justify-content:center;gap:8px;height:46px;border-radius:15px;border:1.5px solid #0F766E;color:#0F766E;font-size:13.5px;font-weight:800">
+          Xem tất cả dịch vụ
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="m9 18 6-6-6-6"/></svg>
+        </div>
+      </div>
+    </div>
+
+    <!-- ============ 1c — BẢNG ĐÊM ============ -->
+    <div class="dv-opt" id="1c">
+      <div class="dv-olabel"><a class="dv-oid" href="#1c">1c</a>Bảng đêm · Night panel</div>
+      <div class="dv-onote">Tối là mặc định, không phải chế độ phụ. Số liệu phát sáng, teal là đèn nền, amber là đèn tín hiệu — đọc được từ xa, một tay, trong kho hay cửa hàng lúc 5 giờ sáng. Chữ Archivo bè ngang, hàng dạng viên thuốc.</div>
+      <div class="dv-card" style="background:#0B1220;color:#F8FAFC;padding:24px 20px 28px;font-family:Archivo,Manrope,sans-serif">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:22px">
+          <div style="display:flex;align-items:center;gap:10px">
+            <div style="width:9px;height:9px;border-radius:50%;background:#2DD4BF;box-shadow:0 0 12px #2DD4BF"></div>
+            <div style="font-size:11px;font-weight:700;letter-spacing:2px;color:#2DD4BF">ĐANG TRONG CA</div>
+          </div>
+          <div class="px" style="font-size:11px;font-weight:600;letter-spacing:1.2px;color:#94A3B8">16.09 · T4</div>
+        </div>
+
+        <div class="px" style="font-size:82px;font-weight:700;line-height:.86;letter-spacing:-3.5px;color:#2DD4BF;text-shadow:0 0 34px rgba(45,212,191,.45)">6:12</div>
+        <div style="font-size:12px;font-weight:700;letter-spacing:2.4px;color:#94A3B8;margin-top:10px">ĐÃ LÀM / CA 9 GIỜ</div>
+
+        <div style="display:flex;gap:3px;margin-top:18px">
+          <div style="flex:69;height:7px;border-radius:4px;background:#2DD4BF;box-shadow:0 0 14px rgba(45,212,191,.5)"></div>
+          <div style="flex:31;height:7px;border-radius:4px;background:#1E293B"></div>
+        </div>
+
+        <div style="display:flex;gap:9px;margin-top:22px">
+          <div style="flex:1;background:#151E2E;border-radius:999px;padding:13px 16px">
+            <div style="font-size:9.5px;font-weight:700;letter-spacing:1.5px;color:#94A3B8">VÀO</div>
+            <div class="px" style="font-size:19px;font-weight:700;margin-top:3px">07:56</div>
+          </div>
+          <div style="flex:1;background:#151E2E;border-radius:999px;padding:13px 16px">
+            <div style="font-size:9.5px;font-weight:700;letter-spacing:1.5px;color:#94A3B8">RA</div>
+            <div class="px" style="font-size:19px;font-weight:700;margin-top:3px;color:#3A4759">--:--</div>
+          </div>
+        </div>
+
+        <div style="margin-top:14px;height:66px;border-radius:999px;background:#FBBF24;color:#1C1408;display:flex;align-items:center;justify-content:center;gap:12px;box-shadow:0 0 38px rgba(251,191,36,.32)">
+          <div style="width:11px;height:11px;border-radius:50%;background:#1C1408"></div>
+          <span style="font-size:17px;font-weight:800;letter-spacing:3px">CHẤM RA</span>
+        </div>
+
+        <div style="margin-top:22px;display:flex;flex-direction:column;gap:8px">
+          <div style="display:flex;align-items:center;gap:13px;background:#151E2E;border-radius:999px;padding:13px 18px">
+            <div style="width:7px;height:7px;border-radius:50%;background:#2DD4BF;flex:none"></div>
+            <div style="flex:1;font-size:12.5px;font-weight:600;color:#94A3B8;letter-spacing:.3px">PHÉP CÒN LẠI</div>
+            <div class="px" style="font-size:15px;font-weight:700">6 ngày</div>
+          </div>
+          <div style="display:flex;align-items:center;gap:13px;background:#151E2E;border-radius:999px;padding:13px 18px">
+            <div style="width:7px;height:7px;border-radius:50%;background:#FBBF24;flex:none"></div>
+            <div style="flex:1;font-size:12.5px;font-weight:600;color:#94A3B8;letter-spacing:.3px">TĂNG CA THÁNG 9</div>
+            <div class="px" style="font-size:15px;font-weight:700">12 giờ</div>
+          </div>
+          <div style="display:flex;align-items:center;gap:13px;background:#151E2E;border-radius:999px;padding:13px 18px">
+            <div style="width:7px;height:7px;border-radius:50%;background:#F87171;flex:none"></div>
+            <div style="flex:1;font-size:12.5px;font-weight:600;color:#94A3B8;letter-spacing:.3px">15.09 THIẾU GIỜ RA</div>
+            <div style="font-size:12px;font-weight:700;color:#FBBF24">SỬA →</div>
+          </div>
+          <div style="display:flex;align-items:center;gap:13px;background:#151E2E;border-radius:999px;padding:13px 18px">
+            <div style="width:7px;height:7px;border-radius:50%;background:#34D399;flex:none"></div>
+            <div style="flex:1;font-size:12.5px;font-weight:600;color:#94A3B8;letter-spacing:.3px">THỰC NHẬN THÁNG 9</div>
+            <div class="px" style="font-size:15px;font-weight:700">25.500.000</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <p class="dv-next">Gợi ý nói tiếp: “áp <a class="dv-oid" href="#1b">1b</a> cho cả 24 màn hình” · “<a class="dv-oid" href="#1a">1a</a> nhưng nền trắng hơn, bớt serif” · “trộn khung răng cưa của <a class="dv-oid" href="#1b">1b</a> với số phát sáng của <a class="dv-oid" href="#1c">1c</a>” · “thêm hướng thứ tư lạ hơn nữa”</p>
+</section>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{}"></script>
+</body>
+</html>

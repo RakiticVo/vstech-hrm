@@ -1,0 +1,26 @@
+---
+description: Quy chuẩn kiến trúc Clean Architecture và nguyên tắc SOLID áp dụng cho toàn bộ mã nguồn Flutter
+globs: **/*.dart
+alwaysApply: true
+---
+
+# Quy tắc SOLID & Clean Architecture
+
+Tuân thủ nghiêm ngặt các nguyên tắc sau trong mọi file code Dart:
+
+1. **Ranh giới Clean Architecture**:
+   - `presentation → domain ← data`. Tầng `domain` không import từ `data/` hay `presentation/`.
+   - `domain` dùng Entity thuần; `data` dùng Model DTO (`@freezed`, `json_serializable`) kèm hàm mapper `toEntity()`.
+   - `presentation` không gọi trực tiếp `data/`.
+
+2. **SOLID Principle**:
+   - **S (Single Responsibility)**: 1 Usecase = 1 tác vụ nghiệp vụ; Widget tách file riêng nếu dùng ≥ 2 nơi hoặc có state riêng; Giới hạn **≤ 300 dòng/file**.
+   - **O (Open/Closed)**: Dùng sealed class/union (`freezed`) cho State/Event/Enum-types.
+   - **L (Liskov Substitution)**: Mock/Real repository thay thế tương đương qua abstract class.
+   - **I (Interface Segregation)**: Repository interface nhỏ, riêng biệt cho từng feature.
+   - **D (Dependency Inversion)**: DI qua `GetIt`, phụ thuộc abstraction `domain/repositories/`.
+
+3. **Kỷ luật mã nguồn**:
+   - Xử lý lỗi qua `Either<Failure, T>` (`fpdart`), không try-catch trần ở UI.
+   - Validate form qua `formz` 3 lớp.
+   - Cấm `print()`, luôn dùng `logger`.

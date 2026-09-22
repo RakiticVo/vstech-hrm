@@ -41,20 +41,20 @@
 | 28 | `risk` (Cảnh báo Rủi ro & Tuân thủ) | P1 HR Risk & Compliance Alerts | |
 | 29 | `delegate` (Trung tâm Uỷ quyền) | P1 Delegation of Authority Center | |
 
-**Quyết định khi implement role BGĐ cho P0**: vì tab 1/tab 3 của BGĐ trỏ sang các màn P1 (`exec`, `final`), trong khi P0 hiện tại chưa build các màn này — cần quyết định tạm thời (hỏi người dùng khi bắt đầu implement role BGĐ):
-- Phương án A: BGĐ dùng chung home/requests như QL cho tới khi P1 sẵn sàng.
-- Phương án B: build route `exec`/`final` dạng khung rỗng (empty state "Sắp ra mắt") để giữ đúng cấu trúc điều hướng 3 cấp ngay từ đầu.
+**Quyết định đã chốt**: **Không có vai trò BGĐ ở Phase 0/MVP**. Ứng dụng chỉ tập trung vào 2 vai trò: **Nhân viên (NV / ESS)** và **Quản lý trực tiếp (QL / MSS)**. Vai trò BGĐ cùng các màn điều hành (`exec`, `final`) tạm thời hoãn lại (xem [roadmap.md](roadmap.md)).
 
-## C. Chức năng P0 **chưa có màn hình thiết kế** trong bộ 29 màn — cần thiết kế mới hoặc quyết định tạm
+## C. Chức năng P0 **chưa có màn hình thiết kế** trong bộ 29 màn — **tạm hoãn ở Phase 0**
 
-| Chức năng P0 | Vấn đề |
+| Chức năng P0 | Vấn đề & Quyết định |
 | --- | --- |
-| #1 Giới thiệu nhân tài nội bộ (Referral) | Không có màn nào trong 29 màn khớp với luồng "xem vị trí đang tuyển → chia sẻ QR/link → nhập hồ sơ ứng viên → theo dõi trạng thái". Màn `jobs`/`job` (mục B) là job board nội bộ cho *nhân viên ứng tuyển*, khác với *giới thiệu người ngoài*. |
-| #2 Tiếp nhận nhân sự số hoá (Pre-onboarding) | Đối tượng dùng là **ứng viên trúng tuyển**, có thể chưa có tài khoản nhân viên chính thức — cần làm rõ đây có nằm trong cùng app Employee App hay là 1 flow/app riêng (public link, không cần đăng nhập). Chưa có màn thiết kế. |
-| #8 Lịch làm việc & Ca trực cá nhân (Shift Scheduling) | Ca hôm nay đã có trong `home`, nhưng chưa rõ có màn riêng xem "lịch phân ca cả tuần/tháng" tách biệt với `calendar` (vốn là lịch **công** đã chấm, không phải lịch **ca** được phân trước) hay không. |
+| #1 Giới thiệu nhân tài nội bộ (Referral) | Không có màn nào trong 29 màn khớp với luồng "xem vị trí đang tuyển → chia sẻ QR/link → nhập hồ sơ ứng viên → theo dõi trạng thái". **Quyết định**: Tạm hoãn, người dùng sẽ cung cấp UI sau. |
+| #2 Tiếp nhận nhân sự số hoá (Pre-onboarding) | Đối tượng dùng là ứng viên trúng tuyển, chưa có màn thiết kế. **Quyết định**: Tạm hoãn, người dùng sẽ cung cấp UI sau. |
+| #8 Lịch làm việc & Ca trực cá nhân (Shift Scheduling) | Ca hôm nay đã có trong `home`, nhưng chưa có màn xem "lịch phân ca cả tuần/tháng" tách biệt với `calendar`. **Quyết định**: Tạm hoãn màn lịch ca riêng, người dùng sẽ cung cấp UI sau. |
 
-**Việc cần làm trước khi code 3 mục trên**: hỏi người dùng — thiết kế thêm màn mới theo đúng design system (dùng `docs/design-system.md`), hay tạm thời dùng UI tối giản (list/form chuẩn Material, chưa cần đúng thẩm mỹ Gạch bông) để không chặn tiến độ P0.
+**Quyết định đã chốt**: Cả 3 chức năng trên được ghi nhận trong [roadmap.md](roadmap.md) (Phase 6), không triển khai UI ở Phase 0/MVP cho tới khi người dùng cung cấp thiết kế.
 
-## D. Screens dùng `Phone.dc.html` — file gốc chưa được cung cấp
+## D. Nguồn gốc thiết kế — `docs/source/`
 
-Cả 2 file trình bày (`HRM Employee App.dc.html`, `-print.dc.html`) đều `<dc-import>` từ 1 file `Phone.dc.html` chứa markup/CSS/logic thật của cả 29 màn — file này **chưa có** trong những gì người dùng gửi. `docs/design-system.md` đã tổng hợp đủ token (màu, type, spacing, component spec) từ `DESIGN.md` để bắt đầu code, nhưng khi cần đối chiếu pixel-perfect một chi tiết cụ thể của 1 màn (bố cục chính xác, animation, copy chính xác từng dòng), **hỏi người dùng xin thêm `Phone.dc.html`** thay vì tự suy đoán.
+Các file gốc nằm ở [docs/source/](source/): `DESIGN.md`, `Phone.dc.html` (markup/CSS/logic thật của cả 29 màn, ~190 KB), 2 file trình bày `HRM Employee App.dc.html` / `-print.dc.html` (đều `<dc-import>` từ `Phone.dc.html`), và PDF danh sách chức năng.
+
+`docs/design-system.md` được tổng hợp từ `DESIGN.md` + 2 file trình bày; **`Phone.dc.html` chưa được review chi tiết** khi viết tài liệu. Khi làm 1 màn cụ thể, đối chiếu lại markup gốc của màn đó (bố cục chính xác, animation, copy từng dòng) thay vì suy đoán. Lưu ý: các file gốc dùng Manrope/Lucide, còn code Flutter dùng Source Sans 3/Material Symbols theo quyết định đã chốt.

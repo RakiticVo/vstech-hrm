@@ -1,0 +1,592 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <title>Danh Sách Chức Năng Hiện Tại - VSTECH HRM Mobile App</title>
+  <style>
+    @page {
+      size: A4 landscape;
+      margin: 10mm 12mm 12mm 12mm;
+    }
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    }
+    body {
+      background-color: #ffffff;
+      color: #1e293b;
+      font-size: 11px;
+      line-height: 1.45;
+      padding: 10px;
+    }
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 2px solid #0f766e;
+      padding-bottom: 12px;
+      margin-bottom: 14px;
+    }
+    .brand-title {
+      font-size: 20px;
+      font-weight: 800;
+      color: #0f766e;
+      letter-spacing: -0.5px;
+    }
+    .brand-subtitle {
+      font-size: 12px;
+      font-weight: 600;
+      color: #64748b;
+      margin-top: 3px;
+    }
+    .meta-info {
+      text-align: right;
+      font-size: 10.5px;
+      color: #475569;
+    }
+    .meta-info strong {
+      color: #0f766e;
+    }
+    .summary-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+      margin-bottom: 16px;
+    }
+    .summary-card {
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 8px;
+      padding: 10px 12px;
+    }
+    .summary-label {
+      font-size: 10px;
+      text-transform: uppercase;
+      font-weight: 700;
+      color: #64748b;
+      letter-spacing: 0.5px;
+    }
+    .summary-val {
+      font-size: 16px;
+      font-weight: 800;
+      color: #0f766e;
+      margin-top: 4px;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 20px;
+      font-size: 10.5px;
+    }
+    th {
+      background-color: #0f766e;
+      color: #ffffff;
+      text-align: left;
+      padding: 8px 10px;
+      font-weight: 700;
+      font-size: 11px;
+      border: 1px solid #0d655e;
+    }
+    td {
+      padding: 7px 10px;
+      border: 1px solid #cbd5e1;
+      vertical-align: middle;
+    }
+    tr:nth-child(even) {
+      background-color: #f8fafc;
+    }
+    tr {
+      page-break-inside: avoid;
+    }
+    .badge {
+      display: inline-block;
+      padding: 2px 7px;
+      border-radius: 99px;
+      font-size: 9.5px;
+      font-weight: 700;
+      text-align: center;
+    }
+    .badge-success {
+      background-color: #dcfce7;
+      color: #15803d;
+      border: 1px solid #bbf7d0;
+    }
+    .badge-role-nv {
+      background-color: #e0f2fe;
+      color: #0369a1;
+      border: 1px solid #bae6fd;
+    }
+    .badge-role-ql {
+      background-color: #fef3c7;
+      color: #b45309;
+      border: 1px solid #fde68a;
+    }
+    .badge-role-both {
+      background-color: #f1f5f9;
+      color: #334155;
+      border: 1px solid #cbd5e1;
+    }
+    .module-header {
+      background-color: #f0fdfa !important;
+      font-weight: 800;
+      color: #0f766e;
+      border-top: 2px solid #0f766e !important;
+    }
+    .route-text {
+      font-family: Consolas, monospace;
+      font-size: 9.5px;
+      color: #475569;
+      background: #f1f5f9;
+      padding: 2px 5px;
+      border-radius: 4px;
+      display: inline-block;
+    }
+    .footer {
+      border-top: 1px solid #cbd5e1;
+      padding-top: 10px;
+      display: flex;
+      justify-content: space-between;
+      color: #64748b;
+      font-size: 10px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="header">
+    <div>
+      <div class="brand-title">VSTECH HRM — BÁO CÁO DANH SÁCH CHỨC NĂNG ỨNG DỤNG</div>
+      <div class="brand-subtitle">Phân hệ Employee Mobile App (Flutter Android & iOS) · Thiết kế Saigon Tile</div>
+    </div>
+    <div class="meta-info">
+      <div>Ngày lập: <strong>22/09/2026</strong></div>
+      <div>Trạng thái: <strong>Hoàn thành Phase 1 & Chấm công ngoại tuyến, Lịch ca</strong></div>
+      <div>Kiểm thử tự động: <strong>21/21 Tests Passed (100%)</strong> · Analyze: <strong>0 lỗi</strong></div>
+    </div>
+  </div>
+
+  <div class="summary-grid">
+    <div class="summary-card">
+      <div class="summary-label">Tổng số tính năng</div>
+      <div class="summary-val">34 Chức năng</div>
+    </div>
+    <div class="summary-card">
+      <div class="summary-label">Phân hệ nghiệp vụ</div>
+      <div class="summary-val">8 Phân hệ lớn</div>
+    </div>
+    <div class="summary-card">
+      <div class="summary-label">Vai trò hỗ trợ</div>
+      <div class="summary-val">NV & QL (MSS)</div>
+    </div>
+    <div class="summary-card">
+      <div class="summary-label">Chế độ hoạt động</div>
+      <div class="summary-val">Online & Offline Queue</div>
+    </div>
+  </div>
+
+  <table>
+    <thead>
+      <tr>
+        <th style="width: 4%;">STT</th>
+        <th style="width: 14%;">Phân hệ</th>
+        <th style="width: 20%;">Tên chức năng</th>
+        <th style="width: 36%;">Mô tả chi tiết & Nghiệp vụ xử lý</th>
+        <th style="width: 10%;">Đối tượng</th>
+        <th style="width: 10%;">Đường dẫn / Màn hình</th>
+        <th style="width: 6%;">Trạng thái</th>
+      </tr>
+    </thead>
+    <tbody>
+      <!-- 1. Xác thực & Bảo mật -->
+      <tr>
+        <td colspan="7" class="module-header">1. PHÂN HỆ XÁC THỰC & BẢO MẬT (AUTHENTICATION & SECURITY)</td>
+      </tr>
+      <tr>
+        <td style="text-align: center;">01</td>
+        <td>Xác thực & Bảo mật</td>
+        <td><strong>Đăng nhập tài khoản & Mật khẩu</strong></td>
+        <td>Đăng nhập qua Email / Mã nhân viên + mật khẩu, quản lý JWT token & refresh token bảo mật.</td>
+        <td><span class="badge badge-role-both">NV & QL</span></td>
+        <td><span class="route-text">/login</span></td>
+        <td style="text-align: center;"><span class="badge badge-success">Hoàn thành</span></td>
+      </tr>
+      <tr>
+        <td style="text-align: center;">02</td>
+        <td>Xác thực & Bảo mật</td>
+        <td><strong>Đăng nhập Face ID / Vân tay</strong></td>
+        <td>Tích hợp <code>local_auth</code>, tự động kiểm tra và yêu cầu cấp quyền sinh trắc học thiết bị, mở khóa app tức thì.</td>
+        <td><span class="badge badge-role-both">NV & QL</span></td>
+        <td><span class="route-text">/login</span></td>
+        <td style="text-align: center;"><span class="badge badge-success">Hoàn thành</span></td>
+      </tr>
+      <tr>
+        <td style="text-align: center;">03</td>
+        <td>Xác thực & Bảo mật</td>
+        <td><strong>Chế độ Standalone Demo</strong></td>
+        <td>Cho phép chuyển đổi 1-chạm giữa 2 vai trò Nhân viên (NV0089) và Quản lý (QL0012) để kiểm thử dữ liệu độc lập.</td>
+        <td><span class="badge badge-role-both">NV & QL</span></td>
+        <td><span class="route-text">/login, /home</span></td>
+        <td style="text-align: center;"><span class="badge badge-success">Hoàn thành</span></td>
+      </tr>
+      <tr>
+        <td style="text-align: center;">04</td>
+        <td>Xác thực & Bảo mật</td>
+        <td><strong>Bảo vệ Phiếu lương (Anti-Capture)</strong></td>
+        <td>Tự động kích hoạt <code>screen_protector</code> ngăn chặn chụp và quay màn hình khi mở Phiếu lương.</td>
+        <td><span class="badge badge-role-both">NV & QL</span></td>
+        <td><span class="route-text">/payroll/payslip</span></td>
+        <td style="text-align: center;"><span class="badge badge-success">Hoàn thành</span></td>
+      </tr>
+
+      <!-- 2. Trang chủ & Điều hướng -->
+      <tr>
+        <td colspan="7" class="module-header">2. PHÂN HỆ TRANG CHỦ & ĐIỀU HƯỚNG THÔNG MINH (HOME & NAVIGATION)</td>
+      </tr>
+      <tr>
+        <td style="text-align: center;">05</td>
+        <td>Trang chủ</td>
+        <td><strong>Header Canvas Saigon Tile</strong></td>
+        <td>Vẽ hoạ tiết gạch bông Sài Gòn tự động qua Canvas, lời chào cá nhân hóa theo vai trò, thông báo chưa đọc.</td>
+        <td><span class="badge badge-role-both">NV & QL</span></td>
+        <td><span class="route-text">/home</span></td>
+        <td style="text-align: center;"><span class="badge badge-success">Hoàn thành</span></td>
+      </tr>
+      <tr>
+        <td style="text-align: center;">06</td>
+        <td>Trang chủ</td>
+        <td><strong>Thẻ giờ làm việc (Balance Card)</strong></td>
+        <td>Tổng số giờ làm hôm nay, vòng tròn tiến độ 80px, giờ vào/ra thực tế, bấm vào ca trực để mở Lịch ca.</td>
+        <td><span class="badge badge-role-both">NV & QL</span></td>
+        <td><span class="route-text">/home</span></td>
+        <td style="text-align: center;"><span class="badge badge-success">Hoàn thành</span></td>
+      </tr>
+      <tr>
+        <td style="text-align: center;">07</td>
+        <td>Trang chủ</td>
+        <td><strong>Dải phê duyệt nhanh Quản lý (MSS)</strong></td>
+        <td>Hiển thị riêng cho Quản lý các đơn chờ duyệt cấp 1 kèm số lượng, hỗ trợ mở nhanh Trung tâm phê duyệt.</td>
+        <td><span class="badge badge-role-ql">Quản lý</span></td>
+        <td><span class="route-text">/home</span></td>
+        <td style="text-align: center;"><span class="badge badge-success">Hoàn thành</span></td>
+      </tr>
+      <tr>
+        <td style="text-align: center;">08</td>
+        <td>Trang chủ</td>
+        <td><strong>5 Tác vụ nhanh (Quick Actions)</strong></td>
+        <td>5 nút tròn điều hướng trực tiếp: Nghỉ phép, Tăng ca, Sửa công, Bảng lương, và Tất cả dịch vụ.</td>
+        <td><span class="badge badge-role-both">NV & QL</span></td>
+        <td><span class="route-text">/home</span></td>
+        <td style="text-align: center;"><span class="badge badge-success">Hoàn thành</span></td>
+      </tr>
+      <tr>
+        <td style="text-align: center;">09</td>
+        <td>Trang chủ</td>
+        <td><strong>Lưới tổng hợp chỉ số 2x2</strong></td>
+        <td>Tổng hợp: Ngày công thực tế, Ngày phép còn lại, Giờ tăng ca trong tháng, Số đơn đang chờ duyệt.</td>
+        <td><span class="badge badge-role-both">NV & QL</span></td>
+        <td><span class="route-text">/home</span></td>
+        <td style="text-align: center;"><span class="badge badge-success">Hoàn thành</span></td>
+      </tr>
+      <tr>
+        <td style="text-align: center;">10</td>
+        <td>Trang chủ</td>
+        <td><strong>Thẻ lương tóm tắt & Tin tức</strong></td>
+        <td>Xem nhanh tổng thu nhập tháng có nút con mắt bảo mật, kèm danh sách các thông báo mới từ ban giám đốc.</td>
+        <td><span class="badge badge-role-both">NV & QL</span></td>
+        <td><span class="route-text">/home</span></td>
+        <td style="text-align: center;"><span class="badge badge-success">Hoàn thành</span></td>
+      </tr>
+      <tr>
+        <td style="text-align: center;">11</td>
+        <td>Điều hướng</td>
+        <td><strong>Bottom Navigation Bar thông minh</strong></td>
+        <td>Tự động đổi cấu trúc tab: NV có tab "Yêu cầu", Quản lý tự động chuyển thành tab "Duyệt" (badge 9 đơn).</td>
+        <td><span class="badge badge-role-both">NV & QL</span></td>
+        <td><span class="route-text">AppShell</span></td>
+        <td style="text-align: center;"><span class="badge badge-success">Hoàn thành</span></td>
+      </tr>
+
+      <!-- 3. Chấm công & Ca kíp -->
+      <tr>
+        <td colspan="7" class="module-header">3. PHÂN HỆ CHẤM CÔNG & CA KÍP (TIME & ATTENDANCE)</td>
+      </tr>
+      <tr>
+        <td style="text-align: center;">12</td>
+        <td>Chấm công</td>
+        <td><strong>Chấm công AI Face Scan (Online)</strong></td>
+        <td>Chụp ảnh khuôn mặt với Camera Oval Frame, định vị GPS, Wi-Fi BSSID, thanh tiến trình các bước nhận diện.</td>
+        <td><span class="badge badge-role-both">NV & QL</span></td>
+        <td><span class="route-text">/home/check-in</span></td>
+        <td style="text-align: center;"><span class="badge badge-success">Hoàn thành</span></td>
+      </tr>
+      <tr>
+        <td style="text-align: center;">13</td>
+        <td>Chấm công</td>
+        <td><strong>Chấm công Ngoại tuyến (Offline Queue)</strong></td>
+        <td>Lưu vector khuôn mặt 128-D theo MSNV, so khớp Cosine Similarity (&ge; 85%) khi mất mạng, đẩy vào hàng đợi an toàn.</td>
+        <td><span class="badge badge-role-both">NV & QL</span></td>
+        <td><span class="route-text">/home/check-in</span></td>
+        <td style="text-align: center;"><span class="badge badge-success">Hoàn thành</span></td>
+      </tr>
+      <tr>
+        <td style="text-align: center;">14</td>
+        <td>Chấm công</td>
+        <td><strong>Đồng bộ công ngoại tuyến</strong></td>
+        <td>Banner cảnh báo số lượt chấm công ngoại tuyến chưa gửi máy chủ, kèm nút bấm đồng bộ ngay khi có mạng.</td>
+        <td><span class="badge badge-role-both">NV & QL</span></td>
+        <td><span class="route-text">/attendance</span></td>
+        <td style="text-align: center;"><span class="badge badge-success">Hoàn thành</span></td>
+      </tr>
+      <tr>
+        <td style="text-align: center;">15</td>
+        <td>Chấm công</td>
+        <td><strong>Tổng hợp công tháng & Biểu đồ Donut</strong></td>
+        <td>Biểu đồ Donut trực quan phân bổ 4 chỉ số: Đúng giờ, Đi muộn, Về sớm, Nghỉ phép trong tháng.</td>
+        <td><span class="badge badge-role-both">NV & QL</span></td>
+        <td><span class="route-text">/attendance</span></td>
+        <td style="text-align: center;"><span class="badge badge-success">Hoàn thành</span></td>
+      </tr>
+      <tr>
+        <td style="text-align: center;">16</td>
+        <td>Chấm công</td>
+        <td><strong>Nhật ký chấm công từng ngày</strong></td>
+        <td>Danh sách chi tiết từng ngày công: giờ vào, giờ ra, số phút trễ/sớm và trạng thái xác thực.</td>
+        <td><span class="badge badge-role-both">NV & QL</span></td>
+        <td><span class="route-text">/attendance</span></td>
+        <td style="text-align: center;"><span class="badge badge-success">Hoàn thành</span></td>
+      </tr>
+      <tr>
+        <td style="text-align: center;">17</td>
+        <td>Chấm công</td>
+        <td><strong>Lịch công tháng (Calendar Grid)</strong></td>
+        <td>Lưới lịch cả tháng hiển thị chấm màu và chi tiết trạng thái đi làm của từng ngày trong tháng.</td>
+        <td><span class="badge badge-role-both">NV & QL</span></td>
+        <td><span class="route-text">/calendar</span></td>
+        <td style="text-align: center;"><span class="badge badge-success">Hoàn thành</span></td>
+      </tr>
+      <tr>
+        <td style="text-align: center;">18</td>
+        <td>Lịch ca kíp</td>
+        <td><strong>Lịch làm việc & Ca kíp (Shift Scheduling)</strong></td>
+        <td>Thanh 7 ngày Capsule trong tuần hiển thị các loại ca (Sáng, Chiều, Gãy, Hành chính, Đêm, Nghỉ tuần).</td>
+        <td><span class="badge badge-role-both">NV & QL</span></td>
+        <td><span class="route-text">/schedule/shifts</span></td>
+        <td style="text-align: center;"><span class="badge badge-success">Hoàn thành</span></td>
+      </tr>
+      <tr>
+        <td style="text-align: center;">19</td>
+        <td>Lịch ca kíp</td>
+        <td><strong>Đổi ca làm việc (Shift Swap)</strong></td>
+        <td>Bottom sheet cho phép chọn đồng nghiệp cùng chi nhánh muốn đổi ca và gửi kèm lý do đổi ca.</td>
+        <td><span class="badge badge-role-both">NV & QL</span></td>
+        <td><span class="route-text">/schedule/shifts</span></td>
+        <td style="text-align: center;"><span class="badge badge-success">Hoàn thành</span></td>
+      </tr>
+      <tr>
+        <td style="text-align: center;">20</td>
+        <td>Lịch ca kíp</td>
+        <td><strong>Xem lịch ca tháng (Month Grid Dialog)</strong></td>
+        <td>Hộp thoại lịch tháng với đầy đủ chấm màu phân biệt từng loại ca kíp và bảng chú thích màu sắc.</td>
+        <td><span class="badge badge-role-both">NV & QL</span></td>
+        <td><span class="route-text">/schedule/shifts</span></td>
+        <td style="text-align: center;"><span class="badge badge-success">Hoàn thành</span></td>
+      </tr>
+      <tr>
+        <td style="text-align: center;">21</td>
+        <td>Chấm công</td>
+        <td><strong>Ngày lễ trong năm (Holidays)</strong></td>
+        <td>Danh mục các ngày lễ quốc gia được nghỉ hưởng nguyên lương theo luật lao động.</td>
+        <td><span class="badge badge-role-both">NV & QL</span></td>
+        <td><span class="route-text">/holidays</span></td>
+        <td style="text-align: center;"><span class="badge badge-success">Hoàn thành</span></td>
+      </tr>
+
+      <!-- 4. Yêu cầu & Đơn từ -->
+      <tr>
+        <td colspan="7" class="module-header">4. PHÂN HỆ YÊU CẦU & ĐƠN TỪ (REQUESTS HUB)</td>
+      </tr>
+      <tr>
+        <td style="text-align: center;">22</td>
+        <td>Đơn từ</td>
+        <td><strong>Bộ lọc đơn từ theo tháng</strong></td>
+        <td>Nút bấm <code>MonthPickerButton</code> cho phép chọn tháng linh hoạt để xem đơn từ theo kỳ.</td>
+        <td><span class="badge badge-role-both">NV & QL</span></td>
+        <td><span class="route-text">/requests</span></td>
+        <td style="text-align: center;"><span class="badge badge-success">Hoàn thành</span></td>
+      </tr>
+      <tr>
+        <td style="text-align: center;">23</td>
+        <td>Đơn từ</td>
+        <td><strong>Đơn xin nghỉ phép (Leave Request)</strong></td>
+        <td>Quản lý danh sách đơn phép và màn hình tạo mới (loại nghỉ, số ngày, lý do, người phê duyệt).</td>
+        <td><span class="badge badge-role-both">NV & QL</span></td>
+        <td><span class="route-text">/requests/leave-create</span></td>
+        <td style="text-align: center;"><span class="badge badge-success">Hoàn thành</span></td>
+      </tr>
+      <tr>
+        <td style="text-align: center;">24</td>
+        <td>Đơn từ</td>
+        <td><strong>Đăng ký tăng ca (Overtime Request)</strong></td>
+        <td>Quản lý danh sách đơn OT và tạo mới đơn làm thêm giờ (ngày tăng ca, giờ bắt đầu/kết thúc, hệ số, lý do).</td>
+        <td><span class="badge badge-role-both">NV & QL</span></td>
+        <td><span class="route-text">/requests/overtime-create</span></td>
+        <td style="text-align: center;"><span class="badge badge-success">Hoàn thành</span></td>
+      </tr>
+      <tr>
+        <td style="text-align: center;">25</td>
+        <td>Đơn từ</td>
+        <td><strong>Giải trình / Sửa công (Attendance Correction)</strong></td>
+        <td>Quản lý phiếu sửa công và tạo mới (cho phép chọn ngày công cần sửa, chọn giờ vào/ra, nhập lý do).</td>
+        <td><span class="badge badge-role-both">NV & QL</span></td>
+        <td><span class="route-text">/requests/correction-create</span></td>
+        <td style="text-align: center;"><span class="badge badge-success">Hoàn thành</span></td>
+      </tr>
+      <tr>
+        <td style="text-align: center;">26</td>
+        <td>Đơn từ</td>
+        <td><strong>Theo dõi tiến độ phê duyệt 4 cấp</strong></td>
+        <td>Thanh tiến trình 4 đoạn hiển thị xuyên suốt: Nhân viên gửi &rarr; Quản lý &rarr; HR &rarr; Giám đốc duyệt.</td>
+        <td><span class="badge badge-role-both">NV & QL</span></td>
+        <td><span class="route-text">/requests</span></td>
+        <td style="text-align: center;"><span class="badge badge-success">Hoàn thành</span></td>
+      </tr>
+
+      <!-- 5. Phê duyệt -->
+      <tr>
+        <td colspan="7" class="module-header">5. TRUNG TÂM PHÊ DUYỆT (APPROVALS HUB - QUẢN LÝ / MSS)</td>
+      </tr>
+      <tr>
+        <td style="text-align: center;">27</td>
+        <td>Phê duyệt</td>
+        <td><strong>Tab Phê duyệt trên Bottom Bar</strong></td>
+        <td>Tab cố định dành riêng cho Quản lý trên thanh điều hướng với badge số lượng đơn chờ duyệt.</td>
+        <td><span class="badge badge-role-ql">Quản lý</span></td>
+        <td><span class="route-text">/approvals</span></td>
+        <td style="text-align: center;"><span class="badge badge-success">Hoàn thành</span></td>
+      </tr>
+      <tr>
+        <td style="text-align: center;">28</td>
+        <td>Phê duyệt</td>
+        <td><strong>Bộ lọc duyệt đơn đa tiêu chí</strong></td>
+        <td>Lọc theo loại đơn (Tất cả, Phép, Tăng ca, Sửa công) và theo trạng thái duyệt (Chờ duyệt, Đã duyệt, Từ chối).</td>
+        <td><span class="badge badge-role-ql">Quản lý</span></td>
+        <td><span class="route-text">/approvals</span></td>
+        <td style="text-align: center;"><span class="badge badge-success">Hoàn thành</span></td>
+      </tr>
+      <tr>
+        <td style="text-align: center;">29</td>
+        <td>Phê duyệt</td>
+        <td><strong>Thao tác Duyệt / Từ chối 1-chạm</strong></td>
+        <td>Thao tác phê duyệt nhanh hoặc từ chối kèm hộp thoại nhập lý do giải thích cho nhân viên.</td>
+        <td><span class="badge badge-role-ql">Quản lý</span></td>
+        <td><span class="route-text">/approvals</span></td>
+        <td style="text-align: center;"><span class="badge badge-success">Hoàn thành</span></td>
+      </tr>
+
+      <!-- 6. Lương & Thưởng -->
+      <tr>
+        <td colspan="7" class="module-header">6. PHÂN HỆ LƯƠNG & ĐÃI NGỘ (PAYROLL & REWARDS)</td>
+      </tr>
+      <tr>
+        <td style="text-align: center;">30</td>
+        <td>Lương & Thưởng</td>
+        <td><strong>Bảng lương tháng (Payroll Screen)</strong></td>
+        <td>Tổng thu nhập thực nhận, chi tiết lương cứng, KPI, phụ cấp, các khoản khấu trừ BHXH, BHYT, BHTN, thuế TNCN.</td>
+        <td><span class="badge badge-role-both">NV & QL</span></td>
+        <td><span class="route-text">/payroll</span></td>
+        <td style="text-align: center;"><span class="badge badge-success">Hoàn thành</span></td>
+      </tr>
+      <tr>
+        <td style="text-align: center;">31</td>
+        <td>Lương & Thưởng</td>
+        <td><strong>Phiếu lương chi tiết (Payslip Detail)</strong></td>
+        <td>Phiếu lương chuẩn sao kê chuyên nghiệp, nút con mắt ẩn hiện số tiền, cơ chế chống chụp/quay màn hình.</td>
+        <td><span class="badge badge-role-both">NV & QL</span></td>
+        <td><span class="route-text">/payroll/payslip</span></td>
+        <td style="text-align: center;"><span class="badge badge-success">Hoàn thành</span></td>
+      </tr>
+      <tr>
+        <td style="text-align: center;">32</td>
+        <td>Lương & Thưởng</td>
+        <td><strong>Thưởng & Ghi nhận (Rewards)</strong></td>
+        <td>Điểm thưởng tích lũy, bảng vinh danh nhân viên xuất sắc, danh mục quà tặng đổi thưởng nội bộ.</td>
+        <td><span class="badge badge-role-both">NV & QL</span></td>
+        <td><span class="route-text">/rewards</span></td>
+        <td style="text-align: center;"><span class="badge badge-success">Hoàn thành</span></td>
+      </tr>
+
+      <!-- 7. Tuyển dụng & Dịch vụ -->
+      <tr>
+        <td colspan="7" class="module-header">7. PHÂN HỆ TUYỂN DỤNG NỘI BỘ & TẤT CẢ DỊCH VỤ</td>
+      </tr>
+      <tr>
+        <td style="text-align: center;">33</td>
+        <td>Tuyển dụng</td>
+        <td><strong>Tuyển dụng nội bộ (Job Recruitment)</strong></td>
+        <td>Danh sách tin tuyển dụng nội bộ, chi tiết công việc (Job Detail Screen) và tính năng giới thiệu ứng viên.</td>
+        <td><span class="badge badge-role-both">NV & QL</span></td>
+        <td><span class="route-text">/recruitment</span></td>
+        <td style="text-align: center;"><span class="badge badge-success">Hoàn thành</span></td>
+      </tr>
+      <tr>
+        <td style="text-align: center;">34</td>
+        <td>Dịch vụ</td>
+        <td><strong>Tất cả dịch vụ (All Services Screen)</strong></td>
+        <td>Hub tập trung liên kết toàn bộ dịch vụ phân thành 4 nhóm nghiệp vụ chính của ứng dụng.</td>
+        <td><span class="badge badge-role-both">NV & QL</span></td>
+        <td><span class="route-text">/services</span></td>
+        <td style="text-align: center;"><span class="badge badge-success">Hoàn thành</span></td>
+      </tr>
+
+      <!-- 8. Cá nhân & Cài đặt -->
+      <tr>
+        <td colspan="7" class="module-header">8. PHÂN HỆ CÁ NHÂN & CÀI ĐẶT HỆ THỐNG (PROFILE & SETTINGS)</td>
+      </tr>
+      <tr>
+        <td style="text-align: center;">35</td>
+        <td>Hồ sơ cá nhân</td>
+        <td><strong>Hồ sơ nhân viên (Profile Screen)</strong></td>
+        <td>Thông tin mã nhân viên, phòng ban, chức danh, hợp đồng, ngân hàng, bảo hiểm; nút Settings trên AppBar.</td>
+        <td><span class="badge badge-role-both">NV & QL</span></td>
+        <td><span class="route-text">/profile</span></td>
+        <td style="text-align: center;"><span class="badge badge-success">Hoàn thành</span></td>
+      </tr>
+      <tr>
+        <td style="text-align: center;">36</td>
+        <td>Cài đặt</td>
+        <td><strong>Cài đặt ứng dụng (Settings Screen)</strong></td>
+        <td>Đổi ngôn ngữ (Tiếng Việt / English), đổi giao diện (Sáng / Tối / Hệ thống), cấu hình Face ID & Thông báo.</td>
+        <td><span class="badge badge-role-both">NV & QL</span></td>
+        <td><span class="route-text">/settings</span></td>
+        <td style="text-align: center;"><span class="badge badge-success">Hoàn thành</span></td>
+      </tr>
+      <tr>
+        <td style="text-align: center;">37</td>
+        <td>Thông báo</td>
+        <td><strong>Trung tâm thông báo (Notifications)</strong></td>
+        <td>Danh sách thông báo duyệt đơn, nhắc nhở chấm công, tin tức nội bộ công ty với trạng thái đã đọc.</td>
+        <td><span class="badge badge-role-both">NV & QL</span></td>
+        <td><span class="route-text">/notifications</span></td>
+        <td style="text-align: center;"><span class="badge badge-success">Hoàn thành</span></td>
+      </tr>
+      <tr>
+        <td style="text-align: center;">38</td>
+        <td>UI Showcase</td>
+        <td><strong>Trình diễn trạng thái chuẩn UX/UI</strong></td>
+        <td>Màn hình mẫu minh họa các trạng thái giao diện: Empty State, Shimmer Loading, Error State, Success Dialog.</td>
+        <td><span class="badge badge-role-both">NV & QL</span></td>
+        <td><span class="route-text">/states</span></td>
+        <td style="text-align: center;"><span class="badge badge-success">Hoàn thành</span></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="footer">
+    <div>Hệ thống Quản trị Nhân sự VSTECH HRM — Mobile Client Module</div>
+    <div>Báo cáo chuẩn hóa định dạng bảng PDF · Kiến trúc Clean Architecture · Phong cách Saigon Tile</div>
+  </div>
+
+</body>
+</html>
