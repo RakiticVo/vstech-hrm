@@ -14,7 +14,8 @@ class TileHeaderBanner extends StatelessWidget {
     this.onNotificationTap,
     this.hasUnreadNotification = false,
     this.trailing,
-    this.height = 140,
+    this.height,
+    this.bottomPadding = 14.0,
     super.key,
   });
 
@@ -25,25 +26,35 @@ class TileHeaderBanner extends StatelessWidget {
   final VoidCallback? onNotificationTap;
   final bool hasUnreadNotification;
   final Widget? trailing;
-  final double height;
+  final double? height;
+  final double bottomPadding;
 
   @override
   Widget build(BuildContext context) {
     final colors = context.colors;
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final patternColor = isDark
+        ? const Color(0xFF2DD4BF).withValues(alpha: 0.16)
+        : const Color(0xFFFFF8EC).withValues(alpha: 0.19);
 
     return Container(
       width: double.infinity,
       height: height,
-      color: colors.primaryIndigo,
+      clipBehavior: Clip.hardEdge,
+      decoration: BoxDecoration(
+        color: colors.primaryIndigo,
+      ),
       child: Stack(
         children: [
-          // Background Canvas Tile Pattern
+          // Background Canvas Tile Pattern strictly clipped
           Positioned.fill(
-            child: CustomPaint(
-              painter: TilePatternPainter(
-                backgroundColor: colors.primaryIndigo,
-                patternColor: Colors.white.withValues(alpha: 0.08),
-                tileSize: 42,
+            child: ClipRect(
+              child: CustomPaint(
+                painter: TilePatternPainter(
+                  backgroundColor: colors.primaryIndigo,
+                  patternColor: patternColor,
+                  tileSize: 46,
+                ),
               ),
             ),
           ),
@@ -52,7 +63,7 @@ class TileHeaderBanner extends StatelessWidget {
           SafeArea(
             bottom: false,
             child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+              padding: EdgeInsets.fromLTRB(16, 8, 16, bottomPadding),
               child: Row(
                 children: [
                   // Avatar or Fallback Initials
@@ -69,8 +80,9 @@ class TileHeaderBanner extends StatelessWidget {
                       children: [
                         Text(
                           title,
-                          style: AppTextStyles.titleMedium(color: Colors.white).copyWith(
-                            fontWeight: FontWeight.w700,
+                          style: AppTextStyles.titleMedium(color: const Color(0xFFFFF8EC)).copyWith(
+                            fontWeight: FontWeight.w800,
+                            letterSpacing: -0.2,
                           ),
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
@@ -80,7 +92,10 @@ class TileHeaderBanner extends StatelessWidget {
                           Text(
                             subtitle!,
                             style: AppTextStyles.bodySmall(
-                              color: Colors.white.withValues(alpha: 0.8),
+                              color: const Color(0xFFFFF8EC).withValues(alpha: 0.85),
+                            ).copyWith(
+                              fontWeight: FontWeight.w600,
+                              fontFeatures: const [FontFeature.tabularFigures()],
                             ),
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
@@ -106,23 +121,19 @@ class TileHeaderBanner extends StatelessWidget {
 
   Widget _buildAvatar(AppColorsExtension colors) {
     return Container(
-      width: 44,
-      height: 44,
+      width: 42,
+      height: 42,
       decoration: BoxDecoration(
-        color: colors.accentAmber.withValues(alpha: 0.2),
+        color: const Color(0xFFFFF8EC),
         borderRadius: BorderRadius.circular(13),
-        border: Border.all(
-          color: Colors.white.withValues(alpha: 0.3),
-          width: 1.5,
-        ),
       ),
       child: Center(
         child: Text(
           avatarFallbackText ?? 'VS',
-          style: const TextStyle(
-            fontSize: 16,
-            fontWeight: FontWeight.w700,
-            color: Colors.white,
+          style: TextStyle(
+            fontSize: 15,
+            fontWeight: FontWeight.w800,
+            color: colors.primaryIndigo,
           ),
         ),
       ),
@@ -131,10 +142,10 @@ class TileHeaderBanner extends StatelessWidget {
 
   Widget _buildNotificationButton(AppColorsExtension colors) {
     return Container(
-      width: 40,
-      height: 40,
+      width: 38,
+      height: 38,
       decoration: BoxDecoration(
-        color: Colors.white.withValues(alpha: 0.15),
+        color: const Color(0xFFFFF8EC).withValues(alpha: 0.18),
         borderRadius: BorderRadius.circular(12),
       ),
       child: Material(
@@ -147,14 +158,14 @@ class TileHeaderBanner extends StatelessWidget {
             children: [
               const Icon(
                 Symbols.notifications,
-                color: Colors.white,
-                size: 22,
-                weight: 400,
+                color: Color(0xFFFFF8EC),
+                size: 20,
+                weight: 500,
               ),
               if (hasUnreadNotification)
                 Positioned(
-                  top: 9,
-                  right: 9,
+                  top: 7,
+                  right: 8,
                   child: Container(
                     width: 7,
                     height: 7,

@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<meta name="design_doc_mode" content="canvas">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap">
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#EDEAE2;font-family:Manrope,system-ui,sans-serif;color:#111827}
+a{color:#0F766E;text-decoration:none}a:hover{color:#14B8A6}
+.px{font-variant-numeric:tabular-nums}
+</style>
+</helmet>
+
+<div style="padding:40px 44px 70px;max-width:1180px">
+
+  <div style="font-size:11px;font-weight:800;letter-spacing:1.6px;color:#0A544E">BỘ ICON · SO SÁNH TRÊN 6 ICON APP ĐANG DÙNG</div>
+  <div style="font-size:30px;font-weight:800;letter-spacing:-.8px;margin-top:8px">Ngoài Lucide và Material còn gì</div>
+  <div style="font-size:14px;font-weight:500;color:#5B6572;line-height:1.6;margin-top:10px;max-width:660px">Đây là icon thật, tải trực tiếp từ từng bộ — không phải tôi vẽ lại. Sáu cột là sáu icon app đang dùng ở bottom nav và nút thông báo, nên bạn so được đúng chỗ sẽ thấy hàng ngày. Hai hàng đầu là hai bộ bạn đã biết, để làm mốc.</div>
+
+  <div style="display:flex;gap:10px;margin-top:22px;flex-wrap:wrap">
+    <div style="display:flex;align-items:center;gap:7px;background:#fff;border:1px solid #E3DFD6;border-radius:9px;padding:7px 11px;font-size:11.5px;font-weight:700">
+      <div style="width:9px;height:9px;border-radius:5px;background:#10B981"></div>Có cặp nét + đặc
+    </div>
+    <div style="display:flex;align-items:center;gap:7px;background:#fff;border:1px solid #E3DFD6;border-radius:9px;padding:7px 11px;font-size:11.5px;font-weight:700">
+      <div style="width:9px;height:9px;border-radius:5px;background:#F59E0B"></div>Chỉ có nét
+    </div>
+    <div style="font-size:11.5px;font-weight:500;color:#5B6572;align-self:center;line-height:1.5">Bottom nav cần cặp nét/đặc để tab đang chọn khác hẳn tab còn lại.</div>
+  </div>
+
+  <div style="display:flex;flex-direction:column;gap:12px;margin-top:26px">
+    <sc-for list="{{ sets }}" as="s" hint-placeholder-count="8">
+      <div style="background:#fff;border:1px solid #E3DFD6;border-left:4px solid {{ s.edge }};border-radius:18px;padding:18px 20px">
+        <div style="display:flex;align-items:flex-start;gap:16px;flex-wrap:wrap">
+          <div style="width:238px;flex:none">
+            <div style="display:flex;align-items:baseline;gap:9px">
+              <div style="font-size:16px;font-weight:800;letter-spacing:-.2px">{{ s.name }}</div>
+              <sc-if value="{{ s.known }}"><div style="font-size:9.5px;font-weight:800;letter-spacing:.8px;padding:3px 7px;border-radius:6px;background:#F0EDE5;color:#5B6572">ĐÃ BIẾT</div></sc-if>
+            </div>
+            <div class="px" style="font-size:11.5px;font-weight:700;color:#5B6572;margin-top:4px">{{ s.meta }}</div>
+            <div style="display:inline-flex;align-items:center;gap:5px;margin-top:8px;font-size:10px;font-weight:800;letter-spacing:.5px;padding:4px 8px;border-radius:7px;background:{{ s.licBg }};color:{{ s.licInk }}">
+              {{ s.lic }}
+              <sc-if value="{{ s.licAttr }}"><span style="font-weight:700;letter-spacing:0">· phải ghi công</span></sc-if>
+            </div>
+            <div style="font-size:12.5px;font-weight:500;color:#5B6572;line-height:1.55;margin-top:9px">{{ s.note }}</div>
+            <div style="display:flex;align-items:center;gap:7px;margin-top:11px">
+              <div style="width:9px;height:9px;border-radius:5px;background:{{ s.pairColor }}"></div>
+              <div style="font-size:11px;font-weight:700;color:#5B6572">{{ s.pairText }}</div>
+            </div>
+          </div>
+
+          <div style="flex:1;min-width:300px">
+            <div style="display:flex;gap:10px;flex-wrap:wrap">
+              <sc-for list="{{ s.icons }}" as="i" hint-placeholder-count="6">
+                <div style="display:flex;flex-direction:column;align-items:center;gap:7px;width:62px">
+                  <div style="width:50px;height:50px;border-radius:15px;background:#F6F4EF;border:1px solid #E3DFD6;display:flex;align-items:center;justify-content:center">
+                    <img src="{{ i.url }}" width="24" height="24" alt="{{ i.l }}">
+                  </div>
+                  <div style="font-size:9.5px;font-weight:700;color:#5B6572;text-align:center;line-height:1.25">{{ i.l }}</div>
+                </div>
+              </sc-for>
+              <sc-if value="{{ s.fillUrl }}">
+                <div style="display:flex;align-items:flex-start;gap:9px;padding-left:9px;margin-left:2px;border-left:1px solid #E3DFD6">
+                  <div style="display:flex;flex-direction:column;align-items:center;gap:7px;width:62px">
+                    <div style="width:50px;height:50px;border-radius:15px;background:#0A544E;display:flex;align-items:center;justify-content:center">
+                      <img src="{{ s.fillUrl }}" width="24" height="24" alt="fill">
+                    </div>
+                    <div style="font-size:9.5px;font-weight:700;color:#0A544E;text-align:center;line-height:1.25">tab chọn</div>
+                  </div>
+                </div>
+              </sc-if>
+            </div>
+          </div>
+        </div>
+      </div>
+    </sc-for>
+  </div>
+
+  <div style="margin-top:34px;background:#fff;border:1px solid #E3DFD6;border-radius:18px;padding:20px">
+    <div style="font-size:15px;font-weight:800;letter-spacing:-.2px">Gợi ý cho app này</div>
+    <div style="display:flex;flex-direction:column;gap:11px;margin-top:14px">
+      <sc-for list="{{ recs }}" as="r" hint-placeholder-count="3">
+        <div style="display:flex;gap:11px;align-items:flex-start">
+          <div style="width:7px;height:7px;border-radius:4px;background:{{ r.c }};flex:none;margin-top:7px"></div>
+          <div style="font-size:13px;font-weight:500;color:#111827;line-height:1.6"><b style="font-weight:800">{{ r.t }}</b> — {{ r.b }}</div>
+        </div>
+      </sc-for>
+    </div>
+  </div>
+
+  <div style="margin-top:20px;font-size:12px;font-weight:500;color:#5B6572;line-height:1.6;max-width:700px">Giấy phép ghi ngay dưới tên từng bộ. Bảy bộ dùng thương mại được tự do, không cần ghi công: MIT (Phosphor, Tabler, Iconoir, Heroicons), Apache 2.0 (Material Symbols, Remix Icon), ISC (Lucide). Riêng <b style="font-weight:800;color:#B45309">Solar là CC BY 4.0 — bắt buộc ghi công tác giả</b> trong app hoặc tài liệu kèm theo, nên cân nhắc nếu không muốn thêm ràng buộc pháp lý. Nói tên bộ bạn muốn là tôi áp cho cả 29 màn.</div>
+
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{}">
+const TEAL = '%230F766E';
+const CREAM = '%23FFF8EC';
+
+const SETS = [
+  ['Lucide','lucide',1600,true,'Nét 2px đều, hình học, bo tròn nhẹ. Đang dùng trong app. Điểm yếu: không có bản đặc, nên tab đang chọn chỉ khác nhau ở màu.','none',
+   ['home','clock','file-text','wallet','user','bell'], null, 'ISC'],
+
+  ['Material Symbols','material-symbols',3300,true,'Của Google, có 3 kiểu bo góc và 4 trục biến thiên (nét, độ đầy, cỡ quang học). Rất đầy đủ nhưng mang cảm giác Android rõ rệt, dễ làm app trông như app hệ thống.','pair',
+   ['home-outline','schedule-outline','description-outline','account-balance-wallet-outline','person-outline','notifications-outline'], 'home', 'Apache 2.0'],
+
+  ['Phosphor','ph',9000,false,'Sáu độ đậm gồm cả duotone. Nét mảnh, đầu tròn, cảm giác thân thiện và hơi thủ công — khớp với chất ấm của hướng Gạch bông.','pair',
+   ['house','clock','file-text','wallet','user','bell'], 'house-fill', 'MIT'],
+
+  ['Tabler','tabler',5900,false,'Nét 2px như Lucide nhưng bộ lớn gấp ba, nên hiếm khi thiếu icon cho nghiệp vụ nhân sự. Đổi từ Lucide sang gần như không thấy khác.','pair',
+   ['home','clock','file-text','wallet','user','bell'], 'home-filled', 'MIT'],
+
+  ['Remix Icon','ri',3000,false,'Mỗi icon có sẵn cặp line và fill đặt tên song song, rất tiện cho bottom nav. Hình khối hơi vuông vức, trông chững chạc và doanh nghiệp.','pair',
+   ['home-line','time-line','file-text-line','wallet-line','user-line','notification-line'], 'home-fill', 'Apache 2.0'],
+
+  ['Solar','solar',7400,false,'Bảy kiểu: linear, outline, bold, bold-duotone... Hình gọn và hiện đại, được dùng nhiều trong app fintech gần đây. Lưu ý giấy phép: bắt buộc ghi công tác giả.','pair',
+   ['home-2-linear','clock-circle-linear','document-text-linear','wallet-linear','user-linear','bell-linear'], 'home-2-bold', 'CC BY 4.0'],
+
+  ['Iconoir','iconoir',1600,false,'Nét mảnh 1.5px, rất nhẹ và thoáng. Đẹp ở cỡ lớn nhưng ở 20px trong bottom nav thì hơi mờ, nhất là trên nền tối.','none',
+   ['home-simple','clock','page','wallet','user','bell'], null, 'MIT'],
+
+  ['Heroicons','heroicons',300,false,'Của nhóm Tailwind. Nhỏ gọn, chỉ đủ cho giao diện phổ thông — với HRM sẽ thiếu icon chuyên biệt như chấm công, phiếu lương, phê duyệt.','pair',
+   ['home','clock','document-text','wallet','user','bell'], 'home-solid', 'MIT']
+];
+
+const LABELS = ['Trang chủ','Chấm công','Yêu cầu','Lương','Cá nhân','Thông báo'];
+
+class Component extends DCLogic {
+  renderVals(){
+    const sets = SETS.map(s=>({
+      name:s[0], meta:'~'+s[2].toLocaleString('vi-VN')+' icon · '+s[1],
+      known:s[3], note:s[4],
+      lic:s[8], licAttr:s[8]==='CC BY 4.0',
+      licInk:s[8]==='CC BY 4.0'?'#B45309':'#5B6572',
+      licBg:s[8]==='CC BY 4.0'?'#FDF3E3':'#F0EDE5',
+      edge: s[3] ? '#E3DFD6' : (s[5]==='pair' ? '#10B981' : '#F59E0B'),
+      pairColor: s[5]==='pair' ? '#10B981' : '#F59E0B',
+      pairText: s[5]==='pair' ? 'Có cặp nét + đặc' : 'Chỉ có nét',
+      icons: s[6].map((n,i)=>({
+        l: LABELS[i],
+        url: 'https://api.iconify.design/'+s[1]+'/'+n+'.svg?color='+TEAL+'&width=24&height=24'
+      })),
+      fillUrl: s[7] ? 'https://api.iconify.design/'+s[1]+'/'+s[7]+'.svg?color='+CREAM+'&width=24&height=24' : null
+    }));
+
+    const recs = [
+      {t:'Phosphor', c:'#0F766E', b:'lựa chọn tôi nghiêng nhất. Đầu nét tròn và độ mảnh của nó hợp với nền giấy ấm và hoa văn gạch bông; bản fill lo phần tab đang chọn. 9.000 icon là dư cho mọi nghiệp vụ nhân sự sau này.'},
+      {t:'Tabler', c:'#0F766E', b:'chọn an toàn nhất nếu bạn thích dáng icon hiện tại. Cùng ngôn ngữ nét 2px với Lucide nên không phải vẽ lại gì, chỉ được thêm bản đặc và nhiều icon hơn.'},
+      {t:'Remix Icon', c:'#F59E0B', b:'chọn nếu muốn cảm giác chững chạc, doanh nghiệp hơn — phù hợp khi app phải thuyết phục Ban Giám đốc hơn là nhân viên ca.'},
+      {t:'Đừng trộn hai bộ', c:'#B91C1C', b:'khác biệt về độ mảnh và bán kính bo sẽ lộ ngay khi hai icon nằm cạnh nhau trong cùng một hàng.'}
+    ];
+
+    return {sets, recs};
+  }
+}
+
+</script>
+</body>
+</html>

@@ -4,6 +4,8 @@ import 'package:get_it/get_it.dart';
 import 'package:vstech_hrm/core/network/dio_client.dart';
 import 'package:vstech_hrm/core/network/logging_interceptor.dart';
 import 'package:vstech_hrm/core/session/auth_cubit.dart';
+import 'package:vstech_hrm/core/session/locale_cubit.dart';
+import 'package:vstech_hrm/core/session/theme_cubit.dart';
 import 'package:vstech_hrm/features/attendance/attendance_injection.dart';
 
 final GetIt sl = GetIt.instance;
@@ -29,9 +31,15 @@ Future<void> initDependencies() async {
     ),
   );
 
-  // 4. Global Session & Auth Cubit
+  // 4. Global Session, Theme & Locale Cubits
   sl.registerLazySingleton<AuthCubit>(
     () => AuthCubit(secureStorage: sl<FlutterSecureStorage>()),
+  );
+  sl.registerLazySingleton<ThemeCubit>(
+    () => ThemeCubit(secureStorage: sl<FlutterSecureStorage>()),
+  );
+  sl.registerLazySingleton<LocaleCubit>(
+    () => LocaleCubit(secureStorage: sl<FlutterSecureStorage>()),
   );
 
   // 5. Feature Modules

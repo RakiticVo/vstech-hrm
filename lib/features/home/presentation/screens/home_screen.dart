@@ -7,12 +7,17 @@ import 'package:vstech_hrm/core/session/auth_cubit.dart';
 import 'package:vstech_hrm/core/session/auth_state.dart';
 import 'package:vstech_hrm/core/theme/app_colors.dart';
 import 'package:vstech_hrm/core/theme/app_text_styles.dart';
-import 'package:vstech_hrm/core/widgets/amber_cta_button.dart';
 import 'package:vstech_hrm/core/widgets/app_card.dart';
 import 'package:vstech_hrm/core/widgets/tile_header_banner.dart';
-import 'package:vstech_hrm/features/attendance/domain/entities/attendance_record_entity.dart';
+import 'package:vstech_hrm/core/widgets/tile_section_divider.dart';
+import 'package:vstech_hrm/features/home/presentation/widgets/home_announcements.dart';
+import 'package:vstech_hrm/features/home/presentation/widgets/home_balance_card.dart';
+import 'package:vstech_hrm/features/home/presentation/widgets/home_quick_actions.dart';
+import 'package:vstech_hrm/features/home/presentation/widgets/home_salary_card.dart';
+import 'package:vstech_hrm/features/home/presentation/widgets/home_summary_grid.dart';
 
 /// Main Home Screen for Employee (NV) and Manager (QL).
+/// Follows DESIGN.md and Phone.dc.html lines 96–233.
 class HomeScreen extends StatelessWidget {
   const new({super.key});
 
@@ -23,8 +28,8 @@ class HomeScreen extends StatelessWidget {
     final user = authState is Authenticated ? authState.user : null;
     final isManager = authState is Authenticated && authState.role.isManager;
 
-    final userName = user?.name ?? 'Nhân viên';
-    final userInitials = userName.isNotEmpty ? userName.substring(0, 1) : 'VS';
+    final userName = user?.name ?? 'Nguyễn Minh Tuấn';
+    final userInitials = userName.isNotEmpty ? userName.substring(0, 1) : 'MT';
 
     return Scaffold(
       backgroundColor: colors.background,
@@ -32,35 +37,52 @@ class HomeScreen extends StatelessWidget {
         child: Column(
           children: [
             TileHeaderBanner(
-              title: 'Xin chào, $userName',
-              subtitle: 'Thứ Ba, 20 Tháng 9 • Trụ sở chính (TP.HCM)',
+              title: 'Chào buổi sáng, \n$userName 👋',
+              subtitle: 'Thứ Ba, 20 Tháng 9 · Cửa hàng Q.3 (TP.HCM)',
               avatarFallbackText: userInitials,
               hasUnreadNotification: true,
-              onNotificationTap: () {},
-              height: 150,
+              onNotificationTap: () => context.push(AppRoutes.notifications),
+              bottomPadding: 64,
             ),
             Transform.translate(
-              offset: const Offset(0, -18),
+              offset: const Offset(0, -46),
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 16),
                 child: Column(
                   children: [
+                    // Balance card (Worked hours & punch CTA)
+                    const HomeBalanceCard(),
+
                     // Manager pending approval strip (P0 MSS requirement)
                     if (isManager) ...[
+                      const SizedBox(height: 14),
                       _buildManagerApprovalStrip(context, colors),
-                      const SizedBox(height: 12),
                     ],
 
-                    // Attendance / Shift Card (Thẻ số dư & ca làm)
-                    _buildAttendanceCard(context, colors),
-                    const SizedBox(height: 16),
+                    // 5 Circular Quick Actions
+                    const SizedBox(height: 20),
+                    const HomeQuickActions(),
 
-                    // Quick Actions
-                    _buildQuickActions(context, colors),
-                    const SizedBox(height: 16),
+                    // Saigon Tile Section Divider
+                    const SizedBox(height: 20),
+                    const TileSectionDivider(),
 
-                    // Demo Switch Role Info Card
+                    // 2x2 Summary Grid
+                    const SizedBox(height: 18),
+                    const HomeSummaryGrid(),
+
+                    // Salary Card with eye toggle
+                    const SizedBox(height: 20),
+                    const HomeSalaryCard(),
+
+                    // Latest Announcements
+                    const SizedBox(height: 20),
+                    const HomeAnnouncements(),
+
+                    // Demo Role Switcher
+                    const SizedBox(height: 20),
                     _buildDemoRoleSwitcher(context, colors, isManager),
+                    const SizedBox(height: 24),
                   ],
                 ),
               ),
@@ -71,188 +93,85 @@ class HomeScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildManagerApprovalStrip(BuildContext context, AppColorsExtension colors) {
-    return AppCard(
-      backgroundColor: colors.accentAmber.withValues(alpha: 0.12),
-      borderColor: colors.accentAmber.withValues(alpha: 0.4),
-      padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
-      onTap: () => context.go(AppRoutes.approvals),
-      child: Row(
-        children: [
-          Container(
-            padding: const EdgeInsets.all(8),
-            decoration: BoxDecoration(
-              color: colors.accentAmber,
-              shape: BoxShape.circle,
-            ),
-            child: const Icon(Symbols.assignment_late, color: Colors.white, size: 18),
-          ),
-          const SizedBox(width: 12),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  '3 yêu cầu đang chờ bạn phê duyệt',
-                  style: AppTextStyles.labelMedium(color: colors.textPrimary).copyWith(
-                    fontWeight: FontWeight.w700,
-                  ),
-                ),
-                Text(
-                  '2 đơn nghỉ phép • 1 đề xuất tăng ca',
-                  style: AppTextStyles.bodySmall(color: colors.textSecondary),
-                ),
-              ],
-            ),
-          ),
-          Icon(Symbols.chevron_right, color: colors.accentAmber, size: 20),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildAttendanceCard(BuildContext context, AppColorsExtension colors) {
-    return AppCard(
-      padding: const EdgeInsets.all(18),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    'CA LÀM VIỆC HÔM NAY',
-                    style: AppTextStyles.labelMicro(color: colors.textTertiary),
-                  ),
-                  const SizedBox(height: 4),
-                  Text(
-                    'Ca Hành chính (08:30 - 17:30)',
-                    style: AppTextStyles.titleMedium(color: colors.textPrimary).copyWith(
-                      fontWeight: FontWeight.w700,
-                    ),
-                  ),
-                ],
-              ),
-              Container(
-                padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
-                decoration: BoxDecoration(
-                  color: colors.pineGreen.withValues(alpha: 0.12),
-                  borderRadius: BorderRadius.circular(999),
-                ),
-                child: Text(
-                  'Đúng giờ',
-                  style: AppTextStyles.labelMicro(color: colors.pineGreen).copyWith(
-                    fontWeight: FontWeight.w600,
-                  ),
-                ),
-              ),
-            ],
-          ),
-          const SizedBox(height: 16),
-          Row(
-            children: [
-              Expanded(
-                child: _buildTimeMetric(
-                  'Giờ vào',
-                  '08:24',
-                  Symbols.login,
-                  colors,
-                ),
-              ),
-              Container(width: 1, height: 36, color: colors.border),
-              Expanded(
-                child: _buildTimeMetric(
-                  'Giờ ra (dự kiến)',
-                  '17:30',
-                  Symbols.logout,
-                  colors,
-                ),
-              ),
-            ],
-          ),
-          const SizedBox(height: 16),
-          AmberCtaButton(
-            text: 'Chấm công Quét mặt',
-            icon: Symbols.face,
-            onPressed: () => context.push(
-              AppRoutes.checkInCamera,
-              extra: AttendanceType.checkIn,
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildTimeMetric(
-    String label,
-    String time,
-    IconData icon,
+  Widget _buildManagerApprovalStrip(
+    BuildContext context,
     AppColorsExtension colors,
   ) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 8),
-      child: Row(
-        children: [
-          Icon(icon, size: 20, color: colors.textTertiary),
-          const SizedBox(width: 8),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(label, style: AppTextStyles.labelMicro(color: colors.textTertiary)),
-              Text(
-                time,
-                style: AppTextStyles.titleMedium(color: colors.textPrimary).copyWith(
-                  fontWeight: FontWeight.w700,
-                ),
-              ),
-            ],
-          ),
-        ],
+    return Container(
+      decoration: BoxDecoration(
+        color: colors.surface,
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(color: colors.accentAmber, width: 1.5),
       ),
-    );
-  }
-
-  Widget _buildQuickActions(BuildContext context, AppColorsExtension colors) {
-    return Row(
-      children: [
-        Expanded(
-          child: AppCard(
-            onTap: () => context.go(AppRoutes.requests),
+      child: Material(
+        color: Colors.transparent,
+        child: InkWell(
+          borderRadius: BorderRadius.circular(16),
+          onTap: () => context.go(AppRoutes.approvals),
+          child: Padding(
             padding: const EdgeInsets.all(14),
-            child: Column(
+            child: Row(
               children: [
-                Icon(Symbols.event_available, color: colors.primaryIndigo, size: 28),
-                const SizedBox(height: 8),
+                Container(
+                  width: 38,
+                  height: 38,
+                  decoration: BoxDecoration(
+                    color: colors.accentAmber,
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  child: const Center(
+                    child: Icon(
+                      Symbols.assignment_late,
+                      color: Color(0xFF1C1408),
+                      size: 20,
+                    ),
+                  ),
+                ),
+                const SizedBox(width: 12),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'Chờ bạn phê duyệt',
+                        style: TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.w800,
+                          color: colors.textPrimary,
+                        ),
+                      ),
+                      const SizedBox(height: 1),
+                      Text(
+                        'Phép, tăng ca và sửa công',
+                        style: TextStyle(
+                          fontSize: 12,
+                          fontWeight: FontWeight.w600,
+                          color: colors.textSecondary,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
                 Text(
-                  'Xin nghỉ phép',
-                  style: AppTextStyles.labelMedium(color: colors.textPrimary),
+                  '3',
+                  style: TextStyle(
+                    fontSize: 19,
+                    fontWeight: FontWeight.w800,
+                    color: colors.accentAmber,
+                    fontFeatures: const [FontFeature.tabularFigures()],
+                  ),
+                ),
+                const SizedBox(width: 4),
+                Icon(
+                  Symbols.chevron_right,
+                  color: colors.accentAmber,
+                  size: 20,
                 ),
               ],
             ),
           ),
         ),
-        const SizedBox(width: 12),
-        Expanded(
-          child: AppCard(
-            onTap: () => context.go(AppRoutes.payroll),
-            padding: const EdgeInsets.all(14),
-            child: Column(
-              children: [
-                Icon(Symbols.account_balance_wallet, color: colors.accentAmber, size: 28),
-                const SizedBox(height: 8),
-                Text(
-                  'Bảng lương',
-                  style: AppTextStyles.labelMedium(color: colors.textPrimary),
-                ),
-              ],
-            ),
-          ),
-        ),
-      ],
+      ),
     );
   }
 
@@ -281,9 +200,8 @@ class HomeScreen extends StatelessWidget {
             },
             child: Text(
               'Đổi sang ${isManager ? "NV" : "QL"}',
-              style: AppTextStyles.labelMedium(color: colors.primaryIndigo).copyWith(
-                fontWeight: FontWeight.w700,
-              ),
+              style: AppTextStyles.labelMedium(color: colors.primaryIndigo)
+                  .copyWith(fontWeight: FontWeight.w700),
             ),
           ),
         ],

@@ -1,15 +1,16 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:material_symbols_icons/symbols.dart';
+import 'package:vstech_hrm/core/router/routes.dart';
 import 'package:vstech_hrm/core/session/auth_cubit.dart';
 import 'package:vstech_hrm/core/session/auth_state.dart';
 import 'package:vstech_hrm/core/theme/app_colors.dart';
-import 'package:vstech_hrm/core/theme/app_text_styles.dart';
-import 'package:vstech_hrm/core/widgets/app_card.dart';
-import 'package:vstech_hrm/core/widgets/secondary_button.dart';
-import 'package:vstech_hrm/core/widgets/tile_header_banner.dart';
+import 'package:vstech_hrm/features/profile/presentation/widgets/profile_header_card.dart';
+import 'package:vstech_hrm/features/profile/presentation/widgets/profile_info_card.dart';
 
-/// User profile and account preferences screen.
+/// Screen 19: Comprehensive Employee Profile matching Screen 19 reference image.
 class ProfileScreen extends StatelessWidget {
   const new({super.key});
 
@@ -17,56 +18,132 @@ class ProfileScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final colors = context.colors;
     final authState = context.watch<AuthCubit>().state;
+
     final user = authState is Authenticated ? authState.user : null;
     final isManager = authState is Authenticated && authState.role.isManager;
 
-    final userName = user?.name ?? 'Nguyễn Văn An';
-    final userCode = user?.employeeCode ?? 'NV0142';
-    final department = user?.department ?? 'Bộ phận Phát triển Mobile';
-    final userEmail = user?.email ?? 'nguyen.an@vstech.vn';
+    final userName = user?.name ?? 'Nguyễn Minh Tuấn';
+    final userCode = user?.employeeCode ?? 'NV-04821';
+    final department = user?.department ?? 'Vận hành';
+    final userEmail = user?.email ?? 'minh.tuan@company.vn';
+
+    final personalRows = [
+      ('Họ và tên', userName),
+      ('Ngày sinh', '14/03/1994'),
+      ('Điện thoại', '+84 908 221 470'),
+      ('Email', userEmail),
+      ('Địa chỉ', 'Q.3, TP. Hồ Chí Minh'),
+    ];
+
+    final workRows = [
+      ('Bộ phận', department),
+      ('Chức danh', 'Giám sát cửa hàng'),
+      ('Quản lý', 'Lê Thu Hà'),
+      ('Ngày vào', '02/05/2021'),
+      ('Trạng thái', 'Chính thức'),
+    ];
+
+    final bankRows = [
+      ('Ngân hàng', 'Vietcombank'),
+      ('Số tài khoản', '•••• 4821'),
+    ];
 
     return Scaffold(
       backgroundColor: colors.background,
-      body: Column(
-        children: [
-          TileHeaderBanner(
-            title: userName,
-            subtitle: '$userCode • $department',
-            avatarFallbackText: userName.isNotEmpty ? userName.substring(0, 1) : 'VS',
-            height: 150,
+      appBar: AppBar(
+        backgroundColor: colors.surface,
+        elevation: 0,
+        title: Text(
+          'Cá nhân',
+          style: TextStyle(
+            fontSize: 18,
+            fontWeight: FontWeight.w800,
+            color: colors.textPrimary,
           ),
-          Expanded(
-            child: ListView(
-              padding: const EdgeInsets.all(16),
+        ),
+        actions: [
+          IconButton(
+            icon: Icon(Symbols.settings, size: 22, color: colors.textPrimary),
+            onPressed: () => context.push(AppRoutes.settings),
+          ),
+          const SizedBox(width: 4),
+        ],
+      ),
+      body: ListView(
+        padding: const EdgeInsets.fromLTRB(16, 12, 16, 32),
+        children: [
+          // Part 1: Bounded Header Card
+          ProfileHeaderCard(
+            name: userName,
+            employeeCode: userCode,
+            position: 'Giám sát cửa hàng · Vận hành',
+            isManager: isManager,
+          ),
+          const SizedBox(height: 18),
+
+          // Thông tin cá nhân
+          ProfileInfoCard(
+            title: 'Thông tin cá nhân',
+            rows: personalRows,
+          ),
+          const SizedBox(height: 16),
+
+          // Part 2: Thông tin công việc
+          ProfileInfoCard(
+            title: 'Thông tin công việc',
+            rows: workRows,
+          ),
+          const SizedBox(height: 16),
+
+          // Tài khoản ngân hàng
+          ProfileInfoCard(
+            title: 'Tài khoản ngân hàng',
+            rows: bankRows,
+          ),
+          const SizedBox(height: 16),
+
+          // Profile Quick Links (K, H, T, C)
+          Container(
+            decoration: BoxDecoration(
+              color: colors.surface,
+              borderRadius: BorderRadius.circular(16),
+              border: Border.all(color: colors.border),
+            ),
+            child: Column(
               children: [
-                _buildInfoCard(userEmail, isManager, colors),
-                const SizedBox(height: 16),
-                _buildMenuSection(
-                  title: 'BẢO MẬT & THIẾT BỊ',
-                  items: const [
-                    _MenuItem(icon: Symbols.fingerprint, title: 'Xác thực sinh trắc học', trailing: 'Đã bật'),
-                    _MenuItem(icon: Symbols.phonelink_lock, title: 'Khóa ứng dụng', trailing: 'Mã PIN'),
-                    _MenuItem(icon: Symbols.smartphone, title: 'Thiết bị liên kết', trailing: 'iPhone 15 Pro'),
-                  ],
-                  colors: colors,
-                ),
-                const SizedBox(height: 16),
-                _buildMenuSection(
-                  title: 'HỆ THỐNG & CÀI ĐẶT',
-                  items: const [
-                    _MenuItem(icon: Symbols.dark_mode, title: 'Giao diện', trailing: 'Theo hệ thống'),
-                    _MenuItem(icon: Symbols.language, title: 'Ngôn ngữ', trailing: 'Tiếng Việt'),
-                    _MenuItem(icon: Symbols.info, title: 'Phiên bản ứng dụng', trailing: 'v1.0.0 (Phase 0)'),
-                  ],
-                  colors: colors,
-                ),
-                const SizedBox(height: 24),
-                SecondaryButton(
-                  text: 'Đăng xuất tài khoản',
-                  icon: Symbols.logout,
-                  onPressed: () => context.read<AuthCubit>().logout(),
-                ),
+                _buildLetterLinkTile('K', 'Liên hệ khẩn cấp', () {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(content: Text('Liên hệ khẩn cấp: 0908 221 470 (Người thân)')),
+                  );
+                }, colors),
+                Divider(height: 1, indent: 62, color: colors.border.withValues(alpha: 0.5)),
+                _buildLetterLinkTile('H', 'Hồ sơ & tài liệu', () {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(content: Text('Hồ sơ nhân viên & Hợp đồng lao động')),
+                  );
+                }, colors),
+                Divider(height: 1, indent: 62, color: colors.border.withValues(alpha: 0.5)),
+                _buildLetterLinkTile('T', 'Tuyển dụng nội bộ', () => context.push(AppRoutes.jobRecruitment), colors),
+                Divider(height: 1, indent: 62, color: colors.border.withValues(alpha: 0.5)),
+                _buildLetterLinkTile('C', 'Cài đặt', () => context.push(AppRoutes.settings), colors),
               ],
+            ),
+          ),
+          const SizedBox(height: 20),
+
+          // Nút Đăng xuất
+          OutlinedButton.icon(
+            style: OutlinedButton.styleFrom(
+              foregroundColor: colors.error,
+              side: BorderSide(color: colors.error.withValues(alpha: 0.5)),
+              minimumSize: const Size.fromHeight(48),
+              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
+            ),
+            onPressed: () => _confirmLogout(context, colors),
+            icon: const Icon(Symbols.logout, size: 18),
+            label: const Text(
+              'Đăng xuất',
+              style: TextStyle(fontSize: 14.5, fontWeight: FontWeight.w800),
             ),
           ),
         ],
@@ -74,98 +151,88 @@ class ProfileScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildInfoCard(String email, bool isManager, AppColorsExtension colors) {
-    return AppCard(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+  Widget _buildLetterLinkTile(String letter, String title, VoidCallback onTap, AppColorsExtension colors) {
+    return Material(
+      color: Colors.transparent,
+      child: InkWell(
+        borderRadius: BorderRadius.circular(16),
+        onTap: onTap,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 13),
+          child: Row(
             children: [
-              Text(
-                'VAI TRÒ HIỆN TẠI',
-                style: AppTextStyles.labelMicro(color: colors.textTertiary),
-              ),
               Container(
-                padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                width: 32,
+                height: 32,
                 decoration: BoxDecoration(
-                  color: isManager
-                      ? colors.accentAmber.withValues(alpha: 0.15)
-                      : colors.primaryIndigo.withValues(alpha: 0.15),
-                  borderRadius: BorderRadius.circular(999),
+                  color: const Color(0xFFF0FDF4),
+                  borderRadius: BorderRadius.circular(9),
                 ),
-                child: Text(
-                  isManager ? 'Quản lý (QL / MSS)' : 'Nhân viên (NV / ESS)',
-                  style: AppTextStyles.labelMicro(
-                    color: isManager ? colors.accentAmberDark : colors.primaryIndigo,
-                  ).copyWith(fontWeight: FontWeight.w700),
+                child: Center(
+                  child: Text(
+                    letter,
+                    style: TextStyle(
+                      fontSize: 14,
+                      fontWeight: FontWeight.w800,
+                      color: colors.primaryIndigo,
+                    ),
+                  ),
                 ),
               ),
+              const SizedBox(width: 14),
+              Expanded(
+                child: Text(
+                  title,
+                  style: TextStyle(
+                    fontSize: 13.5,
+                    fontWeight: FontWeight.w700,
+                    color: colors.textPrimary,
+                  ),
+                ),
+              ),
+              Icon(Symbols.chevron_right, size: 18, color: colors.textTertiary),
             ],
           ),
-          const SizedBox(height: 8),
-          Row(
-            children: [
-              Icon(Symbols.mail, size: 18, color: colors.textTertiary),
-              const SizedBox(width: 8),
-              Text(email, style: AppTextStyles.bodyMedium(color: colors.textSecondary)),
-            ],
-          ),
-        ],
+        ),
       ),
     );
   }
 
-  Widget _buildMenuSection({
-    required String title,
-    required List<_MenuItem> items,
-    required AppColorsExtension colors,
-  }) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(title, style: AppTextStyles.labelMicro(color: colors.textTertiary)),
-        const SizedBox(height: 8),
-        AppCard(
-          padding: EdgeInsets.zero,
-          child: Column(
-            children: List.generate(items.length, (index) {
-              final item = items[index];
-              return Column(
-                children: [
-                  ListTile(
-                    leading: Icon(item.icon, size: 22, color: colors.textSecondary),
-                    title: Text(item.title, style: AppTextStyles.bodyMedium(color: colors.textPrimary)),
-                    trailing: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Text(item.trailing, style: AppTextStyles.bodySmall(color: colors.textTertiary)),
-                        const SizedBox(width: 4),
-                        Icon(Symbols.chevron_right, size: 18, color: colors.textTertiary),
-                      ],
-                    ),
-                    onTap: () {},
-                  ),
-                  if (index < items.length - 1)
-                    Divider(height: 1, indent: 52, color: colors.border.withValues(alpha: 0.5)),
-                ],
-              );
-            }),
+  void _confirmLogout(BuildContext context, AppColorsExtension colors) {
+    unawaited(
+      showDialog<void>(
+        context: context,
+        builder: (dialogContext) => AlertDialog(
+          backgroundColor: colors.surface,
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+          title: Text(
+            'Xác nhận đăng xuất',
+            style: TextStyle(fontSize: 16.5, fontWeight: FontWeight.w800, color: colors.textPrimary),
           ),
+          content: Text(
+            'Bạn có chắc chắn muốn đăng xuất khỏi ứng dụng VSTech HRM không?',
+            style: TextStyle(fontSize: 13, color: colors.textSecondary),
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(dialogContext),
+              child: Text('Hủy', style: TextStyle(fontWeight: FontWeight.w700, color: colors.textSecondary)),
+            ),
+            ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                backgroundColor: colors.error,
+                foregroundColor: Colors.white,
+                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+              ),
+              onPressed: () {
+                Navigator.pop(dialogContext);
+                unawaited(context.read<AuthCubit>().logout());
+              },
+              child: const Text('Đăng xuất', style: TextStyle(fontWeight: FontWeight.w800)),
+            ),
+          ],
         ),
-      ],
+      ),
     );
   }
-}
-
-class _MenuItem {
-  const new({
-    required this.icon,
-    required this.title,
-    required this.trailing,
-  });
-
-  final IconData icon;
-  final String title;
-  final String trailing;
 }

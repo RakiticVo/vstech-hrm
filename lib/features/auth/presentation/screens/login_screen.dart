@@ -5,14 +5,9 @@ import 'package:material_symbols_icons/symbols.dart';
 import 'package:vstech_hrm/core/session/auth_cubit.dart';
 import 'package:vstech_hrm/core/session/auth_state.dart';
 import 'package:vstech_hrm/core/theme/app_colors.dart';
-import 'package:vstech_hrm/core/theme/app_text_styles.dart';
-import 'package:vstech_hrm/core/widgets/amber_cta_button.dart';
-import 'package:vstech_hrm/core/widgets/app_card.dart';
-import 'package:vstech_hrm/core/widgets/primary_button.dart';
-import 'package:vstech_hrm/core/widgets/secondary_button.dart';
-import 'package:vstech_hrm/core/widgets/tile_header_banner.dart';
+import 'package:vstech_hrm/features/auth/presentation/widgets/face_id_login_sheet.dart';
 
-/// Login Screen supporting regular credentials and 1-tap Demo role switching.
+/// Screen 02: Login Screen matching the exact reference mockup.
 class LoginScreen extends StatefulWidget {
   const new({super.key});
 
@@ -21,13 +16,14 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  final _usernameController = TextEditingController(text: 'employee01');
+  final _codeController = TextEditingController(text: 'NV-04821');
   final _passwordController = TextEditingController(text: '123456');
   bool _obscurePassword = true;
+  bool _rememberMe = true;
 
   @override
   void dispose() {
-    _usernameController.dispose();
+    _codeController.dispose();
     _passwordController.dispose();
     super.dispose();
   }
@@ -35,10 +31,14 @@ class _LoginScreenState extends State<LoginScreen> {
   void _onLogin() {
     unawaited(
       context.read<AuthCubit>().login(
-            username: _usernameController.text.trim(),
+            username: _codeController.text.trim(),
             password: _passwordController.text.trim(),
           ),
     );
+  }
+
+  void _onFaceIdLogin() {
+    unawaited(FaceIdLoginSheet.show(context));
   }
 
   @override
@@ -48,153 +48,175 @@ class _LoginScreenState extends State<LoginScreen> {
     final isLoading = authState is AuthLoading;
 
     return Scaffold(
-      backgroundColor: colors.background,
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            const TileHeaderBanner(
-              title: 'VSTech HRM',
-              subtitle: 'Hệ thống Quản trị Nhân sự thế hệ mới',
-              height: 160,
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 24),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  AppCard(
-                    padding: const EdgeInsets.all(20),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          'Đăng nhập tài khoản',
-                          style: AppTextStyles.titleMedium(color: colors.textPrimary)
-                              .copyWith(fontWeight: FontWeight.w700),
-                        ),
-                        const SizedBox(height: 16),
-                        _buildInputField(
-                          controller: _usernameController,
-                          label: 'Tên đăng nhập / Mã NV',
-                          icon: Symbols.person,
-                          colors: colors,
-                        ),
-                        const SizedBox(height: 14),
-                        _buildPasswordField(colors),
-                        const SizedBox(height: 20),
-                        PrimaryButton(
-                          text: 'Đăng nhập',
-                          isLoading: isLoading,
-                          onPressed: _onLogin,
-                        ),
-                      ],
-                    ),
+      backgroundColor: colors.surface,
+      body: SafeArea(
+        child: SingleChildScrollView(
+          padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 20),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const SizedBox(height: 12),
+              Container(
+                width: 48,
+                height: 48,
+                decoration: BoxDecoration(
+                  color: colors.primaryIndigo,
+                  borderRadius: BorderRadius.circular(16),
+                ),
+                child: const Icon(Symbols.person, color: Color(0xFFFFF8EC), size: 26),
+              ),
+              const SizedBox(height: 20),
+              Text(
+                'Chào bạn trở lại',
+                style: TextStyle(
+                  fontSize: 26,
+                  fontWeight: FontWeight.w800,
+                  letterSpacing: -0.5,
+                  color: colors.textPrimary,
+                ),
+              ),
+              const SizedBox(height: 6),
+              Text(
+                'Đăng nhập bằng mã nhân viên để xem ca làm, phép và phiếu lương.',
+                style: TextStyle(fontSize: 13.5, fontWeight: FontWeight.w500, color: colors.textSecondary, height: 1.4),
+              ),
+              const SizedBox(height: 28),
+              _buildFieldLabel('Mã nhân viên', colors),
+              const SizedBox(height: 6),
+              TextField(
+                controller: _codeController,
+                decoration: _inputDecoration(
+                  prefixIcon: Icon(Symbols.badge, color: colors.textSecondary, size: 20),
+                  colors: colors,
+                ),
+              ),
+              const SizedBox(height: 16),
+              _buildFieldLabel('Mật khẩu', colors),
+              const SizedBox(height: 6),
+              TextField(
+                controller: _passwordController,
+                obscureText: _obscurePassword,
+                decoration: _inputDecoration(
+                  prefixIcon: Icon(Symbols.lock, color: colors.textSecondary, size: 20),
+                  colors: colors,
+                  suffixIcon: IconButton(
+                    icon: Icon(_obscurePassword ? Symbols.visibility_off : Symbols.visibility, size: 20),
+                    onPressed: () => setState(() => _obscurePassword = !_obscurePassword),
                   ),
-                  const SizedBox(height: 24),
-                  _buildDemoSection(isLoading, colors),
+                ),
+              ),
+              const SizedBox(height: 12),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Row(
+                    children: [
+                      SizedBox(
+                        width: 24,
+                        height: 24,
+                        child: Checkbox(
+                          value: _rememberMe,
+                          activeColor: colors.primaryIndigo,
+                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
+                          onChanged: (v) => setState(() => _rememberMe = v ?? false),
+                        ),
+                      ),
+                      const SizedBox(width: 8),
+                      Text('Ghi nhớ đăng nhập', style: TextStyle(fontSize: 12.5, fontWeight: FontWeight.w600, color: colors.textPrimary)),
+                    ],
+                  ),
+                  TextButton(
+                    onPressed: () => ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(content: Text('Vui lòng liên hệ HR để đặt lại mật khẩu')),
+                    ),
+                    child: Text('Quên?', style: TextStyle(fontSize: 12.5, fontWeight: FontWeight.w700, color: colors.primaryIndigo)),
+                  ),
                 ],
               ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget _buildInputField({
-    required TextEditingController controller,
-    required String label,
-    required IconData icon,
-    required AppColorsExtension colors,
-  }) {
-    return TextField(
-      controller: controller,
-      decoration: InputDecoration(
-        labelText: label,
-        prefixIcon: Icon(icon, size: 20, color: colors.textTertiary),
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(12),
-          borderSide: BorderSide(color: colors.border),
-        ),
-        enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(12),
-          borderSide: BorderSide(color: colors.border),
-        ),
-      ),
-    );
-  }
-
-  Widget _buildPasswordField(AppColorsExtension colors) {
-    return TextField(
-      controller: _passwordController,
-      obscureText: _obscurePassword,
-      decoration: InputDecoration(
-        labelText: 'Mật khẩu',
-        prefixIcon: Icon(Symbols.lock, size: 20, color: colors.textTertiary),
-        suffixIcon: IconButton(
-          icon: Icon(
-            _obscurePassword ? Symbols.visibility_off : Symbols.visibility,
-            size: 20,
-            color: colors.textTertiary,
-          ),
-          onPressed: () => setState(() => _obscurePassword = !_obscurePassword),
-        ),
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(12),
-          borderSide: BorderSide(color: colors.border),
-        ),
-        enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(12),
-          borderSide: BorderSide(color: colors.border),
-        ),
-      ),
-    );
-  }
-
-  Widget _buildDemoSection(bool isLoading, AppColorsExtension colors) {
-    return Container(
-      padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        color: colors.cardSecondary.withValues(alpha: 0.5),
-        borderRadius: BorderRadius.circular(14),
-        border: Border.all(color: colors.border),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          Row(
-            children: [
-              Icon(Symbols.smart_toy, size: 18, color: colors.accentAmber),
-              const SizedBox(width: 8),
-              Text(
-                'Chế độ Demo (Standalone Mock)',
-                style: AppTextStyles.labelMedium(color: colors.textPrimary).copyWith(
-                  fontWeight: FontWeight.w600,
+              const SizedBox(height: 20),
+              SizedBox(
+                width: double.infinity,
+                height: 48,
+                child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: colors.accentAmber,
+                    foregroundColor: const Color(0xFF1C1408),
+                    elevation: 0,
+                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
+                  ),
+                  onPressed: isLoading ? null : _onLogin,
+                  child: isLoading
+                      ? const SizedBox(width: 20, height: 20, child: CircularProgressIndicator(strokeWidth: 2))
+                      : const Text('Đăng nhập', style: TextStyle(fontSize: 15, fontWeight: FontWeight.w800)),
                 ),
+              ),
+              const SizedBox(height: 18),
+              Row(
+                children: [
+                  Expanded(child: Divider(color: colors.border)),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 14),
+                    child: Text('hoặc', style: TextStyle(fontSize: 12, fontWeight: FontWeight.w600, color: colors.textTertiary)),
+                  ),
+                  Expanded(child: Divider(color: colors.border)),
+                ],
+              ),
+              const SizedBox(height: 18),
+              SizedBox(
+                width: double.infinity,
+                height: 48,
+                child: OutlinedButton.icon(
+                  style: OutlinedButton.styleFrom(
+                    side: BorderSide(color: colors.border),
+                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
+                  ),
+                  onPressed: isLoading ? null : _onFaceIdLogin,
+                  icon: Icon(Symbols.face, color: colors.primaryIndigo, size: 20),
+                  label: Text('Đăng nhập bằng Face ID', style: TextStyle(fontSize: 14, fontWeight: FontWeight.w700, color: colors.textPrimary)),
+                ),
+              ),
+              const SizedBox(height: 16),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text('Demo nhanh:', style: TextStyle(fontSize: 11.5, color: colors.textTertiary)),
+                  const SizedBox(width: 8),
+                  GestureDetector(
+                    onTap: () => context.read<AuthCubit>().loginAsDemo(UserRole.employee),
+                    child: Text('Nhân viên', style: TextStyle(fontSize: 12, fontWeight: FontWeight.w700, color: colors.primaryIndigo, decoration: TextDecoration.underline)),
+                  ),
+                  const SizedBox(width: 12),
+                  GestureDetector(
+                    onTap: () => context.read<AuthCubit>().loginAsDemo(UserRole.manager),
+                    child: Text('Quản lý', style: TextStyle(fontSize: 12, fontWeight: FontWeight.w700, color: colors.accentAmber, decoration: TextDecoration.underline)),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 24),
+              Center(
+                child: Text('Cần hỗ trợ? Liên hệ HR · nội bộ 1180', style: TextStyle(fontSize: 11.5, fontWeight: FontWeight.w600, color: colors.textTertiary)),
               ),
             ],
           ),
-          const SizedBox(height: 12),
-          AmberCtaButton(
-            text: 'Vào vai: Nhân viên (NV / ESS)',
-            icon: Symbols.badge,
-            isLoading: isLoading,
-            onPressed: () => unawaited(
-              context.read<AuthCubit>().loginAsDemo(UserRole.employee),
-            ),
-          ),
-          const SizedBox(height: 10),
-          SecondaryButton(
-            text: 'Vào vai: Quản lý (QL / MSS)',
-            icon: Symbols.supervisor_account,
-            onPressed: isLoading
-                ? null
-                : () => unawaited(
-                      context.read<AuthCubit>().loginAsDemo(UserRole.manager),
-                    ),
-          ),
-        ],
+        ),
       ),
+    );
+  }
+
+  Widget _buildFieldLabel(String text, AppColorsExtension colors) {
+    return Text(text, style: TextStyle(fontSize: 12, fontWeight: FontWeight.w700, color: colors.textSecondary));
+  }
+
+  InputDecoration _inputDecoration({required Widget prefixIcon, required AppColorsExtension colors, Widget? suffixIcon}) {
+    return InputDecoration(
+      prefixIcon: prefixIcon,
+      suffixIcon: suffixIcon,
+      filled: true,
+      fillColor: colors.cardSecondary,
+      border: OutlineInputBorder(borderRadius: BorderRadius.circular(14), borderSide: BorderSide(color: colors.border)),
+      enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(14), borderSide: BorderSide(color: colors.border)),
+      focusedBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(14), borderSide: BorderSide(color: colors.primaryIndigo, width: 1.5)),
+      contentPadding: const EdgeInsets.symmetric(horizontal: 14, vertical: 14),
     );
   }
 }

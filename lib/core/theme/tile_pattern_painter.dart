@@ -13,6 +13,10 @@ class TilePatternPainter extends CustomPainter {
 
   @override
   void paint(Canvas canvas, Size size) {
+    canvas
+      ..save()
+      ..clipRect(Offset.zero & size);
+
     // 1. Draw solid background
     final bgPaint = Paint()..color = backgroundColor;
     canvas.drawRect(Offset.zero & size, bgPaint);
@@ -60,6 +64,8 @@ class TilePatternPainter extends CustomPainter {
           ..drawCircle(Offset(midX, midY), 1.5, fillPaint);
       }
     }
+
+    canvas.restore();
   }
 
   @override

@@ -6,7 +6,6 @@ import 'package:vstech_hrm/core/router/routes.dart';
 import 'package:vstech_hrm/core/session/auth_cubit.dart';
 import 'package:vstech_hrm/core/session/auth_state.dart';
 import 'package:vstech_hrm/core/theme/app_colors.dart';
-import 'package:vstech_hrm/core/theme/app_text_styles.dart';
 
 /// Navigation item model for bottom navigation bar.
 class _NavItem {
@@ -49,7 +48,7 @@ class AppShell extends StatelessWidget {
         decoration: BoxDecoration(
           color: colors.surface,
           border: Border(
-            top: BorderSide(color: colors.border.withValues(alpha: 0.6)),
+            top: BorderSide(color: colors.border),
           ),
           boxShadow: [
             BoxShadow(
@@ -62,9 +61,8 @@ class AppShell extends StatelessWidget {
         child: SafeArea(
           top: false,
           child: SizedBox(
-            height: 60,
+            height: 64,
             child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: List.generate(navItems.length, (index) {
                 final item = navItems[index];
                 final isSelected = index == currentIndex;
@@ -72,22 +70,44 @@ class AppShell extends StatelessWidget {
                 return Expanded(
                   child: InkWell(
                     onTap: () => context.go(item.route),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
+                    child: Stack(
+                      alignment: Alignment.center,
                       children: [
-                        _buildNavIcon(item, isSelected, colors),
-                        const SizedBox(height: 3),
-                        Text(
-                          item.label,
-                          style: AppTextStyles.labelMicro(
-                            color: isSelected
-                                ? colors.primaryIndigo
-                                : colors.textTertiary,
-                          ).copyWith(
-                            fontWeight: isSelected ? FontWeight.w600 : FontWeight.w400,
+                        // Top active indicator line 26x3px
+                        Positioned(
+                          top: 0,
+                          child: Container(
+                            width: 26,
+                            height: 3,
+                            decoration: BoxDecoration(
+                              color: isSelected
+                                  ? colors.primaryIndigo
+                                  : Colors.transparent,
+                              borderRadius: BorderRadius.circular(2),
+                            ),
                           ),
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(top: 6, bottom: 4),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              _buildNavIcon(item, isSelected, colors),
+                              const SizedBox(height: 3),
+                              Text(
+                                item.label,
+                                style: TextStyle(
+                                  fontSize: 10.5,
+                                  fontWeight: FontWeight.w700,
+                                  color: isSelected
+                                      ? colors.primaryIndigo
+                                      : colors.textSecondary,
+                                ),
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                            ],
+                          ),
                         ),
                       ],
                     ),
@@ -102,23 +122,27 @@ class AppShell extends StatelessWidget {
   }
 
   Widget _buildNavIcon(_NavItem item, bool isSelected, AppColorsExtension colors) {
-    final iconColor = isSelected ? colors.primaryIndigo : colors.textTertiary;
+    final iconColor = isSelected ? colors.primaryIndigo : colors.textSecondary;
 
     final iconWidget = Icon(
       item.icon,
       size: 22,
       color: iconColor,
       fill: isSelected ? 1.0 : 0.0,
-      weight: 400,
+      weight: isSelected ? 600 : 400,
     );
 
     if (item.badgeCount != null && item.badgeCount! > 0) {
       return Badge(
         label: Text(
           '${item.badgeCount}',
-          style: const TextStyle(fontSize: 10, color: Colors.white),
+          style: const TextStyle(
+            fontSize: 9.5,
+            fontWeight: FontWeight.w800,
+            color: Colors.white,
+          ),
         ),
-        backgroundColor: colors.accentAmber,
+        backgroundColor: colors.error,
         child: iconWidget,
       );
     }
@@ -143,14 +167,15 @@ class AppShell extends StatelessWidget {
         icon: Symbols.home,
       ),
       _NavItem(
-        route: AppRoutes.requests,
-        label: 'Đơn từ',
-        icon: Symbols.event_available,
+        route: AppRoutes.attendance,
+        label: 'Chấm công',
+        icon: Symbols.schedule,
       ),
       _NavItem(
-        route: AppRoutes.calendar,
-        label: 'Lịch',
-        icon: Symbols.calendar_month,
+        route: AppRoutes.requests,
+        label: 'Yêu cầu',
+        icon: Symbols.event_available,
+        badgeCount: 1,
       ),
       _NavItem(
         route: AppRoutes.payroll,
@@ -173,20 +198,20 @@ class AppShell extends StatelessWidget {
         icon: Symbols.home,
       ),
       _NavItem(
-        route: AppRoutes.calendar,
-        label: 'Lịch & Ca',
-        icon: Symbols.calendar_month,
+        route: AppRoutes.attendance,
+        label: 'Chấm công',
+        icon: Symbols.schedule,
       ),
       _NavItem(
         route: AppRoutes.approvals,
         label: 'Duyệt',
         icon: Symbols.fact_check,
-        badgeCount: 3, // Mock pending approvals for MSS
+        badgeCount: 9,
       ),
       _NavItem(
-        route: AppRoutes.requests,
-        label: 'Đơn & NV',
-        icon: Symbols.event_available,
+        route: AppRoutes.payroll,
+        label: 'Lương',
+        icon: Symbols.account_balance_wallet,
       ),
       _NavItem(
         route: AppRoutes.profile,
