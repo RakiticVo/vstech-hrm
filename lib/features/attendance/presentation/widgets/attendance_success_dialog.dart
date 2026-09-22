@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:material_symbols_icons/symbols.dart';
+import 'package:vstech_hrm/core/extensions/l10n_extension.dart';
+import 'package:vstech_hrm/core/responsive/app_layout.dart';
 import 'package:vstech_hrm/core/theme/app_colors.dart';
 import 'package:vstech_hrm/core/theme/app_text_styles.dart';
 import 'package:vstech_hrm/core/widgets/app_card.dart';
@@ -21,8 +23,9 @@ class AttendanceSuccessSheet extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colors = context.colors;
+    final l10n = context.l10n;
     final isCheckIn = record.type.isCheckIn;
-    final typeLabel = isCheckIn ? 'Ghi nhận Giờ vào (Check-in)' : 'Ghi nhận Giờ ra (Check-out)';
+    final typeLabel = isCheckIn ? l10n.checkInRecorded : l10n.checkOutRecorded;
 
     final timeStr =
         '${record.timestamp.hour.toString().padLeft(2, '0')}:${record.timestamp.minute.toString().padLeft(2, '0')}:${record.timestamp.second.toString().padLeft(2, '0')}';
@@ -55,31 +58,31 @@ class AttendanceSuccessSheet extends StatelessWidget {
               ),
             ),
           ),
-          const SizedBox(height: 14),
+          14.gapH,
           Center(
             child: Text(
-              'Chấm công thành công!',
+              l10n.punchSuccessTitle,
               style: AppTextStyles.titleMedium(color: colors.textPrimary).copyWith(
                 fontWeight: FontWeight.w800,
                 fontSize: 18,
               ),
             ),
           ),
-          const SizedBox(height: 4),
+          4.gapH,
           Center(
             child: Text(
               typeLabel,
               style: AppTextStyles.bodyMedium(color: colors.textSecondary),
             ),
           ),
-          const SizedBox(height: 20),
+          20.gapH,
           AppCard(
             backgroundColor: colors.cardSecondary.withValues(alpha: 0.5),
             borderColor: colors.border,
             child: Column(
               children: [
                 _buildReceiptRow(
-                  label: 'Thời gian',
+                  label: l10n.timeLabel,
                   value: '$timeStr • $dateStr',
                   colors: colors,
                   isHighlight: true,
@@ -88,7 +91,7 @@ class AttendanceSuccessSheet extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text('Phân loại', style: AppTextStyles.bodySmall(color: colors.textSecondary)),
+                    Text(l10n.classificationLabel, style: AppTextStyles.bodySmall(color: colors.textSecondary)),
                     StatusChip(
                       label: record.classification.displayName,
                       type: AppStatusType.approved,
@@ -97,22 +100,22 @@ class AttendanceSuccessSheet extends StatelessWidget {
                 ),
                 const Divider(height: 20),
                 _buildReceiptRow(
-                  label: 'Địa điểm',
+                  label: l10n.locationLabel,
                   value: record.locationName,
                   colors: colors,
                 ),
                 const Divider(height: 20),
                 _buildReceiptRow(
-                  label: 'Phương thức',
-                  value: 'Nhận diện khuôn mặt + GPS',
+                  label: l10n.methodLabel,
+                  value: l10n.methodFaceGps,
                   colors: colors,
                 ),
               ],
             ),
           ),
-          const SizedBox(height: 24),
+          24.gapH,
           PrimaryButton(
-            text: 'Hoàn tất & Về trang chủ',
+            text: l10n.completeAndHomeCta,
             onPressed: onClose,
           ),
         ],

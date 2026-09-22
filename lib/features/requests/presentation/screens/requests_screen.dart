@@ -1,9 +1,10 @@
 import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:material_symbols_icons/symbols.dart';
+import 'package:vstech_hrm/core/extensions/l10n_extension.dart';
+import 'package:vstech_hrm/core/responsive/app_layout.dart';
 import 'package:vstech_hrm/core/router/routes.dart';
 import 'package:vstech_hrm/core/session/auth_cubit.dart';
 import 'package:vstech_hrm/core/session/auth_state.dart';
@@ -23,8 +24,6 @@ class RequestsScreen extends StatefulWidget {
 class _RequestsScreenState extends State<RequestsScreen> {
   int _selectedTab = 0;
   String _selectedMonth = 'Tháng 9, 2026';
-
-  final _tabs = const ['Tất cả', 'Chờ duyệt', 'Đã duyệt', 'Từ chối'];
 
   final _requests = const [
     RequestData(
@@ -75,6 +74,7 @@ class _RequestsScreenState extends State<RequestsScreen> {
   ];
 
   void _showNewRequestSheet(BuildContext context, AppColorsExtension colors) {
+    final l10n = context.l10n;
     unawaited(
       showModalBottomSheet<void>(
         context: context,
@@ -86,11 +86,11 @@ class _RequestsScreenState extends State<RequestsScreen> {
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text('Tạo yêu cầu mới', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w800, color: colors.textPrimary)),
-              const SizedBox(height: 14),
-              _buildOptionTile(ctx, Symbols.beach_access, 'Xin nghỉ phép', AppRoutes.leaveCreate, colors),
-              _buildOptionTile(ctx, Symbols.schedule, 'Đăng ký tăng ca', AppRoutes.overtimeCreate, colors),
-              _buildOptionTile(ctx, Symbols.edit_note, 'Sửa công', AppRoutes.attendanceCorrection, colors),
+              Text(l10n.createNewRequestTitle, style: TextStyle(fontSize: 16, fontWeight: FontWeight.w800, color: colors.textPrimary)),
+              14.gapH,
+              _buildOptionTile(ctx, Symbols.beach_access, l10n.requestTypeLeave, AppRoutes.leaveCreate, colors),
+              _buildOptionTile(ctx, Symbols.schedule, l10n.requestTypeOvertime, AppRoutes.overtimeCreate, colors),
+              _buildOptionTile(ctx, Symbols.edit_note, l10n.requestTypeCorrection, AppRoutes.attendanceCorrection, colors),
             ],
           ),
         ),
@@ -112,8 +112,11 @@ class _RequestsScreenState extends State<RequestsScreen> {
   @override
   Widget build(BuildContext context) {
     final colors = context.colors;
+    final l10n = context.l10n;
     final authState = context.watch<AuthCubit>().state;
     final isManager = authState is Authenticated && authState.role.isManager;
+
+    final tabs = [l10n.tabAll, l10n.tabPending, l10n.tabApproved, l10n.tabRejected];
 
     final filtered = _requests.where((r) {
       final matchesTab = _selectedTab == 0 || r.statusCode == _selectedTab;
@@ -130,8 +133,8 @@ class _RequestsScreenState extends State<RequestsScreen> {
       body: Column(
         children: [
           TileHeaderBanner(
-            title: 'Trung tâm yêu cầu',
-            subtitle: 'Nghỉ phép · Tăng ca · Sửa công',
+            title: l10n.requestsCenterTitle,
+            subtitle: l10n.requestsCenterSubtitle,
             trailing: Container(
               width: 38,
               height: 38,
@@ -154,7 +157,7 @@ class _RequestsScreenState extends State<RequestsScreen> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text('Yêu cầu theo tháng', style: TextStyle(fontSize: 13, fontWeight: FontWeight.w700, color: colors.textSecondary)),
+                Text(l10n.monthlyRequestsTitle, style: TextStyle(fontSize: 13, fontWeight: FontWeight.w700, color: colors.textSecondary)),
                 MonthPickerButton(
                   selectedMonth: _selectedMonth,
                   onMonthChanged: (m) => setState(() => _selectedMonth = m),
@@ -171,8 +174,8 @@ class _RequestsScreenState extends State<RequestsScreen> {
               height: 36,
               child: ListView.separated(
                 scrollDirection: Axis.horizontal,
-                itemCount: _tabs.length,
-                separatorBuilder: (_, _) => const SizedBox(width: 8),
+                itemCount: tabs.length,
+                separatorBuilder: (_, _) => 8.gapW,
                 itemBuilder: (ctx, index) {
                   final isSelected = _selectedTab == index;
                   return InkWell(
@@ -187,7 +190,7 @@ class _RequestsScreenState extends State<RequestsScreen> {
                         border: Border.all(color: isSelected ? colors.primaryIndigo : colors.border),
                       ),
                       child: Text(
-                        _tabs[index],
+                        tabs[index],
                         style: TextStyle(
                           fontSize: 12.5,
                           fontWeight: FontWeight.w700,
@@ -206,14 +209,14 @@ class _RequestsScreenState extends State<RequestsScreen> {
             child: filtered.isEmpty
                 ? Center(
                     child: Text(
-                      'Không có yêu cầu nào trong $_selectedMonth',
+                      l10n.noRequestsInMonth(_selectedMonth),
                       style: TextStyle(fontSize: 13, color: colors.textSecondary),
                     ),
                   )
                 : ListView.separated(
                     padding: const EdgeInsets.fromLTRB(16, 4, 16, 24),
                     itemCount: filtered.length,
-                    separatorBuilder: (_, _) => const SizedBox(height: 11),
+                    separatorBuilder: (_, _) => 11.gapH,
                     itemBuilder: (ctx, index) => RequestCard(item: filtered[index]),
                   ),
           ),
@@ -223,6 +226,8 @@ class _RequestsScreenState extends State<RequestsScreen> {
   }
 
   Widget _buildRoleIndicator(bool isManager, AppColorsExtension colors) {
+    final l10n = context.l10n;
+
     if (!isManager) {
       return Container(
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
@@ -230,16 +235,16 @@ class _RequestsScreenState extends State<RequestsScreen> {
         child: Row(
           children: [
             Icon(Symbols.info, size: 16, color: colors.textSecondary),
-            const SizedBox(width: 8),
+            8.gapW,
             Expanded(
-              child: Text('Xem vai trò Quản lý:', style: TextStyle(fontSize: 12, color: colors.textSecondary, fontWeight: FontWeight.w600)),
+              child: Text(l10n.roleIndicatorEmployee, style: TextStyle(fontSize: 12, color: colors.textSecondary, fontWeight: FontWeight.w600)),
             ),
             GestureDetector(
               onTap: () async {
                 await context.read<AuthCubit>().loginAsDemo(UserRole.manager);
                 if (mounted) context.go(AppRoutes.approvals);
               },
-              child: Text('Đổi sang QL (mục Duyệt)', style: TextStyle(fontSize: 12, fontWeight: FontWeight.w800, color: colors.accentAmber)),
+              child: Text(l10n.roleIndicatorSwitchToManager, style: TextStyle(fontSize: 12, fontWeight: FontWeight.w800, color: colors.accentAmber)),
             ),
           ],
         ),
@@ -251,13 +256,13 @@ class _RequestsScreenState extends State<RequestsScreen> {
       child: Row(
         children: [
           Icon(Symbols.fact_check, size: 16, color: colors.accentAmber),
-          const SizedBox(width: 8),
+          8.gapW,
           Expanded(
-            child: Text('Bạn có 9 yêu cầu chờ phê duyệt', style: TextStyle(fontSize: 12, color: colors.textPrimary, fontWeight: FontWeight.w700)),
+            child: Text(l10n.managerPendingApprovalsBanner(9), style: TextStyle(fontSize: 12, color: colors.textPrimary, fontWeight: FontWeight.w700)),
           ),
           GestureDetector(
             onTap: () => context.go(AppRoutes.approvals),
-            child: Text('Mở mục Duyệt >', style: TextStyle(fontSize: 12, fontWeight: FontWeight.w800, color: colors.primaryIndigo)),
+            child: Text(l10n.openApprovalsLink, style: TextStyle(fontSize: 12, fontWeight: FontWeight.w800, color: colors.primaryIndigo)),
           ),
         ],
       ),

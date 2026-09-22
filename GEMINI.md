@@ -1,21 +1,19 @@
-> Đọc file này đầu tiên trong mọi phiên làm việc mới với Google Antigravity / Gemini.
+> Read this file first in every session with Google Antigravity / Gemini CLI.
 
 @AGENTS.md
 
 ---
 
-## Ghi chú riêng cho Antigravity / Gemini
+## Specific Notes for Antigravity / Gemini
 
-Nội dung phía trên được liên kết trực tiếp từ [AGENTS.md](AGENTS.md) — file ngữ cảnh chuẩn dùng chung cho mọi AI coding agent (Claude Code, Antigravity, Cursor, ChatGPT/Codex, OpenCode...). Sửa nội dung chung ở `AGENTS.md`, **không** copy-paste lặp lại vào đây, để tránh các file trôi lệch nhau.
+The content above is linked directly from [AGENTS.md](AGENTS.md) — the canonical agent context file shared across all AI coding agents. General rules must be updated in `AGENTS.md` and `docs/coding-rules.md`.
 
-Phần dưới đây áp dụng cho Google Antigravity / Gemini CLI.
+### Workspace Skills (`.agents/skills/`)
 
-### Skills (`.agents/skills/`)
-
-| Skill | Dùng khi nào |
-| --- | --- |
-| `start-session` | Chạy đầu tiên khi bắt đầu 1 phiên/cuộc trò chuyện mới, hoặc khi nghi ngờ context cũ/thiếu — đọc toàn bộ `AGENTS.md` + `docs/*.md` + đối chiếu trạng thái code/git thực tế |
-| `new-feature` | Scaffold 1 feature mới đúng cấu trúc Clean Architecture (data/domain/presentation + bloc stub) |
-| `design-review` | Review 1 màn hình/component mới so với `docs/design-system.md` (màu, type, spacing, state) trước khi coi là xong |
-| `arch-review` | Review kiến trúc Clean Architecture, SOLID, giới hạn 300 dòng và ranh giới tầng trước khi hoàn thành feature |
-| `git-commit` | Viết commit message/CHANGELOG entry đúng chuẩn đã chốt |
+| Skill | When to Use |
+| :--- | :--- |
+| `start-session` | Run first when starting a new session or switching major task scopes — reads `AGENTS.md`, `docs/*.md`, and checks git/code state |
+| `new-feature` | Scaffold a new feature module conforming strictly to Clean Architecture (data/domain/presentation + BLoC stub) |
+| `design-review` | Review a new screen or component against `docs/design-system.md` (colors, typography, spacing, states) |
+| `arch-review` | Review Clean Architecture boundaries, SOLID principles, zero-hardcoding, and $\le 300$ lines limit |
+| `git-commit` | Format commit messages, update `CHANGELOG.md`, and name branches per `docs/git-workflow.md` |

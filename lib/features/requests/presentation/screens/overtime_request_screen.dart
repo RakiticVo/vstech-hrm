@@ -1,6 +1,8 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:material_symbols_icons/symbols.dart';
+import 'package:vstech_hrm/core/extensions/l10n_extension.dart';
+import 'package:vstech_hrm/core/responsive/app_layout.dart';
 import 'package:vstech_hrm/core/theme/app_colors.dart';
 import 'package:vstech_hrm/core/widgets/app_success_dialog.dart';
 import 'package:vstech_hrm/core/widgets/month_picker_button.dart';
@@ -50,11 +52,12 @@ class _OvertimeRequestScreenState extends State<OvertimeRequestScreen> {
               ),
             );
           });
+          final l10n = context.l10n;
           unawaited(
             AppSuccessDialog.show(
               context,
-              title: 'Đã gửi đăng ký tăng ca!',
-              message: 'Yêu cầu làm thêm giờ ngày $newDate ($newTime) đã được gửi cho Quản lý phê duyệt.',
+              title: l10n.overtimeSubmittedTitle,
+              message: l10n.overtimeSubmittedMsg(newDate, newTime),
             ),
           );
         },
@@ -65,6 +68,7 @@ class _OvertimeRequestScreenState extends State<OvertimeRequestScreen> {
   @override
   Widget build(BuildContext context) {
     final colors = context.colors;
+    final l10n = context.l10n;
 
     final filteredHistory = _history.where((h) {
       if (_selectedMonth == 'Tất cả') return true;
@@ -85,7 +89,7 @@ class _OvertimeRequestScreenState extends State<OvertimeRequestScreen> {
           onPressed: () => Navigator.of(context).pop(),
         ),
         title: Text(
-          'Đăng ký tăng ca',
+          l10n.requestTypeOvertime,
           style: TextStyle(fontSize: 18, fontWeight: FontWeight.w800, color: colors.textPrimary),
         ),
       ),
@@ -102,7 +106,7 @@ class _OvertimeRequestScreenState extends State<OvertimeRequestScreen> {
                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
               ),
               onPressed: _openInputModal,
-              child: const Text('Gửi yêu cầu', style: TextStyle(fontSize: 15, fontWeight: FontWeight.w800)),
+              child: Text(l10n.submitRequestButton, style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w800)),
             ),
           ),
         ),
@@ -113,16 +117,16 @@ class _OvertimeRequestScreenState extends State<OvertimeRequestScreen> {
           // 2 Stats Cards: Tháng này, Đã thanh toán
           Row(
             children: [
-              Expanded(child: _buildStatCard('Tháng này', '12h', colors.textPrimary, colors)),
-              const SizedBox(width: 10),
-              Expanded(child: _buildStatCard('Đã thanh toán', '1.8M', colors.primaryIndigo, colors)),
+              Expanded(child: _buildStatCard(l10n.thisMonthStat, '12h', colors.textPrimary, colors)),
+              10.gapW,
+              Expanded(child: _buildStatCard(l10n.paidStat, '1.8M', colors.primaryIndigo, colors)),
             ],
           ),
-          const SizedBox(height: 20),
+          20.gapH,
 
           // Tăng ca mới
-          Text('Tăng ca mới', style: TextStyle(fontSize: 13, fontWeight: FontWeight.w700, color: colors.textSecondary)),
-          const SizedBox(height: 10),
+          Text(l10n.newOvertimeRequestSection, style: TextStyle(fontSize: 13, fontWeight: FontWeight.w700, color: colors.textSecondary)),
+          10.gapH,
           InkWell(
             borderRadius: BorderRadius.circular(18),
             onTap: _openInputModal,
@@ -139,18 +143,18 @@ class _OvertimeRequestScreenState extends State<OvertimeRequestScreen> {
                   Divider(height: 20, color: colors.border.withValues(alpha: 0.6)),
                   _buildFormRow('Giờ', _time, colors),
                   Divider(height: 20, color: colors.border.withValues(alpha: 0.6)),
-                  _buildFormRow('Tổng cộng', _total, colors, isHighlight: true),
+                  _buildFormRow(l10n.totalLabel, _total, colors, isHighlight: true),
                 ],
               ),
             ),
           ),
-          const SizedBox(height: 24),
+          24.gapH,
 
           // Lịch sử tăng ca with MonthPickerButton
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text('Lịch sử tăng ca', style: TextStyle(fontSize: 13, fontWeight: FontWeight.w700, color: colors.textSecondary)),
+              Text(l10n.overtimeHistorySection, style: TextStyle(fontSize: 13, fontWeight: FontWeight.w700, color: colors.textSecondary)),
               MonthPickerButton(
                 selectedMonth: _selectedMonth,
                 onMonthChanged: (m) => setState(() => _selectedMonth = m),
@@ -158,13 +162,13 @@ class _OvertimeRequestScreenState extends State<OvertimeRequestScreen> {
               ),
             ],
           ),
-          const SizedBox(height: 10),
+          10.gapH,
           if (filteredHistory.isEmpty)
             Container(
               padding: const EdgeInsets.symmetric(vertical: 24),
               alignment: Alignment.center,
               child: Text(
-                'Không có dữ liệu tăng ca trong $_selectedMonth',
+                l10n.noOvertimeInMonth(_selectedMonth),
                 style: TextStyle(fontSize: 13, color: colors.textSecondary),
               ),
             )
@@ -185,14 +189,14 @@ class _OvertimeRequestScreenState extends State<OvertimeRequestScreen> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(h.date, style: TextStyle(fontSize: 13.5, fontWeight: FontWeight.w800, color: colors.textPrimary)),
-                            const SizedBox(height: 2),
+                            2.gapH,
                             Text(h.time, style: TextStyle(fontSize: 12, color: colors.textSecondary)),
                           ],
                         ),
                         Row(
                           children: [
                             Text(h.duration, style: TextStyle(fontSize: 13.5, fontWeight: FontWeight.w800, color: colors.textPrimary)),
-                            const SizedBox(width: 12),
+                            12.gapW,
                             Container(
                               padding: const EdgeInsets.symmetric(horizontal: 9, vertical: 4),
                               decoration: BoxDecoration(
@@ -227,7 +231,7 @@ class _OvertimeRequestScreenState extends State<OvertimeRequestScreen> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(label, style: TextStyle(fontSize: 12, color: colors.textSecondary)),
-          const SizedBox(height: 6),
+          6.gapH,
           Text(value, style: TextStyle(fontSize: 24, fontWeight: FontWeight.w800, color: valueColor)),
         ],
       ),
@@ -249,7 +253,7 @@ class _OvertimeRequestScreenState extends State<OvertimeRequestScreen> {
                 color: isHighlight ? colors.primaryIndigo : colors.textPrimary,
               ),
             ),
-            const SizedBox(width: 4),
+            4.gapW,
             Icon(Symbols.edit, size: 14, color: colors.textTertiary),
           ],
         ),

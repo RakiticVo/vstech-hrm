@@ -1,6 +1,8 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:material_symbols_icons/symbols.dart';
+import 'package:vstech_hrm/core/extensions/l10n_extension.dart';
+import 'package:vstech_hrm/core/responsive/app_layout.dart';
 import 'package:vstech_hrm/core/theme/app_colors.dart';
 import 'package:vstech_hrm/core/widgets/app_success_dialog.dart';
 import 'package:vstech_hrm/core/widgets/month_picker_button.dart';
@@ -52,11 +54,12 @@ class _LeaveRequestScreenState extends State<LeaveRequestScreen> {
               ),
             );
           });
+          final l10n = context.l10n;
           unawaited(
             AppSuccessDialog.show(
               context,
-              title: 'Đã gửi đơn xin nghỉ phép!',
-              message: 'Đơn $newType từ $start đến $end ($total) đã được gửi tới Quản lý phê duyệt.',
+              title: l10n.leaveRequestSubmittedTitle,
+              message: l10n.leaveRequestSubmittedMsg(newType, start, end, total),
             ),
           );
         },
@@ -67,6 +70,7 @@ class _LeaveRequestScreenState extends State<LeaveRequestScreen> {
   @override
   Widget build(BuildContext context) {
     final colors = context.colors;
+    final l10n = context.l10n;
 
     final filteredHistory = _history.where((h) {
       if (_selectedMonth == 'Tất cả') return true;
@@ -87,7 +91,7 @@ class _LeaveRequestScreenState extends State<LeaveRequestScreen> {
           onPressed: () => Navigator.of(context).pop(),
         ),
         title: Text(
-          'Xin nghỉ phép',
+          l10n.requestTypeLeave,
           style: TextStyle(fontSize: 18, fontWeight: FontWeight.w800, color: colors.textPrimary),
         ),
       ),
@@ -104,7 +108,7 @@ class _LeaveRequestScreenState extends State<LeaveRequestScreen> {
                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
               ),
               onPressed: _openModal,
-              child: const Text('Gửi yêu cầu', style: TextStyle(fontSize: 15, fontWeight: FontWeight.w800)),
+              child: Text(l10n.submitRequestButton, style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w800)),
             ),
           ),
         ),
@@ -115,16 +119,16 @@ class _LeaveRequestScreenState extends State<LeaveRequestScreen> {
           // 2 Stats Cards
           Row(
             children: [
-              Expanded(child: _buildStatCard('Phép năm còn', '6 ngày', colors.textPrimary, colors)),
-              const SizedBox(width: 10),
-              Expanded(child: _buildStatCard('Đã sử dụng', '6 ngày', colors.primaryIndigo, colors)),
+              Expanded(child: _buildStatCard(l10n.leaveRemainingStat, '6 ngày', colors.textPrimary, colors)),
+              10.gapW,
+              Expanded(child: _buildStatCard(l10n.leaveUsedStat, '6 ngày', colors.primaryIndigo, colors)),
             ],
           ),
-          const SizedBox(height: 20),
+          20.gapH,
 
           // Đơn nghỉ phép mới card preview
-          Text('Đơn nghỉ phép mới', style: TextStyle(fontSize: 13, fontWeight: FontWeight.w700, color: colors.textSecondary)),
-          const SizedBox(height: 10),
+          Text(l10n.newLeaveRequestSection, style: TextStyle(fontSize: 13, fontWeight: FontWeight.w700, color: colors.textSecondary)),
+          10.gapH,
           InkWell(
             borderRadius: BorderRadius.circular(18),
             onTap: _openModal,
@@ -137,22 +141,22 @@ class _LeaveRequestScreenState extends State<LeaveRequestScreen> {
               padding: const EdgeInsets.all(16),
               child: Column(
                 children: [
-                  _buildFormRow('Loại nghỉ', _type, colors),
+                  _buildFormRow(l10n.leaveTypeLabel, _type, colors),
                   Divider(height: 20, color: colors.border.withValues(alpha: 0.6)),
-                  _buildFormRow('Thời gian', '$_startDate — $_endDate', colors),
+                  _buildFormRow(l10n.timeRangeLabel, '$_startDate — $_endDate', colors),
                   Divider(height: 20, color: colors.border.withValues(alpha: 0.6)),
-                  _buildFormRow('Tổng cộng', _totalDays, colors, isHighlight: true),
+                  _buildFormRow(l10n.totalLabel, _totalDays, colors, isHighlight: true),
                 ],
               ),
             ),
           ),
-          const SizedBox(height: 24),
+          24.gapH,
 
           // Lịch sử nghỉ phép header with MonthPickerButton
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text('Lịch sử đơn nghỉ phép', style: TextStyle(fontSize: 13, fontWeight: FontWeight.w700, color: colors.textSecondary)),
+              Text(l10n.leaveHistorySection, style: TextStyle(fontSize: 13, fontWeight: FontWeight.w700, color: colors.textSecondary)),
               MonthPickerButton(
                 selectedMonth: _selectedMonth,
                 onMonthChanged: (m) => setState(() => _selectedMonth = m),
@@ -160,13 +164,13 @@ class _LeaveRequestScreenState extends State<LeaveRequestScreen> {
               ),
             ],
           ),
-          const SizedBox(height: 10),
+          10.gapH,
           if (filteredHistory.isEmpty)
             Container(
               padding: const EdgeInsets.symmetric(vertical: 24),
               alignment: Alignment.center,
               child: Text(
-                'Không có đơn nghỉ phép nào trong $_selectedMonth',
+                l10n.noLeaveRequestsInMonth(_selectedMonth),
                 style: TextStyle(fontSize: 13, color: colors.textSecondary),
               ),
             )
@@ -187,14 +191,14 @@ class _LeaveRequestScreenState extends State<LeaveRequestScreen> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(h.type, style: TextStyle(fontSize: 13.5, fontWeight: FontWeight.w800, color: colors.textPrimary)),
-                            const SizedBox(height: 3),
+                            3.gapH,
                             Text(h.dates, style: TextStyle(fontSize: 12, color: colors.textSecondary)),
                           ],
                         ),
                         Row(
                           children: [
                             Text(h.duration, style: TextStyle(fontSize: 13.5, fontWeight: FontWeight.w800, color: colors.textPrimary)),
-                            const SizedBox(width: 12),
+                            12.gapW,
                             Container(
                               padding: const EdgeInsets.symmetric(horizontal: 9, vertical: 4),
                               decoration: BoxDecoration(
@@ -229,7 +233,7 @@ class _LeaveRequestScreenState extends State<LeaveRequestScreen> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(label, style: TextStyle(fontSize: 12, color: colors.textSecondary)),
-          const SizedBox(height: 6),
+          6.gapH,
           Text(value, style: TextStyle(fontSize: 24, fontWeight: FontWeight.w800, color: valueColor)),
         ],
       ),
@@ -251,7 +255,7 @@ class _LeaveRequestScreenState extends State<LeaveRequestScreen> {
                 color: isHighlight ? colors.primaryIndigo : colors.textPrimary,
               ),
             ),
-            const SizedBox(width: 4),
+            4.gapW,
             Icon(Symbols.edit, size: 14, color: colors.textTertiary),
           ],
         ),

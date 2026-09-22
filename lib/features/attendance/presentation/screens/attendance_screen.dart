@@ -2,6 +2,8 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:material_symbols_icons/symbols.dart';
+import 'package:vstech_hrm/core/extensions/l10n_extension.dart';
+import 'package:vstech_hrm/core/responsive/app_layout.dart';
 import 'package:vstech_hrm/core/router/routes.dart';
 import 'package:vstech_hrm/core/theme/app_colors.dart';
 import 'package:vstech_hrm/features/attendance/domain/entities/attendance_record_entity.dart';
@@ -42,6 +44,7 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
   @override
   Widget build(BuildContext context) {
     final colors = context.colors;
+    final l10n = context.l10n;
 
     return Scaffold(
       backgroundColor: colors.background,
@@ -49,7 +52,7 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
         backgroundColor: colors.surface,
         elevation: 0,
         title: Text(
-          'Chấm công',
+          l10n.attendance,
           style: TextStyle(
             fontSize: 18,
             fontWeight: FontWeight.w800,
@@ -61,7 +64,7 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
             onPressed: () => context.push(AppRoutes.shiftSchedule),
             icon: Icon(Symbols.schedule, size: 16, color: colors.primaryIndigo),
             label: Text(
-              'Lịch ca',
+              l10n.shiftScheduleNav,
               style: TextStyle(
                 fontSize: 13,
                 fontWeight: FontWeight.w700,
@@ -70,43 +73,43 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
             ),
           ),
           IconButton(
-            tooltip: 'Lịch công',
+            tooltip: l10n.workCalendarTooltip,
             onPressed: () => context.push(AppRoutes.calendar),
             icon: Icon(Symbols.calendar_today, size: 18, color: colors.primaryIndigo),
           ),
-          const SizedBox(width: 4),
+          4.gapW,
         ],
       ),
       body: ListView(
-        padding: const EdgeInsets.fromLTRB(16, 12, 16, 32),
+        padding: context.paddingCustom(horizontal: 16, vertical: 12),
         children: [
           // Offline Pending Sync Banner
           const AttendanceOfflineQueueBanner(),
 
           // Part 1: Main Clock-in Card
           _buildPunchCard(colors),
-          const SizedBox(height: 14),
+          14.gapH,
 
           // 4 Metric Tiles
           _buildMetricTiles(colors),
-          const SizedBox(height: 20),
+          20.gapH,
 
           // Tổng hợp tháng 9 Header & Donut Card
           Text(
-            'Tổng hợp tháng 9',
+            l10n.attendanceMonthSummaryTitle(9),
             style: TextStyle(
               fontSize: 15,
               fontWeight: FontWeight.w800,
               color: colors.textPrimary,
             ),
           ),
-          const SizedBox(height: 10),
+          10.gapH,
           const AttendanceMonthSummaryCard(),
-          const SizedBox(height: 24),
+          24.gapH,
 
           // Part 2: Nhật ký từng ngày & link Ngày lễ
           const AttendanceDailyLogCard(),
-          const SizedBox(height: 20),
+          20.gapH,
 
           // Outlined CTA: Gửi yêu cầu sửa công
           OutlinedButton.icon(
@@ -120,17 +123,20 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
             ),
             onPressed: () => context.push(AppRoutes.attendanceCorrection),
             icon: const Icon(Symbols.edit, size: 18),
-            label: const Text(
-              'Gửi yêu cầu sửa công',
-              style: TextStyle(fontSize: 14.5, fontWeight: FontWeight.w800),
+            label: Text(
+              l10n.sendCorrectionRequest,
+              style: const TextStyle(fontSize: 14.5, fontWeight: FontWeight.w800),
             ),
           ),
+          12.gapH,
         ],
       ),
     );
   }
 
   Widget _buildPunchCard(AppColorsExtension colors) {
+    final l10n = context.l10n;
+
     return Container(
       decoration: BoxDecoration(
         color: colors.surface,
@@ -144,17 +150,17 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
             'Thứ Tư, 16 tháng 9',
             style: TextStyle(fontSize: 13, fontWeight: FontWeight.w600, color: colors.textSecondary),
           ),
-          const SizedBox(height: 4),
+          4.gapH,
           Text(
             '07:42',
             style: TextStyle(
-              fontSize: 46,
+              fontSize: context.custom(compact: 38, normal: 46, expanded: 50).toDouble(),
               fontWeight: FontWeight.w900,
               letterSpacing: -1,
               color: colors.textPrimary,
             ),
           ),
-          const SizedBox(height: 6),
+          6.gapH,
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
             decoration: BoxDecoration(
@@ -174,9 +180,9 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
                     shape: BoxShape.circle,
                   ),
                 ),
-                const SizedBox(width: 6),
+                6.gapW,
                 Text(
-                  _isCheckedIn ? 'Đã chấm công vào' : 'Chưa chấm công',
+                  _isCheckedIn ? l10n.statusCheckedIn : l10n.statusNotCheckedIn,
                   style: TextStyle(
                     fontSize: 12,
                     fontWeight: FontWeight.w700,
@@ -186,13 +192,13 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
               ],
             ),
           ),
-          const SizedBox(height: 12),
+          12.gapH,
           Text(
-            'Ca của bạn bắt đầu 08:00. Chấm công khi bạn đến.',
+            l10n.shiftPromptArrive,
             style: TextStyle(fontSize: 12, color: colors.textSecondary),
             textAlign: TextAlign.center,
           ),
-          const SizedBox(height: 18),
+          18.gapH,
           SizedBox(
             width: double.infinity,
             height: 52,
@@ -206,19 +212,19 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
               onPressed: _togglePunch,
               icon: const Icon(Symbols.power_settings_new, size: 22),
               label: Text(
-                _isCheckedIn ? 'CHẤM CÔNG RA' : 'CHẤM CÔNG VÀO',
+                _isCheckedIn ? l10n.clockOutCta : l10n.clockInCta,
                 style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w900, letterSpacing: 0.5),
               ),
             ),
           ),
-          const SizedBox(height: 12),
+          12.gapH,
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Icon(Symbols.location_on, size: 15, color: colors.textTertiary),
-              const SizedBox(width: 4),
+              4.gapW,
               Text(
-                'Văn phòng HCM - đã xác thực vị trí',
+                l10n.hcmOfficeVerified,
                 style: TextStyle(fontSize: 11.5, color: colors.textTertiary),
               ),
             ],
@@ -229,24 +235,26 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
   }
 
   Widget _buildMetricTiles(AppColorsExtension colors) {
+    final l10n = context.l10n;
+
     return Row(
       children: [
         Expanded(
           child: Column(
             children: [
-              _buildTile('Giờ vào', _inTime, colors.textPrimary, colors),
-              const SizedBox(height: 10),
-              _buildTile('Đi muộn', '0 phút', colors.pineGreen, colors),
+              _buildTile(l10n.timeIn, _inTime, colors.textPrimary, colors),
+              10.gapH,
+              _buildTile(l10n.lateMinutes, l10n.zeroMinutes, colors.pineGreen, colors),
             ],
           ),
         ),
-        const SizedBox(width: 10),
+        10.gapW,
         Expanded(
           child: Column(
             children: [
-              _buildTile('Giờ ra', _outTime, colors.textPrimary, colors),
-              const SizedBox(height: 10),
-              _buildTile('Tăng ca', '—', colors.textSecondary, colors),
+              _buildTile(l10n.timeOut, _outTime, colors.textPrimary, colors),
+              10.gapH,
+              _buildTile(l10n.overtimeLabel, '—', colors.textSecondary, colors),
             ],
           ),
         ),
@@ -267,7 +275,7 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(label, style: TextStyle(fontSize: 11.5, color: colors.textSecondary)),
-          const SizedBox(height: 4),
+          4.gapH,
           Text(
             value,
             style: TextStyle(fontSize: 15, fontWeight: FontWeight.w800, color: valueColor),

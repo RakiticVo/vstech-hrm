@@ -14,5 +14,768 @@
   "profile": "Cá nhân",
   "errorOccurred": "Đã có lỗi xảy ra",
   "retry": "Thử lại",
-  "contactHr": "Liên hệ HR"
+  "contactHr": "Liên hệ HR",
+
+  "confirm": "Xác nhận",
+  "cancel": "Hủy bỏ",
+  "save": "Lưu lại",
+  "close": "Đóng",
+  "viewAll": "Tất cả",
+  "back": "Quay lại",
+  "details": "Chi tiết",
+  "syncNow": "Đồng bộ ngay",
+
+  "loginSubtitle": "Giải pháp Quản trị Nhân sự Thông minh",
+  "loginInstruction": "Nhập mã nhân viên và mật khẩu của bạn",
+  "loginButton": "ĐĂNG NHẬP HỆ THỐNG",
+  "biometricLogin": "Đăng nhập bằng Face ID / Vân tay",
+  "demoQuickLogin": "Đăng nhập nhanh (Chế độ Demo)",
+  "demoEmployee": "Nhân viên (NV)",
+  "demoManager": "Quản lý (QL)",
+
+  "greetingMorning": "Chào buổi sáng",
+  "greetingAfternoon": "Chào buổi chiều",
+  "greetingEvening": "Chào buổi tối",
+  "greetingDefault": "Xin chào",
+
+  "todayWorkedHours": "GIỜ ĐÃ LÀM HÔM NAY",
+  "todayShiftLabel": "Ca hôm nay",
+  "clockInCta": "CHẤM CÔNG VÀO",
+  "clockOutCta": "CHẤM CÔNG RA",
+  "timeIn": "Giờ vào",
+  "timeOut": "Giờ ra",
+  "lateMinutes": "Đi muộn",
+  "overtimeLabel": "Tăng ca",
+  "locationVerified": "Đã xác thực vị trí",
+
+  "managerApprovalPending": "yêu cầu đang chờ bạn phê duyệt",
+  "managerApprovalAction": "Duyệt ngay",
+
+  "metricWorkdays": "Ngày công",
+  "metricLeaveBalance": "Phép còn lại",
+  "metricOvertime": "Giờ tăng ca",
+  "metricPending": "Chờ duyệt",
+
+  "quickActionLeave": "Nghỉ phép",
+  "quickActionOvertime": "Tăng ca",
+  "quickActionCorrection": "Sửa công",
+  "quickActionPayroll": "Bảng lương",
+  "quickActionAll": "Tất cả",
+
+  "salarySummaryTitle": "Thu nhập tháng 9/2026",
+  "salaryNetPay": "Thực nhận",
+  "announcementsTitle": "Thông báo nội bộ",
+  "roleSwitcherTitle": "Chuyển đổi vai trò Demo",
+
+  "shiftCheckInLabel": "VÀO LÀM",
+  "shiftCheckOutLabel": "RA VỀ",
+  "shiftDoneCta": "XONG CA",
+  "shiftCheckOutCta": "CHẤM RA",
+  "todayShiftDefault": "Ca hôm nay 08:00 — 17:00",
+
+  "metricLateEarly": "MUỘN / SỚM",
+  "daysUnit": "ngày",
+  "hoursUnit": "h",
+
+  "monthlyNetSalaryLabel": "LƯƠNG THỰC NHẬN THÁNG NÀY",
+  "salaryMasked": "•••••••• ₫",
+  "salaryHintRevealed": "Gồm thưởng KPI 2.500.000 ₫ · Xem chi tiết",
+  "salaryHintHidden": "Bấm vào mắt để xem · Xem phiếu lương",
+
+  "latestUpdatesTitle": "Cập nhật mới",
+  "demoLeaveApprovedAnnouncement": "Yêu cầu nghỉ phép 21–23/09 đã được phê duyệt.",
+  "demoSalaryAnnouncement": "Phiếu lương tháng 9 đã có. Thực nhận 25.500.000 ₫.",
+  "twoHoursAgo": "2 giờ trước",
+  "oneDayAgo": "1 ngày trước",
+
+  "managerPendingApprovalTitle": "Chờ bạn phê duyệt",
+  "switchToRole": "Đổi sang {role}",
+  "@switchToRole": {
+    "placeholders": {
+      "role": {
+        "type": "String"
+      }
+    }
+  },
+
+  "shiftScheduleNav": "Lịch ca",
+  "shiftScheduleTitle": "Lịch ca làm việc",
+  "workCalendarTooltip": "Lịch công",
+  "attendanceMonthSummaryTitle": "Tổng hợp tháng {month}",
+  "@attendanceMonthSummaryTitle": {
+    "placeholders": {
+      "month": {
+        "type": "int"
+      }
+    }
+  },
+  "sendCorrectionRequest": "Gửi yêu cầu sửa công",
+  "statusCheckedIn": "Đã chấm công vào",
+  "statusNotCheckedIn": "Chưa chấm công",
+  "shiftPromptArrive": "Ca của bạn bắt đầu 08:00. Chấm công khi bạn đến.",
+  "hcmOfficeVerified": "Văn phòng HCM - đã xác thực vị trí",
+  "zeroMinutes": "0 phút",
+  "offlineAttendanceModeLabel": "Chấm công Ngoại tuyến (Vector ≥ 85%)",
+  "onlineAttendanceModeLabel": "Chế độ Trực tuyến (Online)",
+  "faceScanCheckInTitle": "Chấm công Giờ vào",
+  "faceScanCheckOutTitle": "Chấm công Giờ ra",
+  "faceScanCaptureCheckInCta": "Chụp ảnh & Chấm công Vào",
+  "faceScanCaptureCheckOutCta": "Chụp ảnh & Chấm công Ra",
+  "offlineLocationLabel": "Văn phòng HCM (Đối soát GPS cục bộ)",
+  "offlineMatchSuccess": "Độ khớp khuôn mặt {pct}% (≥ 85%). Đã lưu hàng đợi offline.",
+  "@offlineMatchSuccess": {
+    "placeholders": {
+      "pct": {
+        "type": "String"
+      }
+    }
+  },
+  "offlineMatchFailed": "Khuôn mặt chưa đạt ngưỡng khớp 85%. Vui lòng căn chỉnh lại góc mặt.",
+  "offlineQueueCount": "{count} lượt chấm công ngoại tuyến",
+  "@offlineQueueCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "offlineQueueDesc": "Đã lưu cục bộ an toàn, sẵn sàng đồng bộ.",
+  "offlineSyncSuccess": "Đã đồng bộ thành công {count} lượt chấm công lên hệ thống!",
+  "@offlineSyncSuccess": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "syncButtonLabel": "Đồng bộ",
+  "attendanceFailed": "Chấm công thất bại",
+
+  "viewMonthTooltip": "Xem cả tháng",
+  "viewMonth": "Xem tháng",
+  "weekStatsTitle": "Tuần {week} ({range})",
+  "@weekStatsTitle": {
+    "placeholders": {
+      "week": {
+        "type": "String"
+      },
+      "range": {
+        "type": "String"
+      }
+    }
+  },
+  "weekStatsSummary": "{shifts} ca làm · {hours} giờ công · {daysOff} ngày nghỉ",
+  "@weekStatsSummary": {
+    "placeholders": {
+      "shifts": {
+        "type": "int"
+      },
+      "hours": {
+        "type": "int"
+      },
+      "daysOff": {
+        "type": "int"
+      }
+    }
+  },
+  "shiftDetailHeader": "Chi tiết ca ngày {dayOfWeek}, {date}",
+  "@shiftDetailHeader": {
+    "placeholders": {
+      "dayOfWeek": {
+        "type": "String"
+      },
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "shiftStatusActive": "Đang diễn ra",
+  "shiftStatusCompleted": "Đã hoàn thành",
+  "shiftStatusUpcoming": "Sắp diễn ra",
+  "shiftStatusDayOff": "Nghỉ tuần",
+  "dayOffTitle": "Hôm nay là Ngày nghỉ tuần",
+  "dayOffDescription": "Không có ca làm việc được phân công. Hãy nghỉ ngơi, nạp năng lượng chuẩn bị cho tuần mới!",
+  "registerOvertimeCta": "Đăng ký làm thêm (OT)",
+  "shiftLabelTime": "Thời gian:",
+  "shiftLabelBreak": "Nghỉ giữa ca:",
+  "shiftLabelLocation": "Địa điểm:",
+  "shiftLabelManager": "Quản lý ca:",
+  "shiftLabelNotes": "Ghi chú:",
+  "shiftSwapButton": "Đổi ca",
+  "shiftOvertimeButton": "Báo tăng ca",
+  "swapRequestSent": "Đã gửi yêu cầu đổi ca cho {colleague}!",
+  "@swapRequestSent": {
+    "placeholders": {
+      "colleague": {
+        "type": "String"
+      }
+    }
+  },
+  "swapShiftProposalTitle": "Đề xuất đổi ca làm việc",
+  "selectColleagueLabel": "Chọn đồng nghiệp muốn đổi ca:",
+  "swapReasonLabel": "Lý do đổi ca:",
+  "swapReasonHint": "Nhập lý do đổi ca cụ thể...",
+  "submitSwapRequestButton": "Gửi yêu cầu đổi ca",
+  "shiftCalendarMonthTitle": "Lịch ca Tháng {month}/{year}",
+  "@shiftCalendarMonthTitle": {
+    "placeholders": {
+      "month": {
+        "type": "int"
+      },
+      "year": {
+        "type": "int"
+      }
+    }
+  },
+  "dayMon": "T2",
+  "dayTue": "T3",
+  "dayWed": "T4",
+  "dayThu": "T5",
+  "dayFri": "T6",
+  "daySat": "T7",
+  "daySun": "CN",
+  "shiftMorning": "Sáng",
+  "shiftAfternoon": "Chiều",
+  "shiftSplit": "Gãy",
+  "shiftNight": "Đêm",
+  "shiftOff": "Nghỉ",
+
+  "tabAll": "Tất cả",
+  "tabPending": "Chờ duyệt",
+  "tabApproved": "Đã duyệt",
+  "tabRejected": "Từ chối",
+  "createNewRequestTitle": "Tạo yêu cầu mới",
+  "requestTypeLeave": "Xin nghỉ phép",
+  "requestTypeOvertime": "Đăng ký tăng ca",
+  "requestTypeCorrection": "Sửa công",
+  "requestsCenterTitle": "Trung tâm yêu cầu",
+  "requestsCenterSubtitle": "Nghỉ phép · Tăng ca · Sửa công",
+  "monthlyRequestsTitle": "Yêu cầu theo tháng",
+  "selectMonthToView": "Chọn tháng xem dữ liệu",
+  "noRequestsInMonth": "Không có yêu cầu nào trong {month}",
+  "@noRequestsInMonth": {
+    "placeholders": {
+      "month": {
+        "type": "String"
+      }
+    }
+  },
+  "roleIndicatorEmployee": "Xem vai trò Quản lý:",
+  "roleIndicatorSwitchToManager": "Đổi sang QL (mục Duyệt)",
+  "managerPendingApprovalsBanner": "Bạn có {count} yêu cầu chờ phê duyệt",
+  "@managerPendingApprovalsBanner": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "openApprovalsLink": "Mở mục Duyệt >",
+  "submitRequestButton": "Gửi yêu cầu",
+  "leaveRemainingStat": "Phép năm còn",
+  "leaveUsedStat": "Đã sử dụng",
+  "newLeaveRequestSection": "Đơn nghỉ phép mới",
+  "leaveTypeLabel": "Loại nghỉ",
+  "timeRangeLabel": "Thời gian",
+  "totalLabel": "Tổng cộng",
+  "leaveHistorySection": "Lịch sử đơn nghỉ phép",
+  "noLeaveRequestsInMonth": "Không có đơn nghỉ phép nào trong {month}",
+  "@noLeaveRequestsInMonth": {
+    "placeholders": {
+      "month": {
+        "type": "String"
+      }
+    }
+  },
+  "leaveRequestSubmittedTitle": "Đã gửi đơn xin nghỉ phép!",
+  "leaveRequestSubmittedMsg": "Đơn {type} từ {start} đến {end} ({total}) đã được gửi tới Quản lý phê duyệt.",
+  "@leaveRequestSubmittedMsg": {
+    "placeholders": {
+      "type": {
+        "type": "String"
+      },
+      "start": {
+        "type": "String"
+      },
+      "end": {
+        "type": "String"
+      },
+      "total": {
+        "type": "String"
+      }
+    }
+  },
+  "thisMonthStat": "Tháng này",
+  "paidStat": "Đã thanh toán",
+  "needsActionStat": "Cần xử lý",
+  "newOvertimeRequestSection": "Tăng ca mới",
+  "newCorrectionRequestSection": "Sửa công mới",
+  "overtimeHistorySection": "Lịch sử tăng ca",
+  "correctionHistorySection": "Lịch sử sửa công",
+  "approvalsCenterTitle": "Trung tâm phê duyệt",
+  "awaitingYourAction": "Chờ bạn xử lý",
+  "noPendingApprovals": "Không có yêu cầu nào đang chờ duyệt",
+  "requestApprovedSuccess": "Đã phê duyệt yêu cầu của {name}",
+  "@requestApprovedSuccess": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "requestRejectedSuccess": "Đã từ chối yêu cầu của {name}",
+  "@requestRejectedSuccess": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "statusPending": "Chờ duyệt",
+  "actionReject": "Từ chối",
+  "actionApprove": "Duyệt",
+
+  "statusApproved": "Đã duyệt",
+  "statusRejected": "Từ chối",
+  "statusNeedsAction": "Cần bổ sung",
+  "stagePendingManager": "Chờ quản lý",
+  "stagePendingHr": "Chờ HR",
+  "stagePendingDirector": "Chờ giám đốc",
+  "stageCompleted": "Hoàn tất",
+  "stageRejected": "Từ chối",
+  "leaveTypeAnnual": "Phép năm",
+  "leaveTypeSick": "Nghỉ bệnh",
+  "leaveTypeUnpaid": "Không lương",
+  "leaveTypeSpecial": "Phép đặc biệt",
+  "leaveTypePersonal": "Việc riêng",
+  "createLeaveRequestTitle": "Tạo đơn xin nghỉ phép",
+  "leaveTypeSelectorTitle": "Loại nghỉ phép",
+  "fromDateLabel": "Từ ngày",
+  "toDateLabel": "Đến ngày",
+  "reasonLabel": "Lý do",
+  "addAttachmentOptional": "Thêm tệp đính kèm (không bắt buộc)",
+  "attachmentSelected": "Đã chọn tệp đính kèm: {fileName} ({size})",
+  "@attachmentSelected": {
+    "placeholders": {
+      "fileName": {"type": "String"},
+      "size": {"type": "String"}
+    }
+  },
+  "confirmSendLeaveRequest": "Xác nhận gửi đơn",
+  "overtimeModalTitle": "Nhập thông tin tăng ca",
+  "overtimeDateLabel": "Ngày tăng ca",
+  "overtimeTimeRangeLabel": "Khung giờ làm thêm",
+  "startTimeLabel": "Bắt đầu",
+  "endTimeLabel": "Kết thúc",
+  "overtimeEstimateCalc": "Tổng cộng: {hours} giờ · Hệ số {rate} ({type})",
+  "@overtimeEstimateCalc": {
+    "placeholders": {
+      "hours": {"type": "int"},
+      "rate": {"type": "String"},
+      "type": {"type": "String"}
+    }
+  },
+  "overtimeDayTypeNormal": "Ngày thường",
+  "overtimeReasonLabel": "Lý do tăng ca",
+  "confirmSendOvertime": "Xác nhận gửi",
+  "overtimeSubmittedTitle": "Đã gửi đăng ký tăng ca!",
+  "overtimeSubmittedMsg": "Yêu cầu làm thêm giờ ngày {date} ({time}) đã được gửi cho Quản lý phê duyệt.",
+  "@overtimeSubmittedMsg": {
+    "placeholders": {
+      "date": {"type": "String"},
+      "time": {"type": "String"}
+    }
+  },
+  "noOvertimeInMonth": "Không có dữ liệu tăng ca trong {month}",
+  "@noOvertimeInMonth": {
+    "placeholders": {
+      "month": {"type": "String"}
+    }
+  },
+  "createCorrectionTitle": "Tạo yêu cầu sửa công",
+  "correctionDateLabel": "Ngày sửa",
+  "correctionTimeLabel": "Sửa thành giờ",
+  "correctionIssueLabel": "Vấn đề phát sinh",
+  "issueMissingCheckout": "Thiếu giờ ra",
+  "issueMissingCheckin": "Thiếu giờ vào",
+  "issueWrongShift": "Sai ca làm",
+  "issueScannerError": "Lỗi máy quét",
+  "explanationDetailLabel": "Giải trình chi tiết",
+  "addProofOptional": "Đính kèm ảnh/minh chứng (không bắt buộc)",
+  "proofSelected": "Đã chọn minh chứng: {fileName} ({size})",
+  "@proofSelected": {
+    "placeholders": {
+      "fileName": {"type": "String"},
+      "size": {"type": "String"}
+    }
+  },
+  "confirmSendCorrection": "Xác nhận gửi yêu cầu",
+  "correctionSubmittedTitle": "Đã gửi yêu cầu sửa công!",
+  "correctionSubmittedMsg": "Yêu cầu {issue} ngày {date} ({time}) đã được chuyển tới HR & Quản lý duyệt.",
+  "@correctionSubmittedMsg": {
+    "placeholders": {
+      "issue": {"type": "String"},
+      "date": {"type": "String"},
+      "time": {"type": "String"}
+    }
+  },
+  "noCorrectionsInMonth": "Không có phiếu sửa công nào trong {month}",
+  "@noCorrectionsInMonth": {
+    "placeholders": {
+      "month": {"type": "String"}
+    }
+  },
+  "correctionWarningBanner": "Ngày 15/09/2026 chưa có giờ ra. Ngày này bị tính thiếu công cho đến khi được duyệt sửa.",
+  "correctionIssueTitle": "Vấn đề",
+  "correctionChangeTo": "Sửa thành",
+
+  "payrollTitle": "Lương & Thu nhập",
+  "payrollPeriodSubtitle": "Kỳ lương Tháng {month}/{year}",
+  "@payrollPeriodSubtitle": {
+    "placeholders": {
+      "month": {"type": "String"},
+      "year": {"type": "String"}
+    }
+  },
+  "rewardsAction": "Thưởng",
+  "payrollNetSalaryTitle": "LƯƠNG THỰC NHẬN (NET)",
+  "payrollPayDate": "VND · Trả ngày {date}",
+  "@payrollPayDate": {
+    "placeholders": {
+      "date": {"type": "String"}
+    }
+  },
+  "viewPayslipButton": "Xem phiếu lương",
+  "incomeAndDeductionBreakdown": "Chi tiết thu nhập & khấu trừ",
+  "salaryHistoryTitle": "Lịch sử kỳ lương",
+  "payslipTitle": "Phiếu lương",
+  "downloadingPdfSnackbar": "Đang tải về phiếu lương PDF...",
+  "salaryTransferredTo": "Đã chuyển {bank} · {date}",
+  "@salaryTransferredTo": {
+    "placeholders": {
+      "bank": {"type": "String"},
+      "date": {"type": "String"}
+    }
+  },
+  "basicSalaryLabel": "Lương cơ bản",
+  "lunchAndTransportAllowance": "Phụ cấp ăn trưa & đi lại",
+  "kpiQuarterBonus": "Thưởng KPI quý {quarter}",
+  "@kpiQuarterBonus": {
+    "placeholders": {
+      "quarter": {"type": "int"}
+    }
+  },
+  "socialInsuranceDeduction": "BHXH, BHYT, BHTN (10.5%)",
+  "personalIncomeTaxDeduction": "Thuế TNCN tạm tính",
+  "unionFeeDeduction": "Phí đoàn thể",
+  "incomeSectionTitle": "Thu nhập",
+  "deductionSectionTitle": "Khoản trừ",
+  "netSalaryLabel": "Lương thực nhận",
+  "overtimePayLabel": "Tăng ca 12h (x1.5)",
+  "payslipNetSalaryMonth": "Lương thực nhận: Tháng {month} {year}",
+  "@payslipNetSalaryMonth": {
+    "placeholders": {
+      "month": {"type": "String"},
+      "year": {"type": "String"}
+    }
+  },
+
+  "profileTitle": "Cá nhân",
+  "personalInfoSection": "Thông tin cá nhân",
+  "workInfoSection": "Thông tin công việc",
+  "bankAccountSection": "Tài khoản ngân hàng",
+  "fullNameLabel": "Họ và tên",
+  "dateOfBirthLabel": "Ngày sinh",
+  "phoneLabel": "Điện thoại",
+  "emailLabel": "Email",
+  "addressLabel": "Địa chỉ",
+  "departmentLabel": "Bộ phận",
+  "jobTitleLabel": "Chức danh",
+  "directManagerLabel": "Quản lý",
+  "joinDateLabel": "Ngày vào",
+  "employmentStatusLabel": "Trạng thái",
+  "officialStatus": "Chính thức",
+  "bankNameLabel": "Ngân hàng",
+  "accountNumberLabel": "Số tài khoản",
+  "emergencyContactLink": "Liên hệ khẩn cấp",
+  "documentsAndRecordsLink": "Hồ sơ & tài liệu",
+  "internalRecruitmentLink": "Tuyển dụng nội bộ",
+  "settingsLink": "Cài đặt",
+  "logoutButton": "Đăng xuất",
+  "logoutConfirmTitle": "Xác nhận đăng xuất",
+  "logoutConfirmMsg": "Bạn có chắc chắn muốn đăng xuất khỏi ứng dụng VSTech HRM không?",
+  "cancelButton": "Hủy",
+  "roleBadgeManager": "QL",
+  "roleBadgeEmployee": "NV",
+  "readyToUploadAvatarSnackbar": "Đã sẵn sàng tải lên ảnh đại diện mới",
+
+  "languageSettingTitle": "CÀI ĐẶT NGÔN NGỮ",
+  "chooseLanguageTitle": "Chọn ngôn ngữ hiển thị",
+  "languageDesc": "Giao diện và thông báo sẽ được chuyển đổi ngay lập tức sang ngôn ngữ bạn chọn.",
+  "vietnameseLanguage": "Tiếng Việt",
+  "vietnameseDesc": "Ngôn ngữ mặc định của ứng dụng.",
+  "englishLanguage": "English",
+  "englishDesc": "English display for global workplace standards.",
+  "confirmButton": "Xác nhận",
+  "closeButton": "Đóng",
+
+  "themeSettingTitle": "CÀI ĐẶT GIAO DIỆN",
+  "chooseThemeTitle": "Chọn chế độ hiển thị",
+  "themeDesc": "Giao diện thay đổi ngay lập tức và tự động ghi nhớ cho các lần mở ứng dụng tiếp theo.",
+  "themeSystem": "Theo hệ thống",
+  "themeSystemDesc": "Tự động đồng bộ với cài đặt Sáng / Tối của điện thoại.",
+  "themeLight": "Giao diện sáng",
+  "themeLightDesc": "Tông kem ấm & hoạ văn gạch bông Sài Gòn đặc trưng.",
+  "themeDark": "Giao diện tối",
+  "themeDarkDesc": "Tông xanh đen sâu, dịu mắt khi sử dụng ban đêm.",
+
+  "appLockSettingTitle": "BẢO VỆ DỮ LIỆU",
+  "appLockTitle": "Khóa ứng dụng & Mã PIN",
+  "appLockDesc": "Tự động khóa ứng dụng khi rời màn hình để bảo vệ thông tin lương và hồ sơ nhân viên.",
+  "enableAppLock": "Bật khóa ứng dụng",
+  "autoLockAfter": "TỰ ĐỘNG KHÓA SAU",
+  "lockImmediately": "Ngay lập tức khi rời app",
+  "lockAfter1Min": "Sau 1 phút",
+  "lockAfter5Mins": "Sau 5 phút",
+  "saveSettingsButton": "Lưu thiết lập",
+  "appLockUpdatedSnackbar": "Đã cập nhật cấu hình khóa ứng dụng thành công",
+
+  "biometricSecurityTitle": "BẢO MẬT SINH TRẮC HỌC",
+  "biometricAuthTitle": "Xác thực Vân tay / Khuôn mặt",
+  "biometricDesc": "Dùng sinh trắc học thiết bị để mở khoá ứng dụng nhanh chóng và bảo vệ xem phiếu lương.",
+  "enableBiometrics": "Kích hoạt sinh trắc học",
+  "hardwareSupportLabel": "Hỗ trợ phần cứng:",
+  "hardwareAvailable": "Khả dụng",
+  "hardwareNotSupported": "Không hỗ trợ",
+  "biometricSensorLabel": "Cảm biến sinh trắc:",
+  "sensorConfigured": "Đã cài đặt trên máy",
+  "sensorNotConfigured": "Chưa thiết lập",
+  "testBiometricNow": "Kiểm tra cảm biến ngay",
+
+  "deviceSecurityTitle": "THIẾT BỊ & AN TOÀN HỆ THỐNG",
+  "linkedDeviceTitle": "Thiết bị liên kết",
+  "deviceSecurityDesc": "Quy định bảo mật ràng buộc tài khoản với 1 thiết bị duy nhất để chấm công và xem phiếu lương.",
+  "officialDeviceRegistered": "Thiết bị chính thức • Đã đăng ký",
+  "physicalDeviceLabel": "Thiết bị thực tế",
+  "physicalDeviceValid": "Hợp lệ (Physical)",
+  "physicalDeviceWarning": "Cảnh báo (Simulator)",
+  "jailbreakLabel": "Root / Jailbreak",
+  "jailbreakSafe": "An toàn (Chưa Root)",
+  "jailbreakDetected": "Phát hiện can thiệp!",
+  "mockGpsLabel": "Giả lập vị trí (Mock GPS)",
+  "mockGpsNotDetected": "Không phát hiện",
+  "mockGpsDetected": "Phát hiện vị trí ảo!",
+  "developerModeLabel": "Chế độ nhà phát triển",
+  "devModeOn": "Đang bật (Dev Mode)",
+  "devModeOff": "Tắt",
+
+  "systemInfoTitle": "THÔNG TIN HỆ THỐNG",
+  "systemDesc": "Hệ thống quản trị nguồn nhân lực B2B SaaS • Phân hệ Nhân viên & Quản lý.",
+  "appVersionLabel": "Phiên bản ứng dụng",
+  "runtimeEnvLabel": "Môi trường kết nối",
+  "dataEngineLabel": "Động cơ dữ liệu",
+  "uiFontLabel": "Ngôn ngữ UI & Font",
+  "checkUpdatesButton": "Kiểm tra cập nhật",
+  "appUpToDateSnackbar": "Ứng dụng đang ở phiên bản mới nhất (v1.0.0)!",
+
+  "roleSwitchDemoTitle": "CHUYỂN ĐỔI VAI TRÒ (DEMO)",
+  "chooseRoleTitle": "Chọn vai trò trải nghiệm",
+  "roleSwitchDesc": "Chế độ Demo độc lập cho phép hoán đổi giao diện và luồng duyệt giữa Nhân viên và Quản lý tức thì.",
+  "roleEmployeeTitle": "Nhân viên (NV / ESS)",
+  "roleEmployeeDesc": "Nguyễn Văn An • NV0142\nChấm công, gửi đơn nghỉ phép, xem phiếu lương.",
+  "roleManagerTitle": "Quản lý trực tiếp (QL / MSS)",
+  "roleManagerDesc": "Trần Thị Mai • NV0089\nXem dải chờ duyệt, duyệt cấp 1 các đơn từ nhân viên.",
+  "switchedToRoleSnackbar": "Đã chuyển sang vai trò: {role}",
+  "@switchedToRoleSnackbar": {
+    "placeholders": {
+      "role": {"type": "String"}
+    }
+  },
+
+  "settingsTitle": "Cài đặt",
+  "notificationsSection": "Thông báo",
+  "pushNotifications": "Thông báo đẩy",
+  "pushNotificationsDesc": "Nhận thông báo phê duyệt và ca làm",
+  "emailReport": "Email báo cáo",
+  "emailReportDesc": "Gửi bản tóm tắt công & lương qua email",
+  "punchReminder": "Nhắc nhở chấm công",
+  "punchReminderDesc": "Thông báo trước ca làm 15 phút",
+  "systemPermissionsSection": "Quyền truy cập hệ thống",
+  "manageDevicePermissions": "Quản lý quyền thiết bị",
+  "permissionsSubtext": "Máy ảnh, Vị trí GPS, Tệp & ảnh, Thông báo",
+  "securityAndPrivacySection": "Bảo mật & Quyền riêng tư",
+  "biometricUnlock": "Mở khoá sinh trắc học",
+  "biometricUnlockDesc": "Dùng Face ID hoặc vân tay để mở app",
+  "autoLock": "Tự động khoá",
+  "autoLockDesc": "Khoá app ngay khi chuyển sang ứng dụng khác",
+  "designAndSystemSection": "Thiết kế & Hệ thống",
+  "uiStateShowcase": "Minh họa 4 Trạng thái (Empty, Shimmer, Error, Success)",
+  "uiStateShowcaseDesc": "Kiểm thử giao diện Rỗng, Đăng tải, Báo lỗi & Thành công",
+  "clearCache": "Xoá bộ nhớ đệm (Cache)",
+  "cacheClearedSnackbar": "Đã dọn dẹp bộ nhớ đệm thành công",
+  "enableNotificationInSettings": "Vui lòng bật quyền Thông báo trong Cài đặt hệ thống",
+
+  "allServicesTitle": "Tất cả dịch vụ",
+  "categoryAttendanceTime": "Chấm công & Thời gian",
+  "categoryRequests": "Đơn từ",
+  "categoryPayrollRewards": "Lương & thưởng",
+  "categoryCareerProfile": "Nghề nghiệp & hồ sơ",
+  "serviceCheckInOut": "Chấm công vào/ra",
+  "serviceShiftSchedule": "Lịch ca làm việc",
+  "serviceMonthlyTimesheet": "Lịch công tháng",
+  "serviceHolidays": "Ngày lễ trong năm",
+  "serviceLeave": "Xin nghỉ phép",
+  "serviceOvertime": "Đăng ký tăng ca",
+  "serviceCorrection": "Sửa công",
+  "serviceTrackRequests": "Theo dõi yêu cầu",
+  "serviceSalaryTable": "Bảng lương tháng",
+  "servicePayslip": "Phiếu lương",
+  "serviceRewards": "Thưởng & ghi nhận",
+  "serviceAllowance": "Phụ cấp",
+  "serviceInternalJobs": "Tuyển dụng nội bộ",
+  "serviceProfile": "Hồ sơ cá nhân",
+  "serviceSettings": "Cài đặt",
+  "serviceApprovals": "Phê duyệt",
+
+  "notificationsTitle": "Thông báo",
+  "markAllRead": "Đọc tất cả",
+  "allNotificationsReadSnackbar": "Đã đánh dấu tất cả là đã đọc",
+  "notificationCatLeave": "Phép",
+  "notificationCatSalary": "Lương",
+  "notificationCatAttendance": "Chấm công",
+  "notificationCatReward": "Thưởng",
+  "notificationCatRecruitment": "Tuyển dụng",
+  "notificationCatSystem": "Hệ thống",
+
+  "calendarScreenTitle": "Lịch & Ca làm việc",
+  "calendarSubtitle": "Tháng 09/2026 · 22 ngày công chuẩn",
+  "monthSummaryTitle": "Tổng hợp tháng 9",
+  "payableWorkdays": "Ngày công tính lương",
+  "totalWorkHours": "Tổng giờ làm việc",
+  "cumulativeOvertime": "Tăng ca lũy kế",
+  "paidLeaveDays": "Nghỉ phép có hưởng lương",
+  "lateEarlyArrivals": "Đi muộn / Về sớm",
+  "legendFullWork": "Đủ công",
+  "legendLeave": "Nghỉ phép",
+  "legendMissingTime": "Thiếu giờ",
+  "legendHoliday": "Ngày lễ",
+
+  "holidaysTitle": "Ngày lễ",
+  "year2026": "Năm 2026",
+  "nationalHolidaysStat": "Ngày lễ",
+  "compensatoryLeaveStat": "Nghỉ bù",
+  "optionalHolidaysStat": "Tự chọn",
+
+  "rewardsTitle": "Thưởng & ghi nhận",
+  "rewardMonthHeader": "Thưởng tháng 9",
+  "paidWithMonthSalary": "VND · trả cùng lương tháng 9",
+  "monthlyBonusStat": "Thưởng tháng",
+  "kpiBonusStat": "Thưởng KPI",
+  "yearTotalBonusStat": "Tổng năm 2026",
+  "internalRecognitionStat": "Ghi nhận nội bộ",
+  "whyReceivedBonus": "Vì sao bạn nhận thưởng",
+  "bonusHistoryTitle": "Lịch sử thưởng",
+
+  "internalRecruitmentTitle": "Tuyển dụng nội bộ",
+  "searchJobPlaceholder": "Tìm vị trí, bộ phận...",
+  "openPositionsCount": "{count} vị trí mở cho ứng viên nội bộ",
+  "@openPositionsCount": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+  "tagNew": "MỚI",
+  "jobDetailTitle": "Chi tiết vị trí",
+  "applyButton": "Ứng tuyển",
+  "jobDescriptionSection": "Mô tả công việc",
+  "jobRequirementsSection": "Yêu cầu",
+  "jobBenefitsSection": "Phúc lợi",
+  "applySuccessTitle": "Ứng tuyển thành công!",
+  "applySuccessMsg": "Hồ sơ nội bộ của bạn đã được chuyển tới Bộ phận Nhân sự & Quản lý tuyển dụng.",
+  "emptyDataMessage": "Hiện chưa có dữ liệu nào để hiển thị",
+  "errorOccurredTitle": "Đã xảy ra sự cố",
+  "errorOccurredMessage": "Không thể tải dữ liệu lúc này. Vui lòng kiểm tra lại kết nối mạng.",
+  "successDialogTitle": "Thao tác thành công!",
+  "successDialogMessage": "Yêu cầu của bạn đã được ghi nhận và chuyển cho cấp trên xử lý.",
+  "doneButton": "Xong",
+  "filterAll": "Tất cả",
+  "forgotPasswordShort": "Quên?",
+  "orDivider": "hoặc",
+  "faceIdLoginTitle": "Đăng nhập bằng Face ID",
+  "faceIdLoginSubtitle": "Nhận diện khuôn mặt bảo mật thông minh",
+  "faceDetecting": "Đang nhận diện khuôn mặt...",
+  "faceAligning": "Đang căn chỉnh góc mặt...",
+  "faceMatching": "Đối soát dữ liệu sinh trắc học...",
+  "faceAuthSuccessGreeting": "Nhận diện thành công! Chào {name}",
+  "@faceAuthSuccessGreeting": {
+    "placeholders": {
+      "name": {"type": "String"}
+    }
+  },
+  "systemBiometricAuthButton": "Xác thực vân tay / Face ID hệ thống",
+  "loginWithCredentialsButton": "Đăng nhập bằng mã nhân viên / mật khẩu",
+  "biometricAuthReason": "Xác thực sinh trắc học để đăng nhập vào vstech-hrm",
+  "punchSuccessTitle": "Chấm công thành công!",
+  "checkInRecorded": "Ghi nhận Giờ vào (Check-in)",
+  "checkOutRecorded": "Ghi nhận Giờ ra (Check-out)",
+  "timeLabel": "Thời gian",
+  "classificationLabel": "Phân loại",
+  "locationLabel": "Địa điểm",
+  "methodLabel": "Phương thức",
+  "methodFaceGps": "Nhận diện khuôn mặt + GPS",
+  "completeAndHomeCta": "Hoàn tất & Về trang chủ",
+  "dailyLogSectionTitle": "Nhật ký từng ngày",
+  "holidaysLink": "Ngày lễ",
+  "statusWorking": "Đang làm",
+  "statusMissingCheckOut": "Thiếu giờ ra",
+  "statusFullWork": "Đủ công",
+  "statusWeeklyOff": "Nghỉ tuần",
+  "statusFullWorkOt": "Đủ công · TC {hours}h",
+  "@statusFullWorkOt": {
+    "placeholders": {
+      "hours": {"type": "String"}
+    }
+  },
+  "statusLateMinutes": "Đi muộn {minutes} phút",
+  "@statusLateMinutes": {
+    "placeholders": {
+      "minutes": {"type": "String"}
+    }
+  },
+  "noShiftAssigned": "Không có ca",
+  "monthlyWorkdaysUnit": "ngày công",
+  "daysCountUnit": "{count} ngày",
+  "@daysCountUnit": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+  "faceScanSuccessTitle": "Xác thực thành công!",
+  "faceScanSuccessSubtitle": "Hệ thống đã lưu nhận diện khuôn mặt và vị trí",
+  "faceScanningTitle": "Đang nhận diện...",
+  "faceScanningSubtitle": "Đang gửi ảnh quét mặt và toạ độ GPS về máy chủ",
+  "faceAlignPromptTitle": "Căn chỉnh khuôn mặt",
+  "faceAlignPromptSubtitle": "Giữ thẳng đầu và nhìn trực diện vào camera",
+  "emergencyContactInfo": "Liên hệ khẩn cấp: 0908 221 470 (Người thân)",
+  "documentsAndRecordsInfo": "Hồ sơ nhân viên & Hợp đồng lao động",
+  "annualLeaveCardTitle": "Số phép năm",
+  "leaveRatio": "{used} / {total} ngày",
+  "@leaveRatio": {
+    "placeholders": {
+      "used": {"type": "String"},
+      "total": {"type": "String"}
+    }
+  },
+  "usedDaysCount": "Đã dùng {count}",
+  "@usedDaysCount": {
+    "placeholders": {
+      "count": {"type": "String"}
+    }
+  },
+  "remainingDaysCount": "Còn lại {count}",
+  "@remainingDaysCount": {
+    "placeholders": {
+      "count": {"type": "String"}
+    }
+  }
 }

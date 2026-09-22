@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:material_symbols_icons/symbols.dart';
+import 'package:vstech_hrm/core/extensions/l10n_extension.dart';
+import 'package:vstech_hrm/core/responsive/app_layout.dart';
 import 'package:vstech_hrm/core/router/routes.dart';
 import 'package:vstech_hrm/core/session/auth_cubit.dart';
 import 'package:vstech_hrm/core/session/auth_state.dart';
@@ -17,13 +19,14 @@ import 'package:vstech_hrm/features/home/presentation/widgets/home_salary_card.d
 import 'package:vstech_hrm/features/home/presentation/widgets/home_summary_grid.dart';
 
 /// Main Home Screen for Employee (NV) and Manager (QL).
-/// Follows DESIGN.md and Phone.dc.html lines 96–233.
+/// Follows Clean Architecture, AppLayout, and L10n standards.
 class HomeScreen extends StatelessWidget {
   const new({super.key});
 
   @override
   Widget build(BuildContext context) {
     final colors = context.colors;
+    final l10n = context.l10n;
     final authState = context.watch<AuthCubit>().state;
     final user = authState is Authenticated ? authState.user : null;
     final isManager = authState is Authenticated && authState.role.isManager;
@@ -37,17 +40,17 @@ class HomeScreen extends StatelessWidget {
         child: Column(
           children: [
             TileHeaderBanner(
-              title: 'Chào buổi sáng, \n$userName 👋',
+              title: '${l10n.greetingMorning}, \n$userName 👋',
               subtitle: 'Thứ Ba, 20 Tháng 9 · Cửa hàng Q.3 (TP.HCM)',
               avatarFallbackText: userInitials,
               hasUnreadNotification: true,
               onNotificationTap: () => context.push(AppRoutes.notifications),
-              bottomPadding: 64,
+              bottomPadding: context.custom(normal: 64, compact: 52),
             ),
             Transform.translate(
               offset: const Offset(0, -46),
               child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16),
+                padding: context.paddingCustom(horizontal: 16),
                 child: Column(
                   children: [
                     // Balance card (Worked hours & punch CTA)
@@ -55,34 +58,34 @@ class HomeScreen extends StatelessWidget {
 
                     // Manager pending approval strip (P0 MSS requirement)
                     if (isManager) ...[
-                      const SizedBox(height: 14),
+                      14.gapH,
                       _buildManagerApprovalStrip(context, colors),
                     ],
 
                     // 5 Circular Quick Actions
-                    const SizedBox(height: 20),
+                    20.gapH,
                     const HomeQuickActions(),
 
                     // Saigon Tile Section Divider
-                    const SizedBox(height: 20),
+                    20.gapH,
                     const TileSectionDivider(),
 
                     // 2x2 Summary Grid
-                    const SizedBox(height: 18),
+                    18.gapH,
                     const HomeSummaryGrid(),
 
                     // Salary Card with eye toggle
-                    const SizedBox(height: 20),
+                    20.gapH,
                     const HomeSalaryCard(),
 
                     // Latest Announcements
-                    const SizedBox(height: 20),
+                    20.gapH,
                     const HomeAnnouncements(),
 
                     // Demo Role Switcher
-                    const SizedBox(height: 20),
+                    20.gapH,
                     _buildDemoRoleSwitcher(context, colors, isManager),
-                    const SizedBox(height: 24),
+                    24.gapH,
                   ],
                 ),
               ),
@@ -97,6 +100,9 @@ class HomeScreen extends StatelessWidget {
     BuildContext context,
     AppColorsExtension colors,
   ) {
+    final l10n = context.l10n;
+    final stripSize = context.custom(normal: 38, compact: 32).toDouble();
+
     return Container(
       decoration: BoxDecoration(
         color: colors.surface,
@@ -113,8 +119,8 @@ class HomeScreen extends StatelessWidget {
             child: Row(
               children: [
                 Container(
-                  width: 38,
-                  height: 38,
+                  width: stripSize,
+                  height: stripSize,
                   decoration: BoxDecoration(
                     color: colors.accentAmber,
                     borderRadius: BorderRadius.circular(12),
@@ -127,24 +133,24 @@ class HomeScreen extends StatelessWidget {
                     ),
                   ),
                 ),
-                const SizedBox(width: 12),
+                12.gapW,
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'Chờ bạn phê duyệt',
+                        l10n.managerPendingApprovalTitle,
                         style: TextStyle(
-                          fontSize: 14,
+                          fontSize: context.custom(normal: 14, compact: 13),
                           fontWeight: FontWeight.w800,
                           color: colors.textPrimary,
                         ),
                       ),
                       const SizedBox(height: 1),
                       Text(
-                        'Phép, tăng ca và sửa công',
+                        l10n.managerApprovalPending,
                         style: TextStyle(
-                          fontSize: 12,
+                          fontSize: context.custom(normal: 12, compact: 11),
                           fontWeight: FontWeight.w600,
                           color: colors.textSecondary,
                         ),
@@ -161,7 +167,7 @@ class HomeScreen extends StatelessWidget {
                     fontFeatures: const [FontFeature.tabularFigures()],
                   ),
                 ),
-                const SizedBox(width: 4),
+                4.gapW,
                 Icon(
                   Symbols.chevron_right,
                   color: colors.accentAmber,
@@ -180,16 +186,19 @@ class HomeScreen extends StatelessWidget {
     AppColorsExtension colors,
     bool isManager,
   ) {
+    final l10n = context.l10n;
+    final targetRoleText = isManager ? l10n.demoEmployee : l10n.demoManager;
+
     return AppCard(
       backgroundColor: colors.cardSecondary.withValues(alpha: 0.6),
       padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
       child: Row(
         children: [
           Icon(Symbols.switch_account, size: 20, color: colors.textSecondary),
-          const SizedBox(width: 10),
+          10.gapW,
           Expanded(
             child: Text(
-              'Đang ở vai: ${isManager ? "Quản lý (QL)" : "Nhân viên (NV)"}',
+              '${l10n.roleSwitcherTitle}: ${isManager ? l10n.demoManager : l10n.demoEmployee}',
               style: AppTextStyles.bodySmall(color: colors.textSecondary),
             ),
           ),
@@ -199,7 +208,7 @@ class HomeScreen extends StatelessWidget {
               await context.read<AuthCubit>().loginAsDemo(nextRole);
             },
             child: Text(
-              'Đổi sang ${isManager ? "NV" : "QL"}',
+              l10n.switchToRole(targetRoleText),
               style: AppTextStyles.labelMedium(color: colors.primaryIndigo)
                   .copyWith(fontWeight: FontWeight.w700),
             ),

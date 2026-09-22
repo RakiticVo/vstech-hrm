@@ -2,6 +2,8 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:local_auth/local_auth.dart';
 import 'package:material_symbols_icons/symbols.dart';
+import 'package:vstech_hrm/core/extensions/l10n_extension.dart';
+import 'package:vstech_hrm/core/responsive/app_layout.dart';
 import 'package:vstech_hrm/core/theme/app_colors.dart';
 import 'package:vstech_hrm/core/theme/app_text_styles.dart';
 import 'package:vstech_hrm/core/widgets/app_card.dart';
@@ -59,19 +61,19 @@ class _BiometricSettingSheetState extends State<BiometricSettingSheet> {
   Future<void> _testBiometric() async {
     try {
       final didAuthenticate = await _localAuth.authenticate(
-        localizedReason: 'Vui lòng xác thực sinh trắc học để kiểm tra phần cứng',
+        localizedReason: 'Biometric hardware verification',
       );
       if (mounted) {
         setState(() {
           _authResultStatus = didAuthenticate
-              ? 'Xác thực sinh trắc học thành công!'
-              : 'Xác thực không thành công hoặc đã bị hủy.';
+              ? 'OK'
+              : 'Failed';
         });
       }
     } on Object catch (e) {
       if (mounted) {
         setState(() {
-          _authResultStatus = 'Lỗi xác thực: $e';
+          _authResultStatus = '$e';
         });
       }
     }
@@ -101,22 +103,22 @@ class _BiometricSettingSheetState extends State<BiometricSettingSheet> {
               ),
             ),
           ),
-          const SizedBox(height: 18),
+          18.gapH,
           Text(
-            'BẢO MẬT SINH TRẮC HỌC',
+            context.l10n.biometricSecurityTitle,
             style: AppTextStyles.labelMicro(color: colors.textTertiary),
           ),
-          const SizedBox(height: 6),
+          6.gapH,
           Text(
-            'Xác thực Vân tay / Khuôn mặt',
+            context.l10n.biometricAuthTitle,
             style: AppTextStyles.headlineSmall(color: colors.textPrimary),
           ),
-          const SizedBox(height: 6),
+          6.gapH,
           Text(
-            'Dùng sinh trắc học thiết bị để mở khoá ứng dụng nhanh chóng và bảo vệ xem phiếu lương.',
+            context.l10n.biometricDesc,
             style: AppTextStyles.bodySmall(color: colors.textSecondary),
           ),
-          const SizedBox(height: 16),
+          16.gapH,
           if (_isLoading)
             const Center(child: Padding(
               padding: EdgeInsets.all(20),
@@ -132,9 +134,9 @@ class _BiometricSettingSheetState extends State<BiometricSettingSheet> {
                       Row(
                         children: [
                           Icon(Symbols.fingerprint, size: 24, color: colors.tealPrimary),
-                          const SizedBox(width: 10),
+                          10.gapW,
                           Text(
-                            'Kích hoạt sinh trắc học',
+                            context.l10n.enableBiometrics,
                             style: AppTextStyles.bodyMedium(color: colors.textPrimary)
                                 .copyWith(fontWeight: FontWeight.w700),
                           ),
@@ -149,20 +151,20 @@ class _BiometricSettingSheetState extends State<BiometricSettingSheet> {
                   ),
                   Divider(height: 16, color: colors.border.withValues(alpha: 0.5)),
                   _buildStatusRow(
-                    'Hỗ trợ phần cứng:',
-                    _isDeviceSupported ? 'Khả dụng' : 'Không hỗ trợ',
+                    context.l10n.hardwareSupportLabel,
+                    _isDeviceSupported ? context.l10n.hardwareAvailable : context.l10n.hardwareNotSupported,
                     _isDeviceSupported ? colors.success : colors.error,
                   ),
-                  const SizedBox(height: 6),
+                  6.gapH,
                   _buildStatusRow(
-                    'Cảm biến sinh trắc:',
-                    _canCheckBiometrics ? 'Đã cài đặt trên máy' : 'Chưa thiết lập',
+                    context.l10n.biometricSensorLabel,
+                    _canCheckBiometrics ? context.l10n.sensorConfigured : context.l10n.sensorNotConfigured,
                     _canCheckBiometrics ? colors.success : colors.warning,
                   ),
                 ],
               ),
             ),
-            const SizedBox(height: 14),
+            14.gapH,
             if (_authResultStatus != null) ...[
               Container(
                 padding: const EdgeInsets.all(12),
@@ -174,7 +176,7 @@ class _BiometricSettingSheetState extends State<BiometricSettingSheet> {
                 child: Row(
                   children: [
                     Icon(Symbols.info, size: 20, color: colors.tealPrimary),
-                    const SizedBox(width: 8),
+                    8.gapW,
                     Expanded(
                       child: Text(
                         _authResultStatus!,
@@ -184,10 +186,10 @@ class _BiometricSettingSheetState extends State<BiometricSettingSheet> {
                   ],
                 ),
               ),
-              const SizedBox(height: 14),
+              14.gapH,
             ],
             PrimaryButton(
-              text: 'Kiểm tra cảm biến ngay',
+              text: context.l10n.testBiometricNow,
               icon: Symbols.fingerprint,
               onPressed: _testBiometric,
             ),

@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:material_symbols_icons/symbols.dart';
+import 'package:vstech_hrm/core/extensions/l10n_extension.dart';
+import 'package:vstech_hrm/core/responsive/app_layout.dart';
 import 'package:vstech_hrm/core/services/app_permission_handler.dart';
 import 'package:vstech_hrm/core/services/offline_attendance_service.dart';
 import 'package:vstech_hrm/core/theme/app_colors.dart';
@@ -144,20 +146,22 @@ class _FaceScanScreenState extends State<FaceScanScreen> {
       );
 
       if (!mounted) return;
+      final l10n = context.l10n;
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text('Độ khớp khuôn mặt $pct% (≥ 85%). Đã lưu hàng đợi offline.'),
+          content: Text(l10n.offlineMatchSuccess(pct)),
           backgroundColor: const Color(0xFF0F766E),
         ),
       );
       _showSuccessReceipt(recordEntity);
     } else {
       if (!mounted) return;
+      final l10n = context.l10n;
       setState(() => _isOfflineProcessing = false);
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Khuôn mặt chưa đạt ngưỡng khớp 85%. Vui lòng căn chỉnh lại góc mặt.'),
-          backgroundColor: Color(0xFFE11D48),
+        SnackBar(
+          content: Text(l10n.offlineMatchFailed),
+          backgroundColor: const Color(0xFFE11D48),
         ),
       );
     }
@@ -185,6 +189,8 @@ class _FaceScanScreenState extends State<FaceScanScreen> {
   Widget build(BuildContext context) {
     final colors = context.colors;
 
+    final l10n = context.l10n;
+
     return BlocConsumer<AttendanceBloc, AttendanceState>(
       listener: (context, state) {
         if (!_isOfflineMode) {
@@ -192,7 +198,7 @@ class _FaceScanScreenState extends State<FaceScanScreen> {
             _showSuccessReceipt(state.lastRecord!);
           } else if (state.status == AttendanceProcessStatus.failure) {
             ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(content: Text(state.errorMessage ?? 'Chấm công thất bại'), backgroundColor: colors.brickRed),
+              SnackBar(content: Text(state.errorMessage ?? l10n.attendanceFailed), backgroundColor: colors.brickRed),
             );
           }
         }
@@ -218,7 +224,7 @@ class _FaceScanScreenState extends State<FaceScanScreen> {
                 child: Column(
                   children: [
                     FaceScanTopBar(
-                      title: widget.type.isCheckIn ? 'Chấm công Giờ vào' : 'Chấm công Giờ ra',
+                      title: widget.type.isCheckIn ? l10n.faceScanCheckInTitle : l10n.faceScanCheckOutTitle,
                       currentTime: _currentTime,
                       onClose: () => context.pop(),
                     ),
@@ -235,7 +241,7 @@ class _FaceScanScreenState extends State<FaceScanScreen> {
                             isSuccess: isSuccess,
                             isScanning: !isSubmitting && !isSuccess,
                           ),
-                          const SizedBox(height: 20),
+                          20.gapH,
                           FaceScanStepProgress(
                             isSubmitting: isSubmitting,
                             isSuccess: isSuccess,
@@ -243,7 +249,7 @@ class _FaceScanScreenState extends State<FaceScanScreen> {
                         ],
                       ),
                     ),
-                    _buildBottomControls(state, isSubmitting, isSuccess),
+                    _buildBottomControls(context, state, isSubmitting, isSuccess),
                   ],
                 ),
               ),
@@ -256,18 +262,19 @@ class _FaceScanScreenState extends State<FaceScanScreen> {
 
 
 
-  Widget _buildBottomControls(AttendanceState state, bool isSubmitting, bool isSuccess) {
+  Widget _buildBottomControls(BuildContext context, AttendanceState state, bool isSubmitting, bool isSuccess) {
+    final l10n = context.l10n;
     return Padding(
       padding: const EdgeInsets.fromLTRB(18, 0, 18, 24),
       child: Column(
         children: [
           LocationStatusCard(
-            locationName: _isOfflineMode ? 'Văn phòng HCM (Đối soát GPS cục bộ)' : state.locationName,
+            locationName: _isOfflineMode ? l10n.offlineLocationLabel : state.locationName,
             isVerified: true,
           ),
-          const SizedBox(height: 14),
+          14.gapH,
           AmberCtaButton(
-            text: widget.type.isCheckIn ? 'Chụp ảnh & Chấm công Vào' : 'Chụp ảnh & Chấm công Ra',
+            text: widget.type.isCheckIn ? l10n.faceScanCaptureCheckInCta : l10n.faceScanCaptureCheckOutCta,
             icon: Symbols.camera_alt,
             isLoading: isSubmitting,
             onPressed: isSuccess ? null : _onCaptureAndSubmit,

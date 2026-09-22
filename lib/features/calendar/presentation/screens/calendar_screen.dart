@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:material_symbols_icons/symbols.dart';
+import 'package:vstech_hrm/core/extensions/l10n_extension.dart';
+import 'package:vstech_hrm/core/responsive/app_layout.dart';
 import 'package:vstech_hrm/core/theme/app_colors.dart';
 import 'package:vstech_hrm/core/widgets/tile_header_banner.dart';
 import 'package:vstech_hrm/features/calendar/presentation/widgets/calendar_summary_card.dart';
@@ -17,25 +19,20 @@ class CalendarScreen extends StatelessWidget {
       backgroundColor: colors.background,
       body: Column(
         children: [
-          const TileHeaderBanner(
-            title: 'Lịch & Ca làm việc',
-            subtitle: 'Tháng 09/2026 · 22 ngày công chuẩn',
+          TileHeaderBanner(
+            title: context.l10n.calendarScreenTitle,
+            subtitle: context.l10n.calendarSubtitle,
           ),
           Expanded(
             child: ListView(
               padding: const EdgeInsets.fromLTRB(16, 14, 16, 24),
               children: [
-                // Calendar Card
-                _buildCalendarCard(colors),
-                const SizedBox(height: 14),
-
-                // Legend Chips
-                _buildLegendRow(colors),
-                const SizedBox(height: 20),
-
-                // Month Summary title
+                _buildCalendarCard(context, colors),
+                14.gapH,
+                _buildLegendRow(context, colors),
+                20.gapH,
                 Text(
-                  'Tổng hợp tháng 9',
+                  context.l10n.monthSummaryTitle,
                   style: TextStyle(
                     fontSize: 15,
                     fontWeight: FontWeight.w800,
@@ -43,9 +40,7 @@ class CalendarScreen extends StatelessWidget {
                     color: colors.textPrimary,
                   ),
                 ),
-                const SizedBox(height: 11),
-
-                // Month Summary rows
+                11.gapH,
                 const CalendarSummaryCard(),
               ],
             ),
@@ -55,8 +50,16 @@ class CalendarScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildCalendarCard(AppColorsExtension colors) {
-    const dows = ['T2', 'T3', 'T4', 'T5', 'T6', 'T7', 'CN'];
+  Widget _buildCalendarCard(BuildContext context, AppColorsExtension colors) {
+    final dows = [
+      context.l10n.dayMon,
+      context.l10n.dayTue,
+      context.l10n.dayWed,
+      context.l10n.dayThu,
+      context.l10n.dayFri,
+      context.l10n.daySat,
+      context.l10n.daySun,
+    ];
 
     // 1 Sep 2026 is Tuesday -> 1 leading blank
     final calDays = <_CalDay>[
@@ -227,12 +230,12 @@ class CalendarScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildLegendRow(AppColorsExtension colors) {
+  Widget _buildLegendRow(BuildContext context, AppColorsExtension colors) {
     final legends = [
-      ('Đủ công', colors.pineGreen),
-      ('Nghỉ phép', colors.accentAmber),
-      ('Thiếu giờ', colors.error),
-      ('Ngày lễ', colors.primaryIndigo),
+      (context.l10n.legendFullWork, colors.pineGreen),
+      (context.l10n.legendLeave, colors.accentAmber),
+      (context.l10n.legendMissingTime, colors.error),
+      (context.l10n.legendHoliday, colors.primaryIndigo),
     ];
 
     return Wrap(
@@ -257,7 +260,7 @@ class CalendarScreen extends StatelessWidget {
                         shape: BoxShape.circle,
                       ),
                     ),
-                    const SizedBox(width: 6),
+                    6.gapW,
                     Text(
                       item.$1,
                       style: TextStyle(

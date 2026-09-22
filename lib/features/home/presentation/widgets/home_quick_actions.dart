@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:material_symbols_icons/symbols.dart';
+import 'package:vstech_hrm/core/extensions/l10n_extension.dart';
+import 'package:vstech_hrm/core/responsive/app_layout.dart';
 import 'package:vstech_hrm/core/router/routes.dart';
 import 'package:vstech_hrm/core/theme/app_colors.dart';
 
@@ -12,36 +14,39 @@ class HomeQuickActions extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colors = context.colors;
+    final l10n = context.l10n;
 
     final actions = [
       _ActionItem(
-        label: 'Nghỉ phép',
+        label: l10n.quickActionLeave,
         icon: Symbols.calendar_today,
         onTap: () => context.push(AppRoutes.leaveCreate),
       ),
       _ActionItem(
-        label: 'Tăng ca',
+        label: l10n.quickActionOvertime,
         icon: Symbols.schedule,
         onTap: () => context.push(AppRoutes.overtimeCreate),
       ),
       _ActionItem(
-        label: 'Sửa công',
+        label: l10n.quickActionCorrection,
         icon: Symbols.edit_note,
         badge: '1',
         onTap: () => context.push(AppRoutes.attendanceCorrection),
       ),
       _ActionItem(
-        label: 'Bảng lương',
+        label: l10n.quickActionPayroll,
         icon: Symbols.receipt_long,
         onTap: () => context.push(AppRoutes.payslipDetail),
       ),
       _ActionItem(
-        label: 'Tất cả',
+        label: l10n.quickActionAll,
         icon: Symbols.more_horiz,
         isAllButton: true,
         onTap: () => context.push(AppRoutes.services),
       ),
     ];
+
+    final labelFontSize = context.custom(compact: 9.5, normal: 10.5, expanded: 11.5);
 
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -54,12 +59,12 @@ class HomeQuickActions extends StatelessWidget {
                     padding: const EdgeInsets.symmetric(horizontal: 2),
                     child: Column(
                       children: [
-                        _buildCircleButton(act, colors),
-                        const SizedBox(height: 7),
+                        _buildCircleButton(context, act, colors),
+                        7.gapH,
                         Text(
                           act.label,
                           style: TextStyle(
-                            fontSize: 10.5,
+                            fontSize: labelFontSize,
                             fontWeight: FontWeight.w700,
                             color: colors.textPrimary,
                             height: 1.25,
@@ -77,20 +82,23 @@ class HomeQuickActions extends StatelessWidget {
     );
   }
 
-  Widget _buildCircleButton(_ActionItem act, AppColorsExtension colors) {
+  Widget _buildCircleButton(BuildContext context, _ActionItem act, AppColorsExtension colors) {
+    final size = context.custom(compact: 44, normal: 52, expanded: 58).toDouble();
+    final iconSize = context.custom(compact: 19, normal: 22, expanded: 24).toDouble();
+
     if (act.isAllButton) {
       return Container(
-        width: 52,
-        height: 52,
+        width: size,
+        height: size,
         decoration: BoxDecoration(
           color: colors.primaryIndigo,
           shape: BoxShape.circle,
         ),
-        child: const Center(
+        child: Center(
           child: Icon(
             Symbols.more_horiz,
-            size: 24,
-            color: Color(0xFFFFF8EC),
+            size: iconSize + 2,
+            color: const Color(0xFFFFF8EC),
           ),
         ),
       );
@@ -102,8 +110,8 @@ class HomeQuickActions extends StatelessWidget {
       clipBehavior: Clip.none,
       children: [
         Container(
-          width: 52,
-          height: 52,
+          width: size,
+          height: size,
           decoration: BoxDecoration(
             color: colors.surface,
             shape: BoxShape.circle,
@@ -114,7 +122,7 @@ class HomeQuickActions extends StatelessWidget {
           child: Center(
             child: Icon(
               act.icon,
-              size: 22,
+              size: iconSize,
               color: isBadgeItem ? colors.error : colors.primaryIndigo,
             ),
           ),

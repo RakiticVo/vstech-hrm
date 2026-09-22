@@ -1,6 +1,8 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:material_symbols_icons/symbols.dart';
+import 'package:vstech_hrm/core/extensions/l10n_extension.dart';
+import 'package:vstech_hrm/core/responsive/app_layout.dart';
 import 'package:vstech_hrm/core/theme/app_colors.dart';
 import 'package:vstech_hrm/core/widgets/app_success_dialog.dart';
 
@@ -19,8 +21,8 @@ class _JobDetailScreenState extends State<JobDetailScreen> {
     unawaited(
       AppSuccessDialog.show(
         context,
-        title: 'Ứng tuyển thành công!',
-        message: 'Hồ sơ nội bộ của bạn đã được chuyển tới Bộ phận Nhân sự & Quản lý tuyển dụng.',
+        title: context.l10n.applySuccessTitle,
+        message: context.l10n.applySuccessMsg,
       ),
     );
   }
@@ -57,7 +59,7 @@ class _JobDetailScreenState extends State<JobDetailScreen> {
           onPressed: () => Navigator.of(context).pop(),
         ),
         title: Text(
-          'Chi tiết vị trí',
+          context.l10n.jobDetailTitle,
           style: TextStyle(
             fontSize: 18,
             fontWeight: FontWeight.w800,
@@ -81,14 +83,14 @@ class _JobDetailScreenState extends State<JobDetailScreen> {
                       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
                     ),
                     onPressed: _apply,
-                    child: const Text(
-                      'Ứng tuyển',
-                      style: TextStyle(fontSize: 15, fontWeight: FontWeight.w800),
+                    child: Text(
+                      context.l10n.applyButton,
+                      style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w800),
                     ),
                   ),
                 ),
               ),
-              const SizedBox(width: 12),
+              12.gapW,
               InkWell(
                 borderRadius: BorderRadius.circular(14),
                 onTap: () => setState(() => _isSaved = !_isSaved),
@@ -150,18 +152,18 @@ class _JobDetailScreenState extends State<JobDetailScreen> {
               ],
             ),
           ),
-          const SizedBox(height: 20),
+          20.gapH,
 
           // Mô tả công việc
-          _buildSection('Mô tả công việc', descriptions, colors),
-          const SizedBox(height: 18),
+          _buildSection(context.l10n.jobDescriptionSection, descriptions, colors),
+          18.gapH,
 
           // Yêu cầu
-          _buildSection('Yêu cầu', requirements, colors),
-          const SizedBox(height: 18),
+          _buildSection(context.l10n.jobRequirementsSection, requirements, colors),
+          18.gapH,
 
           // Phúc lợi
-          _buildSection('Phúc lợi', benefits, colors),
+          _buildSection(context.l10n.jobBenefitsSection, benefits, colors),
         ],
       ),
     );

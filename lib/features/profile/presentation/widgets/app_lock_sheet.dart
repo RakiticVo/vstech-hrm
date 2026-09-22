@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:material_symbols_icons/symbols.dart';
+import 'package:vstech_hrm/core/extensions/l10n_extension.dart';
+import 'package:vstech_hrm/core/responsive/app_layout.dart';
 import 'package:vstech_hrm/core/theme/app_colors.dart';
 import 'package:vstech_hrm/core/theme/app_text_styles.dart';
 import 'package:vstech_hrm/core/widgets/app_card.dart';
@@ -50,22 +52,22 @@ class _AppLockSheetState extends State<AppLockSheet> {
               ),
             ),
           ),
-          const SizedBox(height: 18),
+          18.gapH,
           Text(
-            'BẢO VỆ DỮ LIỆU',
+            context.l10n.appLockSettingTitle,
             style: AppTextStyles.labelMicro(color: colors.textTertiary),
           ),
-          const SizedBox(height: 6),
+          6.gapH,
           Text(
-            'Khóa ứng dụng & Mã PIN',
+            context.l10n.appLockTitle,
             style: AppTextStyles.headlineSmall(color: colors.textPrimary),
           ),
-          const SizedBox(height: 6),
+          6.gapH,
           Text(
-            'Tự động khóa ứng dụng khi rời màn hình để bảo vệ thông tin lương và hồ sơ nhân viên.',
+            context.l10n.appLockDesc,
             style: AppTextStyles.bodySmall(color: colors.textSecondary),
           ),
-          const SizedBox(height: 16),
+          16.gapH,
           AppCard(
             child: Column(
               children: [
@@ -75,9 +77,9 @@ class _AppLockSheetState extends State<AppLockSheet> {
                     Row(
                       children: [
                         Icon(Symbols.phonelink_lock, size: 24, color: colors.tealPrimary),
-                        const SizedBox(width: 10),
+                        10.gapW,
                         Text(
-                          'Bật khóa ứng dụng',
+                          context.l10n.enableAppLock,
                           style: AppTextStyles.bodyMedium(color: colors.textPrimary)
                               .copyWith(fontWeight: FontWeight.w700),
                         ),
@@ -95,26 +97,26 @@ class _AppLockSheetState extends State<AppLockSheet> {
                   Align(
                     alignment: Alignment.centerLeft,
                     child: Text(
-                      'TỰ ĐỘNG KHÓA SAU',
+                      context.l10n.autoLockAfter,
                       style: AppTextStyles.labelMicro(color: colors.textTertiary),
                     ),
                   ),
-                  const SizedBox(height: 8),
-                  _buildTimeoutOption(0, 'Ngay lập tức khi rời app', colors),
-                  _buildTimeoutOption(1, 'Sau 1 phút', colors),
-                  _buildTimeoutOption(5, 'Sau 5 phút', colors),
+                  8.gapH,
+                  _buildTimeoutOption(0, context.l10n.lockImmediately, colors),
+                  _buildTimeoutOption(1, context.l10n.lockAfter1Min, colors),
+                  _buildTimeoutOption(5, context.l10n.lockAfter5Mins, colors),
                 ],
               ],
             ),
           ),
-          const SizedBox(height: 20),
+          20.gapH,
           PrimaryButton(
-            text: 'Lưu thiết lập',
+            text: context.l10n.saveSettingsButton,
             onPressed: () {
               Navigator.pop(context);
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(
-                  content: const Text('Đã cập nhật cấu hình khóa ứng dụng thành công'),
+                  content: Text(context.l10n.appLockUpdatedSnackbar),
                   backgroundColor: colors.tealPrimary,
                   duration: const Duration(seconds: 2),
                 ),

@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:vstech_hrm/core/extensions/l10n_extension.dart';
+import 'package:vstech_hrm/core/responsive/app_layout.dart';
 import 'package:vstech_hrm/core/theme/app_colors.dart';
 
 /// Latest Announcements / Updates section on Home screen.
@@ -9,19 +11,23 @@ class HomeAnnouncements extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colors = context.colors;
+    final l10n = context.l10n;
 
     final items = [
-      const _AnnouncementItem(
+      _AnnouncementItem(
         badgeText: 'P',
-        title: 'Yêu cầu nghỉ phép 21–23/09 đã được phê duyệt.',
-        time: '2 giờ trước',
+        title: l10n.demoLeaveApprovedAnnouncement,
+        time: l10n.twoHoursAgo,
       ),
-      const _AnnouncementItem(
+      _AnnouncementItem(
         badgeText: 'L',
-        title: 'Phiếu lương tháng 9 đã có. Thực nhận 25.500.000 ₫.',
-        time: '1 ngày trước',
+        title: l10n.demoSalaryAnnouncement,
+        time: l10n.oneDayAgo,
       ),
     ];
+
+    final badgeSize = context.custom(compact: 30, normal: 34, expanded: 38).toDouble();
+    final cardPadding = context.custom(compact: 10, normal: 13, expanded: 16).toDouble();
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -32,7 +38,7 @@ class HomeAnnouncements extends StatelessWidget {
           textBaseline: TextBaseline.alphabetic,
           children: [
             Text(
-              'Cập nhật mới',
+              l10n.latestUpdatesTitle,
               style: TextStyle(
                 fontSize: 15,
                 fontWeight: FontWeight.w800,
@@ -43,7 +49,7 @@ class HomeAnnouncements extends StatelessWidget {
             InkWell(
               onTap: () {},
               child: Text(
-                'Xem tất cả',
+                l10n.viewAll,
                 style: TextStyle(
                   fontSize: 12,
                   fontWeight: FontWeight.w700,
@@ -53,7 +59,7 @@ class HomeAnnouncements extends StatelessWidget {
             ),
           ],
         ),
-        const SizedBox(height: 11),
+        11.gapH,
         Column(
           children: items
               .map((item) => Padding(
@@ -64,13 +70,13 @@ class HomeAnnouncements extends StatelessWidget {
                         borderRadius: BorderRadius.circular(15),
                         border: Border.all(color: colors.border),
                       ),
-                      padding: const EdgeInsets.all(13),
+                      padding: EdgeInsets.all(cardPadding),
                       child: Row(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Container(
-                            width: 34,
-                            height: 34,
+                            width: badgeSize,
+                            height: badgeSize,
                             decoration: BoxDecoration(
                               color: colors.cardSecondary,
                               borderRadius: BorderRadius.circular(11),
@@ -86,7 +92,7 @@ class HomeAnnouncements extends StatelessWidget {
                               ),
                             ),
                           ),
-                          const SizedBox(width: 11),
+                          11.gapW,
                           Expanded(
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
@@ -100,7 +106,7 @@ class HomeAnnouncements extends StatelessWidget {
                                     color: colors.textPrimary,
                                   ),
                                 ),
-                                const SizedBox(height: 3),
+                                3.gapH,
                                 Text(
                                   item.time,
                                   style: TextStyle(

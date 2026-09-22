@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:vstech_hrm/core/extensions/l10n_extension.dart';
+import 'package:vstech_hrm/core/responsive/app_layout.dart';
 import 'package:vstech_hrm/core/theme/app_colors.dart';
 
 /// 2x2 Summary Metrics Grid (Ngày công, Phép còn, Tăng ca, Muộn/sớm)
@@ -22,6 +24,7 @@ class HomeSummaryGrid extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colors = context.colors;
+    final l10n = context.l10n;
 
     return Column(
       children: [
@@ -29,39 +32,43 @@ class HomeSummaryGrid extends StatelessWidget {
           children: [
             Expanded(
               child: _buildCard(
-                label: 'NGÀY CÔNG',
+                context: context,
+                label: l10n.metricWorkdays.toUpperCase(),
                 mainValue: workedDays,
                 subValue: ' / $standardDays',
                 colors: colors,
               ),
             ),
-            const SizedBox(width: 10),
+            10.gapW,
             Expanded(
               child: _buildCard(
-                label: 'PHÉP CÒN LẠI',
+                context: context,
+                label: l10n.metricLeaveBalance.toUpperCase(),
                 mainValue: leaveLeft,
-                subValue: ' ngày',
+                subValue: ' ${l10n.daysUnit}',
                 colors: colors,
                 mainColor: colors.primaryIndigo,
               ),
             ),
           ],
         ),
-        const SizedBox(height: 10),
+        10.gapH,
         Row(
           children: [
             Expanded(
               child: _buildCard(
-                label: 'TĂNG CA',
+                context: context,
+                label: l10n.metricOvertime.toUpperCase(),
                 mainValue: overtimeHours,
-                subValue: 'h',
+                subValue: l10n.hoursUnit,
                 colors: colors,
               ),
             ),
-            const SizedBox(width: 10),
+            10.gapW,
             Expanded(
               child: _buildCard(
-                label: 'MUỘN / SỚM',
+                context: context,
+                label: l10n.metricLateEarly,
                 mainValue: lateEarlyCount,
                 subValue: '',
                 colors: colors,
@@ -74,37 +81,42 @@ class HomeSummaryGrid extends StatelessWidget {
   }
 
   Widget _buildCard({
+    required BuildContext context,
     required String label,
     required String mainValue,
     required String subValue,
     required AppColorsExtension colors,
     Color? mainColor,
   }) {
+    final horizontalPadding = context.custom(compact: 11, normal: 14, expanded: 16).toDouble();
+    final verticalPadding = context.custom(compact: 10, normal: 13, expanded: 15).toDouble();
+    final mainFontSize = context.custom(compact: 18, normal: 21, expanded: 24).toDouble();
+
     return Container(
       decoration: BoxDecoration(
         color: colors.surface,
         borderRadius: BorderRadius.circular(16),
         border: Border.all(color: colors.border),
       ),
-      padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 13),
+      padding: EdgeInsets.symmetric(horizontal: horizontalPadding, vertical: verticalPadding),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
             label,
             style: TextStyle(
-              fontSize: 10.5,
+              fontSize: context.custom(compact: 9.5, normal: 10.5, expanded: 11.5),
               fontWeight: FontWeight.w800,
               letterSpacing: 1,
               color: colors.textSecondary,
             ),
           ),
-          const SizedBox(height: 4),
+          4.gapH,
           RichText(
             text: TextSpan(
               text: mainValue,
               style: TextStyle(
-                fontSize: 21,
+                fontSize: mainFontSize,
                 fontWeight: FontWeight.w800,
                 color: mainColor ?? colors.textPrimary,
                 fontFeatures: const [FontFeature.tabularFigures()],

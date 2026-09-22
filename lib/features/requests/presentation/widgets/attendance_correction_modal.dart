@@ -1,6 +1,8 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:material_symbols_icons/symbols.dart';
+import 'package:vstech_hrm/core/extensions/l10n_extension.dart';
+import 'package:vstech_hrm/core/responsive/app_layout.dart';
 import 'package:vstech_hrm/core/services/app_permission_handler.dart';
 import 'package:vstech_hrm/core/theme/app_colors.dart';
 
@@ -54,12 +56,6 @@ class _AttendanceCorrectionModalState extends State<AttendanceCorrectionModal> {
   String? _attachedFileName;
   late TextEditingController _reasonController;
 
-  final _issues = const [
-    'Thiếu giờ ra',
-    'Thiếu giờ vào',
-    'Sai ca làm',
-    'Lỗi máy quét',
-  ];
 
   @override
   void initState() {
@@ -112,12 +108,14 @@ class _AttendanceCorrectionModalState extends State<AttendanceCorrectionModal> {
     if (!mounted) return;
     if (granted) {
       setState(() => _attachedFileName = 'bang_log_bao_ve.jpg');
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Đã chọn minh chứng: bang_log_bao_ve.jpg (850 KB)'),
-          backgroundColor: Color(0xFF0F766E),
-        ),
-      );
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(context.l10n.proofSelected('bang_log_bao_ve.jpg', '850 KB')),
+            backgroundColor: const Color(0xFF0F766E),
+          ),
+        );
+      }
     }
   }
 
@@ -129,7 +127,15 @@ class _AttendanceCorrectionModalState extends State<AttendanceCorrectionModal> {
   @override
   Widget build(BuildContext context) {
     final colors = context.colors;
+    final l10n = context.l10n;
     final bottomInset = MediaQuery.of(context).viewInsets.bottom;
+
+    final issues = [
+      l10n.issueMissingCheckout,
+      l10n.issueMissingCheckin,
+      l10n.issueWrongShift,
+      l10n.issueScannerError,
+    ];
 
     return Padding(
       padding: EdgeInsets.fromLTRB(18, 20, 18, bottomInset + 24),
@@ -141,25 +147,25 @@ class _AttendanceCorrectionModalState extends State<AttendanceCorrectionModal> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text('Tạo yêu cầu sửa công', style: TextStyle(fontSize: 17, fontWeight: FontWeight.w800, color: colors.textPrimary)),
+                Text(l10n.createCorrectionTitle, style: TextStyle(fontSize: 17, fontWeight: FontWeight.w800, color: colors.textPrimary)),
                 IconButton(icon: const Icon(Symbols.close, size: 20), onPressed: () => Navigator.pop(context)),
               ],
             ),
-            const SizedBox(height: 12),
+            12.gapH,
             Row(
               children: [
-                Expanded(child: _buildPickerTile('Ngày sửa', _selectedDate, Symbols.calendar_today, _pickDate, colors)),
-                const SizedBox(width: 10),
-                Expanded(child: _buildPickerTile('Sửa thành giờ', _time, Symbols.schedule, _pickTime, colors)),
+                Expanded(child: _buildPickerTile(l10n.correctionDateLabel, _selectedDate, Symbols.calendar_today, _pickDate, colors)),
+                10.gapW,
+                Expanded(child: _buildPickerTile(l10n.correctionTimeLabel, _time, Symbols.schedule, _pickTime, colors)),
               ],
             ),
-            const SizedBox(height: 14),
-            Text('Vấn đề phát sinh', style: TextStyle(fontSize: 13, fontWeight: FontWeight.w700, color: colors.textSecondary)),
-            const SizedBox(height: 8),
+            14.gapH,
+            Text(l10n.correctionIssueLabel, style: TextStyle(fontSize: 13, fontWeight: FontWeight.w700, color: colors.textSecondary)),
+            8.gapH,
             Wrap(
               spacing: 8,
               runSpacing: 8,
-              children: _issues.map((issue) {
+              children: issues.map((issue) {
                 final isSel = _selectedIssue == issue;
                 return InkWell(
                   borderRadius: BorderRadius.circular(10),
@@ -176,9 +182,9 @@ class _AttendanceCorrectionModalState extends State<AttendanceCorrectionModal> {
                 );
               }).toList(),
             ),
-            const SizedBox(height: 14),
-            Text('Giải trình chi tiết', style: TextStyle(fontSize: 13, fontWeight: FontWeight.w700, color: colors.textSecondary)),
-            const SizedBox(height: 6),
+            14.gapH,
+            Text(l10n.explanationDetailLabel, style: TextStyle(fontSize: 13, fontWeight: FontWeight.w700, color: colors.textSecondary)),
+            6.gapH,
             TextField(
               controller: _reasonController,
               maxLines: 2,
@@ -191,7 +197,7 @@ class _AttendanceCorrectionModalState extends State<AttendanceCorrectionModal> {
                 enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(12), borderSide: BorderSide(color: colors.border)),
               ),
             ),
-            const SizedBox(height: 12),
+            12.gapH,
             InkWell(
               borderRadius: BorderRadius.circular(12),
               onTap: _pickAttachment,
@@ -202,13 +208,13 @@ class _AttendanceCorrectionModalState extends State<AttendanceCorrectionModal> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Icon(_attachedFileName != null ? Symbols.check_circle : Symbols.attach_file, size: 16, color: _attachedFileName != null ? colors.primaryIndigo : colors.textSecondary),
-                    const SizedBox(width: 6),
-                    Text(_attachedFileName ?? 'Đính kèm ảnh/minh chứng (không bắt buộc)', style: TextStyle(fontSize: 12, fontWeight: FontWeight.w600, color: colors.textSecondary)),
+                    6.gapW,
+                    Text(_attachedFileName ?? l10n.addProofOptional, style: TextStyle(fontSize: 12, fontWeight: FontWeight.w600, color: colors.textSecondary)),
                   ],
                 ),
               ),
             ),
-            const SizedBox(height: 18),
+            18.gapH,
             SizedBox(
               width: double.infinity,
               height: 48,
@@ -220,7 +226,7 @@ class _AttendanceCorrectionModalState extends State<AttendanceCorrectionModal> {
                   elevation: 0,
                 ),
                 onPressed: _onConfirmTap,
-                child: const Text('Xác nhận gửi yêu cầu', style: TextStyle(fontSize: 15, fontWeight: FontWeight.w800)),
+                child: Text(l10n.confirmSendCorrection, style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w800)),
               ),
             ),
           ],
@@ -240,7 +246,7 @@ class _AttendanceCorrectionModalState extends State<AttendanceCorrectionModal> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(label, style: TextStyle(fontSize: 11, color: colors.textSecondary)),
-            const SizedBox(height: 4),
+            4.gapH,
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [

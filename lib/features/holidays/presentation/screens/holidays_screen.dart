@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:material_symbols_icons/symbols.dart';
+import 'package:vstech_hrm/core/extensions/l10n_extension.dart';
+import 'package:vstech_hrm/core/responsive/app_layout.dart';
 import 'package:vstech_hrm/core/theme/app_colors.dart';
 
 /// Screen 08: National Holidays and Compensatory Leave days matching reference design.
@@ -28,7 +30,7 @@ class HolidaysScreen extends StatelessWidget {
           onPressed: () => Navigator.of(context).pop(),
         ),
         title: Text(
-          'Ngày lễ',
+          context.l10n.holidaysTitle,
           style: TextStyle(
             fontSize: 18,
             fontWeight: FontWeight.w800,
@@ -40,7 +42,7 @@ class HolidaysScreen extends StatelessWidget {
             padding: const EdgeInsets.only(right: 16),
             child: Center(
               child: Text(
-                'Năm 2026',
+                context.l10n.year2026,
                 style: TextStyle(
                   fontSize: 13,
                   fontWeight: FontWeight.w700,
@@ -58,19 +60,19 @@ class HolidaysScreen extends StatelessWidget {
           Row(
             children: [
               Expanded(
-                child: _buildStatCard('14', 'Ngày lễ', colors),
+                child: _buildStatCard('14', context.l10n.nationalHolidaysStat, colors),
               ),
-              const SizedBox(width: 10),
+              10.gapW,
               Expanded(
-                child: _buildStatCard('3', 'Nghỉ bù', colors),
+                child: _buildStatCard('3', context.l10n.compensatoryLeaveStat, colors),
               ),
-              const SizedBox(width: 10),
+              10.gapW,
               Expanded(
-                child: _buildStatCard('2', 'Tự chọn', colors),
+                child: _buildStatCard('2', context.l10n.optionalHolidaysStat, colors),
               ),
             ],
           ),
-          const SizedBox(height: 18),
+          18.gapH,
 
           // Holiday Items List
           ...holidays.map((h) => Padding(

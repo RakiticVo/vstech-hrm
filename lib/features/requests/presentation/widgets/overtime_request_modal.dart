@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:material_symbols_icons/symbols.dart';
+import 'package:vstech_hrm/core/extensions/l10n_extension.dart';
+import 'package:vstech_hrm/core/responsive/app_layout.dart';
 import 'package:vstech_hrm/core/theme/app_colors.dart';
 
 /// Modal bottom sheet to pick date, start/end hours, and reason for overtime request.
@@ -71,6 +73,7 @@ class _OvertimeRequestModalState extends State<OvertimeRequestModal> {
   @override
   Widget build(BuildContext context) {
     final colors = context.colors;
+    final l10n = context.l10n;
     final bottomInset = MediaQuery.of(context).viewInsets.bottom;
 
     return Padding(
@@ -83,7 +86,7 @@ class _OvertimeRequestModalState extends State<OvertimeRequestModal> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                'Nhập thông tin tăng ca',
+                l10n.overtimeModalTitle,
                 style: TextStyle(
                   fontSize: 17,
                   fontWeight: FontWeight.w800,
@@ -96,14 +99,14 @@ class _OvertimeRequestModalState extends State<OvertimeRequestModal> {
               ),
             ],
           ),
-          const SizedBox(height: 14),
+          14.gapH,
 
           // Date Selection
           Text(
-            'Ngày tăng ca',
+            l10n.overtimeDateLabel,
             style: TextStyle(fontSize: 12.5, fontWeight: FontWeight.w700, color: colors.textSecondary),
           ),
-          const SizedBox(height: 6),
+          6.gapH,
           InkWell(
             borderRadius: BorderRadius.circular(12),
             onTap: () async {
@@ -136,26 +139,26 @@ class _OvertimeRequestModalState extends State<OvertimeRequestModal> {
               ),
             ),
           ),
-          const SizedBox(height: 14),
+          14.gapH,
 
           // Time range
           Text(
-            'Khung giờ làm thêm',
+            l10n.overtimeTimeRangeLabel,
             style: TextStyle(fontSize: 12.5, fontWeight: FontWeight.w700, color: colors.textSecondary),
           ),
-          const SizedBox(height: 6),
+          6.gapH,
           Row(
             children: [
               Expanded(
-                child: _buildTimePickerTile('Bắt đầu', _startTime, (val) => setState(() => _startTime = val), colors),
+                child: _buildTimePickerTile(l10n.startTimeLabel, _startTime, (val) => setState(() => _startTime = val), colors),
               ),
-              const SizedBox(width: 10),
+              10.gapW,
               Expanded(
-                child: _buildTimePickerTile('Kết thúc', _endTime, (val) => setState(() => _endTime = val), colors),
+                child: _buildTimePickerTile(l10n.endTimeLabel, _endTime, (val) => setState(() => _endTime = val), colors),
               ),
             ],
           ),
-          const SizedBox(height: 12),
+          12.gapH,
 
           // Estimate badge
           Container(
@@ -167,22 +170,22 @@ class _OvertimeRequestModalState extends State<OvertimeRequestModal> {
             child: Row(
               children: [
                 Icon(Symbols.schedule, size: 16, color: colors.pineGreen),
-                const SizedBox(width: 6),
+                6.gapW,
                 Text(
-                  'Tổng cộng: 3 giờ · Hệ số x1.5 (Ngày thường)',
+                  l10n.overtimeEstimateCalc(3, 'x1.5', l10n.overtimeDayTypeNormal),
                   style: TextStyle(fontSize: 12, fontWeight: FontWeight.w700, color: colors.pineGreen),
                 ),
               ],
             ),
           ),
-          const SizedBox(height: 14),
+          14.gapH,
 
           // Reason field
           Text(
-            'Lý do tăng ca',
+            l10n.overtimeReasonLabel,
             style: TextStyle(fontSize: 12.5, fontWeight: FontWeight.w700, color: colors.textSecondary),
           ),
-          const SizedBox(height: 6),
+          6.gapH,
           TextField(
             controller: _reasonController,
             maxLines: 2,
@@ -195,7 +198,7 @@ class _OvertimeRequestModalState extends State<OvertimeRequestModal> {
               enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(12), borderSide: BorderSide(color: colors.border)),
             ),
           ),
-          const SizedBox(height: 20),
+          20.gapH,
 
           // Confirm Button
           SizedBox(
@@ -216,7 +219,7 @@ class _OvertimeRequestModalState extends State<OvertimeRequestModal> {
                   _reasonController.text,
                 );
               },
-              child: const Text('Xác nhận gửi', style: TextStyle(fontSize: 15, fontWeight: FontWeight.w800)),
+              child: Text(l10n.confirmSendOvertime, style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w800)),
             ),
           ),
         ],
@@ -236,7 +239,7 @@ class _OvertimeRequestModalState extends State<OvertimeRequestModal> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(label, style: TextStyle(fontSize: 11, color: colors.textSecondary)),
-          const SizedBox(height: 2),
+          2.gapH,
           Text(value, style: TextStyle(fontSize: 14, fontWeight: FontWeight.w800, color: colors.textPrimary)),
         ],
       ),

@@ -2,6 +2,8 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:material_symbols_icons/symbols.dart';
 import 'package:safe_device/safe_device.dart';
+import 'package:vstech_hrm/core/extensions/l10n_extension.dart';
+import 'package:vstech_hrm/core/responsive/app_layout.dart';
 import 'package:vstech_hrm/core/theme/app_colors.dart';
 import 'package:vstech_hrm/core/theme/app_text_styles.dart';
 import 'package:vstech_hrm/core/widgets/app_card.dart';
@@ -84,22 +86,22 @@ class _DeviceSecuritySheetState extends State<DeviceSecuritySheet> {
               ),
             ),
           ),
-          const SizedBox(height: 18),
+          18.gapH,
           Text(
-            'THIẾT BỊ & AN TOÀN HỆ THỐNG',
+            context.l10n.deviceSecurityTitle,
             style: AppTextStyles.labelMicro(color: colors.textTertiary),
           ),
-          const SizedBox(height: 6),
+          6.gapH,
           Text(
-            'Thiết bị liên kết',
+            context.l10n.linkedDeviceTitle,
             style: AppTextStyles.headlineSmall(color: colors.textPrimary),
           ),
-          const SizedBox(height: 6),
+          6.gapH,
           Text(
-            'Quy định bảo mật ràng buộc tài khoản với 1 thiết bị duy nhất để chấm công và xem phiếu lương.',
+            context.l10n.deviceSecurityDesc,
             style: AppTextStyles.bodySmall(color: colors.textSecondary),
           ),
-          const SizedBox(height: 16),
+          16.gapH,
           if (_isLoading)
             const Center(child: Padding(
               padding: EdgeInsets.all(24),
@@ -120,7 +122,7 @@ class _DeviceSecuritySheetState extends State<DeviceSecuritySheet> {
                         ),
                         child: Icon(Symbols.smartphone, size: 24, color: colors.tealPrimary),
                       ),
-                      const SizedBox(width: 12),
+                      12.gapW,
                       Expanded(
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -131,7 +133,7 @@ class _DeviceSecuritySheetState extends State<DeviceSecuritySheet> {
                                   .copyWith(fontWeight: FontWeight.w700),
                             ),
                             Text(
-                              'Thiết bị chính thức • Đã đăng ký',
+                              context.l10n.officialDeviceRegistered,
                               style: AppTextStyles.bodySmall(color: colors.success),
                             ),
                           ],
@@ -142,41 +144,41 @@ class _DeviceSecuritySheetState extends State<DeviceSecuritySheet> {
                   Divider(height: 20, color: colors.border.withValues(alpha: 0.5)),
                   _buildSecurityRow(
                     icon: Symbols.verified_user,
-                    label: 'Thiết bị thực tế',
-                    status: _isRealDevice ? 'Hợp lệ (Physical)' : 'Cảnh báo (Simulator)',
+                    label: context.l10n.physicalDeviceLabel,
+                    status: _isRealDevice ? context.l10n.physicalDeviceValid : context.l10n.physicalDeviceWarning,
                     isSafe: _isRealDevice,
                     colors: colors,
                   ),
-                  const SizedBox(height: 8),
+                  8.gapH,
                   _buildSecurityRow(
                     icon: Symbols.security,
-                    label: 'Root / Jailbreak',
-                    status: !_isJailBroken ? 'An toàn (Chưa Root)' : 'Phát hiện can thiệp!',
+                    label: context.l10n.jailbreakLabel,
+                    status: !_isJailBroken ? context.l10n.jailbreakSafe : context.l10n.jailbreakDetected,
                     isSafe: !_isJailBroken,
                     colors: colors,
                   ),
-                  const SizedBox(height: 8),
+                  8.gapH,
                   _buildSecurityRow(
                     icon: Symbols.location_on,
-                    label: 'Giả lập vị trí (Mock GPS)',
-                    status: !_isMockLocation ? 'Không phát hiện' : 'Phát hiện vị trí ảo!',
+                    label: context.l10n.mockGpsLabel,
+                    status: !_isMockLocation ? context.l10n.mockGpsNotDetected : context.l10n.mockGpsDetected,
                     isSafe: !_isMockLocation,
                     colors: colors,
                   ),
-                  const SizedBox(height: 8),
+                  8.gapH,
                   _buildSecurityRow(
                     icon: Symbols.code,
-                    label: 'Chế độ nhà phát triển',
-                    status: _isDevMode ? 'Đang bật (Dev Mode)' : 'Tắt',
+                    label: context.l10n.developerModeLabel,
+                    status: _isDevMode ? context.l10n.devModeOn : context.l10n.devModeOff,
                     isSafe: !_isDevMode,
                     colors: colors,
                   ),
                 ],
               ),
             ),
-            const SizedBox(height: 20),
+            20.gapH,
             PrimaryButton(
-              text: 'Đóng',
+              text: context.l10n.closeButton,
               onPressed: () => Navigator.pop(context),
             ),
           ],

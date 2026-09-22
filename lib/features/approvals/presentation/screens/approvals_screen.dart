@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:material_symbols_icons/symbols.dart';
+import 'package:vstech_hrm/core/extensions/l10n_extension.dart';
+import 'package:vstech_hrm/core/responsive/app_layout.dart';
 import 'package:vstech_hrm/core/router/routes.dart';
 import 'package:vstech_hrm/core/theme/app_colors.dart';
 import 'package:vstech_hrm/features/approvals/presentation/widgets/approval_card.dart';
@@ -42,6 +44,7 @@ class _ApprovalsScreenState extends State<ApprovalsScreen> {
   @override
   Widget build(BuildContext context) {
     final colors = context.colors;
+    final l10n = context.l10n;
 
     return Scaffold(
       backgroundColor: colors.background,
@@ -80,10 +83,10 @@ class _ApprovalsScreenState extends State<ApprovalsScreen> {
                       ),
                     ),
                   ),
-                  const SizedBox(width: 12),
+                  12.gapW,
                   Expanded(
                     child: Text(
-                      'Trung tâm phê duyệt',
+                      l10n.approvalsCenterTitle,
                       style: TextStyle(
                         fontSize: 19,
                         fontWeight: FontWeight.w800,
@@ -100,9 +103,9 @@ class _ApprovalsScreenState extends State<ApprovalsScreen> {
               child: ListView(
                 padding: const EdgeInsets.fromLTRB(16, 4, 16, 24),
                 children: [
-                  // Section Title matching Image 20: "Chờ bạn xử lý"
+                  // Section Title: "Chờ bạn xử lý"
                   Text(
-                    'Chờ bạn xử lý',
+                    l10n.awaitingYourAction,
                     style: TextStyle(
                       fontSize: 15,
                       fontWeight: FontWeight.w800,
@@ -110,7 +113,7 @@ class _ApprovalsScreenState extends State<ApprovalsScreen> {
                       color: colors.textPrimary,
                     ),
                   ),
-                  const SizedBox(height: 11),
+                  11.gapH,
 
                   // Approvals Cards List
                   if (_approvals.isEmpty)
@@ -118,7 +121,7 @@ class _ApprovalsScreenState extends State<ApprovalsScreen> {
                       padding: const EdgeInsets.symmetric(vertical: 40),
                       child: Center(
                         child: Text(
-                          'Không có yêu cầu nào đang chờ duyệt',
+                          l10n.noPendingApprovals,
                           style: TextStyle(color: colors.textSecondary),
                         ),
                       ),
@@ -133,7 +136,7 @@ class _ApprovalsScreenState extends State<ApprovalsScreen> {
                             setState(() => _approvals.remove(item));
                             ScaffoldMessenger.of(context).showSnackBar(
                               SnackBar(
-                                content: Text('Đã phê duyệt yêu cầu của ${item.name}'),
+                                content: Text(l10n.requestApprovedSuccess(item.name)),
                               ),
                             );
                           },
@@ -141,7 +144,7 @@ class _ApprovalsScreenState extends State<ApprovalsScreen> {
                             setState(() => _approvals.remove(item));
                             ScaffoldMessenger.of(context).showSnackBar(
                               SnackBar(
-                                content: Text('Đã từ chối yêu cầu của ${item.name}'),
+                                content: Text(l10n.requestRejectedSuccess(item.name)),
                               ),
                             );
                           },

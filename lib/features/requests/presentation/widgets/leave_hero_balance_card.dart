@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:vstech_hrm/core/extensions/l10n_extension.dart';
+import 'package:vstech_hrm/core/responsive/app_layout.dart';
 import 'package:vstech_hrm/core/theme/app_colors.dart';
 import 'package:vstech_hrm/core/theme/tile_pattern_painter.dart';
 
@@ -9,6 +11,7 @@ class LeaveHeroBalanceCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colors = context.colors;
+    final l10n = context.l10n;
 
     return ClipRRect(
       borderRadius: BorderRadius.circular(18),
@@ -30,20 +33,20 @@ class LeaveHeroBalanceCard extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Text(
-                    'Số phép năm',
-                    style: TextStyle(
+                  Text(
+                    l10n.annualLeaveCardTitle,
+                    style: const TextStyle(
                       fontSize: 12.5,
                       fontWeight: FontWeight.w700,
                       color: Color(0xFFFFF8EC),
                     ),
                   ),
-                  const SizedBox(height: 6),
-                  const Row(
+                  6.gapH,
+                  Row(
                     crossAxisAlignment: CrossAxisAlignment.baseline,
                     textBaseline: TextBaseline.alphabetic,
                     children: [
-                      Text(
+                      const Text(
                         '6',
                         style: TextStyle(
                           fontSize: 32,
@@ -53,8 +56,8 @@ class LeaveHeroBalanceCard extends StatelessWidget {
                         ),
                       ),
                       Text(
-                        ' / 12 ngày',
-                        style: TextStyle(
+                        ' / 12 ${l10n.daysUnit}',
+                        style: const TextStyle(
                           fontSize: 15,
                           fontWeight: FontWeight.w700,
                           color: Color(0xFFFFF8EC),
@@ -62,7 +65,7 @@ class LeaveHeroBalanceCard extends StatelessWidget {
                       ),
                     ],
                   ),
-                  const SizedBox(height: 12),
+                  12.gapH,
                   ClipRRect(
                     borderRadius: BorderRadius.circular(4),
                     child: const LinearProgressIndicator(
@@ -72,17 +75,17 @@ class LeaveHeroBalanceCard extends StatelessWidget {
                       valueColor: AlwaysStoppedAnimation(Color(0xFFF59E0B)),
                     ),
                   ),
-                  const SizedBox(height: 8),
-                  const Row(
+                  8.gapH,
+                  Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        'Đã dùng 6',
-                        style: TextStyle(fontSize: 11, fontWeight: FontWeight.w600, color: Color(0xFFFFF8EC)),
+                        l10n.usedDaysCount('6'),
+                        style: const TextStyle(fontSize: 11, fontWeight: FontWeight.w600, color: Color(0xFFFFF8EC)),
                       ),
                       Text(
-                        'Còn lại 6',
-                        style: TextStyle(fontSize: 11, fontWeight: FontWeight.w600, color: Color(0xFFFFF8EC)),
+                        l10n.remainingDaysCount('6'),
+                        style: const TextStyle(fontSize: 11, fontWeight: FontWeight.w600, color: Color(0xFFFFF8EC)),
                       ),
                     ],
                   ),

@@ -1,6 +1,8 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:material_symbols_icons/symbols.dart';
+import 'package:vstech_hrm/core/extensions/l10n_extension.dart';
+import 'package:vstech_hrm/core/responsive/app_layout.dart';
 import 'package:vstech_hrm/core/services/offline_attendance_service.dart';
 import 'package:vstech_hrm/core/theme/app_colors.dart';
 
@@ -44,10 +46,10 @@ class _AttendanceOfflineQueueBannerState
           content: Row(
             children: [
               const Icon(Symbols.cloud_done, color: Colors.white, size: 20),
-              const SizedBox(width: 8),
+              8.gapW,
               Expanded(
                 child: Text(
-                  'Đã đồng bộ thành công $count lượt chấm công lên hệ thống!',
+                  context.l10n.offlineSyncSuccess(count),
                   style: const TextStyle(fontWeight: FontWeight.w600),
                 ),
               ),
@@ -66,6 +68,7 @@ class _AttendanceOfflineQueueBannerState
   @override
   Widget build(BuildContext context) {
     if (_pendingCount == 0) return const SizedBox.shrink();
+    final l10n = context.l10n;
 
     return Container(
       margin: const EdgeInsets.only(bottom: 12),
@@ -89,27 +92,27 @@ class _AttendanceOfflineQueueBannerState
               size: 18,
             ),
           ),
-          const SizedBox(width: 10),
+          10.gapW,
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  '$_pendingCount lượt chấm công ngoại tuyến',
+                  l10n.offlineQueueCount(_pendingCount),
                   style: const TextStyle(
                     fontSize: 13,
                     fontWeight: FontWeight.bold,
                     color: Color(0xFF92400E),
                   ),
                 ),
-                const Text(
-                  'Đã lưu cục bộ an toàn, sẵn sàng đồng bộ.',
-                  style: TextStyle(fontSize: 11.5, color: Color(0xFFB45309)),
+                Text(
+                  l10n.offlineQueueDesc,
+                  style: const TextStyle(fontSize: 11.5, color: Color(0xFFB45309)),
                 ),
               ],
             ),
           ),
-          const SizedBox(width: 6),
+          6.gapW,
           ElevatedButton(
             onPressed: _isSyncing ? null : _syncNow,
             style: ElevatedButton.styleFrom(
@@ -131,12 +134,12 @@ class _AttendanceOfflineQueueBannerState
                       valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
                     ),
                   )
-                : const Row(
+                : Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      Icon(Symbols.sync, size: 14),
-                      SizedBox(width: 4),
-                      Text('Đồng bộ', style: TextStyle(fontSize: 12)),
+                      const Icon(Symbols.sync, size: 14),
+                      4.gapW,
+                      Text(l10n.syncButtonLabel, style: const TextStyle(fontSize: 12)),
                     ],
                   ),
           ),

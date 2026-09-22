@@ -1,6 +1,8 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:material_symbols_icons/symbols.dart';
+import 'package:vstech_hrm/core/extensions/l10n_extension.dart';
+import 'package:vstech_hrm/core/responsive/app_layout.dart';
 import 'package:vstech_hrm/core/services/app_permission_handler.dart';
 import 'package:vstech_hrm/core/theme/app_colors.dart';
 
@@ -54,13 +56,6 @@ class _LeaveRequestModalState extends State<LeaveRequestModal> {
   String? _attachedFileName;
   late TextEditingController _reasonController;
 
-  final _leaveTypes = const [
-    'Phép năm',
-    'Nghỉ bệnh',
-    'Không lương',
-    'Phép đặc biệt',
-  ];
-
   @override
   void initState() {
     super.initState();
@@ -111,12 +106,14 @@ class _LeaveRequestModalState extends State<LeaveRequestModal> {
     if (!mounted) return;
     if (granted) {
       setState(() => _attachedFileName = 'don_xin_nghi.pdf');
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Đã chọn tệp đính kèm: don_xin_nghi.pdf (1.2 MB)'),
-          backgroundColor: Color(0xFF0F766E),
-        ),
-      );
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(context.l10n.attachmentSelected('don_xin_nghi.pdf', '1.2 MB')),
+            backgroundColor: const Color(0xFF0F766E),
+          ),
+        );
+      }
     }
   }
 
@@ -128,7 +125,15 @@ class _LeaveRequestModalState extends State<LeaveRequestModal> {
   @override
   Widget build(BuildContext context) {
     final colors = context.colors;
+    final l10n = context.l10n;
     final bottomInset = MediaQuery.of(context).viewInsets.bottom;
+
+    final leaveTypes = [
+      l10n.leaveTypeAnnual,
+      l10n.leaveTypeSick,
+      l10n.leaveTypeUnpaid,
+      l10n.leaveTypeSpecial,
+    ];
 
     return Padding(
       padding: EdgeInsets.fromLTRB(18, 20, 18, bottomInset + 24),
@@ -140,17 +145,17 @@ class _LeaveRequestModalState extends State<LeaveRequestModal> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text('Tạo đơn xin nghỉ phép', style: TextStyle(fontSize: 17, fontWeight: FontWeight.w800, color: colors.textPrimary)),
+                Text(l10n.createLeaveRequestTitle, style: TextStyle(fontSize: 17, fontWeight: FontWeight.w800, color: colors.textPrimary)),
                 IconButton(icon: const Icon(Symbols.close, size: 20), onPressed: () => Navigator.pop(context)),
               ],
             ),
-            const SizedBox(height: 12),
-            Text('Loại nghỉ phép', style: TextStyle(fontSize: 13, fontWeight: FontWeight.w700, color: colors.textSecondary)),
-            const SizedBox(height: 8),
+            12.gapH,
+            Text(l10n.leaveTypeSelectorTitle, style: TextStyle(fontSize: 13, fontWeight: FontWeight.w700, color: colors.textSecondary)),
+            8.gapH,
             Wrap(
               spacing: 8,
               runSpacing: 8,
-              children: _leaveTypes.map((t) {
+              children: leaveTypes.map((t) {
                 final isSel = _selectedType == t;
                 return InkWell(
                   borderRadius: BorderRadius.circular(10),
@@ -167,17 +172,17 @@ class _LeaveRequestModalState extends State<LeaveRequestModal> {
                 );
               }).toList(),
             ),
-            const SizedBox(height: 14),
+            14.gapH,
             Row(
               children: [
-                Expanded(child: _buildDatePickerTile('Từ ngày', _startDate, _pickStartDate, colors)),
-                const SizedBox(width: 10),
-                Expanded(child: _buildDatePickerTile('Đến ngày', _endDate, _pickEndDate, colors)),
+                Expanded(child: _buildDatePickerTile(l10n.fromDateLabel, _startDate, _pickStartDate, colors)),
+                10.gapW,
+                Expanded(child: _buildDatePickerTile(l10n.toDateLabel, _endDate, _pickEndDate, colors)),
               ],
             ),
-            const SizedBox(height: 14),
-            Text('Lý do', style: TextStyle(fontSize: 13, fontWeight: FontWeight.w700, color: colors.textSecondary)),
-            const SizedBox(height: 6),
+            14.gapH,
+            Text(l10n.reasonLabel, style: TextStyle(fontSize: 13, fontWeight: FontWeight.w700, color: colors.textSecondary)),
+            6.gapH,
             TextField(
               controller: _reasonController,
               maxLines: 2,
@@ -190,7 +195,7 @@ class _LeaveRequestModalState extends State<LeaveRequestModal> {
                 enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(12), borderSide: BorderSide(color: colors.border)),
               ),
             ),
-            const SizedBox(height: 12),
+            12.gapH,
             InkWell(
               borderRadius: BorderRadius.circular(12),
               onTap: _pickAttachment,
@@ -201,13 +206,13 @@ class _LeaveRequestModalState extends State<LeaveRequestModal> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Icon(_attachedFileName != null ? Symbols.check_circle : Symbols.attach_file, size: 16, color: _attachedFileName != null ? colors.primaryIndigo : colors.textSecondary),
-                    const SizedBox(width: 6),
-                    Text(_attachedFileName ?? 'Thêm tệp đính kèm (không bắt buộc)', style: TextStyle(fontSize: 12, fontWeight: FontWeight.w600, color: colors.textSecondary)),
+                    6.gapW,
+                    Text(_attachedFileName ?? l10n.addAttachmentOptional, style: TextStyle(fontSize: 12, fontWeight: FontWeight.w600, color: colors.textSecondary)),
                   ],
                 ),
               ),
             ),
-            const SizedBox(height: 18),
+            18.gapH,
             SizedBox(
               width: double.infinity,
               height: 48,
@@ -219,7 +224,7 @@ class _LeaveRequestModalState extends State<LeaveRequestModal> {
                   elevation: 0,
                 ),
                 onPressed: _onConfirmTap,
-                child: const Text('Xác nhận gửi đơn', style: TextStyle(fontSize: 15, fontWeight: FontWeight.w800)),
+                child: Text(l10n.confirmSendLeaveRequest, style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w800)),
               ),
             ),
           ],
@@ -239,7 +244,7 @@ class _LeaveRequestModalState extends State<LeaveRequestModal> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(label, style: TextStyle(fontSize: 11, color: colors.textSecondary)),
-            const SizedBox(height: 4),
+            4.gapH,
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [

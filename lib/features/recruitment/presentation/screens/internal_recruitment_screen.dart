@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:material_symbols_icons/symbols.dart';
+import 'package:vstech_hrm/core/extensions/l10n_extension.dart';
+import 'package:vstech_hrm/core/responsive/app_layout.dart';
 import 'package:vstech_hrm/core/router/routes.dart';
 import 'package:vstech_hrm/core/theme/app_colors.dart';
 
@@ -57,7 +59,7 @@ class InternalRecruitmentScreen extends StatelessWidget {
           onPressed: () => Navigator.of(context).pop(),
         ),
         title: Text(
-          'Tuyển dụng nội bộ',
+          context.l10n.internalRecruitmentTitle,
           style: TextStyle(
             fontSize: 18,
             fontWeight: FontWeight.w800,
@@ -71,7 +73,7 @@ class InternalRecruitmentScreen extends StatelessWidget {
           // Search box
           TextField(
             decoration: InputDecoration(
-              hintText: 'Tìm vị trí, bộ phận...',
+              hintText: context.l10n.searchJobPlaceholder,
               hintStyle: TextStyle(fontSize: 13.5, color: colors.textTertiary),
               prefixIcon: Icon(Symbols.search, size: 20, color: colors.textSecondary),
               filled: true,
@@ -91,18 +93,18 @@ class InternalRecruitmentScreen extends StatelessWidget {
               contentPadding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
             ),
           ),
-          const SizedBox(height: 14),
+          14.gapH,
 
           // Count text
           Text(
-            '8 vị trí mở cho ứng viên nội bộ',
+            context.l10n.openPositionsCount(jobs.length),
             style: TextStyle(
               fontSize: 12.5,
               fontWeight: FontWeight.w600,
               color: colors.textSecondary,
             ),
           ),
-          const SizedBox(height: 12),
+          12.gapH,
 
           // Job list
           ...jobs.map((j) => Padding(
@@ -139,7 +141,7 @@ class InternalRecruitmentScreen extends StatelessWidget {
                                   borderRadius: BorderRadius.circular(6),
                                 ),
                                 child: Text(
-                                  'MỚI',
+                                  context.l10n.tagNew,
                                   style: TextStyle(
                                     fontSize: 10,
                                     fontWeight: FontWeight.w800,

@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:local_auth/local_auth.dart';
 import 'package:material_symbols_icons/symbols.dart';
+import 'package:vstech_hrm/core/extensions/l10n_extension.dart';
+import 'package:vstech_hrm/core/responsive/app_layout.dart';
 import 'package:vstech_hrm/core/services/app_permission_handler.dart';
 import 'package:vstech_hrm/core/session/auth_cubit.dart';
 import 'package:vstech_hrm/core/session/auth_state.dart';
@@ -37,7 +39,7 @@ class _FaceIdLoginSheetState extends State<FaceIdLoginSheet>
 
   UserRole _selectedRole = UserRole.employee;
   bool _isSuccess = false;
-  String _statusText = 'Đang nhận diện khuôn mặt...';
+  String? _statusText;
   bool _isHardwareBiometricAvailable = false;
 
   @override
@@ -95,9 +97,8 @@ class _FaceIdLoginSheetState extends State<FaceIdLoginSheet>
 
   Future<void> _trySystemBiometric() async {
     try {
-      final didAuth = await _localAuth.authenticate(
-        localizedReason: 'Xác thực sinh trắc học để đăng nhập vào vstech-hrm',
-      );
+      final reason = mounted ? context.l10n.biometricAuthReason : 'Biometric authentication';
+      final didAuth = await _localAuth.authenticate(localizedReason: reason);
       if (didAuth && mounted) {
         await _onAuthSuccess();
         return;
@@ -110,10 +111,10 @@ class _FaceIdLoginSheetState extends State<FaceIdLoginSheet>
 
   Future<void> _runSimulatedFaceScan() async {
     if (!mounted || _isSuccess) return;
-    setState(() => _statusText = 'Đang căn chỉnh góc mặt...');
+    setState(() => _statusText = context.l10n.faceAligning);
     await Future<void>.delayed(const Duration(milliseconds: 900));
     if (!mounted || _isSuccess) return;
-    setState(() => _statusText = 'Đối soát dữ liệu sinh trắc học...');
+    setState(() => _statusText = context.l10n.faceMatching);
     await Future<void>.delayed(const Duration(milliseconds: 900));
     if (!mounted || _isSuccess) return;
     await _onAuthSuccess();
@@ -121,11 +122,10 @@ class _FaceIdLoginSheetState extends State<FaceIdLoginSheet>
 
   Future<void> _onAuthSuccess() async {
     if (!mounted) return;
+    final userName = _selectedRole.isManager ? 'Quản lý (Trần Thị Mai)' : 'Nguyễn Văn An';
     setState(() {
       _isSuccess = true;
-      _statusText = _selectedRole.isManager
-          ? 'Nhận diện thành công! Chào Quản lý (Trần Thị Mai)'
-          : 'Nhận diện thành công! Chào Nguyễn Văn An';
+      _statusText = context.l10n.faceAuthSuccessGreeting(userName);
     });
 
     await Future<void>.delayed(const Duration(milliseconds: 700));
@@ -146,6 +146,8 @@ class _FaceIdLoginSheetState extends State<FaceIdLoginSheet>
   @override
   Widget build(BuildContext context) {
     final colors = context.colors;
+    final l10n = context.l10n;
+    final currentStatus = _statusText ?? l10n.faceDetecting;
 
     return Container(
       decoration: BoxDecoration(
@@ -156,7 +158,6 @@ class _FaceIdLoginSheetState extends State<FaceIdLoginSheet>
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          // Drag handle
           Container(
             width: 38,
             height: 4,
@@ -165,41 +166,33 @@ class _FaceIdLoginSheetState extends State<FaceIdLoginSheet>
               borderRadius: BorderRadius.circular(2),
             ),
           ),
-          const SizedBox(height: 16),
-
-          // Title
+          16.gapH,
           Text(
-            'Đăng nhập bằng Face ID',
+            l10n.faceIdLoginTitle,
             style: TextStyle(
               fontSize: 18,
               fontWeight: FontWeight.w800,
               color: colors.textPrimary,
             ),
           ),
-          const SizedBox(height: 4),
+          4.gapH,
           Text(
-            'Nhận diện khuôn mặt bảo mật thông minh',
+            l10n.faceIdLoginSubtitle,
             style: TextStyle(
               fontSize: 12.5,
               fontWeight: FontWeight.w500,
               color: colors.textSecondary,
             ),
           ),
-          const SizedBox(height: 16),
-
-          // Role selection chips
-          _buildRoleSelector(colors),
-          const SizedBox(height: 18),
-
-          // Face Scanner Frame
+          16.gapH,
+          _buildRoleSelector(colors, l10n),
+          18.gapH,
           FaceScanFrame(
             isSuccess: _isSuccess,
             scanAnimation: _scanAnimation,
             cameraController: _cameraController,
           ),
-          const SizedBox(height: 16),
-
-          // Status message
+          16.gapH,
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -214,10 +207,10 @@ class _FaceIdLoginSheetState extends State<FaceIdLoginSheet>
                     color: colors.primaryIndigo,
                   ),
                 ),
-              const SizedBox(width: 8),
+              8.gapW,
               Flexible(
                 child: Text(
-                  _statusText,
+                  currentStatus,
                   style: TextStyle(
                     fontSize: 13,
                     fontWeight: FontWeight.w700,
@@ -228,9 +221,7 @@ class _FaceIdLoginSheetState extends State<FaceIdLoginSheet>
               ),
             ],
           ),
-          const SizedBox(height: 18),
-
-          // System Biometric button (if available)
+          18.gapH,
           if (_isHardwareBiometricAvailable && !_isSuccess)
             Padding(
               padding: const EdgeInsets.only(bottom: 10),
@@ -242,14 +233,13 @@ class _FaceIdLoginSheetState extends State<FaceIdLoginSheet>
                 ),
                 onPressed: _trySystemBiometric,
                 icon: const Icon(Symbols.fingerprint, size: 18),
-                label: const Text('Xác thực vân tay / Face ID hệ thống', style: TextStyle(fontWeight: FontWeight.w700)),
+                label: Text(l10n.systemBiometricAuthButton, style: const TextStyle(fontWeight: FontWeight.w700)),
               ),
             ),
-
           TextButton(
             onPressed: () => Navigator.of(context).pop(),
             child: Text(
-              'Đăng nhập bằng mã nhân viên / mật khẩu',
+              l10n.loginWithCredentialsButton,
               style: TextStyle(fontSize: 12.5, fontWeight: FontWeight.w600, color: colors.textSecondary),
             ),
           ),
@@ -258,16 +248,16 @@ class _FaceIdLoginSheetState extends State<FaceIdLoginSheet>
     );
   }
 
-  Widget _buildRoleSelector(AppColorsExtension colors) {
+  Widget _buildRoleSelector(AppColorsExtension colors, dynamic l10n) {
     return Container(
       padding: const EdgeInsets.all(4),
       decoration: BoxDecoration(color: colors.cardSecondary, borderRadius: BorderRadius.circular(12)),
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          _buildRoleChip('Nhân viên', UserRole.employee, colors),
-          const SizedBox(width: 6),
-          _buildRoleChip('Quản lý', UserRole.manager, colors),
+          _buildRoleChip(context.l10n.demoEmployee, UserRole.employee, colors),
+          6.gapW,
+          _buildRoleChip(context.l10n.demoManager, UserRole.manager, colors),
         ],
       ),
     );

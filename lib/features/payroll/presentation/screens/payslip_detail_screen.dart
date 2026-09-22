@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:material_symbols_icons/symbols.dart';
+import 'package:vstech_hrm/core/extensions/l10n_extension.dart';
+import 'package:vstech_hrm/core/responsive/app_layout.dart';
 import 'package:vstech_hrm/core/theme/app_colors.dart';
 
 /// Screen 14: Detailed Electronic Payslip (Phiếu Lương).
@@ -11,16 +13,16 @@ class PayslipDetailScreen extends StatelessWidget {
     final colors = context.colors;
 
     final incomes = [
-      ('Lương cơ bản', '20.000.000 ₫'),
-      ('Phụ cấp ăn trưa & xe', '1.200.000 ₫'),
-      ('Tăng ca 12h (x1.5)', '1.800.000 ₫'),
-      ('Thưởng KPI quý 3', '2.500.000 ₫'),
+      (context.l10n.basicSalaryLabel, '20.000.000 ₫'),
+      (context.l10n.lunchAndTransportAllowance, '1.200.000 ₫'),
+      (context.l10n.overtimePayLabel, '1.800.000 ₫'),
+      (context.l10n.kpiQuarterBonus(3), '2.500.000 ₫'),
     ];
 
     final deductions = [
-      ('BHXH, BHYT, BHTN (10.5%)', '-2.135.000 ₫'),
-      ('Thuế TNCN', '-865.000 ₫'),
-      ('Phí đoàn thể', '-0 ₫'),
+      (context.l10n.socialInsuranceDeduction, '-2.135.000 ₫'),
+      (context.l10n.personalIncomeTaxDeduction, '-865.000 ₫'),
+      (context.l10n.unionFeeDeduction, '-0 ₫'),
     ];
 
     return Scaffold(
@@ -33,7 +35,7 @@ class PayslipDetailScreen extends StatelessWidget {
           onPressed: () => Navigator.of(context).pop(),
         ),
         title: Text(
-          'Phiếu lương',
+          context.l10n.payslipTitle,
           style: TextStyle(
             fontSize: 18,
             fontWeight: FontWeight.w800,
@@ -45,7 +47,7 @@ class PayslipDetailScreen extends StatelessWidget {
             icon: Icon(Symbols.download, color: colors.primaryIndigo),
             onPressed: () {
               ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(content: Text('Đang tải về phiếu lương PDF...')),
+                SnackBar(content: Text(context.l10n.downloadingPdfSnackbar)),
               );
             },
           ),
@@ -111,14 +113,14 @@ class PayslipDetailScreen extends StatelessWidget {
                     ),
                   ],
                 ),
-                const SizedBox(height: 14),
+                14.gapH,
                 Divider(height: 1, color: colors.border),
-                const SizedBox(height: 12),
+                12.gapH,
                 Text(
-                  'Lương thực nhận: Tháng 9 2026',
+                  context.l10n.payslipNetSalaryMonth('9', '2026'),
                   style: TextStyle(fontSize: 11.5, color: colors.textSecondary, fontWeight: FontWeight.w600),
                 ),
-                const SizedBox(height: 4),
+                4.gapH,
                 Text(
                   '25.500.000 ₫',
                   style: TextStyle(
@@ -132,25 +134,25 @@ class PayslipDetailScreen extends StatelessWidget {
               ],
             ),
           ),
-          const SizedBox(height: 20),
+          20.gapH,
 
           // Thu nhập
           Text(
-            'Thu nhập',
+            context.l10n.incomeSectionTitle,
             style: TextStyle(fontSize: 13, fontWeight: FontWeight.w700, color: colors.textSecondary),
           ),
-          const SizedBox(height: 10),
+          10.gapH,
           _buildItemCard(incomes, colors.textPrimary, colors),
-          const SizedBox(height: 20),
+          20.gapH,
 
           // Khoản trừ
           Text(
-            'Khoản trừ',
+            context.l10n.deductionSectionTitle,
             style: TextStyle(fontSize: 13, fontWeight: FontWeight.w700, color: colors.textSecondary),
           ),
-          const SizedBox(height: 10),
+          10.gapH,
           _buildItemCard(deductions, colors.error, colors),
-          const SizedBox(height: 20),
+          20.gapH,
 
           // Lương thực nhận Footer Card
           Container(
@@ -164,7 +166,7 @@ class PayslipDetailScreen extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  'Lương thực nhận',
+                  context.l10n.netSalaryLabel,
                   style: TextStyle(
                     fontSize: 14,
                     fontWeight: FontWeight.w800,

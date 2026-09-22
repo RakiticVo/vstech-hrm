@@ -1,25 +1,30 @@
 import 'package:flutter/material.dart';
 import 'package:material_symbols_icons/symbols.dart';
+import 'package:vstech_hrm/core/extensions/l10n_extension.dart';
+import 'package:vstech_hrm/core/responsive/app_layout.dart';
 import 'package:vstech_hrm/core/theme/app_colors.dart';
 
 /// Reusable error state display with warning icon, message, and retry button.
 class AppErrorState extends StatelessWidget {
   const new({
-    this.title = 'Đã xảy ra sự cố',
-    this.message = 'Không thể tải dữ liệu lúc này. Vui lòng kiểm tra lại kết nối mạng.',
+    this.title,
+    this.message,
     this.onRetry,
-    this.retryLabel = 'Thử lại',
+    this.retryLabel,
     super.key,
   });
 
-  final String title;
-  final String message;
+  final String? title;
+  final String? message;
   final VoidCallback? onRetry;
-  final String retryLabel;
+  final String? retryLabel;
 
   @override
   Widget build(BuildContext context) {
     final colors = context.colors;
+    final resolvedTitle = title ?? context.l10n.errorOccurredTitle;
+    final resolvedMessage = message ?? context.l10n.errorOccurredMessage;
+    final resolvedRetryLabel = retryLabel ?? context.l10n.retry;
 
     return Center(
       child: Padding(
@@ -40,9 +45,9 @@ class AppErrorState extends StatelessWidget {
                 color: colors.error,
               ),
             ),
-            const SizedBox(height: 18),
+            18.gapH,
             Text(
-              title,
+              resolvedTitle,
               style: TextStyle(
                 fontSize: 16,
                 fontWeight: FontWeight.w800,
@@ -50,9 +55,9 @@ class AppErrorState extends StatelessWidget {
               ),
               textAlign: TextAlign.center,
             ),
-            const SizedBox(height: 8),
+            8.gapH,
             Text(
-              message,
+              resolvedMessage,
               style: TextStyle(
                 fontSize: 13,
                 fontWeight: FontWeight.w500,
@@ -62,7 +67,7 @@ class AppErrorState extends StatelessWidget {
               textAlign: TextAlign.center,
             ),
             if (onRetry != null) ...[
-              const SizedBox(height: 22),
+              22.gapH,
               ElevatedButton.icon(
                 style: ElevatedButton.styleFrom(
                   backgroundColor: colors.primaryIndigo,
@@ -75,7 +80,7 @@ class AppErrorState extends StatelessWidget {
                 onPressed: onRetry,
                 icon: const Icon(Symbols.refresh, size: 18),
                 label: Text(
-                  retryLabel,
+                  resolvedRetryLabel,
                   style: const TextStyle(fontWeight: FontWeight.w700),
                 ),
               ),

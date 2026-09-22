@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:material_symbols_icons/symbols.dart';
+import 'package:vstech_hrm/core/extensions/l10n_extension.dart';
+import 'package:vstech_hrm/core/responsive/app_layout.dart';
 import 'package:vstech_hrm/core/theme/app_colors.dart';
 
 class ApprovalItem {
@@ -65,7 +67,7 @@ class ApprovalCard extends StatelessWidget {
                   ),
                 ),
               ),
-              const SizedBox(width: 11),
+              11.gapW,
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -78,7 +80,7 @@ class ApprovalCard extends StatelessWidget {
                         color: colors.textPrimary,
                       ),
                     ),
-                    const SizedBox(height: 2),
+                    2.gapH,
                     Text(
                       '${item.type} · ${item.dates}',
                       style: TextStyle(
@@ -97,7 +99,7 @@ class ApprovalCard extends StatelessWidget {
                   borderRadius: BorderRadius.circular(8),
                 ),
                 child: Text(
-                  'Chờ duyệt',
+                  context.l10n.statusPending,
                   style: TextStyle(
                     fontSize: 10.5,
                     fontWeight: FontWeight.w800,
@@ -107,7 +109,7 @@ class ApprovalCard extends StatelessWidget {
               ),
             ],
           ),
-          const SizedBox(height: 11),
+          11.gapH,
           Container(
             width: double.infinity,
             padding: const EdgeInsets.all(11),
@@ -125,7 +127,7 @@ class ApprovalCard extends StatelessWidget {
               ),
             ),
           ),
-          const SizedBox(height: 12),
+          12.gapH,
           Row(
             children: [
               Expanded(
@@ -141,7 +143,7 @@ class ApprovalCard extends StatelessWidget {
                     ),
                     onPressed: onReject,
                     child: Text(
-                      'Từ chối',
+                      context.l10n.actionReject,
                       style: TextStyle(
                         fontSize: 13.5,
                         fontWeight: FontWeight.w800,
@@ -151,7 +153,7 @@ class ApprovalCard extends StatelessWidget {
                   ),
                 ),
               ),
-              const SizedBox(width: 9),
+              9.gapW,
               Expanded(
                 flex: 14,
                 child: SizedBox(
@@ -166,14 +168,14 @@ class ApprovalCard extends StatelessWidget {
                       ),
                     ),
                     onPressed: onApprove,
-                    child: const Row(
+                    child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Icon(Symbols.check, size: 18, weight: 700),
-                        SizedBox(width: 6),
+                        const Icon(Symbols.check, size: 18, weight: 700),
+                        6.gapW,
                         Text(
-                          'Duyệt',
-                          style: TextStyle(
+                          context.l10n.actionApprove,
+                          style: const TextStyle(
                             fontSize: 13.5,
                             fontWeight: FontWeight.w800,
                           ),

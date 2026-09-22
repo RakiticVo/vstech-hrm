@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:material_symbols_icons/symbols.dart';
+import 'package:vstech_hrm/core/extensions/l10n_extension.dart';
+import 'package:vstech_hrm/core/responsive/app_layout.dart';
 import 'package:vstech_hrm/core/router/routes.dart';
 import 'package:vstech_hrm/core/theme/app_colors.dart';
 import 'package:vstech_hrm/features/schedule/domain/entities/shift_schedule_entity.dart';
@@ -17,25 +19,26 @@ class ShiftDetailCard extends StatelessWidget {
 
   Widget _buildStatusBadge(BuildContext context) {
     final colors = context.colors;
+    final l10n = context.l10n;
     String label;
     Color bg;
     Color fg;
 
     switch (shift.status) {
       case ShiftStatus.active:
-        label = 'Đang diễn ra';
+        label = l10n.shiftStatusActive;
         bg = colors.tealPrimary.withValues(alpha: 0.15);
         fg = colors.tealPrimary;
       case ShiftStatus.completed:
-        label = 'Đã hoàn thành';
+        label = l10n.shiftStatusCompleted;
         bg = Colors.grey.withValues(alpha: 0.15);
         fg = colors.textSecondary;
       case ShiftStatus.upcoming:
-        label = 'Sắp diễn ra';
+        label = l10n.shiftStatusUpcoming;
         bg = Colors.blue.withValues(alpha: 0.15);
         fg = Colors.blue.shade700;
       case ShiftStatus.dayOff:
-        label = 'Nghỉ tuần';
+        label = l10n.shiftStatusDayOff;
         bg = Colors.orange.withValues(alpha: 0.15);
         fg = Colors.orange.shade800;
     }
@@ -48,11 +51,7 @@ class ShiftDetailCard extends StatelessWidget {
       ),
       child: Text(
         label,
-        style: TextStyle(
-          fontSize: 12,
-          fontWeight: FontWeight.w600,
-          color: fg,
-        ),
+        style: TextStyle(fontSize: 12, fontWeight: FontWeight.w600, color: fg),
       ),
     );
   }
@@ -70,7 +69,7 @@ class ShiftDetailCard extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Icon(icon, size: 18, color: colors.textSecondary),
-          const SizedBox(width: 10),
+          10.gapW,
           SizedBox(
             width: 80,
             child: Text(
@@ -81,11 +80,7 @@ class ShiftDetailCard extends StatelessWidget {
           Expanded(
             child: Text(
               value,
-              style: TextStyle(
-                fontSize: 13,
-                fontWeight: FontWeight.w600,
-                color: colors.textPrimary,
-              ),
+              style: TextStyle(fontSize: 13, fontWeight: FontWeight.w600, color: colors.textPrimary),
             ),
           ),
         ],
@@ -96,6 +91,7 @@ class ShiftDetailCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colors = context.colors;
+    final l10n = context.l10n;
 
     if (shift.isDayOff) {
       return Container(
@@ -121,38 +117,28 @@ class ShiftDetailCard extends StatelessWidget {
                 color: Colors.orange.withValues(alpha: 0.1),
                 shape: BoxShape.circle,
               ),
-              child: const Icon(
-                Symbols.beach_access,
-                size: 40,
-                color: Colors.orange,
-              ),
+              child: const Icon(Symbols.beach_access, size: 40, color: Colors.orange),
             ),
-            const SizedBox(height: 16),
+            16.gapH,
             Text(
-              'Hôm nay là Ngày nghỉ tuần',
-              style: TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.bold,
-                color: colors.textPrimary,
-              ),
+              l10n.dayOffTitle,
+              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: colors.textPrimary),
             ),
-            const SizedBox(height: 6),
+            6.gapH,
             Text(
-              'Không có ca làm việc được phân công. Hãy nghỉ ngơi, nạp năng lượng chuẩn bị cho tuần mới!',
+              l10n.dayOffDescription,
               textAlign: TextAlign.center,
               style: TextStyle(fontSize: 13, color: colors.textSecondary),
             ),
-            const SizedBox(height: 20),
+            20.gapH,
             OutlinedButton.icon(
               onPressed: () => context.push(AppRoutes.overtimeCreate),
               icon: const Icon(Symbols.add_circle, size: 18),
-              label: const Text('Đăng ký làm thêm (OT)'),
+              label: Text(l10n.registerOvertimeCta),
               style: OutlinedButton.styleFrom(
                 foregroundColor: colors.tealPrimary,
                 side: BorderSide(color: colors.tealPrimary),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10),
-                ),
+                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
               ),
             ),
           ],
@@ -188,85 +174,77 @@ class ShiftDetailCard extends StatelessWidget {
                   borderRadius: BorderRadius.circular(2),
                 ),
               ),
-              const SizedBox(width: 8),
+              8.gapW,
               Expanded(
                 child: Text(
                   shift.shiftName,
-                  style: TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
-                    color: colors.textPrimary,
-                  ),
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: colors.textPrimary),
                 ),
               ),
               _buildStatusBadge(context),
             ],
           ),
-          const SizedBox(height: 16),
+          16.gapH,
           _buildInfoRow(
             icon: Symbols.schedule,
-            label: 'Thời gian:',
+            label: l10n.shiftLabelTime,
             value: '${shift.startTime} — ${shift.endTime}',
             context: context,
           ),
           _buildInfoRow(
             icon: Symbols.restaurant,
-            label: 'Nghỉ giữa ca:',
+            label: l10n.shiftLabelBreak,
             value: shift.breakTime,
             context: context,
           ),
           _buildInfoRow(
             icon: Symbols.store,
-            label: 'Địa điểm:',
+            label: l10n.shiftLabelLocation,
             value: shift.branchName,
             context: context,
           ),
           _buildInfoRow(
             icon: Symbols.badge,
-            label: 'Quản lý ca:',
+            label: l10n.shiftLabelManager,
             value: shift.managerName,
             context: context,
           ),
           if (shift.notes != null)
             _buildInfoRow(
               icon: Symbols.notes,
-              label: 'Ghi chú:',
+              label: l10n.shiftLabelNotes,
               value: shift.notes!,
               context: context,
             ),
-          const SizedBox(height: 18),
+          18.gapH,
           const Divider(height: 1),
-          const SizedBox(height: 14),
+          14.gapH,
           Row(
             children: [
               Expanded(
                 child: OutlinedButton.icon(
                   onPressed: () => ShiftSwapModal.show(context, shift),
                   icon: const Icon(Symbols.swap_horiz, size: 18),
-                  label: const Text('Đổi ca'),
+                  label: Text(l10n.shiftSwapButton),
                   style: OutlinedButton.styleFrom(
                     foregroundColor: colors.tealPrimary,
                     side: BorderSide(color: colors.tealPrimary),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10),
-                    ),
+                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
                     padding: const EdgeInsets.symmetric(vertical: 10),
                   ),
                 ),
               ),
-              const SizedBox(width: 12),
+              12.gapW,
               Expanded(
                 child: ElevatedButton.icon(
                   onPressed: () => context.push(AppRoutes.overtimeCreate),
                   icon: const Icon(Symbols.more_time, size: 18),
-                  label: const Text('Báo tăng ca'),
+                  label: Text(l10n.shiftOvertimeButton),
                   style: ElevatedButton.styleFrom(
                     backgroundColor: colors.tealPrimary,
                     foregroundColor: Colors.white,
                     elevation: 0,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10),
-                    ),
+                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
                     padding: const EdgeInsets.symmetric(vertical: 10),
                   ),
                 ),

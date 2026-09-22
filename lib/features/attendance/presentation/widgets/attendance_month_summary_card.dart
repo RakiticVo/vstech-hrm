@@ -1,5 +1,7 @@
 import 'dart:math' as math;
 import 'package:flutter/material.dart';
+import 'package:vstech_hrm/core/extensions/l10n_extension.dart';
+import 'package:vstech_hrm/core/responsive/app_layout.dart';
 import 'package:vstech_hrm/core/theme/app_colors.dart';
 
 /// Donut chart and legend for monthly attendance summary (Screen 05).
@@ -9,12 +11,13 @@ class AttendanceMonthSummaryCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colors = context.colors;
+    final l10n = context.l10n;
 
     final legends = [
-      ('Có mặt', '18 ngày', colors.pineGreen),
-      ('Nghỉ phép', '2 ngày', colors.accentAmber),
-      ('Thiếu công', '1 ngày', colors.error),
-      ('Ngày lễ', '1 ngày', colors.primaryIndigo),
+      (l10n.legendFullWork, l10n.daysCountUnit(18), colors.pineGreen),
+      (l10n.legendLeave, l10n.daysCountUnit(2), colors.accentAmber),
+      (l10n.legendMissingTime, l10n.daysCountUnit(1), colors.error),
+      (l10n.legendHoliday, l10n.daysCountUnit(1), colors.primaryIndigo),
     ];
 
     return Container(
@@ -25,92 +28,92 @@ class AttendanceMonthSummaryCard extends StatelessWidget {
       ),
       padding: const EdgeInsets.all(18),
       child: Row(
-            children: [
-              // Donut chart with 18 in center
-              SizedBox(
-                width: 96,
-                height: 96,
-                child: CustomPaint(
-                  painter: _AttendanceDonutPainter(
-                    present: 18,
-                    leave: 2,
-                    missing: 1,
-                    holiday: 1,
-                    colors: colors,
-                  ),
-                  child: const Center(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          '18',
-                          style: TextStyle(
-                            fontSize: 22,
-                            fontWeight: FontWeight.w800,
-                            height: 1,
-                          ),
-                        ),
-                        SizedBox(height: 2),
-                        Text(
-                          'ngày công',
-                          style: TextStyle(
-                            fontSize: 9.5,
-                            fontWeight: FontWeight.w600,
-                            color: Colors.grey,
-                          ),
-                        ),
-                      ],
+        children: [
+          // Donut chart with 18 in center
+          SizedBox(
+            width: 96,
+            height: 96,
+            child: CustomPaint(
+              painter: _AttendanceDonutPainter(
+                present: 18,
+                leave: 2,
+                missing: 1,
+                holiday: 1,
+                colors: colors,
+              ),
+              child: Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const Text(
+                      '18',
+                      style: TextStyle(
+                        fontSize: 22,
+                        fontWeight: FontWeight.w800,
+                        height: 1,
+                      ),
                     ),
-                  ),
+                    2.gapH,
+                    Text(
+                      l10n.monthlyWorkdaysUnit,
+                      style: const TextStyle(
+                        fontSize: 9.5,
+                        fontWeight: FontWeight.w600,
+                        color: Colors.grey,
+                      ),
+                    ),
+                  ],
                 ),
               ),
-              const SizedBox(width: 22),
-              // Legend column
-              Expanded(
-                child: Column(
-                  children: legends
-                      .map((l) => Padding(
-                            padding: const EdgeInsets.symmetric(vertical: 4),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            ),
+          ),
+          22.gapW,
+          // Legend column
+          Expanded(
+            child: Column(
+              children: legends
+                  .map((l) => Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 4),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Row(
                               children: [
-                                Row(
-                                  children: [
-                                    Container(
-                                      width: 8,
-                                      height: 8,
-                                      decoration: BoxDecoration(
-                                        color: l.$3,
-                                        shape: BoxShape.circle,
-                                      ),
-                                    ),
-                                    const SizedBox(width: 8),
-                                    Text(
-                                      l.$1,
-                                      style: TextStyle(
-                                        fontSize: 12.5,
-                                        fontWeight: FontWeight.w600,
-                                        color: colors.textSecondary,
-                                      ),
-                                    ),
-                                  ],
+                                Container(
+                                  width: 8,
+                                  height: 8,
+                                  decoration: BoxDecoration(
+                                    color: l.$3,
+                                    shape: BoxShape.circle,
+                                  ),
                                 ),
+                                8.gapW,
                                 Text(
-                                  l.$2,
+                                  l.$1,
                                   style: TextStyle(
-                                    fontSize: 13,
-                                    fontWeight: FontWeight.w800,
-                                    color: colors.textPrimary,
+                                    fontSize: 12.5,
+                                    fontWeight: FontWeight.w600,
+                                    color: colors.textSecondary,
                                   ),
                                 ),
                               ],
                             ),
-                          ))
-                      .toList(),
-                ),
-              ),
-            ],
+                            Text(
+                              l.$2,
+                              style: TextStyle(
+                                fontSize: 13,
+                                fontWeight: FontWeight.w800,
+                                color: colors.textPrimary,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ))
+                  .toList(),
+            ),
           ),
+        ],
+      ),
     );
   }
 }

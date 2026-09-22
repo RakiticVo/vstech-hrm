@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:vstech_hrm/core/extensions/l10n_extension.dart';
 import 'package:vstech_hrm/core/theme/app_colors.dart';
 
 class CalendarSummaryCard extends StatelessWidget {
@@ -8,11 +9,11 @@ class CalendarSummaryCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final colors = context.colors;
     final rows = [
-      ('Ngày công tính lương', '18.0 / 22 ngày', colors.textPrimary),
-      ('Tổng giờ làm việc', '144.5 giờ', colors.textPrimary),
-      ('Tăng ca lũy kế', '12.0 giờ', colors.textPrimary),
-      ('Nghỉ phép có hưởng lương', '2.0 ngày', colors.primaryIndigo),
-      ('Đi muộn / Về sớm', '1 lần (12 phút)', colors.accentAmber),
+      (context.l10n.payableWorkdays, '18.0 / 22 ngày', colors.textPrimary),
+      (context.l10n.totalWorkHours, '144.5 giờ', colors.textPrimary),
+      (context.l10n.cumulativeOvertime, '12.0 giờ', colors.textPrimary),
+      (context.l10n.paidLeaveDays, '2.0 ngày', colors.primaryIndigo),
+      (context.l10n.lateEarlyArrivals, '1 lần (12 phút)', colors.accentAmber),
     ];
 
     return Container(

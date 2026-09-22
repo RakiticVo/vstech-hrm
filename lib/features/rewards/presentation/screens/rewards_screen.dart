@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:material_symbols_icons/symbols.dart';
+import 'package:vstech_hrm/core/extensions/l10n_extension.dart';
+import 'package:vstech_hrm/core/responsive/app_layout.dart';
 import 'package:vstech_hrm/core/theme/app_colors.dart';
 
 /// Screen 15: Rewards, Recognition, and KPI Bonuses.
@@ -26,7 +28,7 @@ class RewardsScreen extends StatelessWidget {
           onPressed: () => Navigator.of(context).pop(),
         ),
         title: Text(
-          'Thưởng & ghi nhận',
+          context.l10n.rewardsTitle,
           style: TextStyle(
             fontSize: 18,
             fontWeight: FontWeight.w800,
@@ -59,12 +61,12 @@ class RewardsScreen extends StatelessWidget {
                   ),
                   child: const Icon(Symbols.star, color: Colors.white, size: 26),
                 ),
-                const SizedBox(height: 10),
-                const Text(
-                  'Thưởng tháng 9',
-                  style: TextStyle(fontSize: 13, fontWeight: FontWeight.w700, color: Colors.white),
+                10.gapH,
+                Text(
+                  context.l10n.rewardMonthHeader,
+                  style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w700, color: Colors.white),
                 ),
-                const SizedBox(height: 4),
+                4.gapH,
                 const Text(
                   '+2.500.000',
                   style: TextStyle(
@@ -75,40 +77,40 @@ class RewardsScreen extends StatelessWidget {
                     fontFeatures: [FontFeature.tabularFigures()],
                   ),
                 ),
-                const SizedBox(height: 2),
-                const Text(
-                  'VND · trả cùng lương tháng 9',
-                  style: TextStyle(fontSize: 12, fontWeight: FontWeight.w600, color: Colors.white70),
+                2.gapH,
+                Text(
+                  context.l10n.paidWithMonthSalary,
+                  style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w600, color: Colors.white70),
                 ),
               ],
             ),
           ),
-          const SizedBox(height: 18),
+          18.gapH,
 
           // 4 Stats Cards (2x2)
           Row(
             children: [
-              Expanded(child: _buildStatTile('Thưởng tháng', '1.000.000', colors)),
-              const SizedBox(width: 10),
-              Expanded(child: _buildStatTile('Thưởng KPI', '1.500.000', colors)),
+              Expanded(child: _buildStatTile(context.l10n.monthlyBonusStat, '1.000.000', colors)),
+              10.gapW,
+              Expanded(child: _buildStatTile(context.l10n.kpiBonusStat, '1.500.000', colors)),
             ],
           ),
-          const SizedBox(height: 10),
+          10.gapH,
           Row(
             children: [
-              Expanded(child: _buildStatTile('Tổng năm 2026', '11.300.000', colors)),
-              const SizedBox(width: 10),
-              Expanded(child: _buildStatTile('Ghi nhận nội bộ', '4 lần', colors)),
+              Expanded(child: _buildStatTile(context.l10n.yearTotalBonusStat, '11.300.000', colors)),
+              10.gapW,
+              Expanded(child: _buildStatTile(context.l10n.internalRecognitionStat, '4 lần', colors)),
             ],
           ),
-          const SizedBox(height: 22),
+          22.gapH,
 
           // Vì sao bạn nhận thưởng
           Text(
-            'Vì sao bạn nhận thưởng',
+            context.l10n.whyReceivedBonus,
             style: TextStyle(fontSize: 13, fontWeight: FontWeight.w700, color: colors.textSecondary),
           ),
-          const SizedBox(height: 10),
+          10.gapH,
           Container(
             decoration: BoxDecoration(
               color: colors.surface,
@@ -128,7 +130,7 @@ class RewardsScreen extends StatelessWidget {
                   ),
                   child: Icon(Symbols.check, size: 18, color: colors.pineGreen),
                 ),
-                const SizedBox(width: 12),
+                12.gapW,
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -137,7 +139,7 @@ class RewardsScreen extends StatelessWidget {
                         'Đạt KPI quý 3 — 112%',
                         style: TextStyle(fontSize: 14, fontWeight: FontWeight.w800, color: colors.textPrimary),
                       ),
-                      const SizedBox(height: 4),
+                      4.gapH,
                       Text(
                         'Doanh thu cửa hàng và mức hài lòng khách hàng đều vượt mục tiêu tháng 7–9. Người xác nhận: Lê Thu Hà.',
                         style: TextStyle(fontSize: 12.5, color: colors.textSecondary, height: 1.4),
@@ -148,14 +150,14 @@ class RewardsScreen extends StatelessWidget {
               ],
             ),
           ),
-          const SizedBox(height: 22),
+          22.gapH,
 
           // Lịch sử thưởng
           Text(
-            'Lịch sử thưởng',
+            context.l10n.bonusHistoryTitle,
             style: TextStyle(fontSize: 13, fontWeight: FontWeight.w700, color: colors.textSecondary),
           ),
-          const SizedBox(height: 10),
+          10.gapH,
           ...history.map((h) => Padding(
                 padding: const EdgeInsets.only(bottom: 9),
                 child: Container(

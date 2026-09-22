@@ -2,12 +2,14 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:material_symbols_icons/symbols.dart';
+import 'package:vstech_hrm/core/extensions/l10n_extension.dart';
+import 'package:vstech_hrm/core/responsive/app_layout.dart';
 import 'package:vstech_hrm/core/session/auth_cubit.dart';
 import 'package:vstech_hrm/core/session/auth_state.dart';
 import 'package:vstech_hrm/core/theme/app_colors.dart';
 import 'package:vstech_hrm/features/auth/presentation/widgets/face_id_login_sheet.dart';
 
-/// Screen 02: Login Screen matching the exact reference mockup.
+/// Screen 02: Login Screen conforming to Clean Architecture and AppLayout.
 class LoginScreen extends StatefulWidget {
   const new({super.key});
 
@@ -44,6 +46,7 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     final colors = context.colors;
+    final l10n = context.l10n;
     final authState = context.watch<AuthCubit>().state;
     final isLoading = authState is AuthLoading;
 
@@ -51,38 +54,43 @@ class _LoginScreenState extends State<LoginScreen> {
       backgroundColor: colors.surface,
       body: SafeArea(
         child: SingleChildScrollView(
-          padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 20),
+          padding: context.paddingCustom(horizontal: 24, vertical: 20),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const SizedBox(height: 12),
+              12.gapH,
               Container(
-                width: 48,
-                height: 48,
+                width: context.custom(normal: 48, compact: 40).toDouble(),
+                height: context.custom(normal: 48, compact: 40).toDouble(),
                 decoration: BoxDecoration(
                   color: colors.primaryIndigo,
                   borderRadius: BorderRadius.circular(16),
                 ),
-                child: const Icon(Symbols.person, color: Color(0xFFFFF8EC), size: 26),
+                child: const Icon(Symbols.person, color: Color(0xFFFFF8EC), size: 24),
               ),
-              const SizedBox(height: 20),
+              20.gapH,
               Text(
-                'Chào bạn trở lại',
+                '${l10n.greetingDefault}!',
                 style: TextStyle(
-                  fontSize: 26,
+                  fontSize: context.custom(normal: 26, compact: 22).toDouble(),
                   fontWeight: FontWeight.w800,
                   letterSpacing: -0.5,
                   color: colors.textPrimary,
                 ),
               ),
-              const SizedBox(height: 6),
+              6.gapH,
               Text(
-                'Đăng nhập bằng mã nhân viên để xem ca làm, phép và phiếu lương.',
-                style: TextStyle(fontSize: 13.5, fontWeight: FontWeight.w500, color: colors.textSecondary, height: 1.4),
+                l10n.loginInstruction,
+                style: TextStyle(
+                  fontSize: context.custom(normal: 13.5, compact: 12),
+                  fontWeight: FontWeight.w500,
+                  color: colors.textSecondary,
+                  height: 1.4,
+                ),
               ),
-              const SizedBox(height: 28),
-              _buildFieldLabel('Mã nhân viên', colors),
-              const SizedBox(height: 6),
+              24.gapH,
+              _buildFieldLabel(l10n.employeeCode, colors),
+              6.gapH,
               TextField(
                 controller: _codeController,
                 decoration: _inputDecoration(
@@ -90,9 +98,9 @@ class _LoginScreenState extends State<LoginScreen> {
                   colors: colors,
                 ),
               ),
-              const SizedBox(height: 16),
-              _buildFieldLabel('Mật khẩu', colors),
-              const SizedBox(height: 6),
+              16.gapH,
+              _buildFieldLabel(l10n.password, colors),
+              6.gapH,
               TextField(
                 controller: _passwordController,
                 obscureText: _obscurePassword,
@@ -105,7 +113,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                 ),
               ),
-              const SizedBox(height: 12),
+              12.gapH,
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -121,19 +129,22 @@ class _LoginScreenState extends State<LoginScreen> {
                           onChanged: (v) => setState(() => _rememberMe = v ?? false),
                         ),
                       ),
-                      const SizedBox(width: 8),
-                      Text('Ghi nhớ đăng nhập', style: TextStyle(fontSize: 12.5, fontWeight: FontWeight.w600, color: colors.textPrimary)),
+                      8.gapW,
+                      Text(
+                        'Ghi nhớ',
+                        style: TextStyle(fontSize: 12.5, fontWeight: FontWeight.w600, color: colors.textPrimary),
+                      ),
                     ],
                   ),
                   TextButton(
                     onPressed: () => ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(content: Text('Vui lòng liên hệ HR để đặt lại mật khẩu')),
+                      SnackBar(content: Text(l10n.contactHr)),
                     ),
-                    child: Text('Quên?', style: TextStyle(fontSize: 12.5, fontWeight: FontWeight.w700, color: colors.primaryIndigo)),
+                    child: Text(l10n.forgotPasswordShort, style: TextStyle(fontSize: 12.5, fontWeight: FontWeight.w700, color: colors.primaryIndigo)),
                   ),
                 ],
               ),
-              const SizedBox(height: 20),
+              20.gapH,
               SizedBox(
                 width: double.infinity,
                 height: 48,
@@ -147,21 +158,21 @@ class _LoginScreenState extends State<LoginScreen> {
                   onPressed: isLoading ? null : _onLogin,
                   child: isLoading
                       ? const SizedBox(width: 20, height: 20, child: CircularProgressIndicator(strokeWidth: 2))
-                      : const Text('Đăng nhập', style: TextStyle(fontSize: 15, fontWeight: FontWeight.w800)),
+                      : Text(l10n.loginButton, style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w800)),
                 ),
               ),
-              const SizedBox(height: 18),
+              18.gapH,
               Row(
                 children: [
                   Expanded(child: Divider(color: colors.border)),
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 14),
-                    child: Text('hoặc', style: TextStyle(fontSize: 12, fontWeight: FontWeight.w600, color: colors.textTertiary)),
+                    child: Text(l10n.orDivider, style: TextStyle(fontSize: 12, fontWeight: FontWeight.w600, color: colors.textTertiary)),
                   ),
                   Expanded(child: Divider(color: colors.border)),
                 ],
               ),
-              const SizedBox(height: 18),
+              18.gapH,
               SizedBox(
                 width: double.infinity,
                 height: 48,
@@ -172,29 +183,29 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                   onPressed: isLoading ? null : _onFaceIdLogin,
                   icon: Icon(Symbols.face, color: colors.primaryIndigo, size: 20),
-                  label: Text('Đăng nhập bằng Face ID', style: TextStyle(fontSize: 14, fontWeight: FontWeight.w700, color: colors.textPrimary)),
+                  label: Text(l10n.biometricLogin, style: TextStyle(fontSize: 14, fontWeight: FontWeight.w700, color: colors.textPrimary)),
                 ),
               ),
-              const SizedBox(height: 16),
+              16.gapH,
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text('Demo nhanh:', style: TextStyle(fontSize: 11.5, color: colors.textTertiary)),
-                  const SizedBox(width: 8),
+                  Text('${l10n.demoQuickLogin}:', style: TextStyle(fontSize: 11.5, color: colors.textTertiary)),
+                  8.gapW,
                   GestureDetector(
                     onTap: () => context.read<AuthCubit>().loginAsDemo(UserRole.employee),
-                    child: Text('Nhân viên', style: TextStyle(fontSize: 12, fontWeight: FontWeight.w700, color: colors.primaryIndigo, decoration: TextDecoration.underline)),
+                    child: Text(l10n.demoEmployee, style: TextStyle(fontSize: 12, fontWeight: FontWeight.w700, color: colors.primaryIndigo, decoration: TextDecoration.underline)),
                   ),
-                  const SizedBox(width: 12),
+                  12.gapW,
                   GestureDetector(
                     onTap: () => context.read<AuthCubit>().loginAsDemo(UserRole.manager),
-                    child: Text('Quản lý', style: TextStyle(fontSize: 12, fontWeight: FontWeight.w700, color: colors.accentAmber, decoration: TextDecoration.underline)),
+                    child: Text(l10n.demoManager, style: TextStyle(fontSize: 12, fontWeight: FontWeight.w700, color: colors.accentAmber, decoration: TextDecoration.underline)),
                   ),
                 ],
               ),
-              const SizedBox(height: 24),
+              24.gapH,
               Center(
-                child: Text('Cần hỗ trợ? Liên hệ HR · nội bộ 1180', style: TextStyle(fontSize: 11.5, fontWeight: FontWeight.w600, color: colors.textTertiary)),
+                child: Text(l10n.contactHr, style: TextStyle(fontSize: 11.5, fontWeight: FontWeight.w600, color: colors.textTertiary)),
               ),
             ],
           ),

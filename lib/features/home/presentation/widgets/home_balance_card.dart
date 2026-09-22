@@ -1,19 +1,21 @@
-import 'dart:math' as math;
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:material_symbols_icons/symbols.dart';
+import 'package:vstech_hrm/core/extensions/l10n_extension.dart';
+import 'package:vstech_hrm/core/responsive/app_layout.dart';
 import 'package:vstech_hrm/core/router/routes.dart';
 import 'package:vstech_hrm/core/theme/app_colors.dart';
 import 'package:vstech_hrm/core/theme/app_text_styles.dart';
 import 'package:vstech_hrm/features/attendance/domain/entities/attendance_record_entity.dart';
+import 'package:vstech_hrm/features/home/presentation/widgets/home_ring_progress_painter.dart';
 
-/// Primary "Balance" Card showing worked hours today, 80px progress ring,
+/// Primary "Balance" Card showing worked hours today, progress ring,
 /// in/out times, and primary Amber check-in CTA button.
 /// Follows DESIGN.md §6 & Phone.dc.html lines 112–141.
 class HomeBalanceCard extends StatelessWidget {
   const new({
     this.workedHours = '6h 12m',
-    this.shiftName = 'Ca hôm nay 08:00 — 17:00',
+    this.shiftName,
     this.workedPercentage = 0.69,
     this.checkInTime = '08:24',
     this.checkOutTime = '--:--',
@@ -22,7 +24,7 @@ class HomeBalanceCard extends StatelessWidget {
   });
 
   final String workedHours;
-  final String shiftName;
+  final String? shiftName;
   final double workedPercentage;
   final String checkInTime;
   final String checkOutTime;
@@ -31,6 +33,13 @@ class HomeBalanceCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colors = context.colors;
+    final l10n = context.l10n;
+
+    // Responsive dimensions
+    final cardPadding = context.custom(compact: 14, normal: 18, expanded: 22);
+    final ringSize = context.custom(compact: 68, normal: 80, expanded: 88);
+    final hoursFontSize = context.custom(compact: 32, normal: 38, expanded: 42);
+    final displayShiftName = shiftName ?? l10n.todayShiftDefault;
 
     return Container(
       decoration: BoxDecoration(
@@ -45,11 +54,11 @@ class HomeBalanceCard extends StatelessWidget {
           ),
         ],
       ),
-      padding: const EdgeInsets.all(18),
+      padding: EdgeInsets.all(cardPadding.toDouble()),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // Top section: Left metrics + Right 80px ring
+          // Top section: Left metrics + Right progress ring
           Row(
             children: [
               Expanded(
@@ -57,17 +66,17 @@ class HomeBalanceCard extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'GIỜ ĐÃ LÀM HÔM NAY',
+                      l10n.todayWorkedHours,
                       style: AppTextStyles.labelMicro(color: colors.textSecondary).copyWith(
                         letterSpacing: 1.5,
                         fontWeight: FontWeight.w800,
                       ),
                     ),
-                    const SizedBox(height: 5),
+                    5.gapH,
                     Text(
                       workedHours,
                       style: TextStyle(
-                        fontSize: 38,
+                        fontSize: hoursFontSize.toDouble(),
                         fontWeight: FontWeight.w800,
                         letterSpacing: -1.6,
                         height: 1,
@@ -75,7 +84,7 @@ class HomeBalanceCard extends StatelessWidget {
                         fontFeatures: const [FontFeature.tabularFigures()],
                       ),
                     ),
-                    const SizedBox(height: 5),
+                    5.gapH,
                     InkWell(
                       onTap: () => context.push(AppRoutes.shiftSchedule),
                       borderRadius: BorderRadius.circular(6),
@@ -83,13 +92,13 @@ class HomeBalanceCard extends StatelessWidget {
                         mainAxisSize: MainAxisSize.min,
                         children: [
                           Text(
-                            shiftName,
+                            displayShiftName,
                             style: AppTextStyles.bodySmall(color: colors.textSecondary).copyWith(
                               fontWeight: FontWeight.w700,
                               fontFeatures: const [FontFeature.tabularFigures()],
                             ),
                           ),
-                          const SizedBox(width: 4),
+                          4.gapW,
                           Icon(Symbols.chevron_right, size: 16, color: colors.textSecondary),
                         ],
                       ),
@@ -97,24 +106,25 @@ class HomeBalanceCard extends StatelessWidget {
                   ],
                 ),
               ),
-              const SizedBox(width: 14),
-              // 80x80 Circular progress ring
+              14.gapW,
+              // Circular progress ring
               SizedBox(
-                width: 80,
-                height: 80,
+                width: ringSize.toDouble(),
+                height: ringSize.toDouble(),
                 child: CustomPaint(
-                  painter: _RingProgressPainter(
+                  painter: HomeRingProgressPainter(
                     percentage: workedPercentage,
                     trackColor: colors.cardSecondary,
                     progressColor: colors.accentAmber,
+                    strokeWidth: context.custom(compact: 7.5, normal: 9, expanded: 10),
                   ),
                   child: Center(
                     child: Text(
                       '${(workedPercentage * 100).round()}%',
-                      style: const TextStyle(
-                        fontSize: 15,
+                      style: TextStyle(
+                        fontSize: context.custom(compact: 13, normal: 15, expanded: 16).toDouble(),
                         fontWeight: FontWeight.w800,
-                        fontFeatures: [FontFeature.tabularFigures()],
+                        fontFeatures: const [FontFeature.tabularFigures()],
                       ),
                     ),
                   ),
@@ -123,9 +133,9 @@ class HomeBalanceCard extends StatelessWidget {
             ],
           ),
 
-          const SizedBox(height: 14),
+          14.gapH,
           Divider(height: 1, color: colors.border),
-          const SizedBox(height: 14),
+          14.gapH,
 
           // Bottom section: Check-in / Check-out / CTA button
           Row(
@@ -137,13 +147,13 @@ class HomeBalanceCard extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'VÀO LÀM',
+                      l10n.shiftCheckInLabel,
                       style: AppTextStyles.labelMicro(color: colors.textSecondary).copyWith(
                         letterSpacing: 1.2,
                         fontWeight: FontWeight.w800,
                       ),
                     ),
-                    const SizedBox(height: 2),
+                    2.gapH,
                     Text(
                       checkInTime,
                       style: TextStyle(
@@ -164,13 +174,13 @@ class HomeBalanceCard extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'RA VỀ',
+                      l10n.shiftCheckOutLabel,
                       style: AppTextStyles.labelMicro(color: colors.textSecondary).copyWith(
                         letterSpacing: 1.2,
                         fontWeight: FontWeight.w800,
                       ),
                     ),
-                    const SizedBox(height: 2),
+                    2.gapH,
                     Text(
                       checkOutTime,
                       style: TextStyle(
@@ -190,7 +200,7 @@ class HomeBalanceCard extends StatelessWidget {
               Expanded(
                 flex: 15,
                 child: SizedBox(
-                  height: 46,
+                  height: context.custom(compact: 42, normal: 46, expanded: 50).toDouble(),
                   child: ElevatedButton(
                     style: ElevatedButton.styleFrom(
                       backgroundColor: colors.accentAmber,
@@ -211,11 +221,11 @@ class HomeBalanceCard extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         const Icon(Symbols.face, size: 18, weight: 600),
-                        const SizedBox(width: 6),
+                        6.gapW,
                         Text(
-                          isShiftComplete ? 'XONG CA' : 'CHẤM RA',
-                          style: const TextStyle(
-                            fontSize: 13,
+                          isShiftComplete ? l10n.shiftDoneCta : l10n.shiftCheckOutCta,
+                          style: TextStyle(
+                            fontSize: context.custom(compact: 11.5, normal: 13, expanded: 14),
                             fontWeight: FontWeight.w800,
                             letterSpacing: 0.6,
                           ),
@@ -230,55 +240,5 @@ class HomeBalanceCard extends StatelessWidget {
         ],
       ),
     );
-  }
-}
-
-class _RingProgressPainter extends CustomPainter {
-  const new({
-    required this.percentage,
-    required this.trackColor,
-    required this.progressColor,
-  });
-
-  final double percentage;
-  final Color trackColor;
-  final Color progressColor;
-
-  @override
-  void paint(Canvas canvas, Size size) {
-    final center = Offset(size.width / 2, size.height / 2);
-    final radius = (size.width - 9.0) / 2;
-
-    // Track
-    final trackPaint = Paint()
-      ..color = trackColor
-      ..style = PaintingStyle.stroke
-      ..strokeWidth = 9.0;
-    canvas.drawCircle(center, radius, trackPaint);
-
-    // Progress Arc
-    if (percentage > 0) {
-      final progressPaint = Paint()
-        ..color = progressColor
-        ..style = PaintingStyle.stroke
-        ..strokeWidth = 9.0
-        ..strokeCap = StrokeCap.round;
-
-      final sweepAngle = 2 * math.pi * percentage.clamp(0.0, 1.0);
-      canvas.drawArc(
-        Rect.fromCircle(center: center, radius: radius),
-        -math.pi / 2,
-        sweepAngle,
-        false,
-        progressPaint,
-      );
-    }
-  }
-
-  @override
-  bool shouldRepaint(covariant _RingProgressPainter oldDelegate) {
-    return oldDelegate.percentage != percentage ||
-        oldDelegate.trackColor != trackColor ||
-        oldDelegate.progressColor != progressColor;
   }
 }

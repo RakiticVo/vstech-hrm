@@ -5,6 +5,14 @@
 ## [Unreleased]
 
 ### Added
+- Xây dựng bộ công cụ Pure Flutter Responsive Architecture (`lib/core/responsive/app_layout.dart`):
+  - Hỗ trợ đầy đủ các tiện ích định cỡ theo tỷ lệ và phân loại màn hình: `context.w()`, `context.wp()`, `context.h()`, `context.hp()`, `context.custom(compact: ..., normal: ..., expanded: ...)`.
+  - Bộ helper padding và khoảng cách co giãn tự động: `context.paddingCustom(...)`, `AppGap`, `gapW`/`gapH`.
+  - Kiểm thử đơn vị toàn diện tại `test/core/responsive/app_layout_test.dart` (100% passed).
+- Thiết lập hệ thống quốc tế hoá & bản địa hoá toàn diện (Zero-Hardcoding Policy):
+  - Bổ sung hơn 250+ translation keys với sự đồng bộ song ngữ 1:1 chuẩn xác giữa Tiếng Việt (`lib/l10n/app_vi.arb`) và Tiếng Anh (`lib/l10n/app_en.arb`).
+  - Hỗ trợ các placeholder động có kiểu dữ liệu (`{name}`, `{hours}`, `{minutes}`, `{date}`, `{count}`, `{used}`, `{total}`).
+  - Cung cấp extension `context.l10n` tại `lib/core/extensions/l10n_extension.dart`.
 - Lưu file thiết kế và PDF chức năng gốc vào `docs/source/` (`DESIGN.md`, `Phone.dc.html`, 2 file trình bày, PDF).
 - Khởi tạo tài liệu kế hoạch dự án: `CLAUDE.md`, `docs/` (PRD, architecture, design-system, screens-mapping, api-contract, coding-rules, git-workflow, security), `.claude/skills/`.
 - Thiết lập bộ workspace skills và rules tương đương cho các agent khác: `GEMINI.md`, `.agents/skills/` (`start-session`, `new-feature`, `design-review`, `git-commit`) cho Antigravity/chuẩn `.agents` và `.cursor/rules/` cho Cursor.
@@ -50,6 +58,10 @@
 - Bổ sung bộ Unit Test cho toàn bộ UseCases, `AttendanceBloc`, `OfflineAttendanceService`, và `ShiftScheduleMockDatasource` (21/21 tests pass).
 
 ### Changed
+- Tái cấu trúc toàn bộ các màn hình và widget giao diện trên toàn ứng dụng:
+  - Loại bỏ hoàn toàn các chuỗi văn bản hardcode trong UI presentation widgets, chuyển sang sử dụng `context.l10n`.
+  - Chuẩn hoá kích thước và khoảng cách giao diện theo hệ thống `AppLayout` responsive.
+  - Tuân thủ nghiêm ngặt giới hạn $\le 300$ dòng trên mỗi file mã nguồn Dart theo quy chuẩn Clean Architecture & SOLID.
 - Cập nhật `docs/screens-mapping.md`: làm rõ nguồn gốc thiết kế pixel-level từ `docs/source/Phone.dc.html` (29 màn markup thực tế).
 - Cập nhật `docs/roadmap.md`: đồng bộ trạng thái hoàn thành thực tế của Phase 0 (Foundation & Mock Engine), Phase 1 (Navigation Shell & Session), và Phase 2 (Personal Dashboard & Core Attendance Face Scan).
 

@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:vstech_hrm/core/extensions/l10n_extension.dart';
+import 'package:vstech_hrm/core/responsive/app_layout.dart';
 import 'package:vstech_hrm/core/theme/app_colors.dart';
 
 /// Instruction text and animated step progress indicator for face scan flow.
@@ -15,19 +17,20 @@ class FaceScanStepProgress extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colors = context.colors;
+    final l10n = context.l10n;
 
     String title;
     String subtitle;
 
     if (isSuccess) {
-      title = 'Xác thực thành công!';
-      subtitle = 'Hệ thống đã lưu nhận diện khuôn mặt và vị trí';
+      title = l10n.faceScanSuccessTitle;
+      subtitle = l10n.faceScanSuccessSubtitle;
     } else if (isSubmitting) {
-      title = 'Đang nhận diện...';
-      subtitle = 'Đang gửi ảnh quét mặt và toạ độ GPS về máy chủ';
+      title = l10n.faceScanningTitle;
+      subtitle = l10n.faceScanningSubtitle;
     } else {
-      title = 'Căn chỉnh khuôn mặt';
-      subtitle = 'Giữ thẳng đầu và nhìn trực diện vào camera';
+      title = l10n.faceAlignPromptTitle;
+      subtitle = l10n.faceAlignPromptSubtitle;
     }
 
     return Column(
@@ -40,7 +43,7 @@ class FaceScanStepProgress extends StatelessWidget {
             color: Colors.white,
           ),
         ),
-        const SizedBox(height: 6),
+        6.gapH,
         Text(
           subtitle,
           style: TextStyle(
@@ -49,7 +52,7 @@ class FaceScanStepProgress extends StatelessWidget {
           ),
           textAlign: TextAlign.center,
         ),
-        const SizedBox(height: 12),
+        12.gapH,
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: List.generate(3, (index) {
