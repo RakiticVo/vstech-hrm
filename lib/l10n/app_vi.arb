@@ -1,0 +1,18 @@
+{
+  "@@locale": "vi",
+  "appTitle": "VSTech HRM",
+  "login": "Đăng nhập",
+  "employeeCode": "Mã nhân viên",
+  "password": "Mật khẩu",
+  "checkIn": "Chấm công",
+  "checkOut": "Tan ca",
+  "home": "Trang chủ",
+  "attendance": "Chấm công",
+  "requests": "Yêu cầu",
+  "approvals": "Phê duyệt",
+  "payroll": "Bảng lương",
+  "profile": "Cá nhân",
+  "errorOccurred": "Đã có lỗi xảy ra",
+  "retry": "Thử lại",
+  "contactHr": "Liên hệ HR"
+}

@@ -1,0 +1,17 @@
+{
+  "success": true,
+  "data": {
+    "id": "emp-001",
+    "employeeCode": "NV-1082",
+    "fullName": "Nguyễn Văn An",
+    "avatarUrl": "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=200",
+    "role": "employee",
+    "department": "Khối Công Nghệ & Kỹ Thuật",
+    "title": "Kỹ sư phần mềm cao cấp",
+    "branch": "Trụ sở chính — TP. Hồ Chí Minh",
+    "managerName": "Trần Thị Bích",
+    "joinDate": "2023-03-15"
+  },
+  "message": null,
+  "errorCode": null
+}

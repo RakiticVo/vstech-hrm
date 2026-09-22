@@ -1,0 +1,18 @@
+{
+  "success": true,
+  "data": {
+    "date": "2026-09-20",
+    "shiftName": "Ca Hành Chính (HC-01)",
+    "shiftTime": "08:30 - 17:30",
+    "status": "working",
+    "checkInTime": "08:24",
+    "checkOutTime": null,
+    "workedMinutes": 240,
+    "totalMinutes": 480,
+    "workProgress": 0.5,
+    "isLate": false,
+    "lateMinutes": 0
+  },
+  "message": null,
+  "errorCode": null
+}

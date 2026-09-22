@@ -4,7 +4,8 @@ Backend đang phát triển song song, chưa công bố Swagger/OpenAPI. Tài li
 
 ## 1. Quy ước chung
 
-- Base URL theo môi trường, đọc từ `.env` (`API_BASE_URL`).
+- Base URL theo 2 môi trường: **`dev`** và **`prod`**, đọc từ `.env` (`API_BASE_URL`).
+- Khi `USE_MOCK_DATA=true`, hệ thống sử dụng `MockDioInterceptor` nạp dữ liệu mẫu trực tiếp để phục vụ chế độ Demo độc lập mà không cần kết nối server.
 - Response envelope chuẩn:
   ```json
   {

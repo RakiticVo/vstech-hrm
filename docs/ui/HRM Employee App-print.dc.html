@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<meta name="omelette-print-source" content="v1789611562078226 HRM Employee App.dc.html">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap">
+<script src="./doc-page.js"></script>
+<style>
+*{box-sizing:border-box;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+*{animation-delay:-99s !important;animation-duration:.001s !important;animation-iteration-count:1 !important;animation-fill-mode:both !important;animation-play-state:running !important;transition-duration:0s !important}
+doc-page:not(:defined){visibility:hidden}
+body{margin:0;font-family:Manrope,system-ui,sans-serif}
+a{color:#0F766E;text-decoration:none}
+.pg{padding:44px 48px;background:#EDEAE2;display:flex;flex-direction:column;font-family:Manrope,sans-serif;color:#111827}
+.hd{display:flex;align-items:baseline;justify-content:space-between;padding-bottom:12px;border-bottom:1px solid #CFC9BC;margin-bottom:22px}
+.hd b{font-size:11px;font-weight:800;letter-spacing:1.6px;color:#0A544E}
+.hd span{font-size:10.5px;font-weight:700;color:#6B6B64;font-variant-numeric:tabular-nums}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:20px 26px;justify-items:center}
+.cell{width:200px}
+.cap{display:flex;align-items:baseline;gap:7px;margin-bottom:7px}
+.cap i{font-style:normal;font-size:9px;font-weight:800;font-variant-numeric:tabular-nums;background:#111827;color:#fff;padding:2px 5px;border-radius:4px}
+.cap b{font-size:10.5px;font-weight:800}
+.shell{width:200px;height:433px;border-radius:24px;overflow:hidden;background:#111827}
+.inner{width:390px;height:844px;transform:scale(.5128);transform-origin:top left;border-radius:44px;overflow:hidden}
+.note{font-size:8.5px;font-weight:500;color:#57564E;line-height:1.45;margin-top:6px}
+</style>
+</helmet>
+
+<doc-page>
+  <section class="page pg">
+    <div class="hd"><b>HRM · NHÂN VIÊN · GẠCH BÔNG</b><span>390 × 844 · 25 màn hình</span></div>
+    <div style="flex:1;display:flex;flex-direction:column;justify-content:center;max-width:560px">
+      <div style="font-size:40px;font-weight:800;letter-spacing:-1.4px;line-height:1.1">Ứng dụng nhân sự cho nhân viên</div>
+      <div style="font-size:14px;font-weight:600;color:#57564E;line-height:1.6;margin-top:18px">Hướng thiết kế Gạch bông: cấu trúc như một app ngân hàng — giờ đã làm đóng vai “số dư”, bốn chức năng hay dùng nổi ra ngoài thành nút tròn, phần còn lại nằm sau “Tất cả dịch vụ”. Hoạ tiết gạch bông nhà phố Sài Gòn vẽ bằng CSS gradient là chữ ký riêng, dùng ở băng đầu trang, dải phân mục và hai thẻ hero.</div>
+      <div style="display:flex;gap:9px;margin-top:26px">
+        <div style="width:44px;height:44px;border-radius:10px;background:#0A544E"></div>
+        <div style="width:44px;height:44px;border-radius:10px;background:#0F766E"></div>
+        <div style="width:44px;height:44px;border-radius:10px;background:#F59E0B"></div>
+        <div style="width:44px;height:44px;border-radius:10px;background:#FFF8EC;border:1px solid #CFC9BC"></div>
+        <div style="width:44px;height:44px;border-radius:10px;background:#F6F4EF;border:1px solid #CFC9BC"></div>
+      </div>
+      <div style="font-size:10px;font-weight:700;letter-spacing:1.2px;color:#6B6B64;margin-top:11px">#0A544E · #0F766E · #F59E0B · #FFF8EC · #F6F4EF</div>
+    </div>
+    <div style="font-size:10px;font-weight:700;color:#6B6B64;padding-top:14px;border-top:1px solid #CFC9BC">Bản in · tháng 9 2026</div>
+  </section>
+
+  <sc-for list="{{ pages }}" as="p" hint-placeholder-count="7">
+    <section class="page pg">
+      <div class="hd"><b>{{ p.title }}</b><span>{{ p.num }}</span></div>
+      <div class="grid">
+        <sc-for list="{{ p.items }}" as="b" hint-placeholder-count="4">
+          <div class="cell">
+            <div class="cap"><i>{{ b.n }}</i><b>{{ b.l }}</b></div>
+            <div class="shell"><div class="inner"><dc-import name="Phone" screen="{{ b.s }}" lang="vi" theme="light" manager="{{ b.mgr }}" att="{{ b.att }}" hint-size="390px,844px"></dc-import></div></div>
+            <div class="note">{{ b.d }}</div>
+          </div>
+        </sc-for>
+      </div>
+    </section>
+  </sc-for>
+</doc-page>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{}">
+const SCREENS = [
+  ['Splash','splash','Màn hình mở app, nền hoa văn gạch bông.'],
+  ['Đăng nhập','login','Mã nhân viên + Face ID. Không có form dài.'],
+  ['Trang chủ','home','Băng hoa văn, thẻ “số dư” giờ làm, 5 nút tròn chức năng.'],
+  ['Trang chủ · quản lý','home','Dải chờ duyệt nằm ngay dưới thẻ giờ làm.'],
+  ['Tất cả dịch vụ','services','Lưới icon theo 4 nhóm — mọi thứ còn lại sau một lần bấm.'],
+  ['Chấm công','attendance','Trạng thái lớn, một CTA, vòng tổng hợp tháng.'],
+  ['Quét khuôn mặt','facescan','Ba bước: vào khung → nhận diện → xác thực.'],
+  ['Lịch công tháng','calendar','Chỉ 5 màu trạng thái, không biểu đồ.'],
+  ['Ngày lễ','holidays','Lịch nghỉ cả năm, tách khỏi lịch công.'],
+  ['Trung tâm yêu cầu','requests','Mọi yêu cầu một chỗ, kèm tiến độ duyệt.'],
+  ['Xin nghỉ phép','leave','Số ngày tự tính, cảnh báo trùng lịch.'],
+  ['Tăng ca','overtime','Đăng ký + lịch sử trên cùng màn hình.'],
+  ['Sửa công','correction','3 bước: ngày → vấn đề → giải trình.'],
+  ['Lương','payroll','Thực nhận trước, chi tiết sau.'],
+  ['Phiếu lương','payslip','Tách thu nhập và khoản trừ, có nút tải PDF.'],
+  ['Thưởng','bonus','Nêu rõ vì sao được thưởng.'],
+  ['Tuyển dụng nội bộ','jobs','Tách khỏi luồng công/lương hàng ngày.'],
+  ['Chi tiết vị trí','job','CTA ứng tuyển cố định dưới màn hình.'],
+  ['Thông báo','notifications','Có nhóm, dấu chưa đọc, bấm là đi tới màn liên quan.'],
+  ['Cá nhân','profile','Nhóm danh sách, không đổ hết dữ liệu.'],
+  ['Phê duyệt (quản lý)','approvals','Duyệt/từ chối ngay trên thẻ.'],
+  ['Cài đặt','settings','Nhắc chấm công, ngôn ngữ, bảo mật.'],
+  ['Rỗng','empty','Giải thích khi nào sẽ có nội dung.'],
+  ['Đang tải','loading','Skeleton theo đúng layout thật.'],
+  ['Lỗi','error','Ngôn ngữ người dùng, kèm đường thoát.'],
+  ['Thành công','success','Xác nhận + mã yêu cầu + người duyệt.']
+];
+
+class Component extends DCLogic {
+  renderVals(){
+    const items = SCREENS.map((x,i)=>({
+      n:String(i+1).padStart(2,'0'), l:x[0], s:x[1], d:x[2],
+      mgr: x[0].indexOf('quản lý')>-1, att: x[1]==='attendance' ? 'out' : 'in'
+    }));
+    const pages = [];
+    for(let i=0;i<items.length;i+=4){
+      const chunk = items.slice(i,i+4);
+      pages.push({
+        items: chunk,
+        title: 'MÀN HÌNH ' + chunk[0].n + ' — ' + chunk[chunk.length-1].n,
+        num: 'Trang ' + (pages.length+2) + ' / ' + (Math.ceil(items.length/4)+1)
+      });
+    }
+    return {pages};
+  }
+}
+
+</script>
+</body>
+</html>

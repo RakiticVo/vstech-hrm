@@ -1,0 +1,17 @@
+---
+description: Nạp lại toàn bộ ngữ cảnh dự án vstech-hrm khi bắt đầu phiên mới hoặc khi người dùng yêu cầu start-session
+alwaysApply: false
+---
+
+# Start Session (Nạp ngữ cảnh dự án)
+
+Thực hiện đúng quy trình đã mô tả ở **`AGENTS.md` mục 0 — "Quy trình bắt đầu phiên làm việc"**:
+
+1. **Đọc tài liệu theo thứ tự**: `AGENTS.md` → `docs/roadmap.md` → `docs/prd.md` → `docs/architecture.md` → `docs/libraries-matrix.md` → `docs/coding-rules.md` (kèm `.cursor/rules/solid-clean-architecture.mdc`) → `docs/design-system.md` → `docs/screens-mapping.md` → `docs/api-contract.md` → `docs/git-workflow.md` → `docs/security.md` → `CHANGELOG.md`.
+2. **Đối chiếu với trạng thái thực tế của repo**: `pubspec.yaml`, `git status` & branch hiện tại, thư mục `lib/features/`.
+3. **Tóm tắt ngắn gọn cho người dùng**:
+   - Giai đoạn hiện tại của dự án.
+   - **Kỷ luật cốt lõi Clean Architecture & SOLID**: Phụ thuộc 1 chiều `presentation → domain ← data`; `domain` độc lập 100% (pure Dart, cấm import UI/network); 1 Usecase = 1 hành động nghiệp vụ; dùng Freezed sealed unions; DI qua `GetIt`; giới hạn cứng **≤ 300 dòng/file**; cấm `print()`.
+   - Các quyết định lớn dễ quên: Source Sans 3, Material Symbols, offline queue đã hoãn, Phase 0 chỉ làm 2 vai trò NV & QL, 3 chức năng P0 chưa có UI tạm hoãn, 2 môi trường dev & prod, Mock Data demo.
+   - Nêu sai khác giữa docs và thực tế nếu có.
+   - Hỏi task cụ thể người dùng muốn làm trong phiên này — không tự ý bắt đầu code.
