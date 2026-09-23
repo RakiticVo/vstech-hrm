@@ -55,6 +55,7 @@
 - Xây dựng Phân hệ Tuyển dụng & Dịch vụ: Màn hình Tuyển dụng nội bộ (`InternalRecruitmentScreen`), Chi tiết công việc (`JobDetailScreen`), và Hub Tất cả dịch vụ (`AllServicesScreen`).
 - Hoàn thiện Phân hệ Cá nhân & Cài đặt: Hồ sơ nhân viên (`ProfileScreen`), Cài đặt ứng dụng (`SettingsScreen` đổi ngôn ngữ Việt/Anh, giao diện Sáng/Tối, cấu hình sinh trắc học Face ID / Vân tay), và Trung tâm thông báo (`NotificationsScreen`).
 - Xuất bản tài liệu báo cáo danh sách toàn bộ chức năng ứng dụng định dạng bảng PDF (`DANH_SACH_CHUC_NANG_HIEN_TAI_VSTECH_HRM.pdf`).
+- Xuất bản báo cáo điều hành & kỹ thuật chuyên sâu về 04 chức năng bổ sung và mở rộng giai đoạn P0 (Cộng đồng nội bộ, Hợp đồng điện tử & Ký số, Hàng đợi & Banner cảnh báo công ngoại tuyến, Tổng hợp công theo ca tuần của tổ/nhóm) theo chuẩn nhà máy ~3.000 nhân sự: `docs/BAO_CAO_BO_SUNG_CHUC_NANG_P0.md`, `docs/bao_cao_bo_sung_chuc_nang_p0.html` và bản PDF trình ký `docs/BAO_CAO_BO_SUNG_CHUC_NANG_P0.pdf`.
 - Bổ sung bộ Unit Test cho toàn bộ UseCases, `AttendanceBloc`, `OfflineAttendanceService`, và `ShiftScheduleMockDatasource` (21/21 tests pass).
 
 ### Changed
