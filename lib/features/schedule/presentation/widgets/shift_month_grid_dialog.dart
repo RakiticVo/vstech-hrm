@@ -1,6 +1,8 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:material_symbols_icons/symbols.dart';
+import 'package:vstech_hrm/core/extensions/l10n_extension.dart';
+import 'package:vstech_hrm/core/responsive/app_layout.dart';
 import 'package:vstech_hrm/core/theme/app_colors.dart';
 
 /// Dialog showing a 30-day month calendar grid with color-coded shift dots.
@@ -66,6 +68,7 @@ class ShiftMonthGridDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colors = context.colors;
+    final l10n = context.l10n;
     final daysInMonth = DateUtils.getDaysInMonth(
       currentMonth.year,
       currentMonth.month,
@@ -86,10 +89,10 @@ class ShiftMonthGridDialog extends StatelessWidget {
             Row(
               children: [
                 Icon(Symbols.calendar_month, color: colors.tealPrimary),
-                const SizedBox(width: 8),
+                8.gapW,
                 Expanded(
                   child: Text(
-                    'Lịch ca Tháng ${currentMonth.month}/${currentMonth.year}',
+                    l10n.shiftCalendarMonthTitle(currentMonth.month, currentMonth.year),
                     style: TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.bold,
@@ -103,11 +106,19 @@ class ShiftMonthGridDialog extends StatelessWidget {
                 ),
               ],
             ),
-            const SizedBox(height: 12),
+            12.gapH,
             // Weekday headers
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: ['T2', 'T3', 'T4', 'T5', 'T6', 'T7', 'CN']
+              children: [
+                l10n.dayMon,
+                l10n.dayTue,
+                l10n.dayWed,
+                l10n.dayThu,
+                l10n.dayFri,
+                l10n.daySat,
+                l10n.daySun,
+              ]
                   .map(
                     (d) => SizedBox(
                       width: 32,
@@ -125,7 +136,7 @@ class ShiftMonthGridDialog extends StatelessWidget {
                   )
                   .toList(),
             ),
-            const SizedBox(height: 8),
+            8.gapH,
             // Month grid
             GridView.builder(
               shrinkWrap: true,
@@ -197,18 +208,18 @@ class ShiftMonthGridDialog extends StatelessWidget {
                 );
               },
             ),
-            const SizedBox(height: 14),
+            14.gapH,
             const Divider(height: 1),
-            const SizedBox(height: 10),
+            10.gapH,
             // Legend
             Wrap(
               alignment: WrapAlignment.center,
               children: [
-                _buildLegendItem('Sáng', const Color(0xFF0F766E)),
-                _buildLegendItem('Chiều', const Color(0xFF6366F1)),
-                _buildLegendItem('Gãy', const Color(0xFFD97706)),
-                _buildLegendItem('Đêm', const Color(0xFF7C3AED)),
-                _buildLegendItem('Nghỉ', Colors.grey.shade400),
+                _buildLegendItem(l10n.shiftMorning, const Color(0xFF0F766E)),
+                _buildLegendItem(l10n.shiftAfternoon, const Color(0xFF6366F1)),
+                _buildLegendItem(l10n.shiftSplit, const Color(0xFFD97706)),
+                _buildLegendItem(l10n.shiftNight, const Color(0xFF7C3AED)),
+                _buildLegendItem(l10n.shiftOff, Colors.grey.shade400),
               ],
             ),
           ],

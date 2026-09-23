@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:vstech_hrm/core/extensions/l10n_extension.dart';
 import 'package:vstech_hrm/core/theme/app_colors.dart';
 
 class PayrollBreakdownCard extends StatelessWidget {
@@ -21,15 +22,15 @@ class PayrollBreakdownCard extends StatelessWidget {
       ),
       child: Column(
         children: [
-          _buildRow('Lương cơ bản', '22.000.000 ₫', colors.textPrimary, colors),
+          _buildRow(context.l10n.basicSalaryLabel, '22.000.000 ₫', colors.textPrimary, colors),
           _buildDivider(colors),
-          _buildRow('Phụ cấp ăn trưa & đi lại', '1.500.000 ₫', colors.textPrimary, colors),
+          _buildRow(context.l10n.lunchAndTransportAllowance, '1.500.000 ₫', colors.textPrimary, colors),
           _buildDivider(colors),
-          _buildRow('Thưởng KPI quý 3', '+2.500.000 ₫', colors.pineGreen, colors),
+          _buildRow(context.l10n.kpiQuarterBonus(3), '+2.500.000 ₫', colors.pineGreen, colors),
           _buildDivider(colors),
-          _buildRow('BHXH, BHYT, BHTN (10.5%)', '-1.760.000 ₫', colors.error, colors),
+          _buildRow(context.l10n.socialInsuranceDeduction, '-1.760.000 ₫', colors.error, colors),
           _buildDivider(colors),
-          _buildRow('Thuế TNCN tạm tính', '-740.000 ₫', colors.error, colors),
+          _buildRow(context.l10n.personalIncomeTaxDeduction, '-740.000 ₫', colors.error, colors),
         ],
       ),
     );

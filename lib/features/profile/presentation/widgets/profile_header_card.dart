@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:material_symbols_icons/symbols.dart';
+import 'package:vstech_hrm/core/extensions/l10n_extension.dart';
+import 'package:vstech_hrm/core/responsive/app_layout.dart';
 import 'package:vstech_hrm/core/services/app_permission_handler.dart';
 import 'package:vstech_hrm/core/theme/app_colors.dart';
 import 'package:vstech_hrm/core/theme/tile_pattern_painter.dart';
@@ -50,7 +52,7 @@ class ProfileHeaderCard extends StatelessWidget {
                       final granted = await AppPermissionHandler.requestPhotos(context);
                       if (context.mounted && granted) {
                         ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(content: Text('Đã sẵn sàng tải lên ảnh đại diện mới')),
+                          SnackBar(content: Text(context.l10n.readyToUploadAvatarSnackbar)),
                         );
                       }
                     },
@@ -93,7 +95,7 @@ class ProfileHeaderCard extends StatelessWidget {
                       ],
                     ),
                   ),
-                  const SizedBox(width: 14),
+                  14.gapW,
 
                   // Info
                   Expanded(
@@ -108,7 +110,7 @@ class ProfileHeaderCard extends StatelessWidget {
                             color: Color(0xFFFFF8EC),
                           ),
                         ),
-                        const SizedBox(height: 3),
+                        3.gapH,
                         Text(
                           '$employeeCode · $position',
                           style: TextStyle(
@@ -136,14 +138,14 @@ class ProfileHeaderCard extends StatelessWidget {
                         mainAxisSize: MainAxisSize.min,
                         children: [
                           Text(
-                            isManager ? 'QL' : 'NV',
+                            isManager ? context.l10n.roleBadgeManager : context.l10n.roleBadgeEmployee,
                             style: const TextStyle(
                               fontSize: 11.5,
                               fontWeight: FontWeight.w800,
                               color: Color(0xFFFFF8EC),
                             ),
                           ),
-                          const SizedBox(width: 3),
+                          3.gapW,
                           const Icon(Symbols.swap_horiz, size: 14, color: Color(0xFFFFF8EC)),
                         ],
                       ),

@@ -1,27 +1,29 @@
 import 'package:flutter/material.dart';
 import 'package:material_symbols_icons/symbols.dart';
+import 'package:vstech_hrm/core/extensions/l10n_extension.dart';
+import 'package:vstech_hrm/core/responsive/app_layout.dart';
 import 'package:vstech_hrm/core/theme/app_colors.dart';
 
 /// Reusable success dialog or state card with animated green checkmark.
 class AppSuccessDialog extends StatelessWidget {
   const new({
-    this.title = 'Thao tác thành công!',
-    this.message = 'Yêu cầu của bạn đã được ghi nhận và chuyển cho cấp trên xử lý.',
-    this.buttonLabel = 'Xong',
+    this.title,
+    this.message,
+    this.buttonLabel,
     this.onDismiss,
     super.key,
   });
 
-  final String title;
-  final String message;
-  final String buttonLabel;
+  final String? title;
+  final String? message;
+  final String? buttonLabel;
   final VoidCallback? onDismiss;
 
   static Future<void> show(
     BuildContext context, {
-    String title = 'Thao tác thành công!',
-    String message = 'Yêu cầu của bạn đã được ghi nhận và chuyển cho cấp trên xử lý.',
-    String buttonLabel = 'Xong',
+    String? title,
+    String? message,
+    String? buttonLabel,
     VoidCallback? onDismiss,
   }) {
     return showDialog<void>(
@@ -44,6 +46,9 @@ class AppSuccessDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colors = context.colors;
+    final resolvedTitle = title ?? context.l10n.successDialogTitle;
+    final resolvedMessage = message ?? context.l10n.successDialogMessage;
+    final resolvedButtonLabel = buttonLabel ?? context.l10n.doneButton;
 
     return Container(
       decoration: BoxDecoration(
@@ -68,9 +73,9 @@ class AppSuccessDialog extends StatelessWidget {
               weight: 600,
             ),
           ),
-          const SizedBox(height: 18),
+          18.gapH,
           Text(
-            title,
+            resolvedTitle,
             style: TextStyle(
               fontSize: 17,
               fontWeight: FontWeight.w800,
@@ -78,9 +83,9 @@ class AppSuccessDialog extends StatelessWidget {
             ),
             textAlign: TextAlign.center,
           ),
-          const SizedBox(height: 8),
+          8.gapH,
           Text(
-            message,
+            resolvedMessage,
             style: TextStyle(
               fontSize: 13.5,
               fontWeight: FontWeight.w500,
@@ -89,7 +94,7 @@ class AppSuccessDialog extends StatelessWidget {
             ),
             textAlign: TextAlign.center,
           ),
-          const SizedBox(height: 24),
+          24.gapH,
           SizedBox(
             width: double.infinity,
             height: 46,
@@ -110,7 +115,7 @@ class AppSuccessDialog extends StatelessWidget {
                 }
               },
               child: Text(
-                buttonLabel,
+                resolvedButtonLabel,
                 style: const TextStyle(
                   fontSize: 14,
                   fontWeight: FontWeight.w800,

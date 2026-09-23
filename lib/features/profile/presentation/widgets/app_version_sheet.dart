@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:material_symbols_icons/symbols.dart';
 import 'package:vstech_hrm/core/constants/environment.dart';
+import 'package:vstech_hrm/core/extensions/l10n_extension.dart';
+import 'package:vstech_hrm/core/responsive/app_layout.dart';
 import 'package:vstech_hrm/core/theme/app_colors.dart';
 import 'package:vstech_hrm/core/theme/app_text_styles.dart';
 import 'package:vstech_hrm/core/widgets/app_card.dart';
@@ -45,54 +47,54 @@ class AppVersionSheet extends StatelessWidget {
               ),
             ),
           ),
-          const SizedBox(height: 18),
+          18.gapH,
           Text(
-            'THÔNG TIN HỆ THỐNG',
+            context.l10n.systemInfoTitle,
             style: AppTextStyles.labelMicro(color: colors.textTertiary),
           ),
-          const SizedBox(height: 6),
+          6.gapH,
           Text(
             'VSTech HRM Mobile',
             style: AppTextStyles.headlineSmall(color: colors.textPrimary),
           ),
-          const SizedBox(height: 6),
+          6.gapH,
           Text(
-            'Hệ thống quản trị nguồn nhân lực B2B SaaS • Phân hệ Nhân viên & Quản lý.',
+            context.l10n.systemDesc,
             style: AppTextStyles.bodySmall(color: colors.textSecondary),
           ),
-          const SizedBox(height: 16),
+          16.gapH,
           AppCard(
             child: Column(
               children: [
-                _buildInfoRow('Phiên bản ứng dụng', '1.0.0+1 (Phase 0/1/2)', colors),
+                _buildInfoRow(context.l10n.appVersionLabel, '1.0.0+1 (Phase 0/1/2)', colors),
                 Divider(height: 16, color: colors.border.withValues(alpha: 0.5)),
                 _buildInfoRow(
-                  'Môi trường kết nối',
+                  context.l10n.runtimeEnvLabel,
                   isDev ? 'Development (dev)' : 'Production (prod)',
                   colors,
                   valueColor: isDev ? colors.amberInk : colors.success,
                 ),
                 Divider(height: 16, color: colors.border.withValues(alpha: 0.5)),
                 _buildInfoRow(
-                  'Động cơ dữ liệu',
+                  context.l10n.dataEngineLabel,
                   isMock ? 'Standalone Mock Engine' : 'Live Backend API',
                   colors,
                   valueColor: isMock ? colors.tealPrimary : colors.success,
                 ),
                 Divider(height: 16, color: colors.border.withValues(alpha: 0.5)),
-                _buildInfoRow('Ngôn ngữ UI & Font', 'Source Sans 3 / Gạch bông', colors),
+                _buildInfoRow(context.l10n.uiFontLabel, 'Source Sans 3 / Gạch bông', colors),
               ],
             ),
           ),
-          const SizedBox(height: 20),
+          20.gapH,
           PrimaryButton(
-            text: 'Kiểm tra cập nhật',
+            text: context.l10n.checkUpdatesButton,
             icon: Symbols.update,
             onPressed: () {
               Navigator.pop(context);
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(
-                  content: const Text('Ứng dụng đang ở phiên bản mới nhất (v1.0.0)!'),
+                  content: Text(context.l10n.appUpToDateSnackbar),
                   backgroundColor: colors.tealPrimary,
                   duration: const Duration(seconds: 2),
                 ),

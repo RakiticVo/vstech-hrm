@@ -1,18 +1,23 @@
 import 'package:equatable/equatable.dart';
 
-/// Supported roles in Phase 0 (Employee and Direct Manager).
+/// Supported roles in data model (Employee, Direct Manager, and HR/Admin).
 enum UserRole {
   employee,
-  manager;
+  manager,
+  admin;
 
   bool get isManager => this == UserRole.manager;
   bool get isEmployee => this == UserRole.employee;
+  bool get isAdmin => this == UserRole.admin;
 
   static UserRole fromString(String? role) {
     if (role == null) return UserRole.employee;
     final r = role.toLowerCase().trim();
     if (r == 'manager' || r == 'ql' || r == 'mss') {
       return UserRole.manager;
+    }
+    if (r == 'admin' || r == 'hr' || r == 'hr_admin' || r == 'hradmin') {
+      return UserRole.admin;
     }
     return UserRole.employee;
   }

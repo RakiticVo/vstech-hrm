@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:material_symbols_icons/symbols.dart';
+import 'package:vstech_hrm/core/extensions/l10n_extension.dart';
+import 'package:vstech_hrm/core/responsive/app_layout.dart';
 
 /// Toggle badge between Online server mode and Offline vector matching mode.
 class FaceScanModeToggle extends StatelessWidget {
@@ -45,11 +47,11 @@ class FaceScanModeToggle extends StatelessWidget {
                         ? const Color(0xFFF59E0B)
                         : const Color(0xFFFFF8EC),
                   ),
-                  const SizedBox(width: 6),
+                  6.gapW,
                   Text(
                     isOfflineMode
-                        ? 'Chấm công Ngoại tuyến (Vector ≥ 85%)'
-                        : 'Chế độ Trực tuyến (Online)',
+                        ? context.l10n.offlineAttendanceModeLabel
+                        : context.l10n.onlineAttendanceModeLabel,
                     style: TextStyle(
                       fontSize: 12,
                       fontWeight: FontWeight.w700,

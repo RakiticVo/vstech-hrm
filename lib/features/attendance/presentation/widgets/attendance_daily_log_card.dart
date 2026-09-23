@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:vstech_hrm/core/extensions/l10n_extension.dart';
+import 'package:vstech_hrm/core/responsive/app_layout.dart';
 import 'package:vstech_hrm/core/router/routes.dart';
 import 'package:vstech_hrm/core/theme/app_colors.dart';
 
@@ -10,14 +12,15 @@ class AttendanceDailyLogCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colors = context.colors;
+    final l10n = context.l10n;
 
     final logs = [
-      ('16', 'T4', 'Đang làm', '07:56 — …', '—', colors.primaryIndigo, colors.primaryIndigo.withValues(alpha: 0.12)),
-      ('15', 'T3', 'Thiếu giờ ra', '08:01 — —', '—', colors.error, colors.error.withValues(alpha: 0.12)),
-      ('14', 'T2', 'Đủ công', '07:58 — 17:02', '8h 04', colors.pineGreen, colors.pineGreen.withValues(alpha: 0.12)),
-      ('13', 'CN', 'Nghỉ tuần', 'Không có ca', '0h 00', colors.textTertiary, colors.cardSecondary),
-      ('12', 'T7', 'Đủ công · TC 3h', '07:55 — 21:00', '11h 05', colors.pineGreen, colors.pineGreen.withValues(alpha: 0.12)),
-      ('11', 'T6', 'Đi muộn 12 phút', '08:12 — 17:05', '7h 53', colors.accentAmber, colors.accentAmber.withValues(alpha: 0.12)),
+      ('16', l10n.dayWed, l10n.statusWorking, '07:56 — …', '—', colors.primaryIndigo, colors.primaryIndigo.withValues(alpha: 0.12)),
+      ('15', l10n.dayTue, l10n.statusMissingCheckOut, '08:01 — —', '—', colors.error, colors.error.withValues(alpha: 0.12)),
+      ('14', l10n.dayMon, l10n.statusFullWork, '07:58 — 17:02', '8h 04', colors.pineGreen, colors.pineGreen.withValues(alpha: 0.12)),
+      ('13', l10n.daySun, l10n.statusWeeklyOff, l10n.noShiftAssigned, '0h 00', colors.textTertiary, colors.cardSecondary),
+      ('12', l10n.daySat, l10n.statusFullWorkOt('3'), '07:55 — 21:00', '11h 05', colors.pineGreen, colors.pineGreen.withValues(alpha: 0.12)),
+      ('11', l10n.dayFri, l10n.statusLateMinutes('12'), '08:12 — 17:05', '7h 53', colors.accentAmber, colors.accentAmber.withValues(alpha: 0.12)),
     ];
 
     return Column(
@@ -27,7 +30,7 @@ class AttendanceDailyLogCard extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text(
-              'Nhật ký từng ngày',
+              l10n.dailyLogSectionTitle,
               style: TextStyle(
                 fontSize: 15,
                 fontWeight: FontWeight.w800,
@@ -40,7 +43,7 @@ class AttendanceDailyLogCard extends StatelessWidget {
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 2),
                 child: Text(
-                  'Ngày lễ',
+                  l10n.holidaysLink,
                   style: TextStyle(
                     fontSize: 13,
                     fontWeight: FontWeight.w700,
@@ -51,7 +54,7 @@ class AttendanceDailyLogCard extends StatelessWidget {
             ),
           ],
         ),
-        const SizedBox(height: 12),
+        12.gapH,
         Container(
           decoration: BoxDecoration(
             color: colors.surface,
@@ -92,7 +95,7 @@ class AttendanceDailyLogCard extends StatelessWidget {
                               height: 1,
                             ),
                           ),
-                          const SizedBox(height: 2),
+                          2.gapH,
                           Text(
                             item.$2,
                             style: TextStyle(
@@ -105,7 +108,7 @@ class AttendanceDailyLogCard extends StatelessWidget {
                         ],
                       ),
                     ),
-                    const SizedBox(width: 14),
+                    14.gapW,
                     Expanded(
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -118,7 +121,7 @@ class AttendanceDailyLogCard extends StatelessWidget {
                               color: item.$6,
                             ),
                           ),
-                          const SizedBox(height: 3),
+                          3.gapH,
                           Text(
                             item.$4,
                             style: TextStyle(
@@ -140,9 +143,9 @@ class AttendanceDailyLogCard extends StatelessWidget {
                             color: colors.textPrimary,
                           ),
                         ),
-                        const SizedBox(height: 2),
+                        2.gapH,
                         Text(
-                          'giờ',
+                          l10n.hoursUnit,
                           style: TextStyle(
                             fontSize: 10.5,
                             fontWeight: FontWeight.w600,

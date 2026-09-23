@@ -2,6 +2,8 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:material_symbols_icons/symbols.dart';
+import 'package:vstech_hrm/core/extensions/l10n_extension.dart';
+import 'package:vstech_hrm/core/responsive/app_layout.dart';
 import 'package:vstech_hrm/core/session/auth_cubit.dart';
 import 'package:vstech_hrm/core/session/auth_state.dart';
 import 'package:vstech_hrm/core/theme/app_colors.dart';
@@ -47,44 +49,44 @@ class RoleSwitcherSheet extends StatelessWidget {
               ),
             ),
           ),
-          const SizedBox(height: 18),
+          18.gapH,
           Text(
-            'CHUYỂN ĐỔI VAI TRÒ (DEMO)',
+            context.l10n.roleSwitchDemoTitle,
             style: AppTextStyles.labelMicro(color: colors.textTertiary),
           ),
-          const SizedBox(height: 6),
+          6.gapH,
           Text(
-            'Chọn vai trò trải nghiệm',
+            context.l10n.chooseRoleTitle,
             style: AppTextStyles.headlineSmall(color: colors.textPrimary),
           ),
-          const SizedBox(height: 6),
+          6.gapH,
           Text(
-            'Chế độ Demo độc lập cho phép hoán đổi giao diện và luồng duyệt giữa Nhân viên và Quản lý tức thì.',
+            context.l10n.roleSwitchDesc,
             style: AppTextStyles.bodySmall(color: colors.textSecondary),
           ),
-          const SizedBox(height: 16),
+          16.gapH,
           _buildRoleOption(
             context: context,
             role: UserRole.employee,
-            title: 'Nhân viên (NV / ESS)',
-            subtitle: 'Nguyễn Văn An • NV0142\nChấm công, gửi đơn nghỉ phép, xem phiếu lương.',
+            title: context.l10n.roleEmployeeTitle,
+            subtitle: context.l10n.roleEmployeeDesc,
             isSelected: currentRole == UserRole.employee,
             icon: Symbols.badge,
             colors: colors,
           ),
-          const SizedBox(height: 12),
+          12.gapH,
           _buildRoleOption(
             context: context,
             role: UserRole.manager,
-            title: 'Quản lý trực tiếp (QL / MSS)',
-            subtitle: 'Trần Thị Mai • NV0089\nXem dải chờ duyệt, duyệt cấp 1 các đơn từ nhân viên.',
+            title: context.l10n.roleManagerTitle,
+            subtitle: context.l10n.roleManagerDesc,
             isSelected: currentRole == UserRole.manager,
             icon: Symbols.supervisor_account,
             colors: colors,
           ),
-          const SizedBox(height: 20),
+          20.gapH,
           PrimaryButton(
-            text: 'Đóng',
+            text: context.l10n.closeButton,
             onPressed: () => Navigator.pop(context),
           ),
         ],
@@ -112,7 +114,7 @@ class RoleSwitcherSheet extends StatelessWidget {
         Navigator.pop(context);
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text('Đã chuyển sang vai trò: $title'),
+            content: Text(context.l10n.switchedToRoleSnackbar(title)),
             duration: const Duration(seconds: 2),
             backgroundColor: colors.tealPrimary,
           ),

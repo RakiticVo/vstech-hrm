@@ -7,6 +7,7 @@ import 'package:vstech_hrm/features/attendance/domain/usecases/check_in_usecase.
 import 'package:vstech_hrm/features/attendance/domain/usecases/check_out_usecase.dart';
 import 'package:vstech_hrm/features/attendance/domain/usecases/get_today_attendance_usecase.dart';
 import 'package:vstech_hrm/features/attendance/presentation/bloc/attendance_bloc.dart';
+import 'package:vstech_hrm/features/attendance/presentation/cubit/offline_queue_cubit.dart';
 
 /// Registers all Attendance feature dependencies in GetIt.
 void initAttendanceDependencies(GetIt sl) {
@@ -39,4 +40,6 @@ void initAttendanceDependencies(GetIt sl) {
       checkOutUseCase: sl<CheckOutUseCase>(),
     ),
   );
+
+  sl.registerFactory<OfflineQueueCubit>(OfflineQueueCubit.new);
 }

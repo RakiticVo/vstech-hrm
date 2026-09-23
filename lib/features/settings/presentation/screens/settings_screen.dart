@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:material_symbols_icons/symbols.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:vstech_hrm/core/extensions/l10n_extension.dart';
+import 'package:vstech_hrm/core/responsive/app_layout.dart';
 import 'package:vstech_hrm/core/router/routes.dart';
 import 'package:vstech_hrm/core/services/app_permission_handler.dart';
 import 'package:vstech_hrm/core/theme/app_colors.dart';
@@ -29,7 +31,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
       setState(() => _pushNotification = granted);
       if (!granted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Vui lòng bật quyền Thông báo trong Cài đặt hệ thống')),
+          SnackBar(content: Text(context.l10n.enableNotificationInSettings)),
         );
       }
     } else {
@@ -51,7 +53,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
           onPressed: () => Navigator.of(context).pop(),
         ),
         title: Text(
-          'Cài đặt',
+          context.l10n.settingsTitle,
           style: TextStyle(
             fontSize: 18,
             fontWeight: FontWeight.w800,
@@ -63,85 +65,85 @@ class _SettingsScreenState extends State<SettingsScreen> {
         padding: const EdgeInsets.fromLTRB(16, 14, 16, 32),
         children: [
           // Section: Thông báo
-          _buildSectionHeader('Thông báo', colors),
+          _buildSectionHeader(context.l10n.notificationsSection, colors),
           _buildContainer([
             _buildSwitchTile(
-              'Thông báo đẩy',
-              'Nhận thông báo phê duyệt và ca làm',
+              context.l10n.pushNotifications,
+              context.l10n.pushNotificationsDesc,
               _pushNotification,
               _togglePushNotification,
               colors,
             ),
             Divider(height: 1, color: colors.border),
             _buildSwitchTile(
-              'Email báo cáo',
-              'Gửi bản tóm tắt công & lương qua email',
+              context.l10n.emailReport,
+              context.l10n.emailReportDesc,
               _emailReport,
               (v) => setState(() => _emailReport = v),
               colors,
             ),
             Divider(height: 1, color: colors.border),
             _buildSwitchTile(
-              'Nhắc nhở chấm công',
-              'Thông báo trước ca làm 15 phút',
+              context.l10n.punchReminder,
+              context.l10n.punchReminderDesc,
               _punchReminder,
               (v) => setState(() => _punchReminder = v),
               colors,
             ),
           ], colors),
-          const SizedBox(height: 22),
+          22.gapH,
 
           // Section: Quyền truy cập hệ thống
-          _buildSectionHeader('Quyền truy cập hệ thống', colors),
+          _buildSectionHeader(context.l10n.systemPermissionsSection, colors),
           _buildContainer([
             ListTile(
               leading: Icon(Symbols.shield, color: colors.primaryIndigo),
               title: Text(
-                'Quản lý quyền thiết bị',
+                context.l10n.manageDevicePermissions,
                 style: TextStyle(fontSize: 13.5, fontWeight: FontWeight.w700, color: colors.textPrimary),
               ),
               subtitle: Text(
-                'Máy ảnh, Vị trí GPS, Tệp & ảnh, Thông báo',
+                context.l10n.permissionsSubtext,
                 style: TextStyle(fontSize: 11.5, color: colors.textSecondary),
               ),
               trailing: Icon(Symbols.open_in_new, size: 18, color: colors.textTertiary),
               onTap: openAppSettings,
             ),
           ], colors),
-          const SizedBox(height: 22),
+          22.gapH,
 
           // Section: Bảo mật
-          _buildSectionHeader('Bảo mật & Quyền riêng tư', colors),
+          _buildSectionHeader(context.l10n.securityAndPrivacySection, colors),
           _buildContainer([
             _buildSwitchTile(
-              'Mở khoá sinh trắc học',
-              'Dùng Face ID hoặc vân tay để mở app',
+              context.l10n.biometricUnlock,
+              context.l10n.biometricUnlockDesc,
               _biometrics,
               (v) => setState(() => _biometrics = v),
               colors,
             ),
             Divider(height: 1, color: colors.border),
             _buildSwitchTile(
-              'Tự động khoá',
-              'Khoá app ngay khi chuyển sang ứng dụng khác',
+              context.l10n.autoLock,
+              context.l10n.autoLockDesc,
               _autoLock,
               (v) => setState(() => _autoLock = v),
               colors,
             ),
           ], colors),
-          const SizedBox(height: 22),
+          22.gapH,
 
           // Section: Trạng thái thiết kế & Dữ liệu
-          _buildSectionHeader('Thiết kế & Hệ thống', colors),
+          _buildSectionHeader(context.l10n.designAndSystemSection, colors),
           _buildContainer([
             ListTile(
               leading: Icon(Symbols.palette, color: colors.primaryIndigo),
               title: Text(
-                'Minh họa 4 Trạng thái (Empty, Shimmer, Error, Success)',
+                context.l10n.uiStateShowcase,
                 style: TextStyle(fontSize: 13.5, fontWeight: FontWeight.w700, color: colors.textPrimary),
               ),
               subtitle: Text(
-                'Kiểm thử giao diện Rỗng, Đăng tải, Báo lỗi & Thành công',
+                context.l10n.uiStateShowcaseDesc,
                 style: TextStyle(fontSize: 11.5, color: colors.textSecondary),
               ),
               trailing: Icon(Symbols.chevron_right, size: 18, color: colors.textTertiary),
@@ -151,7 +153,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
             ListTile(
               leading: Icon(Symbols.cleaning_services, color: colors.textSecondary),
               title: Text(
-                'Xoá bộ nhớ đệm (Cache)',
+                context.l10n.clearCache,
                 style: TextStyle(fontSize: 13.5, fontWeight: FontWeight.w700, color: colors.textPrimary),
               ),
               trailing: Text(
@@ -160,7 +162,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
               ),
               onTap: () {
                 ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(content: Text('Đã dọn dẹp bộ nhớ đệm thành công')),
+                  SnackBar(content: Text(context.l10n.cacheClearedSnackbar)),
                 );
               },
             ),

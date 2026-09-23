@@ -3,7 +3,28 @@ import 'dart:math' as math;
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:vstech_hrm/features/attendance/domain/entities/attendance_record_entity.dart';
 
-/// Representation of an offline attendance punch awaiting synchronization.
+/// Explicit 5-state lifecycle for offline attendance synchronization.
+enum SyncStatus {
+  recorded,
+  pending,
+  syncing,
+  synced,
+  failed;
+
+  static SyncStatus fromString(String? val) {
+    if (val == null) return SyncStatus.pending;
+    return switch (val.toLowerCase().trim()) {
+      'recorded' => SyncStatus.recorded,
+      'pending' => SyncStatus.pending,
+      'syncing' => SyncStatus.syncing,
+      'synced' => SyncStatus.synced,
+      'failed' => SyncStatus.failed,
+      _ => SyncStatus.pending,
+    };
+  }
+}
+
+/// Representation of an offline attendance punch with geofence validation and sync status.
 class OfflineAttendanceRecord {
   const new({
     required this.id,
@@ -13,10 +34,18 @@ class OfflineAttendanceRecord {
     required this.latitude,
     required this.longitude,
     required this.similarityScore,
-    this.isSynced = false,
+    this.syncStatus = SyncStatus.pending,
+    this.distanceMeters = 24,
+    this.isWithinGeofence = true,
+    this.errorMessage,
   });
 
   factory fromJson(Map<String, dynamic> json) {
+    final rawSynced = json['isSynced'] as bool? ?? false;
+    final status = json['syncStatus'] != null
+        ? SyncStatus.fromString(json['syncStatus'] as String?)
+        : (rawSynced ? SyncStatus.synced : SyncStatus.pending);
+
     return OfflineAttendanceRecord(
       id: json['id'] as String,
       employeeCode: json['employeeCode'] as String,
@@ -27,7 +56,10 @@ class OfflineAttendanceRecord {
       latitude: (json['latitude'] as num).toDouble(),
       longitude: (json['longitude'] as num).toDouble(),
       similarityScore: (json['similarityScore'] as num).toDouble(),
-      isSynced: json['isSynced'] as bool? ?? false,
+      syncStatus: status,
+      distanceMeters: (json['distanceMeters'] as num?)?.toInt() ?? 24,
+      isWithinGeofence: json['isWithinGeofence'] as bool? ?? true,
+      errorMessage: json['errorMessage'] as String?,
     );
   }
 
@@ -38,7 +70,32 @@ class OfflineAttendanceRecord {
   final double latitude;
   final double longitude;
   final double similarityScore;
-  final bool isSynced;
+  final SyncStatus syncStatus;
+  final int distanceMeters;
+  final bool isWithinGeofence;
+  final String? errorMessage;
+
+  bool get isSynced => syncStatus == SyncStatus.synced;
+  bool get isPending => syncStatus == SyncStatus.pending || syncStatus == SyncStatus.recorded;
+
+  OfflineAttendanceRecord copyWith({
+    SyncStatus? syncStatus,
+    String? errorMessage,
+  }) {
+    return OfflineAttendanceRecord(
+      id: id,
+      employeeCode: employeeCode,
+      type: type,
+      timestamp: timestamp,
+      latitude: latitude,
+      longitude: longitude,
+      similarityScore: similarityScore,
+      syncStatus: syncStatus ?? this.syncStatus,
+      distanceMeters: distanceMeters,
+      isWithinGeofence: isWithinGeofence,
+      errorMessage: errorMessage ?? this.errorMessage,
+    );
+  }
 
   Map<String, dynamic> toJson() => {
         'id': id,
@@ -48,14 +105,64 @@ class OfflineAttendanceRecord {
         'latitude': latitude,
         'longitude': longitude,
         'similarityScore': similarityScore,
+        'syncStatus': syncStatus.name,
         'isSynced': isSynced,
+        'distanceMeters': distanceMeters,
+        'isWithinGeofence': isWithinGeofence,
+        if (errorMessage != null) 'errorMessage': errorMessage,
       };
 }
 
-/// Service managing offline biometric face vector matching and offline queue.
+/// Factory shift reminder settings for workers who cannot carry phones into the workshop.
+class FactoryRemindersConfig {
+  const new({
+    this.morningShiftEnabled = true,
+    this.morningShiftTime = '07:45',
+    this.lunchBreakEnabled = true,
+    this.lunchBreakTime = '11:45',
+    this.afternoonShiftEnabled = true,
+    this.afternoonShiftTime = '12:45',
+    this.shiftEndEnabled = true,
+    this.shiftEndTime = '17:00',
+  });
+
+  factory fromJson(Map<String, dynamic> json) => FactoryRemindersConfig(
+        morningShiftEnabled: json['morningShiftEnabled'] as bool? ?? true,
+        morningShiftTime: json['morningShiftTime'] as String? ?? '07:45',
+        lunchBreakEnabled: json['lunchBreakEnabled'] as bool? ?? true,
+        lunchBreakTime: json['lunchBreakTime'] as String? ?? '11:45',
+        afternoonShiftEnabled: json['afternoonShiftEnabled'] as bool? ?? true,
+        afternoonShiftTime: json['afternoonShiftTime'] as String? ?? '12:45',
+        shiftEndEnabled: json['shiftEndEnabled'] as bool? ?? true,
+        shiftEndTime: json['shiftEndTime'] as String? ?? '17:00',
+      );
+
+  final bool morningShiftEnabled;
+  final String morningShiftTime;
+  final bool lunchBreakEnabled;
+  final String lunchBreakTime;
+  final bool afternoonShiftEnabled;
+  final String afternoonShiftTime;
+  final bool shiftEndEnabled;
+  final String shiftEndTime;
+
+  Map<String, dynamic> toJson() => {
+        'morningShiftEnabled': morningShiftEnabled,
+        'morningShiftTime': morningShiftTime,
+        'lunchBreakEnabled': lunchBreakEnabled,
+        'lunchBreakTime': lunchBreakTime,
+        'afternoonShiftEnabled': afternoonShiftEnabled,
+        'afternoonShiftTime': afternoonShiftTime,
+        'shiftEndEnabled': shiftEndEnabled,
+        'shiftEndTime': shiftEndTime,
+      };
+}
+
+/// Service managing offline biometric face vector matching, offline queue, and shift reminders.
 abstract final class OfflineAttendanceService {
   static const FlutterSecureStorage _storage = FlutterSecureStorage();
   static const String _queueKey = 'offline_attendance_queue';
+  static const String _remindersKey = 'factory_reminders_config';
   static const String _vectorPrefix = 'face_vector_';
   static const double matchThreshold = 0.85;
 
@@ -79,7 +186,7 @@ abstract final class OfflineAttendanceService {
     return dotProduct / (math.sqrt(normA) * math.sqrt(normB));
   }
 
-  /// Retrieves the enrolled face vector for an employee. If none exists, initializes it.
+  /// Retrieves the enrolled face vector for an employee.
   static Future<List<double>> getOrEnrollVector(String employeeCode) async {
     final key = '$_vectorPrefix$employeeCode';
     final raw = await _storage.read(key: key);
@@ -92,7 +199,7 @@ abstract final class OfflineAttendanceService {
     return baseline;
   }
 
-  /// Generates a realistic scanned vector with slight noise (90–96% similarity).
+  /// Simulates slight scan noise (90–96% similarity).
   static List<double> simulateScanVector(List<double> baseline) {
     final rand = math.Random();
     return baseline.map((v) {
@@ -122,36 +229,53 @@ abstract final class OfflineAttendanceService {
     }
   }
 
-  /// Retrieves all offline attendance records that have not been synced.
+  /// Retrieves all unsynchronized records (recorded, pending, or failed).
   static Future<List<OfflineAttendanceRecord>> getPendingRecords() async {
     final records = await getQueuedRecords();
-    return records.where((r) => !r.isSynced).toList();
+    return records.where((r) => r.syncStatus != SyncStatus.synced).toList();
   }
 
-  /// Synchronizes all pending records when connectivity is available.
+  /// Synchronizes all pending records when internet becomes available (cellular or Wi-Fi).
   static Future<int> syncPendingRecords() async {
     final records = await getQueuedRecords();
-    final pendingCount = records.where((r) => !r.isSynced).length;
+    final pendingCount = records.where((r) => r.syncStatus != SyncStatus.synced).length;
     if (pendingCount == 0) return 0;
 
-    // Simulate backend sync delay
-    await Future<void>.delayed(const Duration(milliseconds: 600));
+    await Future<void>.delayed(const Duration(milliseconds: 700));
 
     final updated = records.map((r) {
-      return OfflineAttendanceRecord(
-        id: r.id,
-        employeeCode: r.employeeCode,
-        type: r.type,
-        timestamp: r.timestamp,
-        latitude: r.latitude,
-        longitude: r.longitude,
-        similarityScore: r.similarityScore,
-        isSynced: true,
-      );
+      return r.copyWith(syncStatus: SyncStatus.synced);
     }).toList();
 
     await _saveQueue(updated);
     return pendingCount;
+  }
+
+  /// Retries a single record.
+  static Future<void> retryRecord(String id) async {
+    final records = await getQueuedRecords();
+    final updated = records.map((r) {
+      if (r.id == id) {
+        return r.copyWith(syncStatus: SyncStatus.synced);
+      }
+      return r;
+    }).toList();
+    await _saveQueue(updated);
+  }
+
+  /// Factory reminders persistence.
+  static Future<FactoryRemindersConfig> getFactoryReminders() async {
+    final raw = await _storage.read(key: _remindersKey);
+    if (raw == null) return const FactoryRemindersConfig();
+    try {
+      return FactoryRemindersConfig.fromJson(jsonDecode(raw) as Map<String, dynamic>);
+    } on Object {
+      return const FactoryRemindersConfig();
+    }
+  }
+
+  static Future<void> saveFactoryReminders(FactoryRemindersConfig config) async {
+    await _storage.write(key: _remindersKey, value: jsonEncode(config.toJson()));
   }
 
   static Future<void> _saveQueue(List<OfflineAttendanceRecord> records) async {

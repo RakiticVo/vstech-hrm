@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:vstech_hrm/core/responsive/app_layout.dart';
 import 'package:vstech_hrm/core/theme/app_colors.dart';
 import 'package:vstech_hrm/features/schedule/domain/entities/shift_schedule_entity.dart';
 
@@ -86,7 +87,7 @@ class ShiftWeekSelector extends StatelessWidget {
                                   : colors.textSecondary),
                         ),
                       ),
-                      const SizedBox(height: 4),
+                      4.gapH,
                       Text(
                         '${shift.date.day}',
                         style: TextStyle(
@@ -97,7 +98,7 @@ class ShiftWeekSelector extends StatelessWidget {
                               : colors.textPrimary,
                         ),
                       ),
-                      const SizedBox(height: 6),
+                      6.gapH,
                       // Shift indicator dot
                       Container(
                         width: 6,

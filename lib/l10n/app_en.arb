@@ -1,11 +1,11 @@
 {
   "@@locale": "en",
   "appTitle": "VSTech HRM",
-  "login": "Sign In",
-  "employeeCode": "Employee ID",
+  "login": "Log in",
+  "employeeCode": "Employee Code",
   "password": "Password",
-  "checkIn": "Check In",
-  "checkOut": "Check Out",
+  "checkIn": "Clock In",
+  "checkOut": "Clock Out",
   "home": "Home",
   "attendance": "Attendance",
   "requests": "Requests",
@@ -14,5 +14,878 @@
   "profile": "Profile",
   "errorOccurred": "An error occurred",
   "retry": "Retry",
-  "contactHr": "Contact HR"
+  "contactHr": "Contact HR",
+
+  "confirm": "Confirm",
+  "cancel": "Cancel",
+  "save": "Save",
+  "close": "Close",
+  "viewAll": "View All",
+  "back": "Back",
+  "details": "Details",
+  "syncNow": "Sync Now",
+
+  "loginSubtitle": "Smart Human Resource Management",
+  "loginInstruction": "Enter your employee ID and password",
+  "loginButton": "LOG IN",
+  "biometricLogin": "Sign in with Face ID / Biometrics",
+  "demoQuickLogin": "Quick Login (Demo Mode)",
+  "demoEmployee": "Employee",
+  "demoManager": "Manager",
+
+  "greetingMorning": "Good morning",
+  "greetingAfternoon": "Good afternoon",
+  "greetingEvening": "Good evening",
+  "greetingDefault": "Hello",
+
+  "todayWorkedHours": "TODAY'S WORKED HOURS",
+  "todayShiftLabel": "Today's Shift",
+  "clockInCta": "CLOCK IN",
+  "clockOutCta": "CLOCK OUT",
+  "timeIn": "Time in",
+  "timeOut": "Time out",
+  "lateMinutes": "Late",
+  "overtimeLabel": "Overtime",
+  "locationVerified": "Location verified",
+
+  "managerApprovalPending": "requests awaiting your approval",
+  "managerApprovalAction": "Review now",
+
+  "metricWorkdays": "Workdays",
+  "metricLeaveBalance": "Leave Left",
+  "metricOvertime": "Overtime",
+  "metricPending": "Pending",
+
+  "quickActionLeave": "Leave",
+  "quickActionOvertime": "Overtime",
+  "quickActionCorrection": "Correction",
+  "quickActionPayroll": "Payslip",
+  "quickActionAll": "All",
+
+  "salarySummaryTitle": "Income Sep 2026",
+  "salaryNetPay": "Net Salary",
+  "announcementsTitle": "Internal Announcements",
+  "roleSwitcherTitle": "Demo Role Switcher",
+
+  "shiftCheckInLabel": "CHECK-IN",
+  "shiftCheckOutLabel": "CHECK-OUT",
+  "shiftDoneCta": "SHIFT DONE",
+  "shiftCheckOutCta": "CHECK OUT",
+  "todayShiftDefault": "Today's shift 08:00 — 17:00",
+
+  "metricLateEarly": "LATE / EARLY",
+  "daysUnit": "days",
+  "hoursUnit": "h",
+
+  "monthlyNetSalaryLabel": "THIS MONTH'S NET SALARY",
+  "salaryMasked": "•••••••• ₫",
+  "salaryHintRevealed": "Includes KPI bonus 2,500,000 ₫ · View details",
+  "salaryHintHidden": "Tap the eye to reveal · View payslip",
+
+  "latestUpdatesTitle": "Recent Updates",
+  "demoLeaveApprovedAnnouncement": "Leave request 21–23/09 has been approved.",
+  "demoSalaryAnnouncement": "September payslip is available. Net: 25,500,000 ₫.",
+  "twoHoursAgo": "2 hours ago",
+  "oneDayAgo": "1 day ago",
+
+  "managerPendingApprovalTitle": "Awaiting your approval",
+  "switchToRole": "Switch to {role}",
+  "@switchToRole": {
+    "placeholders": {
+      "role": {
+        "type": "String"
+      }
+    }
+  },
+
+  "shiftScheduleNav": "Shifts",
+  "shiftScheduleTitle": "Shift Schedule",
+  "workCalendarTooltip": "Work Calendar",
+  "attendanceMonthSummaryTitle": "Monthly Summary (Month {month})",
+  "@attendanceMonthSummaryTitle": {
+    "placeholders": {
+      "month": {
+        "type": "int"
+      }
+    }
+  },
+  "sendCorrectionRequest": "Submit Attendance Correction",
+  "statusCheckedIn": "Checked in",
+  "statusNotCheckedIn": "Not checked in",
+  "shiftPromptArrive": "Your shift starts at 08:00. Punch in upon arrival.",
+  "hcmOfficeVerified": "HCM Office - Location verified",
+  "zeroMinutes": "0 min",
+  "offlineAttendanceModeLabel": "Offline Punch (Vector ≥ 85%)",
+  "onlineAttendanceModeLabel": "Online Mode",
+  "faceScanCheckInTitle": "Clock-in Face Scan",
+  "faceScanCheckOutTitle": "Clock-out Face Scan",
+  "faceScanCaptureCheckInCta": "Capture & Clock In",
+  "faceScanCaptureCheckOutCta": "Capture & Clock Out",
+  "offlineLocationLabel": "HCM Office (Local GPS Check)",
+  "offlineMatchSuccess": "Face match {pct}% (≥ 85%). Saved to offline queue.",
+  "@offlineMatchSuccess": {
+    "placeholders": {
+      "pct": {
+        "type": "String"
+      }
+    }
+  },
+  "offlineMatchFailed": "Face match under 85% threshold. Please adjust your face angle.",
+  "offlineQueueCount": "{count} offline punch record(s)",
+  "@offlineQueueCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "offlineQueueDesc": "Safely saved locally, ready to sync.",
+  "offlineSyncSuccess": "Successfully synced {count} attendance records to server!",
+  "@offlineSyncSuccess": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "syncButtonLabel": "Sync",
+  "attendanceFailed": "Attendance punch failed",
+
+  "viewMonthTooltip": "View Entire Month",
+  "viewMonth": "Month View",
+  "weekStatsTitle": "Week {week} ({range})",
+  "@weekStatsTitle": {
+    "placeholders": {
+      "week": {
+        "type": "String"
+      },
+      "range": {
+        "type": "String"
+      }
+    }
+  },
+  "weekStatsSummary": "{shifts} shifts · {hours} work hours · {daysOff} days off",
+  "@weekStatsSummary": {
+    "placeholders": {
+      "shifts": {
+        "type": "int"
+      },
+      "hours": {
+        "type": "int"
+      },
+      "daysOff": {
+        "type": "int"
+      }
+    }
+  },
+  "shiftDetailHeader": "Shift details for {dayOfWeek}, {date}",
+  "@shiftDetailHeader": {
+    "placeholders": {
+      "dayOfWeek": {
+        "type": "String"
+      },
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "shiftStatusActive": "In Progress",
+  "shiftStatusCompleted": "Completed",
+  "shiftStatusUpcoming": "Upcoming",
+  "shiftStatusDayOff": "Day Off",
+  "dayOffTitle": "Today is your Day Off",
+  "dayOffDescription": "No shifts scheduled for today. Rest, recharge, and get ready for the upcoming week!",
+  "registerOvertimeCta": "Register Overtime (OT)",
+  "shiftLabelTime": "Time:",
+  "shiftLabelBreak": "Break:",
+  "shiftLabelLocation": "Location:",
+  "shiftLabelManager": "Shift Manager:",
+  "shiftLabelNotes": "Notes:",
+  "shiftSwapButton": "Swap Shift",
+  "shiftOvertimeButton": "Request Overtime",
+  "swapRequestSent": "Swap shift request sent to {colleague}!",
+  "@swapRequestSent": {
+    "placeholders": {
+      "colleague": {
+        "type": "String"
+      }
+    }
+  },
+  "swapShiftProposalTitle": "Propose Shift Swap",
+  "selectColleagueLabel": "Select colleague to swap with:",
+  "swapReasonLabel": "Reason for swap:",
+  "swapReasonHint": "Enter specific reason for shift swap...",
+  "submitSwapRequestButton": "Submit Swap Request",
+  "shiftCalendarMonthTitle": "Shift Schedule Month {month}/{year}",
+  "@shiftCalendarMonthTitle": {
+    "placeholders": {
+      "month": {
+        "type": "int"
+      },
+      "year": {
+        "type": "int"
+      }
+    }
+  },
+  "dayMon": "Mon",
+  "dayTue": "Tue",
+  "dayWed": "Wed",
+  "dayThu": "Thu",
+  "dayFri": "Fri",
+  "daySat": "Sat",
+  "daySun": "Sun",
+  "shiftMorning": "Morning",
+  "shiftAfternoon": "Afternoon",
+  "shiftSplit": "Split",
+  "shiftNight": "Night",
+  "shiftOff": "Off",
+
+  "tabAll": "All",
+  "tabPending": "Pending",
+  "tabApproved": "Approved",
+  "tabRejected": "Rejected",
+  "createNewRequestTitle": "Create New Request",
+  "requestTypeLeave": "Leave Request",
+  "requestTypeOvertime": "Overtime Request",
+  "requestTypeCorrection": "Correction Request",
+  "requestsCenterTitle": "Requests Center",
+  "requestsCenterSubtitle": "Leave · Overtime · Attendance Correction",
+  "monthlyRequestsTitle": "Monthly Requests",
+  "selectMonthToView": "Select month to view",
+  "noRequestsInMonth": "No requests in {month}",
+  "@noRequestsInMonth": {
+    "placeholders": {
+      "month": {
+        "type": "String"
+      }
+    }
+  },
+  "roleIndicatorEmployee": "View Manager role:",
+  "roleIndicatorSwitchToManager": "Switch to Manager (Approvals tab)",
+  "managerPendingApprovalsBanner": "You have {count} requests awaiting approval",
+  "@managerPendingApprovalsBanner": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "openApprovalsLink": "Open Approvals >",
+  "submitRequestButton": "Submit Request",
+  "leaveRemainingStat": "Leave Left",
+  "leaveUsedStat": "Leave Used",
+  "newLeaveRequestSection": "New Leave Request",
+  "leaveTypeLabel": "Leave Type",
+  "timeRangeLabel": "Time Period",
+  "totalLabel": "Total",
+  "leaveHistorySection": "Leave Request History",
+  "noLeaveRequestsInMonth": "No leave requests in {month}",
+  "@noLeaveRequestsInMonth": {
+    "placeholders": {
+      "month": {
+        "type": "String"
+      }
+    }
+  },
+  "leaveRequestSubmittedTitle": "Leave request submitted!",
+  "leaveRequestSubmittedMsg": "{type} request from {start} to {end} ({total}) has been sent for Manager approval.",
+  "@leaveRequestSubmittedMsg": {
+    "placeholders": {
+      "type": {
+        "type": "String"
+      },
+      "start": {
+        "type": "String"
+      },
+      "end": {
+        "type": "String"
+      },
+      "total": {
+        "type": "String"
+      }
+    }
+  },
+  "thisMonthStat": "This Month",
+  "paidStat": "Paid",
+  "needsActionStat": "Action Required",
+  "newOvertimeRequestSection": "New Overtime Request",
+  "newCorrectionRequestSection": "New Correction Request",
+  "overtimeHistorySection": "Overtime History",
+  "correctionHistorySection": "Correction History",
+  "approvalsCenterTitle": "Approvals Center",
+  "awaitingYourAction": "Awaiting Your Action",
+  "noPendingApprovals": "No pending approval requests",
+  "requestApprovedSuccess": "Approved request from {name}",
+  "@requestApprovedSuccess": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "requestRejectedSuccess": "Rejected request from {name}",
+  "@requestRejectedSuccess": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "statusPending": "Pending",
+  "actionReject": "Reject",
+  "actionApprove": "Approve",
+
+  "statusApproved": "Approved",
+  "statusRejected": "Rejected",
+  "statusNeedsAction": "Needs Info",
+  "stagePendingManager": "Pending Manager",
+  "stagePendingHr": "Pending HR",
+  "stagePendingDirector": "Pending Director",
+  "stageCompleted": "Completed",
+  "stageRejected": "Rejected",
+  "leaveTypeAnnual": "Annual Leave",
+  "leaveTypeSick": "Sick Leave",
+  "leaveTypeUnpaid": "Unpaid Leave",
+  "leaveTypeSpecial": "Special Leave",
+  "leaveTypePersonal": "Personal Leave",
+  "createLeaveRequestTitle": "Create Leave Request",
+  "leaveTypeSelectorTitle": "Leave Type",
+  "fromDateLabel": "From Date",
+  "toDateLabel": "To Date",
+  "reasonLabel": "Reason",
+  "addAttachmentOptional": "Add attachment (optional)",
+  "attachmentSelected": "Attachment selected: {fileName} ({size})",
+  "@attachmentSelected": {
+    "placeholders": {
+      "fileName": {"type": "String"},
+      "size": {"type": "String"}
+    }
+  },
+  "confirmSendLeaveRequest": "Confirm Submit Request",
+  "overtimeModalTitle": "Enter Overtime Info",
+  "overtimeDateLabel": "Overtime Date",
+  "overtimeTimeRangeLabel": "Overtime Time Period",
+  "startTimeLabel": "Start",
+  "endTimeLabel": "End",
+  "overtimeEstimateCalc": "Total: {hours} hours · Rate {rate} ({type})",
+  "@overtimeEstimateCalc": {
+    "placeholders": {
+      "hours": {"type": "int"},
+      "rate": {"type": "String"},
+      "type": {"type": "String"}
+    }
+  },
+  "overtimeDayTypeNormal": "Normal day",
+  "overtimeReasonLabel": "Overtime Reason",
+  "confirmSendOvertime": "Confirm Submit",
+  "overtimeSubmittedTitle": "Overtime request submitted!",
+  "overtimeSubmittedMsg": "Overtime request on {date} ({time}) has been sent for Manager approval.",
+  "@overtimeSubmittedMsg": {
+    "placeholders": {
+      "date": {"type": "String"},
+      "time": {"type": "String"}
+    }
+  },
+  "noOvertimeInMonth": "No overtime data in {month}",
+  "@noOvertimeInMonth": {
+    "placeholders": {
+      "month": {"type": "String"}
+    }
+  },
+  "createCorrectionTitle": "Create Correction Request",
+  "correctionDateLabel": "Correction Date",
+  "correctionTimeLabel": "Corrected Time",
+  "correctionIssueLabel": "Issue Encountered",
+  "issueMissingCheckout": "Missing Check-out",
+  "issueMissingCheckin": "Missing Check-in",
+  "issueWrongShift": "Wrong Shift",
+  "issueScannerError": "Scanner Error",
+  "explanationDetailLabel": "Detailed Explanation",
+  "addProofOptional": "Attach proof image (optional)",
+  "proofSelected": "Proof selected: {fileName} ({size})",
+  "@proofSelected": {
+    "placeholders": {
+      "fileName": {"type": "String"},
+      "size": {"type": "String"}
+    }
+  },
+  "confirmSendCorrection": "Confirm Submit Request",
+  "correctionSubmittedTitle": "Correction request submitted!",
+  "correctionSubmittedMsg": "Correction for {issue} on {date} ({time}) has been sent to HR & Manager.",
+  "@correctionSubmittedMsg": {
+    "placeholders": {
+      "issue": {"type": "String"},
+      "date": {"type": "String"},
+      "time": {"type": "String"}
+    }
+  },
+  "noCorrectionsInMonth": "No attendance corrections in {month}",
+  "@noCorrectionsInMonth": {
+    "placeholders": {
+      "month": {"type": "String"}
+    }
+  },
+  "correctionWarningBanner": "Date 15/09/2026 missing check-out time. This day counts as incomplete attendance until correction is approved.",
+  "correctionIssueTitle": "Issue",
+  "correctionChangeTo": "Correct To",
+
+  "payrollTitle": "Payroll & Income",
+  "payrollPeriodSubtitle": "Payroll Period Month {month}/{year}",
+  "@payrollPeriodSubtitle": {
+    "placeholders": {
+      "month": {"type": "String"},
+      "year": {"type": "String"}
+    }
+  },
+  "rewardsAction": "Rewards",
+  "payrollNetSalaryTitle": "NET TAKE-HOME SALARY",
+  "payrollPayDate": "VND · Pay date {date}",
+  "@payrollPayDate": {
+    "placeholders": {
+      "date": {"type": "String"}
+    }
+  },
+  "viewPayslipButton": "View Payslip",
+  "incomeAndDeductionBreakdown": "Income & Deduction Breakdown",
+  "salaryHistoryTitle": "Payroll History",
+  "payslipTitle": "Payslip",
+  "downloadingPdfSnackbar": "Downloading payslip PDF...",
+  "salaryTransferredTo": "Transferred {bank} · {date}",
+  "@salaryTransferredTo": {
+    "placeholders": {
+      "bank": {"type": "String"},
+      "date": {"type": "String"}
+    }
+  },
+  "basicSalaryLabel": "Base Salary",
+  "lunchAndTransportAllowance": "Lunch & Travel Allowance",
+  "kpiQuarterBonus": "Quarter {quarter} KPI Bonus",
+  "@kpiQuarterBonus": {
+    "placeholders": {
+      "quarter": {"type": "int"}
+    }
+  },
+  "socialInsuranceDeduction": "Insurance (10.5%)",
+  "personalIncomeTaxDeduction": "Estimated PIT Deduction",
+  "unionFeeDeduction": "Union Fee",
+  "incomeSectionTitle": "Income",
+  "deductionSectionTitle": "Deductions",
+  "netSalaryLabel": "Net Salary",
+  "overtimePayLabel": "Overtime 12h (x1.5)",
+  "payslipNetSalaryMonth": "Net Salary: Month {month} {year}",
+  "@payslipNetSalaryMonth": {
+    "placeholders": {
+      "month": {"type": "String"},
+      "year": {"type": "String"}
+    }
+  },
+
+  "profileTitle": "Profile",
+  "personalInfoSection": "Personal Information",
+  "workInfoSection": "Work Information",
+  "bankAccountSection": "Bank Account",
+  "fullNameLabel": "Full Name",
+  "dateOfBirthLabel": "Date of Birth",
+  "phoneLabel": "Phone Number",
+  "emailLabel": "Email",
+  "addressLabel": "Address",
+  "departmentLabel": "Department",
+  "jobTitleLabel": "Job Title",
+  "directManagerLabel": "Direct Manager",
+  "joinDateLabel": "Start Date",
+  "employmentStatusLabel": "Status",
+  "officialStatus": "Permanent",
+  "bankNameLabel": "Bank",
+  "accountNumberLabel": "Account Number",
+  "emergencyContactLink": "Emergency Contact",
+  "documentsAndRecordsLink": "Documents & Contracts",
+  "internalRecruitmentLink": "Internal Recruitment",
+  "settingsLink": "Settings",
+  "logoutButton": "Log Out",
+  "logoutConfirmTitle": "Confirm Logout",
+  "logoutConfirmMsg": "Are you sure you want to log out of VSTech HRM?",
+  "cancelButton": "Cancel",
+  "roleBadgeManager": "MGR",
+  "roleBadgeEmployee": "EMP",
+  "readyToUploadAvatarSnackbar": "Ready to upload new profile avatar",
+
+  "languageSettingTitle": "LANGUAGE SETTINGS",
+  "chooseLanguageTitle": "Choose Display Language",
+  "languageDesc": "Interface and notifications will immediately switch to your selected language.",
+  "vietnameseLanguage": "Tiếng Việt",
+  "vietnameseDesc": "Application default language.",
+  "englishLanguage": "English",
+  "englishDesc": "English display for global workplace standards.",
+  "confirmButton": "Confirm",
+  "closeButton": "Close",
+
+  "themeSettingTitle": "APPEARANCE SETTINGS",
+  "chooseThemeTitle": "Choose Theme Mode",
+  "themeDesc": "Theme applies immediately and persists automatically across future sessions.",
+  "themeSystem": "System Default",
+  "themeSystemDesc": "Synchronizes automatically with device Light / Dark settings.",
+  "themeLight": "Light Theme",
+  "themeLightDesc": "Warm cream tone with signature Saigon tile pattern.",
+  "themeDark": "Dark Theme",
+  "themeDarkDesc": "Deep dark slate tone, easy on eyes during night shifts.",
+
+  "appLockSettingTitle": "DATA PROTECTION",
+  "appLockTitle": "App Lock & PIN Code",
+  "appLockDesc": "Automatically lock app when leaving screen to protect salary and personnel data.",
+  "enableAppLock": "Enable App Lock",
+  "autoLockAfter": "AUTO-LOCK AFTER",
+  "lockImmediately": "Immediately when leaving app",
+  "lockAfter1Min": "After 1 minute",
+  "lockAfter5Mins": "After 5 minutes",
+  "saveSettingsButton": "Save Settings",
+  "appLockUpdatedSnackbar": "App lock configuration updated successfully",
+
+  "biometricSecurityTitle": "BIOMETRIC SECURITY",
+  "biometricAuthTitle": "Fingerprint / Face Unlock",
+  "biometricDesc": "Use device biometrics to unlock app quickly and secure payslip access.",
+  "enableBiometrics": "Enable Biometrics",
+  "hardwareSupportLabel": "Hardware Support:",
+  "hardwareAvailable": "Available",
+  "hardwareNotSupported": "Not Supported",
+  "biometricSensorLabel": "Biometric Sensor:",
+  "sensorConfigured": "Enrolled on Device",
+  "sensorNotConfigured": "Not Enrolled",
+  "testBiometricNow": "Test Biometric Sensor",
+
+  "deviceSecurityTitle": "DEVICE & SYSTEM INTEGRITY",
+  "linkedDeviceTitle": "Bound Hardware Device",
+  "deviceSecurityDesc": "Security policies strictly bind account to 1 trusted device for attendance and payslips.",
+  "officialDeviceRegistered": "Official Device • Registered",
+  "physicalDeviceLabel": "Physical Device",
+  "physicalDeviceValid": "Valid (Physical)",
+  "physicalDeviceWarning": "Warning (Simulator)",
+  "jailbreakLabel": "Root / Jailbreak",
+  "jailbreakSafe": "Secure (Unrooted)",
+  "jailbreakDetected": "Tampering Detected!",
+  "mockGpsLabel": "Mock GPS Location",
+  "mockGpsNotDetected": "Not Detected",
+  "mockGpsDetected": "Fake Location Detected!",
+  "developerModeLabel": "Developer Mode",
+  "devModeOn": "Enabled (Dev Mode)",
+  "devModeOff": "Disabled",
+
+  "systemInfoTitle": "SYSTEM INFORMATION",
+  "systemDesc": "B2B SaaS Human Resource Management System • Employee & Manager Modules.",
+  "appVersionLabel": "Application Version",
+  "runtimeEnvLabel": "Runtime Environment",
+  "dataEngineLabel": "Data Engine",
+  "uiFontLabel": "UI Typography & Theme",
+  "checkUpdatesButton": "Check for Updates",
+  "appUpToDateSnackbar": "Application is running the latest version (v1.0.0)!",
+
+  "roleSwitchDemoTitle": "ROLE SWITCHER (DEMO)",
+  "chooseRoleTitle": "Choose Experience Role",
+  "roleSwitchDesc": "Standalone demo mode switches interfaces and approval pipelines between Employee and Manager instantly.",
+  "roleEmployeeTitle": "Employee (NV / ESS)",
+  "roleEmployeeDesc": "Nguyen Van An • NV0142\nAttendance, submit leave requests, view payslips.",
+  "roleManagerTitle": "Direct Manager (QL / MSS)",
+  "roleManagerDesc": "Tran Thi Mai • NV0089\nPending review bar, first-line approvals for team requests.",
+  "switchedToRoleSnackbar": "Switched role to: {role}",
+  "@switchedToRoleSnackbar": {
+    "placeholders": {
+      "role": {"type": "String"}
+    }
+  },
+
+  "settingsTitle": "Settings",
+  "notificationsSection": "Notifications",
+  "pushNotifications": "Push Notifications",
+  "pushNotificationsDesc": "Receive approval and shift schedule alerts",
+  "emailReport": "Email Reports",
+  "emailReportDesc": "Receive monthly timesheet and payroll summary via email",
+  "punchReminder": "Attendance Reminders",
+  "punchReminderDesc": "Remind 15 minutes before shift start",
+  "systemPermissionsSection": "System Permissions",
+  "manageDevicePermissions": "Manage Device Permissions",
+  "permissionsSubtext": "Camera, GPS Location, Files & Photos, Notifications",
+  "securityAndPrivacySection": "Security & Privacy",
+  "biometricUnlock": "Biometric Unlock",
+  "biometricUnlockDesc": "Use Face ID or Fingerprint to unlock",
+  "autoLock": "Auto Lock",
+  "autoLockDesc": "Lock app immediately when switching apps",
+  "designAndSystemSection": "Design & System",
+  "uiStateShowcase": "Showcase 4 UI States (Empty, Shimmer, Error, Success)",
+  "uiStateShowcaseDesc": "Inspect Empty, Loading Shimmer, Error & Success layouts",
+  "clearCache": "Clear App Cache",
+  "cacheClearedSnackbar": "Cache cleaned successfully",
+  "enableNotificationInSettings": "Please enable notification permissions in system settings",
+
+  "allServicesTitle": "All Services",
+  "categoryAttendanceTime": "Time & Attendance",
+  "categoryRequests": "Requests",
+  "categoryPayrollRewards": "Payroll & Rewards",
+  "categoryCareerProfile": "Career & Profile",
+  "serviceCheckInOut": "Punch In / Out",
+  "serviceShiftSchedule": "Shift Schedule",
+  "serviceMonthlyTimesheet": "Monthly Timesheet",
+  "serviceHolidays": "Public Holidays",
+  "serviceLeave": "Leave Request",
+  "serviceOvertime": "Overtime Request",
+  "serviceCorrection": "Attendance Correction",
+  "serviceTrackRequests": "Track Requests",
+  "serviceSalaryTable": "Monthly Payroll",
+  "servicePayslip": "Payslip",
+  "serviceRewards": "Rewards & Recognition",
+  "serviceAllowance": "Allowances",
+  "serviceInternalJobs": "Internal Recruitment",
+  "serviceProfile": "Personnel Profile",
+  "serviceSettings": "Settings",
+  "serviceApprovals": "Approvals",
+
+  "notificationsTitle": "Notifications",
+  "markAllRead": "Mark all read",
+  "allNotificationsReadSnackbar": "All notifications marked as read",
+  "notificationCatLeave": "Leave",
+  "notificationCatSalary": "Salary",
+  "notificationCatAttendance": "Attendance",
+  "notificationCatReward": "Rewards",
+  "notificationCatRecruitment": "Jobs",
+  "notificationCatSystem": "System",
+
+  "calendarScreenTitle": "Calendar & Shifts",
+  "calendarSubtitle": "Month 09/2026 · 22 Standard Workdays",
+  "monthSummaryTitle": "September Summary",
+  "payableWorkdays": "Payable Workdays",
+  "totalWorkHours": "Total Work Hours",
+  "cumulativeOvertime": "Cumulative Overtime",
+  "paidLeaveDays": "Paid Leave Days",
+  "lateEarlyArrivals": "Late / Early Arrivals",
+  "legendFullWork": "Full Work",
+  "legendLeave": "Leave",
+  "legendMissingTime": "Missing Time",
+  "legendHoliday": "Holiday",
+
+  "holidaysTitle": "Holidays",
+  "year2026": "Year 2026",
+  "nationalHolidaysStat": "Holidays",
+  "compensatoryLeaveStat": "Compensatory",
+  "optionalHolidaysStat": "Floating",
+
+  "rewardsTitle": "Rewards & Recognition",
+  "rewardMonthHeader": "September Reward",
+  "paidWithMonthSalary": "VND · Paid with September salary",
+  "monthlyBonusStat": "Monthly Bonus",
+  "kpiBonusStat": "KPI Bonus",
+  "yearTotalBonusStat": "2026 Annual Total",
+  "internalRecognitionStat": "Internal Recognition",
+  "whyReceivedBonus": "Reason for Reward",
+  "bonusHistoryTitle": "Bonus History",
+
+  "internalRecruitmentTitle": "Internal Recruitment",
+  "searchJobPlaceholder": "Search position, department...",
+  "openPositionsCount": "{count} open positions for internal candidates",
+  "@openPositionsCount": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+  "tagNew": "NEW",
+  "jobDetailTitle": "Position Details",
+  "applyButton": "Apply Now",
+  "jobDescriptionSection": "Job Description",
+  "jobRequirementsSection": "Requirements",
+  "jobBenefitsSection": "Benefits",
+  "applySuccessTitle": "Applied Successfully!",
+  "applySuccessMsg": "Your internal profile has been forwarded to HR & Hiring Manager.",
+  "emptyDataMessage": "No data available to display",
+  "errorOccurredTitle": "An error occurred",
+  "errorOccurredMessage": "Unable to load data right now. Please check your network connection.",
+  "successDialogTitle": "Action successful!",
+  "successDialogMessage": "Your request has been recorded and forwarded for processing.",
+  "doneButton": "Done",
+  "filterAll": "All",
+  "forgotPasswordShort": "Forgot?",
+  "orDivider": "or",
+  "faceIdLoginTitle": "Face ID Login",
+  "faceIdLoginSubtitle": "Smart and secure facial recognition",
+  "faceDetecting": "Detecting face...",
+  "faceAligning": "Aligning face angle...",
+  "faceMatching": "Verifying biometric data...",
+  "faceAuthSuccessGreeting": "Recognition successful! Welcome {name}",
+  "@faceAuthSuccessGreeting": {
+    "placeholders": {
+      "name": {"type": "String"}
+    }
+  },
+  "systemBiometricAuthButton": "System Biometrics / Fingerprint",
+  "loginWithCredentialsButton": "Log in with Employee ID & Password",
+  "biometricAuthReason": "Biometric authentication to log in to vstech-hrm",
+  "punchSuccessTitle": "Clock-in successful!",
+  "checkInRecorded": "Clock-in recorded",
+  "checkOutRecorded": "Clock-out recorded",
+  "timeLabel": "Time",
+  "classificationLabel": "Classification",
+  "locationLabel": "Location",
+  "methodLabel": "Method",
+  "methodFaceGps": "Face Recognition + GPS",
+  "completeAndHomeCta": "Done & Return Home",
+  "dailyLogSectionTitle": "Daily Log",
+  "holidaysLink": "Holidays",
+  "statusWorking": "Working",
+  "statusMissingCheckOut": "Missing Clock-out",
+  "statusFullWork": "Full Workday",
+  "statusWeeklyOff": "Day Off",
+  "statusFullWorkOt": "Full Work · OT {hours}h",
+  "@statusFullWorkOt": {
+    "placeholders": {
+      "hours": {"type": "String"}
+    }
+  },
+  "statusLateMinutes": "Late {minutes} mins",
+  "@statusLateMinutes": {
+    "placeholders": {
+      "minutes": {"type": "String"}
+    }
+  },
+  "noShiftAssigned": "No shift",
+  "monthlyWorkdaysUnit": "workdays",
+  "daysCountUnit": "{count} days",
+  "@daysCountUnit": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+  "faceScanSuccessTitle": "Authentication successful!",
+  "faceScanSuccessSubtitle": "Face recognition and location successfully recorded",
+  "faceScanningTitle": "Scanning...",
+  "faceScanningSubtitle": "Sending face capture and GPS coordinates to server",
+  "faceAlignPromptTitle": "Align Face",
+  "faceAlignPromptSubtitle": "Hold head straight and look directly into camera",
+  "emergencyContactInfo": "Emergency Contact: 0908 221 470 (Family member)",
+  "documentsAndRecordsInfo": "Employee Records & Labor Contracts",
+  "annualLeaveCardTitle": "Annual Leave Balance",
+  "leaveRatio": "{used} / {total} days",
+  "@leaveRatio": {
+    "placeholders": {
+      "used": {"type": "String"},
+      "total": {"type": "String"}
+    }
+  },
+  "usedDaysCount": "Used {count}",
+  "@usedDaysCount": {
+    "placeholders": {
+      "count": {"type": "String"}
+    }
+  },
+  "remainingDaysCount": "Remaining {count}",
+  "@remainingDaysCount": {
+    "placeholders": {
+      "count": {"type": "String"}
+    }
+  },
+
+  "announcementsTitle": "Internal Announcements",
+  "announcementsSubtitle": "Official updates from HR & Executive Management",
+  "announcementScopeAll": "All",
+  "announcementScopeCompany": "Company-wide",
+  "announcementScopeOffice": "Office",
+  "announcementScopeFactory": "Factory & Team",
+  "announcementScopeDept": "Department",
+  "announcementTargetScope": "Scope: {scope}",
+  "@announcementTargetScope": {
+    "placeholders": {
+      "scope": {"type": "String"}
+    }
+  },
+  "announcementAuthor": "Author: {author}",
+  "@announcementAuthor": {
+    "placeholders": {
+      "author": {"type": "String"}
+    }
+  },
+  "announcementPublishDate": "Published: {date}",
+  "@announcementPublishDate": {
+    "placeholders": {
+      "date": {"type": "String"}
+    }
+  },
+  "announcementUnreadBadge": "NEW",
+  "announcementMarkAllRead": "Mark all as read",
+  "announcementEmpty": "No announcements in this category",
+  "announcementDetailTitle": "Announcement Detail",
+  "announcementReadConfirmed": "Marked as read",
+
+  "laborProfileTitle": "Labor Profile & Contracts",
+  "contractSectionTitle": "Current Labor Contract",
+  "contractNumberLabel": "Contract Number",
+  "contractTypeLabel": "Contract Type",
+  "contractSigningDateLabel": "Signing Date",
+  "contractEffectiveDateLabel": "Effective Date",
+  "contractExpirationDateLabel": "Expiration Date",
+  "contractStatusLabel": "Contract Status",
+  "contractStatusActive": "Active",
+  "salaryAndBenefitsSection": "Agreed Salary & Allowances",
+  "agreedBaseSalary": "Agreed Base Salary",
+  "responsibilityAllowance": "Responsibility Allowance",
+  "mealAllowance": "Meal Allowance",
+  "overtimeRateDescription": "OT Rate: 150% (weekday), 200% (weekend), 300% (holiday)",
+  "socialInsuranceSection": "Social & Health Insurance",
+  "socialInsuranceNumber": "Social Insurance Code",
+  "hospitalRegistered": "Primary Registered Clinic/Hospital",
+  "insuranceSalaryLevel": "Insurance Contribution Base",
+  "insuranceStatus": "Insurance Book Status",
+  "insuranceStatusActive": "Fully Contributing",
+  "contractAttachmentsSection": "Attachments & Contract Scans",
+  "downloadAttachmentButton": "Download",
+  "previewAttachmentButton": "Preview",
+  "laborProfileHrNotice": "Contract and labor terms are managed by HR. Employees cannot edit this data on mobile. Please contact HR for inquiries.",
+
+  "offlineQueueTitle": "Offline Attendance Queue",
+  "offlineQueueSubtitle": "Locally saved punches pending server synchronization",
+  "statusRecorded": "Recorded",
+  "statusPendingSync": "Pending Sync",
+  "statusSyncing": "Synchronizing...",
+  "statusSynced": "Synchronized",
+  "statusSyncFailed": "Sync Failed",
+  "syncAllButton": "Sync All",
+  "syncRetryButton": "Retry",
+  "persistentQueueWarning": "WARNING: {count} offline attendance punches are still pending synchronization!",
+  "@persistentQueueWarning": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+  "factoryRemindersTitle": "Factory Shift Reminders",
+  "factoryRemindersSubtitle": "Alerts for shift starts and lunch breaks (workers cannot carry phones inside factory)",
+  "reminderMorningShift": "Morning Shift In (07:45)",
+  "reminderLunchBreak": "Lunch Break (11:45)",
+  "reminderAfternoonShift": "Afternoon Shift In (12:45)",
+  "reminderShiftEnd": "Shift End Out (17:00)",
+  "reminderSavedSuccess": "Factory shift reminders saved successfully!",
+  "geofenceDistanceLabel": "Distance: {meters}m from factory center",
+  "@geofenceDistanceLabel": {
+    "placeholders": {
+      "meters": {"type": "int"}
+    }
+  },
+  "geofenceWithinRange": "Within valid geofence (≤ 50m)",
+  "geofenceOutOfRange": "Outside factory geofence (> 50m)",
+  "checkInGpsSuccess": "GPS Check-in recorded successfully!",
+  "checkOutGpsSuccess": "GPS Check-out recorded successfully!",
+
+  "qrScannerTitle": "Scan QR to Login",
+  "qrScannerSubtitle": "Point camera at the QR code on the Web Portal",
+  "qrTorchToggle": "Toggle Torch",
+  "qrSamplePayloadsButton": "Demo QR Payloads",
+  "qrConfirmTitle": "Confirm Web Login",
+  "qrConfirmPrompt": "Are you attempting to log in to VSTech Web Portal?",
+  "qrBrowserLabel": "Browser",
+  "qrDeviceLabel": "Device / Workstation",
+  "qrLocationLabel": "Login Location",
+  "qrRequestTimeLabel": "Request Time",
+  "qrIpAddressLabel": "IP Address",
+  "qrApproveButton": "Approve Login",
+  "qrRejectButton": "Reject",
+  "qrBiometricPromptReason": "Biometric authentication required to approve web login",
+  "qrLoginApprovedSuccess": "Login approved! Web workstation session activated.",
+  "qrLoginRejectedMsg": "You rejected this login request.",
+  "qrExpiredWarning": "This QR code has expired. Please refresh the web page.",
+  "qrInvalidWarning": "Invalid QR code. Not recognized by VSTech.",
+  "qrUsedWarning": "This QR code has already been used.",
+  "qrCancelledWarning": "This login request has been cancelled by the workstation."
 }

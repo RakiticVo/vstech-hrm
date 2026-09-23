@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:material_symbols_icons/symbols.dart';
+import 'package:vstech_hrm/core/extensions/l10n_extension.dart';
+import 'package:vstech_hrm/core/responsive/app_layout.dart';
 import 'package:vstech_hrm/core/theme/app_colors.dart';
 
 /// Reusable empty state display with icon, title, description, and action button.
 class AppEmptyState extends StatelessWidget {
   const new({
     required this.title,
-    this.message = 'Hiện chưa có dữ liệu nào để hiển thị',
+    this.message,
     this.icon = Symbols.inbox,
     this.actionLabel,
     this.onAction,
@@ -14,7 +16,7 @@ class AppEmptyState extends StatelessWidget {
   });
 
   final String title;
-  final String message;
+  final String? message;
   final IconData icon;
   final String? actionLabel;
   final VoidCallback? onAction;
@@ -22,6 +24,7 @@ class AppEmptyState extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colors = context.colors;
+    final resolvedMessage = message ?? context.l10n.emptyDataMessage;
 
     return Center(
       child: Padding(
@@ -42,7 +45,7 @@ class AppEmptyState extends StatelessWidget {
                 color: colors.textSecondary,
               ),
             ),
-            const SizedBox(height: 18),
+            18.gapH,
             Text(
               title,
               style: TextStyle(
@@ -52,9 +55,9 @@ class AppEmptyState extends StatelessWidget {
               ),
               textAlign: TextAlign.center,
             ),
-            const SizedBox(height: 8),
+            8.gapH,
             Text(
-              message,
+              resolvedMessage,
               style: TextStyle(
                 fontSize: 13,
                 fontWeight: FontWeight.w500,
@@ -64,7 +67,7 @@ class AppEmptyState extends StatelessWidget {
               textAlign: TextAlign.center,
             ),
             if (actionLabel != null && onAction != null) ...[
-              const SizedBox(height: 22),
+              22.gapH,
               ElevatedButton(
                 style: ElevatedButton.styleFrom(
                   backgroundColor: colors.primaryIndigo,

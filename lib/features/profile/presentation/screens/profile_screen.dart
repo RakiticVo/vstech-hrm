@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:material_symbols_icons/symbols.dart';
+import 'package:vstech_hrm/core/extensions/l10n_extension.dart';
+import 'package:vstech_hrm/core/responsive/app_layout.dart';
 import 'package:vstech_hrm/core/router/routes.dart';
 import 'package:vstech_hrm/core/session/auth_cubit.dart';
 import 'package:vstech_hrm/core/session/auth_state.dart';
@@ -28,24 +30,24 @@ class ProfileScreen extends StatelessWidget {
     final userEmail = user?.email ?? 'minh.tuan@company.vn';
 
     final personalRows = [
-      ('Họ và tên', userName),
-      ('Ngày sinh', '14/03/1994'),
-      ('Điện thoại', '+84 908 221 470'),
-      ('Email', userEmail),
-      ('Địa chỉ', 'Q.3, TP. Hồ Chí Minh'),
+      (context.l10n.fullNameLabel, userName),
+      (context.l10n.dateOfBirthLabel, '14/03/1994'),
+      (context.l10n.phoneLabel, '+84 908 221 470'),
+      (context.l10n.emailLabel, userEmail),
+      (context.l10n.addressLabel, 'Q.3, TP. Hồ Chí Minh'),
     ];
 
     final workRows = [
-      ('Bộ phận', department),
-      ('Chức danh', 'Giám sát cửa hàng'),
-      ('Quản lý', 'Lê Thu Hà'),
-      ('Ngày vào', '02/05/2021'),
-      ('Trạng thái', 'Chính thức'),
+      (context.l10n.departmentLabel, department),
+      (context.l10n.jobTitleLabel, 'Giám sát cửa hàng'),
+      (context.l10n.directManagerLabel, 'Lê Thu Hà'),
+      (context.l10n.joinDateLabel, '02/05/2021'),
+      (context.l10n.employmentStatusLabel, context.l10n.officialStatus),
     ];
 
     final bankRows = [
-      ('Ngân hàng', 'Vietcombank'),
-      ('Số tài khoản', '•••• 4821'),
+      (context.l10n.bankNameLabel, 'Vietcombank'),
+      (context.l10n.accountNumberLabel, '•••• 4821'),
     ];
 
     return Scaffold(
@@ -54,7 +56,7 @@ class ProfileScreen extends StatelessWidget {
         backgroundColor: colors.surface,
         elevation: 0,
         title: Text(
-          'Cá nhân',
+          context.l10n.profileTitle,
           style: TextStyle(
             fontSize: 18,
             fontWeight: FontWeight.w800,
@@ -66,7 +68,7 @@ class ProfileScreen extends StatelessWidget {
             icon: Icon(Symbols.settings, size: 22, color: colors.textPrimary),
             onPressed: () => context.push(AppRoutes.settings),
           ),
-          const SizedBox(width: 4),
+          4.gapW,
         ],
       ),
       body: ListView(
@@ -79,28 +81,28 @@ class ProfileScreen extends StatelessWidget {
             position: 'Giám sát cửa hàng · Vận hành',
             isManager: isManager,
           ),
-          const SizedBox(height: 18),
+          18.gapH,
 
           // Thông tin cá nhân
           ProfileInfoCard(
-            title: 'Thông tin cá nhân',
+            title: context.l10n.personalInfoSection,
             rows: personalRows,
           ),
-          const SizedBox(height: 16),
+          16.gapH,
 
           // Part 2: Thông tin công việc
           ProfileInfoCard(
-            title: 'Thông tin công việc',
+            title: context.l10n.workInfoSection,
             rows: workRows,
           ),
-          const SizedBox(height: 16),
+          16.gapH,
 
           // Tài khoản ngân hàng
           ProfileInfoCard(
-            title: 'Tài khoản ngân hàng',
+            title: context.l10n.bankAccountSection,
             rows: bankRows,
           ),
-          const SizedBox(height: 16),
+          16.gapH,
 
           // Profile Quick Links (K, H, T, C)
           Container(
@@ -111,25 +113,21 @@ class ProfileScreen extends StatelessWidget {
             ),
             child: Column(
               children: [
-                _buildLetterLinkTile('K', 'Liên hệ khẩn cấp', () {
+                _buildLetterLinkTile('K', context.l10n.emergencyContactLink, () {
                   ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(content: Text('Liên hệ khẩn cấp: 0908 221 470 (Người thân)')),
+                    SnackBar(content: Text(context.l10n.emergencyContactInfo)),
                   );
                 }, colors),
                 Divider(height: 1, indent: 62, color: colors.border.withValues(alpha: 0.5)),
-                _buildLetterLinkTile('H', 'Hồ sơ & tài liệu', () {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(content: Text('Hồ sơ nhân viên & Hợp đồng lao động')),
-                  );
-                }, colors),
+                _buildLetterLinkTile('H', context.l10n.documentsAndRecordsLink, () => context.push(AppRoutes.laborProfile), colors),
                 Divider(height: 1, indent: 62, color: colors.border.withValues(alpha: 0.5)),
-                _buildLetterLinkTile('T', 'Tuyển dụng nội bộ', () => context.push(AppRoutes.jobRecruitment), colors),
+                _buildLetterLinkTile('T', context.l10n.internalRecruitmentLink, () => context.push(AppRoutes.jobRecruitment), colors),
                 Divider(height: 1, indent: 62, color: colors.border.withValues(alpha: 0.5)),
-                _buildLetterLinkTile('C', 'Cài đặt', () => context.push(AppRoutes.settings), colors),
+                _buildLetterLinkTile('C', context.l10n.settingsLink, () => context.push(AppRoutes.settings), colors),
               ],
             ),
           ),
-          const SizedBox(height: 20),
+          20.gapH,
 
           // Nút Đăng xuất
           OutlinedButton.icon(
@@ -141,9 +139,9 @@ class ProfileScreen extends StatelessWidget {
             ),
             onPressed: () => _confirmLogout(context, colors),
             icon: const Icon(Symbols.logout, size: 18),
-            label: const Text(
-              'Đăng xuất',
-              style: TextStyle(fontSize: 14.5, fontWeight: FontWeight.w800),
+            label: Text(
+              context.l10n.logoutButton,
+              style: const TextStyle(fontSize: 14.5, fontWeight: FontWeight.w800),
             ),
           ),
         ],
@@ -206,17 +204,17 @@ class ProfileScreen extends StatelessWidget {
           backgroundColor: colors.surface,
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
           title: Text(
-            'Xác nhận đăng xuất',
+            context.l10n.logoutConfirmTitle,
             style: TextStyle(fontSize: 16.5, fontWeight: FontWeight.w800, color: colors.textPrimary),
           ),
           content: Text(
-            'Bạn có chắc chắn muốn đăng xuất khỏi ứng dụng VSTech HRM không?',
+            context.l10n.logoutConfirmMsg,
             style: TextStyle(fontSize: 13, color: colors.textSecondary),
           ),
           actions: [
             TextButton(
               onPressed: () => Navigator.pop(dialogContext),
-              child: Text('Hủy', style: TextStyle(fontWeight: FontWeight.w700, color: colors.textSecondary)),
+              child: Text(context.l10n.cancelButton, style: TextStyle(fontWeight: FontWeight.w700, color: colors.textSecondary)),
             ),
             ElevatedButton(
               style: ElevatedButton.styleFrom(
@@ -228,7 +226,7 @@ class ProfileScreen extends StatelessWidget {
                 Navigator.pop(dialogContext);
                 unawaited(context.read<AuthCubit>().logout());
               },
-              child: const Text('Đăng xuất', style: TextStyle(fontWeight: FontWeight.w800)),
+              child: Text(context.l10n.logoutButton, style: const TextStyle(fontWeight: FontWeight.w800)),
             ),
           ],
         ),

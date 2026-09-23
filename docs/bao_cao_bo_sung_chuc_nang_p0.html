@@ -1,0 +1,871 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Báo Cáo Nghiệp Vụ: 04 Chức Năng Bổ Sung & Mở Rộng P0 - VSTech HRM Mobile</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Source+Sans+3:ital,wght@0,300;0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #0F766E;
+      --primary-dark: #115E59;
+      --primary-light: #CCFBF1;
+      --accent: #F59E0B;
+      --accent-dark: #D97706;
+      --accent-light: #FEF3C7;
+      --slate-900: #0F172A;
+      --slate-800: #1E293B;
+      --slate-700: #334155;
+      --slate-600: #475569;
+      --slate-500: #64748B;
+      --slate-200: #E2E8F0;
+      --slate-100: #F1F5F9;
+      --slate-50: #F8FAFC;
+      --success: #059669;
+      --success-light: #D1FAE5;
+      --danger: #DC2626;
+      --danger-light: #FEE2E2;
+      --warning: #EA580C;
+      --warning-light: #FFEDD5;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Source Sans 3', 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      font-size: 13px;
+      line-height: 1.55;
+      color: var(--slate-800);
+      background-color: #F8FAFC;
+      padding: 24px;
+    }
+
+    .document-container {
+      max-width: 1080px;
+      margin: 0 auto;
+      background: #FFFFFF;
+      padding: 40px 48px;
+      border-radius: 8px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+      border: 1px solid var(--slate-200);
+    }
+
+    @media print {
+      @page {
+        size: A4 portrait;
+        margin: 14mm 12mm 14mm 12mm;
+      }
+      body {
+        padding: 0;
+        background: #FFFFFF;
+        font-size: 11.5px;
+        line-height: 1.45;
+      }
+      .document-container {
+        max-width: 100%;
+        margin: 0;
+        padding: 0;
+        border: none;
+        box-shadow: none;
+        border-radius: 0;
+      }
+      .page-break {
+        page-break-before: always;
+      }
+      .no-print {
+        display: none !important;
+      }
+      table, .feature-card, .stat-grid, .callout {
+        break-inside: avoid;
+        page-break-inside: avoid;
+      }
+    }
+
+    /* Header Banner */
+    .header-banner {
+      background: linear-gradient(135deg, #0F766E 0%, #115E59 60%, #134E4A 100%);
+      color: #FFFFFF;
+      padding: 26px 30px;
+      border-radius: 8px;
+      position: relative;
+      overflow: hidden;
+      margin-bottom: 24px;
+      border-left: 6px solid var(--accent);
+    }
+
+    .header-banner::after {
+      content: "";
+      position: absolute;
+      right: -20px;
+      top: -20px;
+      width: 180px;
+      height: 180px;
+      background: radial-gradient(circle, rgba(245, 158, 11, 0.15) 0%, transparent 70%);
+      border-radius: 50%;
+    }
+
+    .header-title-pre {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 5px;
+    }
+
+    .header-title {
+      font-size: 22px;
+      font-weight: 700;
+      line-height: 1.25;
+      margin-bottom: 6px;
+      letter-spacing: -0.3px;
+    }
+
+    .header-subtitle {
+      font-size: 13px;
+      font-weight: 400;
+      color: #CCFBF1;
+      margin-bottom: 14px;
+    }
+
+    .meta-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 16px;
+      padding-top: 12px;
+      border-top: 1px solid rgba(255, 255, 255, 0.2);
+      font-size: 11px;
+    }
+
+    .meta-item {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .meta-label {
+      color: #A7F3D0;
+      font-weight: 600;
+    }
+
+    .meta-val {
+      color: #FFFFFF;
+      font-weight: 500;
+    }
+
+    /* KPI Summary Stats Cards */
+    .stat-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+      margin-bottom: 24px;
+    }
+
+    .stat-card {
+      background: var(--slate-50);
+      border: 1px solid var(--slate-200);
+      border-radius: 6px;
+      padding: 12px 14px;
+      border-top: 3px solid var(--primary);
+    }
+
+    .stat-card.accent { border-top-color: var(--accent); }
+    .stat-card.success { border-top-color: var(--success); }
+    .stat-card.warning { border-top-color: var(--warning); }
+
+    .stat-number {
+      font-size: 22px;
+      font-weight: 700;
+      color: var(--slate-900);
+      line-height: 1.1;
+      margin-bottom: 4px;
+      font-family: 'Inter', sans-serif;
+    }
+
+    .stat-title {
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--slate-700);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 3px;
+    }
+
+    .stat-desc {
+      font-size: 10.5px;
+      color: var(--slate-500);
+      line-height: 1.35;
+    }
+
+    /* Section Headings */
+    h2 {
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--slate-900);
+      border-bottom: 2px solid var(--primary);
+      padding-bottom: 5px;
+      margin-top: 22px;
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      text-transform: uppercase;
+      letter-spacing: 0.2px;
+    }
+
+    h2 .sec-badge {
+      background: var(--primary);
+      color: #FFFFFF;
+      font-size: 11px;
+      padding: 2px 7px;
+      border-radius: 4px;
+      font-weight: 700;
+    }
+
+    h3 {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--primary-dark);
+      margin-top: 12px;
+      margin-bottom: 6px;
+    }
+
+    p {
+      margin-bottom: 10px;
+      text-align: justify;
+    }
+
+    /* Callout Boxes */
+    .callout {
+      padding: 10px 14px;
+      border-radius: 6px;
+      margin-bottom: 12px;
+      font-size: 11.5px;
+      line-height: 1.5;
+    }
+
+    .callout-info {
+      background: #F0FDFA;
+      border-left: 4px solid var(--primary);
+      color: #115E59;
+    }
+
+    .callout-warning {
+      background: #FFFBEB;
+      border-left: 4px solid var(--accent);
+      color: #92400E;
+    }
+
+    .callout-danger {
+      background: #FEF2F2;
+      border-left: 4px solid var(--danger);
+      color: #991B1B;
+    }
+
+    /* Feature Cards */
+    .feature-card {
+      background: #FFFFFF;
+      border: 1px solid var(--slate-200);
+      border-radius: 8px;
+      padding: 16px 20px;
+      margin-bottom: 18px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.03);
+    }
+
+    .feature-card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid var(--slate-100);
+    }
+
+    .feature-title {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--primary);
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 2px 8px;
+      border-radius: 12px;
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .badge-p0 {
+      background: var(--primary-light);
+      color: var(--primary-dark);
+      border: 1px solid #99F6E4;
+    }
+
+    .badge-amber {
+      background: var(--accent-light);
+      color: var(--accent-dark);
+      border: 1px solid #FDE68A;
+    }
+
+    .badge-danger {
+      background: var(--danger-light);
+      color: var(--danger);
+    }
+
+    /* Tables */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 14px;
+      font-size: 11.5px;
+    }
+
+    th {
+      background: var(--slate-100);
+      color: var(--slate-800);
+      font-weight: 700;
+      text-align: left;
+      padding: 7px 10px;
+      border: 1px solid var(--slate-200);
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.3px;
+    }
+
+    td {
+      padding: 7px 10px;
+      border: 1px solid var(--slate-200);
+      vertical-align: top;
+    }
+
+    tr:nth-child(even) {
+      background-color: #FAFAFA;
+    }
+
+    /* Workflow boxes */
+    .flow-steps {
+      display: flex;
+      align-items: stretch;
+      gap: 8px;
+      margin: 10px 0 14px;
+    }
+
+    .flow-step {
+      flex: 1;
+      background: var(--slate-50);
+      border: 1px solid var(--slate-200);
+      border-radius: 6px;
+      padding: 8px 10px;
+    }
+
+    .flow-step-num {
+      display: inline-block;
+      width: 16px;
+      height: 16px;
+      line-height: 16px;
+      background: var(--primary);
+      color: #fff;
+      font-size: 9.5px;
+      font-weight: 700;
+      border-radius: 50%;
+      text-align: center;
+      margin-bottom: 3px;
+    }
+
+    .flow-step-title {
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--slate-800);
+      margin-bottom: 2px;
+    }
+
+    .flow-step-desc {
+      font-size: 10px;
+      color: var(--slate-500);
+      line-height: 1.3;
+    }
+
+    /* Sign-off box */
+    .sign-section {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 28px;
+      padding-top: 18px;
+      border-top: 1px solid var(--slate-200);
+      text-align: center;
+      break-inside: avoid;
+    }
+
+    .sign-block { width: 45%; }
+    .sign-title { font-size: 11.5px; font-weight: 700; text-transform: uppercase; color: var(--slate-700); margin-bottom: 3px; }
+    .sign-subtitle { font-size: 10.5px; color: var(--slate-500); font-style: italic; margin-bottom: 50px; }
+    .sign-name { font-size: 12.5px; font-weight: 700; color: var(--slate-900); }
+
+    .text-center { text-align: center; }
+    .text-bold { font-weight: 700; }
+  </style>
+</head>
+<body>
+
+<div class="document-container">
+
+  <!-- Header Banner -->
+  <div class="header-banner">
+    <div class="header-title-pre">BÁO CÁO NGHIỆP VỤ & KỸ THUẬT CHUYÊN SÂU • GIAI ĐOẠN P0 MVP</div>
+    <div class="header-title">04 CHỨC NĂNG BỔ SUNG & MỞ RỘNG TRỌNG TÂM TRONG P0</div>
+    <div class="header-subtitle">Giải quyết 4 lỗ hổng vận hành sống còn tại Nhà máy & Xí nghiệp quy mô ~3.000 công nhân viên</div>
+    <div class="meta-row">
+      <div class="meta-item"><span class="meta-label">Kính gửi:</span> <span class="meta-val">Hội Đồng Quản Trị & Ban Giám Đốc (BGD)</span></div>
+      <div class="meta-item"><span class="meta-label">Đơn vị lập:</span> <span class="meta-val">Ban Dự Án Nền Tảng VSTech HRM</span></div>
+      <div class="meta-item"><span class="meta-label">Ngày báo cáo:</span> <span class="meta-val">23/09/2026</span></div>
+      <div class="meta-item"><span class="meta-label">Phiên bản:</span> <span class="meta-val">v2.1 Focused Edition</span></div>
+    </div>
+  </div>
+
+  <!-- Focused 4 KPI Metric Summary Grid -->
+  <div class="stat-grid">
+    <div class="stat-card">
+      <div class="stat-number">1. Cộng Đồng</div>
+      <div class="stat-title">Phát Ngôn Chính Thống</div>
+      <div class="stat-desc">Xóa bỏ Zalo ngoài, bắt buộc xác nhận "Tôi đã đọc" an toàn PCCC.</div>
+    </div>
+    <div class="stat-card accent">
+      <div class="stat-number">2. Ký Số HĐ</div>
+      <div class="stat-title">100% Hồ Sơ Điện Tử</div>
+      <div class="stat-desc">Ký số cảm ứng, xác thực sinh trắc học, chống chụp màn hình & Watermark.</div>
+    </div>
+    <div class="stat-card warning">
+      <div class="stat-number">3. Offline Queue</div>
+      <div class="stat-title">Zero Data Loss</div>
+      <div class="stat-desc">Chỉ đồng bộ Wi-Fi công ty, cảnh báo đa cấp theo giờ, chặn đăng xuất.</div>
+    </div>
+    <div class="stat-card success">
+      <div class="stat-number">4. Ca Tuần</div>
+      <div class="stat-title">Quân Số 3 Ca Hiện Trường</div>
+      <div class="stat-desc">Tổ trưởng nắm chắc quân số, xử lý chuẩn ca qua đêm, ca gãy & 2 ca/ngày.</div>
+    </div>
+  </div>
+
+  <!-- SECTION 1: CĂN CỨ BỔ SUNG 4 CHỨC NĂNG -->
+  <h2><span class="sec-badge">1</span> Tổng Quan & Căn Cứ Bổ Sung 04 Chức Năng Vào P0</h2>
+  <p>
+    Tài liệu này tập trung giải trình chi tiết <strong>đúng 04 chức năng bổ sung và mở rộng</strong> trong giai đoạn P0. Trong môi trường sản xuất thực tế với <strong>~3.000 công nhân</strong> làm việc 3 ca liên tục trong các phân xưởng kim loại kín, nếu thiếu 4 chức năng này, hệ thống sẽ gặp các rủi ro vận hành nghiêm trọng:
+  </p>
+
+  <table>
+    <thead>
+      <tr>
+        <th style="width: 25%;">Chức năng bổ sung</th>
+        <th style="width: 20%;">Căn cứ trong danh mục</th>
+        <th style="width: 55%;">Lý do bắt buộc phải có ngay trong giai đoạn P0</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>1. Cộng đồng nội bộ chính thức</strong></td>
+        <td>Chuyển từ P1 (#57) xuống P0</td>
+        <td>Xóa bỏ các nhóm Zalo/Facebook tự phát gây rò rỉ đơn giá, bí mật sản xuất; thiết lập kênh truyền thông kỷ luật số và thông báo khẩn cấp PCCC.</td>
+      </tr>
+      <tr>
+        <td><strong>2. Hợp đồng điện tử & Ký số</strong></td>
+        <td>Nâng cấp từ P1 (#51) lên P0</td>
+        <td>Giải quyết biến động nhân sự lớn (15-25%/năm); công nhân ký số trực tiếp trên điện thoại, tiết kiệm hàng trăm triệu đồng chi phí in ấn và lưu trữ giấy tờ.</td>
+      </tr>
+      <tr>
+        <td><strong>3. Cảnh báo & Hàng đợi công ngoại tuyến</strong></td>
+        <td>Mở rộng chiều sâu kỹ thuật từ P0 (#4)</td>
+        <td>Nhà xưởng khung thép và tầng hầm gây mất mạng; dữ liệu công lưu cục bộ an toàn, chỉ sync khi bắt đúng Wi-Fi công ty, chống trừ lương oan khi chốt sổ.</td>
+      </tr>
+      <tr>
+        <td><strong>4. Tổng hợp công theo ca tuần tổ/nhóm</strong></td>
+        <td>Rút gọn phạm vi P1 (#53) đưa vào P0</td>
+        <td>Công cụ tác nghiệp đầu giờ cho Tổ trưởng; kiểm soát chính xác 30-50 công nhân làm ca nào, phát hiện công nhân đi nhầm ca hoặc thiếu công để bố trí dây chuyền.</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- SECTION 2: CHỨC NĂNG 1 - CỘNG ĐỒNG NỘI BỘ -->
+  <h2><span class="sec-badge">2</span> Chức Năng 1: Cộng Đồng Nội Bộ Chính Thức Toàn Doanh Nghiệp</h2>
+  
+  <div class="feature-card">
+    <div class="feature-card-header">
+      <div class="feature-title">Cộng Đồng Nội Bộ & Bảng Tin Doanh Nghiệp (Official Community)</div>
+      <div><span class="badge badge-amber">Chuyển từ P1 #57 sang P0</span></div>
+    </div>
+    <p>
+      Thiết lập kênh phát ngôn chính thống độc quyền của tổ chức trên ứng dụng di động, thay thế hoàn toàn mạng xã hội ngoài, bảo vệ an toàn thông tin sản xuất.
+    </p>
+
+    <table>
+      <thead>
+        <tr>
+          <th style="width: 25%;">Nghiệp vụ</th>
+          <th style="width: 75%;">Quy cách kỹ thuật & Business Rules</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Kiểm soát quyền đăng</strong></td>
+          <td>Công nhân (`EMPLOYEE`) <strong>tuyệt đối không hiển thị nút tạo bài viết</strong>. Công nhân chỉ có quyền: Xem, Thả tim (Reaction), Bình luận (Comment) và Báo cáo vi phạm (Report). Quyền tạo bài thuộc về HR/Admin và Ban Giám Đốc trên Web.</td>
+        </tr>
+        <tr>
+          <td><strong>Xác nhận "Tôi đã đọc"</strong></td>
+          <td>Áp dụng cho thông báo an toàn PCCC, quy chế tăng ca. Công nhân phải cuộn đọc 100% nội dung mới bấm được nút <code>[ Tôi đã đọc và hiểu rõ nội dung ]</code>. Web Admin hiển thị tỷ lệ đọc (%) thời gian thực theo từng tổ.</td>
+        </tr>
+        <tr>
+          <td><strong>Bình luận đa cấp</strong></td>
+          <td>Hỗ trợ thảo luận theo chuỗi (Threaded Comments) nhưng <strong>tối ưu hiển thị tối đa 2 cấp thụt lề trên điện thoại</strong> để chống vỡ khung giao diện. Có bộ lọc tự động từ khóa tiêu cực, phản cảm.</td>
+        </tr>
+        <tr>
+          <td><strong>Bài viết khẩn cấp</strong></td>
+          <td>Bài Emergency luôn ghim vị trí số 1, viền màu đỏ nổi bật và phát Push Notification tức thời vượt qua chế độ im lặng (Quiet Hours) của thiết bị.</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div style="font-size: 11px; background: var(--slate-100); padding: 8px 12px; border-radius: 4px;">
+      <strong>Phân định nền tảng:</strong> Mobile dùng để đọc bài, bình luận, xác nhận đã đọc, báo cáo bài xấu <strong>|</strong> Web Admin dùng để soạn Rich Text, ghim bài, kiểm duyệt nội dung, theo dõi tỷ lệ đọc.
+    </div>
+  </div>
+
+  <!-- SECTION 3: CHỨC NĂNG 2 - HỢP ĐỒNG ĐIỆN TỬ -->
+  <h2><span class="sec-badge">3</span> Chức Năng 2: Quản Lý Vòng Đời & Ký Hợp Đồng Điện Tử Số Hóa</h2>
+
+  <div class="feature-card">
+    <div class="feature-card-header">
+      <div class="feature-title">Hợp Đồng Điện Tử & Ký Số Trực Tiếp Trên Mobile (E-Contracts)</div>
+      <div><span class="badge badge-amber">Nâng cấp từ P1 #51 sang P0</span></div>
+    </div>
+    <p>
+      Số hóa 100% tài liệu pháp lý: Hợp đồng thử việc, HĐLĐ chính thức, Phụ lục lương, Thỏa thuận bảo mật (NDA), Cam kết an toàn lao động. Công nhân ký số trực tiếp trên smartphone.
+    </p>
+
+    <div class="flow-steps">
+      <div class="flow-step">
+        <span class="flow-step-num">1</span>
+        <div class="flow-step-title">Tạo Tài Liệu</div>
+        <div class="flow-step-desc">HR tạo hợp đồng từ PDF/mẫu trên Web Admin, cấu hình luồng duyệt.</div>
+      </div>
+      <div class="flow-step">
+        <span class="flow-step-num">2</span>
+        <div class="flow-step-title">Duyệt Đa Cấp</div>
+        <div class="flow-step-desc">Quản lý trực tiếp thẩm tra ➔ Ban Giám Đốc phê duyệt trước khi gửi.</div>
+      </div>
+      <div class="flow-step">
+        <span class="flow-step-num">3</span>
+        <div class="flow-step-title">Xác Thực & Ký</div>
+        <div class="flow-step-desc">Quét Face ID/mã PIN ➔ Vẽ nét chữ ký cảm ứng trên màn hình điện thoại.</div>
+      </div>
+      <div class="flow-step">
+        <span class="flow-step-num">4</span>
+        <div class="flow-step-title">Niêm Phong File</div>
+        <div class="flow-step-desc">Khóa mã băm SHA-256 bất biến; xuất file tải về có Watermark định danh.</div>
+      </div>
+    </div>
+
+    <table>
+      <thead>
+        <tr>
+          <th style="width: 25%;">Biện pháp an toàn</th>
+          <th style="width: 75%;">Chi tiết công nghệ triển khai</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Bảo vệ xem hợp đồng</strong></td>
+          <td>Mỗi lần mở chi tiết hợp đồng, hệ thống bắt buộc xác thực lại bằng Face ID, vân tay hoặc mã PIN cá nhân.</td>
+        </tr>
+        <tr>
+          <td><strong>Chống chụp màn hình</strong></td>
+          <td>Kích hoạt cờ <code>FLAG_SECURE</code> trên Android; làm mờ giao diện (Screen Obfuscation) khi chuyển ứng dụng trên iOS.</td>
+        </tr>
+        <tr>
+          <td><strong>Watermark bảo mật</strong></td>
+          <td>Khi tải file PDF về máy, hệ thống tự động chèn chữ in chìm đè chéo toàn bộ trang: <code>[Họ tên] - [MSNV] - [Thời điểm tải YYYY-MM-DD HH:mm]</code>, chống rò rỉ bảng lương.</td>
+        </tr>
+        <tr>
+          <td><strong>Yêu cầu chỉnh sửa / Từ chối</strong></td>
+          <td>Công nhân có quyền bấm "Yêu cầu chỉnh sửa" kèm lý do chi tiết; hệ thống báo về Web để HR phát hành phiên bản mới mà không ghi đè bản cũ.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- PAGE BREAK FOR REMAINING 2 FEATURES -->
+  <div class="page-break"></div>
+
+  <!-- SECTION 4: CHỨC NĂNG 3 - CHẤM CÔNG NGOẠI TUYẾN -->
+  <h2><span class="sec-badge">4</span> Chức Năng 3: Cảnh Báo & Hàng Đợi Chấm Công Ngoại Tuyến Chưa Gửi</h2>
+
+  <div class="feature-card">
+    <div class="feature-card-header">
+      <div class="feature-title">Hàng Đợi Chấm Công Ngoại Tuyến & Banner Cảnh Báo (Offline Attendance Queue)</div>
+      <div><span class="badge badge-p0">Mở Rộng Chiều Sâu P0 #4</span></div>
+    </div>
+    <p>
+      Bảo đảm 100% không mất ngày công khi công nhân làm việc trong các xưởng kim loại kín, tầng hầm mất sóng. Dữ liệu được lưu trữ mã hóa an toàn trên máy và kiểm soát chặt chẽ bằng chính sách đồng bộ qua Wi-Fi công ty.
+    </p>
+
+    <div class="callout callout-danger">
+      <strong>Chính Sách Đồng Bộ Tuyệt Đối: CHỈ ĐỒNG BỘ QUA WI-FI CÔNG TY</strong><br>
+      Hệ thống không gửi dữ liệu qua 4G/5G hoặc Wi-Fi quán cafe ngoài. Sóng Wi-Fi nội bộ nhà máy (đối soát địa chỉ BSSID) đóng vai trò là chốt xác thực kép vị trí địa lý, chống gian lận chấm công từ xa.
+    </div>
+
+    <table>
+      <thead>
+        <tr>
+          <th style="width: 25%;">Khoảng thời gian</th>
+          <th style="width: 20%;">Mức cảnh báo</th>
+          <th style="width: 15%;">Màu sắc UI</th>
+          <th style="width: 40%;">Hành động của hệ thống & Biện pháp can thiệp</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Dưới 24 giờ</strong></td>
+          <td>Thông báo thường</td>
+          <td><span class="badge badge-amber">Vàng</span></td>
+          <td>Sticky Banner xuất hiện trên Dashboard và màn hình Chấm công; hiển thị số lượt chờ.</td>
+        </tr>
+        <tr>
+          <td><strong>Từ 24 đến 72 giờ</strong></td>
+          <td>Cảnh báo vừa</td>
+          <td><span class="badge badge-amber" style="background:#FED7AA;color:#C2410C;">Cam</span></td>
+          <td>Gửi Push Notification nhắc nhở công nhân kết nối Wi-Fi nhà máy trước giờ vào ca.</td>
+        </tr>
+        <tr>
+          <td><strong>Trên 72 giờ (> 3 ngày)</strong></td>
+          <td>Nghiêm trọng</td>
+          <td><span class="badge badge-danger">Đỏ</span></td>
+          <td>Báo động đỏ trên Mobile; tự động đẩy tên vào danh sách theo dõi của Tổ trưởng.</td>
+        </tr>
+        <tr>
+          <td><strong>Trước khóa công 3 ngày / 1 ngày</strong></td>
+          <td>Bắt buộc xử lý</td>
+          <td><span class="badge badge-danger">Đỏ nhấp nháy</span></td>
+          <td>Cảnh báo khẩn cấp toàn diện cho Nhân viên, Tổ trưởng và HR để kịp tính lương.</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <table>
+      <thead>
+        <tr>
+          <th style="width: 25%;">Chốt chặn an toàn</th>
+          <th style="width: 75%;">Quy định kỹ thuật ngăn ngừa mất dữ liệu</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Khóa đăng xuất (Logout Block)</strong></td>
+          <td>Tuyệt đối chặn Đăng xuất nếu thiết bị còn lượt chấm công chưa gửi. Người dùng phải kết nối Wi-Fi nhà máy để đồng bộ sạch trước khi thoát.</td>
+        </tr>
+        <tr>
+          <td><strong>Kiểm tra khi đổi thiết bị</strong></td>
+          <td>Khi công nhân xin đổi máy mới, quản trị viên kiểm tra trạng thái máy cũ; máy mới bị tạm khóa quyền chấm công nếu máy cũ còn hàng đợi.</td>
+        </tr>
+        <tr>
+          <td><strong>Cam kết SLA 30 ngày</strong></td>
+          <td>Dữ liệu trong hàng đợi không bao giờ bị tự động xóa âm thầm. Ngưỡng 30 ngày là mốc bắt buộc xử lý ngoại lệ giữa IT và HR.</td>
+        </tr>
+        <tr>
+          <td><strong>Idempotency chống trùng</strong></td>
+          <td>Mỗi lượt mang mã UUID v4; dù mạng chập chờn gửi lại nhiều lần, máy chủ chỉ ghi nhận duy nhất 1 bản ghi công.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- SECTION 5: CHỨC NĂNG 4 - TỔNG HỢP CA TUẦN -->
+  <h2><span class="sec-badge">5</span> Chức Năng 4: Tổng Hợp Công Theo Ca Trong Tuần Của Tổ / Nhóm</h2>
+
+  <div class="feature-card">
+    <div class="feature-card-header">
+      <div class="feature-title">Bảng Tổng Hợp Ca Tuần Của Tổ / Nhóm (Team Weekly Shift Summary)</div>
+      <div><span class="badge badge-amber">Rút gọn từ P1 #53 sang P0</span></div>
+    </div>
+    <p>
+      Vũ khí chỉ huy hiện trường cho Tổ trưởng và Quản lý ca trực tiếp (quản lý 30–50 công nhân/tổ): Nắm bắt ngay lập tức quân số các ca trong tuần và kiểm soát sai lệch giữa ca kế hoạch và ca thực tế đi làm.
+    </p>
+
+    <table>
+      <thead>
+        <tr>
+          <th style="width: 25%;">Nghiệp vụ cốt lõi</th>
+          <th style="width: 75%;">Quy tắc tính toán sản xuất & Trải nghiệm Mobile</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Thẻ ca nhân viên</strong></td>
+          <td>Hiển thị ảnh thẻ, MSNV, chức danh, <strong>Tổng số ngày công tích lũy</strong> và <strong>Số lượt theo từng loại ca</strong>: <code>Ca 1 (Sáng): 3 lượt | Ca 2 (Chiều): 2 lượt | Ca 3 (Đêm): 1 lượt | Nghỉ: 1 ngày</code>.</td>
+        </tr>
+        <tr>
+          <td><strong>Khoan sâu (Drill-down)</strong></td>
+          <td>Bấm vào tên nhân viên để xem chi tiết 7 ngày: Giờ quẹt thẻ thực tế, ca được phân, số phút đi trễ/về sớm, trạng thái đơn giải trình. Bấm vào số lượt ca để lọc ra đúng các ngày làm ca đó.</td>
+        </tr>
+        <tr>
+          <td><strong>Quy tắc ca qua đêm</strong></td>
+          <td>Ca làm việc bắt đầu từ 22:00 thứ Hai đến 06:00 thứ Ba được tính trọn vẹn vào <strong>ngày thứ Hai</strong> (ngày bắt đầu ca).</td>
+        </tr>
+        <tr>
+          <td><strong>Làm 2 ca trong ngày</strong></td>
+          <td>Công nhân làm ca chính và tăng cường ca phụ được hệ thống hạch toán là <strong>02 lượt ca riêng biệt</strong> để trả đủ phụ cấp ca kíp.</td>
+        </tr>
+        <tr>
+          <td><strong>Chế độ xem thuần túy</strong></td>
+          <td>Mobile chỉ dùng để xem, lọc, kiểm tra và <strong>xuất file báo cáo PDF / Excel</strong> trực tiếp tại xưởng. Việc xếp ca/sửa ca được thực hiện trên Web Admin để tránh nhầm lẫn.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- SECTION 6: MA TRẬN PHÂN QUYỀN RBAC -->
+  <h2><span class="sec-badge">6</span> Ma Trận Phân Quyền (RBAC) Dành Riêng Cho 04 Phân Hệ Bổ Sung</h2>
+  <table>
+    <thead>
+      <tr>
+        <th style="width: 46%;">Quyền hạn chi tiết (Permission Code)</th>
+        <th style="width: 9%; text-align: center;">Công nhân</th>
+        <th style="width: 9%; text-align: center;">Tổ trưởng</th>
+        <th style="width: 9%; text-align: center;">Quản đốc</th>
+        <th style="width: 9%; text-align: center;">QL Vùng</th>
+        <th style="width: 9%; text-align: center;">HR/Admin</th>
+        <th style="width: 9%; text-align: center;">BGĐ</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr style="background:#F0FDFA; font-weight:600;"><td colspan="7">1. Phân hệ Cộng đồng nội bộ</td></tr>
+      <tr>
+        <td>• <code>community.post.view</code> (Xem bảng tin)</td>
+        <td class="text-center">✓</td><td class="text-center">✓</td><td class="text-center">✓</td><td class="text-center">✓</td><td class="text-center">✓</td><td class="text-center">✓</td>
+      </tr>
+      <tr>
+        <td>• <code>community.comment.create</code> (Bình luận)</td>
+        <td class="text-center">✓</td><td class="text-center">✓</td><td class="text-center">✓</td><td class="text-center">✓</td><td class="text-center">✓</td><td class="text-center">✓</td>
+      </tr>
+      <tr>
+        <td>• <code>community.read_ack.confirm</code> (Xác nhận "Tôi đã đọc")</td>
+        <td class="text-center">✓</td><td class="text-center">✓</td><td class="text-center">✓</td><td class="text-center">✓</td><td class="text-center">✓</td><td class="text-center">✓</td>
+      </tr>
+      <tr>
+        <td>• <code>community.post.create</code> (Tạo bài viết mới trên Web)</td>
+        <td class="text-center">—</td><td class="text-center">—</td><td class="text-center">—</td><td class="text-center">—</td><td class="text-center">✓</td><td class="text-center">✓*</td>
+      </tr>
+      <tr>
+        <td>• <code>community.content.moderate</code> (Kiểm duyệt, xóa bài)</td>
+        <td class="text-center">—</td><td class="text-center">—</td><td class="text-center">—</td><td class="text-center">—</td><td class="text-center">✓</td><td class="text-center">—</td>
+      </tr>
+
+      <tr style="background:#F0FDFA; font-weight:600;"><td colspan="7">2. Phân hệ Hợp đồng điện tử</td></tr>
+      <tr>
+        <td>• <code>contract.view_own</code> (Xem hợp đồng của mình)</td>
+        <td class="text-center">✓</td><td class="text-center">✓</td><td class="text-center">✓</td><td class="text-center">✓</td><td class="text-center">✓</td><td class="text-center">✓</td>
+      </tr>
+      <tr>
+        <td>• <code>contract.sign_own</code> (Ký số hợp đồng của mình)</td>
+        <td class="text-center">✓</td><td class="text-center">✓</td><td class="text-center">✓</td><td class="text-center">✓</td><td class="text-center">✓</td><td class="text-center">✓</td>
+      </tr>
+      <tr>
+        <td>• <code>contract.approve</code> (Duyệt theo luồng quản lý)</td>
+        <td class="text-center">—</td><td class="text-center">—</td><td class="text-center">✓</td><td class="text-center">✓</td><td class="text-center">✓</td><td class="text-center">—</td>
+      </tr>
+      <tr>
+        <td>• <code>contract.final_approve</code> (Ban Giám Đốc phê duyệt cuối)</td>
+        <td class="text-center">—</td><td class="text-center">—</td><td class="text-center">—</td><td class="text-center">—</td><td class="text-center">—</td><td class="text-center">✓</td>
+      </tr>
+      <tr>
+        <td>• <code>contract.create_manage</code> (Tạo mẫu, gửi hợp đồng trên Web)</td>
+        <td class="text-center">—</td><td class="text-center">—</td><td class="text-center">—</td><td class="text-center">—</td><td class="text-center">✓</td><td class="text-center">—</td>
+      </tr>
+
+      <tr style="background:#F0FDFA; font-weight:600;"><td colspan="7">3. Phân hệ Chấm công ngoại tuyến</td></tr>
+      <tr>
+        <td>• <code>attendance.offline.view_sync_own</code> (Xem & đồng bộ của mình)</td>
+        <td class="text-center">✓</td><td class="text-center">✓</td><td class="text-center">✓</td><td class="text-center">✓</td><td class="text-center">✓</td><td class="text-center">✓</td>
+      </tr>
+      <tr>
+        <td>• <code>attendance.offline.team_view</code> (Xem tồn đọng của tổ)</td>
+        <td class="text-center">—</td><td class="text-center">✓</td><td class="text-center">✓</td><td class="text-center">✓</td><td class="text-center">✓</td><td class="text-center">—</td>
+      </tr>
+      <tr>
+        <td>• <code>attendance.offline.admin_view</code> (Giám sát toàn nhà máy)</td>
+        <td class="text-center">—</td><td class="text-center">—</td><td class="text-center">—</td><td class="text-center">—</td><td class="text-center">✓</td><td class="text-center">✓</td>
+      </tr>
+
+      <tr style="background:#F0FDFA; font-weight:600;"><td colspan="7">4. Phân hệ Tổng hợp công ca tuần</td></tr>
+      <tr>
+        <td>• <code>shift.summary.team_view</code> (Xem tổng hợp ca của tổ)</td>
+        <td class="text-center">—</td><td class="text-center">✓</td><td class="text-center">✓</td><td class="text-center">✓</td><td class="text-center">✓</td><td class="text-center">✓</td>
+      </tr>
+      <tr>
+        <td>• <code>shift.summary.export</code> (Xuất báo cáo PDF/Excel từ app)</td>
+        <td class="text-center">—</td><td class="text-center">✓</td><td class="text-center">✓</td><td class="text-center">✓</td><td class="text-center">✓</td><td class="text-center">✓</td>
+      </tr>
+      <tr>
+        <td>• <code>shift.schedule.manage</code> (Xếp ca, sửa ca trên Web)</td>
+        <td class="text-center">—</td><td class="text-center">—</td><td class="text-center">✓*</td><td class="text-center">✓*</td><td class="text-center">✓</td><td class="text-center">—</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- SECTION 7: KẾ HOẠCH VÀ DOD -->
+  <h2><span class="sec-badge">7</span> Lộ Trình Triển Khai & Nghiệm Thu (Definition of Done)</h2>
+  <table>
+    <thead>
+      <tr>
+        <th style="width: 25%;">Giai đoạn (Sprint)</th>
+        <th style="width: 35%;">Hạng mục công việc chính</th>
+        <th style="width: 40%;">Tiêu chí nghiệm thu (DoD)</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>Sprint 1 (Tuần 1-2)</strong></td>
+        <td>Xây dựng Hàng đợi & Banner Chấm công Ngoại tuyến.</td>
+        <td>Mã hóa AES-256, chỉ sync qua Wi-Fi công ty, chặn đăng xuất khi còn hàng đợi.</td>
+      </tr>
+      <tr>
+        <td><strong>Sprint 2 (Tuần 3-4)</strong></td>
+        <td>Xây dựng Cộng đồng nội bộ & Tổng hợp công ca tuần.</td>
+        <td>Công nhân không thấy nút tạo bài, xác nhận đọc PCCC, thẻ ca tuần chuẩn ca đêm.</td>
+      </tr>
+      <tr>
+        <td><strong>Sprint 3 (Tuần 5-6)</strong></td>
+        <td>Xây dựng Hợp đồng điện tử & Ký số cảm ứng.</td>
+        <td>Xác thực Face ID trước khi mở, chặn chụp màn hình, watermark định danh tệp tải.</td>
+      </tr>
+      <tr>
+        <td><strong>Sprint 4 (Tuần 7)</strong></td>
+        <td>Thử tải 3.000 công nhân, đào tạo xưởng & đóng gói MVP.</td>
+        <td>Hệ thống không nghẽn khi tan ca đồng loạt; flutter analyze đạt 0 lỗi; file &le; 300 dòng.</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- Sign-off Section -->
+  <div class="sign-section">
+    <div class="sign-block">
+      <div class="sign-title">ĐẠI DIỆN BAN DỰ ÁN VSTECH HRM</div>
+      <div class="sign-subtitle">(Ký, ghi rõ họ tên và đóng dấu)</div>
+      <div class="sign-name">TRƯỞNG BAN CHUYỂN ĐỔI SỐ</div>
+    </div>
+    <div class="sign-block">
+      <div class="sign-title">PHÊ DUYỆT BAN GIÁM ĐỐC / HỘI ĐỒNG QUẢN TRỊ</div>
+      <div class="sign-subtitle">(Ký, phê chuẩn 04 chức năng bổ sung P0)</div>
+      <div class="sign-name">TỔNG GIÁM ĐỐC ĐIỀU HÀNH (CEO)</div>
+    </div>
+  </div>
+
+</div>
+
+</body>
+</html>

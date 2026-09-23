@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:material_symbols_icons/symbols.dart';
+import 'package:vstech_hrm/core/extensions/l10n_extension.dart';
+import 'package:vstech_hrm/core/responsive/app_layout.dart';
 import 'package:vstech_hrm/core/theme/app_colors.dart';
 import 'package:vstech_hrm/features/schedule/domain/entities/shift_schedule_entity.dart';
 
@@ -42,16 +44,17 @@ class _ShiftSwapModalState extends State<ShiftSwapModal> {
   }
 
   void _submitSwapRequest() {
+    final l10n = context.l10n;
     Navigator.of(context).pop();
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: Row(
           children: [
             const Icon(Symbols.check_circle, color: Colors.white, size: 20),
-            const SizedBox(width: 8),
+            8.gapW,
             Expanded(
               child: Text(
-                'Đã gửi yêu cầu đổi ca cho $_selectedColleague!',
+                l10n.swapRequestSent(_selectedColleague),
                 style: const TextStyle(fontWeight: FontWeight.w600),
               ),
             ),
@@ -67,6 +70,7 @@ class _ShiftSwapModalState extends State<ShiftSwapModal> {
   @override
   Widget build(BuildContext context) {
     final colors = context.colors;
+    final l10n = context.l10n;
     final shift = widget.shift;
 
     return Padding(
@@ -93,7 +97,7 @@ class _ShiftSwapModalState extends State<ShiftSwapModal> {
                 ),
               ),
             ),
-            const SizedBox(height: 16),
+            16.gapH,
             Row(
               children: [
                 Container(
@@ -104,13 +108,13 @@ class _ShiftSwapModalState extends State<ShiftSwapModal> {
                   ),
                   child: Icon(Symbols.swap_horiz, color: colors.tealPrimary),
                 ),
-                const SizedBox(width: 12),
+                12.gapW,
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'Đề xuất đổi ca làm việc',
+                        l10n.swapShiftProposalTitle,
                         style: TextStyle(
                           fontSize: 18,
                           fontWeight: FontWeight.bold,
@@ -129,16 +133,16 @@ class _ShiftSwapModalState extends State<ShiftSwapModal> {
                 ),
               ],
             ),
-            const SizedBox(height: 20),
+            20.gapH,
             Text(
-              'Chọn đồng nghiệp muốn đổi ca:',
+              l10n.selectColleagueLabel,
               style: TextStyle(
                 fontSize: 14,
                 fontWeight: FontWeight.w600,
                 color: colors.textPrimary,
               ),
             ),
-            const SizedBox(height: 8),
+            8.gapH,
             Container(
               padding: const EdgeInsets.symmetric(horizontal: 14),
               decoration: BoxDecoration(
@@ -170,21 +174,21 @@ class _ShiftSwapModalState extends State<ShiftSwapModal> {
                 ),
               ),
             ),
-            const SizedBox(height: 16),
+            16.gapH,
             Text(
-              'Lý do đổi ca:',
+              l10n.swapReasonLabel,
               style: TextStyle(
                 fontSize: 14,
                 fontWeight: FontWeight.w600,
                 color: colors.textPrimary,
               ),
             ),
-            const SizedBox(height: 8),
+            8.gapH,
             TextField(
               controller: _reasonController,
               maxLines: 2,
               decoration: InputDecoration(
-                hintText: 'Nhập lý do đổi ca cụ thể...',
+                hintText: l10n.swapReasonHint,
                 hintStyle: TextStyle(
                   color: colors.textSecondary.withValues(alpha: 0.6),
                   fontSize: 13,
@@ -204,7 +208,7 @@ class _ShiftSwapModalState extends State<ShiftSwapModal> {
                 contentPadding: const EdgeInsets.all(12),
               ),
             ),
-            const SizedBox(height: 20),
+            20.gapH,
             SizedBox(
               width: double.infinity,
               height: 48,
@@ -218,9 +222,9 @@ class _ShiftSwapModalState extends State<ShiftSwapModal> {
                   ),
                   elevation: 0,
                 ),
-                child: const Text(
-                  'Gửi yêu cầu đổi ca',
-                  style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+                child: Text(
+                  l10n.submitSwapRequestButton,
+                  style: const TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
                 ),
               ),
             ),

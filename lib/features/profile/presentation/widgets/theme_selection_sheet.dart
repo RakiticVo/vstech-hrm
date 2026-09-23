@@ -2,6 +2,8 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:material_symbols_icons/symbols.dart';
+import 'package:vstech_hrm/core/extensions/l10n_extension.dart';
+import 'package:vstech_hrm/core/responsive/app_layout.dart';
 import 'package:vstech_hrm/core/session/theme_cubit.dart';
 import 'package:vstech_hrm/core/theme/app_colors.dart';
 import 'package:vstech_hrm/core/theme/app_text_styles.dart';
@@ -45,54 +47,54 @@ class ThemeSelectionSheet extends StatelessWidget {
               ),
             ),
           ),
-          const SizedBox(height: 18),
+          18.gapH,
           Text(
-            'CÀI ĐẶT GIAO DIỆN',
+            context.l10n.themeSettingTitle,
             style: AppTextStyles.labelMicro(color: colors.textTertiary),
           ),
-          const SizedBox(height: 6),
+          6.gapH,
           Text(
-            'Chọn chế độ hiển thị',
+            context.l10n.chooseThemeTitle,
             style: AppTextStyles.headlineSmall(color: colors.textPrimary),
           ),
-          const SizedBox(height: 6),
+          6.gapH,
           Text(
-            'Giao diện thay đổi ngay lập tức và tự động ghi nhớ cho các lần mở ứng dụng tiếp theo.',
+            context.l10n.themeDesc,
             style: AppTextStyles.bodySmall(color: colors.textSecondary),
           ),
-          const SizedBox(height: 16),
+          16.gapH,
           _buildThemeItem(
             context: context,
             mode: ThemeMode.system,
-            title: 'Theo hệ thống',
-            subtitle: 'Tự động đồng bộ với cài đặt Sáng / Tối của điện thoại.',
+            title: context.l10n.themeSystem,
+            subtitle: context.l10n.themeSystemDesc,
             icon: Symbols.settings_brightness,
             isSelected: currentTheme == ThemeMode.system,
             colors: colors,
           ),
-          const SizedBox(height: 10),
+          10.gapH,
           _buildThemeItem(
             context: context,
             mode: ThemeMode.light,
-            title: 'Giao diện sáng',
-            subtitle: 'Tông kem ấm & hoạ văn gạch bông Sài Gòn đặc trưng.',
+            title: context.l10n.themeLight,
+            subtitle: context.l10n.themeLightDesc,
             icon: Symbols.light_mode,
             isSelected: currentTheme == ThemeMode.light,
             colors: colors,
           ),
-          const SizedBox(height: 10),
+          10.gapH,
           _buildThemeItem(
             context: context,
             mode: ThemeMode.dark,
-            title: 'Giao diện tối',
-            subtitle: 'Tông xanh đen sâu, dịu mắt khi sử dụng ban đêm.',
+            title: context.l10n.themeDark,
+            subtitle: context.l10n.themeDarkDesc,
             icon: Symbols.dark_mode,
             isSelected: currentTheme == ThemeMode.dark,
             colors: colors,
           ),
-          const SizedBox(height: 20),
+          20.gapH,
           PrimaryButton(
-            text: 'Xác nhận',
+            text: context.l10n.confirmButton,
             onPressed: () => Navigator.pop(context),
           ),
         ],

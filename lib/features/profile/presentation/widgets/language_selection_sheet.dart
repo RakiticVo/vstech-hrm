@@ -2,6 +2,8 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:material_symbols_icons/symbols.dart';
+import 'package:vstech_hrm/core/extensions/l10n_extension.dart';
+import 'package:vstech_hrm/core/responsive/app_layout.dart';
 import 'package:vstech_hrm/core/session/locale_cubit.dart';
 import 'package:vstech_hrm/core/theme/app_colors.dart';
 import 'package:vstech_hrm/core/theme/app_text_styles.dart';
@@ -45,44 +47,44 @@ class LanguageSelectionSheet extends StatelessWidget {
               ),
             ),
           ),
-          const SizedBox(height: 18),
+          18.gapH,
           Text(
-            'CÀI ĐẶT NGÔN NGỮ',
+            context.l10n.languageSettingTitle,
             style: AppTextStyles.labelMicro(color: colors.textTertiary),
           ),
-          const SizedBox(height: 6),
+          6.gapH,
           Text(
-            'Chọn ngôn ngữ hiển thị',
+            context.l10n.chooseLanguageTitle,
             style: AppTextStyles.headlineSmall(color: colors.textPrimary),
           ),
-          const SizedBox(height: 6),
+          6.gapH,
           Text(
-            'Giao diện và thông báo sẽ được chuyển đổi ngay lập tức sang ngôn ngữ bạn chọn.',
+            context.l10n.languageDesc,
             style: AppTextStyles.bodySmall(color: colors.textSecondary),
           ),
-          const SizedBox(height: 16),
+          16.gapH,
           _buildLanguageItem(
             context: context,
             locale: const Locale('vi'),
-            title: 'Tiếng Việt',
-            subtitle: 'Ngôn ngữ mặc định của ứng dụng.',
+            title: context.l10n.vietnameseLanguage,
+            subtitle: context.l10n.vietnameseDesc,
             flag: '🇻🇳',
             isSelected: currentLocale.languageCode == 'vi',
             colors: colors,
           ),
-          const SizedBox(height: 10),
+          10.gapH,
           _buildLanguageItem(
             context: context,
             locale: const Locale('en'),
-            title: 'English',
-            subtitle: 'English display for global workplace standards.',
+            title: context.l10n.englishLanguage,
+            subtitle: context.l10n.englishDesc,
             flag: '🇬🇧',
             isSelected: currentLocale.languageCode == 'en',
             colors: colors,
           ),
-          const SizedBox(height: 20),
+          20.gapH,
           PrimaryButton(
-            text: 'Xác nhận',
+            text: context.l10n.confirmButton,
             onPressed: () => Navigator.pop(context),
           ),
         ],

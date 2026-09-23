@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:material_symbols_icons/symbols.dart';
+import 'package:vstech_hrm/core/extensions/l10n_extension.dart';
+import 'package:vstech_hrm/core/responsive/app_layout.dart';
 import 'package:vstech_hrm/core/router/routes.dart';
 import 'package:vstech_hrm/core/theme/app_colors.dart';
 import 'package:vstech_hrm/core/theme/tile_pattern_painter.dart';
@@ -28,8 +30,8 @@ class _PayrollScreenState extends State<PayrollScreen> {
       body: Column(
         children: [
           TileHeaderBanner(
-            title: 'Lương & Thu nhập',
-            subtitle: 'Kỳ lương Tháng 09/2026',
+            title: context.l10n.payrollTitle,
+            subtitle: context.l10n.payrollPeriodSubtitle('09', '2026'),
             trailing: Row(
               mainAxisSize: MainAxisSize.min,
               children: [
@@ -42,13 +44,13 @@ class _PayrollScreenState extends State<PayrollScreen> {
                       color: const Color(0xFFFFF8EC).withValues(alpha: 0.2),
                       borderRadius: BorderRadius.circular(8),
                     ),
-                    child: const Row(
+                    child: Row(
                       children: [
-                        Icon(Symbols.star, size: 14, color: Color(0xFFFFF8EC)),
-                        SizedBox(width: 4),
+                        const Icon(Symbols.star, size: 14, color: Color(0xFFFFF8EC)),
+                        4.gapW,
                         Text(
-                          'Thưởng',
-                          style: TextStyle(
+                          context.l10n.rewardsAction,
+                          style: const TextStyle(
                             fontSize: 11.5,
                             fontWeight: FontWeight.w800,
                             color: Color(0xFFFFF8EC),
@@ -58,7 +60,7 @@ class _PayrollScreenState extends State<PayrollScreen> {
                     ),
                   ),
                 ),
-                const SizedBox(width: 6),
+                6.gapW,
                 IconButton(
                   icon: Icon(
                     _isSalaryVisible ? Symbols.visibility : Symbols.visibility_off,
@@ -74,13 +76,10 @@ class _PayrollScreenState extends State<PayrollScreen> {
             child: ListView(
               padding: const EdgeInsets.fromLTRB(16, 14, 16, 24),
               children: [
-                // Saigon Tile Hero Card
                 _buildHeroTileCard(colors),
-                const SizedBox(height: 20),
-
-                // Breakdown section
+                20.gapH,
                 Text(
-                  'Chi tiết thu nhập & khấu trừ',
+                  context.l10n.incomeAndDeductionBreakdown,
                   style: TextStyle(
                     fontSize: 15,
                     fontWeight: FontWeight.w800,
@@ -88,13 +87,11 @@ class _PayrollScreenState extends State<PayrollScreen> {
                     color: colors.textPrimary,
                   ),
                 ),
-                const SizedBox(height: 11),
+                11.gapH,
                 PayrollBreakdownCard(isSalaryVisible: _isSalaryVisible),
-                const SizedBox(height: 20),
-
-                // History section
+                20.gapH,
                 Text(
-                  'Lịch sử kỳ lương',
+                  context.l10n.salaryHistoryTitle,
                   style: TextStyle(
                     fontSize: 15,
                     fontWeight: FontWeight.w800,
@@ -102,7 +99,7 @@ class _PayrollScreenState extends State<PayrollScreen> {
                     color: colors.textPrimary,
                   ),
                 ),
-                const SizedBox(height: 11),
+                11.gapH,
                 _buildHistoryList(colors),
               ],
             ),
@@ -143,9 +140,9 @@ class _PayrollScreenState extends State<PayrollScreen> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      const Text(
-                        'LƯƠNG THỰC NHẬN (NET)',
-                        style: TextStyle(
+                      Text(
+                        context.l10n.payrollNetSalaryTitle,
+                        style: const TextStyle(
                           fontSize: 10.5,
                           fontWeight: FontWeight.w800,
                           letterSpacing: 1.4,
@@ -158,9 +155,9 @@ class _PayrollScreenState extends State<PayrollScreen> {
                           color: const Color(0xFFFFF8EC).withValues(alpha: 0.2),
                           borderRadius: BorderRadius.circular(8),
                         ),
-                        child: const Text(
-                          'Tháng 9 2026',
-                          style: TextStyle(
+                        child: Text(
+                          context.l10n.payrollPeriodSubtitle('9', '2026'),
+                          style: const TextStyle(
                             fontSize: 11.5,
                             fontWeight: FontWeight.w800,
                             color: Color(0xFFFFF8EC),
@@ -169,7 +166,7 @@ class _PayrollScreenState extends State<PayrollScreen> {
                       ),
                     ],
                   ),
-                  const SizedBox(height: 6),
+                  6.gapH,
                   Text(
                     displayNet,
                     style: const TextStyle(
@@ -180,16 +177,16 @@ class _PayrollScreenState extends State<PayrollScreen> {
                       fontFeatures: [FontFeature.tabularFigures()],
                     ),
                   ),
-                  const SizedBox(height: 2),
-                  const Text(
-                    'VND · Trả ngày 05/10/2026',
-                    style: TextStyle(
+                  2.gapH,
+                  Text(
+                    context.l10n.payrollPayDate('05/10/2026'),
+                    style: const TextStyle(
                       fontSize: 12.5,
                       fontWeight: FontWeight.w700,
                       color: Color(0xFFFFF8EC),
                     ),
                   ),
-                  const SizedBox(height: 16),
+                  16.gapH,
                   SizedBox(
                     width: double.infinity,
                     height: 48,
@@ -204,9 +201,9 @@ class _PayrollScreenState extends State<PayrollScreen> {
                       ),
                       onPressed: () => context.push(AppRoutes.payslipDetail),
                       icon: const Icon(Symbols.description, size: 18, weight: 700),
-                      label: const Text(
-                        'Xem phiếu lương',
-                        style: TextStyle(
+                      label: Text(
+                        context.l10n.viewPayslipButton,
+                        style: const TextStyle(
                           fontSize: 15,
                           fontWeight: FontWeight.w800,
                         ),
@@ -224,9 +221,21 @@ class _PayrollScreenState extends State<PayrollScreen> {
 
   Widget _buildHistoryList(AppColorsExtension colors) {
     final history = [
-      ('Tháng 8 2026', 'Đã chuyển Techcombank · 05/09', '24.850.000 ₫'),
-      ('Tháng 7 2026', 'Đã chuyển Techcombank · 05/08', '24.200.000 ₫'),
-      ('Tháng 6 2026', 'Đã chuyển Techcombank · 05/07', '24.200.000 ₫'),
+      (
+        context.l10n.payrollPeriodSubtitle('8', '2026'),
+        context.l10n.salaryTransferredTo('Techcombank', '05/09'),
+        '24.850.000 ₫',
+      ),
+      (
+        context.l10n.payrollPeriodSubtitle('7', '2026'),
+        context.l10n.salaryTransferredTo('Techcombank', '05/08'),
+        '24.200.000 ₫',
+      ),
+      (
+        context.l10n.payrollPeriodSubtitle('6', '2026'),
+        context.l10n.salaryTransferredTo('Techcombank', '05/07'),
+        '24.200.000 ₫',
+      ),
     ];
 
     return Column(
@@ -254,7 +263,7 @@ class _PayrollScreenState extends State<PayrollScreen> {
                                 color: colors.textPrimary,
                               ),
                             ),
-                            const SizedBox(height: 2),
+                            2.gapH,
                             Text(
                               item.$2,
                               style: TextStyle(
@@ -275,7 +284,7 @@ class _PayrollScreenState extends State<PayrollScreen> {
                           fontFeatures: const [FontFeature.tabularFigures()],
                         ),
                       ),
-                      const SizedBox(width: 6),
+                      6.gapW,
                       Icon(Symbols.chevron_right, size: 18, color: colors.textTertiary),
                     ],
                   ),

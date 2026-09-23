@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:material_symbols_icons/symbols.dart';
+import 'package:vstech_hrm/core/extensions/l10n_extension.dart';
 import 'package:vstech_hrm/core/router/routes.dart';
 import 'package:vstech_hrm/core/session/auth_cubit.dart';
 import 'package:vstech_hrm/core/session/auth_state.dart';
@@ -39,7 +40,7 @@ class AppShell extends StatelessWidget {
     final authState = context.watch<AuthCubit>().state;
     final isManager = authState is Authenticated && authState.role.isManager;
 
-    final navItems = isManager ? _buildManagerNavItems() : _buildEmployeeNavItems();
+    final navItems = isManager ? _buildManagerNavItems(context) : _buildEmployeeNavItems(context);
     final currentIndex = _calculateSelectedIndex(location, navItems);
 
     return Scaffold(
@@ -128,7 +129,7 @@ class AppShell extends StatelessWidget {
       item.icon,
       size: 22,
       color: iconColor,
-      fill: isSelected ? 1.0 : 0.0,
+      fill: isSelected ? 1 : 0,
       weight: isSelected ? 600 : 400,
     );
 
@@ -159,63 +160,65 @@ class AppShell extends StatelessWidget {
     return 0;
   }
 
-  List<_NavItem> _buildEmployeeNavItems() {
-    return const [
+  List<_NavItem> _buildEmployeeNavItems(BuildContext context) {
+    final l10n = context.l10n;
+    return [
       _NavItem(
         route: AppRoutes.home,
-        label: 'Trang chủ',
+        label: l10n.home,
         icon: Symbols.home,
       ),
       _NavItem(
         route: AppRoutes.attendance,
-        label: 'Chấm công',
+        label: l10n.attendance,
         icon: Symbols.schedule,
       ),
       _NavItem(
         route: AppRoutes.requests,
-        label: 'Yêu cầu',
+        label: l10n.requests,
         icon: Symbols.event_available,
         badgeCount: 1,
       ),
       _NavItem(
         route: AppRoutes.payroll,
-        label: 'Lương',
+        label: l10n.payroll,
         icon: Symbols.account_balance_wallet,
       ),
       _NavItem(
         route: AppRoutes.profile,
-        label: 'Cá nhân',
+        label: l10n.profile,
         icon: Symbols.person,
       ),
     ];
   }
 
-  List<_NavItem> _buildManagerNavItems() {
-    return const [
+  List<_NavItem> _buildManagerNavItems(BuildContext context) {
+    final l10n = context.l10n;
+    return [
       _NavItem(
         route: AppRoutes.home,
-        label: 'Trang chủ',
+        label: l10n.home,
         icon: Symbols.home,
       ),
       _NavItem(
         route: AppRoutes.attendance,
-        label: 'Chấm công',
+        label: l10n.attendance,
         icon: Symbols.schedule,
       ),
       _NavItem(
         route: AppRoutes.approvals,
-        label: 'Duyệt',
+        label: l10n.approvals,
         icon: Symbols.fact_check,
         badgeCount: 9,
       ),
       _NavItem(
         route: AppRoutes.payroll,
-        label: 'Lương',
+        label: l10n.payroll,
         icon: Symbols.account_balance_wallet,
       ),
       _NavItem(
         route: AppRoutes.profile,
-        label: 'Cá nhân',
+        label: l10n.profile,
         icon: Symbols.person,
       ),
     ];

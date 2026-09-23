@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:vstech_hrm/core/responsive/app_layout.dart';
 import 'package:vstech_hrm/core/theme/app_colors.dart';
 
 class RequestData {
@@ -33,11 +34,10 @@ class RequestCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final colors = context.colors;
 
-    final statusColor = switch (item.status) {
-      'Đã duyệt' => colors.pineGreen,
-      'Từ chối' => colors.error,
-      'Cần bổ sung' => colors.error,
-      _ => colors.accentAmber,
+    final statusColor = switch (item.statusCode) {
+      2 => colors.pineGreen,
+      3 => colors.error,
+      _ => item.status == 'Cần bổ sung' ? colors.error : colors.accentAmber,
     };
 
     return Container(
@@ -71,7 +71,7 @@ class RequestCard extends StatelessWidget {
                   ),
                 ),
               ),
-              const SizedBox(width: 11),
+              11.gapW,
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -84,7 +84,7 @@ class RequestCard extends StatelessWidget {
                         color: colors.textPrimary,
                       ),
                     ),
-                    const SizedBox(height: 2),
+                    2.gapH,
                     Text(
                       item.dates,
                       style: TextStyle(
@@ -113,9 +113,9 @@ class RequestCard extends StatelessWidget {
               ),
             ],
           ),
-          const SizedBox(height: 13),
+          13.gapH,
           Divider(height: 1, color: colors.border),
-          const SizedBox(height: 12),
+          12.gapH,
 
           // 4-step progress bar
           Row(
@@ -130,9 +130,9 @@ class RequestCard extends StatelessWidget {
                     ),
                   ),
                 ),
-                if (i < 3) const SizedBox(width: 5),
+                if (i < 3) 5.gapW,
               ],
-              const SizedBox(width: 8),
+              8.gapW,
               Text(
                 item.stage,
                 style: TextStyle(

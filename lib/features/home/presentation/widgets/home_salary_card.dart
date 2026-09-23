@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:material_symbols_icons/symbols.dart';
+import 'package:vstech_hrm/core/extensions/l10n_extension.dart';
+import 'package:vstech_hrm/core/responsive/app_layout.dart';
 import 'package:vstech_hrm/core/router/routes.dart';
 import 'package:vstech_hrm/core/theme/app_colors.dart';
 
@@ -19,11 +21,15 @@ class _HomeSalaryCardState extends State<HomeSalaryCard> {
   @override
   Widget build(BuildContext context) {
     final colors = context.colors;
+    final l10n = context.l10n;
 
-    final amountText = _isSalaryRevealed ? '25.500.000 ₫' : '•••••••• ₫';
+    final amountText = _isSalaryRevealed ? '25.500.000 ₫' : l10n.salaryMasked;
     final hintText = _isSalaryRevealed
-        ? 'Gồm thưởng KPI 2.500.000 ₫ · Xem chi tiết'
-        : 'Bấm vào mắt để xem · Xem phiếu lương';
+        ? l10n.salaryHintRevealed
+        : l10n.salaryHintHidden;
+
+    final cardPadding = context.custom(compact: 12, normal: 16, expanded: 20).toDouble();
+    final amountFontSize = context.custom(compact: 23, normal: 28, expanded: 32).toDouble();
 
     return Container(
       decoration: BoxDecoration(
@@ -37,7 +43,7 @@ class _HomeSalaryCardState extends State<HomeSalaryCard> {
           borderRadius: BorderRadius.circular(18),
           onTap: () => context.push(AppRoutes.payslipDetail),
           child: Padding(
-            padding: const EdgeInsets.all(16),
+            padding: EdgeInsets.all(cardPadding),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -46,9 +52,9 @@ class _HomeSalaryCardState extends State<HomeSalaryCard> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      'LƯƠNG THỰC NHẬN THÁNG NÀY',
+                      l10n.monthlyNetSalaryLabel,
                       style: TextStyle(
-                        fontSize: 10.5,
+                        fontSize: context.custom(compact: 9.5, normal: 10.5, expanded: 11.5),
                         fontWeight: FontWeight.w800,
                         letterSpacing: 1.2,
                         color: colors.textSecondary,
@@ -71,7 +77,7 @@ class _HomeSalaryCardState extends State<HomeSalaryCard> {
                     ),
                   ],
                 ),
-                const SizedBox(height: 8),
+                8.gapH,
 
                 // Amount row + Eye toggle button
                 Row(
@@ -80,7 +86,7 @@ class _HomeSalaryCardState extends State<HomeSalaryCard> {
                       child: Text(
                         amountText,
                         style: TextStyle(
-                          fontSize: 28,
+                          fontSize: amountFontSize,
                           fontWeight: FontWeight.w800,
                           letterSpacing: -1,
                           color: colors.textPrimary,
@@ -113,9 +119,9 @@ class _HomeSalaryCardState extends State<HomeSalaryCard> {
                     ),
                   ],
                 ),
-                const SizedBox(height: 14),
+                14.gapH,
                 Divider(height: 1, color: colors.border),
-                const SizedBox(height: 12),
+                12.gapH,
 
                 // Bottom row: Hint + chevron
                 Row(

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:material_symbols_icons/symbols.dart';
+import 'package:vstech_hrm/core/extensions/l10n_extension.dart';
+import 'package:vstech_hrm/core/responsive/app_layout.dart';
 import 'package:vstech_hrm/core/router/routes.dart';
 import 'package:vstech_hrm/core/theme/app_colors.dart';
 
@@ -22,7 +24,7 @@ class AllServicesScreen extends StatelessWidget {
           onPressed: () => Navigator.of(context).pop(),
         ),
         title: Text(
-          'Tất cả dịch vụ',
+          context.l10n.allServicesTitle,
           style: TextStyle(
             fontSize: 18,
             fontWeight: FontWeight.w800,
@@ -34,45 +36,45 @@ class AllServicesScreen extends StatelessWidget {
         padding: const EdgeInsets.fromLTRB(16, 16, 16, 32),
         children: [
           _buildCategory(
-            title: 'Chấm công & Thời gian',
+            title: context.l10n.categoryAttendanceTime,
             items: [
-              _ServiceItem('Chấm công vào/ra', Symbols.power_settings_new, () => context.go(AppRoutes.attendance)),
-              _ServiceItem('Lịch ca làm việc', Symbols.schedule, () => context.push(AppRoutes.shiftSchedule)),
-              _ServiceItem('Lịch công tháng', Symbols.calendar_month, () => context.push(AppRoutes.calendar)),
-              _ServiceItem('Ngày lễ trong năm', Symbols.flag, () => context.push(AppRoutes.holidays)),
+              _ServiceItem(context.l10n.serviceCheckInOut, Symbols.power_settings_new, () => context.go(AppRoutes.attendance)),
+              _ServiceItem(context.l10n.serviceShiftSchedule, Symbols.schedule, () => context.push(AppRoutes.shiftSchedule)),
+              _ServiceItem(context.l10n.serviceMonthlyTimesheet, Symbols.calendar_month, () => context.push(AppRoutes.calendar)),
+              _ServiceItem(context.l10n.serviceHolidays, Symbols.flag, () => context.push(AppRoutes.holidays)),
             ],
             colors: colors,
           ),
-          const SizedBox(height: 22),
+          22.gapH,
           _buildCategory(
-            title: 'Đơn từ',
+            title: context.l10n.categoryRequests,
             items: [
-              _ServiceItem('Xin nghỉ phép', Symbols.beach_access, () => context.push(AppRoutes.leaveCreate)),
-              _ServiceItem('Đăng ký tăng ca', Symbols.schedule, () => context.push(AppRoutes.overtimeCreate)),
-              _ServiceItem('Sửa công', Symbols.edit_note, () => context.push(AppRoutes.attendanceCorrection)),
-              _ServiceItem('Theo dõi yêu cầu', Symbols.list_alt, () => context.go(AppRoutes.requests)),
+              _ServiceItem(context.l10n.serviceLeave, Symbols.beach_access, () => context.push(AppRoutes.leaveCreate)),
+              _ServiceItem(context.l10n.serviceOvertime, Symbols.schedule, () => context.push(AppRoutes.overtimeCreate)),
+              _ServiceItem(context.l10n.serviceCorrection, Symbols.edit_note, () => context.push(AppRoutes.attendanceCorrection)),
+              _ServiceItem(context.l10n.serviceTrackRequests, Symbols.list_alt, () => context.go(AppRoutes.requests)),
             ],
             colors: colors,
           ),
-          const SizedBox(height: 22),
+          22.gapH,
           _buildCategory(
-            title: 'Lương & thưởng',
+            title: context.l10n.categoryPayrollRewards,
             items: [
-              _ServiceItem('Bảng lương tháng', Symbols.account_balance_wallet, () => context.go(AppRoutes.payroll)),
-              _ServiceItem('Phiếu lương', Symbols.receipt_long, () => context.push(AppRoutes.payslipDetail)),
-              _ServiceItem('Thưởng & ghi nhận', Symbols.star, () => context.push(AppRoutes.rewards)),
-              _ServiceItem('Phụ cấp', Symbols.payments, () => context.go(AppRoutes.payroll)),
+              _ServiceItem(context.l10n.serviceSalaryTable, Symbols.account_balance_wallet, () => context.go(AppRoutes.payroll)),
+              _ServiceItem(context.l10n.servicePayslip, Symbols.receipt_long, () => context.push(AppRoutes.payslipDetail)),
+              _ServiceItem(context.l10n.serviceRewards, Symbols.star, () => context.push(AppRoutes.rewards)),
+              _ServiceItem(context.l10n.serviceAllowance, Symbols.payments, () => context.go(AppRoutes.payroll)),
             ],
             colors: colors,
           ),
-          const SizedBox(height: 22),
+          22.gapH,
           _buildCategory(
-            title: 'Nghề nghiệp & hồ sơ',
+            title: context.l10n.categoryCareerProfile,
             items: [
-              _ServiceItem('Tuyển dụng nội bộ', Symbols.work, () => context.push(AppRoutes.jobRecruitment)),
-              _ServiceItem('Hồ sơ cá nhân', Symbols.person, () => context.go(AppRoutes.profile)),
-              _ServiceItem('Cài đặt', Symbols.settings, () => context.push(AppRoutes.settings)),
-              _ServiceItem('Phê duyệt', Symbols.fact_check, () => context.push(AppRoutes.approvals)),
+              _ServiceItem(context.l10n.serviceInternalJobs, Symbols.work, () => context.push(AppRoutes.jobRecruitment)),
+              _ServiceItem(context.l10n.serviceProfile, Symbols.person, () => context.go(AppRoutes.profile)),
+              _ServiceItem(context.l10n.serviceSettings, Symbols.settings, () => context.push(AppRoutes.settings)),
+              _ServiceItem(context.l10n.serviceApprovals, Symbols.fact_check, () => context.push(AppRoutes.approvals)),
             ],
             colors: colors,
           ),
