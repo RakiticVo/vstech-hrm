@@ -3060,6 +3060,486 @@ abstract class AppLocalizations {
   /// In vi, this message translates to:
   /// **'Còn lại {count}'**
   String remainingDaysCount(String count);
+
+  /// No description provided for @announcementsSubtitle.
+  ///
+  /// In vi, this message translates to:
+  /// **'Thông tin chính thức từ HR & Ban Giám Đốc'**
+  String get announcementsSubtitle;
+
+  /// No description provided for @announcementScopeAll.
+  ///
+  /// In vi, this message translates to:
+  /// **'Tất cả'**
+  String get announcementScopeAll;
+
+  /// No description provided for @announcementScopeCompany.
+  ///
+  /// In vi, this message translates to:
+  /// **'Toàn công ty'**
+  String get announcementScopeCompany;
+
+  /// No description provided for @announcementScopeOffice.
+  ///
+  /// In vi, this message translates to:
+  /// **'Khối văn phòng'**
+  String get announcementScopeOffice;
+
+  /// No description provided for @announcementScopeFactory.
+  ///
+  /// In vi, this message translates to:
+  /// **'Phân xưởng & Tổ'**
+  String get announcementScopeFactory;
+
+  /// No description provided for @announcementScopeDept.
+  ///
+  /// In vi, this message translates to:
+  /// **'Phòng ban'**
+  String get announcementScopeDept;
+
+  /// No description provided for @announcementTargetScope.
+  ///
+  /// In vi, this message translates to:
+  /// **'Phạm vi: {scope}'**
+  String announcementTargetScope(String scope);
+
+  /// No description provided for @announcementAuthor.
+  ///
+  /// In vi, this message translates to:
+  /// **'Người gửi: {author}'**
+  String announcementAuthor(String author);
+
+  /// No description provided for @announcementPublishDate.
+  ///
+  /// In vi, this message translates to:
+  /// **'Đăng lúc: {date}'**
+  String announcementPublishDate(String date);
+
+  /// No description provided for @announcementUnreadBadge.
+  ///
+  /// In vi, this message translates to:
+  /// **'MỚI'**
+  String get announcementUnreadBadge;
+
+  /// No description provided for @announcementMarkAllRead.
+  ///
+  /// In vi, this message translates to:
+  /// **'Đã đọc tất cả'**
+  String get announcementMarkAllRead;
+
+  /// No description provided for @announcementEmpty.
+  ///
+  /// In vi, this message translates to:
+  /// **'Chưa có thông báo nào trong mục này'**
+  String get announcementEmpty;
+
+  /// No description provided for @announcementDetailTitle.
+  ///
+  /// In vi, this message translates to:
+  /// **'Chi tiết thông báo'**
+  String get announcementDetailTitle;
+
+  /// No description provided for @announcementReadConfirmed.
+  ///
+  /// In vi, this message translates to:
+  /// **'Đã đánh dấu đã đọc'**
+  String get announcementReadConfirmed;
+
+  /// No description provided for @laborProfileTitle.
+  ///
+  /// In vi, this message translates to:
+  /// **'Hồ sơ lao động & Hợp đồng'**
+  String get laborProfileTitle;
+
+  /// No description provided for @contractSectionTitle.
+  ///
+  /// In vi, this message translates to:
+  /// **'Hợp đồng lao động hiện tại'**
+  String get contractSectionTitle;
+
+  /// No description provided for @contractNumberLabel.
+  ///
+  /// In vi, this message translates to:
+  /// **'Số hợp đồng'**
+  String get contractNumberLabel;
+
+  /// No description provided for @contractTypeLabel.
+  ///
+  /// In vi, this message translates to:
+  /// **'Loại hợp đồng'**
+  String get contractTypeLabel;
+
+  /// No description provided for @contractSigningDateLabel.
+  ///
+  /// In vi, this message translates to:
+  /// **'Ngày ký'**
+  String get contractSigningDateLabel;
+
+  /// No description provided for @contractEffectiveDateLabel.
+  ///
+  /// In vi, this message translates to:
+  /// **'Ngày hiệu lực'**
+  String get contractEffectiveDateLabel;
+
+  /// No description provided for @contractExpirationDateLabel.
+  ///
+  /// In vi, this message translates to:
+  /// **'Ngày hết hạn'**
+  String get contractExpirationDateLabel;
+
+  /// No description provided for @contractStatusLabel.
+  ///
+  /// In vi, this message translates to:
+  /// **'Tình trạng HĐ'**
+  String get contractStatusLabel;
+
+  /// No description provided for @contractStatusActive.
+  ///
+  /// In vi, this message translates to:
+  /// **'Đang có hiệu lực'**
+  String get contractStatusActive;
+
+  /// No description provided for @salaryAndBenefitsSection.
+  ///
+  /// In vi, this message translates to:
+  /// **'Mức lương & Chế độ thoả thuận'**
+  String get salaryAndBenefitsSection;
+
+  /// No description provided for @agreedBaseSalary.
+  ///
+  /// In vi, this message translates to:
+  /// **'Lương cơ bản thoả thuận'**
+  String get agreedBaseSalary;
+
+  /// No description provided for @responsibilityAllowance.
+  ///
+  /// In vi, this message translates to:
+  /// **'Phụ cấp trách nhiệm'**
+  String get responsibilityAllowance;
+
+  /// No description provided for @mealAllowance.
+  ///
+  /// In vi, this message translates to:
+  /// **'Phụ cấp cơm trưa'**
+  String get mealAllowance;
+
+  /// No description provided for @overtimeRateDescription.
+  ///
+  /// In vi, this message translates to:
+  /// **'Hệ số tăng ca: 150% (ngày thường), 200% (nghỉ tuần), 300% (lễ tết)'**
+  String get overtimeRateDescription;
+
+  /// No description provided for @socialInsuranceSection.
+  ///
+  /// In vi, this message translates to:
+  /// **'Bảo hiểm xã hội & Y tế'**
+  String get socialInsuranceSection;
+
+  /// No description provided for @socialInsuranceNumber.
+  ///
+  /// In vi, this message translates to:
+  /// **'Mã số BHXH'**
+  String get socialInsuranceNumber;
+
+  /// No description provided for @hospitalRegistered.
+  ///
+  /// In vi, this message translates to:
+  /// **'Nơi đăng ký KCB ban đầu'**
+  String get hospitalRegistered;
+
+  /// No description provided for @insuranceSalaryLevel.
+  ///
+  /// In vi, this message translates to:
+  /// **'Mức lương đóng BHXH'**
+  String get insuranceSalaryLevel;
+
+  /// No description provided for @insuranceStatus.
+  ///
+  /// In vi, this message translates to:
+  /// **'Trạng thái sổ BHXH'**
+  String get insuranceStatus;
+
+  /// No description provided for @insuranceStatusActive.
+  ///
+  /// In vi, this message translates to:
+  /// **'Đang đóng đầy đủ'**
+  String get insuranceStatusActive;
+
+  /// No description provided for @contractAttachmentsSection.
+  ///
+  /// In vi, this message translates to:
+  /// **'Tệp đính kèm & Bản scan HĐLĐ'**
+  String get contractAttachmentsSection;
+
+  /// No description provided for @downloadAttachmentButton.
+  ///
+  /// In vi, this message translates to:
+  /// **'Tải về'**
+  String get downloadAttachmentButton;
+
+  /// No description provided for @previewAttachmentButton.
+  ///
+  /// In vi, this message translates to:
+  /// **'Xem trước'**
+  String get previewAttachmentButton;
+
+  /// No description provided for @laborProfileHrNotice.
+  ///
+  /// In vi, this message translates to:
+  /// **'Thông tin hợp đồng và chế độ lao động do Phòng Nhân sự quản lý. Người lao động không thể tự chỉnh sửa trên ứng dụng di động. Mọi thắc mắc xin liên hệ HR.'**
+  String get laborProfileHrNotice;
+
+  /// No description provided for @offlineQueueTitle.
+  ///
+  /// In vi, this message translates to:
+  /// **'Hàng đợi chấm công ngoại tuyến'**
+  String get offlineQueueTitle;
+
+  /// No description provided for @offlineQueueSubtitle.
+  ///
+  /// In vi, this message translates to:
+  /// **'Dữ liệu chấm công lưu trên máy khi mất mạng'**
+  String get offlineQueueSubtitle;
+
+  /// No description provided for @statusRecorded.
+  ///
+  /// In vi, this message translates to:
+  /// **'Đã ghi nhận'**
+  String get statusRecorded;
+
+  /// No description provided for @statusPendingSync.
+  ///
+  /// In vi, this message translates to:
+  /// **'Chờ đồng bộ'**
+  String get statusPendingSync;
+
+  /// No description provided for @statusSyncing.
+  ///
+  /// In vi, this message translates to:
+  /// **'Đang đồng bộ...'**
+  String get statusSyncing;
+
+  /// No description provided for @statusSynced.
+  ///
+  /// In vi, this message translates to:
+  /// **'Đã đồng bộ'**
+  String get statusSynced;
+
+  /// No description provided for @statusSyncFailed.
+  ///
+  /// In vi, this message translates to:
+  /// **'Đồng bộ thất bại'**
+  String get statusSyncFailed;
+
+  /// No description provided for @syncAllButton.
+  ///
+  /// In vi, this message translates to:
+  /// **'Đồng bộ tất cả'**
+  String get syncAllButton;
+
+  /// No description provided for @syncRetryButton.
+  ///
+  /// In vi, this message translates to:
+  /// **'Thử lại'**
+  String get syncRetryButton;
+
+  /// No description provided for @persistentQueueWarning.
+  ///
+  /// In vi, this message translates to:
+  /// **'CẢNH BÁO: Còn {count} lượt chấm công chưa gửi lên máy chủ! Hãy đồng bộ để không bị mất công.'**
+  String persistentQueueWarning(int count);
+
+  /// No description provided for @factoryRemindersTitle.
+  ///
+  /// In vi, this message translates to:
+  /// **'Nhắc nhở ca kíp nhà máy'**
+  String get factoryRemindersTitle;
+
+  /// No description provided for @factoryRemindersSubtitle.
+  ///
+  /// In vi, this message translates to:
+  /// **'Nhắc nhở giờ vào ca & ăn trưa (do không được mang điện thoại vào xưởng)'**
+  String get factoryRemindersSubtitle;
+
+  /// No description provided for @reminderMorningShift.
+  ///
+  /// In vi, this message translates to:
+  /// **'Vào ca sáng (07:45)'**
+  String get reminderMorningShift;
+
+  /// No description provided for @reminderLunchBreak.
+  ///
+  /// In vi, this message translates to:
+  /// **'Nghỉ ăn trưa (11:45)'**
+  String get reminderLunchBreak;
+
+  /// No description provided for @reminderAfternoonShift.
+  ///
+  /// In vi, this message translates to:
+  /// **'Vào ca chiều (12:45)'**
+  String get reminderAfternoonShift;
+
+  /// No description provided for @reminderShiftEnd.
+  ///
+  /// In vi, this message translates to:
+  /// **'Tan ca về (17:00)'**
+  String get reminderShiftEnd;
+
+  /// No description provided for @reminderSavedSuccess.
+  ///
+  /// In vi, this message translates to:
+  /// **'Đã lưu cài đặt nhắc nhở ca kíp thành công!'**
+  String get reminderSavedSuccess;
+
+  /// No description provided for @geofenceDistanceLabel.
+  ///
+  /// In vi, this message translates to:
+  /// **'Khoảng cách toạ độ: {meters}m so với tâm nhà máy'**
+  String geofenceDistanceLabel(int meters);
+
+  /// No description provided for @geofenceWithinRange.
+  ///
+  /// In vi, this message translates to:
+  /// **'Trong bán kính hợp lệ (≤ 50m)'**
+  String get geofenceWithinRange;
+
+  /// No description provided for @geofenceOutOfRange.
+  ///
+  /// In vi, this message translates to:
+  /// **'Ngoài bán kính nhà máy (> 50m)'**
+  String get geofenceOutOfRange;
+
+  /// No description provided for @checkInGpsSuccess.
+  ///
+  /// In vi, this message translates to:
+  /// **'Đã ghi nhận Check-in GPS thành công!'**
+  String get checkInGpsSuccess;
+
+  /// No description provided for @checkOutGpsSuccess.
+  ///
+  /// In vi, this message translates to:
+  /// **'Đã ghi nhận Check-out GPS thành công!'**
+  String get checkOutGpsSuccess;
+
+  /// No description provided for @qrScannerTitle.
+  ///
+  /// In vi, this message translates to:
+  /// **'Quét mã QR đăng nhập'**
+  String get qrScannerTitle;
+
+  /// No description provided for @qrScannerSubtitle.
+  ///
+  /// In vi, this message translates to:
+  /// **'Hướng camera vào mã QR trên màn hình Cổng thông tin Web'**
+  String get qrScannerSubtitle;
+
+  /// No description provided for @qrTorchToggle.
+  ///
+  /// In vi, this message translates to:
+  /// **'Bật/Tắt đèn Flash'**
+  String get qrTorchToggle;
+
+  /// No description provided for @qrSamplePayloadsButton.
+  ///
+  /// In vi, this message translates to:
+  /// **'Mã QR mẫu để thử nghiệm'**
+  String get qrSamplePayloadsButton;
+
+  /// No description provided for @qrConfirmTitle.
+  ///
+  /// In vi, this message translates to:
+  /// **'Xác nhận đăng nhập Web'**
+  String get qrConfirmTitle;
+
+  /// No description provided for @qrConfirmPrompt.
+  ///
+  /// In vi, this message translates to:
+  /// **'Bạn có đang đăng nhập vào Cổng thông tin VSTech không?'**
+  String get qrConfirmPrompt;
+
+  /// No description provided for @qrBrowserLabel.
+  ///
+  /// In vi, this message translates to:
+  /// **'Trình duyệt'**
+  String get qrBrowserLabel;
+
+  /// No description provided for @qrDeviceLabel.
+  ///
+  /// In vi, this message translates to:
+  /// **'Thiết bị / Máy tính trạm'**
+  String get qrDeviceLabel;
+
+  /// No description provided for @qrLocationLabel.
+  ///
+  /// In vi, this message translates to:
+  /// **'Vị trí đăng nhập'**
+  String get qrLocationLabel;
+
+  /// No description provided for @qrRequestTimeLabel.
+  ///
+  /// In vi, this message translates to:
+  /// **'Thời gian yêu cầu'**
+  String get qrRequestTimeLabel;
+
+  /// No description provided for @qrIpAddressLabel.
+  ///
+  /// In vi, this message translates to:
+  /// **'Địa chỉ IP'**
+  String get qrIpAddressLabel;
+
+  /// No description provided for @qrApproveButton.
+  ///
+  /// In vi, this message translates to:
+  /// **'Xác nhận đăng nhập'**
+  String get qrApproveButton;
+
+  /// No description provided for @qrRejectButton.
+  ///
+  /// In vi, this message translates to:
+  /// **'Từ chối'**
+  String get qrRejectButton;
+
+  /// No description provided for @qrBiometricPromptReason.
+  ///
+  /// In vi, this message translates to:
+  /// **'Xác thực sinh trắc học để phê duyệt đăng nhập trên Web'**
+  String get qrBiometricPromptReason;
+
+  /// No description provided for @qrLoginApprovedSuccess.
+  ///
+  /// In vi, this message translates to:
+  /// **'Đăng nhập thành công! Phiên làm việc trên máy tính đã được kích hoạt.'**
+  String get qrLoginApprovedSuccess;
+
+  /// No description provided for @qrLoginRejectedMsg.
+  ///
+  /// In vi, this message translates to:
+  /// **'Bạn đã từ chối yêu cầu đăng nhập này.'**
+  String get qrLoginRejectedMsg;
+
+  /// No description provided for @qrExpiredWarning.
+  ///
+  /// In vi, this message translates to:
+  /// **'Mã QR này đã hết hạn. Vui lòng làm mới trang web để lấy mã mới.'**
+  String get qrExpiredWarning;
+
+  /// No description provided for @qrInvalidWarning.
+  ///
+  /// In vi, this message translates to:
+  /// **'Mã QR không hợp lệ hoặc không thuộc hệ thống VSTech.'**
+  String get qrInvalidWarning;
+
+  /// No description provided for @qrUsedWarning.
+  ///
+  /// In vi, this message translates to:
+  /// **'Mã QR này đã được sử dụng trước đó.'**
+  String get qrUsedWarning;
+
+  /// No description provided for @qrCancelledWarning.
+  ///
+  /// In vi, this message translates to:
+  /// **'Yêu cầu đăng nhập này đã bị huỷ bởi máy tính trạm.'**
+  String get qrCancelledWarning;
 }
 
 class _AppLocalizationsDelegate

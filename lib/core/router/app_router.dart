@@ -8,20 +8,30 @@ import 'package:vstech_hrm/core/router/route_guards.dart';
 import 'package:vstech_hrm/core/router/routes.dart';
 import 'package:vstech_hrm/core/screens/state_showcase_screen.dart';
 import 'package:vstech_hrm/core/session/auth_cubit.dart';
+import 'package:vstech_hrm/features/announcements/domain/entities/announcement_entity.dart';
+import 'package:vstech_hrm/features/announcements/presentation/cubit/announcements_cubit.dart';
+import 'package:vstech_hrm/features/announcements/presentation/screens/announcement_detail_screen.dart';
+import 'package:vstech_hrm/features/announcements/presentation/screens/announcements_screen.dart';
 import 'package:vstech_hrm/features/approvals/presentation/screens/approvals_screen.dart';
 import 'package:vstech_hrm/features/attendance/domain/entities/attendance_record_entity.dart';
 import 'package:vstech_hrm/features/attendance/presentation/bloc/attendance_bloc.dart';
+import 'package:vstech_hrm/features/attendance/presentation/cubit/offline_queue_cubit.dart';
 import 'package:vstech_hrm/features/attendance/presentation/screens/attendance_screen.dart';
 import 'package:vstech_hrm/features/attendance/presentation/screens/face_scan_screen.dart';
+import 'package:vstech_hrm/features/attendance/presentation/screens/offline_queue_screen.dart';
 import 'package:vstech_hrm/features/auth/presentation/screens/login_screen.dart';
 import 'package:vstech_hrm/features/auth/presentation/screens/splash_screen.dart';
 import 'package:vstech_hrm/features/calendar/presentation/screens/calendar_screen.dart';
 import 'package:vstech_hrm/features/holidays/presentation/screens/holidays_screen.dart';
 import 'package:vstech_hrm/features/home/presentation/screens/home_screen.dart';
+import 'package:vstech_hrm/features/labor_profile/presentation/cubit/labor_profile_cubit.dart';
+import 'package:vstech_hrm/features/labor_profile/presentation/screens/labor_profile_screen.dart';
 import 'package:vstech_hrm/features/notifications/presentation/screens/notifications_screen.dart';
 import 'package:vstech_hrm/features/payroll/presentation/screens/payroll_screen.dart';
 import 'package:vstech_hrm/features/payroll/presentation/screens/payslip_detail_screen.dart';
 import 'package:vstech_hrm/features/profile/presentation/screens/profile_screen.dart';
+import 'package:vstech_hrm/features/qr_auth/presentation/cubit/qr_scanner_cubit.dart';
+import 'package:vstech_hrm/features/qr_auth/presentation/screens/qr_scanner_screen.dart';
 import 'package:vstech_hrm/features/recruitment/presentation/screens/internal_recruitment_screen.dart';
 import 'package:vstech_hrm/features/recruitment/presentation/screens/job_detail_screen.dart';
 import 'package:vstech_hrm/features/requests/presentation/screens/attendance_correction_screen.dart';
@@ -137,6 +147,54 @@ class AppRouter {
       GoRoute(
         path: AppRoutes.stateShowcase,
         builder: (context, state) => const StateShowcaseScreen(),
+      ),
+
+      // 4 Core MVP Features
+      GoRoute(
+        path: AppRoutes.announcements,
+        builder: (context, state) => BlocProvider(
+          create: (_) => sl<AnnouncementsCubit>(),
+          child: const AnnouncementsScreen(),
+        ),
+      ),
+      GoRoute(
+        path: AppRoutes.announcementDetail,
+        builder: (context, state) {
+          final item = state.extra is AnnouncementEntity
+              ? state.extra! as AnnouncementEntity
+              : null;
+          if (item == null) {
+            return BlocProvider(
+              create: (_) => sl<AnnouncementsCubit>(),
+              child: const AnnouncementsScreen(),
+            );
+          }
+          return BlocProvider(
+            create: (_) => sl<AnnouncementsCubit>(),
+            child: AnnouncementDetailScreen(announcement: item),
+          );
+        },
+      ),
+      GoRoute(
+        path: AppRoutes.laborProfile,
+        builder: (context, state) => BlocProvider(
+          create: (_) => sl<LaborProfileCubit>(),
+          child: const LaborProfileScreen(),
+        ),
+      ),
+      GoRoute(
+        path: AppRoutes.offlineQueue,
+        builder: (context, state) => BlocProvider(
+          create: (_) => sl<OfflineQueueCubit>(),
+          child: const OfflineQueueScreen(),
+        ),
+      ),
+      GoRoute(
+        path: AppRoutes.qrScanner,
+        builder: (context, state) => BlocProvider(
+          create: (_) => sl<QrScannerCubit>(),
+          child: const QrScannerScreen(),
+        ),
       ),
 
       // 5 Main Navigation Tabs in AppShell

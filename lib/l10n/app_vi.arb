@@ -777,5 +777,115 @@
     "placeholders": {
       "count": {"type": "String"}
     }
-  }
+  },
+
+  "announcementsTitle": "Thông báo nội bộ",
+  "announcementsSubtitle": "Thông tin chính thức từ HR & Ban Giám Đốc",
+  "announcementScopeAll": "Tất cả",
+  "announcementScopeCompany": "Toàn công ty",
+  "announcementScopeOffice": "Khối văn phòng",
+  "announcementScopeFactory": "Phân xưởng & Tổ",
+  "announcementScopeDept": "Phòng ban",
+  "announcementTargetScope": "Phạm vi: {scope}",
+  "@announcementTargetScope": {
+    "placeholders": {
+      "scope": {"type": "String"}
+    }
+  },
+  "announcementAuthor": "Người gửi: {author}",
+  "@announcementAuthor": {
+    "placeholders": {
+      "author": {"type": "String"}
+    }
+  },
+  "announcementPublishDate": "Đăng lúc: {date}",
+  "@announcementPublishDate": {
+    "placeholders": {
+      "date": {"type": "String"}
+    }
+  },
+  "announcementUnreadBadge": "MỚI",
+  "announcementMarkAllRead": "Đã đọc tất cả",
+  "announcementEmpty": "Chưa có thông báo nào trong mục này",
+  "announcementDetailTitle": "Chi tiết thông báo",
+  "announcementReadConfirmed": "Đã đánh dấu đã đọc",
+
+  "laborProfileTitle": "Hồ sơ lao động & Hợp đồng",
+  "contractSectionTitle": "Hợp đồng lao động hiện tại",
+  "contractNumberLabel": "Số hợp đồng",
+  "contractTypeLabel": "Loại hợp đồng",
+  "contractSigningDateLabel": "Ngày ký",
+  "contractEffectiveDateLabel": "Ngày hiệu lực",
+  "contractExpirationDateLabel": "Ngày hết hạn",
+  "contractStatusLabel": "Tình trạng HĐ",
+  "contractStatusActive": "Đang có hiệu lực",
+  "salaryAndBenefitsSection": "Mức lương & Chế độ thoả thuận",
+  "agreedBaseSalary": "Lương cơ bản thoả thuận",
+  "responsibilityAllowance": "Phụ cấp trách nhiệm",
+  "mealAllowance": "Phụ cấp cơm trưa",
+  "overtimeRateDescription": "Hệ số tăng ca: 150% (ngày thường), 200% (nghỉ tuần), 300% (lễ tết)",
+  "socialInsuranceSection": "Bảo hiểm xã hội & Y tế",
+  "socialInsuranceNumber": "Mã số BHXH",
+  "hospitalRegistered": "Nơi đăng ký KCB ban đầu",
+  "insuranceSalaryLevel": "Mức lương đóng BHXH",
+  "insuranceStatus": "Trạng thái sổ BHXH",
+  "insuranceStatusActive": "Đang đóng đầy đủ",
+  "contractAttachmentsSection": "Tệp đính kèm & Bản scan HĐLĐ",
+  "downloadAttachmentButton": "Tải về",
+  "previewAttachmentButton": "Xem trước",
+  "laborProfileHrNotice": "Thông tin hợp đồng và chế độ lao động do Phòng Nhân sự quản lý. Người lao động không thể tự chỉnh sửa trên ứng dụng di động. Mọi thắc mắc xin liên hệ HR.",
+
+  "offlineQueueTitle": "Hàng đợi chấm công ngoại tuyến",
+  "offlineQueueSubtitle": "Dữ liệu chấm công lưu trên máy khi mất mạng",
+  "statusRecorded": "Đã ghi nhận",
+  "statusPendingSync": "Chờ đồng bộ",
+  "statusSyncing": "Đang đồng bộ...",
+  "statusSynced": "Đã đồng bộ",
+  "statusSyncFailed": "Đồng bộ thất bại",
+  "syncAllButton": "Đồng bộ tất cả",
+  "syncRetryButton": "Thử lại",
+  "persistentQueueWarning": "CẢNH BÁO: Còn {count} lượt chấm công chưa gửi lên máy chủ! Hãy đồng bộ để không bị mất công.",
+  "@persistentQueueWarning": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+  "factoryRemindersTitle": "Nhắc nhở ca kíp nhà máy",
+  "factoryRemindersSubtitle": "Nhắc nhở giờ vào ca & ăn trưa (do không được mang điện thoại vào xưởng)",
+  "reminderMorningShift": "Vào ca sáng (07:45)",
+  "reminderLunchBreak": "Nghỉ ăn trưa (11:45)",
+  "reminderAfternoonShift": "Vào ca chiều (12:45)",
+  "reminderShiftEnd": "Tan ca về (17:00)",
+  "reminderSavedSuccess": "Đã lưu cài đặt nhắc nhở ca kíp thành công!",
+  "geofenceDistanceLabel": "Khoảng cách toạ độ: {meters}m so với tâm nhà máy",
+  "@geofenceDistanceLabel": {
+    "placeholders": {
+      "meters": {"type": "int"}
+    }
+  },
+  "geofenceWithinRange": "Trong bán kính hợp lệ (≤ 50m)",
+  "geofenceOutOfRange": "Ngoài bán kính nhà máy (> 50m)",
+  "checkInGpsSuccess": "Đã ghi nhận Check-in GPS thành công!",
+  "checkOutGpsSuccess": "Đã ghi nhận Check-out GPS thành công!",
+
+  "qrScannerTitle": "Quét mã QR đăng nhập",
+  "qrScannerSubtitle": "Hướng camera vào mã QR trên màn hình Cổng thông tin Web",
+  "qrTorchToggle": "Bật/Tắt đèn Flash",
+  "qrSamplePayloadsButton": "Mã QR mẫu để thử nghiệm",
+  "qrConfirmTitle": "Xác nhận đăng nhập Web",
+  "qrConfirmPrompt": "Bạn có đang đăng nhập vào Cổng thông tin VSTech không?",
+  "qrBrowserLabel": "Trình duyệt",
+  "qrDeviceLabel": "Thiết bị / Máy tính trạm",
+  "qrLocationLabel": "Vị trí đăng nhập",
+  "qrRequestTimeLabel": "Thời gian yêu cầu",
+  "qrIpAddressLabel": "Địa chỉ IP",
+  "qrApproveButton": "Xác nhận đăng nhập",
+  "qrRejectButton": "Từ chối",
+  "qrBiometricPromptReason": "Xác thực sinh trắc học để phê duyệt đăng nhập trên Web",
+  "qrLoginApprovedSuccess": "Đăng nhập thành công! Phiên làm việc trên máy tính đã được kích hoạt.",
+  "qrLoginRejectedMsg": "Bạn đã từ chối yêu cầu đăng nhập này.",
+  "qrExpiredWarning": "Mã QR này đã hết hạn. Vui lòng làm mới trang web để lấy mã mới.",
+  "qrInvalidWarning": "Mã QR không hợp lệ hoặc không thuộc hệ thống VSTech.",
+  "qrUsedWarning": "Mã QR này đã được sử dụng trước đó.",
+  "qrCancelledWarning": "Yêu cầu đăng nhập này đã bị huỷ bởi máy tính trạm."
 }

@@ -46,6 +46,7 @@ class AppColorsExtension extends ThemeExtension<AppColorsExtension> {
   Color get primaryIndigo => tileDark;
   Color get accentAmber => amberCta;
   Color get accentAmberDark => amberInk;
+  Color get amberGold => amberCta;
   Color get pineGreen => greenInk;
   Color get brickRed => redInk;
   Color get background => pageBackground;

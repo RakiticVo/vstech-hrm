@@ -6,7 +6,10 @@ import 'package:vstech_hrm/core/network/logging_interceptor.dart';
 import 'package:vstech_hrm/core/session/auth_cubit.dart';
 import 'package:vstech_hrm/core/session/locale_cubit.dart';
 import 'package:vstech_hrm/core/session/theme_cubit.dart';
+import 'package:vstech_hrm/features/announcements/announcements_injection.dart';
 import 'package:vstech_hrm/features/attendance/attendance_injection.dart';
+import 'package:vstech_hrm/features/labor_profile/labor_profile_injection.dart';
+import 'package:vstech_hrm/features/qr_auth/qr_auth_injection.dart';
 
 final GetIt sl = GetIt.instance;
 
@@ -44,4 +47,7 @@ Future<void> initDependencies() async {
 
   // 5. Feature Modules
   initAttendanceDependencies(sl);
+  initAnnouncementsDependencies(sl);
+  initLaborProfileDependencies(sl);
+  initQrAuthDependencies(sl);
 }

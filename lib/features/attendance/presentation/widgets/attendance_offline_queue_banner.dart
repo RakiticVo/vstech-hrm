@@ -1,8 +1,10 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:material_symbols_icons/symbols.dart';
 import 'package:vstech_hrm/core/extensions/l10n_extension.dart';
 import 'package:vstech_hrm/core/responsive/app_layout.dart';
+import 'package:vstech_hrm/core/router/routes.dart';
 import 'package:vstech_hrm/core/services/offline_attendance_service.dart';
 import 'package:vstech_hrm/core/theme/app_colors.dart';
 
@@ -94,22 +96,25 @@ class _AttendanceOfflineQueueBannerState
           ),
           10.gapW,
           Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  l10n.offlineQueueCount(_pendingCount),
-                  style: const TextStyle(
-                    fontSize: 13,
-                    fontWeight: FontWeight.bold,
-                    color: Color(0xFF92400E),
+            child: InkWell(
+              onTap: () => context.push(AppRoutes.offlineQueue),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    l10n.offlineQueueCount(_pendingCount),
+                    style: const TextStyle(
+                      fontSize: 13,
+                      fontWeight: FontWeight.bold,
+                      color: Color(0xFF92400E),
+                    ),
                   ),
-                ),
-                Text(
-                  l10n.offlineQueueDesc,
-                  style: const TextStyle(fontSize: 11.5, color: Color(0xFFB45309)),
-                ),
-              ],
+                  Text(
+                    l10n.offlineQueueDesc,
+                    style: const TextStyle(fontSize: 11.5, color: Color(0xFFB45309)),
+                  ),
+                ],
+              ),
             ),
           ),
           6.gapW,

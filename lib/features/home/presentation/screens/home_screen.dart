@@ -12,6 +12,7 @@ import 'package:vstech_hrm/core/theme/app_text_styles.dart';
 import 'package:vstech_hrm/core/widgets/app_card.dart';
 import 'package:vstech_hrm/core/widgets/tile_header_banner.dart';
 import 'package:vstech_hrm/core/widgets/tile_section_divider.dart';
+import 'package:vstech_hrm/features/attendance/presentation/widgets/attendance_offline_queue_banner.dart';
 import 'package:vstech_hrm/features/home/presentation/widgets/home_announcements.dart';
 import 'package:vstech_hrm/features/home/presentation/widgets/home_balance_card.dart';
 import 'package:vstech_hrm/features/home/presentation/widgets/home_quick_actions.dart';
@@ -43,8 +44,21 @@ class HomeScreen extends StatelessWidget {
               title: '${l10n.greetingMorning}, \n$userName 👋',
               subtitle: 'Thứ Ba, 20 Tháng 9 · Cửa hàng Q.3 (TP.HCM)',
               avatarFallbackText: userInitials,
-              hasUnreadNotification: true,
-              onNotificationTap: () => context.push(AppRoutes.notifications),
+              trailing: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  IconButton(
+                    icon: const Icon(Symbols.qr_code_scanner, color: Color(0xFFFFF8EC), size: 24),
+                    tooltip: l10n.qrScannerTitle,
+                    onPressed: () => context.push(AppRoutes.qrScanner),
+                  ),
+                  IconButton(
+                    icon: const Icon(Symbols.notifications, color: Color(0xFFFFF8EC), size: 24),
+                    tooltip: l10n.notificationsTitle,
+                    onPressed: () => context.push(AppRoutes.notifications),
+                  ),
+                ],
+              ),
               bottomPadding: context.custom(normal: 64, compact: 52),
             ),
             Transform.translate(
@@ -53,6 +67,9 @@ class HomeScreen extends StatelessWidget {
                 padding: context.paddingCustom(horizontal: 16),
                 child: Column(
                   children: [
+                    // Persistent Offline Queue Warning Banner
+                    const AttendanceOfflineQueueBanner(),
+
                     // Balance card (Worked hours & punch CTA)
                     const HomeBalanceCard(),
 

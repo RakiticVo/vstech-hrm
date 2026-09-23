@@ -60,6 +60,11 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
           ),
         ),
         actions: [
+          IconButton(
+            tooltip: l10n.offlineQueueTitle,
+            onPressed: () => context.push(AppRoutes.offlineQueue),
+            icon: Icon(Symbols.cloud_sync, size: 20, color: colors.amberGold),
+          ),
           TextButton.icon(
             onPressed: () => context.push(AppRoutes.shiftSchedule),
             icon: Icon(Symbols.schedule, size: 16, color: colors.primaryIndigo),

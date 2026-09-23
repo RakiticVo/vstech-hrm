@@ -34,4 +34,11 @@ class AppRoutes {
 
   // Sub-routes / Detail screens
   static const String checkInCamera = '/home/check-in';
+
+  // 4 Core MVP Additions
+  static const String announcements = '/announcements';
+  static const String announcementDetail = '/announcements/detail';
+  static const String laborProfile = '/profile/labor-contract';
+  static const String offlineQueue = '/attendance/offline-queue';
+  static const String qrScanner = '/qr-scanner';
 }

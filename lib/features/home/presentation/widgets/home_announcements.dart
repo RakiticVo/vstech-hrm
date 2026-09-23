@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:vstech_hrm/core/extensions/l10n_extension.dart';
 import 'package:vstech_hrm/core/responsive/app_layout.dart';
+import 'package:vstech_hrm/core/router/routes.dart';
 import 'package:vstech_hrm/core/theme/app_colors.dart';
 
 /// Latest Announcements / Updates section on Home screen.
@@ -47,7 +49,7 @@ class HomeAnnouncements extends StatelessWidget {
               ),
             ),
             InkWell(
-              onTap: () {},
+              onTap: () => context.push(AppRoutes.announcements),
               child: Text(
                 l10n.viewAll,
                 style: TextStyle(

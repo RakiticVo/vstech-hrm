@@ -119,11 +119,7 @@ class ProfileScreen extends StatelessWidget {
                   );
                 }, colors),
                 Divider(height: 1, indent: 62, color: colors.border.withValues(alpha: 0.5)),
-                _buildLetterLinkTile('H', context.l10n.documentsAndRecordsLink, () {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(content: Text(context.l10n.documentsAndRecordsInfo)),
-                  );
-                }, colors),
+                _buildLetterLinkTile('H', context.l10n.documentsAndRecordsLink, () => context.push(AppRoutes.laborProfile), colors),
                 Divider(height: 1, indent: 62, color: colors.border.withValues(alpha: 0.5)),
                 _buildLetterLinkTile('T', context.l10n.internalRecruitmentLink, () => context.push(AppRoutes.jobRecruitment), colors),
                 Divider(height: 1, indent: 62, color: colors.border.withValues(alpha: 0.5)),

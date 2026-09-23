@@ -5,6 +5,26 @@
 ## [Unreleased]
 
 ### Added
+- Xây dựng Phân hệ Thông báo nội bộ (`lib/features/announcements/`):
+  - Tra cứu thông báo ban hành từ HR/Admin theo 4 cấp phạm vi (Toàn công ty, Khối nhà xưởng, Khối văn phòng, Phòng ban).
+  - Hỗ trợ thanh tìm kiếm nhanh, bộ lọc phân loại theo phạm vi, thẻ thông báo hiển thị huy hiệu chưa đọc, và màn hình chi tiết tự động cập nhật trạng thái đã xem.
+  - Tích hợp điều hướng trực tiếp từ mục "Xem tất cả" tại trang chủ Dashboard.
+- Xây dựng Phân hệ Hồ sơ lao động & HĐLĐ (`lib/features/labor_profile/`):
+  - Màn hình tra cứu thông tin lao động dành cho công nhân viên: hợp đồng lao động (loại HĐ, số HĐ, ngày ký, ngày hiệu lực/hết hạn), mức lương thỏa thuận & các khoản phụ cấp trách nhiệm, cơm trưa.
+  - Thẻ thông tin BHXH & BHYT chi tiết (mã số sổ, mức lương đóng BHXH, nơi đăng ký khám chữa bệnh ban đầu).
+  - Xem và tải xuống các tài liệu/phụ lục hợp đồng đính kèm định dạng PDF; tích hợp liên kết từ màn hình Hồ sơ cá nhân.
+- Nâng cấp Hàng đợi chấm công ngoại tuyến & Cảnh báo ca kíp (`lib/features/attendance/`):
+  - Hỗ trợ 5 trạng thái đồng bộ rõ ràng (`recorded`, `pending`, `syncing`, `synced`, `failed`) lưu trữ bảo mật trên thiết bị qua `FlutterSecureStorage`.
+  - Kiểm tra bán kính Geofence 50m và hiển thị khoảng cách thực tế từ vị trí chấm công đến tâm xưởng sản xuất.
+  - Màn hình quản lý hàng đợi ngoại tuyến `OfflineQueueScreen` với bộ lọc theo trạng thái và đồng bộ lại thủ công 1-chạm.
+  - Tính năng nhắc nhở chấm công theo ca nhà máy (đầu ca 07:45, nghỉ trưa 11:45, vào ca chiều 12:45, tan ca 17:00) dành cho công nhân không được mang điện thoại vào phân xưởng sản xuất.
+  - Banner cảnh báo công ngoại tuyến chưa đồng bộ hiển thị liên tục tại trang chủ và màn hình chấm công.
+- Xây dựng Phân hệ Xác nhận đăng nhập Web bằng QR (`lib/features/qr_auth/`):
+  - Màn hình quét mã QR trực tiếp qua Camera với khung quét Saigon Tile và hiệu ứng laser scan line.
+  - Bóc tách chi tiết phiên đăng nhập: tên trình duyệt, loại thiết bị, địa chỉ IP, vị trí địa lý, thời gian yêu cầu và đếm ngược thời gian hết hạn.
+  - Cơ chế phê duyệt an toàn yêu cầu xác thực sinh trắc học vân tay / Face ID hoặc mã PIN trước khi xác nhận.
+  - Xử lý toàn diện các kịch bản ngoại lệ: mã QR hết hạn, mã đã sử dụng, mã không hợp lệ, hoặc yêu cầu bị hủy.
+  - Tích hợp nút quét QR tiện lợi ngay trên banner chào mừng trang chủ.
 - Xây dựng bộ công cụ Pure Flutter Responsive Architecture (`lib/core/responsive/app_layout.dart`):
   - Hỗ trợ đầy đủ các tiện ích định cỡ theo tỷ lệ và phân loại màn hình: `context.w()`, `context.wp()`, `context.h()`, `context.hp()`, `context.custom(compact: ..., normal: ..., expanded: ...)`.
   - Bộ helper padding và khoảng cách co giãn tự động: `context.paddingCustom(...)`, `AppGap`, `gapW`/`gapH`.

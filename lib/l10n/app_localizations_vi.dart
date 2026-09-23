@@ -1600,4 +1600,267 @@ class AppLocalizationsVi extends AppLocalizations {
   String remainingDaysCount(String count) {
     return 'Còn lại $count';
   }
+
+  @override
+  String get announcementsSubtitle =>
+      'Thông tin chính thức từ HR & Ban Giám Đốc';
+
+  @override
+  String get announcementScopeAll => 'Tất cả';
+
+  @override
+  String get announcementScopeCompany => 'Toàn công ty';
+
+  @override
+  String get announcementScopeOffice => 'Khối văn phòng';
+
+  @override
+  String get announcementScopeFactory => 'Phân xưởng & Tổ';
+
+  @override
+  String get announcementScopeDept => 'Phòng ban';
+
+  @override
+  String announcementTargetScope(String scope) {
+    return 'Phạm vi: $scope';
+  }
+
+  @override
+  String announcementAuthor(String author) {
+    return 'Người gửi: $author';
+  }
+
+  @override
+  String announcementPublishDate(String date) {
+    return 'Đăng lúc: $date';
+  }
+
+  @override
+  String get announcementUnreadBadge => 'MỚI';
+
+  @override
+  String get announcementMarkAllRead => 'Đã đọc tất cả';
+
+  @override
+  String get announcementEmpty => 'Chưa có thông báo nào trong mục này';
+
+  @override
+  String get announcementDetailTitle => 'Chi tiết thông báo';
+
+  @override
+  String get announcementReadConfirmed => 'Đã đánh dấu đã đọc';
+
+  @override
+  String get laborProfileTitle => 'Hồ sơ lao động & Hợp đồng';
+
+  @override
+  String get contractSectionTitle => 'Hợp đồng lao động hiện tại';
+
+  @override
+  String get contractNumberLabel => 'Số hợp đồng';
+
+  @override
+  String get contractTypeLabel => 'Loại hợp đồng';
+
+  @override
+  String get contractSigningDateLabel => 'Ngày ký';
+
+  @override
+  String get contractEffectiveDateLabel => 'Ngày hiệu lực';
+
+  @override
+  String get contractExpirationDateLabel => 'Ngày hết hạn';
+
+  @override
+  String get contractStatusLabel => 'Tình trạng HĐ';
+
+  @override
+  String get contractStatusActive => 'Đang có hiệu lực';
+
+  @override
+  String get salaryAndBenefitsSection => 'Mức lương & Chế độ thoả thuận';
+
+  @override
+  String get agreedBaseSalary => 'Lương cơ bản thoả thuận';
+
+  @override
+  String get responsibilityAllowance => 'Phụ cấp trách nhiệm';
+
+  @override
+  String get mealAllowance => 'Phụ cấp cơm trưa';
+
+  @override
+  String get overtimeRateDescription =>
+      'Hệ số tăng ca: 150% (ngày thường), 200% (nghỉ tuần), 300% (lễ tết)';
+
+  @override
+  String get socialInsuranceSection => 'Bảo hiểm xã hội & Y tế';
+
+  @override
+  String get socialInsuranceNumber => 'Mã số BHXH';
+
+  @override
+  String get hospitalRegistered => 'Nơi đăng ký KCB ban đầu';
+
+  @override
+  String get insuranceSalaryLevel => 'Mức lương đóng BHXH';
+
+  @override
+  String get insuranceStatus => 'Trạng thái sổ BHXH';
+
+  @override
+  String get insuranceStatusActive => 'Đang đóng đầy đủ';
+
+  @override
+  String get contractAttachmentsSection => 'Tệp đính kèm & Bản scan HĐLĐ';
+
+  @override
+  String get downloadAttachmentButton => 'Tải về';
+
+  @override
+  String get previewAttachmentButton => 'Xem trước';
+
+  @override
+  String get laborProfileHrNotice =>
+      'Thông tin hợp đồng và chế độ lao động do Phòng Nhân sự quản lý. Người lao động không thể tự chỉnh sửa trên ứng dụng di động. Mọi thắc mắc xin liên hệ HR.';
+
+  @override
+  String get offlineQueueTitle => 'Hàng đợi chấm công ngoại tuyến';
+
+  @override
+  String get offlineQueueSubtitle =>
+      'Dữ liệu chấm công lưu trên máy khi mất mạng';
+
+  @override
+  String get statusRecorded => 'Đã ghi nhận';
+
+  @override
+  String get statusPendingSync => 'Chờ đồng bộ';
+
+  @override
+  String get statusSyncing => 'Đang đồng bộ...';
+
+  @override
+  String get statusSynced => 'Đã đồng bộ';
+
+  @override
+  String get statusSyncFailed => 'Đồng bộ thất bại';
+
+  @override
+  String get syncAllButton => 'Đồng bộ tất cả';
+
+  @override
+  String get syncRetryButton => 'Thử lại';
+
+  @override
+  String persistentQueueWarning(int count) {
+    return 'CẢNH BÁO: Còn $count lượt chấm công chưa gửi lên máy chủ! Hãy đồng bộ để không bị mất công.';
+  }
+
+  @override
+  String get factoryRemindersTitle => 'Nhắc nhở ca kíp nhà máy';
+
+  @override
+  String get factoryRemindersSubtitle =>
+      'Nhắc nhở giờ vào ca & ăn trưa (do không được mang điện thoại vào xưởng)';
+
+  @override
+  String get reminderMorningShift => 'Vào ca sáng (07:45)';
+
+  @override
+  String get reminderLunchBreak => 'Nghỉ ăn trưa (11:45)';
+
+  @override
+  String get reminderAfternoonShift => 'Vào ca chiều (12:45)';
+
+  @override
+  String get reminderShiftEnd => 'Tan ca về (17:00)';
+
+  @override
+  String get reminderSavedSuccess =>
+      'Đã lưu cài đặt nhắc nhở ca kíp thành công!';
+
+  @override
+  String geofenceDistanceLabel(int meters) {
+    return 'Khoảng cách toạ độ: ${meters}m so với tâm nhà máy';
+  }
+
+  @override
+  String get geofenceWithinRange => 'Trong bán kính hợp lệ (≤ 50m)';
+
+  @override
+  String get geofenceOutOfRange => 'Ngoài bán kính nhà máy (> 50m)';
+
+  @override
+  String get checkInGpsSuccess => 'Đã ghi nhận Check-in GPS thành công!';
+
+  @override
+  String get checkOutGpsSuccess => 'Đã ghi nhận Check-out GPS thành công!';
+
+  @override
+  String get qrScannerTitle => 'Quét mã QR đăng nhập';
+
+  @override
+  String get qrScannerSubtitle =>
+      'Hướng camera vào mã QR trên màn hình Cổng thông tin Web';
+
+  @override
+  String get qrTorchToggle => 'Bật/Tắt đèn Flash';
+
+  @override
+  String get qrSamplePayloadsButton => 'Mã QR mẫu để thử nghiệm';
+
+  @override
+  String get qrConfirmTitle => 'Xác nhận đăng nhập Web';
+
+  @override
+  String get qrConfirmPrompt =>
+      'Bạn có đang đăng nhập vào Cổng thông tin VSTech không?';
+
+  @override
+  String get qrBrowserLabel => 'Trình duyệt';
+
+  @override
+  String get qrDeviceLabel => 'Thiết bị / Máy tính trạm';
+
+  @override
+  String get qrLocationLabel => 'Vị trí đăng nhập';
+
+  @override
+  String get qrRequestTimeLabel => 'Thời gian yêu cầu';
+
+  @override
+  String get qrIpAddressLabel => 'Địa chỉ IP';
+
+  @override
+  String get qrApproveButton => 'Xác nhận đăng nhập';
+
+  @override
+  String get qrRejectButton => 'Từ chối';
+
+  @override
+  String get qrBiometricPromptReason =>
+      'Xác thực sinh trắc học để phê duyệt đăng nhập trên Web';
+
+  @override
+  String get qrLoginApprovedSuccess =>
+      'Đăng nhập thành công! Phiên làm việc trên máy tính đã được kích hoạt.';
+
+  @override
+  String get qrLoginRejectedMsg => 'Bạn đã từ chối yêu cầu đăng nhập này.';
+
+  @override
+  String get qrExpiredWarning =>
+      'Mã QR này đã hết hạn. Vui lòng làm mới trang web để lấy mã mới.';
+
+  @override
+  String get qrInvalidWarning =>
+      'Mã QR không hợp lệ hoặc không thuộc hệ thống VSTech.';
+
+  @override
+  String get qrUsedWarning => 'Mã QR này đã được sử dụng trước đó.';
+
+  @override
+  String get qrCancelledWarning =>
+      'Yêu cầu đăng nhập này đã bị huỷ bởi máy tính trạm.';
 }

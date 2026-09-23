@@ -1605,4 +1605,266 @@ class AppLocalizationsEn extends AppLocalizations {
   String remainingDaysCount(String count) {
     return 'Remaining $count';
   }
+
+  @override
+  String get announcementsSubtitle =>
+      'Official updates from HR & Executive Management';
+
+  @override
+  String get announcementScopeAll => 'All';
+
+  @override
+  String get announcementScopeCompany => 'Company-wide';
+
+  @override
+  String get announcementScopeOffice => 'Office';
+
+  @override
+  String get announcementScopeFactory => 'Factory & Team';
+
+  @override
+  String get announcementScopeDept => 'Department';
+
+  @override
+  String announcementTargetScope(String scope) {
+    return 'Scope: $scope';
+  }
+
+  @override
+  String announcementAuthor(String author) {
+    return 'Author: $author';
+  }
+
+  @override
+  String announcementPublishDate(String date) {
+    return 'Published: $date';
+  }
+
+  @override
+  String get announcementUnreadBadge => 'NEW';
+
+  @override
+  String get announcementMarkAllRead => 'Mark all as read';
+
+  @override
+  String get announcementEmpty => 'No announcements in this category';
+
+  @override
+  String get announcementDetailTitle => 'Announcement Detail';
+
+  @override
+  String get announcementReadConfirmed => 'Marked as read';
+
+  @override
+  String get laborProfileTitle => 'Labor Profile & Contracts';
+
+  @override
+  String get contractSectionTitle => 'Current Labor Contract';
+
+  @override
+  String get contractNumberLabel => 'Contract Number';
+
+  @override
+  String get contractTypeLabel => 'Contract Type';
+
+  @override
+  String get contractSigningDateLabel => 'Signing Date';
+
+  @override
+  String get contractEffectiveDateLabel => 'Effective Date';
+
+  @override
+  String get contractExpirationDateLabel => 'Expiration Date';
+
+  @override
+  String get contractStatusLabel => 'Contract Status';
+
+  @override
+  String get contractStatusActive => 'Active';
+
+  @override
+  String get salaryAndBenefitsSection => 'Agreed Salary & Allowances';
+
+  @override
+  String get agreedBaseSalary => 'Agreed Base Salary';
+
+  @override
+  String get responsibilityAllowance => 'Responsibility Allowance';
+
+  @override
+  String get mealAllowance => 'Meal Allowance';
+
+  @override
+  String get overtimeRateDescription =>
+      'OT Rate: 150% (weekday), 200% (weekend), 300% (holiday)';
+
+  @override
+  String get socialInsuranceSection => 'Social & Health Insurance';
+
+  @override
+  String get socialInsuranceNumber => 'Social Insurance Code';
+
+  @override
+  String get hospitalRegistered => 'Primary Registered Clinic/Hospital';
+
+  @override
+  String get insuranceSalaryLevel => 'Insurance Contribution Base';
+
+  @override
+  String get insuranceStatus => 'Insurance Book Status';
+
+  @override
+  String get insuranceStatusActive => 'Fully Contributing';
+
+  @override
+  String get contractAttachmentsSection => 'Attachments & Contract Scans';
+
+  @override
+  String get downloadAttachmentButton => 'Download';
+
+  @override
+  String get previewAttachmentButton => 'Preview';
+
+  @override
+  String get laborProfileHrNotice =>
+      'Contract and labor terms are managed by HR. Employees cannot edit this data on mobile. Please contact HR for inquiries.';
+
+  @override
+  String get offlineQueueTitle => 'Offline Attendance Queue';
+
+  @override
+  String get offlineQueueSubtitle =>
+      'Locally saved punches pending server synchronization';
+
+  @override
+  String get statusRecorded => 'Recorded';
+
+  @override
+  String get statusPendingSync => 'Pending Sync';
+
+  @override
+  String get statusSyncing => 'Synchronizing...';
+
+  @override
+  String get statusSynced => 'Synchronized';
+
+  @override
+  String get statusSyncFailed => 'Sync Failed';
+
+  @override
+  String get syncAllButton => 'Sync All';
+
+  @override
+  String get syncRetryButton => 'Retry';
+
+  @override
+  String persistentQueueWarning(int count) {
+    return 'WARNING: $count offline attendance punches are still pending synchronization!';
+  }
+
+  @override
+  String get factoryRemindersTitle => 'Factory Shift Reminders';
+
+  @override
+  String get factoryRemindersSubtitle =>
+      'Alerts for shift starts and lunch breaks (workers cannot carry phones inside factory)';
+
+  @override
+  String get reminderMorningShift => 'Morning Shift In (07:45)';
+
+  @override
+  String get reminderLunchBreak => 'Lunch Break (11:45)';
+
+  @override
+  String get reminderAfternoonShift => 'Afternoon Shift In (12:45)';
+
+  @override
+  String get reminderShiftEnd => 'Shift End Out (17:00)';
+
+  @override
+  String get reminderSavedSuccess =>
+      'Factory shift reminders saved successfully!';
+
+  @override
+  String geofenceDistanceLabel(int meters) {
+    return 'Distance: ${meters}m from factory center';
+  }
+
+  @override
+  String get geofenceWithinRange => 'Within valid geofence (≤ 50m)';
+
+  @override
+  String get geofenceOutOfRange => 'Outside factory geofence (> 50m)';
+
+  @override
+  String get checkInGpsSuccess => 'GPS Check-in recorded successfully!';
+
+  @override
+  String get checkOutGpsSuccess => 'GPS Check-out recorded successfully!';
+
+  @override
+  String get qrScannerTitle => 'Scan QR to Login';
+
+  @override
+  String get qrScannerSubtitle =>
+      'Point camera at the QR code on the Web Portal';
+
+  @override
+  String get qrTorchToggle => 'Toggle Torch';
+
+  @override
+  String get qrSamplePayloadsButton => 'Demo QR Payloads';
+
+  @override
+  String get qrConfirmTitle => 'Confirm Web Login';
+
+  @override
+  String get qrConfirmPrompt =>
+      'Are you attempting to log in to VSTech Web Portal?';
+
+  @override
+  String get qrBrowserLabel => 'Browser';
+
+  @override
+  String get qrDeviceLabel => 'Device / Workstation';
+
+  @override
+  String get qrLocationLabel => 'Login Location';
+
+  @override
+  String get qrRequestTimeLabel => 'Request Time';
+
+  @override
+  String get qrIpAddressLabel => 'IP Address';
+
+  @override
+  String get qrApproveButton => 'Approve Login';
+
+  @override
+  String get qrRejectButton => 'Reject';
+
+  @override
+  String get qrBiometricPromptReason =>
+      'Biometric authentication required to approve web login';
+
+  @override
+  String get qrLoginApprovedSuccess =>
+      'Login approved! Web workstation session activated.';
+
+  @override
+  String get qrLoginRejectedMsg => 'You rejected this login request.';
+
+  @override
+  String get qrExpiredWarning =>
+      'This QR code has expired. Please refresh the web page.';
+
+  @override
+  String get qrInvalidWarning => 'Invalid QR code. Not recognized by VSTech.';
+
+  @override
+  String get qrUsedWarning => 'This QR code has already been used.';
+
+  @override
+  String get qrCancelledWarning =>
+      'This login request has been cancelled by the workstation.';
 }

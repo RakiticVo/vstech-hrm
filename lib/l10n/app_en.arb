@@ -777,5 +777,115 @@
     "placeholders": {
       "count": {"type": "String"}
     }
-  }
+  },
+
+  "announcementsTitle": "Internal Announcements",
+  "announcementsSubtitle": "Official updates from HR & Executive Management",
+  "announcementScopeAll": "All",
+  "announcementScopeCompany": "Company-wide",
+  "announcementScopeOffice": "Office",
+  "announcementScopeFactory": "Factory & Team",
+  "announcementScopeDept": "Department",
+  "announcementTargetScope": "Scope: {scope}",
+  "@announcementTargetScope": {
+    "placeholders": {
+      "scope": {"type": "String"}
+    }
+  },
+  "announcementAuthor": "Author: {author}",
+  "@announcementAuthor": {
+    "placeholders": {
+      "author": {"type": "String"}
+    }
+  },
+  "announcementPublishDate": "Published: {date}",
+  "@announcementPublishDate": {
+    "placeholders": {
+      "date": {"type": "String"}
+    }
+  },
+  "announcementUnreadBadge": "NEW",
+  "announcementMarkAllRead": "Mark all as read",
+  "announcementEmpty": "No announcements in this category",
+  "announcementDetailTitle": "Announcement Detail",
+  "announcementReadConfirmed": "Marked as read",
+
+  "laborProfileTitle": "Labor Profile & Contracts",
+  "contractSectionTitle": "Current Labor Contract",
+  "contractNumberLabel": "Contract Number",
+  "contractTypeLabel": "Contract Type",
+  "contractSigningDateLabel": "Signing Date",
+  "contractEffectiveDateLabel": "Effective Date",
+  "contractExpirationDateLabel": "Expiration Date",
+  "contractStatusLabel": "Contract Status",
+  "contractStatusActive": "Active",
+  "salaryAndBenefitsSection": "Agreed Salary & Allowances",
+  "agreedBaseSalary": "Agreed Base Salary",
+  "responsibilityAllowance": "Responsibility Allowance",
+  "mealAllowance": "Meal Allowance",
+  "overtimeRateDescription": "OT Rate: 150% (weekday), 200% (weekend), 300% (holiday)",
+  "socialInsuranceSection": "Social & Health Insurance",
+  "socialInsuranceNumber": "Social Insurance Code",
+  "hospitalRegistered": "Primary Registered Clinic/Hospital",
+  "insuranceSalaryLevel": "Insurance Contribution Base",
+  "insuranceStatus": "Insurance Book Status",
+  "insuranceStatusActive": "Fully Contributing",
+  "contractAttachmentsSection": "Attachments & Contract Scans",
+  "downloadAttachmentButton": "Download",
+  "previewAttachmentButton": "Preview",
+  "laborProfileHrNotice": "Contract and labor terms are managed by HR. Employees cannot edit this data on mobile. Please contact HR for inquiries.",
+
+  "offlineQueueTitle": "Offline Attendance Queue",
+  "offlineQueueSubtitle": "Locally saved punches pending server synchronization",
+  "statusRecorded": "Recorded",
+  "statusPendingSync": "Pending Sync",
+  "statusSyncing": "Synchronizing...",
+  "statusSynced": "Synchronized",
+  "statusSyncFailed": "Sync Failed",
+  "syncAllButton": "Sync All",
+  "syncRetryButton": "Retry",
+  "persistentQueueWarning": "WARNING: {count} offline attendance punches are still pending synchronization!",
+  "@persistentQueueWarning": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+  "factoryRemindersTitle": "Factory Shift Reminders",
+  "factoryRemindersSubtitle": "Alerts for shift starts and lunch breaks (workers cannot carry phones inside factory)",
+  "reminderMorningShift": "Morning Shift In (07:45)",
+  "reminderLunchBreak": "Lunch Break (11:45)",
+  "reminderAfternoonShift": "Afternoon Shift In (12:45)",
+  "reminderShiftEnd": "Shift End Out (17:00)",
+  "reminderSavedSuccess": "Factory shift reminders saved successfully!",
+  "geofenceDistanceLabel": "Distance: {meters}m from factory center",
+  "@geofenceDistanceLabel": {
+    "placeholders": {
+      "meters": {"type": "int"}
+    }
+  },
+  "geofenceWithinRange": "Within valid geofence (≤ 50m)",
+  "geofenceOutOfRange": "Outside factory geofence (> 50m)",
+  "checkInGpsSuccess": "GPS Check-in recorded successfully!",
+  "checkOutGpsSuccess": "GPS Check-out recorded successfully!",
+
+  "qrScannerTitle": "Scan QR to Login",
+  "qrScannerSubtitle": "Point camera at the QR code on the Web Portal",
+  "qrTorchToggle": "Toggle Torch",
+  "qrSamplePayloadsButton": "Demo QR Payloads",
+  "qrConfirmTitle": "Confirm Web Login",
+  "qrConfirmPrompt": "Are you attempting to log in to VSTech Web Portal?",
+  "qrBrowserLabel": "Browser",
+  "qrDeviceLabel": "Device / Workstation",
+  "qrLocationLabel": "Login Location",
+  "qrRequestTimeLabel": "Request Time",
+  "qrIpAddressLabel": "IP Address",
+  "qrApproveButton": "Approve Login",
+  "qrRejectButton": "Reject",
+  "qrBiometricPromptReason": "Biometric authentication required to approve web login",
+  "qrLoginApprovedSuccess": "Login approved! Web workstation session activated.",
+  "qrLoginRejectedMsg": "You rejected this login request.",
+  "qrExpiredWarning": "This QR code has expired. Please refresh the web page.",
+  "qrInvalidWarning": "Invalid QR code. Not recognized by VSTech.",
+  "qrUsedWarning": "This QR code has already been used.",
+  "qrCancelledWarning": "This login request has been cancelled by the workstation."
 }
