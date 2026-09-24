@@ -1247,6 +1247,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get categoryCareerProfile => 'Career & Profile';
 
   @override
+  String get categoryGovernance => 'Governance & Executive';
+
+  @override
   String get serviceCheckInOut => 'Punch In / Out';
 
   @override
@@ -1867,4 +1870,166 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get qrCancelledWarning =>
       'This login request has been cancelled by the workstation.';
+
+  @override
+  String get execDashboardTitle => 'Executive Dashboard';
+
+  @override
+  String get execRoleTag => 'CHIEF EXECUTIVE OFFICER';
+
+  @override
+  String get execGreeting => 'Welcome, Mr. Le Hoang';
+
+  @override
+  String get execWaitingBadge => 'PENDING FINAL APPROVAL';
+
+  @override
+  String get execWaitingSub => 'Requires Director sign-off';
+
+  @override
+  String get execOldestWaiting => 'Oldest request: 18h ago';
+
+  @override
+  String get execCompanyNow => 'ENTERPRISE REAL-TIME STATUS';
+
+  @override
+  String get execHeadcount => 'Total Headcount';
+
+  @override
+  String get execAttendanceRate => 'Attendance Rate';
+
+  @override
+  String get execMonthlyPayroll => 'Monthly Payroll';
+
+  @override
+  String get execOvertimeHours => 'Monthly OT Hours';
+
+  @override
+  String get execTurnoverRate => 'Turnover Rate';
+
+  @override
+  String get execNeedAttention => 'Risk & Compliance Alerts';
+
+  @override
+  String get execSeeAllAlerts => 'View All Alerts';
+
+  @override
+  String get execAttendanceByDept => 'Attendance by Workshop & Division';
+
+  @override
+  String get finalApprovalTitle => 'Final Approval';
+
+  @override
+  String get finalApprovalCaption =>
+      'Highest authorization tier · Closes the pipeline';
+
+  @override
+  String get finalApprovalDelegateBtn => 'Delegation';
+
+  @override
+  String get finalApprovalBatchHint =>
+      'Quick-approve requests verified by HR & Finance';
+
+  @override
+  String get finalApprovalApproveAll => 'Approve All';
+
+  @override
+  String get finalApprovalFinancialImpact => 'FINANCIAL IMPACT';
+
+  @override
+  String get finalApprovalBudget => 'CONTINGENCY BUDGET';
+
+  @override
+  String get finalApprovalApproveBtn => 'Final Approve';
+
+  @override
+  String get finalApprovalRejectBtn => 'Reject';
+
+  @override
+  String get finalApprovalSuccess =>
+      'Final approval recorded. HR will execute.';
+
+  @override
+  String get finalApprovalRejected => 'Request has been rejected.';
+
+  @override
+  String get riskTitle => 'Risk & Compliance Alerts';
+
+  @override
+  String get riskCaption =>
+      'Three-tier compliance alerts · Assign to HR directly';
+
+  @override
+  String get riskTierCritical => 'Critical';
+
+  @override
+  String get riskTierHigh => 'High Risk';
+
+  @override
+  String get riskTierMedium => 'Medium';
+
+  @override
+  String get riskAssignHr => 'Assign to HR';
+
+  @override
+  String get riskAssignedSuccess => 'Task assigned to HR team successfully!';
+
+  @override
+  String get delTitle => 'Delegation Center';
+
+  @override
+  String get delCaption =>
+      'Transfer approval authority during leave or business trips';
+
+  @override
+  String get delSelectPerson => 'Authorized Delegate';
+
+  @override
+  String get delPeriod => 'Delegation Period';
+
+  @override
+  String get delFromDate => 'From Date';
+
+  @override
+  String get delToDate => 'To Date';
+
+  @override
+  String get delTotalDays => 'Total';
+
+  @override
+  String get delScope => 'Authority Scope';
+
+  @override
+  String get delAllScope => 'All Permissions';
+
+  @override
+  String get delPartialScope => 'Selected Request Types';
+
+  @override
+  String get delLimit => 'Approval Financial Limit';
+
+  @override
+  String get delLimitHint =>
+      'Requests exceeding this cap will still be routed to you when online';
+
+  @override
+  String get delUnlimited => 'Unlimited';
+
+  @override
+  String get delSubmit => 'Confirm & Activate Delegation';
+
+  @override
+  String get delActiveList => 'Active Delegations';
+
+  @override
+  String get delRevoke => 'Revoke Delegation';
+
+  @override
+  String get delRevokeSuccess => 'Delegation revoked successfully!';
+
+  @override
+  String get delCreateSuccess => 'Delegation established successfully!';
+
+  @override
+  String get delRunning => 'Running';
 }

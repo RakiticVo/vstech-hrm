@@ -8,6 +8,8 @@ import 'package:vstech_hrm/core/session/locale_cubit.dart';
 import 'package:vstech_hrm/core/session/theme_cubit.dart';
 import 'package:vstech_hrm/features/announcements/announcements_injection.dart';
 import 'package:vstech_hrm/features/attendance/attendance_injection.dart';
+import 'package:vstech_hrm/features/compliance/compliance_injection.dart';
+import 'package:vstech_hrm/features/executive/executive_injection.dart';
 import 'package:vstech_hrm/features/labor_profile/labor_profile_injection.dart';
 import 'package:vstech_hrm/features/qr_auth/qr_auth_injection.dart';
 
@@ -50,4 +52,6 @@ Future<void> initDependencies() async {
   initAnnouncementsDependencies(sl);
   initLaborProfileDependencies(sl);
   initQrAuthDependencies(sl);
+  initExecutiveInjection(sl);
+  initComplianceInjection(sl);
 }

@@ -78,6 +78,17 @@ class AllServicesScreen extends StatelessWidget {
             ],
             colors: colors,
           ),
+          22.gapH,
+          _buildCategory(
+            title: context.l10n.categoryGovernance,
+            items: [
+              _ServiceItem(context.l10n.execDashboardTitle, Symbols.dashboard, () => context.push(AppRoutes.executiveDashboard)),
+              _ServiceItem(context.l10n.finalApprovalTitle, Symbols.verified, () => context.push(AppRoutes.finalApproval)),
+              _ServiceItem(context.l10n.riskTitle, Symbols.warning, () => context.push(AppRoutes.riskCompliance)),
+              _ServiceItem(context.l10n.delTitle, Symbols.assignment_ind, () => context.push(AppRoutes.delegationCenter)),
+            ],
+            colors: colors,
+          ),
         ],
       ),
     );

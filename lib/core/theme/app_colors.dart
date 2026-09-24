@@ -43,6 +43,8 @@ class AppColorsExtension extends ThemeExtension<AppColorsExtension> {
   final Color error;
 
   // Semantic & Design Token Aliases
+  Color get primary => tealPrimary;
+  Color get onPrimary => const Color(0xFFFFFFFF);
   Color get primaryIndigo => tileDark;
   Color get accentAmber => amberCta;
   Color get accentAmberDark => amberInk;
@@ -52,6 +54,9 @@ class AppColorsExtension extends ThemeExtension<AppColorsExtension> {
   Color get background => pageBackground;
   Color get cardSurface => cardBackground;
   Color get surface => cardBackground;
+  Color get surfaceContainer => cardSecondary;
+  Color get borderSubtle => border;
+  Color get tilePattern => tileDark;
   Color get textTertiary => textSecondary.withValues(alpha: 0.7);
   Color get shadow => const Color(0xFF000000);
 

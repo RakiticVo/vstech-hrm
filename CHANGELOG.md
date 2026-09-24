@@ -5,6 +5,17 @@
 ## [Unreleased]
 
 ### Added
+- Xây dựng Phân hệ Bảng điều khiển Điều hành cấp cao & Phê duyệt cuối C-Level (`lib/features/executive/`):
+  - Màn 21 — Executive Dashboard (`ExecutiveDashboardScreen`): Dashboard trực quan dành cho CEO/Ban Điều Hành hiển thị Headcount 3.142 lao động, tỷ lệ đi làm 98,2%, quỹ lương 42,8 tỷ VNĐ (+3,4%), tổng giờ OT 14.280h (TB 18,2h/người); Hero card hồ sơ chờ ký duyệt cao nhất; Khối cảnh báo rủi ro & tuân thủ cần chú ý; Tỷ lệ đi làm trực quan theo từng khối/xưởng sản xuất.
+  - Màn 22 — Final Approval C-Level (`FinalApprovalScreen`): Màn hình phê duyệt cấp cao nhất trước khi HR/Kế toán giải ngân; Chuỗi quy trình ký duyệt 4 cấp trực quan (`FinalApprovalChainTimeline`); Thống kê tác động tài chính & kiểm tra ngân sách dự phòng; Cơ chế phê duyệt nhanh toàn bộ ("Duyệt tất cả") và phê duyệt/từ chối từng hồ sơ kèm ghi chú HR.
+- Xây dựng Phân hệ Cảnh báo Rủi ro Tuân thủ & Trung tâm Ủy quyền (`lib/features/compliance/`):
+  - Màn 28 — Risk & Compliance Alerts (`RiskComplianceScreen`): Phân tầng 3 cấp độ cảnh báo (Nghiêm trọng, Cảnh báo cao, Theo dõi) với các chỉ số vi phạm luật lao động thực tế tại nhà máy (14 công nhân OT vượt 40h/tháng theo Điều 107 BLLĐ, 6 công nhân làm việc ca đêm 7 ngày liên tục chưa nghỉ bù, quá hạn phụ lục HĐLĐ); Hành động 1-chạm "Giao việc cho HR" tự động phân công bộ phận chuyên trách.
+  - Màn 29 — Delegation Center (`DelegationCenterScreen`): Trung tâm chuyển giao quyền phê duyệt khi lãnh đạo công tác/vắng mặt; Chọn người nhận ủy quyền từ danh sách cán bộ chủ chốt; Thiết lập khoảng thời gian linh hoạt qua bộ chọn ngày `DelegationPeriodCard`; Bộ chuyển đổi phạm vi quyền hạn `DelegationScopeToggle` (Toàn bộ vs Từng loại đơn); Thiết lập trần hạn mức tài chính `DelegationLimitCard` (Vô hạn, ≤ 20Tr, ≤ 50Tr, ≤ 100Tr); Quản lý danh sách ủy quyền đang hiệu lực `ActiveDelegationCard` và thao tác thu hồi quyền lực tức thì.
+- Hoàn thiện Kiến trúc Core & Tiện ích Design System:
+  - Bổ sung cấu trúc `AppGap` chuẩn hóa các khoảng cách cố định trong `lib/core/responsive/app_layout.dart`.
+  - Mở rộng semantic tokens trong `AppColorsExtension` (`primary`, `surfaceContainer`, `borderSubtle`) và `AppTextStyles` (`h3`, `bodyBold`).
+  - Tích hợp 4 dịch vụ mới vào danh mục "Quản trị & Điều hành" tại `AllServicesScreen`.
+  - Viết bộ kiểm thử đơn vị `test/features/executive/` và `test/features/compliance/` (100% passed, 50/50 tests passing).
 - Xây dựng Phân hệ Thông báo nội bộ (`lib/features/announcements/`):
   - Tra cứu thông báo ban hành từ HR/Admin theo 4 cấp phạm vi (Toàn công ty, Khối nhà xưởng, Khối văn phòng, Phòng ban).
   - Hỗ trợ thanh tìm kiếm nhanh, bộ lọc phân loại theo phạm vi, thẻ thông báo hiển thị huy hiệu chưa đọc, và màn hình chi tiết tự động cập nhật trạng thái đã xem.

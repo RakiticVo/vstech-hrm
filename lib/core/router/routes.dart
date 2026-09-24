@@ -41,4 +41,10 @@ class AppRoutes {
   static const String laborProfile = '/profile/labor-contract';
   static const String offlineQueue = '/attendance/offline-queue';
   static const String qrScanner = '/qr-scanner';
+
+  // Executive & Governance Suite (Màn 21, 22, 28, 29)
+  static const String executiveDashboard = '/executive';
+  static const String finalApproval = '/executive/final-approval';
+  static const String riskCompliance = '/compliance/risk';
+  static const String delegationCenter = '/compliance/delegation';
 }

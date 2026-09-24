@@ -22,6 +22,14 @@ import 'package:vstech_hrm/features/attendance/presentation/screens/offline_queu
 import 'package:vstech_hrm/features/auth/presentation/screens/login_screen.dart';
 import 'package:vstech_hrm/features/auth/presentation/screens/splash_screen.dart';
 import 'package:vstech_hrm/features/calendar/presentation/screens/calendar_screen.dart';
+import 'package:vstech_hrm/features/compliance/presentation/cubits/delegation_cubit.dart';
+import 'package:vstech_hrm/features/compliance/presentation/cubits/risk_alerts_cubit.dart';
+import 'package:vstech_hrm/features/compliance/presentation/screens/delegation_center_screen.dart';
+import 'package:vstech_hrm/features/compliance/presentation/screens/risk_compliance_screen.dart';
+import 'package:vstech_hrm/features/executive/presentation/cubit/executive_cubit.dart';
+import 'package:vstech_hrm/features/executive/presentation/cubit/final_approval_cubit.dart';
+import 'package:vstech_hrm/features/executive/presentation/screens/executive_dashboard_screen.dart';
+import 'package:vstech_hrm/features/executive/presentation/screens/final_approval_screen.dart';
 import 'package:vstech_hrm/features/holidays/presentation/screens/holidays_screen.dart';
 import 'package:vstech_hrm/features/home/presentation/screens/home_screen.dart';
 import 'package:vstech_hrm/features/labor_profile/presentation/cubit/labor_profile_cubit.dart';
@@ -194,6 +202,36 @@ class AppRouter {
         builder: (context, state) => BlocProvider(
           create: (_) => sl<QrScannerCubit>(),
           child: const QrScannerScreen(),
+        ),
+      ),
+
+      // Executive & Governance Suite
+      GoRoute(
+        path: AppRoutes.executiveDashboard,
+        builder: (context, state) => BlocProvider(
+          create: (_) => sl<ExecutiveCubit>(),
+          child: const ExecutiveDashboardScreen(),
+        ),
+      ),
+      GoRoute(
+        path: AppRoutes.finalApproval,
+        builder: (context, state) => BlocProvider(
+          create: (_) => sl<FinalApprovalCubit>(),
+          child: const FinalApprovalScreen(),
+        ),
+      ),
+      GoRoute(
+        path: AppRoutes.riskCompliance,
+        builder: (context, state) => BlocProvider(
+          create: (_) => sl<RiskAlertsCubit>(),
+          child: const RiskComplianceScreen(),
+        ),
+      ),
+      GoRoute(
+        path: AppRoutes.delegationCenter,
+        builder: (context, state) => BlocProvider(
+          create: (_) => sl<DelegationCubit>(),
+          child: const DelegationCenterScreen(),
         ),
       ),
 

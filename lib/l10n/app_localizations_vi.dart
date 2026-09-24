@@ -1241,6 +1241,9 @@ class AppLocalizationsVi extends AppLocalizations {
   String get categoryCareerProfile => 'Nghề nghiệp & hồ sơ';
 
   @override
+  String get categoryGovernance => 'Quản trị & Điều hành';
+
+  @override
   String get serviceCheckInOut => 'Chấm công vào/ra';
 
   @override
@@ -1863,4 +1866,166 @@ class AppLocalizationsVi extends AppLocalizations {
   @override
   String get qrCancelledWarning =>
       'Yêu cầu đăng nhập này đã bị huỷ bởi máy tính trạm.';
+
+  @override
+  String get execDashboardTitle => 'Bảng điều hành Ban Giám Đốc';
+
+  @override
+  String get execRoleTag => 'TỔNG GIÁM ĐỐC / CEO';
+
+  @override
+  String get execGreeting => 'Chào anh Lê Hoàng';
+
+  @override
+  String get execWaitingBadge => 'ĐƠN CHỜ PHÊ DUYỆT CUỐI';
+
+  @override
+  String get execWaitingSub => 'Cần ý kiến phê duyệt của Giám đốc';
+
+  @override
+  String get execOldestWaiting => 'Đơn cũ nhất: 18h trước';
+
+  @override
+  String get execCompanyNow => 'TÌNH HÌNH DOANH NGHIỆP HÔM NAY';
+
+  @override
+  String get execHeadcount => 'Tổng nhân sự';
+
+  @override
+  String get execAttendanceRate => 'Tỷ lệ đi làm';
+
+  @override
+  String get execMonthlyPayroll => 'Quỹ lương tháng';
+
+  @override
+  String get execOvertimeHours => 'Giờ tăng ca tháng';
+
+  @override
+  String get execTurnoverRate => 'Tỷ lệ nghỉ việc';
+
+  @override
+  String get execNeedAttention => 'Rủi ro & Tuân thủ cần chú ý';
+
+  @override
+  String get execSeeAllAlerts => 'Xem tất cả cảnh báo';
+
+  @override
+  String get execAttendanceByDept => 'Tỷ lệ đi làm theo khối/xưởng';
+
+  @override
+  String get finalApprovalTitle => 'Phê duyệt cuối';
+
+  @override
+  String get finalApprovalCaption =>
+      'Cấp thẩm quyền cao nhất · Chu trình kết thúc';
+
+  @override
+  String get finalApprovalDelegateBtn => 'Ủy quyền';
+
+  @override
+  String get finalApprovalBatchHint =>
+      'Phê duyệt nhanh các đơn đã qua kiểm tra của HR & Kế toán';
+
+  @override
+  String get finalApprovalApproveAll => 'Duyệt tất cả';
+
+  @override
+  String get finalApprovalFinancialImpact => 'TÁC ĐỘNG TÀI CHÍNH';
+
+  @override
+  String get finalApprovalBudget => 'NGÂN SÁCH DỰ PHÒNG';
+
+  @override
+  String get finalApprovalApproveBtn => 'Phê duyệt cuối';
+
+  @override
+  String get finalApprovalRejectBtn => 'Từ chối';
+
+  @override
+  String get finalApprovalSuccess =>
+      'Đã phê duyệt cuối thành công. HR sẽ tiến hành thực thi.';
+
+  @override
+  String get finalApprovalRejected => 'Đã từ chối đơn đề xuất.';
+
+  @override
+  String get riskTitle => 'Cảnh báo Rủi ro & Tuân thủ';
+
+  @override
+  String get riskCaption =>
+      'Cảnh báo qua 3 phân tầng · Giao việc trực tiếp cho HR';
+
+  @override
+  String get riskTierCritical => 'Nghiêm trọng';
+
+  @override
+  String get riskTierHigh => 'Cảnh báo cao';
+
+  @override
+  String get riskTierMedium => 'Theo dõi';
+
+  @override
+  String get riskAssignHr => 'Giao việc cho HR';
+
+  @override
+  String get riskAssignedSuccess => 'Đã giao việc cho bộ phận HR xử lý!';
+
+  @override
+  String get delTitle => 'Trung tâm Ủy quyền';
+
+  @override
+  String get delCaption =>
+      'Chuyển giao quyền phê duyệt khi vắng mặt hoặc đi công tác';
+
+  @override
+  String get delSelectPerson => 'Người nhận ủy quyền';
+
+  @override
+  String get delPeriod => 'Thời gian ủy quyền';
+
+  @override
+  String get delFromDate => 'Từ ngày';
+
+  @override
+  String get delToDate => 'Đến ngày';
+
+  @override
+  String get delTotalDays => 'Tổng cộng';
+
+  @override
+  String get delScope => 'Phạm vi thẩm quyền';
+
+  @override
+  String get delAllScope => 'Toàn bộ thẩm quyền';
+
+  @override
+  String get delPartialScope => 'Theo từng loại đơn';
+
+  @override
+  String get delLimit => 'Hạn mức duyệt tối đa';
+
+  @override
+  String get delLimitHint =>
+      'Các đơn vượt hạn mức này vẫn sẽ chuyển trực tiếp cho bạn khi online';
+
+  @override
+  String get delUnlimited => 'Không giới hạn';
+
+  @override
+  String get delSubmit => 'Xác nhận thiết lập ủy quyền';
+
+  @override
+  String get delActiveList => 'Ủy quyền đang hiệu lực';
+
+  @override
+  String get delRevoke => 'Hủy ủy quyền';
+
+  @override
+  String get delRevokeSuccess => 'Đã hủy ủy quyền thành công!';
+
+  @override
+  String get delCreateSuccess => 'Thiết lập ủy quyền phê duyệt thành công!';
+
+  @override
+  String get delRunning => 'Đang chạy';
 }

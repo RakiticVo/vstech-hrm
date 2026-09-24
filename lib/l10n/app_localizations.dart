@@ -2389,6 +2389,12 @@ abstract class AppLocalizations {
   /// **'Nghề nghiệp & hồ sơ'**
   String get categoryCareerProfile;
 
+  /// No description provided for @categoryGovernance.
+  ///
+  /// In vi, this message translates to:
+  /// **'Quản trị & Điều hành'**
+  String get categoryGovernance;
+
   /// No description provided for @serviceCheckInOut.
   ///
   /// In vi, this message translates to:
@@ -3540,6 +3546,318 @@ abstract class AppLocalizations {
   /// In vi, this message translates to:
   /// **'Yêu cầu đăng nhập này đã bị huỷ bởi máy tính trạm.'**
   String get qrCancelledWarning;
+
+  /// No description provided for @execDashboardTitle.
+  ///
+  /// In vi, this message translates to:
+  /// **'Bảng điều hành Ban Giám Đốc'**
+  String get execDashboardTitle;
+
+  /// No description provided for @execRoleTag.
+  ///
+  /// In vi, this message translates to:
+  /// **'TỔNG GIÁM ĐỐC / CEO'**
+  String get execRoleTag;
+
+  /// No description provided for @execGreeting.
+  ///
+  /// In vi, this message translates to:
+  /// **'Chào anh Lê Hoàng'**
+  String get execGreeting;
+
+  /// No description provided for @execWaitingBadge.
+  ///
+  /// In vi, this message translates to:
+  /// **'ĐƠN CHỜ PHÊ DUYỆT CUỐI'**
+  String get execWaitingBadge;
+
+  /// No description provided for @execWaitingSub.
+  ///
+  /// In vi, this message translates to:
+  /// **'Cần ý kiến phê duyệt của Giám đốc'**
+  String get execWaitingSub;
+
+  /// No description provided for @execOldestWaiting.
+  ///
+  /// In vi, this message translates to:
+  /// **'Đơn cũ nhất: 18h trước'**
+  String get execOldestWaiting;
+
+  /// No description provided for @execCompanyNow.
+  ///
+  /// In vi, this message translates to:
+  /// **'TÌNH HÌNH DOANH NGHIỆP HÔM NAY'**
+  String get execCompanyNow;
+
+  /// No description provided for @execHeadcount.
+  ///
+  /// In vi, this message translates to:
+  /// **'Tổng nhân sự'**
+  String get execHeadcount;
+
+  /// No description provided for @execAttendanceRate.
+  ///
+  /// In vi, this message translates to:
+  /// **'Tỷ lệ đi làm'**
+  String get execAttendanceRate;
+
+  /// No description provided for @execMonthlyPayroll.
+  ///
+  /// In vi, this message translates to:
+  /// **'Quỹ lương tháng'**
+  String get execMonthlyPayroll;
+
+  /// No description provided for @execOvertimeHours.
+  ///
+  /// In vi, this message translates to:
+  /// **'Giờ tăng ca tháng'**
+  String get execOvertimeHours;
+
+  /// No description provided for @execTurnoverRate.
+  ///
+  /// In vi, this message translates to:
+  /// **'Tỷ lệ nghỉ việc'**
+  String get execTurnoverRate;
+
+  /// No description provided for @execNeedAttention.
+  ///
+  /// In vi, this message translates to:
+  /// **'Rủi ro & Tuân thủ cần chú ý'**
+  String get execNeedAttention;
+
+  /// No description provided for @execSeeAllAlerts.
+  ///
+  /// In vi, this message translates to:
+  /// **'Xem tất cả cảnh báo'**
+  String get execSeeAllAlerts;
+
+  /// No description provided for @execAttendanceByDept.
+  ///
+  /// In vi, this message translates to:
+  /// **'Tỷ lệ đi làm theo khối/xưởng'**
+  String get execAttendanceByDept;
+
+  /// No description provided for @finalApprovalTitle.
+  ///
+  /// In vi, this message translates to:
+  /// **'Phê duyệt cuối'**
+  String get finalApprovalTitle;
+
+  /// No description provided for @finalApprovalCaption.
+  ///
+  /// In vi, this message translates to:
+  /// **'Cấp thẩm quyền cao nhất · Chu trình kết thúc'**
+  String get finalApprovalCaption;
+
+  /// No description provided for @finalApprovalDelegateBtn.
+  ///
+  /// In vi, this message translates to:
+  /// **'Ủy quyền'**
+  String get finalApprovalDelegateBtn;
+
+  /// No description provided for @finalApprovalBatchHint.
+  ///
+  /// In vi, this message translates to:
+  /// **'Phê duyệt nhanh các đơn đã qua kiểm tra của HR & Kế toán'**
+  String get finalApprovalBatchHint;
+
+  /// No description provided for @finalApprovalApproveAll.
+  ///
+  /// In vi, this message translates to:
+  /// **'Duyệt tất cả'**
+  String get finalApprovalApproveAll;
+
+  /// No description provided for @finalApprovalFinancialImpact.
+  ///
+  /// In vi, this message translates to:
+  /// **'TÁC ĐỘNG TÀI CHÍNH'**
+  String get finalApprovalFinancialImpact;
+
+  /// No description provided for @finalApprovalBudget.
+  ///
+  /// In vi, this message translates to:
+  /// **'NGÂN SÁCH DỰ PHÒNG'**
+  String get finalApprovalBudget;
+
+  /// No description provided for @finalApprovalApproveBtn.
+  ///
+  /// In vi, this message translates to:
+  /// **'Phê duyệt cuối'**
+  String get finalApprovalApproveBtn;
+
+  /// No description provided for @finalApprovalRejectBtn.
+  ///
+  /// In vi, this message translates to:
+  /// **'Từ chối'**
+  String get finalApprovalRejectBtn;
+
+  /// No description provided for @finalApprovalSuccess.
+  ///
+  /// In vi, this message translates to:
+  /// **'Đã phê duyệt cuối thành công. HR sẽ tiến hành thực thi.'**
+  String get finalApprovalSuccess;
+
+  /// No description provided for @finalApprovalRejected.
+  ///
+  /// In vi, this message translates to:
+  /// **'Đã từ chối đơn đề xuất.'**
+  String get finalApprovalRejected;
+
+  /// No description provided for @riskTitle.
+  ///
+  /// In vi, this message translates to:
+  /// **'Cảnh báo Rủi ro & Tuân thủ'**
+  String get riskTitle;
+
+  /// No description provided for @riskCaption.
+  ///
+  /// In vi, this message translates to:
+  /// **'Cảnh báo qua 3 phân tầng · Giao việc trực tiếp cho HR'**
+  String get riskCaption;
+
+  /// No description provided for @riskTierCritical.
+  ///
+  /// In vi, this message translates to:
+  /// **'Nghiêm trọng'**
+  String get riskTierCritical;
+
+  /// No description provided for @riskTierHigh.
+  ///
+  /// In vi, this message translates to:
+  /// **'Cảnh báo cao'**
+  String get riskTierHigh;
+
+  /// No description provided for @riskTierMedium.
+  ///
+  /// In vi, this message translates to:
+  /// **'Theo dõi'**
+  String get riskTierMedium;
+
+  /// No description provided for @riskAssignHr.
+  ///
+  /// In vi, this message translates to:
+  /// **'Giao việc cho HR'**
+  String get riskAssignHr;
+
+  /// No description provided for @riskAssignedSuccess.
+  ///
+  /// In vi, this message translates to:
+  /// **'Đã giao việc cho bộ phận HR xử lý!'**
+  String get riskAssignedSuccess;
+
+  /// No description provided for @delTitle.
+  ///
+  /// In vi, this message translates to:
+  /// **'Trung tâm Ủy quyền'**
+  String get delTitle;
+
+  /// No description provided for @delCaption.
+  ///
+  /// In vi, this message translates to:
+  /// **'Chuyển giao quyền phê duyệt khi vắng mặt hoặc đi công tác'**
+  String get delCaption;
+
+  /// No description provided for @delSelectPerson.
+  ///
+  /// In vi, this message translates to:
+  /// **'Người nhận ủy quyền'**
+  String get delSelectPerson;
+
+  /// No description provided for @delPeriod.
+  ///
+  /// In vi, this message translates to:
+  /// **'Thời gian ủy quyền'**
+  String get delPeriod;
+
+  /// No description provided for @delFromDate.
+  ///
+  /// In vi, this message translates to:
+  /// **'Từ ngày'**
+  String get delFromDate;
+
+  /// No description provided for @delToDate.
+  ///
+  /// In vi, this message translates to:
+  /// **'Đến ngày'**
+  String get delToDate;
+
+  /// No description provided for @delTotalDays.
+  ///
+  /// In vi, this message translates to:
+  /// **'Tổng cộng'**
+  String get delTotalDays;
+
+  /// No description provided for @delScope.
+  ///
+  /// In vi, this message translates to:
+  /// **'Phạm vi thẩm quyền'**
+  String get delScope;
+
+  /// No description provided for @delAllScope.
+  ///
+  /// In vi, this message translates to:
+  /// **'Toàn bộ thẩm quyền'**
+  String get delAllScope;
+
+  /// No description provided for @delPartialScope.
+  ///
+  /// In vi, this message translates to:
+  /// **'Theo từng loại đơn'**
+  String get delPartialScope;
+
+  /// No description provided for @delLimit.
+  ///
+  /// In vi, this message translates to:
+  /// **'Hạn mức duyệt tối đa'**
+  String get delLimit;
+
+  /// No description provided for @delLimitHint.
+  ///
+  /// In vi, this message translates to:
+  /// **'Các đơn vượt hạn mức này vẫn sẽ chuyển trực tiếp cho bạn khi online'**
+  String get delLimitHint;
+
+  /// No description provided for @delUnlimited.
+  ///
+  /// In vi, this message translates to:
+  /// **'Không giới hạn'**
+  String get delUnlimited;
+
+  /// No description provided for @delSubmit.
+  ///
+  /// In vi, this message translates to:
+  /// **'Xác nhận thiết lập ủy quyền'**
+  String get delSubmit;
+
+  /// No description provided for @delActiveList.
+  ///
+  /// In vi, this message translates to:
+  /// **'Ủy quyền đang hiệu lực'**
+  String get delActiveList;
+
+  /// No description provided for @delRevoke.
+  ///
+  /// In vi, this message translates to:
+  /// **'Hủy ủy quyền'**
+  String get delRevoke;
+
+  /// No description provided for @delRevokeSuccess.
+  ///
+  /// In vi, this message translates to:
+  /// **'Đã hủy ủy quyền thành công!'**
+  String get delRevokeSuccess;
+
+  /// No description provided for @delCreateSuccess.
+  ///
+  /// In vi, this message translates to:
+  /// **'Thiết lập ủy quyền phê duyệt thành công!'**
+  String get delCreateSuccess;
+
+  /// No description provided for @delRunning.
+  ///
+  /// In vi, this message translates to:
+  /// **'Đang chạy'**
+  String get delRunning;
 }
 
 class _AppLocalizationsDelegate
