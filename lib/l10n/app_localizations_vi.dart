@@ -626,10 +626,10 @@ class AppLocalizationsVi extends AppLocalizations {
   String get leaveTypeAnnual => 'Phép năm';
 
   @override
-  String get leaveTypeSick => 'Nghỉ bệnh';
+  String get leaveTypeSick => 'Nghỉ ốm (BHXH)';
 
   @override
-  String get leaveTypeUnpaid => 'Không lương';
+  String get leaveTypeUnpaid => 'Nghỉ không lương';
 
   @override
   String get leaveTypeSpecial => 'Phép đặc biệt';
@@ -1053,7 +1053,7 @@ class AppLocalizationsVi extends AppLocalizations {
   String get testBiometricNow => 'Kiểm tra cảm biến ngay';
 
   @override
-  String get deviceSecurityTitle => 'THIẾT BỊ & AN TOÀN HỆ THỐNG';
+  String get deviceSecurityTitle => 'Bảo mật thiết bị';
 
   @override
   String get linkedDeviceTitle => 'Thiết bị liên kết';
@@ -2028,4 +2028,362 @@ class AppLocalizationsVi extends AppLocalizations {
 
   @override
   String get delRunning => 'Đang chạy';
+
+  @override
+  String get requestTypeOnDuty => 'Đi việc ngoài';
+
+  @override
+  String get requestTypeBusinessTrip => 'Công tác';
+
+  @override
+  String get requestTypeShiftSwap => 'Đổi ca';
+
+  @override
+  String get onDutyTitle => 'Đăng ký Đi việc ngoài';
+
+  @override
+  String get onDutySubtitle =>
+      'Công tác ngắn hạn trong ngày (gặp khách hàng, cơ quan, việc gấp)';
+
+  @override
+  String get onDutyFromTime => 'Từ giờ';
+
+  @override
+  String get onDutyToTime => 'Đến giờ';
+
+  @override
+  String get onDutyLocation => 'Địa điểm đến';
+
+  @override
+  String get onDutyDescription => 'Nội dung công việc';
+
+  @override
+  String get onDutyShiftConstraintWarning =>
+      'Giờ đi việc ngoài phải nằm trong ca làm việc hôm nay';
+
+  @override
+  String get onDutySubmitSuccess => 'Đã gửi đơn Đi việc ngoài thành công!';
+
+  @override
+  String get businessTripTitle => 'Đăng ký Công tác';
+
+  @override
+  String get businessTripSubtitle =>
+      'Chuyến công tác nhiều ngày trong nước hoặc nước ngoài';
+
+  @override
+  String get businessTripDestination => 'Nơi đến / Địa điểm';
+
+  @override
+  String get businessTripColleagues => 'Đồng nghiệp cùng đi';
+
+  @override
+  String get businessTripPurpose => 'Mục đích công tác';
+
+  @override
+  String get businessTripPlan => 'Kế hoạch / Lịch trình';
+
+  @override
+  String get businessTripSubmitSuccess => 'Đã gửi đơn Công tác thành công!';
+
+  @override
+  String get offSiteTimesheetLabel => 'Công tác';
+
+  @override
+  String get offSiteCreditDesc =>
+      'Đã ghi nhận đủ công (không tính muộn/về sớm)';
+
+  @override
+  String get leaveBalanceBreakdownTitle => 'Chi tiết quỹ nghỉ phép';
+
+  @override
+  String get leaveTypeCompOff => 'Nghỉ bù (từ tăng ca)';
+
+  @override
+  String get leaveTypeMaternity => 'Nghỉ thai sản';
+
+  @override
+  String get leaveTypePaidPersonal => 'Việc riêng có lương';
+
+  @override
+  String get leaveBalanceEntitlement => 'Tiêu chuẩn';
+
+  @override
+  String get leaveBalanceUsed => 'Đã dùng';
+
+  @override
+  String get leaveBalancePending => 'Đang chờ duyệt';
+
+  @override
+  String get leaveBalanceAvailable => 'Khả dụng';
+
+  @override
+  String get leaveHalfDayMorning => 'Nửa ca sáng';
+
+  @override
+  String get leaveHalfDayAfternoon => 'Nửa ca chiều';
+
+  @override
+  String get leaveHandoverPerson => 'Người bàn giao / thay thế';
+
+  @override
+  String get leaveAttachment => 'Giấy tờ / Chứng từ đính kèm';
+
+  @override
+  String leaveExceedBalanceWarning(String days) {
+    return 'Số ngày nghỉ vượt quá số phép khả dụng ($days ngày)!';
+  }
+
+  @override
+  String get leaveExcludeWeekendHint =>
+      'Đã tự động trừ ngày nghỉ cuối tuần và ngày lễ';
+
+  @override
+  String get leaveSaveDraftBtn => 'Lưu nháp';
+
+  @override
+  String get leaveDraftSaved => 'Đã lưu bản nháp thành công!';
+
+  @override
+  String get otRateWeekday => 'Ngày thường (150%)';
+
+  @override
+  String get otRateWeekend => 'Nghỉ tuần (200%)';
+
+  @override
+  String get otRateHoliday => 'Ngày lễ (300%)';
+
+  @override
+  String get otCompensationType => 'Hình thức tính bù';
+
+  @override
+  String get otCompensationPay => 'Hưởng tiền lương tăng ca';
+
+  @override
+  String get otCompensationCompOff => 'Quy đổi nghỉ bù (Comp-off)';
+
+  @override
+  String otMonthlyCapWarning(String current) {
+    return 'Chú ý: Bạn đã tích lũy ${current}h/40h trần tăng ca tháng này';
+  }
+
+  @override
+  String get otMonthlyCapExceeded =>
+      'Không thể gửi đơn: Tổng giờ tăng ca vượt quá 40h/tháng theo BLLĐ 2019!';
+
+  @override
+  String otMonthlyApprovedHeader(String hours) {
+    return 'Tổng giờ tăng ca đã duyệt: ${hours}h';
+  }
+
+  @override
+  String get extraHoursBalanceTitle => 'Quỹ giờ làm thêm & Nghỉ bù';
+
+  @override
+  String get extraHoursMonth => 'Giờ OT tháng này';
+
+  @override
+  String get extraHoursQuarter => 'Giờ OT quý này';
+
+  @override
+  String get extraHoursPayable => 'Giờ hưởng lương';
+
+  @override
+  String get extraHoursConvertedCompOff => 'Giờ đã đổi nghỉ bù';
+
+  @override
+  String get compOffConversionRule => 'Quy đổi: 8 giờ tăng ca = 1 ngày nghỉ bù';
+
+  @override
+  String get shiftSwapEligibilityCheck => 'Kiểm tra điều kiện đổi ca';
+
+  @override
+  String shiftSwapBranchMismatch(String branch) {
+    return 'Đồng nghiệp khác chi nhánh ($branch)';
+  }
+
+  @override
+  String get shiftSwapGradeMismatch => 'Cấp bậc công việc không tương đương';
+
+  @override
+  String get shiftSwapOnLeaveConflict =>
+      'Đồng nghiệp đang nghỉ phép vào ngày này';
+
+  @override
+  String get shiftSwapSameShiftConflict =>
+      'Hai người đang cùng một ca làm việc';
+
+  @override
+  String get shiftSwapRestConflict =>
+      'Khoảng cách giữa hai ca < 12 giờ (Điều 109 BLLĐ 2019)';
+
+  @override
+  String get shiftSwapOvertimeExceed => 'Tổng giờ tuần sẽ vượt quá 48 giờ';
+
+  @override
+  String get shiftSwapConflictAlert => 'Không đủ điều kiện đổi ca';
+
+  @override
+  String get shiftSwapApprovedTag => 'Đã đổi ca';
+
+  @override
+  String get shiftMonthUnpublished =>
+      'Lịch tháng sau sẽ được công bố vào ngày 25';
+
+  @override
+  String get shiftNetworkRetry => 'Thử lại kết nối';
+
+  @override
+  String get registeredDeviceTitle => 'Thiết bị đã đăng ký';
+
+  @override
+  String get registeredDeviceSub =>
+      'Chỉ chấm công trên thiết bị định danh duy nhất của bạn';
+
+  @override
+  String get deviceModelLabel => 'Dòng máy / Thiết bị';
+
+  @override
+  String get deviceIdLabel => 'Mã định danh (UUID)';
+
+  @override
+  String get deviceRegisteredDate => 'Ngày đăng ký';
+
+  @override
+  String get deviceCheckRegistered => 'Thiết bị chính chủ hợp lệ';
+
+  @override
+  String get deviceCheckNotRooted => 'Không phát hiện Root / Jailbreak';
+
+  @override
+  String get deviceCheckNoMockGps => 'Không dùng định vị giả (Mock GPS)';
+
+  @override
+  String get deviceCheckIntegrity => 'Tính toàn vẹn ứng dụng chuẩn';
+
+  @override
+  String get deviceBlockRootTitle => 'Thiết bị đã bị can thiệp (Root)';
+
+  @override
+  String get deviceBlockRootMsg =>
+      'Vì lý do an toàn, tài khoản không thể chấm công trên thiết bị đã can thiệp hệ điều hành. Vui lòng liên hệ HR.';
+
+  @override
+  String get deviceBlockMockGpsTitle => 'Phát hiện vị trí giả lập (Mock GPS)';
+
+  @override
+  String get deviceBlockMockGpsMsg =>
+      'Hệ thống phát hiện bạn đang bật ứng dụng giả lập toạ độ. Vui lòng tắt ứng dụng giả lập vị trí và bấm \'Kiểm tra lại\'.';
+
+  @override
+  String get deviceRecheckBtn => 'Kiểm tra lại';
+
+  @override
+  String get deviceDemoTogglesTitle => 'Mô phỏng vi phạm (Demo Sandbox)';
+
+  @override
+  String get deviceSimulateMockGps => 'Mô phỏng phát hiện Mock GPS';
+
+  @override
+  String get deviceSimulateRoot => 'Mô phỏng thiết bị Root';
+
+  @override
+  String get punchResultOnTime => 'Đúng giờ';
+
+  @override
+  String get punchResultLate => 'Đi muộn';
+
+  @override
+  String get punchResultEarly => 'Về sớm';
+
+  @override
+  String get punchLateReasonPrompt => 'Lý do đi muộn / về sớm';
+
+  @override
+  String get faceThumbnailLabel => 'Ảnh chụp đối chiếu AI';
+
+  @override
+  String get approvalTypeFilterAll => 'Tất cả';
+
+  @override
+  String get approvalTypeFilterLeave => 'Nghỉ phép';
+
+  @override
+  String get approvalTypeFilterOT => 'Tăng ca';
+
+  @override
+  String get approvalTypeFilterCorrection => 'Sửa công';
+
+  @override
+  String get approvalTypeFilterSwap => 'Đổi ca';
+
+  @override
+  String get approvalTypeFilterOffSite => 'Đi việc ngoài';
+
+  @override
+  String get approvalAttendanceSnippet => 'Chấm công ngày liên quan';
+
+  @override
+  String get approvalSwapBothSchedules => 'Lịch làm việc hai nhân viên';
+
+  @override
+  String get approvalInternalNoteLabel => 'Ghi chú nội bộ (chỉ quản lý thấy)';
+
+  @override
+  String get approvalMandatoryRejectReason =>
+      'Vui lòng nhập lý do từ chối (bắt buộc)';
+
+  @override
+  String get legendLateEarly => 'Đi muộn / Về sớm';
+
+  @override
+  String get dateLabel => 'Ngày';
+
+  @override
+  String get fillRequiredField => 'Vui lòng nhập thông tin này';
+
+  @override
+  String get submitButton => 'Gửi yêu cầu';
+
+  @override
+  String annualLeaveRemaining(String days) {
+    return 'Còn $days ngày';
+  }
+
+  @override
+  String availableDays(String days) {
+    return '$days ngày khả dụng';
+  }
+
+  @override
+  String get attendanceTitle => 'Chấm công';
+
+  @override
+  String get loadingState => 'Đang tải dữ liệu...';
+
+  @override
+  String get errorStateTitle => 'Không thể tải dữ liệu';
+
+  @override
+  String get networkError => 'Lỗi kết nối mạng, vui lòng thử lại';
+
+  @override
+  String get currentMonthSchedule => 'Lịch ca tháng này';
+
+  @override
+  String get deviceGpsRecheckedValid =>
+      'Đang kiểm tra lại toạ độ GPS... Hợp lệ!';
+
+  @override
+  String get deviceContactHrSent =>
+      'Đã gửi yêu cầu hỗ trợ kiểm tra thiết bị tới HR.';
+
+  @override
+  String get deviceContactHrBtn => 'Liên hệ phòng Nhân sự (HR)';
+
+  @override
+  String get deviceTestBlockCta => 'Thử nghiệm Chặn Chấm công (Demo)';
+
+  @override
+  String get deviceCheckSafetyBtn => 'Kiểm tra an toàn';
 }

@@ -1,8 +1,10 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:material_symbols_icons/symbols.dart';
 import 'package:vstech_hrm/core/extensions/l10n_extension.dart';
 import 'package:vstech_hrm/core/responsive/app_layout.dart';
+import 'package:vstech_hrm/core/router/routes.dart';
 import 'package:vstech_hrm/core/theme/app_colors.dart';
 import 'package:vstech_hrm/core/widgets/app_success_dialog.dart';
 import 'package:vstech_hrm/core/widgets/month_picker_button.dart';
@@ -162,7 +164,34 @@ class _OvertimeRequestScreenState extends State<OvertimeRequestScreen> {
               ),
             ],
           ),
-          10.gapH,
+          8.gapH,
+          // Monthly Approved OT Header (E2) & Extra Hours Link (E3)
+          InkWell(
+            borderRadius: BorderRadius.circular(12),
+            onTap: () => context.push(AppRoutes.extraHours),
+            child: Container(
+              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+              decoration: BoxDecoration(
+                color: colors.primaryIndigo.withValues(alpha: 0.08),
+                borderRadius: BorderRadius.circular(12),
+                border: Border.all(color: colors.primaryIndigo.withValues(alpha: 0.15)),
+              ),
+              child: Row(
+                children: [
+                  Icon(Symbols.more_time, size: 18, color: colors.primaryIndigo),
+                  8.gapW,
+                  Expanded(
+                    child: Text(
+                      l10n.otMonthlyApprovedHeader('28.5'),
+                      style: TextStyle(fontSize: 12, fontWeight: FontWeight.w700, color: colors.primaryIndigo),
+                    ),
+                  ),
+                  Icon(Symbols.chevron_right, size: 16, color: colors.primaryIndigo),
+                ],
+              ),
+            ),
+          ),
+          12.gapH,
           if (filteredHistory.isEmpty)
             Container(
               padding: const EdgeInsets.symmetric(vertical: 24),

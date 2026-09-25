@@ -628,7 +628,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get leaveTypeAnnual => 'Annual Leave';
 
   @override
-  String get leaveTypeSick => 'Sick Leave';
+  String get leaveTypeSick => 'Sick Leave (Social Ins.)';
 
   @override
   String get leaveTypeUnpaid => 'Unpaid Leave';
@@ -1056,7 +1056,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get testBiometricNow => 'Test Biometric Sensor';
 
   @override
-  String get deviceSecurityTitle => 'DEVICE & SYSTEM INTEGRITY';
+  String get deviceSecurityTitle => 'Device Security';
 
   @override
   String get linkedDeviceTitle => 'Bound Hardware Device';
@@ -2032,4 +2032,360 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get delRunning => 'Running';
+
+  @override
+  String get requestTypeOnDuty => 'On Duty';
+
+  @override
+  String get requestTypeBusinessTrip => 'Business Trip';
+
+  @override
+  String get requestTypeShiftSwap => 'Shift Swap';
+
+  @override
+  String get onDutyTitle => 'Apply On Duty';
+
+  @override
+  String get onDutySubtitle =>
+      'Short off-site errand or client visit during shift';
+
+  @override
+  String get onDutyFromTime => 'From Time';
+
+  @override
+  String get onDutyToTime => 'To Time';
+
+  @override
+  String get onDutyLocation => 'Destination / Location';
+
+  @override
+  String get onDutyDescription => 'Work Description';
+
+  @override
+  String get onDutyShiftConstraintWarning =>
+      'On duty hours must fall within your scheduled shift';
+
+  @override
+  String get onDutySubmitSuccess => 'On Duty request submitted successfully!';
+
+  @override
+  String get businessTripTitle => 'Apply Business Trip';
+
+  @override
+  String get businessTripSubtitle =>
+      'Multi-day domestic or overseas business trip';
+
+  @override
+  String get businessTripDestination => 'Destination';
+
+  @override
+  String get businessTripColleagues => 'Accompanying Colleagues';
+
+  @override
+  String get businessTripPurpose => 'Trip Purpose';
+
+  @override
+  String get businessTripPlan => 'Schedule / Plan';
+
+  @override
+  String get businessTripSubmitSuccess =>
+      'Business Trip request submitted successfully!';
+
+  @override
+  String get offSiteTimesheetLabel => 'Off-site';
+
+  @override
+  String get offSiteCreditDesc => 'Credited as full worked time';
+
+  @override
+  String get leaveBalanceBreakdownTitle => 'Leave Balance Breakdown';
+
+  @override
+  String get leaveTypeCompOff => 'Comp-off (from Overtime)';
+
+  @override
+  String get leaveTypeMaternity => 'Maternity Leave';
+
+  @override
+  String get leaveTypePaidPersonal => 'Paid Personal Leave';
+
+  @override
+  String get leaveBalanceEntitlement => 'Entitled';
+
+  @override
+  String get leaveBalanceUsed => 'Used';
+
+  @override
+  String get leaveBalancePending => 'Pending';
+
+  @override
+  String get leaveBalanceAvailable => 'Available';
+
+  @override
+  String get leaveHalfDayMorning => 'First Half (Morning)';
+
+  @override
+  String get leaveHalfDayAfternoon => 'Second Half (Afternoon)';
+
+  @override
+  String get leaveHandoverPerson => 'Handover Colleague';
+
+  @override
+  String get leaveAttachment => 'Supporting Document / Certificate';
+
+  @override
+  String leaveExceedBalanceWarning(String days) {
+    return 'Requested days exceed available balance ($days days)!';
+  }
+
+  @override
+  String get leaveExcludeWeekendHint =>
+      'Weekends and public holidays are automatically excluded';
+
+  @override
+  String get leaveSaveDraftBtn => 'Save Draft';
+
+  @override
+  String get leaveDraftSaved => 'Draft saved successfully!';
+
+  @override
+  String get otRateWeekday => 'Weekday (150%)';
+
+  @override
+  String get otRateWeekend => 'Weekly Off (200%)';
+
+  @override
+  String get otRateHoliday => 'Holiday (300%)';
+
+  @override
+  String get otCompensationType => 'Compensation Type';
+
+  @override
+  String get otCompensationPay => 'Paid Overtime';
+
+  @override
+  String get otCompensationCompOff => 'Convert to Comp-off';
+
+  @override
+  String otMonthlyCapWarning(String current) {
+    return 'Notice: You have accumulated ${current}h/40h monthly OT cap';
+  }
+
+  @override
+  String get otMonthlyCapExceeded =>
+      'Cannot submit: Total OT exceeds 40h/mo per Labour Code 2019!';
+
+  @override
+  String otMonthlyApprovedHeader(String hours) {
+    return 'Total approved OT this month: ${hours}h';
+  }
+
+  @override
+  String get extraHoursBalanceTitle => 'Extra Hours & Comp-off';
+
+  @override
+  String get extraHoursMonth => 'Month OT Hours';
+
+  @override
+  String get extraHoursQuarter => 'Quarter OT Hours';
+
+  @override
+  String get extraHoursPayable => 'Payable Hours';
+
+  @override
+  String get extraHoursConvertedCompOff => 'Converted to Comp-off';
+
+  @override
+  String get compOffConversionRule => 'Conversion: 8 OT hours = 1 comp-off day';
+
+  @override
+  String get shiftSwapEligibilityCheck => 'Shift Swap Eligibility Check';
+
+  @override
+  String shiftSwapBranchMismatch(String branch) {
+    return 'Colleague is at a different branch ($branch)';
+  }
+
+  @override
+  String get shiftSwapGradeMismatch => 'Job grade is not equivalent';
+
+  @override
+  String get shiftSwapOnLeaveConflict => 'Colleague is on leave on this date';
+
+  @override
+  String get shiftSwapSameShiftConflict =>
+      'Both are currently on the same shift';
+
+  @override
+  String get shiftSwapRestConflict =>
+      'Rest between shifts < 12 hours (Labour Code 2019 Art 109)';
+
+  @override
+  String get shiftSwapOvertimeExceed =>
+      'Normal weekly hours would exceed 48 hours';
+
+  @override
+  String get shiftSwapConflictAlert => 'Swap Conflict Detected';
+
+  @override
+  String get shiftSwapApprovedTag => 'Swapped';
+
+  @override
+  String get shiftMonthUnpublished =>
+      'Next month\'s schedule will be published on the 25th';
+
+  @override
+  String get shiftNetworkRetry => 'Retry Connection';
+
+  @override
+  String get registeredDeviceTitle => 'Registered Device';
+
+  @override
+  String get registeredDeviceSub =>
+      'Attendance is permitted only on your registered device';
+
+  @override
+  String get deviceModelLabel => 'Device Model';
+
+  @override
+  String get deviceIdLabel => 'Device Identifier (UUID)';
+
+  @override
+  String get deviceRegisteredDate => 'Registration Date';
+
+  @override
+  String get deviceCheckRegistered => 'Valid Registered Device';
+
+  @override
+  String get deviceCheckNotRooted => 'No Root / Jailbreak Detected';
+
+  @override
+  String get deviceCheckNoMockGps => 'No Mock GPS Detected';
+
+  @override
+  String get deviceCheckIntegrity => 'App Package Integrity Verified';
+
+  @override
+  String get deviceBlockRootTitle => 'Device is Rooted / Jailbroken';
+
+  @override
+  String get deviceBlockRootMsg =>
+      'For security reasons, check-in is blocked on modified OS devices. Please contact HR.';
+
+  @override
+  String get deviceBlockMockGpsTitle => 'Mock Location Detected';
+
+  @override
+  String get deviceBlockMockGpsMsg =>
+      'Mock location provider detected. Please disable location spoofing apps and tap \'Re-check\'.';
+
+  @override
+  String get deviceRecheckBtn => 'Re-check';
+
+  @override
+  String get deviceDemoTogglesTitle => 'Security Simulation (Demo Sandbox)';
+
+  @override
+  String get deviceSimulateMockGps => 'Simulate Mock GPS Detection';
+
+  @override
+  String get deviceSimulateRoot => 'Simulate Rooted Device';
+
+  @override
+  String get punchResultOnTime => 'On Time';
+
+  @override
+  String get punchResultLate => 'Late';
+
+  @override
+  String get punchResultEarly => 'Early Leave';
+
+  @override
+  String get punchLateReasonPrompt => 'Late / Early explanation';
+
+  @override
+  String get faceThumbnailLabel => 'AI Face Verification Snapshot';
+
+  @override
+  String get approvalTypeFilterAll => 'All';
+
+  @override
+  String get approvalTypeFilterLeave => 'Leave';
+
+  @override
+  String get approvalTypeFilterOT => 'Overtime';
+
+  @override
+  String get approvalTypeFilterCorrection => 'Correction';
+
+  @override
+  String get approvalTypeFilterSwap => 'Shift Swap';
+
+  @override
+  String get approvalTypeFilterOffSite => 'Off-site';
+
+  @override
+  String get approvalAttendanceSnippet => 'Attendance on relevant date';
+
+  @override
+  String get approvalSwapBothSchedules => 'Both employees\' schedules';
+
+  @override
+  String get approvalInternalNoteLabel => 'Internal Note (Manager only)';
+
+  @override
+  String get approvalMandatoryRejectReason =>
+      'Please provide a rejection reason (mandatory)';
+
+  @override
+  String get legendLateEarly => 'Late / Early Leave';
+
+  @override
+  String get dateLabel => 'Date';
+
+  @override
+  String get fillRequiredField => 'Please fill in this required field';
+
+  @override
+  String get submitButton => 'Submit Request';
+
+  @override
+  String annualLeaveRemaining(String days) {
+    return '$days days remaining';
+  }
+
+  @override
+  String availableDays(String days) {
+    return '$days days available';
+  }
+
+  @override
+  String get attendanceTitle => 'Attendance';
+
+  @override
+  String get loadingState => 'Loading data...';
+
+  @override
+  String get errorStateTitle => 'Unable to load data';
+
+  @override
+  String get networkError => 'Network connection error, please retry';
+
+  @override
+  String get currentMonthSchedule => 'Current month schedule';
+
+  @override
+  String get deviceGpsRecheckedValid => 'Rechecking GPS coordinates... Valid!';
+
+  @override
+  String get deviceContactHrSent => 'Support request sent to HR.';
+
+  @override
+  String get deviceContactHrBtn => 'Contact HR Department';
+
+  @override
+  String get deviceTestBlockCta => 'Test Block Check-in (Demo)';
+
+  @override
+  String get deviceCheckSafetyBtn => 'Check Device Safety';
 }

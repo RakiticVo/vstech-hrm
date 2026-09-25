@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:material_symbols_icons/symbols.dart';
@@ -168,6 +169,7 @@ class _FaceScanScreenState extends State<FaceScanScreen> {
   }
 
   void _showSuccessReceipt(AttendanceRecordEntity record) {
+    unawaited(HapticFeedback.mediumImpact());
     unawaited(
       showModalBottomSheet<void>(
         context: context,

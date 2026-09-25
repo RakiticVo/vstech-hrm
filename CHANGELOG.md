@@ -5,6 +5,33 @@
 ## [Unreleased]
 
 ### Added
+- Triển khai toàn bộ Phân hệ Chấm công - Ca kíp & Phê duyệt Phase 0 Demo Scope (`docs/demo/HRM_Phase0_Demo_Scope.md`):
+  - Nhóm A — Ca làm việc & Đổi ca:
+    - Bổ sung kiểm tra điều kiện đổi ca (`ShiftSwapModal`): kiểm tra cùng chi nhánh, cùng cấp bậc, không vắng phép, và ràng buộc tối thiểu 12 giờ nghỉ giữa 2 ca theo Điều 109 BLLĐ 2019; banner cảnh báo vi phạm và tự động khóa nút gửi đơn.
+    - Bổ sung 3 trạng thái giao diện lịch ca (`ShiftScheduleScreen`): Đang tải, Mất kết nối mạng kèm nút thử lại, và Lịch tháng sau chưa công bố (công bố vào ngày 25 hàng tháng).
+  - Nhóm B — Chấm công & Bảo mật thiết bị:
+    - Phân loại chấm công thông minh (`attendance_remote_datasource.dart`): Phân loại Đúng giờ (`onTime`), Đi muộn (`late` sau 08:05), Về sớm (`earlyLeave` trước 17:00), cùng phản hồi rung haptic `HapticFeedback.mediumImpact()` khi nhận biên nhận chấm công AI.
+    - Quản lý thiết bị định danh duy nhất (`RegisteredDeviceScreen`): Hiển thị UUID máy, 4 chỉ số kiểm tra bảo mật (Thiết bị chính chủ, Root/Jailbreak, Mock GPS, Package Integrity) và Sandbox giả lập vi phạm để phục vụ demo.
+    - Màn hình chặn chấm công khi vi phạm an toàn (`DeviceBlockScreen`): Chặn thiết bị can thiệp Root hoặc dùng ứng dụng giả lập toạ độ (Mock GPS) kèm lịch sử kiểm tra bảo mật và nút kiểm tra lại / liên hệ HR.
+  - Nhóm C — Lịch công & Ngày lễ:
+    - Chuẩn hóa 5 màu trạng thái lịch chấm công (`CalendarLegendRow`): Xanh lá (Đúng giờ), Vàng cam (Đi muộn / Về sớm), Đỏ (Chưa chấm công), Tím (Nghỉ phép), Xám (Nghỉ tuần / Ngày lễ).
+    - Màn hình lịch công (`CalendarScreen`): Bấm ngày thiếu công (15/09) chuyển thẳng đến màn hình Tạo đơn sửa công; hiển thị nhãn "Off-site" cho các ngày đi việc ngoài/công tác.
+    - Màn hình ngày lễ (`HolidaysScreen`): Bấm vào ngày lễ (ví dụ Quốc khánh 02/09) tự động chuyển đến Tạo đơn tăng ca với hệ số 300% ngày lễ.
+  - Nhóm D — Quỹ nghỉ phép & Đăng ký nâng cao:
+    - Màn hình chi tiết quỹ nghỉ phép (`LeaveBalanceScreen`): Theo dõi hạn mức và số dư khả dụng của 6 loại phép (Phép năm, Nghỉ bù comp-off, Nghỉ ốm BHXH, Việc riêng có lương, Không lương, Thai sản).
+    - Cải tiến modal xin nghỉ phép (`LeaveRequestModal` & `LeaveModeChip` / `LeaveDateTile`): Hỗ trợ chế độ nghỉ nửa ca (Cả ngày, Nửa ca sáng, Nửa ca chiều), người bàn giao công việc, tệp đính kèm chứng từ, và tính năng Lưu nháp đơn.
+  - Nhóm E — Làm thêm giờ & Quỹ giờ tích lũy (Comp-off):
+    - Đăng ký tăng ca linh hoạt (`OvertimeRequestModal`): Huy hiệu tỷ lệ tự động theo loại ngày (Ngày thường 150%, Nghỉ tuần 200%, Ngày lễ 300%), lựa chọn hưởng lương hoặc quy đổi nghỉ bù, và kiểm tra trần tăng ca 40h/tháng theo BLLĐ 2019.
+    - Màn hình quỹ giờ làm thêm (`ExtraHoursScreen`): Theo dõi giờ OT tháng/quý, giờ hưởng lương, giờ quy đổi nghỉ bù theo tỷ lệ 8 giờ OT = 1 ngày nghỉ bù.
+  - Nhóm F — Đi việc ngoài & Công tác:
+    - Màn hình Đi việc ngoài trong ca (`OnDutyRequestScreen`): Điền giờ trong ca, địa điểm đến (khách hàng, cơ quan ban ngành), nội dung công việc và tệp đính kèm.
+    - Màn hình Đăng ký công tác dài ngày (`BusinessTripRequestScreen`): Lựa chọn nơi đến, ngày đi/về, mục đích, đồng nghiệp cùng đi và đính kèm kế hoạch công tác.
+  - Nhóm G — Trung tâm yêu cầu & Hộp thư phê duyệt quản lý:
+    - Bảng chọn nhanh 6 loại yêu cầu (`NewRequestBottomSheet`).
+    - Hộp thư phê duyệt trực quan (`ApprovalsScreen` & `ApprovalCard`): Bộ lọc 6 loại đơn kèm số lượng chờ duyệt, hiển thị lịch làm việc đối sánh hai nhân viên khi đổi ca, hiển thị quẹt thẻ chấm công ngày liên quan, và hộp thoại bắt buộc nhập lý do khi từ chối.
+  - Bổ sung 50+ localized keys đồng bộ song ngữ Việt/Anh (`app_vi.arb`, `app_en.arb`) tuân thủ tuyệt đối Zero-Hardcoding Policy.
+  - Bổ sung kiểm thử đơn vị cho quy tắc nghiệp vụ Phase 0 (100% passed, 61/61 tests passing).
+  - Tối ưu kích thước file: 100% file `.dart` trong dự án đều tuân thủ nghiêm ngặt giới hạn $\le 300$ dòng.
 - Xây dựng Phân hệ Bảng điều khiển Điều hành cấp cao & Phê duyệt cuối C-Level (`lib/features/executive/`):
   - Màn 21 — Executive Dashboard (`ExecutiveDashboardScreen`): Dashboard trực quan dành cho CEO/Ban Điều Hành hiển thị Headcount 3.142 lao động, tỷ lệ đi làm 98,2%, quỹ lương 42,8 tỷ VNĐ (+3,4%), tổng giờ OT 14.280h (TB 18,2h/người); Hero card hồ sơ chờ ký duyệt cao nhất; Khối cảnh báo rủi ro & tuân thủ cần chú ý; Tỷ lệ đi làm trực quan theo từng khối/xưởng sản xuất.
   - Màn 22 — Final Approval C-Level (`FinalApprovalScreen`): Màn hình phê duyệt cấp cao nhất trước khi HR/Kế toán giải ngân; Chuỗi quy trình ký duyệt 4 cấp trực quan (`FinalApprovalChainTimeline`); Thống kê tác động tài chính & kiểm tra ngân sách dự phòng; Cơ chế phê duyệt nhanh toàn bộ ("Duyệt tất cả") và phê duyệt/từ chối từng hồ sơ kèm ghi chú HR.

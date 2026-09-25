@@ -22,7 +22,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
   bool _emailReport = false;
   bool _punchReminder = true;
   bool _biometrics = true;
-  bool _autoLock = false;
 
   Future<void> _togglePushNotification(bool value) async {
     if (value) {
@@ -123,12 +122,18 @@ class _SettingsScreenState extends State<SettingsScreen> {
               colors,
             ),
             Divider(height: 1, color: colors.border),
-            _buildSwitchTile(
-              context.l10n.autoLock,
-              context.l10n.autoLockDesc,
-              _autoLock,
-              (v) => setState(() => _autoLock = v),
-              colors,
+            ListTile(
+              leading: Icon(Symbols.phone_iphone, color: colors.primaryIndigo),
+              title: Text(
+                context.l10n.registeredDeviceTitle,
+                style: TextStyle(fontSize: 13.5, fontWeight: FontWeight.w700, color: colors.textPrimary),
+              ),
+              subtitle: Text(
+                context.l10n.registeredDeviceSub,
+                style: TextStyle(fontSize: 11.5, color: colors.textSecondary),
+              ),
+              trailing: Icon(Symbols.chevron_right, size: 18, color: colors.textTertiary),
+              onTap: () => context.push(AppRoutes.registeredDevice),
             ),
           ], colors),
           22.gapH,

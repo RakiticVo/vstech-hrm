@@ -11,9 +11,10 @@ import 'package:vstech_hrm/core/session/auth_state.dart';
 import 'package:vstech_hrm/core/theme/app_colors.dart';
 import 'package:vstech_hrm/core/widgets/month_picker_button.dart';
 import 'package:vstech_hrm/core/widgets/tile_header_banner.dart';
+import 'package:vstech_hrm/features/requests/presentation/widgets/new_request_bottom_sheet.dart';
 import 'package:vstech_hrm/features/requests/presentation/widgets/request_card.dart';
 
-/// Screen listing leave, overtime, and correction requests with month and status filters.
+/// Screen listing leave, overtime, correction, shift swap and off-site requests.
 class RequestsScreen extends StatefulWidget {
   const new({super.key});
 
@@ -28,86 +29,78 @@ class _RequestsScreenState extends State<RequestsScreen> {
   final _requests = const [
     RequestData(
       mark: 'P',
-      type: 'Nghỉ phép năm · 3 ngày',
-      dates: '21–23/09/2026',
+      type: 'Nghỉ phép năm · 1 ngày',
+      dates: '24/09/2026',
       status: 'Chờ duyệt',
       statusCode: 1,
       stage: 'Chờ quản lý',
       completedSteps: 1,
+      requestTypeKey: 'leave',
     ),
     RequestData(
       mark: 'T',
-      type: 'Tăng ca · 3 giờ',
-      dates: '12/09/2026',
+      type: 'Tăng ca · 3.5 giờ',
+      dates: '22/09/2026',
       status: 'Đã duyệt',
       statusCode: 2,
       stage: 'Hoàn tất',
-      completedSteps: 4,
+      completedSteps: 2,
+      requestTypeKey: 'ot',
+    ),
+    RequestData(
+      mark: 'V',
+      type: 'Đi việc ngoài · Sở KH&ĐT',
+      dates: '25/09/2026',
+      status: 'Chờ duyệt',
+      statusCode: 1,
+      stage: 'Chờ quản lý',
+      completedSteps: 1,
+      totalSteps: 1,
+      requestTypeKey: 'offSite',
+    ),
+    RequestData(
+      mark: 'Đ',
+      type: 'Đổi ca · với Phạm Thu Hương',
+      dates: '18/09/2026',
+      status: 'Đã duyệt',
+      statusCode: 2,
+      stage: 'Đã đổi ca',
+      completedSteps: 1,
+      totalSteps: 1,
+      requestTypeKey: 'swap',
     ),
     RequestData(
       mark: 'C',
-      type: 'Công tác · Hà Nội',
-      dates: '21–23/09/2026',
+      type: 'Công tác · Hà Nội 3 ngày',
+      dates: '28–30/09/2026',
       status: 'Chờ duyệt',
       statusCode: 1,
-      stage: 'Chờ giám đốc',
-      completedSteps: 3,
+      stage: 'Chờ quản lý',
+      completedSteps: 1,
+      totalSteps: 1,
+      requestTypeKey: 'offSite',
     ),
     RequestData(
       mark: 'S',
-      type: 'Sửa công · thiếu giờ ra',
+      type: 'Sửa công · thiếu giờ vào',
       dates: '15/09/2026',
-      status: 'Cần bổ sung',
-      statusCode: 1,
-      stage: 'Chờ HR',
+      status: 'Đã duyệt',
+      statusCode: 2,
+      stage: 'Hoàn tất',
       completedSteps: 2,
+      requestTypeKey: 'correction',
     ),
     RequestData(
       mark: 'P',
       type: 'Nghỉ không lương · 1 ngày',
-      dates: '28/08/2026',
+      dates: '10/09/2026',
       status: 'Từ chối',
       statusCode: 3,
       stage: 'Từ chối',
       completedSteps: 1,
+      requestTypeKey: 'leave',
     ),
   ];
-
-  void _showNewRequestSheet(BuildContext context, AppColorsExtension colors) {
-    final l10n = context.l10n;
-    unawaited(
-      showModalBottomSheet<void>(
-        context: context,
-        backgroundColor: colors.surface,
-        shape: const RoundedRectangleBorder(borderRadius: BorderRadius.vertical(top: Radius.circular(22))),
-        builder: (ctx) => Padding(
-          padding: const EdgeInsets.fromLTRB(16, 18, 16, 28),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(l10n.createNewRequestTitle, style: TextStyle(fontSize: 16, fontWeight: FontWeight.w800, color: colors.textPrimary)),
-              14.gapH,
-              _buildOptionTile(ctx, Symbols.beach_access, l10n.requestTypeLeave, AppRoutes.leaveCreate, colors),
-              _buildOptionTile(ctx, Symbols.schedule, l10n.requestTypeOvertime, AppRoutes.overtimeCreate, colors),
-              _buildOptionTile(ctx, Symbols.edit_note, l10n.requestTypeCorrection, AppRoutes.attendanceCorrection, colors),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget _buildOptionTile(BuildContext ctx, IconData icon, String title, String route, AppColorsExtension colors) {
-    return ListTile(
-      leading: Icon(icon, color: colors.primaryIndigo),
-      title: Text(title, style: const TextStyle(fontWeight: FontWeight.w700)),
-      onTap: () {
-        Navigator.pop(ctx);
-        unawaited(context.push(route));
-      },
-    );
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -143,7 +136,7 @@ class _RequestsScreenState extends State<RequestsScreen> {
                 color: Colors.transparent,
                 child: InkWell(
                   borderRadius: BorderRadius.circular(13),
-                  onTap: () => _showNewRequestSheet(context, colors),
+                  onTap: () => unawaited(NewRequestBottomSheet.show(context)),
                   child: const Center(child: Icon(Symbols.add, color: Color(0xFF1C1408), size: 22, weight: 700)),
                 ),
               ),
@@ -200,6 +193,41 @@ class _RequestsScreenState extends State<RequestsScreen> {
                     ),
                   );
                 },
+              ),
+            ),
+          ),
+
+          // Leave Balance & Comp-off Shortcut
+          Padding(
+            padding: const EdgeInsets.fromLTRB(16, 2, 16, 6),
+            child: InkWell(
+              borderRadius: BorderRadius.circular(12),
+              onTap: () => unawaited(context.push(AppRoutes.leaveBalance)),
+              child: Container(
+                padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                decoration: BoxDecoration(
+                  color: colors.primaryIndigo.withValues(alpha: 0.08),
+                  borderRadius: BorderRadius.circular(12),
+                  border: Border.all(color: colors.primaryIndigo.withValues(alpha: 0.15)),
+                ),
+                child: Row(
+                  children: [
+                    Icon(Symbols.beach_access, size: 18, color: colors.primaryIndigo),
+                    8.gapW,
+                    Expanded(
+                      child: Text(
+                        l10n.leaveBalanceBreakdownTitle,
+                        style: TextStyle(fontSize: 12, fontWeight: FontWeight.w700, color: colors.primaryIndigo),
+                      ),
+                    ),
+                    Text(
+                      l10n.availableDays('6.5'),
+                      style: TextStyle(fontSize: 12, fontWeight: FontWeight.w800, color: colors.pineGreen),
+                    ),
+                    4.gapW,
+                    Icon(Symbols.chevron_right, size: 16, color: colors.primaryIndigo),
+                  ],
+                ),
               ),
             ),
           ),

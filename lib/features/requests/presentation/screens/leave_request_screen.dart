@@ -1,8 +1,10 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:material_symbols_icons/symbols.dart';
 import 'package:vstech_hrm/core/extensions/l10n_extension.dart';
 import 'package:vstech_hrm/core/responsive/app_layout.dart';
+import 'package:vstech_hrm/core/router/routes.dart';
 import 'package:vstech_hrm/core/theme/app_colors.dart';
 import 'package:vstech_hrm/core/widgets/app_success_dialog.dart';
 import 'package:vstech_hrm/core/widgets/month_picker_button.dart';
@@ -117,12 +119,16 @@ class _LeaveRequestScreenState extends State<LeaveRequestScreen> {
         padding: const EdgeInsets.fromLTRB(16, 14, 16, 24),
         children: [
           // 2 Stats Cards
-          Row(
-            children: [
-              Expanded(child: _buildStatCard(l10n.leaveRemainingStat, '6 ngày', colors.textPrimary, colors)),
-              10.gapW,
-              Expanded(child: _buildStatCard(l10n.leaveUsedStat, '6 ngày', colors.primaryIndigo, colors)),
-            ],
+          InkWell(
+            borderRadius: BorderRadius.circular(18),
+            onTap: () => context.push(AppRoutes.leaveBalance),
+            child: Row(
+              children: [
+                Expanded(child: _buildStatCard(l10n.leaveRemainingStat, '6.5 ngày', colors.textPrimary, colors)),
+                10.gapW,
+                Expanded(child: _buildStatCard(l10n.leaveUsedStat, '5.5 ngày', colors.primaryIndigo, colors)),
+              ],
+            ),
           ),
           20.gapH,
 

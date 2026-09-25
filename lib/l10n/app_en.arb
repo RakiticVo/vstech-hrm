@@ -944,5 +944,155 @@
   "delRevoke": "Revoke Delegation",
   "delRevokeSuccess": "Delegation revoked successfully!",
   "delCreateSuccess": "Delegation established successfully!",
-  "delRunning": "Running"
+  "delRunning": "Running",
+
+  "requestTypeOnDuty": "On Duty",
+  "requestTypeBusinessTrip": "Business Trip",
+  "requestTypeShiftSwap": "Shift Swap",
+  "onDutyTitle": "Apply On Duty",
+  "onDutySubtitle": "Short off-site errand or client visit during shift",
+  "onDutyFromTime": "From Time",
+  "onDutyToTime": "To Time",
+  "onDutyLocation": "Destination / Location",
+  "onDutyDescription": "Work Description",
+  "onDutyShiftConstraintWarning": "On duty hours must fall within your scheduled shift",
+  "onDutySubmitSuccess": "On Duty request submitted successfully!",
+  "businessTripTitle": "Apply Business Trip",
+  "businessTripSubtitle": "Multi-day domestic or overseas business trip",
+  "businessTripDestination": "Destination",
+  "businessTripColleagues": "Accompanying Colleagues",
+  "businessTripPurpose": "Trip Purpose",
+  "businessTripPlan": "Schedule / Plan",
+  "businessTripSubmitSuccess": "Business Trip request submitted successfully!",
+  "offSiteTimesheetLabel": "Off-site",
+  "offSiteCreditDesc": "Credited as full worked time",
+
+  "leaveBalanceBreakdownTitle": "Leave Balance Breakdown",
+  "leaveTypeCompOff": "Comp-off (from Overtime)",
+  "leaveTypeSick": "Sick Leave (Social Ins.)",
+  "leaveTypeMaternity": "Maternity Leave",
+  "leaveTypePaidPersonal": "Paid Personal Leave",
+  "leaveTypeUnpaid": "Unpaid Leave",
+  "leaveBalanceEntitlement": "Entitled",
+  "leaveBalanceUsed": "Used",
+  "leaveBalancePending": "Pending",
+  "leaveBalanceAvailable": "Available",
+  "leaveHalfDayMorning": "First Half (Morning)",
+  "leaveHalfDayAfternoon": "Second Half (Afternoon)",
+  "leaveHandoverPerson": "Handover Colleague",
+  "leaveAttachment": "Supporting Document / Certificate",
+  "leaveExceedBalanceWarning": "Requested days exceed available balance ({days} days)!",
+  "@leaveExceedBalanceWarning": {
+    "placeholders": {
+      "days": {"type": "String"}
+    }
+  },
+  "leaveExcludeWeekendHint": "Weekends and public holidays are automatically excluded",
+  "leaveSaveDraftBtn": "Save Draft",
+  "leaveDraftSaved": "Draft saved successfully!",
+
+  "otRateWeekday": "Weekday (150%)",
+  "otRateWeekend": "Weekly Off (200%)",
+  "otRateHoliday": "Holiday (300%)",
+  "otCompensationType": "Compensation Type",
+  "otCompensationPay": "Paid Overtime",
+  "otCompensationCompOff": "Convert to Comp-off",
+  "otMonthlyCapWarning": "Notice: You have accumulated {current}h/40h monthly OT cap",
+  "@otMonthlyCapWarning": {
+    "placeholders": {
+      "current": {"type": "String"}
+    }
+  },
+  "otMonthlyCapExceeded": "Cannot submit: Total OT exceeds 40h/mo per Labour Code 2019!",
+  "otMonthlyApprovedHeader": "Total approved OT this month: {hours}h",
+  "@otMonthlyApprovedHeader": {
+    "placeholders": {
+      "hours": {"type": "String"}
+    }
+  },
+  "extraHoursBalanceTitle": "Extra Hours & Comp-off",
+  "extraHoursMonth": "Month OT Hours",
+  "extraHoursQuarter": "Quarter OT Hours",
+  "extraHoursPayable": "Payable Hours",
+  "extraHoursConvertedCompOff": "Converted to Comp-off",
+  "compOffConversionRule": "Conversion: 8 OT hours = 1 comp-off day",
+
+  "shiftSwapEligibilityCheck": "Shift Swap Eligibility Check",
+  "shiftSwapBranchMismatch": "Colleague is at a different branch ({branch})",
+  "@shiftSwapBranchMismatch": {
+    "placeholders": {
+      "branch": {"type": "String"}
+    }
+  },
+  "shiftSwapGradeMismatch": "Job grade is not equivalent",
+  "shiftSwapOnLeaveConflict": "Colleague is on leave on this date",
+  "shiftSwapSameShiftConflict": "Both are currently on the same shift",
+  "shiftSwapRestConflict": "Rest between shifts < 12 hours (Labour Code 2019 Art 109)",
+  "shiftSwapOvertimeExceed": "Normal weekly hours would exceed 48 hours",
+  "shiftSwapConflictAlert": "Swap Conflict Detected",
+  "shiftSwapApprovedTag": "Swapped",
+  "shiftMonthUnpublished": "Next month's schedule will be published on the 25th",
+  "shiftNetworkRetry": "Retry Connection",
+
+  "registeredDeviceTitle": "Registered Device",
+  "registeredDeviceSub": "Attendance is permitted only on your registered device",
+  "deviceModelLabel": "Device Model",
+  "deviceIdLabel": "Device Identifier (UUID)",
+  "deviceRegisteredDate": "Registration Date",
+  "deviceCheckRegistered": "Valid Registered Device",
+  "deviceCheckNotRooted": "No Root / Jailbreak Detected",
+  "deviceCheckNoMockGps": "No Mock GPS Detected",
+  "deviceCheckIntegrity": "App Package Integrity Verified",
+  "deviceBlockRootTitle": "Device is Rooted / Jailbroken",
+  "deviceBlockRootMsg": "For security reasons, check-in is blocked on modified OS devices. Please contact HR.",
+  "deviceBlockMockGpsTitle": "Mock Location Detected",
+  "deviceBlockMockGpsMsg": "Mock location provider detected. Please disable location spoofing apps and tap 'Re-check'.",
+  "deviceRecheckBtn": "Re-check",
+  "deviceDemoTogglesTitle": "Security Simulation (Demo Sandbox)",
+  "deviceSimulateMockGps": "Simulate Mock GPS Detection",
+  "deviceSimulateRoot": "Simulate Rooted Device",
+
+  "punchResultOnTime": "On Time",
+  "punchResultLate": "Late",
+  "punchResultEarly": "Early Leave",
+  "punchLateReasonPrompt": "Late / Early explanation",
+  "faceThumbnailLabel": "AI Face Verification Snapshot",
+
+  "approvalTypeFilterAll": "All",
+  "approvalTypeFilterLeave": "Leave",
+  "approvalTypeFilterOT": "Overtime",
+  "approvalTypeFilterCorrection": "Correction",
+  "approvalTypeFilterSwap": "Shift Swap",
+  "approvalTypeFilterOffSite": "Off-site",
+  "approvalAttendanceSnippet": "Attendance on relevant date",
+  "approvalSwapBothSchedules": "Both employees' schedules",
+  "approvalInternalNoteLabel": "Internal Note (Manager only)",
+  "approvalMandatoryRejectReason": "Please provide a rejection reason (mandatory)",
+  "legendLateEarly": "Late / Early Leave",
+  "dateLabel": "Date",
+  "fillRequiredField": "Please fill in this required field",
+  "submitButton": "Submit Request",
+  "annualLeaveRemaining": "{days} days remaining",
+  "@annualLeaveRemaining": {
+    "placeholders": {
+      "days": {"type": "String"}
+    }
+  },
+  "availableDays": "{days} days available",
+  "@availableDays": {
+    "placeholders": {
+      "days": {"type": "String"}
+    }
+  },
+  "attendanceTitle": "Attendance",
+  "loadingState": "Loading data...",
+  "errorStateTitle": "Unable to load data",
+  "networkError": "Network connection error, please retry",
+  "currentMonthSchedule": "Current month schedule",
+  "deviceSecurityTitle": "Device Security",
+  "deviceGpsRecheckedValid": "Rechecking GPS coordinates... Valid!",
+  "deviceContactHrSent": "Support request sent to HR.",
+  "deviceContactHrBtn": "Contact HR Department",
+  "deviceTestBlockCta": "Test Block Check-in (Demo)",
+  "deviceCheckSafetyBtn": "Check Device Safety"
 }

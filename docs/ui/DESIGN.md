@@ -12,7 +12,7 @@ Tài liệu tổng hợp cho bộ mockup HRM nhân viên. Mọi màn hình mới
 | Người dùng | Nhân viên · Quản lý trực tiếp · Ban Giám đốc |
 | Hướng thiết kế | **Gạch bông (Saigon tile)** — chốt ngày 16/09/2026 |
 | Khung | 390 × 844 px · chạy đúng ở 375×812, 393×852, 430×932 |
-| Số màn hình | 29 |
+| Số màn hình | 91 |
 | Ngôn ngữ | Tiếng Việt và tiếng Anh, chuyển qua công tắc |
 | Giao diện | Sáng và tối |
 
@@ -347,3 +347,56 @@ Mọi màu lấy từ biến `t.*` trong logic hoặc `var(--*)` trong template 
 - Các màn P2 chưa làm: KPI, đào tạo, phúc lợi, phát triển nghề nghiệp, tài liệu công ty, khảo sát, ghi nhận nội bộ.
 - Avatar đang là chữ viết tắt vì chưa có ảnh thật.
 - Đầu các màn con hiện chỉ có tiêu đề trơn; có thể đưa hoa văn vào để nhất quán hơn với trang chủ.
+
+
+---
+
+## 18. Luồng yêu cầu thống nhất (Nghỉ phép · Sửa công · Tăng ca)
+
+Ba loại đơn dùng chung một mẫu, khớp app Flutter: **màn quản lý → màn tạo → chi tiết**.
+
+- **Quản lý** (`leave`, `overtime`, `correction`): app bar + nút quay lại · thẻ tổng hợp trắng (số chính + 3 ô chỉ số; tăng ca thêm cơ cấu 150/200/300%) · nút chọn tháng · chip trạng thái Tất cả / Nháp / Chờ duyệt / Đã duyệt / Từ chối / Đã huỷ · thẻ đơn dùng chung (ngày, loại, giá trị chính, badge, ý kiến người duyệt) · nút nổi "Tạo yêu cầu" cố định góc phải trên thanh điều hướng · trạng thái rỗng theo tháng.
+- **Tạo** (`leave-new`, `overtime-new`, `correction-new`): mục đánh số `01 · …`, ô nhập cao 52px bo 14px, khối đính kèm nét đứt, thanh đáy hai nút Lưu nháp / Gửi yêu cầu. Lý do là trường bắt buộc khi gửi.
+- **Gửi thành công** (`request-sent`) → "Về danh sách" đưa đơn mới lên đầu, trạng thái Chờ duyệt, viền teal.
+- **Chi tiết** (`request-detail`): thông tin đã gửi, đính kèm, thanh 4 bước Nhân viên → Quản lý → Nhân sự → Giám đốc kèm ý kiến từng người. Nút "Huỷ yêu cầu" chỉ hiện khi đơn đang chờ duyệt.
+- **Lối vào**: tác vụ nhanh trang chủ, Tất cả dịch vụ, tab Yêu cầu (3 ô loại đơn + bottom sheet) đều mở màn quản lý.
+
+
+---
+
+## 19. Chấm công P0 (đợt 1)
+
+- **Ngoại tuyến (#4)**: mất mạng thì quét khuôn mặt vẫn xác thực trên máy, lượt chấm vào hàng chờ cục bộ. Màn Chấm công hiện nhãn "Ngoại tuyến" và băng rôn theo 4 trạng thái: chưa đồng bộ (amber) → đang đồng bộ → đã đồng bộ (xanh, tự ẩn) / lỗi (đỏ, thử lại).
+- **Lịch ca (#8)** `shifts`: dải 7 ngày dạng viên nang, thẻ chi tiết ca (tên, giờ, nghỉ giữa ca, giờ công, chi nhánh, quản lý ca), lưới tháng chấm màu 5 loại ca: hành chính (pri), ca xoay (sec), ca gãy (acc), ca đêm (tp), nghỉ tuần (vòng rỗng ts). Lối vào: dòng "Ca hôm nay" trên thẻ trang chủ, Tất cả dịch vụ.
+- **Quét khuôn mặt (#3)**: xác thực 3 lớp lần lượt (khuôn mặt + người thật → vùng GPS → Wi-Fi BSSID), sau đó phân loại Đúng giờ / Đi muộn / Về sớm trên chip nền kem.
+- **Bảo mật thiết bị (#25)**: mục "Thiết bị đã đăng ký" trong Cài đặt → màn `device` (4 lớp kiểm tra); phát hiện root/jailbreak hoặc GPS giả thì bấm chấm công sẽ vào màn khoá `device-block`.
+- Mọi màn mới có trạng thái tải / rỗng / lỗi (prop `view`) và nút quay lại.
+
+
+---
+
+## 20. Lương & thưởng P0 (đợt 2)
+
+- **Cổng sinh trắc (#15)** `payslip-lock`: mọi lối vào phiếu lương đi qua cổng Face ID / vân tay / PIN 6 số (chờ → đang xác thực → lỗi / thành công). Phiếu lương hiện dải "Chế độ bảo mật" có nút Khoá.
+- **Ký điện tử (#16)**: nút "Xác nhận & ký" (CTA amber duy nhất của phiếu) mở bottom sheet khung ký; sau khi ký hiện chữ ký, dấu thời gian và mã xác thực.
+- **Khiếu nại lương (#17)**: loại đơn thứ tư trong hệ yêu cầu chung (`dispute`, `dispute-new`, chi tiết dùng chung). Mở từ từng dòng phiếu lương (biểu tượng cờ), có trong tab Yêu cầu và hộp duyệt của Quản lý.
+- **Hoa hồng (#18)**: tab thứ hai của Thưởng; lọc Giao dịch / Ngày / Tuần / Tháng; 3 nguồn màu cố định: doanh thu chi nhánh (pri), mặt hàng mục tiêu (acc), hợp đồng mới (sec).
+- **Chỉ tiêu (#19)**: tab thứ ba; thanh tiến độ cá nhân và nhóm trên thang 0–120% có vạch 80/100; bảng thưởng ước tính theo mốc, tô mốc tiếp theo.
+
+
+---
+
+## 21. Tuyển dụng P0 (đợt 3)
+
+- **Giới thiệu ứng viên (#1)**: nút "Giới thiệu" cạnh "Ứng tuyển" ở chi tiết vị trí, thẻ giới thiệu ở đầu danh sách tuyển dụng, và mục trong Tất cả dịch vụ. Form `refer` dùng khung form chung (tiêu đề đánh số, ô nhập, đính kèm, thanh 2 nút). `referrals` có link + QR cá nhân, tiến trình 4 bước Đã nhận → Phỏng vấn → Thử việc → Ký HĐ; thưởng 3.000.000 ₫ hiện trên thẻ, chuyển xanh khi đã kích hoạt.
+- **Hội nhập trước ngày đầu (#2)**: vai trò demo thứ tư "Ứng viên mới". Trang `onboard` dùng băng gạch bông như Trang chủ, không có thanh điều hướng đáy. Các màn con: thư chào mừng, sơ đồ tổ chức, giấy tờ (chụp → OCR → xác nhận), ký NDA & nội quy (dùng chung bottom sheet ký với phiếu lương), ngày đầu tiên.
+- OCR: ô có độ tin cậy thấp viền amber và có nhãn "kiểm tra lại"; CCCD hiện dòng xác thực chip NFC.
+
+
+---
+
+## 22. Phê duyệt của quản lý (#22) & đổi ca (#31)
+
+- Một nguồn dữ liệu: mọi yêu cầu (của bạn và của nhóm, trường `emp`) nằm trong `reqs`. Tab Yêu cầu và màn quản lý chỉ hiện yêu cầu của bạn; hộp duyệt đọc toàn bộ. Duyệt/từ chối cập nhật trạng thái, thanh tiến độ, badge tab đáy "Phê duyệt" và dải chờ duyệt ở Trang chủ.
+- Hộp duyệt dùng lại thẻ yêu cầu chung, thêm dòng người gửi. Chi tiết dùng chung có chế độ người duyệt: người gửi, chấm công ngày liên quan, khối khiếu nại lương, ghi chú nội bộ, thanh Duyệt/Từ chối. Từ chối bắt buộc có lý do.
+- Đổi ca là loại yêu cầu thứ năm (`swaps`). Tạo từ thẻ chi tiết ca trong Lịch ca → bottom sheet chọn đồng nghiệp cùng chi nhánh, cùng cấp, kiểm tra điều kiện (nghỉ phép, cùng ca, 11 giờ nghỉ). Quản lý duyệt là xong; bước HR/Giám đốc hiện "Không cần". Ngày đã đổi có viền amber trên lưới tháng và nhãn "Đã đổi".

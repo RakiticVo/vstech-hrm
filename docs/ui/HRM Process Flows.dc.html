@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap">
+<style>
+body{margin:0;background:#EDEAE2;font-family:Manrope,system-ui,sans-serif}
+a{color:#0F766E;text-decoration:none}a:hover{color:#0A544E}
+.fl-sc{scrollbar-width:thin}
+</style>
+</helmet>
+
+<div style="min-height:100vh;background:{{ pageBg }};color:{{ ink }};padding:34px 38px 90px">
+
+  <div style="display:flex;align-items:flex-end;gap:26px;flex-wrap:wrap">
+    <div style="flex:1;min-width:280px">
+      <div style="font-size:11px;font-weight:800;letter-spacing:1.4px;color:{{ muted }}">HRM · MOBILE · QUY TRÌNH</div>
+      <div style="font-size:30px;font-weight:800;letter-spacing:-.8px;margin-top:7px">{{ title }}</div>
+      <div style="font-size:14px;font-weight:500;color:{{ muted }};margin-top:8px;max-width:720px;line-height:1.55;text-wrap:pretty">{{ subtitle }}</div>
+    </div>
+    <div style="display:flex;gap:10px;flex-wrap:wrap">
+      <sc-for list="{{ controls }}" as="c" hint-placeholder-count="2">
+        <div style="background:{{ cardBg }};border:1px solid {{ lineC }};border-radius:14px;padding:9px 11px">
+          <div style="font-size:9.5px;font-weight:800;letter-spacing:.9px;color:{{ muted }};margin-bottom:7px">{{ c.k }}</div>
+          <div style="display:flex;gap:4px">
+            <sc-for list="{{ c.opts }}" as="o" hint-placeholder-count="2"><div onClick="{{ o.on }}" style="padding:6px 11px;border-radius:9px;font-size:12px;font-weight:700;cursor:pointer;background:{{ o.bg }};color:{{ o.fg }}">{{ o.l }}</div></sc-for>
+          </div>
+        </div>
+      </sc-for>
+    </div>
+  </div>
+
+  <div style="display:flex;flex-wrap:wrap;gap:10px 22px;margin-top:22px;padding:14px 16px;background:{{ cardBg }};border:1px solid {{ lineC }};border-radius:16px">
+    <sc-for list="{{ legendEdges }}" as="lg" hint-placeholder-count="4">
+      <div style="display:flex;align-items:center;gap:8px"><div style="width:30px;height:0;border-top:2.5px {{ lg.style }} {{ lg.c }}"></div><div style="font-size:12px;font-weight:700">{{ lg.l }}</div></div>
+    </sc-for>
+    <div style="width:1px;align-self:stretch;background:{{ lineC }}"></div>
+    <sc-for list="{{ legendTags }}" as="lg" hint-placeholder-count="6">
+      <div style="font-size:10.5px;font-weight:800;padding:3px 8px;border-radius:7px;background:{{ lg.bg }};color:{{ lg.c }}">{{ lg.l }}</div>
+    </sc-for>
+  </div>
+
+  <div style="margin-top:30px">
+    <div style="font-size:11px;font-weight:800;letter-spacing:1.1px;color:{{ muted }};margin-bottom:12px">{{ tocLabel }}</div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:10px">
+      <sc-for list="{{ flows }}" as="f" hint-placeholder-count="14">
+        <a href="{{ f.href }}" style="display:flex;gap:11px;align-items:flex-start;background:{{ cardBg }};border:1px solid {{ lineC }};border-radius:14px;padding:12px 13px;color:{{ ink }}">
+          <div style="font-size:11px;font-weight:800;font-variant-numeric:tabular-nums;background:{{ chipBg }};color:{{ chipFg }};padding:3px 6px;border-radius:6px;flex:none">{{ f.no }}</div>
+          <div style="min-width:0"><div style="font-size:13.5px;font-weight:800;line-height:1.3">{{ f.title }}</div><div style="font-size:11.5px;font-weight:600;color:{{ muted }};margin-top:3px">{{ f.meta }}</div></div>
+        </a>
+      </sc-for>
+      <a href="#f-more" style="display:flex;gap:11px;align-items:flex-start;background:transparent;border:1.5px dashed {{ lineC }};border-radius:14px;padding:12px 13px;color:{{ ink }}">
+        <div style="font-size:11px;font-weight:800;background:#F59E0B;color:#111827;padding:3px 6px;border-radius:6px;flex:none">+</div>
+        <div style="min-width:0"><div style="font-size:13.5px;font-weight:800;line-height:1.3">{{ moreTitle }}</div><div style="font-size:11.5px;font-weight:600;color:{{ muted }};margin-top:3px">{{ moreMeta }}</div></div>
+      </a>
+    </div>
+  </div>
+
+  <sc-for list="{{ flows }}" as="f" hint-placeholder-count="2">
+    <section id="{{ f.anchor }}" data-flow="{{ f.id }}" style="margin-top:60px">
+      <div style="display:flex;align-items:flex-start;gap:14px;flex-wrap:wrap;margin-bottom:14px">
+        <div style="font-size:13px;font-weight:800;font-variant-numeric:tabular-nums;background:{{ chipBg }};color:{{ chipFg }};padding:5px 9px;border-radius:8px;flex:none;margin-top:3px">{{ f.no }}</div>
+        <div style="flex:1;min-width:260px">
+          <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap"><div style="font-size:22px;font-weight:800;letter-spacing:-.5px">{{ f.title }}</div><sc-if value="{{ f.isNew }}"><div style="font-size:10.5px;font-weight:800;padding:3px 8px;border-radius:7px;background:#FDE7C2;color:#B45309">{{ newTag }}</div></sc-if></div>
+          <div style="font-size:13.5px;font-weight:500;color:{{ muted }};margin-top:5px;max-width:820px;line-height:1.55;text-wrap:pretty">{{ f.sum }}</div>
+          <div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:10px">
+            <div style="font-size:11.5px;font-weight:700;color:{{ muted }};padding:4px 0">{{ entryL }}</div>
+            <sc-for list="{{ f.entry }}" as="en" hint-placeholder-count="2"><div style="font-size:11.5px;font-weight:700;padding:4px 9px;border-radius:8px;background:{{ cardBg }};border:1px solid {{ lineC }}">{{ en }}</div></sc-for>
+          </div>
+        </div>
+      </div>
+      <div class="fl-sc" style="overflow-x:auto;background:{{ cardBg }};border:1px solid {{ lineC }};border-radius:20px">
+        <div style="position:relative;width:{{ f.w }};height:{{ f.h }}">
+          <sc-for list="{{ f.lanes }}" as="ln" hint-placeholder-count="2">
+            <div style="position:absolute;left:0;right:0;top:{{ ln.y }};height:{{ ln.h }};background:{{ ln.bg }};border-top:1px solid {{ ln.bd }}">
+              <div style="position:sticky;left:0;width:104px;padding:16px 12px;z-index:3;background:{{ ln.labelBg }}">
+                <div style="width:22px;height:4px;border-radius:2px;background:{{ ln.c }}"></div>
+                <div style="font-size:12.5px;font-weight:800;margin-top:8px;line-height:1.3">{{ ln.l }}</div>
+                <div style="font-size:10.5px;font-weight:600;color:{{ muted }};margin-top:3px;line-height:1.35">{{ ln.sub }}</div>
+              </div>
+            </div>
+          </sc-for>
+          <div style="position:absolute;left:0;top:0;right:0;bottom:0;pointer-events:none;z-index:1" dangerouslySetInnerHTML="{{ f.svg }}"></div>
+          <sc-for list="{{ f.nodes }}" as="n" hint-placeholder-count="6">
+            <div style="position:absolute;left:{{ n.x }};top:{{ n.y }};width:176px;z-index:2">
+              <div style="height:34px;display:flex;align-items:flex-start;gap:6px;padding:0 4px">
+                <div style="font-size:12px;font-weight:800;line-height:1.3;flex:1;min-width:0">{{ n.t }}</div>
+                <sc-if value="{{ n.tag }}"><div style="font-size:9.5px;font-weight:800;padding:3px 6px;border-radius:6px;background:{{ n.tagBg }};color:{{ n.tagC }};flex:none;white-space:nowrap">{{ n.tag }}</div></sc-if>
+              </div>
+              <sc-if value="{{ n.isScreen }}">
+                <div style="margin-left:10px;width:156px;height:338px;border-radius:22px;overflow:hidden;background:{{ bezel }};box-shadow:0 0 0 {{ n.ring }} {{ n.ringC }}">
+                  <sc-if value="{{ n.show }}">
+                    <div style="width:390px;height:844px;transform:scale(.4);transform-origin:top left">
+                      <dc-import name="Phone" screen="{{ n.s }}" lang="{{ lang }}" theme="{{ theme }}" role="{{ n.role }}" att="{{ n.att }}" month="{{ n.month }}" net="{{ n.net }}" pending="{{ n.pending }}" sync="{{ n.sync }}" face-phase="{{ n.facePhase }}" face-result="{{ n.faceResult }}" security="{{ n.security }}" view="{{ n.view }}" lock="{{ n.lock }}" sign="{{ n.sign }}" rtab="{{ n.rtab }}" cperiod="{{ n.cperiod }}" sel="{{ n.sel }}" doc="{{ n.doc }}" appr="{{ n.appr }}" apsheet="{{ n.apsheet }}" swap="{{ n.swap }}" day="{{ n.day }}" hint-size="390px,844px"></dc-import>
+                    </div>
+                  </sc-if>
+                </div>
+              </sc-if>
+              <sc-if value="{{ n.isSys }}">
+                <div style="height:338px;display:flex;align-items:center">
+                  <div style="margin-left:10px;width:156px;min-height:120px;border-radius:16px;border:1.5px dashed {{ n.sysBd }};background:{{ n.sysBg }};padding:13px 12px;display:flex;flex-direction:column;justify-content:center">
+                    <div style="font-size:10px;font-weight:800;letter-spacing:.8px;color:{{ muted }}">{{ n.sysK }}</div>
+                    <div style="font-size:13px;font-weight:800;margin-top:5px;line-height:1.35">{{ n.t }}</div>
+                  </div>
+                </div>
+              </sc-if>
+              <div style="padding:10px 4px 0;display:flex;flex-direction:column;gap:6px">
+                <sc-if value="{{ n.hasCond }}">
+                  <div style="display:flex;flex-direction:column;gap:4px">
+                    <sc-for list="{{ n.conds }}" as="cd" hint-placeholder-count="1">
+                      <div style="display:flex;align-items:baseline;gap:6px;font-size:11px;line-height:1.35"><span style="font-weight:800;color:{{ cd.c }}">↳ {{ cd.l }}</span><span style="font-weight:600;color:{{ muted }}">{{ cd.src }}</span></div>
+                    </sc-for>
+                  </div>
+                </sc-if>
+                <sc-if value="{{ n.code }}"><div style="align-self:flex-start;font-family:ui-monospace,Menlo,monospace;font-size:10.5px;font-weight:600;padding:2px 6px;border-radius:5px;background:{{ codeBg }};color:{{ codeC }};word-break:break-all">{{ n.code }}</div></sc-if>
+                <sc-if value="{{ n.act }}"><div style="font-size:11.5px;font-weight:700;line-height:1.4"><span style="color:{{ priC }}">{{ actL }}</span> {{ n.act }}</div></sc-if>
+                <sc-if value="{{ n.rule }}"><div style="font-size:11px;font-weight:600;line-height:1.4;color:{{ muted }}"><span style="font-weight:800;color:{{ accC }}">{{ ruleL }}</span> {{ n.rule }}</div></sc-if>
+                <sc-if value="{{ n.data }}"><div style="font-size:11px;font-weight:600;line-height:1.4;color:{{ muted }}"><span style="font-weight:800;color:{{ ink }}">{{ dataL }}</span> {{ n.data }}</div></sc-if>
+              </div>
+            </div>
+          </sc-for>
+        </div>
+      </div>
+    </section>
+  </sc-for>
+
+  <section id="f-more" style="margin-top:64px">
+    <div style="display:flex;align-items:center;gap:12px"><div style="font-size:13px;font-weight:800;background:#F59E0B;color:#111827;padding:5px 9px;border-radius:8px">+</div><div style="font-size:22px;font-weight:800;letter-spacing:-.5px">{{ moreTitle }}</div></div>
+    <div style="font-size:13.5px;font-weight:500;color:{{ muted }};margin-top:6px;max-width:820px;line-height:1.55">{{ moreSub }}</div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:12px;margin-top:16px">
+      <sc-for list="{{ more }}" as="m" hint-placeholder-count="8">
+        <div style="background:{{ cardBg }};border:1px solid {{ lineC }};border-radius:16px;padding:15px 16px">
+          <div style="display:flex;align-items:center;gap:8px"><div style="font-size:14px;font-weight:800;flex:1">{{ m.t }}</div><div style="font-size:10px;font-weight:800;padding:3px 7px;border-radius:6px;background:{{ m.pBg }};color:{{ m.pC }}">{{ m.p }}</div></div>
+          <div style="font-size:12.5px;font-weight:500;color:{{ muted }};margin-top:6px;line-height:1.5">{{ m.d }}</div>
+          <div style="font-size:11px;font-weight:700;color:{{ muted }};margin-top:9px">{{ m.r }}</div>
+        </div>
+      </sc-for>
+    </div>
+  </section>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+const FL_LANES={emp:['Nhân viên','Employee','App di động'],mgr:['Quản lý','Manager','Vai trò Quản lý'],exec:['Giám đốc','Executive','Vai trò Giám đốc'],hr:['Nhân sự','HR','Web admin, ngoài app'],cand:['Ứng viên mới','New hire','Trước ngày đầu'],sys:['Hệ thống','System','Tự động']};
+const FL_ROLE={emp:'employee',mgr:'manager',exec:'exec',cand:'candidate'};
+// node: [id,lane,col,row,screen|null,props|null,title,act,rule,data,tag]
+// edge: [from,to,kind(main|branch|hand|back),label]
+const FLOWS=[
+ {id:'att',t:'Đăng nhập & chấm công',sum:'Từ mở app tới lượt chấm được máy chủ ghi nhận. Chấm công đi qua 3 lớp xác thực; mất mạng thì lưu trên máy rồi đồng bộ sau.',entry:['Mở app','Trang chủ · Chấm công vào','Tab Chấm công'],lanes:['emp','sys'],
+  n:[['a1','emp',0,0,'splash',null,'Mở app','Mở ứng dụng','Còn phiên đăng nhập → vào thẳng Trang chủ','kiểm tra token',null],
+   ['a2','emp',1,0,'login',null,'Đăng nhập','Nhập mã NV, xác thực Face ID','Sai 5 lần → khoá 15 phút','tạo phiên trên thiết bị đã đăng ký',null],
+   ['a3','emp',2,0,'home',{att:'out'},'Trang chủ','Bấm Chấm công vào','Chỉ hiện khi hôm nay có ca','att: out',null],
+   ['a4','emp',3,0,'facescan',{facePhase:'wifi'},'Xác thực 3 lớp','Nhìn camera, giữ yên','Khuôn mặt + người thật → GPS trong vùng cửa hàng → Wi-Fi BSSID','',null],
+   ['a5','emp',4,0,'facescan',{facePhase:'done'},'Kết quả · đúng giờ','Bấm Xong','Trước 08:05 là đúng giờ','punch in 07:56 · ontime',null],
+   ['a6','emp',5,0,'attendance',{att:'in'},'Nhật ký công','Xem giờ đã làm','','att: in',null],
+   ['a7','emp',6,0,'facescan',{facePhase:'done',faceResult:'early'},'Chấm ra · về sớm','Chấm ra trước 17:00','Ra trước giờ kết thúc ca là về sớm','punch out 16:34 · early','warn'],
+   ['a8','emp',4,1,'facescan',{facePhase:'done',faceResult:'late'},'Kết quả · đi muộn','','Sau 08:05 là muộn, trừ theo quy chế','punch in 08:12 · late','warn'],
+   ['a9','emp',3,1,'device-block',{security:'mock'},'Chặn · GPS giả','Tắt ứng dụng giả lập vị trí','Phát hiện GPS giả hoặc root → khoá chấm công','ghi log bảo mật','error'],
+   ['a10','emp',4,2,'facescan',{facePhase:'done',net:'offline'},'Chấm ngoại tuyến','Vẫn xác thực trên máy','Lưu tối đa 72 giờ trên máy','queue +1','offline'],
+   ['a11','emp',5,2,'attendance',{net:'offline',pending:2},'Chưa đồng bộ','Bấm Đồng bộ ngay','Tự gửi khi có mạng','queue: 2 lượt','offline'],
+   ['a12','emp',6,2,'attendance',{sync:'done'},'Đã đồng bộ','','','queue: 0',null],
+   ['a13','sys',6,0,null,null,'Máy chủ ghi nhận lượt chấm','','','tính công ngày, đối chiếu ca',null]],
+  e:[['a1','a2','main'],['a2','a3','main'],['a3','a4','main'],['a4','a5','main','Hợp lệ'],['a5','a6','main'],['a6','a7','main','Cuối ca'],['a4','a8','branch','Sau 08:05'],['a4','a9','branch','GPS giả'],['a4','a10','branch','Mất mạng'],['a10','a11','main'],['a11','a12','main','Có mạng'],['a6','a13','hand','Gửi lượt chấm'],['a12','a13','hand']]},
+ {id:'cal',t:'Lịch công tháng & ngày lễ',isNew:true,sum:'Xem công cả tháng theo 5 màu trạng thái, lịch nghỉ lễ cả năm; ngày thiếu công dẫn thẳng sang sửa công.',entry:['Tab Chấm công','Tất cả dịch vụ'],lanes:['emp'],
+  n:[['c1','emp',0,0,'attendance',null,'Chấm công','Bấm Lịch tháng','','',null],
+   ['c2','emp',1,0,'calendar',null,'Lịch công tháng','Bấm một ngày','5 màu: đủ công, muộn, thiếu, nghỉ phép, lễ','',null],
+   ['c3','emp',2,0,'holidays',null,'Ngày lễ','Xem lịch nghỉ cả năm','Ngày lễ tính tăng ca 300%','',null],
+   ['c4','emp',2,1,'correction-new',null,'Sửa công ngày thiếu','Chọn ngày đỏ → tạo yêu cầu','','',null]],
+  e:[['c1','c2','main'],['c2','c3','main','Ngày lễ'],['c2','c4','branch','Ngày thiếu công']]},
+ {id:'shift',t:'Lịch ca & đổi ca',sum:'Nhân viên xem lịch ca, chọn một ngày sắp tới để đổi với đồng nghiệp cùng chi nhánh, cùng cấp. Quản lý duyệt là có hiệu lực, lịch hai người cùng cập nhật.',entry:['Trang chủ · Ca hôm nay','Tất cả dịch vụ','Tab Yêu cầu · Đổi ca'],lanes:['emp','mgr'],
+  n:[['s1','emp',0,0,'home',null,'Trang chủ','Bấm thẻ Ca hôm nay','','',null],
+   ['s2','emp',1,0,'shifts',null,'Lịch ca','Xem 7 ngày và lưới tháng','5 loại ca có màu riêng','',null],
+   ['s3','emp',2,0,'shifts',{day:18},'Chọn 18/09','Bấm Đổi ca','Chỉ ngày sắp tới chưa có yêu cầu đổi','',null],
+   ['s4','emp',3,0,'shifts',{day:18,swap:'ok'},'Chọn đồng nghiệp','Chọn Hương, nhập lý do, Gửi','Cùng chi nhánh, cùng cấp · đủ 11 giờ nghỉ · ≤ 48 giờ/tuần','',null],
+   ['s5','emp',4,0,'swaps',null,'Đổi ca · quản lý','Theo dõi yêu cầu','','swap: pending · bước 1',null],
+   ['s6','mgr',5,0,'approvals',null,'Hộp duyệt','Lọc Đổi ca, mở thẻ','','',null],
+   ['s7','mgr',6,0,'request-detail',{sel:'RQ-2026-0933',appr:true},'Duyệt đổi ca','Xem lịch hai người, bấm Duyệt','Quản lý duyệt là xong; HR, Giám đốc không cần','swap: approved',null],
+   ['s8','emp',7,0,'shifts',{day:12},'Lịch đã đổi','Mở lại lịch ca','','ngày đổi có nhãn Đã đổi ở cả hai lịch',null],
+   ['s9','emp',1,1,'shifts',{view:'loading'},'Đang tải','','','','loading'],
+   ['s10','emp',1,2,'shifts',{view:'error'},'Lỗi mạng','Bấm Thử lại','','','error'],
+   ['s11','emp',2,1,'shifts',{view:'empty'},'Tháng chưa công bố','Quay lại tháng này','Lịch tháng sau công bố ngày 25','','empty'],
+   ['s12','emp',3,1,'shifts',{day:18,swap:'conflict'},'Xung đột','Chọn người khác','Nghỉ phép, cùng ca hoặc thiếu giờ nghỉ → không gửi được','','conflict'],
+   ['s13','mgr',6,1,'request-detail',{sel:'RQ-2026-0933',appr:true,apsheet:'reject'},'Từ chối','Nhập lý do, bấm Từ chối','Bắt buộc có lý do','swap: rejected','reject']],
+  e:[['s1','s2','main'],['s2','s3','main'],['s3','s4','main'],['s4','s5','main','Gửi'],['s5','s6','hand','Báo quản lý'],['s6','s7','main'],['s7','s8','hand','Đã duyệt'],['s2','s9','branch'],['s2','s10','branch','Mất mạng'],['s2','s11','branch','Tháng sau'],['s4','s12','branch','Không hợp lệ'],['s7','s13','branch','Từ chối']]},
+ {id:'leave',t:'Nghỉ phép',sum:'Tạo đơn trên màn quản lý, gửi qua 4 bước Nhân viên → Quản lý → Nhân sự → Giám đốc. Giám đốc chỉ duyệt đơn trên 10 ngày.',entry:['Trang chủ · Nghỉ phép','Tab Yêu cầu','Tất cả dịch vụ'],lanes:['emp','mgr','hr','exec'],
+  n:[['l1','emp',0,0,'home',null,'Trang chủ','Bấm Nghỉ phép','','',null],
+   ['l2','emp',1,0,'leave',null,'Quản lý nghỉ phép','Xem số phép, bấm Tạo yêu cầu','','',null],
+   ['l3','emp',2,0,'leave-new',null,'Tạo đơn','Chọn loại, ngày, người thay, Gửi','Không tính cuối tuần · không vượt số phép còn lại','',null],
+   ['l4','emp',3,0,'request-sent',null,'Gửi thành công','Bấm Về danh sách','','leave: pending · bước 1',null],
+   ['l5','emp',4,0,'request-detail',{sel:'RQ-2026-0918'},'Chi tiết · chờ duyệt','Có thể Huỷ yêu cầu','Chỉ huỷ được khi còn Chờ duyệt','huỷ → cancelled',null],
+   ['l6','mgr',4,0,'approvals',null,'Hộp duyệt','Mở thẻ nghỉ phép','','',null],
+   ['l7','mgr',5,0,'request-detail',{sel:'RQ-2026-0934',appr:true},'Xem & quyết định','Xem chấm công ngày nghỉ, ghi chú nội bộ','','',null],
+   ['l8','mgr',6,0,'request-detail',{sel:'RQ-2026-0934',appr:true,apsheet:'approve'},'Xác nhận duyệt','Bấm Duyệt','','bước 1 → 2',null],
+   ['l9','hr',7,0,null,null,'Kiểm tra quỹ phép, trừ phép năm','','Nghỉ ốm cần giấy bệnh viện','bước 2 → 3 hoặc hoàn tất',null],
+   ['l10','exec',8,0,'final',null,'Phê duyệt cuối','Duyệt hoặc từ chối','Chỉ đơn nghỉ trên 10 ngày','bước 3 → approved',null],
+   ['l11','emp',9,0,'request-detail',{sel:'RQ-2026-0874'},'Kết quả · đã duyệt','Nhận thông báo, xem chi tiết','','lịch công ghi Nghỉ phép',null],
+   ['l12','emp',1,1,'leave',{month:9},'Tháng rỗng','Chọn tháng khác','','','empty'],
+   ['l13','emp',3,1,'leave',null,'Lưu nháp','Bấm Lưu nháp','Nháp không gửi cho ai','leave: draft','draft'],
+   ['l14','mgr',6,1,'request-detail',{sel:'RQ-2026-0934',appr:true,apsheet:'reject'},'Từ chối','Chọn hoặc nhập lý do','Nút Từ chối chỉ bật khi có lý do','leave: rejected','reject'],
+   ['l15','emp',9,1,'request-detail',{sel:'RQ-2026-0802'},'Kết quả · từ chối','Đọc ý kiến quản lý','','','reject']],
+  e:[['l1','l2','main'],['l2','l3','main'],['l3','l4','main','Gửi'],['l4','l5','main'],['l4','l6','hand','Báo quản lý'],['l6','l7','main'],['l7','l8','main'],['l8','l9','hand'],['l9','l10','hand','> 10 ngày'],['l9','l11','hand','Đơn thường'],['l10','l11','hand'],['l2','l12','branch'],['l3','l13','branch','Lưu nháp'],['l7','l14','branch','Từ chối'],['l14','l15','hand']]},
+ {id:'ot',t:'Tăng ca',sum:'Đăng ký tăng ca, hệ số tự tính theo lịch công ty; sau khi duyệt, giờ tăng ca vào kỳ lương tháng.',entry:['Trang chủ · Tăng ca','Tab Yêu cầu'],lanes:['emp','mgr','hr'],
+  n:[['o1','emp',0,0,'home',null,'Trang chủ','Bấm Tăng ca','','',null],
+   ['o2','emp',1,0,'overtime',null,'Quản lý tăng ca','Xem giờ tháng, bấm Tạo yêu cầu','','',null],
+   ['o3','emp',2,0,'overtime-new',null,'Đăng ký','Chọn ngày, khung giờ, Gửi','Ngày thường 150%, cuối tuần 200%, lễ 300% · trần 40 giờ/tháng','',null],
+   ['o4','emp',3,0,'request-sent',null,'Gửi thành công','','','ot: pending · bước 1',null],
+   ['o5','mgr',4,0,'approvals',null,'Hộp duyệt','Lọc Tăng ca','','',null],
+   ['o6','mgr',5,0,'request-detail',{sel:'RQ-2026-0932',appr:true},'Duyệt tăng ca','Xem giờ ra thực tế, bấm Duyệt','','bước 1 → 2',null],
+   ['o7','hr',6,0,null,null,'Đối chiếu trần giờ tăng ca','','Vượt ngân sách → chuyển Giám đốc','bước 2 → approved',null],
+   ['o8','emp',7,0,'request-detail',{sel:'RQ-2026-0896'},'Kết quả · đã duyệt','','','',null],
+   ['o9','emp',8,0,'payroll',null,'Vào lương tháng','Xem dòng tăng ca','','giờ × hệ số vào kỳ lương',null],
+   ['o10','emp',1,1,'overtime',{month:9},'Tháng rỗng','Chọn tháng khác','','','empty'],
+   ['o11','mgr',5,1,'request-detail',{sel:'RQ-2026-0932',appr:true,apsheet:'reject'},'Từ chối','Nhập lý do','','ot: rejected','reject']],
+  e:[['o1','o2','main'],['o2','o3','main'],['o3','o4','main','Gửi'],['o4','o5','hand','Báo quản lý'],['o5','o6','main'],['o6','o7','hand'],['o7','o8','hand'],['o8','o9','main'],['o2','o10','branch'],['o6','o11','branch','Từ chối']]},
+ {id:'fix',t:'Sửa công',sum:'Ngày thiếu giờ vào/ra hoặc máy chấm công lỗi: nhân viên gửi giờ đúng kèm ảnh, quản lý đối chiếu, HR cập nhật bảng công.',entry:['Lịch công · ngày đỏ','Trang chủ · Sửa công','Thông báo thiếu công'],lanes:['emp','mgr','hr'],
+  n:[['k1','emp',0,0,'calendar',null,'Lịch công','Bấm ngày thiếu công','Ngày thiếu giờ hiện màu đỏ','',null],
+   ['k2','emp',1,0,'correction',null,'Quản lý sửa công','Bấm Tạo yêu cầu','','',null],
+   ['k3','emp',2,0,'correction-new',null,'Tạo yêu cầu','Chọn ngày, vấn đề, giờ đúng, ảnh','Tối đa 3 lần/tháng · gửi trước ngày 20','',null],
+   ['k4','emp',3,0,'request-sent',null,'Gửi thành công','','','fix: pending · bước 1',null],
+   ['k5','mgr',4,0,'approvals',null,'Hộp duyệt','Lọc Sửa công','','',null],
+   ['k6','mgr',5,0,'request-detail',{sel:'RQ-2026-0929',appr:true},'Đối chiếu','Xem giờ chấm thực tế, ảnh log, Duyệt','','bước 1 → 2',null],
+   ['k7','hr',6,0,null,null,'Cập nhật bảng công','','','giờ vào/ra được thay trong bảng công',null],
+   ['k8','emp',7,0,'request-detail',{sel:'RQ-2026-0905'},'Kết quả · đã duyệt','','','',null],
+   ['k9','mgr',5,1,'request-detail',{sel:'RQ-2026-0929',appr:true,apsheet:'reject'},'Từ chối','Nhập lý do','Không khớp log bảo vệ','fix: rejected','reject'],
+   ['k10','emp',7,1,'request-detail',{sel:'RQ-2026-0809'},'Kết quả · từ chối','Gửi lại với giờ đúng','','','reject']],
+  e:[['k1','k2','main'],['k2','k3','main'],['k3','k4','main','Gửi'],['k4','k5','hand','Báo quản lý'],['k5','k6','main'],['k6','k7','hand'],['k7','k8','hand'],['k6','k9','branch','Từ chối'],['k9','k10','hand']]},
+ {id:'appr',t:'Phê duyệt của quản lý',sum:'Một hộp duyệt cho mọi loại yêu cầu, đọc cùng dữ liệu với tab Yêu cầu. Mỗi lần duyệt hoặc từ chối cập nhật badge, dải Trang chủ và thanh tiến độ phía nhân viên.',entry:['Trang chủ · dải Chờ duyệt','Tab đáy Phê duyệt'],lanes:['mgr','emp'],
+  n:[['p1','mgr',0,0,'home',null,'Trang chủ quản lý','Bấm dải Chờ duyệt','Số trên dải = số đơn chờ bạn','',null],
+   ['p2','mgr',1,0,'approvals',null,'Hộp duyệt','Chọn tab trạng thái, lọc loại','Cùng dữ liệu với tab Yêu cầu','',null],
+   ['p3','mgr',2,0,'request-detail',{sel:'RQ-2026-0934',appr:true},'Chế độ người duyệt','Đọc thông tin, chấm công, ghi chú nội bộ','Ghi chú nội bộ không gửi cho nhân viên','',null],
+   ['p4','mgr',3,0,'request-detail',{sel:'RQ-2026-0934',appr:true,apsheet:'approve'},'Xác nhận duyệt','Bấm Duyệt','','bước 1 → 2 · badge −1',null],
+   ['p5','mgr',4,0,'approvals',{view:'empty'},'Đã xử lý hết','','','badge và dải Trang chủ về 0','empty'],
+   ['p6','mgr',3,1,'request-detail',{sel:'RQ-2026-0934',appr:true,apsheet:'reject'},'Từ chối','Nhập lý do','Bắt buộc có lý do','status → rejected','reject'],
+   ['p7','mgr',2,1,'request-detail',{sel:'RQ-2026-0930',appr:true},'Loại · khiếu nại lương','Xem dòng lương và chênh lệch','','',null],
+   ['p8','mgr',2,2,'request-detail',{sel:'RQ-2026-0933',appr:true},'Loại · đổi ca','Xem lịch hai người','Duyệt là có hiệu lực ngay','',null],
+   ['p9','emp',5,0,'request-detail',{sel:'RQ-2026-0874'},'Nhân viên thấy kết quả','Nhận thông báo','','thanh tiến độ chuyển bước',null]],
+  e:[['p1','p2','main'],['p2','p3','main'],['p3','p4','main'],['p4','p5','main','Hết đơn'],['p3','p6','branch','Từ chối'],['p2','p7','main','Loại khác'],['p2','p8','main'],['p4','p9','hand'],['p6','p9','hand']]},
+ {id:'exec',t:'Điều hành (Giám đốc)',isNew:true,sum:'Giám đốc xem số toàn công ty, duyệt cấp cuối các yêu cầu vượt ngưỡng, giao việc rủi ro cho HR và ủy quyền khi vắng mặt.',entry:['Trang chủ Giám đốc','Tab đáy Phê duyệt cuối'],lanes:['exec','hr'],
+  n:[['e1','exec',0,0,'exec',null,'Bảng điều hành','Xem số toàn công ty, việc cần chú ý','','',null],
+   ['e2','exec',1,0,'final',null,'Phê duyệt cuối','Duyệt hoặc từ chối kèm tác động ngân sách','Chỉ yêu cầu vượt ngưỡng: nghỉ > 10 ngày, tăng ca vượt ngân sách, tuyển thêm','bước 3 → approved',null],
+   ['e3','exec',2,0,'delegate',null,'Ủy quyền','Chọn người, phạm vi, thời hạn','Có hạn, thu hồi được bất cứ lúc nào','',null],
+   ['e4','exec',1,1,'risk',null,'Rủi ro & tuân thủ','Giao việc cho HR','','',null],
+   ['e5','hr',2,1,null,null,'HR xử lý cảnh báo','','','báo lại cho Giám đốc',null]],
+  e:[['e1','e2','main'],['e2','e3','main','Vắng mặt'],['e1','e4','branch','Cảnh báo'],['e4','e5','hand','Giao việc']]},
+ {id:'pay',t:'Lương, phiếu lương & khiếu nại',sum:'Phiếu lương mở sau cổng sinh trắc học, ký điện tử khi đúng. Dòng nào sai thì bấm vào để khiếu nại; khiếu nại đi theo mẫu yêu cầu chung.',entry:['Tab Lương','Thông báo phiếu lương','Tất cả dịch vụ'],lanes:['sys','emp','mgr','hr'],
+  n:[['w0','sys',0,0,null,null,'Chốt lương ngày 25','','','phát hành phiếu, gửi thông báo',null],
+   ['w1','emp',1,0,'payroll',null,'Lương','Bấm Xem phiếu lương','','',null],
+   ['w2','emp',2,0,'payslip-lock',null,'Xác thực','Face ID, vân tay hoặc PIN','Bắt buộc mỗi lần mở','',null],
+   ['w3','emp',3,0,'payslip',null,'Phiếu lương','Kiểm tra từng dòng','Chặn chụp màn hình · tự khoá sau 2 phút','',null],
+   ['w4','emp',4,0,'payslip',{sign:'pad'},'Ký xác nhận','Ký bằng ngón tay','Chỉ ký khi không có dòng sai','',null],
+   ['w5','emp',5,0,'payslip',{sign:'done'},'Đã ký','','','lưu thời điểm + mã xác thực',null],
+   ['w6','emp',2,1,'payslip-lock',{lock:'pin'},'Mã PIN','Nhập 6 số','','',null],
+   ['w7','emp',2,2,'payslip-lock',{lock:'fail'},'Không nhận diện','Thử lại hoặc dùng PIN','','','error'],
+   ['w8','emp',4,1,'dispute-new',null,'Khiếu nại dòng sai','Nhập giá trị đúng, bằng chứng, Gửi','Chênh lệch tự tính','',null],
+   ['w9','emp',5,1,'dispute',null,'Khiếu nại · quản lý','Theo dõi trạng thái','','pay: pending · bước 1',null],
+   ['w10','mgr',6,0,'request-detail',{sel:'RQ-2026-0930',appr:true},'Quản lý xác nhận','So sánh trên phiếu và đề nghị, Duyệt','','bước 1 → 2',null],
+   ['w11','hr',7,0,null,null,'HR tính lại lương','','Đúng → bổ sung vào kỳ sau','bước 2 → approved',null],
+   ['w12','emp',8,0,'request-detail',{sel:'RQ-2026-0891'},'Kết quả khiếu nại','Xem khoản được bổ sung','','',null]],
+  e:[['w0','w1','hand','Thông báo'],['w1','w2','main'],['w2','w3','main','Khớp'],['w3','w4','main','Đúng hết'],['w4','w5','main'],['w2','w6','branch','Không dùng sinh trắc'],['w2','w7','branch','Không khớp'],['w6','w3','back'],['w3','w8','branch','Dòng sai'],['w8','w9','main','Gửi'],['w9','w10','hand','Báo quản lý'],['w10','w11','hand'],['w11','w12','hand']]},
+ {id:'bonus',t:'Thưởng, hoa hồng & chỉ tiêu',sum:'Một màn Thưởng với ba tab. Hoa hồng chia 3 nguồn và xem theo giao dịch, ngày, tuần, tháng; chỉ tiêu so tiến độ với mốc 80/100/120%.',entry:['Tab Lương · Thưởng','Tất cả dịch vụ · Hoa hồng, Chỉ tiêu'],lanes:['emp','sys'],
+  n:[['b1','emp',0,0,'bonus',null,'Thưởng','Xem vì sao được thưởng','','',null],
+   ['b2','emp',1,0,'bonus',{rtab:1},'Hoa hồng · giao dịch','Chuyển tab Hoa hồng','3 nguồn: doanh thu chi nhánh, mặt hàng mục tiêu, hợp đồng mới','',null],
+   ['b3','emp',2,0,'bonus',{rtab:1,cperiod:2},'Hoa hồng · theo tuần','Chọn Ngày / Tuần / Tháng','','',null],
+   ['b4','emp',3,0,'bonus',{rtab:2},'Chỉ tiêu tháng','Xem tiến độ cá nhân và nhóm','Thưởng theo mốc 80 / 100 / 120%','',null],
+   ['b5','sys',4,0,null,null,'Chốt số liệu ngày 30','','','thưởng, hoa hồng vào kỳ lương',null],
+   ['b6','emp',5,0,'payroll',null,'Lương tháng','Xem khoản thưởng','','',null]],
+  e:[['b1','b2','main'],['b2','b3','main'],['b3','b4','main'],['b4','b5','hand'],['b5','b6','hand']]},
+ {id:'rec',t:'Giới thiệu ứng viên & tuyển dụng nội bộ',sum:'Nhân viên xem vị trí mở, ứng tuyển hoặc giới thiệu người quen. HR xử lý tuyển dụng; thưởng giới thiệu kích hoạt khi ứng viên ký hợp đồng chính thức.',entry:['Tất cả dịch vụ','Cá nhân · Tuyển dụng nội bộ'],lanes:['emp','hr'],
+  n:[['r1','emp',0,0,'services',null,'Tất cả dịch vụ','Bấm Tuyển dụng nội bộ','','',null],
+   ['r2','emp',1,0,'jobs',null,'Vị trí đang mở','Bấm một vị trí','','',null],
+   ['r3','emp',2,0,'job',null,'Chi tiết vị trí','Bấm Giới thiệu','','',null],
+   ['r4','emp',3,0,'refer',null,'Form giới thiệu','Nhập tên, SĐT, vị trí, chi nhánh, CV','Bắt buộc tên và SĐT · chưa có hồ sơ trong 6 tháng','',null],
+   ['r5','emp',4,0,'refer-sent',null,'Đã gửi','Bấm Xem giới thiệu của tôi','','referral: received',null],
+   ['r6','emp',5,0,'referrals',null,'Giới thiệu của tôi','Theo dõi 4 bước, chia sẻ link/QR','Link tính cho bạn trong 90 ngày','',null],
+   ['r7','hr',5,0,null,null,'Sàng lọc & phỏng vấn','','','received → interview → probation',null],
+   ['r8','hr',6,0,null,null,'Ký hợp đồng chính thức','','Kích hoạt thưởng 3.000.000 ₫','hired · bonus triggered',null],
+   ['r9','emp',7,0,'referrals',null,'Thưởng hiện trên thẻ','','','trả cùng lương tháng',null],
+   ['r10','emp',3,1,'success',null,'Ứng tuyển nội bộ','Bấm Ứng tuyển','','',null],
+   ['r11','emp',6,1,'referrals',{view:'loading'},'Đang tải','','','','loading'],
+   ['r12','emp',6,2,'referrals',{view:'error'},'Lỗi mạng','Bấm Thử lại','Link vẫn dùng được','','error'],
+   ['r13','emp',7,1,'referrals',{view:'empty'},'Chưa giới thiệu ai','Chia sẻ link hoặc QR','','','empty']],
+  e:[['r1','r2','main'],['r2','r3','main'],['r3','r4','main','Giới thiệu'],['r4','r5','main','Gửi'],['r5','r6','main'],['r3','r10','branch','Ứng tuyển'],['r5','r7','hand','Gửi HR'],['r7','r8','main'],['r8','r9','hand'],['r6','r11','branch'],['r6','r12','branch','Mất mạng'],['r6','r13','branch','Chưa có ai']]},
+ {id:'ob',t:'Hội nhập ứng viên mới',sum:'Ứng viên đã nhận việc dùng app ở vai trò Ứng viên mới: đọc thư, xem sơ đồ, nộp giấy tờ bằng OCR, ký NDA và nội quy, chuẩn bị ngày đầu.',entry:['Thư mời nhận việc (link)','Vai trò Ứng viên mới'],lanes:['hr','cand'],
+  n:[['h0','hr',0,0,null,null,'Gửi thư mời nhận việc','','','tạo tài khoản Ứng viên mới',null],
+   ['h1','cand',1,0,'onboard',null,'Trang hội nhập','Xem đếm ngược và 5 việc','','',null],
+   ['h2','cand',2,0,'ob-letter',null,'Thư chào mừng','Đọc thư','','task letter: done',null],
+   ['h3','cand',3,0,'ob-org',null,'Sơ đồ tổ chức','Xem quản lý, mentor, nhóm','','task org: done',null],
+   ['h4','cand',4,0,'ob-docs',null,'Giấy tờ','Chọn giấy tờ chưa nộp','Hạn 28/09','',null],
+   ['h5','cand',5,0,'ob-capture',{doc:'cccd'},'Chụp CCCD','Chụp mặt trước, mặt sau','Tự chụp khi rõ nét · đọc chip NFC','',null],
+   ['h6','cand',6,0,'ob-ocr',{doc:'cccd'},'Kiểm tra OCR','Sửa ô viền cam, Xác nhận','Ô độ tin cậy thấp phải xem lại','doc: review → done',null],
+   ['h7','cand',7,0,'ob-sign',null,'Ký NDA & nội quy','Đánh dấu đã đọc, ký','Phải đánh dấu đã đọc trước khi ký','lưu thời điểm + mã',null],
+   ['h8','cand',8,0,'ob-day1',null,'Ngày đầu tiên','Xem lịch trình, đánh dấu đồ cần mang','','',null],
+   ['h9','hr',9,0,null,null,'Đối chiếu bản gốc ngày đầu','','','chuyển sang vai trò Nhân viên',null],
+   ['h10','cand',1,1,'onboard',{view:'loading'},'Đang tải','','','','loading'],
+   ['h11','cand',1,2,'onboard',{view:'error'},'Lỗi mạng','Bấm Thử lại','Ảnh đã chụp vẫn lưu trên máy','','error'],
+   ['h12','cand',5,1,'ob-capture',{doc:'health',view:'error'},'Ảnh loá','Chụp lại','','','error']],
+  e:[['h0','h1','hand','Kích hoạt'],['h1','h2','main'],['h2','h3','main'],['h3','h4','main'],['h4','h5','main'],['h5','h6','main','Đọc được'],['h6','h7','main'],['h7','h8','main'],['h8','h9','hand','Ngày 01/10'],['h1','h10','branch'],['h1','h11','branch','Mất mạng'],['h5','h12','branch','Không đọc được'],['h12','h5','back','Chụp lại']]},
+ {id:'dev',t:'Bảo mật thiết bị',sum:'Mỗi tài khoản chấm công trên một thiết bị đã đăng ký. Máy bị root/jailbreak hoặc dùng GPS giả thì bị chặn chấm công.',entry:['Cá nhân · Cài đặt','Tự động khi chấm công'],lanes:['emp','sys'],
+  n:[['d1','emp',0,0,'settings',null,'Cài đặt','Bấm Thiết bị đã đăng ký','','',null],
+   ['d2','emp',1,0,'device',{view:'loading'},'Đang kiểm tra','','','','loading'],
+   ['d3','emp',2,0,'device',null,'Thiết bị đã đăng ký','Xem 4 lớp kiểm tra','Một tài khoản một thiết bị · đổi máy cần HR duyệt','',null],
+   ['d4','emp',2,1,'device',{view:'empty'},'Chưa đăng ký','Bấm Đăng ký thiết bị này','','','empty'],
+   ['d5','emp',2,2,'device',{view:'error'},'Lỗi kết nối','Bấm Kiểm tra lại','Vẫn dùng kết quả kiểm tra gần nhất','','error'],
+   ['d6','sys',3,0,null,null,'Kiểm tra mỗi lần chấm công','','Root/jailbreak, GPS giả, thiết bị lạ','',null],
+   ['d7','emp',4,0,'device-block',{security:'root'},'Chặn · root','Liên hệ HR','Khoá chấm công tới khi máy an toàn','ghi log bảo mật','error'],
+   ['d8','emp',4,1,'device-block',{security:'mock'},'Chặn · GPS giả','Tắt ứng dụng giả lập, Kiểm tra lại','','','error']],
+  e:[['d1','d2','main'],['d2','d3','main'],['d2','d4','branch','Chưa đăng ký'],['d2','d5','branch','Mất mạng'],['d3','d6','hand'],['d6','d7','branch','Root'],['d6','d8','branch','GPS giả']]},
+ {id:'me',t:'Thông báo, cá nhân & điều hướng',sum:'Thông báo có nhóm và dấu chưa đọc, bấm là tới màn liên quan. Tab Cá nhân gom hồ sơ và cài đặt; Tất cả dịch vụ chứa mọi chức năng theo nhóm.',entry:['Chuông ở Trang chủ','Tab Cá nhân'],lanes:['emp'],
+  n:[['m1','emp',0,0,'home',null,'Trang chủ','Bấm chuông','','',null],
+   ['m2','emp',1,0,'notifications',null,'Thông báo','Lọc nhóm, bấm một thông báo','Bấm là mở màn liên quan','unread → read',null],
+   ['m3','emp',2,0,'request-detail',{sel:'RQ-2026-0874'},'Màn liên quan','Xem chi tiết','','',null],
+   ['m4','emp',1,1,'profile',null,'Cá nhân','Bấm Cài đặt','','',null],
+   ['m5','emp',2,1,'settings',null,'Cài đặt','Đổi ngôn ngữ, nhắc chấm công','','',null],
+   ['m6','emp',1,2,'services',null,'Tất cả dịch vụ','Mở bất kỳ chức năng','Nhóm theo Chấm công, Đơn từ, Lương, Nghề nghiệp','',null]],
+  e:[['m1','m2','main'],['m2','m3','main'],['m1','m4','main','Tab Cá nhân'],['m4','m5','main'],['m1','m6','main','Xem tất cả']]}
+];
+const TAGS={error:['Lỗi','err'],empty:['Rỗng','ts'],loading:['Đang tải','pri'],reject:['Từ chối','err'],conflict:['Xung đột','err'],offline:['Ngoại tuyến','acc'],warn:['Cảnh báo','acc'],draft:['Nháp','ts']};
+
+class Component extends DCLogic {
+  state={lang:'vi',theme:'light',vis:{att:true}};
+  componentDidMount(){
+    this._chk=()=>{ if(this._raf) return; this._raf=requestAnimationFrame(()=>{ this._raf=null; this.check(); }); };
+    window.addEventListener('scroll',this._chk,true); window.addEventListener('resize',this._chk); window.addEventListener('hashchange',this._chk);
+    this._iv=setInterval(()=>this.check(),1500); this.check();
+  }
+  componentWillUnmount(){ window.removeEventListener('scroll',this._chk,true); window.removeEventListener('resize',this._chk); window.removeEventListener('hashchange',this._chk); clearInterval(this._iv); if(this._raf) cancelAnimationFrame(this._raf); }
+  check(){
+    const vh=window.innerHeight||900, add={};
+    document.querySelectorAll('[data-flow]').forEach(el=>{ const id=el.getAttribute('data-flow'); if(this.state.vis[id]) return; const r=el.getBoundingClientRect(); if(r.top<vh+900&&r.bottom>-900) add[id]=true; });
+    if(Object.keys(add).length) this.setState(s=>({vis:{...s.vis,...add}}));
+  }
+  renderVals(){
+    const V=this.state.lang==='vi', dark=this.state.theme==='dark';
+    const C=dark?{page:'#0B1220',card:'#151E2E',line:'#24304A',ink:'#F8FAFC',muted:'#94A3B8',pri:'#2DD4BF',acc:'#FBBF24',err:'#F87171',ts:'#94A3B8',lane:'#111A2A',lane2:'#151E2E'}
+               :{page:'#EDEAE2',card:'#FFFFFF',line:'#DCD7CC',ink:'#111827',muted:'#5B6572',pri:'#0F766E',acc:'#B45309',err:'#DC2626',ts:'#5B6572',lane:'#FBFAF7',lane2:'#FFFFFF'};
+    const tint=(c,a)=>'color-mix(in srgb, '+c+' '+a+'%, transparent)';
+    const EC={main:[C.pri,'solid',''],branch:[C.err,'dashed','6 4'],hand:[dark?'#FBBF24':'#D97706','solid',''],back:[C.muted,'dotted','2 4']};
+    const LC={emp:C.pri,mgr:dark?'#FBBF24':'#D97706',exec:C.ink,hr:'#7C8796',cand:'#14B8A6',sys:C.muted};
+    const LW=112,PAD=24,CX=232,NW=176,RY=610,TOP=40,MID=34+169;
+    const set=(k,v)=>()=>this.setState({[k]:v});
+    const opt=(l,a,on)=>({l,on,bg:a?'#0A544E':(dark?'#1E293B':'#F0EDE5'),fg:a?'#FFF8EC':C.muted});
+    const flows=FLOWS.map((F,fi)=>{
+      const rows={}; F.n.forEach(n=>{ rows[n[1]]=Math.max(rows[n[1]]||0,n[3]+1); });
+      let y=0; const laneY={};
+      const lanes=F.lanes.map((k,i)=>{ const h=TOP+rows[k]*RY; laneY[k]=y; const o={y:y+'px',h:h+'px',l:FL_LANES[k][V?0:1],sub:FL_LANES[k][2],c:LC[k],bg:i%2?C.lane2:C.lane,labelBg:tint(i%2?C.lane2:C.lane,92),bd:i?C.line:'transparent'}; y+=h; return o; });
+      const maxCol=Math.max(...F.n.map(n=>n[2]));
+      const W=LW+PAD*2+maxCol*CX+NW+40, H=y;
+      const pos={}; F.n.forEach(n=>{ pos[n[0]]={x:LW+PAD+n[2]*CX,y:laneY[n[1]]+TOP+n[3]*RY}; });
+      const vis=!!this.state.vis[F.id];
+      const CND={}; F.e.forEach(e=>{ if(!e[3]) return; (CND[e[1]]=CND[e[1]]||[]).push({l:e[3],c:EC[e[2]][0],src:(F.n.find(q=>q[0]===e[0])||[])[6]||''}); });
+      const nodes=F.n.map(n=>{ const p=n[5]||{}, P=pos[n[0]], tg=n[10]?TAGS[n[10]]:null, tc=tg?C[tg[1]]:null;
+        const code=n[4]?(n[4]+(Object.keys(p).length?' · '+Object.keys(p).map(k=>k+'='+p[k]).join(' '):'')):'';
+        const cd=CND[n[0]]||[];
+        return {conds:cd.map(c=>({l:c.l,c:c.c,src:(V?'từ ':'from ')+c.src})),hasCond:cd.length>0,x:P.x+'px',y:P.y+'px',t:n[6],act:n[7]||'',rule:n[8]||'',data:n[9]||'',code,isScreen:!!n[4],isSys:!n[4],show:vis,
+          tag:tg?tg[0]:null,tagBg:tc?tint(tc,16):'',tagC:tc||'',ring:tg?'2px':'1px',ringC:tc||C.line,
+          sysK:FL_LANES[n[1]][V?0:1].toUpperCase(),sysBd:tint(LC[n[1]],60),sysBg:tint(LC[n[1]],8),
+          s:n[4],role:FL_ROLE[n[1]]||'employee',att:p.att||'in',month:p.month,net:p.net,pending:p.pending,sync:p.sync,facePhase:p.facePhase,faceResult:p.faceResult,security:p.security,
+          view:p.view,lock:p.lock,sign:p.sign,rtab:p.rtab,cperiod:p.cperiod,sel:p.sel,doc:p.doc,appr:p.appr,apsheet:p.apsheet,swap:p.swap,day:p.day}; });
+      const mk=Object.keys(EC).map(k=>'<marker id="m-'+F.id+'-'+k+'" viewBox="0 0 10 10" refX="10" refY="5" markerUnits="userSpaceOnUse" markerWidth="11" markerHeight="11" orient="auto"><path d="M0 0L10 5L0 10z" fill="'+EC[k][0]+'"/></marker>').join('');
+      const E=F.e.filter(e=>pos[e[0]]&&pos[e[1]]).map(e=>{ const A=pos[e[0]], B=pos[e[1]]; return {e,A,B,fwd:(B.x+10)>(A.x+166)+8}; });
+      const RP={}, LP={}, push=(o,k,v)=>{ (o[k]=o[k]||[]).push(v); };
+      E.forEach((x,i)=>{ push(RP,x.e[0],{i,s:'a',oy:x.B.y+x.B.x/1000}); if(x.fwd) push(LP,x.e[1],{i,s:'b',oy:x.A.y+x.A.x/1000}); else push(RP,x.e[1],{i,s:'b',oy:x.A.y+x.A.x/1000}); });
+      const assign=o=>Object.keys(o).forEach(k=>{ const l=o[k].sort((p,q)=>p.oy-q.oy), n=l.length; l.forEach((p,j)=>{ const off=n===1?169:64+210*(j+0.5)/n; E[p.i][p.s+'y']=pos[k].y+34+off; }); });
+      assign(RP); assign(LP);
+      const colOf={}; F.n.forEach(n=>{ colOf[n[0]]=n[2]; });
+      const GU={}, CO={}, reg=(o,k,v)=>{ (o[k]=o[k]||[]).push(v); };
+      E.forEach((x,i)=>{ const sc=colOf[x.e[0]], tc=colOf[x.e[1]]; x.left=tc>sc; x.gOut=sc; x.gIn=x.left?tc-1:tc; x.tx=x.left?x.B.x+10:x.B.x+166;
+        x.one=x.gOut===x.gIn;
+        if(x.one){ if(Math.abs(x.ay-x.by)>2) reg(GU,x.gOut,{i,s:'g1',o:Math.min(x.ay,x.by)}); }
+        else { reg(GU,x.gOut,{i,s:'g1',o:x.ay}); reg(GU,x.gIn,{i,s:'g2',o:x.by}); reg(CO,x.B.y,{i,o:x.B.x}); } });
+      const gx0=g=>LW+PAD+g*CX+NW;
+      Object.keys(GU).forEach(g=>{ const l=GU[g].sort((p,q)=>p.o-q.o), n=l.length, st=n>1?Math.min(11,38/(n-1)):0; l.forEach((p,j)=>{ E[p.i][p.s]=gx0(+g)+(n>1?9+j*st:28); }); });
+      Object.keys(CO).forEach(k=>{ const l=CO[k].sort((p,q)=>p.o-q.o), n=l.length; l.forEach((p,j)=>{ E[p.i].cy=+k-8-j*(n>1?Math.min(6,18/(n-1)):0); }); });
+      const rpath=pts=>{ const q=[]; pts.forEach(p=>{ const L=q[q.length-1]; if(!L||Math.abs(L[0]-p[0])>.5||Math.abs(L[1]-p[1])>.5) q.push(p); });
+        for(let i=q.length-2;i>0;i--){ const a=q[i-1],b=q[i],c=q[i+1]; if((Math.abs(a[0]-b[0])<.5&&Math.abs(b[0]-c[0])<.5)||(Math.abs(a[1]-b[1])<.5&&Math.abs(b[1]-c[1])<.5)) q.splice(i,1); }
+        let d='M'+q[0][0]+' '+q[0][1];
+        for(let i=1;i<q.length;i++){ const b=q[i];
+          if(i<q.length-1){ const a=q[i-1],c=q[i+1], l1=Math.hypot(b[0]-a[0],b[1]-a[1]), l2=Math.hypot(c[0]-b[0],c[1]-b[1]), r=Math.min(9,l1/2,l2/2);
+            const p1=[b[0]-(b[0]-a[0])/l1*r,b[1]-(b[1]-a[1])/l1*r], p2=[b[0]+(c[0]-b[0])/l2*r,b[1]+(c[1]-b[1])/l2*r];
+            d+=' L'+p1[0].toFixed(1)+' '+p1[1].toFixed(1)+' Q'+b[0]+' '+b[1]+' '+p2[0].toFixed(1)+' '+p2[1].toFixed(1); }
+          else d+=' L'+b[0]+' '+b[1]; }
+        return d; };
+      let paths='';
+      E.forEach(x=>{ const k=x.e[2], col=EC[k][0], ax=x.A.x+166, ay=x.ay, by=x.by;
+        const pts=x.one?(x.g1==null?[[ax,ay],[x.tx,by]]:[[ax,ay],[x.g1,ay],[x.g1,by],[x.tx,by]])
+                       :[[ax,ay],[x.g1,ay],[x.g1,x.cy],[x.g2,x.cy],[x.g2,by],[x.tx,by]];
+        paths+='<path d="'+rpath(pts)+'" fill="none" stroke="'+col+'" stroke-width="2" stroke-linejoin="round"'+(EC[k][2]?' stroke-dasharray="'+EC[k][2]+'"':'')+' marker-end="url(#m-'+F.id+'-'+k+')"/>'; });
+      const svg={__html:'<svg width="'+W+'" height="'+H+'" style="display:block;overflow:visible"><defs>'+mk+'</defs>'+paths+'</svg>'};
+      const nScreens=F.n.filter(n=>n[4]).length;
+      return {id:F.id,anchor:'f-'+F.id,href:'#f-'+F.id,no:String(fi+1).padStart(2,'0'),title:F.t,sum:F.sum,entry:F.entry,isNew:!!F.isNew,
+        meta:nScreens+(V?' màn · ':' screens · ')+F.lanes.map(k=>FL_LANES[k][V?0:1]).join(', '),
+        w:W+'px',h:H+'px',lanes,nodes,svg};
+    });
+    const P3=(p)=>p==='P1'?{pBg:tint(C.err,14),pC:C.err}:(p==='P2'?{pBg:tint(C.acc,16),pC:C.acc}:{pBg:dark?'#1E293B':'#F0EDE5',pC:C.muted});
+    const more=[
+      ['Hồ sơ & tài liệu cá nhân','Xem, sửa thông tin cá nhân, người phụ thuộc, tài khoản ngân hàng; xem hợp đồng, quyết định. Mọi thay đổi gửi HR duyệt.','Nhân viên → Nhân sự','P1'],
+      ['Nghỉ việc & bàn giao','Đơn thôi việc, lịch bàn giao, thu hồi tài sản, quyết toán lương và phép còn lại, phỏng vấn nghỉ việc.','Nhân viên → Quản lý → Nhân sự','P1'],
+      ['Khôi phục tài khoản & đổi thiết bị','Quên mã PIN, mất máy, chuyển thiết bị chấm công sang máy mới có HR duyệt.','Nhân viên → Nhân sự','P1'],
+      ['Quản lý nhóm','Quản lý xem chấm công cả nhóm theo ngày, ai đi muộn, thiếu công, đang nghỉ; phân ca và công bố lịch ca.','Quản lý','P1'],
+      ['Công tác & chi phí','Đăng ký công tác, tạm ứng, nộp hoá đơn thanh toán chi phí đi lại.','Nhân viên → Quản lý → Kế toán','P2'],
+      ['Tạm ứng lương','Ứng trước một phần lương đã làm trong tháng, có hạn mức và phí rõ ràng.','Nhân viên → Nhân sự','P2'],
+      ['Đánh giá hiệu suất','Tự đánh giá, quản lý đánh giá theo kỳ, mục tiêu cá nhân, lịch sử kết quả.','Nhân viên ↔ Quản lý','P2'],
+      ['Đào tạo & chứng chỉ','Khoá học bắt buộc, lịch đào tạo, bài kiểm tra, chứng chỉ sắp hết hạn.','Nhân viên, Nhân sự','P3'],
+      ['Bản tin & khảo sát nội bộ','Thông báo công ty, khảo sát mức độ gắn kết, ghi nhận đồng nghiệp.','Mọi vai trò','P3']
+    ].map(x=>({t:x[0],d:x[1],r:x[2],p:x[3],...P3(x[3])}));
+    return {pageBg:C.page,cardBg:C.card,lineC:C.line,ink:C.ink,muted:C.muted,priC:C.pri,accC:C.acc,bezel:dark?'#1B2434':'#111827',
+      chipBg:dark?'#1E293B':'#111827',chipFg:'#FFFFFF',codeBg:dark?'#1E293B':'#F0EDE5',codeC:dark?'#CBD5E1':'#374151',lang:this.state.lang,theme:this.state.theme,
+      title:'Quy trình theo chức năng',
+      subtitle:'Mỗi chức năng là một sơ đồ theo làn vai trò. Mũi tên nối các màn theo thứ tự thao tác; nhánh đỏ là lỗi, rỗng, từ chối; mũi tên cam là chuyển sang vai trò khác. Màn hình trong sơ đồ là màn thật, bấm thử được.',
+      controls:[{k:'NGÔN NGỮ APP',opts:[opt('VI',V,set('lang','vi')),opt('EN',!V,set('lang','en'))]},{k:'GIAO DIỆN',opts:[opt('Sáng',!dark,set('theme','light')),opt('Tối',dark,set('theme','dark'))]}],
+      legendEdges:[['Luồng chính','main'],['Nhánh lỗi / rỗng / từ chối','branch'],['Chuyển vai trò','hand'],['Quay lại','back']].map(x=>({l:x[0],c:EC[x[1]][0],style:EC[x[1]][1]})),
+      legendTags:Object.keys(TAGS).map(k=>({l:TAGS[k][0],c:C[TAGS[k][1]],bg:tint(C[TAGS[k][1]],16)})),
+      tocLabel:'MỤC LỤC · '+FLOWS.length+' QUY TRÌNH',flows,newTag:'ĐỀ XUẤT THÊM',entryL:'Lối vào:',
+      actL:'Thao tác',ruleL:'Quy tắc',dataL:'Dữ liệu',
+      moreTitle:'Nhóm chức năng còn thiếu',moreMeta:'9 đề xuất, chưa có màn hình',
+      moreSub:'Những nhóm thường có trong app nhân sự nhưng chưa có trong bản mockup. P1 là nên làm tiếp theo vì ảnh hưởng quy trình bắt buộc; P2, P3 có thể để sau.',more};
+  }
+}
+</script>
+</body>
+</html>

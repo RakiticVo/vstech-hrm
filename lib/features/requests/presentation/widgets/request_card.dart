@@ -11,6 +11,8 @@ class RequestData {
     required this.statusCode,
     required this.stage,
     required this.completedSteps,
+    this.totalSteps = 2,
+    this.requestTypeKey = 'all',
   });
 
   final String mark;
@@ -20,6 +22,8 @@ class RequestData {
   final int statusCode;
   final String stage;
   final int completedSteps;
+  final int totalSteps;
+  final String requestTypeKey;
 }
 
 class RequestCard extends StatelessWidget {
@@ -117,10 +121,10 @@ class RequestCard extends StatelessWidget {
           Divider(height: 1, color: colors.border),
           12.gapH,
 
-          // 4-step progress bar
+          // Dynamic approval chain progress bar matching request type
           Row(
             children: [
-              for (var i = 0; i < 4; i++) ...[
+              for (var i = 0; i < item.totalSteps; i++) ...[
                 Expanded(
                   child: Container(
                     height: 4,
@@ -130,7 +134,7 @@ class RequestCard extends StatelessWidget {
                     ),
                   ),
                 ),
-                if (i < 3) 5.gapW,
+                if (i < item.totalSteps - 1) 5.gapW,
               ],
               8.gapW,
               Text(

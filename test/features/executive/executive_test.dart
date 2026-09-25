@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fpdart/fpdart.dart';
 import 'package:mocktail/mocktail.dart';
@@ -8,9 +9,7 @@ import 'package:vstech_hrm/features/executive/domain/usecases/executive_usecases
 import 'package:vstech_hrm/features/executive/presentation/cubit/executive_cubit.dart';
 import 'package:vstech_hrm/features/executive/presentation/cubit/executive_state.dart';
 import 'package:vstech_hrm/features/executive/presentation/cubit/final_approval_cubit.dart';
-import 'package:vstech_hrm/features/executive/presentation/cubit/final_approval_state.dart';
-
-class MockExecutiveRepository extends Mock implements ExecutiveRepository {}
+class MockExecutiveRepository extends Mock implements ExecutiveRepository;
 
 void main() {
   late MockExecutiveRepository mockRepo;
@@ -125,15 +124,17 @@ void main() {
       when(() => mockRepo.getExecutiveOverview())
           .thenAnswer((_) async => const Right(testStats));
 
-      expectLater(
-        execCubit.stream,
-        emitsInOrder([
-          const ExecutiveState(status: ExecutiveStatus.loading),
-          const ExecutiveState(
-            status: ExecutiveStatus.success,
-            stats: testStats,
-          ),
-        ]),
+      unawaited(
+        expectLater(
+          execCubit.stream,
+          emitsInOrder([
+            const ExecutiveState(status: ExecutiveStatus.loading),
+            const ExecutiveState(
+              status: ExecutiveStatus.success,
+              stats: testStats,
+            ),
+          ]),
+        ),
       );
 
       await execCubit.loadOverview();

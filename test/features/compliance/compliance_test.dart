@@ -10,7 +10,7 @@ import 'package:vstech_hrm/features/compliance/presentation/cubits/delegation_st
 import 'package:vstech_hrm/features/compliance/presentation/cubits/risk_alerts_cubit.dart';
 import 'package:vstech_hrm/features/compliance/presentation/cubits/risk_alerts_state.dart';
 
-class MockComplianceRepository extends Mock implements ComplianceRepository {}
+class MockComplianceRepository extends Mock implements ComplianceRepository;
 
 void main() {
   late MockComplianceRepository mockRepo;

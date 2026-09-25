@@ -47,4 +47,12 @@ class AppRoutes {
   static const String finalApproval = '/executive/final-approval';
   static const String riskCompliance = '/compliance/risk';
   static const String delegationCenter = '/compliance/delegation';
+
+  // Phase 0 Demo Scope Extensions
+  static const String onDutyCreate = '/requests/on-duty-create';
+  static const String businessTripCreate = '/requests/business-trip-create';
+  static const String leaveBalance = '/requests/leave-balance';
+  static const String extraHours = '/payroll/extra-hours';
+  static const String registeredDevice = '/settings/registered-device';
+  static const String deviceBlock = '/attendance/device-block';
 }

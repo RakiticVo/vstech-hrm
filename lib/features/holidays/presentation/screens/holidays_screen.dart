@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:material_symbols_icons/symbols.dart';
 import 'package:vstech_hrm/core/extensions/l10n_extension.dart';
 import 'package:vstech_hrm/core/responsive/app_layout.dart';
+import 'package:vstech_hrm/core/router/routes.dart';
 import 'package:vstech_hrm/core/theme/app_colors.dart';
 
 /// Screen 08: National Holidays and Compensatory Leave days matching reference design.
@@ -77,15 +79,18 @@ class HolidaysScreen extends StatelessWidget {
           // Holiday Items List
           ...holidays.map((h) => Padding(
                 padding: const EdgeInsets.only(bottom: 11),
-                child: Container(
-                  decoration: BoxDecoration(
-                    color: colors.surface,
-                    borderRadius: BorderRadius.circular(18),
-                    border: Border.all(color: colors.border),
-                  ),
-                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
-                  child: Row(
-                    children: [
+                child: InkWell(
+                  borderRadius: BorderRadius.circular(18),
+                  onTap: () => context.push(AppRoutes.overtimeCreate),
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: colors.surface,
+                      borderRadius: BorderRadius.circular(18),
+                      border: Border.all(color: colors.border),
+                    ),
+                    padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+                    child: Row(
+                      children: [
                       // Date Box Badge
                       Container(
                         width: 44,
@@ -167,7 +172,7 @@ class HolidaysScreen extends StatelessWidget {
                     ],
                   ),
                 ),
-              )),
+              ))),
         ],
       ),
     );

@@ -944,5 +944,155 @@
   "delRevoke": "Hủy ủy quyền",
   "delRevokeSuccess": "Đã hủy ủy quyền thành công!",
   "delCreateSuccess": "Thiết lập ủy quyền phê duyệt thành công!",
-  "delRunning": "Đang chạy"
+  "delRunning": "Đang chạy",
+
+  "requestTypeOnDuty": "Đi việc ngoài",
+  "requestTypeBusinessTrip": "Công tác",
+  "requestTypeShiftSwap": "Đổi ca",
+  "onDutyTitle": "Đăng ký Đi việc ngoài",
+  "onDutySubtitle": "Công tác ngắn hạn trong ngày (gặp khách hàng, cơ quan, việc gấp)",
+  "onDutyFromTime": "Từ giờ",
+  "onDutyToTime": "Đến giờ",
+  "onDutyLocation": "Địa điểm đến",
+  "onDutyDescription": "Nội dung công việc",
+  "onDutyShiftConstraintWarning": "Giờ đi việc ngoài phải nằm trong ca làm việc hôm nay",
+  "onDutySubmitSuccess": "Đã gửi đơn Đi việc ngoài thành công!",
+  "businessTripTitle": "Đăng ký Công tác",
+  "businessTripSubtitle": "Chuyến công tác nhiều ngày trong nước hoặc nước ngoài",
+  "businessTripDestination": "Nơi đến / Địa điểm",
+  "businessTripColleagues": "Đồng nghiệp cùng đi",
+  "businessTripPurpose": "Mục đích công tác",
+  "businessTripPlan": "Kế hoạch / Lịch trình",
+  "businessTripSubmitSuccess": "Đã gửi đơn Công tác thành công!",
+  "offSiteTimesheetLabel": "Công tác",
+  "offSiteCreditDesc": "Đã ghi nhận đủ công (không tính muộn/về sớm)",
+
+  "leaveBalanceBreakdownTitle": "Chi tiết quỹ nghỉ phép",
+  "leaveTypeCompOff": "Nghỉ bù (từ tăng ca)",
+  "leaveTypeSick": "Nghỉ ốm (BHXH)",
+  "leaveTypeMaternity": "Nghỉ thai sản",
+  "leaveTypePaidPersonal": "Việc riêng có lương",
+  "leaveTypeUnpaid": "Nghỉ không lương",
+  "leaveBalanceEntitlement": "Tiêu chuẩn",
+  "leaveBalanceUsed": "Đã dùng",
+  "leaveBalancePending": "Đang chờ duyệt",
+  "leaveBalanceAvailable": "Khả dụng",
+  "leaveHalfDayMorning": "Nửa ca sáng",
+  "leaveHalfDayAfternoon": "Nửa ca chiều",
+  "leaveHandoverPerson": "Người bàn giao / thay thế",
+  "leaveAttachment": "Giấy tờ / Chứng từ đính kèm",
+  "leaveExceedBalanceWarning": "Số ngày nghỉ vượt quá số phép khả dụng ({days} ngày)!",
+  "@leaveExceedBalanceWarning": {
+    "placeholders": {
+      "days": {"type": "String"}
+    }
+  },
+  "leaveExcludeWeekendHint": "Đã tự động trừ ngày nghỉ cuối tuần và ngày lễ",
+  "leaveSaveDraftBtn": "Lưu nháp",
+  "leaveDraftSaved": "Đã lưu bản nháp thành công!",
+
+  "otRateWeekday": "Ngày thường (150%)",
+  "otRateWeekend": "Nghỉ tuần (200%)",
+  "otRateHoliday": "Ngày lễ (300%)",
+  "otCompensationType": "Hình thức tính bù",
+  "otCompensationPay": "Hưởng tiền lương tăng ca",
+  "otCompensationCompOff": "Quy đổi nghỉ bù (Comp-off)",
+  "otMonthlyCapWarning": "Chú ý: Bạn đã tích lũy {current}h/40h trần tăng ca tháng này",
+  "@otMonthlyCapWarning": {
+    "placeholders": {
+      "current": {"type": "String"}
+    }
+  },
+  "otMonthlyCapExceeded": "Không thể gửi đơn: Tổng giờ tăng ca vượt quá 40h/tháng theo BLLĐ 2019!",
+  "otMonthlyApprovedHeader": "Tổng giờ tăng ca đã duyệt: {hours}h",
+  "@otMonthlyApprovedHeader": {
+    "placeholders": {
+      "hours": {"type": "String"}
+    }
+  },
+  "extraHoursBalanceTitle": "Quỹ giờ làm thêm & Nghỉ bù",
+  "extraHoursMonth": "Giờ OT tháng này",
+  "extraHoursQuarter": "Giờ OT quý này",
+  "extraHoursPayable": "Giờ hưởng lương",
+  "extraHoursConvertedCompOff": "Giờ đã đổi nghỉ bù",
+  "compOffConversionRule": "Quy đổi: 8 giờ tăng ca = 1 ngày nghỉ bù",
+
+  "shiftSwapEligibilityCheck": "Kiểm tra điều kiện đổi ca",
+  "shiftSwapBranchMismatch": "Đồng nghiệp khác chi nhánh ({branch})",
+  "@shiftSwapBranchMismatch": {
+    "placeholders": {
+      "branch": {"type": "String"}
+    }
+  },
+  "shiftSwapGradeMismatch": "Cấp bậc công việc không tương đương",
+  "shiftSwapOnLeaveConflict": "Đồng nghiệp đang nghỉ phép vào ngày này",
+  "shiftSwapSameShiftConflict": "Hai người đang cùng một ca làm việc",
+  "shiftSwapRestConflict": "Khoảng cách giữa hai ca < 12 giờ (Điều 109 BLLĐ 2019)",
+  "shiftSwapOvertimeExceed": "Tổng giờ tuần sẽ vượt quá 48 giờ",
+  "shiftSwapConflictAlert": "Không đủ điều kiện đổi ca",
+  "shiftSwapApprovedTag": "Đã đổi ca",
+  "shiftMonthUnpublished": "Lịch tháng sau sẽ được công bố vào ngày 25",
+  "shiftNetworkRetry": "Thử lại kết nối",
+
+  "registeredDeviceTitle": "Thiết bị đã đăng ký",
+  "registeredDeviceSub": "Chỉ chấm công trên thiết bị định danh duy nhất của bạn",
+  "deviceModelLabel": "Dòng máy / Thiết bị",
+  "deviceIdLabel": "Mã định danh (UUID)",
+  "deviceRegisteredDate": "Ngày đăng ký",
+  "deviceCheckRegistered": "Thiết bị chính chủ hợp lệ",
+  "deviceCheckNotRooted": "Không phát hiện Root / Jailbreak",
+  "deviceCheckNoMockGps": "Không dùng định vị giả (Mock GPS)",
+  "deviceCheckIntegrity": "Tính toàn vẹn ứng dụng chuẩn",
+  "deviceBlockRootTitle": "Thiết bị đã bị can thiệp (Root)",
+  "deviceBlockRootMsg": "Vì lý do an toàn, tài khoản không thể chấm công trên thiết bị đã can thiệp hệ điều hành. Vui lòng liên hệ HR.",
+  "deviceBlockMockGpsTitle": "Phát hiện vị trí giả lập (Mock GPS)",
+  "deviceBlockMockGpsMsg": "Hệ thống phát hiện bạn đang bật ứng dụng giả lập toạ độ. Vui lòng tắt ứng dụng giả lập vị trí và bấm 'Kiểm tra lại'.",
+  "deviceRecheckBtn": "Kiểm tra lại",
+  "deviceDemoTogglesTitle": "Mô phỏng vi phạm (Demo Sandbox)",
+  "deviceSimulateMockGps": "Mô phỏng phát hiện Mock GPS",
+  "deviceSimulateRoot": "Mô phỏng thiết bị Root",
+
+  "punchResultOnTime": "Đúng giờ",
+  "punchResultLate": "Đi muộn",
+  "punchResultEarly": "Về sớm",
+  "punchLateReasonPrompt": "Lý do đi muộn / về sớm",
+  "faceThumbnailLabel": "Ảnh chụp đối chiếu AI",
+
+  "approvalTypeFilterAll": "Tất cả",
+  "approvalTypeFilterLeave": "Nghỉ phép",
+  "approvalTypeFilterOT": "Tăng ca",
+  "approvalTypeFilterCorrection": "Sửa công",
+  "approvalTypeFilterSwap": "Đổi ca",
+  "approvalTypeFilterOffSite": "Đi việc ngoài",
+  "approvalAttendanceSnippet": "Chấm công ngày liên quan",
+  "approvalSwapBothSchedules": "Lịch làm việc hai nhân viên",
+  "approvalInternalNoteLabel": "Ghi chú nội bộ (chỉ quản lý thấy)",
+  "approvalMandatoryRejectReason": "Vui lòng nhập lý do từ chối (bắt buộc)",
+  "legendLateEarly": "Đi muộn / Về sớm",
+  "dateLabel": "Ngày",
+  "fillRequiredField": "Vui lòng nhập thông tin này",
+  "submitButton": "Gửi yêu cầu",
+  "annualLeaveRemaining": "Còn {days} ngày",
+  "@annualLeaveRemaining": {
+    "placeholders": {
+      "days": {"type": "String"}
+    }
+  },
+  "availableDays": "{days} ngày khả dụng",
+  "@availableDays": {
+    "placeholders": {
+      "days": {"type": "String"}
+    }
+  },
+  "attendanceTitle": "Chấm công",
+  "loadingState": "Đang tải dữ liệu...",
+  "errorStateTitle": "Không thể tải dữ liệu",
+  "networkError": "Lỗi kết nối mạng, vui lòng thử lại",
+  "currentMonthSchedule": "Lịch ca tháng này",
+  "deviceSecurityTitle": "Bảo mật thiết bị",
+  "deviceGpsRecheckedValid": "Đang kiểm tra lại toạ độ GPS... Hợp lệ!",
+  "deviceContactHrSent": "Đã gửi yêu cầu hỗ trợ kiểm tra thiết bị tới HR.",
+  "deviceContactHrBtn": "Liên hệ phòng Nhân sự (HR)",
+  "deviceTestBlockCta": "Thử nghiệm Chặn Chấm công (Demo)",
+  "deviceCheckSafetyBtn": "Kiểm tra an toàn"
 }

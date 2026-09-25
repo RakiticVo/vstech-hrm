@@ -59,11 +59,12 @@ class AttendanceRemoteDataSourceImpl implements AttendanceRemoteDataSource {
       if (body != null && body['data'] is Map<String, dynamic>) {
         return AttendanceRecordModel.fromJson(body['data'] as Map<String, dynamic>);
       }
+      final isLate = params.capturedAt.hour > 8 || (params.capturedAt.hour == 8 && params.capturedAt.minute > 5);
       return AttendanceRecordModel(
         id: 'att_${DateTime.now().millisecondsSinceEpoch}',
-        timestamp: DateTime.now(),
+        timestamp: params.capturedAt,
         type: 'checkIn',
-        classification: 'onTime',
+        classification: isLate ? 'late' : 'onTime',
         locationName: 'Trụ sở chính VSTech',
         lat: params.lat,
         lng: params.lng,
@@ -94,11 +95,12 @@ class AttendanceRemoteDataSourceImpl implements AttendanceRemoteDataSource {
       if (body != null && body['data'] is Map<String, dynamic>) {
         return AttendanceRecordModel.fromJson(body['data'] as Map<String, dynamic>);
       }
+      final isEarly = params.capturedAt.hour < 17;
       return AttendanceRecordModel(
         id: 'att_${DateTime.now().millisecondsSinceEpoch}',
-        timestamp: DateTime.now(),
+        timestamp: params.capturedAt,
         type: 'checkOut',
-        classification: 'onTime',
+        classification: isEarly ? 'earlyLeave' : 'onTime',
         locationName: 'Trụ sở chính VSTech',
         lat: params.lat,
         lng: params.lng,
