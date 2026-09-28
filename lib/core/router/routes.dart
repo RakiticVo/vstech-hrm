@@ -55,4 +55,38 @@ class AppRoutes {
   static const String extraHours = '/payroll/extra-hours';
   static const String registeredDevice = '/settings/registered-device';
   static const String deviceBlock = '/attendance/device-block';
+
+  // Phase 1 Extended Management & Detail Routes
+  static const String requestDetail = '/requests/detail';
+  static const String leaveManage = '/requests/leave-manage';
+  static const String overtimeManage = '/requests/overtime-manage';
+  static const String correctionManage = '/requests/correction-manage';
+  static const String shiftSwaps = '/schedule/swaps';
+  static const String requestSent = '/requests/sent';
+
+  // Phase 2 Payslip Security & Dispute Routes
+  static const String payslipLock = '/payroll/lock';
+  static const String salaryDisputes = '/payroll/disputes';
+  static const String salaryDisputeNew = '/payroll/dispute-new';
+
+  // Phase 4 Internal Recruitment & Referral Routes
+  static const String referralForm = '/recruitment/refer';
+  static const String referralSuccess = '/recruitment/refer-sent';
+  static const String myReferrals = '/recruitment/my-referrals';
+
+  // Phase 5 Profile Edit, Documents & Dependants Routes
+  static const String profileEdit = '/profile/edit';
+  static const String documentManagement = '/profile/documents';
+  static const String dependants = '/profile/dependants';
+  static const String dependantNew = '/profile/dependants/new';
+
+  // Phase 6 Full Candidate Onboarding Experience (OB Suite)
+  static const String onboardingHome = '/onboarding/home';
+  static const String onboardingOffer = '/onboarding/offer';
+  static const String onboardingOrg = '/onboarding/org';
+  static const String onboardingDocs = '/onboarding/upload-docs';
+  static const String onboardingCapture = '/onboarding/capture-photo';
+  static const String onboardingOcr = '/onboarding/ocr';
+  static const String onboardingSign = '/onboarding/sign-contract';
+  static const String onboardingDayOne = '/onboarding/day-one';
 }

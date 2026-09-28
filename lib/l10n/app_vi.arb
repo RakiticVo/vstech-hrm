@@ -1094,5 +1094,307 @@
   "deviceContactHrSent": "Đã gửi yêu cầu hỗ trợ kiểm tra thiết bị tới HR.",
   "deviceContactHrBtn": "Liên hệ phòng Nhân sự (HR)",
   "deviceTestBlockCta": "Thử nghiệm Chặn Chấm công (Demo)",
-  "deviceCheckSafetyBtn": "Kiểm tra an toàn"
+  "deviceCheckSafetyBtn": "Kiểm tra an toàn",
+
+  "requestDetailTitle": "Chi tiết yêu cầu",
+  "requestCodeLabel": "Mã yêu cầu",
+  "requesterLabel": "Người gửi",
+  "cancelRequestBtn": "Hủy yêu cầu",
+  "cancelRequestConfirm": "Bạn có chắc chắn muốn hủy yêu cầu này?",
+  "requestCancelledSuccess": "Yêu cầu đã được hủy thành công",
+  "internalNoteHint": "Nhập ghi chú nội bộ (chỉ người duyệt thấy)...",
+  "approveRequestConfirm": "Xác nhận phê duyệt yêu cầu này?",
+  "rejectRequestConfirm": "Xác nhận từ chối yêu cầu?",
+  "approvalTimelineTitle": "Tiến trình phê duyệt (4 cấp)",
+  "submittedFieldsTitle": "Thông tin chi tiết",
+  "attachedFilesTitle": "Tệp đính kèm & Minh chứng",
+  "shiftComparisonTitle": "So sánh ca làm việc hai nhân viên",
+  "attendanceLogComparisonTitle": "Đối chiếu giờ quẹt thẻ thực tế",
+  "disputeComparisonTitle": "Đối chiếu khoản mục khiếu nại",
+  "disputedAmountDiff": "Mức chênh lệch",
+  "leaveManageTitle": "Quản lý Nghỉ phép",
+  "annualLeaveHeroTitle": "Quỹ phép năm 2026",
+  "leaveStatusFilterAll": "Tất cả",
+  "leaveStatusFilterPending": "Chờ duyệt",
+  "leaveStatusFilterApproved": "Đã duyệt",
+  "leaveStatusFilterRejected": "Từ chối",
+  "createLeaveBtn": "Tạo đơn nghỉ phép",
+  "overtimeManageTitle": "Quản lý Tăng ca",
+  "totalOvertimeHours": "Tổng giờ tăng ca",
+  "rateNormal150": "Ngày thường 150%",
+  "rateWeekend200": "Cuối tuần 200%",
+  "rateHoliday300": "Ngày lễ 300%",
+  "createOvertimeBtn": "Đăng ký tăng ca",
+  "correctionManageTitle": "Quản lý Sửa công",
+  "correctionQuotaTitle": "Hạn mức sửa công tháng này",
+  "correctionQuotaUsage": "Đã dùng {used}/{total} lần",
+  "@correctionQuotaUsage": {
+    "placeholders": {
+      "used": {"type": "String"},
+      "total": {"type": "String"}
+    }
+  },
+  "missingPunchesSectionTitle": "Ngày thiếu chấm công cần xử lý",
+  "fixPunchBtn": "Sửa công ngay",
+  "noMissingPunches": "Không có ngày nào bị thiếu chấm công",
+  "shiftSwapsManageTitle": "Quản lý Đổi ca",
+  "swapsSentTab": "Đơn gửi đi",
+  "swapsReceivedTab": "Đơn nhận được",
+  "colleagueLabel": "Đồng nghiệp đổi ca",
+  "swapStatusPending": "Chờ duyệt",
+  "swapStatusApproved": "Đã đổi ca",
+  "swapStatusRejected": "Từ chối",
+  "requestSentTitle": "Gửi thành công",
+  "requestSentSuccess": "Yêu cầu của bạn đã được gửi thành công!",
+  "requestAssignedTo": "Người tiếp nhận: {name}",
+  "@requestAssignedTo": {
+    "placeholders": {
+      "name": {"type": "String"}
+    }
+  },
+  "backToListBtn": "Về danh sách",
+  "viewRequestDetailBtn": "Xem chi tiết yêu cầu",
+  "payslipLockTitle": "Xác thực bảo mật",
+  "payslipLockSubtitle": "Nhập mã PIN 6 số hoặc xác thực sinh trắc học để xem phiếu lương",
+  "payslipLockWrongPin": "Mã PIN không chính xác. Còn lại {remaining} lần thử",
+  "@payslipLockWrongPin": {
+    "placeholders": {
+      "remaining": {"type": "String"}
+    }
+  },
+  "payslipLockLocked": "Đã khóa tạm thời trong 30 giây do nhập sai nhiều lần",
+  "payslipLockBiometricPrompt": "Xác thực để mở khóa phiếu lương",
+  "payslipLockForgotPin": "Quên mã PIN?",
+  "useBiometricsBtn": "Dùng sinh trắc học",
+  "signPayslipBtn": "Ký xác nhận phiếu lương",
+  "signPadTitle": "Ký xác nhận điện tử",
+  "signPadSubtitle": "Vui lòng ký tên của bạn vào khung bên dưới",
+  "signPadClear": "Xóa chữ ký",
+  "signPadConfirm": "Xác nhận ký",
+  "signPadDisclaimer": "Tôi xác nhận đã kiểm tra kỹ các thông tin thu nhập, khấu trừ và công chuẩn theo Bộ luật Lao động.",
+  "signPadEmptyAlert": "Vui lòng ký tên trước khi xác nhận",
+  "payslipSignedBadge": "Đã ký điện tử",
+  "payslipSignedAt": "Thời gian ký: {time}",
+  "@payslipSignedAt": {
+    "placeholders": {
+      "time": {"type": "String"}
+    }
+  },
+  "payslipSignedHash": "Mã băm xác thực: {hash}",
+  "@payslipSignedHash": {
+    "placeholders": {
+      "hash": {"type": "String"}
+    }
+  },
+  "payslipSignedSigner": "Người ký: {name}",
+  "@payslipSignedSigner": {
+    "placeholders": {
+      "name": {"type": "String"}
+    }
+  },
+  "disputePayslipBtn": "Khiếu nại bảng lương",
+  "disputeLineBtn": "Khiếu nại dòng này",
+  "disputeManageTitle": "Quản lý Khiếu nại lương",
+  "disputeNewTitle": "Tạo khiếu nại lương",
+  "disputeMonthLabel": "Tháng khiếu nại",
+  "disputeItemLabel": "Khoản mục sai lệch",
+  "disputeCurrentAmountLabel": "Số tiền trên phiếu lương (₫)",
+  "disputeExpectedAmountLabel": "Số tiền đề xuất đúng (₫)",
+  "disputeDifferenceLabel": "Chênh lệch đề xuất",
+  "disputeReasonLabel": "Lý do & giải trình chi tiết",
+  "disputeReasonHint": "Nêu rõ nguyên nhân chênh lệch, ngày phát sinh, ca làm việc...",
+  "disputeAttachmentLabel": "Minh chứng (bảng công, ảnh chụp phân ca...)",
+  "submitDisputeBtn": "Gửi khiếu nại",
+  "disputeCreatedSuccess": "Đã gửi khiếu nại lương thành công",
+  "noDisputesFound": "Không có khiếu nại nào",
+  "disputeStatusPending": "Đang đối soát",
+  "disputeStatusApproved": "Đã duyệt bù",
+  "disputeStatusRejected": "Không chấp thuận",
+  "rewardsTabBonus": "Thưởng",
+  "rewardsTabCommission": "Hoa hồng",
+  "rewardsTabTargets": "Chỉ tiêu",
+  "commissionTotalTitle": "Tổng hoa hồng tháng {month}",
+  "@commissionTotalTitle": {
+    "placeholders": {
+      "month": {"type": "String"}
+    }
+  },
+  "commissionFilterDay": "Ngày",
+  "commissionFilterWeek": "Tuần",
+  "commissionFilterMonth": "Tháng",
+  "commissionSourceDirect": "Bán hàng trực tiếp",
+  "commissionSourceTeam": "Doanh số nhóm",
+  "commissionSourceRenewal": "Tái tục hợp đồng",
+  "commissionContractsCount": "{count} giao dịch",
+  "@commissionContractsCount": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+  "targetPersonalTitle": "Chỉ tiêu cá nhân tháng này",
+  "targetTeamTitle": "Chỉ tiêu đội nhóm chi nhánh",
+  "targetTiersTitle": "Các mốc thưởng bậc thang",
+  "targetTierAchieved": "Đã đạt mốc",
+  "targetTierRemaining": "Còn thiếu {remaining}",
+  "@targetTierRemaining": {
+    "placeholders": {
+      "remaining": {"type": "String"}
+    }
+  },
+  "targetTierNext": "Mục tiêu kế tiếp",
+  "referCandidateBtn": "Giới thiệu ứng viên",
+  "referralFormTitle": "Giới thiệu ứng viên",
+  "candidateNameLabel": "Họ và tên ứng viên",
+  "candidatePhoneLabel": "Số điện thoại",
+  "candidateEmailLabel": "Email liên hệ",
+  "candidatePositionLabel": "Vị trí ứng tuyển",
+  "candidateBranchLabel": "Chi nhánh mong muốn",
+  "candidateCvLabel": "Tải lên CV (PDF, DOCX)",
+  "candidateCvSelected": "Đã đính kèm CV: {fileName}",
+  "@candidateCvSelected": {
+    "placeholders": {
+      "fileName": {"type": "String"}
+    }
+  },
+  "candidateDuplicateError": "Ứng viên này đã có hồ sơ trong hệ thống trong vòng 6 tháng qua",
+  "submitReferralBtn": "Gửi hồ sơ giới thiệu",
+  "referralSuccessTitle": "Gửi giới thiệu thành công",
+  "referralSuccessMsg": "Hồ sơ ứng viên đã được chuyển trực tiếp đến bộ phận Tuyển dụng",
+  "referralCodeLabel": "Mã theo dõi giới thiệu",
+  "referralBonusNotice": "Thưởng giới thiệu: 3.000.000 ₫ (khi ứng viên qua thử việc)",
+  "viewMyReferralsBtn": "Xem ứng viên tôi đã giới thiệu",
+  "myReferralsTitle": "Ứng viên tôi đã giới thiệu",
+  "myReferralLinkTitle": "Link & Mã QR giới thiệu của bạn",
+  "copyLinkBtn": "Sao chép link",
+  "shareQrBtn": "Chia sẻ QR",
+  "linkCopiedSnackbar": "Đã sao chép link giới thiệu vào clipboard",
+  "stageReceived": "Tiếp nhận hồ sơ",
+  "stageInterview": "Phỏng vấn",
+  "stageProbation": "Thử việc",
+  "stageHired": "Đã nhận việc & Thưởng",
+  "noReferralsFound": "Chưa có ứng viên nào được giới thiệu",
+  "profileEditTitle": "Chỉnh sửa hồ sơ",
+  "profileEditHeader": "Thông tin cá nhân & Tài khoản",
+  "freeEditSection": "Thông tin liên hệ (Cập nhật ngay)",
+  "sensitiveEditSection": "Thông tin định danh & Ngân hàng (Cần HR duyệt)",
+  "sensitiveEditNotice": "Các thay đổi về CCCD/Hộ chiếu và Tài khoản ngân hàng cần được phòng Nhân sự phê duyệt trước khi áp dụng chính thức.",
+  "phoneEditLabel": "Số điện thoại",
+  "emailEditLabel": "Email cá nhân",
+  "addressEditLabel": "Địa chỉ hiện tại",
+  "emergencyNameLabel": "Người liên hệ khẩn cấp",
+  "emergencyPhoneLabel": "SĐT khẩn cấp",
+  "bankNameEditLabel": "Ngân hàng thụ hưởng",
+  "bankAccountEditLabel": "Số tài khoản",
+  "bankHolderEditLabel": "Tên chủ tài khoản",
+  "cccdEditLabel": "Số CCCD / Hộ chiếu",
+  "cccdIssueDateLabel": "Ngày cấp",
+  "cccdIssuePlaceLabel": "Nơi cấp",
+  "permanentAddressLabel": "Địa chỉ thường trú (theo CCCD)",
+  "saveChangesBtn": "Lưu thay đổi",
+  "profileEditSuccess": "Đã cập nhật thông tin thành công",
+  "profilePendingHrAlert": "Yêu cầu thay đổi thông tin định danh/ngân hàng đã được gửi đến HR (Mã: {code})",
+  "@profilePendingHrAlert": {
+    "placeholders": {
+      "code": {"type": "String"}
+    }
+  },
+  "statusPendingHr": "Chờ HR duyệt",
+  "documentManagementTitle": "Tài liệu & Hồ sơ",
+  "expiringDocAlertTitle": "Cảnh báo giấy tờ sắp hết hạn",
+  "expiringDocAlertMsg": "Giấy khám sức khỏe định kỳ sẽ hết hạn sau {days} ngày ({date}). Vui lòng cập nhật minh chứng mới.",
+  "@expiringDocAlertMsg": {
+    "placeholders": {
+      "days": {"type": "int"},
+      "date": {"type": "String"}
+    }
+  },
+  "contractSectionTitle": "Hợp đồng lao động & Phụ lục",
+  "legalDocSectionTitle": "Hồ sơ pháp lý & Bằng cấp",
+  "viewContractBtn": "Xem hợp đồng",
+  "contractViewerTitle": "Hợp đồng lao động điện tử",
+  "contractWatermark": "BẢN SAO ĐIỆN TỬ - {employeeCode} - {name} - {date}",
+  "@contractWatermark": {
+    "placeholders": {
+      "employeeCode": {"type": "String"},
+      "name": {"type": "String"},
+      "date": {"type": "String"}
+    }
+  },
+  "uploadNewDocBtn": "Tải lên tài liệu mới",
+  "downloadDocBtn": "Tải về PDF",
+  "dependantsManageTitle": "Người phụ thuộc",
+  "dependantsTaxReliefTitle": "Giảm trừ gia cảnh (TNCN)",
+  "dependantsCountLabel": "Số người phụ thuộc: {count} người",
+  "@dependantsCountLabel": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+  "dependantsTotalReliefLabel": "Tổng mức giảm trừ: {amount} ₫/tháng",
+  "@dependantsTotalReliefLabel": {
+    "placeholders": {
+      "amount": {"type": "String"}
+    }
+  },
+  "dependantPolicyNotice": "Mức giảm trừ gia cảnh 4.400.000 ₫/người/tháng theo Nghị quyết của Ủy ban Thường vụ Quốc hội.",
+  "addDependantBtn": "Đăng ký người phụ thuộc mới",
+  "dependantNewTitle": "Đăng ký người phụ thuộc",
+  "dependantFullNameLabel": "Họ và tên người phụ thuộc",
+  "dependantRelationshipLabel": "Mối quan hệ",
+  "dependantDobLabel": "Ngày tháng năm sinh",
+  "dependantTaxIdLabel": "Mã số thuế / CCCD / Giấy khai sinh",
+  "dependantStartMonthLabel": "Tháng bắt đầu tính giảm trừ",
+  "dependantProofUploadLabel": "Minh chứng (Giấy khai sinh / CCCD)",
+  "dependantDisclaimer": "Tôi cam đoan các thông tin kê khai về người phụ thuộc trên là hoàn toàn chính xác và chịu trách nhiệm trước pháp luật.",
+  "submitDependantBtn": "Gửi hồ sơ đăng ký",
+  "dependantCreatedSuccess": "Đã gửi hồ sơ đăng ký người phụ thuộc đến phòng Nhân sự",
+  "noDependantsFound": "Chưa có người phụ thuộc nào được đăng ký",
+  "onboardingHomeTitle": "Hành trình Hội nhập",
+  "onboardingWelcomeMsg": "Chào mừng bạn gia nhập VSTECH!",
+  "onboardingCountdownDays": "Còn {days} ngày nữa đến Ngày đầu tiên ({date})",
+  "@onboardingCountdownDays": {
+    "placeholders": {
+      "days": {"type": "int"},
+      "date": {"type": "String"}
+    }
+  },
+  "onboardingProgressSummary": "Tiến độ chuẩn bị: {completed}/{total} bước",
+  "@onboardingProgressSummary": {
+    "placeholders": {
+      "completed": {"type": "int"},
+      "total": {"type": "int"}
+    }
+  },
+  "offerLetterTitle": "Thư mời nhận việc (Offer)",
+  "offerAcceptBtn": "Xác nhận chấp thuận Offer",
+  "offerAcceptedBadge": "Đã chấp thuận Offer",
+  "offerSalaryProbation": "Lương thử việc (85%): {amount} ₫",
+  "@offerSalaryProbation": {
+    "placeholders": {
+      "amount": {"type": "String"}
+    }
+  },
+  "orgIntroTitle": "Đội ngũ & Người đồng hành",
+  "buddyCardTitle": "Người hướng dẫn (Buddy) của bạn",
+  "uploadDocsTitle": "Nộp hồ sơ nhân sự",
+  "uploadDocsProgress": "Đã nộp {uploaded}/{total} tài liệu",
+  "@uploadDocsProgress": {
+    "placeholders": {
+      "uploaded": {"type": "int"},
+      "total": {"type": "int"}
+    }
+  },
+  "capturePhotoTitle": "Chụp ảnh thẻ nhân viên",
+  "capturePhotoGuide": "Chụp ảnh chân dung 3x4 nền sáng, nhìn thẳng vào camera",
+  "capturePhotoBtn": "Chụp ảnh",
+  "confirmPhotoBtn": "Xác nhận dùng ảnh này",
+  "ocrVerificationTitle": "Xác thực danh tính (OCR CCCD)",
+  "ocrScanBtn": "Quét mặt trước CCCD",
+  "ocrVerifiedBadge": "Đã xác thực trùng khớp 100%",
+  "probationContractTitle": "Hợp đồng thử việc điện tử",
+  "signContractBtn": "Xác nhận ký hợp đồng",
+  "contractSignedSuccess": "Đã hoàn tất ký hợp đồng thử việc điện tử",
+  "dayOneGuideTitle": "Cẩm nang Ngày đầu tiên",
+  "dayOneChecklistTitle": "Những điều cần lưu ý cho Ngày 1",
+  "startNextStepBtn": "Thực hiện bước tiếp theo"
 }

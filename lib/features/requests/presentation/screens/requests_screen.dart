@@ -13,6 +13,8 @@ import 'package:vstech_hrm/core/widgets/month_picker_button.dart';
 import 'package:vstech_hrm/core/widgets/tile_header_banner.dart';
 import 'package:vstech_hrm/features/requests/presentation/widgets/new_request_bottom_sheet.dart';
 import 'package:vstech_hrm/features/requests/presentation/widgets/request_card.dart';
+import 'package:vstech_hrm/features/requests/presentation/widgets/requests_category_tiles.dart';
+import 'package:vstech_hrm/features/requests/presentation/widgets/requests_role_indicator.dart';
 
 /// Screen listing leave, overtime, correction, shift swap and off-site requests.
 class RequestsScreen extends StatefulWidget {
@@ -142,7 +144,8 @@ class _RequestsScreenState extends State<RequestsScreen> {
               ),
             ),
           ),
-          _buildRoleIndicator(isManager, colors),
+          RequestsRoleIndicator(isManager: isManager),
+          const RequestsCategoryTiles(),
 
           // Month selector row
           Padding(
@@ -245,52 +248,33 @@ class _RequestsScreenState extends State<RequestsScreen> {
                     padding: const EdgeInsets.fromLTRB(16, 4, 16, 24),
                     itemCount: filtered.length,
                     separatorBuilder: (_, _) => 11.gapH,
-                    itemBuilder: (ctx, index) => RequestCard(item: filtered[index]),
+                    itemBuilder: (ctx, index) {
+                      final item = filtered[index];
+                      return InkWell(
+                        borderRadius: BorderRadius.circular(18),
+                        onTap: () {
+                          unawaited(
+                            context.push(
+                              AppRoutes.requestDetail,
+                              extra: {
+                                'code': 'RQ-2026-09${20 + index}',
+                                'title': item.type,
+                                'category': item.requestTypeKey,
+                                'requesterName': 'Nguyễn Minh Tuấn (NV-04821)',
+                                'initialStatus': item.statusCode == 2
+                                    ? 'approved'
+                                    : item.statusCode == 3
+                                        ? 'rejected'
+                                        : 'pending',
+                                'isApprover': false,
+                              },
+                            ),
+                          );
+                        },
+                        child: RequestCard(item: item),
+                      );
+                    },
                   ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildRoleIndicator(bool isManager, AppColorsExtension colors) {
-    final l10n = context.l10n;
-
-    if (!isManager) {
-      return Container(
-        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-        color: colors.cardSecondary,
-        child: Row(
-          children: [
-            Icon(Symbols.info, size: 16, color: colors.textSecondary),
-            8.gapW,
-            Expanded(
-              child: Text(l10n.roleIndicatorEmployee, style: TextStyle(fontSize: 12, color: colors.textSecondary, fontWeight: FontWeight.w600)),
-            ),
-            GestureDetector(
-              onTap: () async {
-                await context.read<AuthCubit>().loginAsDemo(UserRole.manager);
-                if (mounted) context.go(AppRoutes.approvals);
-              },
-              child: Text(l10n.roleIndicatorSwitchToManager, style: TextStyle(fontSize: 12, fontWeight: FontWeight.w800, color: colors.accentAmber)),
-            ),
-          ],
-        ),
-      );
-    }
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-      color: colors.accentAmber.withValues(alpha: 0.15),
-      child: Row(
-        children: [
-          Icon(Symbols.fact_check, size: 16, color: colors.accentAmber),
-          8.gapW,
-          Expanded(
-            child: Text(l10n.managerPendingApprovalsBanner(9), style: TextStyle(fontSize: 12, color: colors.textPrimary, fontWeight: FontWeight.w700)),
-          ),
-          GestureDetector(
-            onTap: () => context.go(AppRoutes.approvals),
-            child: Text(l10n.openApprovalsLink, style: TextStyle(fontSize: 12, fontWeight: FontWeight.w800, color: colors.primaryIndigo)),
           ),
         ],
       ),

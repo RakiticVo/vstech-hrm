@@ -28,18 +28,42 @@ import 'package:vstech_hrm/features/labor_profile/presentation/screens/labor_pro
 import 'package:vstech_hrm/features/notifications/presentation/screens/notifications_screen.dart';
 import 'package:vstech_hrm/features/payroll/presentation/screens/extra_hours_screen.dart';
 import 'package:vstech_hrm/features/payroll/presentation/screens/payslip_detail_screen.dart';
+import 'package:vstech_hrm/features/payroll/presentation/screens/payslip_lock_screen.dart';
+import 'package:vstech_hrm/features/payroll/presentation/screens/salary_dispute_new_screen.dart';
+import 'package:vstech_hrm/features/payroll/presentation/screens/salary_dispute_screen.dart';
 import 'package:vstech_hrm/features/qr_auth/presentation/cubit/qr_scanner_cubit.dart';
 import 'package:vstech_hrm/features/qr_auth/presentation/screens/qr_scanner_screen.dart';
+import 'package:vstech_hrm/features/onboarding/presentation/screens/capture_photo_screen.dart';
+import 'package:vstech_hrm/features/onboarding/presentation/screens/day_one_guide_screen.dart';
+import 'package:vstech_hrm/features/onboarding/presentation/screens/digital_contract_sign_screen.dart';
+import 'package:vstech_hrm/features/onboarding/presentation/screens/document_upload_screen.dart';
+import 'package:vstech_hrm/features/onboarding/presentation/screens/ocr_verification_screen.dart';
+import 'package:vstech_hrm/features/onboarding/presentation/screens/offer_letter_screen.dart';
+import 'package:vstech_hrm/features/onboarding/presentation/screens/onboarding_home_screen.dart';
+import 'package:vstech_hrm/features/onboarding/presentation/screens/org_chart_intro_screen.dart';
+import 'package:vstech_hrm/features/profile/presentation/screens/dependant_new_screen.dart';
+import 'package:vstech_hrm/features/profile/presentation/screens/dependants_screen.dart';
+import 'package:vstech_hrm/features/profile/presentation/screens/document_management_screen.dart';
+import 'package:vstech_hrm/features/profile/presentation/screens/profile_edit_screen.dart';
 import 'package:vstech_hrm/features/recruitment/presentation/screens/internal_recruitment_screen.dart';
 import 'package:vstech_hrm/features/recruitment/presentation/screens/job_detail_screen.dart';
+import 'package:vstech_hrm/features/recruitment/presentation/screens/my_referrals_screen.dart';
+import 'package:vstech_hrm/features/recruitment/presentation/screens/referral_form_screen.dart';
+import 'package:vstech_hrm/features/recruitment/presentation/screens/referral_success_screen.dart';
 import 'package:vstech_hrm/features/requests/presentation/screens/attendance_correction_screen.dart';
 import 'package:vstech_hrm/features/requests/presentation/screens/business_trip_request_screen.dart';
+import 'package:vstech_hrm/features/requests/presentation/screens/correction_manage_screen.dart';
 import 'package:vstech_hrm/features/requests/presentation/screens/leave_balance_screen.dart';
+import 'package:vstech_hrm/features/requests/presentation/screens/leave_manage_screen.dart';
 import 'package:vstech_hrm/features/requests/presentation/screens/leave_request_screen.dart';
 import 'package:vstech_hrm/features/requests/presentation/screens/on_duty_request_screen.dart';
+import 'package:vstech_hrm/features/requests/presentation/screens/overtime_manage_screen.dart';
 import 'package:vstech_hrm/features/requests/presentation/screens/overtime_request_screen.dart';
+import 'package:vstech_hrm/features/requests/presentation/screens/request_detail_screen.dart';
+import 'package:vstech_hrm/features/requests/presentation/screens/request_sent_screen.dart';
 import 'package:vstech_hrm/features/rewards/presentation/screens/rewards_screen.dart';
 import 'package:vstech_hrm/features/schedule/presentation/screens/shift_schedule_screen.dart';
+import 'package:vstech_hrm/features/schedule/presentation/screens/shift_swaps_screen.dart';
 import 'package:vstech_hrm/features/services/presentation/screens/all_services_screen.dart';
 import 'package:vstech_hrm/features/settings/presentation/screens/registered_device_screen.dart';
 import 'package:vstech_hrm/features/settings/presentation/screens/settings_screen.dart';
@@ -118,4 +142,102 @@ List<RouteBase> getStandaloneFeatureRoutes() => [
     path: AppRoutes.delegationCenter,
     builder: (context, state) => BlocProvider(create: (_) => sl<DelegationCubit>(), child: const DelegationCenterScreen()),
   ),
+  GoRoute(
+    path: AppRoutes.requestDetail,
+    builder: (context, state) {
+      final extra = state.extra as Map<String, dynamic>?;
+      if (extra != null) {
+        return RequestDetailScreen(
+          requestCode: extra['code'] as String? ?? 'RQ-2026-0934',
+          title: extra['title'] as String? ?? 'Nghỉ phép năm',
+          category: extra['category'] as String? ?? 'leave',
+          requesterName: extra['requesterName'] as String? ?? 'Nguyễn Minh Tuấn (NV-04821)',
+          department: extra['department'] as String? ?? 'Vận hành · Chi nhánh 01',
+          initialStatus: extra['initialStatus'] as String? ?? 'pending',
+          isApprover: extra['isApprover'] as bool? ?? false,
+          swapComparison: extra['swapComparison'] as String?,
+          attendanceSnippet: extra['attendanceSnippet'] as String?,
+          disputePayslipValue: extra['disputePayslipValue'] as String?,
+          disputeExpectedValue: extra['disputeExpectedValue'] as String?,
+          disputeDifference: extra['disputeDifference'] as String?,
+          fields: extra['fields'] as List<(String, String)>? ?? const [
+            ('Loại yêu cầu', 'Nghỉ phép năm (Phép hưởng 100% lương)'),
+            ('Thời gian', '24/09/2026 (08:00 — 17:00)'),
+            ('Số ngày nghỉ', '1.0 ngày'),
+            ('Người bàn giao', 'Lê Văn Tùng (NV-0142)'),
+            ('Lý do', 'Việc cá nhân giải quyết thủ tục hành chính.'),
+          ],
+        );
+      }
+      return const RequestDetailScreen();
+    },
+  ),
+  GoRoute(path: AppRoutes.leaveManage, builder: (context, state) => const LeaveManageScreen()),
+  GoRoute(path: AppRoutes.overtimeManage, builder: (context, state) => const OvertimeManageScreen()),
+  GoRoute(path: AppRoutes.correctionManage, builder: (context, state) => const CorrectionManageScreen()),
+  GoRoute(path: AppRoutes.shiftSwaps, builder: (context, state) => const ShiftSwapsScreen()),
+  GoRoute(
+    path: AppRoutes.requestSent,
+    builder: (context, state) {
+      final extra = state.extra as Map<String, dynamic>?;
+      return RequestSentScreen(
+        requestCode: extra?['code'] as String? ?? 'RQ-2026-0935',
+        requestTitle: extra?['title'] as String? ?? 'Nghỉ phép năm · 1 ngày',
+        assignedTo: extra?['assignedTo'] as String? ?? 'Lê Minh Quân (Quản lý trực tiếp)',
+      );
+    },
+  ),
+  GoRoute(
+    path: AppRoutes.payslipLock,
+    builder: (context, state) {
+      final extra = state.extra as Map<String, dynamic>?;
+      final target = extra?['targetRoute'] as String? ?? AppRoutes.payslipDetail;
+      return PayslipLockScreen(targetRoute: target);
+    },
+  ),
+  GoRoute(path: AppRoutes.salaryDisputes, builder: (context, state) => const SalaryDisputeScreen()),
+  GoRoute(
+    path: AppRoutes.salaryDisputeNew,
+    builder: (context, state) {
+      final extra = state.extra as Map<String, dynamic>?;
+      return SalaryDisputeNewScreen(
+        prefilledItem: extra?['item'] as String? ?? 'Lương tăng ca 150%',
+        prefilledCurrentAmount: extra?['amount'] as int? ?? 1800000,
+        periodMonth: extra?['period'] as String? ?? '09/2026',
+      );
+    },
+  ),
+  GoRoute(
+    path: AppRoutes.referralForm,
+    builder: (context, state) {
+      final extra = state.extra as Map<String, dynamic>?;
+      return ReferralFormScreen(
+        prefilledPosition: extra?['position'] as String? ?? 'Quản lý cửa hàng',
+      );
+    },
+  ),
+  GoRoute(
+    path: AppRoutes.referralSuccess,
+    builder: (context, state) {
+      final extra = state.extra as Map<String, dynamic>?;
+      return ReferralSuccessScreen(
+        trackingCode: extra?['trackingCode'] as String? ?? 'REF-2026-0812',
+        candidateName: extra?['candidateName'] as String? ?? 'Trần Anh Khoa',
+        position: extra?['position'] as String? ?? 'Quản lý cửa hàng',
+      );
+    },
+  ),
+  GoRoute(path: AppRoutes.myReferrals, builder: (context, state) => const MyReferralsScreen()),
+  GoRoute(path: AppRoutes.profileEdit, builder: (context, state) => const ProfileEditScreen()),
+  GoRoute(path: AppRoutes.documentManagement, builder: (context, state) => const DocumentManagementScreen()),
+  GoRoute(path: AppRoutes.dependants, builder: (context, state) => const DependantsScreen()),
+  GoRoute(path: AppRoutes.dependantNew, builder: (context, state) => const DependantNewScreen()),
+  GoRoute(path: AppRoutes.onboardingHome, builder: (context, state) => const OnboardingHomeScreen()),
+  GoRoute(path: AppRoutes.onboardingOffer, builder: (context, state) => const OfferLetterScreen()),
+  GoRoute(path: AppRoutes.onboardingOrg, builder: (context, state) => const OrgChartIntroScreen()),
+  GoRoute(path: AppRoutes.onboardingDocs, builder: (context, state) => const DocumentUploadScreen()),
+  GoRoute(path: AppRoutes.onboardingCapture, builder: (context, state) => const CapturePhotoScreen()),
+  GoRoute(path: AppRoutes.onboardingOcr, builder: (context, state) => const OcrVerificationScreen()),
+  GoRoute(path: AppRoutes.onboardingSign, builder: (context, state) => const DigitalContractSignScreen()),
+  GoRoute(path: AppRoutes.onboardingDayOne, builder: (context, state) => const DayOneGuideScreen()),
 ];

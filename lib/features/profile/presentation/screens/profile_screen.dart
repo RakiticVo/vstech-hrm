@@ -14,7 +14,7 @@ import 'package:vstech_hrm/features/profile/presentation/widgets/profile_info_ca
 
 /// Screen 19: Comprehensive Employee Profile matching Screen 19 reference image.
 class ProfileScreen extends StatelessWidget {
-  const new({super.key});
+  const ProfileScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -65,6 +65,11 @@ class ProfileScreen extends StatelessWidget {
         ),
         actions: [
           IconButton(
+            icon: Icon(Symbols.edit_square, size: 21, color: colors.primaryIndigo),
+            tooltip: context.l10n.profileEditTitle,
+            onPressed: () => context.push(AppRoutes.profileEdit),
+          ),
+          IconButton(
             icon: Icon(Symbols.settings, size: 22, color: colors.textPrimary),
             onPressed: () => context.push(AppRoutes.settings),
           ),
@@ -104,7 +109,7 @@ class ProfileScreen extends StatelessWidget {
           ),
           16.gapH,
 
-          // Profile Quick Links (K, H, T, C)
+          // Profile Quick Links
           Container(
             decoration: BoxDecoration(
               color: colors.surface,
@@ -113,15 +118,15 @@ class ProfileScreen extends StatelessWidget {
             ),
             child: Column(
               children: [
-                _buildLetterLinkTile('K', context.l10n.emergencyContactLink, () {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(content: Text(context.l10n.emergencyContactInfo)),
-                  );
-                }, colors),
+                _buildLetterLinkTile('S', context.l10n.profileEditTitle, () => context.push(AppRoutes.profileEdit), colors),
+                Divider(height: 1, indent: 62, color: colors.border.withValues(alpha: 0.5)),
+                _buildLetterLinkTile('T', context.l10n.documentManagementTitle, () => context.push(AppRoutes.documentManagement), colors),
+                Divider(height: 1, indent: 62, color: colors.border.withValues(alpha: 0.5)),
+                _buildLetterLinkTile('P', context.l10n.dependantsManageTitle, () => context.push(AppRoutes.dependants), colors),
                 Divider(height: 1, indent: 62, color: colors.border.withValues(alpha: 0.5)),
                 _buildLetterLinkTile('H', context.l10n.documentsAndRecordsLink, () => context.push(AppRoutes.laborProfile), colors),
                 Divider(height: 1, indent: 62, color: colors.border.withValues(alpha: 0.5)),
-                _buildLetterLinkTile('T', context.l10n.internalRecruitmentLink, () => context.push(AppRoutes.jobRecruitment), colors),
+                _buildLetterLinkTile('R', context.l10n.internalRecruitmentLink, () => context.push(AppRoutes.jobRecruitment), colors),
                 Divider(height: 1, indent: 62, color: colors.border.withValues(alpha: 0.5)),
                 _buildLetterLinkTile('C', context.l10n.settingsLink, () => context.push(AppRoutes.settings), colors),
               ],

@@ -7,7 +7,6 @@ import 'package:vstech_hrm/core/responsive/app_layout.dart';
 import 'package:vstech_hrm/core/router/routes.dart';
 import 'package:vstech_hrm/core/theme/app_colors.dart';
 import 'package:vstech_hrm/core/widgets/app_success_dialog.dart';
-import 'package:vstech_hrm/core/widgets/month_picker_button.dart';
 import 'package:vstech_hrm/features/requests/presentation/widgets/leave_request_modal.dart';
 
 /// Screen 10: Leave Management & History with monthly filter and quick creation modal.
@@ -23,14 +22,6 @@ class _LeaveRequestScreenState extends State<LeaveRequestScreen> {
   String _startDate = '21/09/2026';
   String _endDate = '23/09/2026';
   String _totalDays = '3 ngày';
-  String _selectedMonth = 'Tháng 9, 2026';
-
-  final List<({String dates, String type, String duration, String status, Color color})> _history = [
-    (dates: '21/09 — 23/09/2026', type: 'Phép năm', duration: '3 ngày', status: 'Chờ duyệt', color: const Color(0xFFF59E0B)),
-    (dates: '14/08 — 15/08/2026', type: 'Nghỉ bệnh', duration: '2 ngày', status: 'Đã duyệt', color: const Color(0xFF0D9488)),
-    (dates: '02/07/2026', type: 'Việc riêng', duration: '1 ngày', status: 'Đã duyệt', color: const Color(0xFF0D9488)),
-    (dates: '10/06/2026', type: 'Không lương', duration: '1 ngày', status: 'Từ chối', color: const Color(0xFFE11D48)),
-  ];
 
   void _openModal() {
     unawaited(
@@ -45,16 +36,6 @@ class _LeaveRequestScreenState extends State<LeaveRequestScreen> {
             _startDate = start;
             _endDate = end;
             _totalDays = total;
-            _history.insert(
-              0,
-              (
-                dates: '$start — $end',
-                type: newType,
-                duration: total,
-                status: 'Chờ duyệt',
-                color: const Color(0xFFF59E0B),
-              ),
-            );
           });
           final l10n = context.l10n;
           unawaited(
@@ -73,15 +54,6 @@ class _LeaveRequestScreenState extends State<LeaveRequestScreen> {
   Widget build(BuildContext context) {
     final colors = context.colors;
     final l10n = context.l10n;
-
-    final filteredHistory = _history.where((h) {
-      if (_selectedMonth == 'Tất cả') return true;
-      if (_selectedMonth.contains('9')) return h.dates.contains('09/');
-      if (_selectedMonth.contains('8')) return h.dates.contains('08/');
-      if (_selectedMonth.contains('7')) return h.dates.contains('07/');
-      if (_selectedMonth.contains('6')) return h.dates.contains('06/');
-      return true;
-    }).toList();
 
     return Scaffold(
       backgroundColor: colors.background,
@@ -156,72 +128,6 @@ class _LeaveRequestScreenState extends State<LeaveRequestScreen> {
               ),
             ),
           ),
-          24.gapH,
-
-          // Lịch sử nghỉ phép header with MonthPickerButton
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(l10n.leaveHistorySection, style: TextStyle(fontSize: 13, fontWeight: FontWeight.w700, color: colors.textSecondary)),
-              MonthPickerButton(
-                selectedMonth: _selectedMonth,
-                onMonthChanged: (m) => setState(() => _selectedMonth = m),
-                isCompact: true,
-              ),
-            ],
-          ),
-          10.gapH,
-          if (filteredHistory.isEmpty)
-            Container(
-              padding: const EdgeInsets.symmetric(vertical: 24),
-              alignment: Alignment.center,
-              child: Text(
-                l10n.noLeaveRequestsInMonth(_selectedMonth),
-                style: TextStyle(fontSize: 13, color: colors.textSecondary),
-              ),
-            )
-          else
-            ...filteredHistory.map((h) => Padding(
-                  padding: const EdgeInsets.only(bottom: 9),
-                  child: Container(
-                    decoration: BoxDecoration(
-                      color: colors.surface,
-                      borderRadius: BorderRadius.circular(16),
-                      border: Border.all(color: colors.border),
-                    ),
-                    padding: const EdgeInsets.all(14),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(h.type, style: TextStyle(fontSize: 13.5, fontWeight: FontWeight.w800, color: colors.textPrimary)),
-                            3.gapH,
-                            Text(h.dates, style: TextStyle(fontSize: 12, color: colors.textSecondary)),
-                          ],
-                        ),
-                        Row(
-                          children: [
-                            Text(h.duration, style: TextStyle(fontSize: 13.5, fontWeight: FontWeight.w800, color: colors.textPrimary)),
-                            12.gapW,
-                            Container(
-                              padding: const EdgeInsets.symmetric(horizontal: 9, vertical: 4),
-                              decoration: BoxDecoration(
-                                color: h.color.withValues(alpha: 0.12),
-                                borderRadius: BorderRadius.circular(8),
-                              ),
-                              child: Text(
-                                h.status,
-                                style: TextStyle(fontSize: 11, fontWeight: FontWeight.w800, color: h.color),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                  ),
-                )),
         ],
       ),
     );
@@ -250,8 +156,12 @@ class _LeaveRequestScreenState extends State<LeaveRequestScreen> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Text(label, style: TextStyle(fontSize: 13, color: colors.textSecondary)),
+        Expanded(
+          child: Text(label, maxLines: 1, overflow: TextOverflow.ellipsis, style: TextStyle(fontSize: 13, color: colors.textSecondary)),
+        ),
+        8.gapW,
         Row(
+          mainAxisSize: MainAxisSize.min,
           children: [
             Text(
               value,

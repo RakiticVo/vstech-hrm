@@ -207,20 +207,43 @@ class _ApprovalsScreenState extends State<ApprovalsScreen> {
                         final item = filtered[idx];
                         return Padding(
                           padding: const EdgeInsets.only(bottom: 12),
-                          child: ApprovalCard(
-                            item: item,
-                            onApprove: () {
-                              setState(() => _approvals.remove(item));
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                SnackBar(content: Text(l10n.requestApprovedSuccess(item.name))),
+                          child: InkWell(
+                            borderRadius: BorderRadius.circular(18),
+                            onTap: () {
+                              context.push(
+                                AppRoutes.requestDetail,
+                                extra: {
+                                  'code': 'RQ-2026-09${30 + idx}',
+                                  'title': item.type,
+                                  'category': item.category,
+                                  'requesterName': item.name,
+                                  'initialStatus': 'pending',
+                                  'isApprover': true,
+                                  'swapComparison': item.swapBothSchedules,
+                                  'attendanceSnippet': item.attendanceSnippet,
+                                  'fields': [
+                                    ('Loại yêu cầu', item.type),
+                                    ('Thời gian', item.dates),
+                                    ('Lý do đề xuất', item.reason),
+                                  ],
+                                },
                               );
                             },
-                            onReject: (reason) {
-                              setState(() => _approvals.remove(item));
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                SnackBar(content: Text(l10n.requestRejectedSuccess(item.name))),
-                              );
-                            },
+                            child: ApprovalCard(
+                              item: item,
+                              onApprove: () {
+                                setState(() => _approvals.remove(item));
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(content: Text(l10n.requestApprovedSuccess(item.name))),
+                                );
+                              },
+                              onReject: (reason) {
+                                setState(() => _approvals.remove(item));
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(content: Text(l10n.requestRejectedSuccess(item.name))),
+                                );
+                              },
+                            ),
                           ),
                         );
                       },

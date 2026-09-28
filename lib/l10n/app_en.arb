@@ -1094,5 +1094,307 @@
   "deviceContactHrSent": "Support request sent to HR.",
   "deviceContactHrBtn": "Contact HR Department",
   "deviceTestBlockCta": "Test Block Check-in (Demo)",
-  "deviceCheckSafetyBtn": "Check Device Safety"
+  "deviceCheckSafetyBtn": "Check Device Safety",
+
+  "requestDetailTitle": "Request Detail",
+  "requestCodeLabel": "Request Code",
+  "requesterLabel": "Requester",
+  "cancelRequestBtn": "Cancel Request",
+  "cancelRequestConfirm": "Are you sure you want to cancel this request?",
+  "requestCancelledSuccess": "Request has been cancelled successfully",
+  "internalNoteHint": "Enter internal note (visible to approvers only)...",
+  "approveRequestConfirm": "Confirm approval of this request?",
+  "rejectRequestConfirm": "Confirm rejection of this request?",
+  "approvalTimelineTitle": "Approval Timeline (4 Tiers)",
+  "submittedFieldsTitle": "Submitted Details",
+  "attachedFilesTitle": "Attachments & Proof",
+  "shiftComparisonTitle": "Both Employees' Shift Schedules",
+  "attendanceLogComparisonTitle": "Actual Card Swipe Log Comparison",
+  "disputeComparisonTitle": "Disputed Line Item Comparison",
+  "disputedAmountDiff": "Discrepancy Difference",
+  "leaveManageTitle": "Leave Management",
+  "annualLeaveHeroTitle": "Annual Leave Balance 2026",
+  "leaveStatusFilterAll": "All",
+  "leaveStatusFilterPending": "Pending",
+  "leaveStatusFilterApproved": "Approved",
+  "leaveStatusFilterRejected": "Rejected",
+  "createLeaveBtn": "New Leave Request",
+  "overtimeManageTitle": "Overtime Management",
+  "totalOvertimeHours": "Total Overtime Hours",
+  "rateNormal150": "Regular 150%",
+  "rateWeekend200": "Weekend 200%",
+  "rateHoliday300": "Holiday 300%",
+  "createOvertimeBtn": "Request Overtime",
+  "correctionManageTitle": "Timesheet Correction Management",
+  "correctionQuotaTitle": "Monthly Correction Quota",
+  "correctionQuotaUsage": "Used {used}/{total} times",
+  "@correctionQuotaUsage": {
+    "placeholders": {
+      "used": {"type": "String"},
+      "total": {"type": "String"}
+    }
+  },
+  "missingPunchesSectionTitle": "Missing Punches Requiring Attention",
+  "fixPunchBtn": "Fix Punch Now",
+  "noMissingPunches": "No missing punches recorded",
+  "shiftSwapsManageTitle": "Shift Swaps Management",
+  "swapsSentTab": "Sent Requests",
+  "swapsReceivedTab": "Received Requests",
+  "colleagueLabel": "Colleague",
+  "swapStatusPending": "Pending",
+  "swapStatusApproved": "Swapped",
+  "swapStatusRejected": "Rejected",
+  "requestSentTitle": "Request Sent",
+  "requestSentSuccess": "Your request has been submitted successfully!",
+  "requestAssignedTo": "Assigned to: {name}",
+  "@requestAssignedTo": {
+    "placeholders": {
+      "name": {"type": "String"}
+    }
+  },
+  "backToListBtn": "Back to List",
+  "viewRequestDetailBtn": "View Request Detail",
+  "payslipLockTitle": "Security Verification",
+  "payslipLockSubtitle": "Enter 6-digit PIN or use biometrics to view payslip",
+  "payslipLockWrongPin": "Incorrect PIN. {remaining} attempts remaining",
+  "@payslipLockWrongPin": {
+    "placeholders": {
+      "remaining": {"type": "String"}
+    }
+  },
+  "payslipLockLocked": "Temporarily locked for 30 seconds due to too many failed attempts",
+  "payslipLockBiometricPrompt": "Authenticate to unlock payslip",
+  "payslipLockForgotPin": "Forgot PIN?",
+  "useBiometricsBtn": "Use Biometrics",
+  "signPayslipBtn": "Sign Electronic Payslip",
+  "signPadTitle": "Electronic Signature",
+  "signPadSubtitle": "Please sign your name in the box below",
+  "signPadClear": "Clear Signature",
+  "signPadConfirm": "Confirm Signature",
+  "signPadDisclaimer": "I confirm that I have verified all income, deductions and work hours in accordance with the Labor Code.",
+  "signPadEmptyAlert": "Please sign before confirming",
+  "payslipSignedBadge": "Electronically Signed",
+  "payslipSignedAt": "Signed at: {time}",
+  "@payslipSignedAt": {
+    "placeholders": {
+      "time": {"type": "String"}
+    }
+  },
+  "payslipSignedHash": "Verification hash: {hash}",
+  "@payslipSignedHash": {
+    "placeholders": {
+      "hash": {"type": "String"}
+    }
+  },
+  "payslipSignedSigner": "Signer: {name}",
+  "@payslipSignedSigner": {
+    "placeholders": {
+      "name": {"type": "String"}
+    }
+  },
+  "disputePayslipBtn": "Dispute Payslip",
+  "disputeLineBtn": "Dispute this item",
+  "disputeManageTitle": "Salary Disputes Management",
+  "disputeNewTitle": "Create Salary Dispute",
+  "disputeMonthLabel": "Dispute Period",
+  "disputeItemLabel": "Disputed Item",
+  "disputeCurrentAmountLabel": "Payslip Amount (₫)",
+  "disputeExpectedAmountLabel": "Expected Amount (₫)",
+  "disputeDifferenceLabel": "Proposed Difference",
+  "disputeReasonLabel": "Detailed Explanation",
+  "disputeReasonHint": "Describe discrepancy cause, date, shift...",
+  "disputeAttachmentLabel": "Evidence Attachments",
+  "submitDisputeBtn": "Submit Dispute",
+  "disputeCreatedSuccess": "Salary dispute submitted successfully",
+  "noDisputesFound": "No salary disputes found",
+  "disputeStatusPending": "Under Review",
+  "disputeStatusApproved": "Approved for Adjustment",
+  "disputeStatusRejected": "Dispute Declined",
+  "rewardsTabBonus": "Bonus",
+  "rewardsTabCommission": "Commission",
+  "rewardsTabTargets": "Targets",
+  "commissionTotalTitle": "Total Commission {month}",
+  "@commissionTotalTitle": {
+    "placeholders": {
+      "month": {"type": "String"}
+    }
+  },
+  "commissionFilterDay": "Day",
+  "commissionFilterWeek": "Week",
+  "commissionFilterMonth": "Month",
+  "commissionSourceDirect": "Direct Sales",
+  "commissionSourceTeam": "Team Volume",
+  "commissionSourceRenewal": "Contract Renewal",
+  "commissionContractsCount": "{count} transactions",
+  "@commissionContractsCount": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+  "targetPersonalTitle": "Personal Monthly Target",
+  "targetTeamTitle": "Branch Team Target",
+  "targetTiersTitle": "Milestone Bonus Tiers",
+  "targetTierAchieved": "Tier Achieved",
+  "targetTierRemaining": "Remaining {remaining}",
+  "@targetTierRemaining": {
+    "placeholders": {
+      "remaining": {"type": "String"}
+    }
+  },
+  "targetTierNext": "Next Target",
+  "referCandidateBtn": "Refer Candidate",
+  "referralFormTitle": "Refer a Candidate",
+  "candidateNameLabel": "Candidate Full Name",
+  "candidatePhoneLabel": "Phone Number",
+  "candidateEmailLabel": "Email Address",
+  "candidatePositionLabel": "Position",
+  "candidateBranchLabel": "Desired Branch",
+  "candidateCvLabel": "Upload CV (PDF, DOCX)",
+  "candidateCvSelected": "CV Attached: {fileName}",
+  "@candidateCvSelected": {
+    "placeholders": {
+      "fileName": {"type": "String"}
+    }
+  },
+  "candidateDuplicateError": "Candidate already has a profile within the last 6 months",
+  "submitReferralBtn": "Submit Referral",
+  "referralSuccessTitle": "Referral Submitted Successfully",
+  "referralSuccessMsg": "Candidate profile has been forwarded directly to Talent Acquisition",
+  "referralCodeLabel": "Referral Tracking Code",
+  "referralBonusNotice": "Referral Bonus: 3,000,000 ₫ (after passing probation)",
+  "viewMyReferralsBtn": "View My Referrals",
+  "myReferralsTitle": "My Referred Candidates",
+  "myReferralLinkTitle": "Your Referral Link & QR Code",
+  "copyLinkBtn": "Copy link",
+  "shareQrBtn": "Share QR",
+  "linkCopiedSnackbar": "Referral link copied to clipboard",
+  "stageReceived": "Application Received",
+  "stageInterview": "Interview",
+  "stageProbation": "Probation",
+  "stageHired": "Hired & Bonus Paid",
+  "noReferralsFound": "No referred candidates found",
+  "profileEditTitle": "Edit Profile",
+  "profileEditHeader": "Personal & Account Information",
+  "freeEditSection": "Contact Information (Instant Update)",
+  "sensitiveEditSection": "Identification & Bank Account (Requires HR Approval)",
+  "sensitiveEditNotice": "Modifications to Citizen ID and Bank Account require approval from Human Resources before taking official effect.",
+  "phoneEditLabel": "Phone Number",
+  "emailEditLabel": "Personal Email",
+  "addressEditLabel": "Current Address",
+  "emergencyNameLabel": "Emergency Contact Name",
+  "emergencyPhoneLabel": "Emergency Contact Phone",
+  "bankNameEditLabel": "Beneficiary Bank",
+  "bankAccountEditLabel": "Account Number",
+  "bankHolderEditLabel": "Account Holder Name",
+  "cccdEditLabel": "Citizen ID / Passport Number",
+  "cccdIssueDateLabel": "Issue Date",
+  "cccdIssuePlaceLabel": "Place of Issue",
+  "permanentAddressLabel": "Permanent Address (per ID)",
+  "saveChangesBtn": "Save Changes",
+  "profileEditSuccess": "Profile updated successfully",
+  "profilePendingHrAlert": "Sensitive profile update request submitted to HR (Tracking Code: {code})",
+  "@profilePendingHrAlert": {
+    "placeholders": {
+      "code": {"type": "String"}
+    }
+  },
+  "statusPendingHr": "Pending HR Approval",
+  "documentManagementTitle": "Documents & Records",
+  "expiringDocAlertTitle": "Expiring Document Alert",
+  "expiringDocAlertMsg": "Periodic health certificate expires in {days} days ({date}). Please submit an updated document.",
+  "@expiringDocAlertMsg": {
+    "placeholders": {
+      "days": {"type": "int"},
+      "date": {"type": "String"}
+    }
+  },
+  "contractSectionTitle": "Labor Contracts & Addendums",
+  "legalDocSectionTitle": "Legal Documents & Certifications",
+  "viewContractBtn": "View Contract",
+  "contractViewerTitle": "Digital Labor Contract",
+  "contractWatermark": "DIGITAL COPY - {employeeCode} - {name} - {date}",
+  "@contractWatermark": {
+    "placeholders": {
+      "employeeCode": {"type": "String"},
+      "name": {"type": "String"},
+      "date": {"type": "String"}
+    }
+  },
+  "uploadNewDocBtn": "Upload New Document",
+  "downloadDocBtn": "Download PDF",
+  "dependantsManageTitle": "Dependants",
+  "dependantsTaxReliefTitle": "Family Circumstance Tax Relief (PIT)",
+  "dependantsCountLabel": "Number of dependants: {count}",
+  "@dependantsCountLabel": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+  "dependantsTotalReliefLabel": "Total monthly tax deduction: {amount} ₫/month",
+  "@dependantsTotalReliefLabel": {
+    "placeholders": {
+      "amount": {"type": "String"}
+    }
+  },
+  "dependantPolicyNotice": "Family circumstance deduction of 4,400,000 ₫/person/month pursuant to Standing Committee of the National Assembly resolution.",
+  "addDependantBtn": "Register New Dependant",
+  "dependantNewTitle": "Register Dependant",
+  "dependantFullNameLabel": "Dependant Full Name",
+  "dependantRelationshipLabel": "Relationship",
+  "dependantDobLabel": "Date of Birth",
+  "dependantTaxIdLabel": "Tax ID / Citizen ID / Birth Cert No.",
+  "dependantStartMonthLabel": "Effective Deduction Start Month",
+  "dependantProofUploadLabel": "Supporting Document (Birth Cert / ID)",
+  "dependantDisclaimer": "I declare that all submitted dependant details are true, correct, and I assume full legal responsibility.",
+  "submitDependantBtn": "Submit Dependant Registration",
+  "dependantCreatedSuccess": "Dependant registration submitted to Human Resources successfully",
+  "noDependantsFound": "No registered dependants found",
+  "onboardingHomeTitle": "Onboarding Journey",
+  "onboardingWelcomeMsg": "Welcome to VSTECH!",
+  "onboardingCountdownDays": "{days} days left until Day One ({date})",
+  "@onboardingCountdownDays": {
+    "placeholders": {
+      "days": {"type": "int"},
+      "date": {"type": "String"}
+    }
+  },
+  "onboardingProgressSummary": "Preparation progress: {completed}/{total} steps",
+  "@onboardingProgressSummary": {
+    "placeholders": {
+      "completed": {"type": "int"},
+      "total": {"type": "int"}
+    }
+  },
+  "offerLetterTitle": "Job Offer Letter",
+  "offerAcceptBtn": "Accept Offer Letter",
+  "offerAcceptedBadge": "Offer Accepted",
+  "offerSalaryProbation": "Probation Salary (85%): {amount} ₫",
+  "@offerSalaryProbation": {
+    "placeholders": {
+      "amount": {"type": "String"}
+    }
+  },
+  "orgIntroTitle": "Team & Buddy Introduction",
+  "buddyCardTitle": "Your Assigned Onboarding Buddy",
+  "uploadDocsTitle": "Submit HR Documents",
+  "uploadDocsProgress": "Submitted {uploaded}/{total} documents",
+  "@uploadDocsProgress": {
+    "placeholders": {
+      "uploaded": {"type": "int"},
+      "total": {"type": "int"}
+    }
+  },
+  "capturePhotoTitle": "Employee Badge Photo",
+  "capturePhotoGuide": "Take a 3x4 portrait against a plain background, looking straight at the camera",
+  "capturePhotoBtn": "Take Photo",
+  "confirmPhotoBtn": "Confirm & Use This Photo",
+  "ocrVerificationTitle": "Identity Verification (Citizen ID OCR)",
+  "ocrScanBtn": "Scan Citizen ID Front",
+  "ocrVerifiedBadge": "100% Identity Match Verified",
+  "probationContractTitle": "Digital Probation Contract",
+  "signContractBtn": "Sign Digital Contract",
+  "contractSignedSuccess": "Digital probation contract signed successfully",
+  "dayOneGuideTitle": "Day One Survival Guide",
+  "dayOneChecklistTitle": "Essential Notes for Day One",
+  "startNextStepBtn": "Continue Next Step"
 }

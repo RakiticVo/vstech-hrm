@@ -91,11 +91,15 @@ class HomeBalanceCard extends StatelessWidget {
                       child: Row(
                         mainAxisSize: MainAxisSize.min,
                         children: [
-                          Text(
-                            displayShiftName,
-                            style: AppTextStyles.bodySmall(color: colors.textSecondary).copyWith(
-                              fontWeight: FontWeight.w700,
-                              fontFeatures: const [FontFeature.tabularFigures()],
+                          Flexible(
+                            child: Text(
+                              displayShiftName,
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                              style: AppTextStyles.bodySmall(color: colors.textSecondary).copyWith(
+                                fontWeight: FontWeight.w700,
+                                fontFeatures: const [FontFeature.tabularFigures()],
+                              ),
                             ),
                           ),
                           4.gapW,
@@ -142,16 +146,18 @@ class HomeBalanceCard extends StatelessWidget {
             children: [
               // In Time
               Expanded(
-                flex: 10,
+                flex: 9,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
                       l10n.shiftCheckInLabel,
                       style: AppTextStyles.labelMicro(color: colors.textSecondary).copyWith(
-                        letterSpacing: 1.2,
+                        letterSpacing: 1.0,
                         fontWeight: FontWeight.w800,
                       ),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
                     ),
                     2.gapH,
                     Text(
@@ -169,16 +175,18 @@ class HomeBalanceCard extends StatelessWidget {
 
               // Out Time
               Expanded(
-                flex: 10,
+                flex: 9,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
                       l10n.shiftCheckOutLabel,
                       style: AppTextStyles.labelMicro(color: colors.textSecondary).copyWith(
-                        letterSpacing: 1.2,
+                        letterSpacing: 1.0,
                         fontWeight: FontWeight.w800,
                       ),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
                     ),
                     2.gapH,
                     Text(
@@ -198,7 +206,7 @@ class HomeBalanceCard extends StatelessWidget {
 
               // Amber CTA Button
               Expanded(
-                flex: 15,
+                flex: 17,
                 child: SizedBox(
                   height: context.custom(compact: 42, normal: 46, expanded: 50).toDouble(),
                   child: ElevatedButton(
@@ -206,7 +214,7 @@ class HomeBalanceCard extends StatelessWidget {
                       backgroundColor: colors.accentAmber,
                       foregroundColor: const Color(0xFF1C1408),
                       elevation: 0,
-                      padding: const EdgeInsets.symmetric(horizontal: 10),
+                      padding: const EdgeInsets.symmetric(horizontal: 6),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(14),
                       ),
@@ -220,14 +228,18 @@ class HomeBalanceCard extends StatelessWidget {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        const Icon(Symbols.face, size: 18, weight: 600),
-                        6.gapW,
-                        Text(
-                          isShiftComplete ? l10n.shiftDoneCta : l10n.shiftCheckOutCta,
-                          style: TextStyle(
-                            fontSize: context.custom(compact: 11.5, normal: 13, expanded: 14),
-                            fontWeight: FontWeight.w800,
-                            letterSpacing: 0.6,
+                        const Icon(Symbols.face, size: 17, weight: 600),
+                        4.gapW,
+                        Flexible(
+                          child: Text(
+                            isShiftComplete ? l10n.shiftDoneCta : l10n.shiftCheckOutCta,
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                            style: TextStyle(
+                              fontSize: context.custom(compact: 11, normal: 12.5, expanded: 13.5),
+                              fontWeight: FontWeight.w800,
+                              letterSpacing: 0.2,
+                            ),
                           ),
                         ),
                       ],

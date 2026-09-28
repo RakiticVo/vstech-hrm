@@ -1662,7 +1662,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get laborProfileTitle => 'Labor Profile & Contracts';
 
   @override
-  String get contractSectionTitle => 'Current Labor Contract';
+  String get contractSectionTitle => 'Labor Contracts & Addendums';
 
   @override
   String get contractNumberLabel => 'Contract Number';
@@ -2388,4 +2388,655 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get deviceCheckSafetyBtn => 'Check Device Safety';
+
+  @override
+  String get requestDetailTitle => 'Request Detail';
+
+  @override
+  String get requestCodeLabel => 'Request Code';
+
+  @override
+  String get requesterLabel => 'Requester';
+
+  @override
+  String get cancelRequestBtn => 'Cancel Request';
+
+  @override
+  String get cancelRequestConfirm =>
+      'Are you sure you want to cancel this request?';
+
+  @override
+  String get requestCancelledSuccess =>
+      'Request has been cancelled successfully';
+
+  @override
+  String get internalNoteHint =>
+      'Enter internal note (visible to approvers only)...';
+
+  @override
+  String get approveRequestConfirm => 'Confirm approval of this request?';
+
+  @override
+  String get rejectRequestConfirm => 'Confirm rejection of this request?';
+
+  @override
+  String get approvalTimelineTitle => 'Approval Timeline (4 Tiers)';
+
+  @override
+  String get submittedFieldsTitle => 'Submitted Details';
+
+  @override
+  String get attachedFilesTitle => 'Attachments & Proof';
+
+  @override
+  String get shiftComparisonTitle => 'Both Employees\' Shift Schedules';
+
+  @override
+  String get attendanceLogComparisonTitle => 'Actual Card Swipe Log Comparison';
+
+  @override
+  String get disputeComparisonTitle => 'Disputed Line Item Comparison';
+
+  @override
+  String get disputedAmountDiff => 'Discrepancy Difference';
+
+  @override
+  String get leaveManageTitle => 'Leave Management';
+
+  @override
+  String get annualLeaveHeroTitle => 'Annual Leave Balance 2026';
+
+  @override
+  String get leaveStatusFilterAll => 'All';
+
+  @override
+  String get leaveStatusFilterPending => 'Pending';
+
+  @override
+  String get leaveStatusFilterApproved => 'Approved';
+
+  @override
+  String get leaveStatusFilterRejected => 'Rejected';
+
+  @override
+  String get createLeaveBtn => 'New Leave Request';
+
+  @override
+  String get overtimeManageTitle => 'Overtime Management';
+
+  @override
+  String get totalOvertimeHours => 'Total Overtime Hours';
+
+  @override
+  String get rateNormal150 => 'Regular 150%';
+
+  @override
+  String get rateWeekend200 => 'Weekend 200%';
+
+  @override
+  String get rateHoliday300 => 'Holiday 300%';
+
+  @override
+  String get createOvertimeBtn => 'Request Overtime';
+
+  @override
+  String get correctionManageTitle => 'Timesheet Correction Management';
+
+  @override
+  String get correctionQuotaTitle => 'Monthly Correction Quota';
+
+  @override
+  String correctionQuotaUsage(String used, String total) {
+    return 'Used $used/$total times';
+  }
+
+  @override
+  String get missingPunchesSectionTitle =>
+      'Missing Punches Requiring Attention';
+
+  @override
+  String get fixPunchBtn => 'Fix Punch Now';
+
+  @override
+  String get noMissingPunches => 'No missing punches recorded';
+
+  @override
+  String get shiftSwapsManageTitle => 'Shift Swaps Management';
+
+  @override
+  String get swapsSentTab => 'Sent Requests';
+
+  @override
+  String get swapsReceivedTab => 'Received Requests';
+
+  @override
+  String get colleagueLabel => 'Colleague';
+
+  @override
+  String get swapStatusPending => 'Pending';
+
+  @override
+  String get swapStatusApproved => 'Swapped';
+
+  @override
+  String get swapStatusRejected => 'Rejected';
+
+  @override
+  String get requestSentTitle => 'Request Sent';
+
+  @override
+  String get requestSentSuccess =>
+      'Your request has been submitted successfully!';
+
+  @override
+  String requestAssignedTo(String name) {
+    return 'Assigned to: $name';
+  }
+
+  @override
+  String get backToListBtn => 'Back to List';
+
+  @override
+  String get viewRequestDetailBtn => 'View Request Detail';
+
+  @override
+  String get payslipLockTitle => 'Security Verification';
+
+  @override
+  String get payslipLockSubtitle =>
+      'Enter 6-digit PIN or use biometrics to view payslip';
+
+  @override
+  String payslipLockWrongPin(String remaining) {
+    return 'Incorrect PIN. $remaining attempts remaining';
+  }
+
+  @override
+  String get payslipLockLocked =>
+      'Temporarily locked for 30 seconds due to too many failed attempts';
+
+  @override
+  String get payslipLockBiometricPrompt => 'Authenticate to unlock payslip';
+
+  @override
+  String get payslipLockForgotPin => 'Forgot PIN?';
+
+  @override
+  String get useBiometricsBtn => 'Use Biometrics';
+
+  @override
+  String get signPayslipBtn => 'Sign Electronic Payslip';
+
+  @override
+  String get signPadTitle => 'Electronic Signature';
+
+  @override
+  String get signPadSubtitle => 'Please sign your name in the box below';
+
+  @override
+  String get signPadClear => 'Clear Signature';
+
+  @override
+  String get signPadConfirm => 'Confirm Signature';
+
+  @override
+  String get signPadDisclaimer =>
+      'I confirm that I have verified all income, deductions and work hours in accordance with the Labor Code.';
+
+  @override
+  String get signPadEmptyAlert => 'Please sign before confirming';
+
+  @override
+  String get payslipSignedBadge => 'Electronically Signed';
+
+  @override
+  String payslipSignedAt(String time) {
+    return 'Signed at: $time';
+  }
+
+  @override
+  String payslipSignedHash(String hash) {
+    return 'Verification hash: $hash';
+  }
+
+  @override
+  String payslipSignedSigner(String name) {
+    return 'Signer: $name';
+  }
+
+  @override
+  String get disputePayslipBtn => 'Dispute Payslip';
+
+  @override
+  String get disputeLineBtn => 'Dispute this item';
+
+  @override
+  String get disputeManageTitle => 'Salary Disputes Management';
+
+  @override
+  String get disputeNewTitle => 'Create Salary Dispute';
+
+  @override
+  String get disputeMonthLabel => 'Dispute Period';
+
+  @override
+  String get disputeItemLabel => 'Disputed Item';
+
+  @override
+  String get disputeCurrentAmountLabel => 'Payslip Amount (₫)';
+
+  @override
+  String get disputeExpectedAmountLabel => 'Expected Amount (₫)';
+
+  @override
+  String get disputeDifferenceLabel => 'Proposed Difference';
+
+  @override
+  String get disputeReasonLabel => 'Detailed Explanation';
+
+  @override
+  String get disputeReasonHint => 'Describe discrepancy cause, date, shift...';
+
+  @override
+  String get disputeAttachmentLabel => 'Evidence Attachments';
+
+  @override
+  String get submitDisputeBtn => 'Submit Dispute';
+
+  @override
+  String get disputeCreatedSuccess => 'Salary dispute submitted successfully';
+
+  @override
+  String get noDisputesFound => 'No salary disputes found';
+
+  @override
+  String get disputeStatusPending => 'Under Review';
+
+  @override
+  String get disputeStatusApproved => 'Approved for Adjustment';
+
+  @override
+  String get disputeStatusRejected => 'Dispute Declined';
+
+  @override
+  String get rewardsTabBonus => 'Bonus';
+
+  @override
+  String get rewardsTabCommission => 'Commission';
+
+  @override
+  String get rewardsTabTargets => 'Targets';
+
+  @override
+  String commissionTotalTitle(String month) {
+    return 'Total Commission $month';
+  }
+
+  @override
+  String get commissionFilterDay => 'Day';
+
+  @override
+  String get commissionFilterWeek => 'Week';
+
+  @override
+  String get commissionFilterMonth => 'Month';
+
+  @override
+  String get commissionSourceDirect => 'Direct Sales';
+
+  @override
+  String get commissionSourceTeam => 'Team Volume';
+
+  @override
+  String get commissionSourceRenewal => 'Contract Renewal';
+
+  @override
+  String commissionContractsCount(int count) {
+    return '$count transactions';
+  }
+
+  @override
+  String get targetPersonalTitle => 'Personal Monthly Target';
+
+  @override
+  String get targetTeamTitle => 'Branch Team Target';
+
+  @override
+  String get targetTiersTitle => 'Milestone Bonus Tiers';
+
+  @override
+  String get targetTierAchieved => 'Tier Achieved';
+
+  @override
+  String targetTierRemaining(String remaining) {
+    return 'Remaining $remaining';
+  }
+
+  @override
+  String get targetTierNext => 'Next Target';
+
+  @override
+  String get referCandidateBtn => 'Refer Candidate';
+
+  @override
+  String get referralFormTitle => 'Refer a Candidate';
+
+  @override
+  String get candidateNameLabel => 'Candidate Full Name';
+
+  @override
+  String get candidatePhoneLabel => 'Phone Number';
+
+  @override
+  String get candidateEmailLabel => 'Email Address';
+
+  @override
+  String get candidatePositionLabel => 'Position';
+
+  @override
+  String get candidateBranchLabel => 'Desired Branch';
+
+  @override
+  String get candidateCvLabel => 'Upload CV (PDF, DOCX)';
+
+  @override
+  String candidateCvSelected(String fileName) {
+    return 'CV Attached: $fileName';
+  }
+
+  @override
+  String get candidateDuplicateError =>
+      'Candidate already has a profile within the last 6 months';
+
+  @override
+  String get submitReferralBtn => 'Submit Referral';
+
+  @override
+  String get referralSuccessTitle => 'Referral Submitted Successfully';
+
+  @override
+  String get referralSuccessMsg =>
+      'Candidate profile has been forwarded directly to Talent Acquisition';
+
+  @override
+  String get referralCodeLabel => 'Referral Tracking Code';
+
+  @override
+  String get referralBonusNotice =>
+      'Referral Bonus: 3,000,000 ₫ (after passing probation)';
+
+  @override
+  String get viewMyReferralsBtn => 'View My Referrals';
+
+  @override
+  String get myReferralsTitle => 'My Referred Candidates';
+
+  @override
+  String get myReferralLinkTitle => 'Your Referral Link & QR Code';
+
+  @override
+  String get copyLinkBtn => 'Copy link';
+
+  @override
+  String get shareQrBtn => 'Share QR';
+
+  @override
+  String get linkCopiedSnackbar => 'Referral link copied to clipboard';
+
+  @override
+  String get stageReceived => 'Application Received';
+
+  @override
+  String get stageInterview => 'Interview';
+
+  @override
+  String get stageProbation => 'Probation';
+
+  @override
+  String get stageHired => 'Hired & Bonus Paid';
+
+  @override
+  String get noReferralsFound => 'No referred candidates found';
+
+  @override
+  String get profileEditTitle => 'Edit Profile';
+
+  @override
+  String get profileEditHeader => 'Personal & Account Information';
+
+  @override
+  String get freeEditSection => 'Contact Information (Instant Update)';
+
+  @override
+  String get sensitiveEditSection =>
+      'Identification & Bank Account (Requires HR Approval)';
+
+  @override
+  String get sensitiveEditNotice =>
+      'Modifications to Citizen ID and Bank Account require approval from Human Resources before taking official effect.';
+
+  @override
+  String get phoneEditLabel => 'Phone Number';
+
+  @override
+  String get emailEditLabel => 'Personal Email';
+
+  @override
+  String get addressEditLabel => 'Current Address';
+
+  @override
+  String get emergencyNameLabel => 'Emergency Contact Name';
+
+  @override
+  String get emergencyPhoneLabel => 'Emergency Contact Phone';
+
+  @override
+  String get bankNameEditLabel => 'Beneficiary Bank';
+
+  @override
+  String get bankAccountEditLabel => 'Account Number';
+
+  @override
+  String get bankHolderEditLabel => 'Account Holder Name';
+
+  @override
+  String get cccdEditLabel => 'Citizen ID / Passport Number';
+
+  @override
+  String get cccdIssueDateLabel => 'Issue Date';
+
+  @override
+  String get cccdIssuePlaceLabel => 'Place of Issue';
+
+  @override
+  String get permanentAddressLabel => 'Permanent Address (per ID)';
+
+  @override
+  String get saveChangesBtn => 'Save Changes';
+
+  @override
+  String get profileEditSuccess => 'Profile updated successfully';
+
+  @override
+  String profilePendingHrAlert(String code) {
+    return 'Sensitive profile update request submitted to HR (Tracking Code: $code)';
+  }
+
+  @override
+  String get statusPendingHr => 'Pending HR Approval';
+
+  @override
+  String get documentManagementTitle => 'Documents & Records';
+
+  @override
+  String get expiringDocAlertTitle => 'Expiring Document Alert';
+
+  @override
+  String expiringDocAlertMsg(int days, String date) {
+    return 'Periodic health certificate expires in $days days ($date). Please submit an updated document.';
+  }
+
+  @override
+  String get legalDocSectionTitle => 'Legal Documents & Certifications';
+
+  @override
+  String get viewContractBtn => 'View Contract';
+
+  @override
+  String get contractViewerTitle => 'Digital Labor Contract';
+
+  @override
+  String contractWatermark(String employeeCode, String name, String date) {
+    return 'DIGITAL COPY - $employeeCode - $name - $date';
+  }
+
+  @override
+  String get uploadNewDocBtn => 'Upload New Document';
+
+  @override
+  String get downloadDocBtn => 'Download PDF';
+
+  @override
+  String get dependantsManageTitle => 'Dependants';
+
+  @override
+  String get dependantsTaxReliefTitle => 'Family Circumstance Tax Relief (PIT)';
+
+  @override
+  String dependantsCountLabel(int count) {
+    return 'Number of dependants: $count';
+  }
+
+  @override
+  String dependantsTotalReliefLabel(String amount) {
+    return 'Total monthly tax deduction: $amount ₫/month';
+  }
+
+  @override
+  String get dependantPolicyNotice =>
+      'Family circumstance deduction of 4,400,000 ₫/person/month pursuant to Standing Committee of the National Assembly resolution.';
+
+  @override
+  String get addDependantBtn => 'Register New Dependant';
+
+  @override
+  String get dependantNewTitle => 'Register Dependant';
+
+  @override
+  String get dependantFullNameLabel => 'Dependant Full Name';
+
+  @override
+  String get dependantRelationshipLabel => 'Relationship';
+
+  @override
+  String get dependantDobLabel => 'Date of Birth';
+
+  @override
+  String get dependantTaxIdLabel => 'Tax ID / Citizen ID / Birth Cert No.';
+
+  @override
+  String get dependantStartMonthLabel => 'Effective Deduction Start Month';
+
+  @override
+  String get dependantProofUploadLabel =>
+      'Supporting Document (Birth Cert / ID)';
+
+  @override
+  String get dependantDisclaimer =>
+      'I declare that all submitted dependant details are true, correct, and I assume full legal responsibility.';
+
+  @override
+  String get submitDependantBtn => 'Submit Dependant Registration';
+
+  @override
+  String get dependantCreatedSuccess =>
+      'Dependant registration submitted to Human Resources successfully';
+
+  @override
+  String get noDependantsFound => 'No registered dependants found';
+
+  @override
+  String get onboardingHomeTitle => 'Onboarding Journey';
+
+  @override
+  String get onboardingWelcomeMsg => 'Welcome to VSTECH!';
+
+  @override
+  String onboardingCountdownDays(int days, String date) {
+    return '$days days left until Day One ($date)';
+  }
+
+  @override
+  String onboardingProgressSummary(int completed, int total) {
+    return 'Preparation progress: $completed/$total steps';
+  }
+
+  @override
+  String get offerLetterTitle => 'Job Offer Letter';
+
+  @override
+  String get offerAcceptBtn => 'Accept Offer Letter';
+
+  @override
+  String get offerAcceptedBadge => 'Offer Accepted';
+
+  @override
+  String offerSalaryProbation(String amount) {
+    return 'Probation Salary (85%): $amount ₫';
+  }
+
+  @override
+  String get orgIntroTitle => 'Team & Buddy Introduction';
+
+  @override
+  String get buddyCardTitle => 'Your Assigned Onboarding Buddy';
+
+  @override
+  String get uploadDocsTitle => 'Submit HR Documents';
+
+  @override
+  String uploadDocsProgress(int uploaded, int total) {
+    return 'Submitted $uploaded/$total documents';
+  }
+
+  @override
+  String get capturePhotoTitle => 'Employee Badge Photo';
+
+  @override
+  String get capturePhotoGuide =>
+      'Take a 3x4 portrait against a plain background, looking straight at the camera';
+
+  @override
+  String get capturePhotoBtn => 'Take Photo';
+
+  @override
+  String get confirmPhotoBtn => 'Confirm & Use This Photo';
+
+  @override
+  String get ocrVerificationTitle => 'Identity Verification (Citizen ID OCR)';
+
+  @override
+  String get ocrScanBtn => 'Scan Citizen ID Front';
+
+  @override
+  String get ocrVerifiedBadge => '100% Identity Match Verified';
+
+  @override
+  String get probationContractTitle => 'Digital Probation Contract';
+
+  @override
+  String get signContractBtn => 'Sign Digital Contract';
+
+  @override
+  String get contractSignedSuccess =>
+      'Digital probation contract signed successfully';
+
+  @override
+  String get dayOneGuideTitle => 'Day One Survival Guide';
+
+  @override
+  String get dayOneChecklistTitle => 'Essential Notes for Day One';
+
+  @override
+  String get startNextStepBtn => 'Continue Next Step';
 }

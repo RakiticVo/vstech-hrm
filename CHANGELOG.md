@@ -5,6 +5,30 @@
 ## [Unreleased]
 
 ### Added
+- Hoàn thiện trọn bộ các phân hệ mở rộng theo luồng nghiệp vụ HRM Process Flows & UI:
+  - Phân hệ Yêu cầu & Quản lý đơn từ (`lib/features/requests/`):
+    - Các màn hình quản lý chuyên biệt: Quản lý nghỉ phép (`LeaveManageScreen`), Quản lý tăng ca (`OvertimeManageScreen`), Quản lý sửa công (`CorrectionManageScreen`), Quản lý đổi ca (`ShiftSwapsScreen`).
+    - Màn hình Chi tiết yêu cầu 4 cấp (`RequestDetailScreen`) với tiến trình phê duyệt trực quan, hiển thị đối sánh thông tin và dialog hủy đơn chuẩn hóa (`CancelRequestDialog`).
+  - Phân hệ Hội nhập nhân sự mới Onboarding (`lib/features/onboarding/`):
+    - Lộ trình hội nhập ứng viên mới (`OnboardingHomeScreen`) với 7 bước chuẩn hóa (xem offer, ký HĐLĐ điện tử, chụp ảnh thẻ, tải hồ sơ, OCR CCCD, sơ đồ tổ chức, cẩm nang ngày đầu).
+  - Phân hệ Lương, Khóa bảo mật & Khiếu nại lương (`lib/features/payroll/`):
+    - Khóa mã PIN 6 số cho phiếu lương (`PayslipLockScreen`), chữ ký số và gửi khiếu nại lương (`SalaryDisputeScreen`, `SalaryDisputeNewScreen`).
+  - Phân hệ Khen thưởng, Hoa hồng & Mục tiêu (`lib/features/rewards/`):
+    - Giao diện 3 tab Khen thưởng - Hoa hồng - Mục tiêu doanh số (`RewardsScreen`).
+  - Phân hệ Tuyển dụng nội bộ & Giới thiệu ứng viên (`lib/features/recruitment/`):
+    - Tin tuyển dụng (`InternalRecruitmentScreen`), form giới thiệu ứng viên (`ReferralFormScreen`) với kiểm tra trùng lặp 6 tháng và theo dõi tiền thưởng (`MyReferralsScreen`).
+  - Phân hệ Hồ sơ cá nhân nâng cao (`lib/features/profile/`):
+    - Chỉnh sửa thông tin có phân luồng phê duyệt (`ProfileEditScreen`), Quản lý tài liệu hồ sơ (`DocumentManagementScreen`), Đăng ký người phụ thuộc giảm trừ gia cảnh (`DependantsScreen`, `DependantNewScreen`).
+  - Bổ sung bộ kiểm thử 91/91 unit & widget tests phủ toàn diện các phân hệ mới (100% passed).
+
+### Changed
+- Tách bộ lọc tháng và bộ lọc trạng thái thành 2 dòng riêng biệt tại các màn Quản lý nghỉ phép và Quản lý tăng ca, loại bỏ lỗi tràn viền (overflow).
+- Tái cấu trúc tiến trình phê duyệt tại màn Chi tiết yêu cầu: đưa trạng thái và thời gian xuống dưới tiêu đề bước để tiêu đề dài tự động xuống dòng linh hoạt.
+- Thiết kế lại dialog xác nhận Hủy yêu cầu với bo góc mềm mại, nút bấm tương phản cao, và cơ chế tự động quay về màn hình trước đó sau khi xác nhận.
+- Cải thiện giao diện Quỹ giờ làm thêm & Nghỉ bù theo lưới 2x2 cân đối, loại bỏ nút thừa gây lỗi hiển thị.
+- Lược bỏ phần lịch sử đơn trùng lặp ở 3 màn hình tạo đơn (Nghỉ phép, Tăng ca, Sửa công) nhằm tối ưu trải nghiệm nhập liệu cho nhân viên.
+
+### Added
 - Triển khai toàn bộ Phân hệ Chấm công - Ca kíp & Phê duyệt Phase 0 Demo Scope (`docs/demo/HRM_Phase0_Demo_Scope.md`):
   - Nhóm A — Ca làm việc & Đổi ca:
     - Bổ sung kiểm tra điều kiện đổi ca (`ShiftSwapModal`): kiểm tra cùng chi nhánh, cùng cấp bậc, không vắng phép, và ràng buộc tối thiểu 12 giờ nghỉ giữa 2 ca theo Điều 109 BLLĐ 2019; banner cảnh báo vi phạm và tự động khóa nút gửi đơn.

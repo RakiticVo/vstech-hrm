@@ -7,10 +7,9 @@ import 'package:vstech_hrm/core/responsive/app_layout.dart';
 import 'package:vstech_hrm/core/router/routes.dart';
 import 'package:vstech_hrm/core/theme/app_colors.dart';
 import 'package:vstech_hrm/core/widgets/app_success_dialog.dart';
-import 'package:vstech_hrm/core/widgets/month_picker_button.dart';
 import 'package:vstech_hrm/features/requests/presentation/widgets/overtime_request_modal.dart';
 
-/// Screen 11: Register Overtime hours with monthly filter, estimate calculator and interactive input modal.
+/// Screen 11: Register Overtime hours with estimate calculator and interactive input modal.
 class OvertimeRequestScreen extends StatefulWidget {
   const new({super.key});
 
@@ -22,14 +21,6 @@ class _OvertimeRequestScreenState extends State<OvertimeRequestScreen> {
   String _date = '16/09/2026';
   String _time = '18:00 — 21:00';
   String _total = '3h · x1.5';
-  String _selectedMonth = 'Tháng 9, 2026';
-
-  final List<({String date, String time, String duration, String status, Color color})> _history = [
-    (date: '12/09/2026', time: '18:00 — 21:00', duration: '3h', status: 'Đã duyệt', color: const Color(0xFF0D9488)),
-    (date: '05/09/2026', time: '18:00 — 22:00', duration: '4h', status: 'Đã duyệt', color: const Color(0xFF0D9488)),
-    (date: '29/08/2026', time: '18:00 — 21:00', duration: '3h', status: 'Đã duyệt', color: const Color(0xFF0D9488)),
-    (date: '22/08/2026', time: '18:00 — 20:00', duration: '2h', status: 'Từ chối', color: const Color(0xFFE11D48)),
-  ];
 
   void _openInputModal() {
     unawaited(
@@ -43,16 +34,6 @@ class _OvertimeRequestScreenState extends State<OvertimeRequestScreen> {
             _date = newDate;
             _time = newTime;
             _total = newTotal;
-            _history.insert(
-              0,
-              (
-                date: newDate,
-                time: newTime,
-                duration: newTotal.split(' · ')[0],
-                status: 'Chờ duyệt',
-                color: const Color(0xFFF59E0B),
-              ),
-            );
           });
           final l10n = context.l10n;
           unawaited(
@@ -71,15 +52,6 @@ class _OvertimeRequestScreenState extends State<OvertimeRequestScreen> {
   Widget build(BuildContext context) {
     final colors = context.colors;
     final l10n = context.l10n;
-
-    final filteredHistory = _history.where((h) {
-      if (_selectedMonth == 'Tất cả') return true;
-      if (_selectedMonth.contains('9')) return h.date.contains('09/');
-      if (_selectedMonth.contains('8')) return h.date.contains('08/');
-      if (_selectedMonth.contains('7')) return h.date.contains('07/');
-      if (_selectedMonth.contains('6')) return h.date.contains('06/');
-      return true;
-    }).toList();
 
     return Scaffold(
       backgroundColor: colors.background,
@@ -124,6 +96,34 @@ class _OvertimeRequestScreenState extends State<OvertimeRequestScreen> {
               Expanded(child: _buildStatCard(l10n.paidStat, '1.8M', colors.primaryIndigo, colors)),
             ],
           ),
+          12.gapH,
+
+          // Monthly Approved OT Header (E2) & Extra Hours Link (E3)
+          InkWell(
+            borderRadius: BorderRadius.circular(12),
+            onTap: () => context.push(AppRoutes.extraHours),
+            child: Container(
+              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+              decoration: BoxDecoration(
+                color: colors.primaryIndigo.withValues(alpha: 0.08),
+                borderRadius: BorderRadius.circular(12),
+                border: Border.all(color: colors.primaryIndigo.withValues(alpha: 0.15)),
+              ),
+              child: Row(
+                children: [
+                  Icon(Symbols.more_time, size: 18, color: colors.primaryIndigo),
+                  8.gapW,
+                  Expanded(
+                    child: Text(
+                      l10n.otMonthlyApprovedHeader('28.5'),
+                      style: TextStyle(fontSize: 12, fontWeight: FontWeight.w700, color: colors.primaryIndigo),
+                    ),
+                  ),
+                  Icon(Symbols.chevron_right, size: 16, color: colors.primaryIndigo),
+                ],
+              ),
+            ),
+          ),
           20.gapH,
 
           // Tăng ca mới
@@ -150,99 +150,6 @@ class _OvertimeRequestScreenState extends State<OvertimeRequestScreen> {
               ),
             ),
           ),
-          24.gapH,
-
-          // Lịch sử tăng ca with MonthPickerButton
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(l10n.overtimeHistorySection, style: TextStyle(fontSize: 13, fontWeight: FontWeight.w700, color: colors.textSecondary)),
-              MonthPickerButton(
-                selectedMonth: _selectedMonth,
-                onMonthChanged: (m) => setState(() => _selectedMonth = m),
-                isCompact: true,
-              ),
-            ],
-          ),
-          8.gapH,
-          // Monthly Approved OT Header (E2) & Extra Hours Link (E3)
-          InkWell(
-            borderRadius: BorderRadius.circular(12),
-            onTap: () => context.push(AppRoutes.extraHours),
-            child: Container(
-              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-              decoration: BoxDecoration(
-                color: colors.primaryIndigo.withValues(alpha: 0.08),
-                borderRadius: BorderRadius.circular(12),
-                border: Border.all(color: colors.primaryIndigo.withValues(alpha: 0.15)),
-              ),
-              child: Row(
-                children: [
-                  Icon(Symbols.more_time, size: 18, color: colors.primaryIndigo),
-                  8.gapW,
-                  Expanded(
-                    child: Text(
-                      l10n.otMonthlyApprovedHeader('28.5'),
-                      style: TextStyle(fontSize: 12, fontWeight: FontWeight.w700, color: colors.primaryIndigo),
-                    ),
-                  ),
-                  Icon(Symbols.chevron_right, size: 16, color: colors.primaryIndigo),
-                ],
-              ),
-            ),
-          ),
-          12.gapH,
-          if (filteredHistory.isEmpty)
-            Container(
-              padding: const EdgeInsets.symmetric(vertical: 24),
-              alignment: Alignment.center,
-              child: Text(
-                l10n.noOvertimeInMonth(_selectedMonth),
-                style: TextStyle(fontSize: 13, color: colors.textSecondary),
-              ),
-            )
-          else
-            ...filteredHistory.map((h) => Padding(
-                  padding: const EdgeInsets.only(bottom: 9),
-                  child: Container(
-                    decoration: BoxDecoration(
-                      color: colors.surface,
-                      borderRadius: BorderRadius.circular(16),
-                      border: Border.all(color: colors.border),
-                    ),
-                    padding: const EdgeInsets.all(14),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(h.date, style: TextStyle(fontSize: 13.5, fontWeight: FontWeight.w800, color: colors.textPrimary)),
-                            2.gapH,
-                            Text(h.time, style: TextStyle(fontSize: 12, color: colors.textSecondary)),
-                          ],
-                        ),
-                        Row(
-                          children: [
-                            Text(h.duration, style: TextStyle(fontSize: 13.5, fontWeight: FontWeight.w800, color: colors.textPrimary)),
-                            12.gapW,
-                            Container(
-                              padding: const EdgeInsets.symmetric(horizontal: 9, vertical: 4),
-                              decoration: BoxDecoration(
-                                color: h.color.withValues(alpha: 0.12),
-                                borderRadius: BorderRadius.circular(8),
-                              ),
-                              child: Text(
-                                h.status,
-                                style: TextStyle(fontSize: 11, fontWeight: FontWeight.w800, color: h.color),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                  ),
-                )),
         ],
       ),
     );
@@ -271,17 +178,12 @@ class _OvertimeRequestScreenState extends State<OvertimeRequestScreen> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Text(label, style: TextStyle(fontSize: 13, color: colors.textSecondary)),
+        Expanded(child: Text(label, maxLines: 1, overflow: TextOverflow.ellipsis, style: TextStyle(fontSize: 13, color: colors.textSecondary))),
+        8.gapW,
         Row(
+          mainAxisSize: MainAxisSize.min,
           children: [
-            Text(
-              value,
-              style: TextStyle(
-                fontSize: 14,
-                fontWeight: FontWeight.w800,
-                color: isHighlight ? colors.primaryIndigo : colors.textPrimary,
-              ),
-            ),
+            Text(value, style: TextStyle(fontSize: 14, fontWeight: FontWeight.w800, color: isHighlight ? colors.primaryIndigo : colors.textPrimary)),
             4.gapW,
             Icon(Symbols.edit, size: 14, color: colors.textTertiary),
           ],

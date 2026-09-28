@@ -3160,7 +3160,7 @@ abstract class AppLocalizations {
   /// No description provided for @contractSectionTitle.
   ///
   /// In vi, this message translates to:
-  /// **'Hợp đồng lao động hiện tại'**
+  /// **'Hợp đồng lao động & Phụ lục'**
   String get contractSectionTitle;
 
   /// No description provided for @contractNumberLabel.
@@ -4518,6 +4518,1194 @@ abstract class AppLocalizations {
   /// In vi, this message translates to:
   /// **'Kiểm tra an toàn'**
   String get deviceCheckSafetyBtn;
+
+  /// No description provided for @requestDetailTitle.
+  ///
+  /// In vi, this message translates to:
+  /// **'Chi tiết yêu cầu'**
+  String get requestDetailTitle;
+
+  /// No description provided for @requestCodeLabel.
+  ///
+  /// In vi, this message translates to:
+  /// **'Mã yêu cầu'**
+  String get requestCodeLabel;
+
+  /// No description provided for @requesterLabel.
+  ///
+  /// In vi, this message translates to:
+  /// **'Người gửi'**
+  String get requesterLabel;
+
+  /// No description provided for @cancelRequestBtn.
+  ///
+  /// In vi, this message translates to:
+  /// **'Hủy yêu cầu'**
+  String get cancelRequestBtn;
+
+  /// No description provided for @cancelRequestConfirm.
+  ///
+  /// In vi, this message translates to:
+  /// **'Bạn có chắc chắn muốn hủy yêu cầu này?'**
+  String get cancelRequestConfirm;
+
+  /// No description provided for @requestCancelledSuccess.
+  ///
+  /// In vi, this message translates to:
+  /// **'Yêu cầu đã được hủy thành công'**
+  String get requestCancelledSuccess;
+
+  /// No description provided for @internalNoteHint.
+  ///
+  /// In vi, this message translates to:
+  /// **'Nhập ghi chú nội bộ (chỉ người duyệt thấy)...'**
+  String get internalNoteHint;
+
+  /// No description provided for @approveRequestConfirm.
+  ///
+  /// In vi, this message translates to:
+  /// **'Xác nhận phê duyệt yêu cầu này?'**
+  String get approveRequestConfirm;
+
+  /// No description provided for @rejectRequestConfirm.
+  ///
+  /// In vi, this message translates to:
+  /// **'Xác nhận từ chối yêu cầu?'**
+  String get rejectRequestConfirm;
+
+  /// No description provided for @approvalTimelineTitle.
+  ///
+  /// In vi, this message translates to:
+  /// **'Tiến trình phê duyệt (4 cấp)'**
+  String get approvalTimelineTitle;
+
+  /// No description provided for @submittedFieldsTitle.
+  ///
+  /// In vi, this message translates to:
+  /// **'Thông tin chi tiết'**
+  String get submittedFieldsTitle;
+
+  /// No description provided for @attachedFilesTitle.
+  ///
+  /// In vi, this message translates to:
+  /// **'Tệp đính kèm & Minh chứng'**
+  String get attachedFilesTitle;
+
+  /// No description provided for @shiftComparisonTitle.
+  ///
+  /// In vi, this message translates to:
+  /// **'So sánh ca làm việc hai nhân viên'**
+  String get shiftComparisonTitle;
+
+  /// No description provided for @attendanceLogComparisonTitle.
+  ///
+  /// In vi, this message translates to:
+  /// **'Đối chiếu giờ quẹt thẻ thực tế'**
+  String get attendanceLogComparisonTitle;
+
+  /// No description provided for @disputeComparisonTitle.
+  ///
+  /// In vi, this message translates to:
+  /// **'Đối chiếu khoản mục khiếu nại'**
+  String get disputeComparisonTitle;
+
+  /// No description provided for @disputedAmountDiff.
+  ///
+  /// In vi, this message translates to:
+  /// **'Mức chênh lệch'**
+  String get disputedAmountDiff;
+
+  /// No description provided for @leaveManageTitle.
+  ///
+  /// In vi, this message translates to:
+  /// **'Quản lý Nghỉ phép'**
+  String get leaveManageTitle;
+
+  /// No description provided for @annualLeaveHeroTitle.
+  ///
+  /// In vi, this message translates to:
+  /// **'Quỹ phép năm 2026'**
+  String get annualLeaveHeroTitle;
+
+  /// No description provided for @leaveStatusFilterAll.
+  ///
+  /// In vi, this message translates to:
+  /// **'Tất cả'**
+  String get leaveStatusFilterAll;
+
+  /// No description provided for @leaveStatusFilterPending.
+  ///
+  /// In vi, this message translates to:
+  /// **'Chờ duyệt'**
+  String get leaveStatusFilterPending;
+
+  /// No description provided for @leaveStatusFilterApproved.
+  ///
+  /// In vi, this message translates to:
+  /// **'Đã duyệt'**
+  String get leaveStatusFilterApproved;
+
+  /// No description provided for @leaveStatusFilterRejected.
+  ///
+  /// In vi, this message translates to:
+  /// **'Từ chối'**
+  String get leaveStatusFilterRejected;
+
+  /// No description provided for @createLeaveBtn.
+  ///
+  /// In vi, this message translates to:
+  /// **'Tạo đơn nghỉ phép'**
+  String get createLeaveBtn;
+
+  /// No description provided for @overtimeManageTitle.
+  ///
+  /// In vi, this message translates to:
+  /// **'Quản lý Tăng ca'**
+  String get overtimeManageTitle;
+
+  /// No description provided for @totalOvertimeHours.
+  ///
+  /// In vi, this message translates to:
+  /// **'Tổng giờ tăng ca'**
+  String get totalOvertimeHours;
+
+  /// No description provided for @rateNormal150.
+  ///
+  /// In vi, this message translates to:
+  /// **'Ngày thường 150%'**
+  String get rateNormal150;
+
+  /// No description provided for @rateWeekend200.
+  ///
+  /// In vi, this message translates to:
+  /// **'Cuối tuần 200%'**
+  String get rateWeekend200;
+
+  /// No description provided for @rateHoliday300.
+  ///
+  /// In vi, this message translates to:
+  /// **'Ngày lễ 300%'**
+  String get rateHoliday300;
+
+  /// No description provided for @createOvertimeBtn.
+  ///
+  /// In vi, this message translates to:
+  /// **'Đăng ký tăng ca'**
+  String get createOvertimeBtn;
+
+  /// No description provided for @correctionManageTitle.
+  ///
+  /// In vi, this message translates to:
+  /// **'Quản lý Sửa công'**
+  String get correctionManageTitle;
+
+  /// No description provided for @correctionQuotaTitle.
+  ///
+  /// In vi, this message translates to:
+  /// **'Hạn mức sửa công tháng này'**
+  String get correctionQuotaTitle;
+
+  /// No description provided for @correctionQuotaUsage.
+  ///
+  /// In vi, this message translates to:
+  /// **'Đã dùng {used}/{total} lần'**
+  String correctionQuotaUsage(String used, String total);
+
+  /// No description provided for @missingPunchesSectionTitle.
+  ///
+  /// In vi, this message translates to:
+  /// **'Ngày thiếu chấm công cần xử lý'**
+  String get missingPunchesSectionTitle;
+
+  /// No description provided for @fixPunchBtn.
+  ///
+  /// In vi, this message translates to:
+  /// **'Sửa công ngay'**
+  String get fixPunchBtn;
+
+  /// No description provided for @noMissingPunches.
+  ///
+  /// In vi, this message translates to:
+  /// **'Không có ngày nào bị thiếu chấm công'**
+  String get noMissingPunches;
+
+  /// No description provided for @shiftSwapsManageTitle.
+  ///
+  /// In vi, this message translates to:
+  /// **'Quản lý Đổi ca'**
+  String get shiftSwapsManageTitle;
+
+  /// No description provided for @swapsSentTab.
+  ///
+  /// In vi, this message translates to:
+  /// **'Đơn gửi đi'**
+  String get swapsSentTab;
+
+  /// No description provided for @swapsReceivedTab.
+  ///
+  /// In vi, this message translates to:
+  /// **'Đơn nhận được'**
+  String get swapsReceivedTab;
+
+  /// No description provided for @colleagueLabel.
+  ///
+  /// In vi, this message translates to:
+  /// **'Đồng nghiệp đổi ca'**
+  String get colleagueLabel;
+
+  /// No description provided for @swapStatusPending.
+  ///
+  /// In vi, this message translates to:
+  /// **'Chờ duyệt'**
+  String get swapStatusPending;
+
+  /// No description provided for @swapStatusApproved.
+  ///
+  /// In vi, this message translates to:
+  /// **'Đã đổi ca'**
+  String get swapStatusApproved;
+
+  /// No description provided for @swapStatusRejected.
+  ///
+  /// In vi, this message translates to:
+  /// **'Từ chối'**
+  String get swapStatusRejected;
+
+  /// No description provided for @requestSentTitle.
+  ///
+  /// In vi, this message translates to:
+  /// **'Gửi thành công'**
+  String get requestSentTitle;
+
+  /// No description provided for @requestSentSuccess.
+  ///
+  /// In vi, this message translates to:
+  /// **'Yêu cầu của bạn đã được gửi thành công!'**
+  String get requestSentSuccess;
+
+  /// No description provided for @requestAssignedTo.
+  ///
+  /// In vi, this message translates to:
+  /// **'Người tiếp nhận: {name}'**
+  String requestAssignedTo(String name);
+
+  /// No description provided for @backToListBtn.
+  ///
+  /// In vi, this message translates to:
+  /// **'Về danh sách'**
+  String get backToListBtn;
+
+  /// No description provided for @viewRequestDetailBtn.
+  ///
+  /// In vi, this message translates to:
+  /// **'Xem chi tiết yêu cầu'**
+  String get viewRequestDetailBtn;
+
+  /// No description provided for @payslipLockTitle.
+  ///
+  /// In vi, this message translates to:
+  /// **'Xác thực bảo mật'**
+  String get payslipLockTitle;
+
+  /// No description provided for @payslipLockSubtitle.
+  ///
+  /// In vi, this message translates to:
+  /// **'Nhập mã PIN 6 số hoặc xác thực sinh trắc học để xem phiếu lương'**
+  String get payslipLockSubtitle;
+
+  /// No description provided for @payslipLockWrongPin.
+  ///
+  /// In vi, this message translates to:
+  /// **'Mã PIN không chính xác. Còn lại {remaining} lần thử'**
+  String payslipLockWrongPin(String remaining);
+
+  /// No description provided for @payslipLockLocked.
+  ///
+  /// In vi, this message translates to:
+  /// **'Đã khóa tạm thời trong 30 giây do nhập sai nhiều lần'**
+  String get payslipLockLocked;
+
+  /// No description provided for @payslipLockBiometricPrompt.
+  ///
+  /// In vi, this message translates to:
+  /// **'Xác thực để mở khóa phiếu lương'**
+  String get payslipLockBiometricPrompt;
+
+  /// No description provided for @payslipLockForgotPin.
+  ///
+  /// In vi, this message translates to:
+  /// **'Quên mã PIN?'**
+  String get payslipLockForgotPin;
+
+  /// No description provided for @useBiometricsBtn.
+  ///
+  /// In vi, this message translates to:
+  /// **'Dùng sinh trắc học'**
+  String get useBiometricsBtn;
+
+  /// No description provided for @signPayslipBtn.
+  ///
+  /// In vi, this message translates to:
+  /// **'Ký xác nhận phiếu lương'**
+  String get signPayslipBtn;
+
+  /// No description provided for @signPadTitle.
+  ///
+  /// In vi, this message translates to:
+  /// **'Ký xác nhận điện tử'**
+  String get signPadTitle;
+
+  /// No description provided for @signPadSubtitle.
+  ///
+  /// In vi, this message translates to:
+  /// **'Vui lòng ký tên của bạn vào khung bên dưới'**
+  String get signPadSubtitle;
+
+  /// No description provided for @signPadClear.
+  ///
+  /// In vi, this message translates to:
+  /// **'Xóa chữ ký'**
+  String get signPadClear;
+
+  /// No description provided for @signPadConfirm.
+  ///
+  /// In vi, this message translates to:
+  /// **'Xác nhận ký'**
+  String get signPadConfirm;
+
+  /// No description provided for @signPadDisclaimer.
+  ///
+  /// In vi, this message translates to:
+  /// **'Tôi xác nhận đã kiểm tra kỹ các thông tin thu nhập, khấu trừ và công chuẩn theo Bộ luật Lao động.'**
+  String get signPadDisclaimer;
+
+  /// No description provided for @signPadEmptyAlert.
+  ///
+  /// In vi, this message translates to:
+  /// **'Vui lòng ký tên trước khi xác nhận'**
+  String get signPadEmptyAlert;
+
+  /// No description provided for @payslipSignedBadge.
+  ///
+  /// In vi, this message translates to:
+  /// **'Đã ký điện tử'**
+  String get payslipSignedBadge;
+
+  /// No description provided for @payslipSignedAt.
+  ///
+  /// In vi, this message translates to:
+  /// **'Thời gian ký: {time}'**
+  String payslipSignedAt(String time);
+
+  /// No description provided for @payslipSignedHash.
+  ///
+  /// In vi, this message translates to:
+  /// **'Mã băm xác thực: {hash}'**
+  String payslipSignedHash(String hash);
+
+  /// No description provided for @payslipSignedSigner.
+  ///
+  /// In vi, this message translates to:
+  /// **'Người ký: {name}'**
+  String payslipSignedSigner(String name);
+
+  /// No description provided for @disputePayslipBtn.
+  ///
+  /// In vi, this message translates to:
+  /// **'Khiếu nại bảng lương'**
+  String get disputePayslipBtn;
+
+  /// No description provided for @disputeLineBtn.
+  ///
+  /// In vi, this message translates to:
+  /// **'Khiếu nại dòng này'**
+  String get disputeLineBtn;
+
+  /// No description provided for @disputeManageTitle.
+  ///
+  /// In vi, this message translates to:
+  /// **'Quản lý Khiếu nại lương'**
+  String get disputeManageTitle;
+
+  /// No description provided for @disputeNewTitle.
+  ///
+  /// In vi, this message translates to:
+  /// **'Tạo khiếu nại lương'**
+  String get disputeNewTitle;
+
+  /// No description provided for @disputeMonthLabel.
+  ///
+  /// In vi, this message translates to:
+  /// **'Tháng khiếu nại'**
+  String get disputeMonthLabel;
+
+  /// No description provided for @disputeItemLabel.
+  ///
+  /// In vi, this message translates to:
+  /// **'Khoản mục sai lệch'**
+  String get disputeItemLabel;
+
+  /// No description provided for @disputeCurrentAmountLabel.
+  ///
+  /// In vi, this message translates to:
+  /// **'Số tiền trên phiếu lương (₫)'**
+  String get disputeCurrentAmountLabel;
+
+  /// No description provided for @disputeExpectedAmountLabel.
+  ///
+  /// In vi, this message translates to:
+  /// **'Số tiền đề xuất đúng (₫)'**
+  String get disputeExpectedAmountLabel;
+
+  /// No description provided for @disputeDifferenceLabel.
+  ///
+  /// In vi, this message translates to:
+  /// **'Chênh lệch đề xuất'**
+  String get disputeDifferenceLabel;
+
+  /// No description provided for @disputeReasonLabel.
+  ///
+  /// In vi, this message translates to:
+  /// **'Lý do & giải trình chi tiết'**
+  String get disputeReasonLabel;
+
+  /// No description provided for @disputeReasonHint.
+  ///
+  /// In vi, this message translates to:
+  /// **'Nêu rõ nguyên nhân chênh lệch, ngày phát sinh, ca làm việc...'**
+  String get disputeReasonHint;
+
+  /// No description provided for @disputeAttachmentLabel.
+  ///
+  /// In vi, this message translates to:
+  /// **'Minh chứng (bảng công, ảnh chụp phân ca...)'**
+  String get disputeAttachmentLabel;
+
+  /// No description provided for @submitDisputeBtn.
+  ///
+  /// In vi, this message translates to:
+  /// **'Gửi khiếu nại'**
+  String get submitDisputeBtn;
+
+  /// No description provided for @disputeCreatedSuccess.
+  ///
+  /// In vi, this message translates to:
+  /// **'Đã gửi khiếu nại lương thành công'**
+  String get disputeCreatedSuccess;
+
+  /// No description provided for @noDisputesFound.
+  ///
+  /// In vi, this message translates to:
+  /// **'Không có khiếu nại nào'**
+  String get noDisputesFound;
+
+  /// No description provided for @disputeStatusPending.
+  ///
+  /// In vi, this message translates to:
+  /// **'Đang đối soát'**
+  String get disputeStatusPending;
+
+  /// No description provided for @disputeStatusApproved.
+  ///
+  /// In vi, this message translates to:
+  /// **'Đã duyệt bù'**
+  String get disputeStatusApproved;
+
+  /// No description provided for @disputeStatusRejected.
+  ///
+  /// In vi, this message translates to:
+  /// **'Không chấp thuận'**
+  String get disputeStatusRejected;
+
+  /// No description provided for @rewardsTabBonus.
+  ///
+  /// In vi, this message translates to:
+  /// **'Thưởng'**
+  String get rewardsTabBonus;
+
+  /// No description provided for @rewardsTabCommission.
+  ///
+  /// In vi, this message translates to:
+  /// **'Hoa hồng'**
+  String get rewardsTabCommission;
+
+  /// No description provided for @rewardsTabTargets.
+  ///
+  /// In vi, this message translates to:
+  /// **'Chỉ tiêu'**
+  String get rewardsTabTargets;
+
+  /// No description provided for @commissionTotalTitle.
+  ///
+  /// In vi, this message translates to:
+  /// **'Tổng hoa hồng tháng {month}'**
+  String commissionTotalTitle(String month);
+
+  /// No description provided for @commissionFilterDay.
+  ///
+  /// In vi, this message translates to:
+  /// **'Ngày'**
+  String get commissionFilterDay;
+
+  /// No description provided for @commissionFilterWeek.
+  ///
+  /// In vi, this message translates to:
+  /// **'Tuần'**
+  String get commissionFilterWeek;
+
+  /// No description provided for @commissionFilterMonth.
+  ///
+  /// In vi, this message translates to:
+  /// **'Tháng'**
+  String get commissionFilterMonth;
+
+  /// No description provided for @commissionSourceDirect.
+  ///
+  /// In vi, this message translates to:
+  /// **'Bán hàng trực tiếp'**
+  String get commissionSourceDirect;
+
+  /// No description provided for @commissionSourceTeam.
+  ///
+  /// In vi, this message translates to:
+  /// **'Doanh số nhóm'**
+  String get commissionSourceTeam;
+
+  /// No description provided for @commissionSourceRenewal.
+  ///
+  /// In vi, this message translates to:
+  /// **'Tái tục hợp đồng'**
+  String get commissionSourceRenewal;
+
+  /// No description provided for @commissionContractsCount.
+  ///
+  /// In vi, this message translates to:
+  /// **'{count} giao dịch'**
+  String commissionContractsCount(int count);
+
+  /// No description provided for @targetPersonalTitle.
+  ///
+  /// In vi, this message translates to:
+  /// **'Chỉ tiêu cá nhân tháng này'**
+  String get targetPersonalTitle;
+
+  /// No description provided for @targetTeamTitle.
+  ///
+  /// In vi, this message translates to:
+  /// **'Chỉ tiêu đội nhóm chi nhánh'**
+  String get targetTeamTitle;
+
+  /// No description provided for @targetTiersTitle.
+  ///
+  /// In vi, this message translates to:
+  /// **'Các mốc thưởng bậc thang'**
+  String get targetTiersTitle;
+
+  /// No description provided for @targetTierAchieved.
+  ///
+  /// In vi, this message translates to:
+  /// **'Đã đạt mốc'**
+  String get targetTierAchieved;
+
+  /// No description provided for @targetTierRemaining.
+  ///
+  /// In vi, this message translates to:
+  /// **'Còn thiếu {remaining}'**
+  String targetTierRemaining(String remaining);
+
+  /// No description provided for @targetTierNext.
+  ///
+  /// In vi, this message translates to:
+  /// **'Mục tiêu kế tiếp'**
+  String get targetTierNext;
+
+  /// No description provided for @referCandidateBtn.
+  ///
+  /// In vi, this message translates to:
+  /// **'Giới thiệu ứng viên'**
+  String get referCandidateBtn;
+
+  /// No description provided for @referralFormTitle.
+  ///
+  /// In vi, this message translates to:
+  /// **'Giới thiệu ứng viên'**
+  String get referralFormTitle;
+
+  /// No description provided for @candidateNameLabel.
+  ///
+  /// In vi, this message translates to:
+  /// **'Họ và tên ứng viên'**
+  String get candidateNameLabel;
+
+  /// No description provided for @candidatePhoneLabel.
+  ///
+  /// In vi, this message translates to:
+  /// **'Số điện thoại'**
+  String get candidatePhoneLabel;
+
+  /// No description provided for @candidateEmailLabel.
+  ///
+  /// In vi, this message translates to:
+  /// **'Email liên hệ'**
+  String get candidateEmailLabel;
+
+  /// No description provided for @candidatePositionLabel.
+  ///
+  /// In vi, this message translates to:
+  /// **'Vị trí ứng tuyển'**
+  String get candidatePositionLabel;
+
+  /// No description provided for @candidateBranchLabel.
+  ///
+  /// In vi, this message translates to:
+  /// **'Chi nhánh mong muốn'**
+  String get candidateBranchLabel;
+
+  /// No description provided for @candidateCvLabel.
+  ///
+  /// In vi, this message translates to:
+  /// **'Tải lên CV (PDF, DOCX)'**
+  String get candidateCvLabel;
+
+  /// No description provided for @candidateCvSelected.
+  ///
+  /// In vi, this message translates to:
+  /// **'Đã đính kèm CV: {fileName}'**
+  String candidateCvSelected(String fileName);
+
+  /// No description provided for @candidateDuplicateError.
+  ///
+  /// In vi, this message translates to:
+  /// **'Ứng viên này đã có hồ sơ trong hệ thống trong vòng 6 tháng qua'**
+  String get candidateDuplicateError;
+
+  /// No description provided for @submitReferralBtn.
+  ///
+  /// In vi, this message translates to:
+  /// **'Gửi hồ sơ giới thiệu'**
+  String get submitReferralBtn;
+
+  /// No description provided for @referralSuccessTitle.
+  ///
+  /// In vi, this message translates to:
+  /// **'Gửi giới thiệu thành công'**
+  String get referralSuccessTitle;
+
+  /// No description provided for @referralSuccessMsg.
+  ///
+  /// In vi, this message translates to:
+  /// **'Hồ sơ ứng viên đã được chuyển trực tiếp đến bộ phận Tuyển dụng'**
+  String get referralSuccessMsg;
+
+  /// No description provided for @referralCodeLabel.
+  ///
+  /// In vi, this message translates to:
+  /// **'Mã theo dõi giới thiệu'**
+  String get referralCodeLabel;
+
+  /// No description provided for @referralBonusNotice.
+  ///
+  /// In vi, this message translates to:
+  /// **'Thưởng giới thiệu: 3.000.000 ₫ (khi ứng viên qua thử việc)'**
+  String get referralBonusNotice;
+
+  /// No description provided for @viewMyReferralsBtn.
+  ///
+  /// In vi, this message translates to:
+  /// **'Xem ứng viên tôi đã giới thiệu'**
+  String get viewMyReferralsBtn;
+
+  /// No description provided for @myReferralsTitle.
+  ///
+  /// In vi, this message translates to:
+  /// **'Ứng viên tôi đã giới thiệu'**
+  String get myReferralsTitle;
+
+  /// No description provided for @myReferralLinkTitle.
+  ///
+  /// In vi, this message translates to:
+  /// **'Link & Mã QR giới thiệu của bạn'**
+  String get myReferralLinkTitle;
+
+  /// No description provided for @copyLinkBtn.
+  ///
+  /// In vi, this message translates to:
+  /// **'Sao chép link'**
+  String get copyLinkBtn;
+
+  /// No description provided for @shareQrBtn.
+  ///
+  /// In vi, this message translates to:
+  /// **'Chia sẻ QR'**
+  String get shareQrBtn;
+
+  /// No description provided for @linkCopiedSnackbar.
+  ///
+  /// In vi, this message translates to:
+  /// **'Đã sao chép link giới thiệu vào clipboard'**
+  String get linkCopiedSnackbar;
+
+  /// No description provided for @stageReceived.
+  ///
+  /// In vi, this message translates to:
+  /// **'Tiếp nhận hồ sơ'**
+  String get stageReceived;
+
+  /// No description provided for @stageInterview.
+  ///
+  /// In vi, this message translates to:
+  /// **'Phỏng vấn'**
+  String get stageInterview;
+
+  /// No description provided for @stageProbation.
+  ///
+  /// In vi, this message translates to:
+  /// **'Thử việc'**
+  String get stageProbation;
+
+  /// No description provided for @stageHired.
+  ///
+  /// In vi, this message translates to:
+  /// **'Đã nhận việc & Thưởng'**
+  String get stageHired;
+
+  /// No description provided for @noReferralsFound.
+  ///
+  /// In vi, this message translates to:
+  /// **'Chưa có ứng viên nào được giới thiệu'**
+  String get noReferralsFound;
+
+  /// No description provided for @profileEditTitle.
+  ///
+  /// In vi, this message translates to:
+  /// **'Chỉnh sửa hồ sơ'**
+  String get profileEditTitle;
+
+  /// No description provided for @profileEditHeader.
+  ///
+  /// In vi, this message translates to:
+  /// **'Thông tin cá nhân & Tài khoản'**
+  String get profileEditHeader;
+
+  /// No description provided for @freeEditSection.
+  ///
+  /// In vi, this message translates to:
+  /// **'Thông tin liên hệ (Cập nhật ngay)'**
+  String get freeEditSection;
+
+  /// No description provided for @sensitiveEditSection.
+  ///
+  /// In vi, this message translates to:
+  /// **'Thông tin định danh & Ngân hàng (Cần HR duyệt)'**
+  String get sensitiveEditSection;
+
+  /// No description provided for @sensitiveEditNotice.
+  ///
+  /// In vi, this message translates to:
+  /// **'Các thay đổi về CCCD/Hộ chiếu và Tài khoản ngân hàng cần được phòng Nhân sự phê duyệt trước khi áp dụng chính thức.'**
+  String get sensitiveEditNotice;
+
+  /// No description provided for @phoneEditLabel.
+  ///
+  /// In vi, this message translates to:
+  /// **'Số điện thoại'**
+  String get phoneEditLabel;
+
+  /// No description provided for @emailEditLabel.
+  ///
+  /// In vi, this message translates to:
+  /// **'Email cá nhân'**
+  String get emailEditLabel;
+
+  /// No description provided for @addressEditLabel.
+  ///
+  /// In vi, this message translates to:
+  /// **'Địa chỉ hiện tại'**
+  String get addressEditLabel;
+
+  /// No description provided for @emergencyNameLabel.
+  ///
+  /// In vi, this message translates to:
+  /// **'Người liên hệ khẩn cấp'**
+  String get emergencyNameLabel;
+
+  /// No description provided for @emergencyPhoneLabel.
+  ///
+  /// In vi, this message translates to:
+  /// **'SĐT khẩn cấp'**
+  String get emergencyPhoneLabel;
+
+  /// No description provided for @bankNameEditLabel.
+  ///
+  /// In vi, this message translates to:
+  /// **'Ngân hàng thụ hưởng'**
+  String get bankNameEditLabel;
+
+  /// No description provided for @bankAccountEditLabel.
+  ///
+  /// In vi, this message translates to:
+  /// **'Số tài khoản'**
+  String get bankAccountEditLabel;
+
+  /// No description provided for @bankHolderEditLabel.
+  ///
+  /// In vi, this message translates to:
+  /// **'Tên chủ tài khoản'**
+  String get bankHolderEditLabel;
+
+  /// No description provided for @cccdEditLabel.
+  ///
+  /// In vi, this message translates to:
+  /// **'Số CCCD / Hộ chiếu'**
+  String get cccdEditLabel;
+
+  /// No description provided for @cccdIssueDateLabel.
+  ///
+  /// In vi, this message translates to:
+  /// **'Ngày cấp'**
+  String get cccdIssueDateLabel;
+
+  /// No description provided for @cccdIssuePlaceLabel.
+  ///
+  /// In vi, this message translates to:
+  /// **'Nơi cấp'**
+  String get cccdIssuePlaceLabel;
+
+  /// No description provided for @permanentAddressLabel.
+  ///
+  /// In vi, this message translates to:
+  /// **'Địa chỉ thường trú (theo CCCD)'**
+  String get permanentAddressLabel;
+
+  /// No description provided for @saveChangesBtn.
+  ///
+  /// In vi, this message translates to:
+  /// **'Lưu thay đổi'**
+  String get saveChangesBtn;
+
+  /// No description provided for @profileEditSuccess.
+  ///
+  /// In vi, this message translates to:
+  /// **'Đã cập nhật thông tin thành công'**
+  String get profileEditSuccess;
+
+  /// No description provided for @profilePendingHrAlert.
+  ///
+  /// In vi, this message translates to:
+  /// **'Yêu cầu thay đổi thông tin định danh/ngân hàng đã được gửi đến HR (Mã: {code})'**
+  String profilePendingHrAlert(String code);
+
+  /// No description provided for @statusPendingHr.
+  ///
+  /// In vi, this message translates to:
+  /// **'Chờ HR duyệt'**
+  String get statusPendingHr;
+
+  /// No description provided for @documentManagementTitle.
+  ///
+  /// In vi, this message translates to:
+  /// **'Tài liệu & Hồ sơ'**
+  String get documentManagementTitle;
+
+  /// No description provided for @expiringDocAlertTitle.
+  ///
+  /// In vi, this message translates to:
+  /// **'Cảnh báo giấy tờ sắp hết hạn'**
+  String get expiringDocAlertTitle;
+
+  /// No description provided for @expiringDocAlertMsg.
+  ///
+  /// In vi, this message translates to:
+  /// **'Giấy khám sức khỏe định kỳ sẽ hết hạn sau {days} ngày ({date}). Vui lòng cập nhật minh chứng mới.'**
+  String expiringDocAlertMsg(int days, String date);
+
+  /// No description provided for @legalDocSectionTitle.
+  ///
+  /// In vi, this message translates to:
+  /// **'Hồ sơ pháp lý & Bằng cấp'**
+  String get legalDocSectionTitle;
+
+  /// No description provided for @viewContractBtn.
+  ///
+  /// In vi, this message translates to:
+  /// **'Xem hợp đồng'**
+  String get viewContractBtn;
+
+  /// No description provided for @contractViewerTitle.
+  ///
+  /// In vi, this message translates to:
+  /// **'Hợp đồng lao động điện tử'**
+  String get contractViewerTitle;
+
+  /// No description provided for @contractWatermark.
+  ///
+  /// In vi, this message translates to:
+  /// **'BẢN SAO ĐIỆN TỬ - {employeeCode} - {name} - {date}'**
+  String contractWatermark(String employeeCode, String name, String date);
+
+  /// No description provided for @uploadNewDocBtn.
+  ///
+  /// In vi, this message translates to:
+  /// **'Tải lên tài liệu mới'**
+  String get uploadNewDocBtn;
+
+  /// No description provided for @downloadDocBtn.
+  ///
+  /// In vi, this message translates to:
+  /// **'Tải về PDF'**
+  String get downloadDocBtn;
+
+  /// No description provided for @dependantsManageTitle.
+  ///
+  /// In vi, this message translates to:
+  /// **'Người phụ thuộc'**
+  String get dependantsManageTitle;
+
+  /// No description provided for @dependantsTaxReliefTitle.
+  ///
+  /// In vi, this message translates to:
+  /// **'Giảm trừ gia cảnh (TNCN)'**
+  String get dependantsTaxReliefTitle;
+
+  /// No description provided for @dependantsCountLabel.
+  ///
+  /// In vi, this message translates to:
+  /// **'Số người phụ thuộc: {count} người'**
+  String dependantsCountLabel(int count);
+
+  /// No description provided for @dependantsTotalReliefLabel.
+  ///
+  /// In vi, this message translates to:
+  /// **'Tổng mức giảm trừ: {amount} ₫/tháng'**
+  String dependantsTotalReliefLabel(String amount);
+
+  /// No description provided for @dependantPolicyNotice.
+  ///
+  /// In vi, this message translates to:
+  /// **'Mức giảm trừ gia cảnh 4.400.000 ₫/người/tháng theo Nghị quyết của Ủy ban Thường vụ Quốc hội.'**
+  String get dependantPolicyNotice;
+
+  /// No description provided for @addDependantBtn.
+  ///
+  /// In vi, this message translates to:
+  /// **'Đăng ký người phụ thuộc mới'**
+  String get addDependantBtn;
+
+  /// No description provided for @dependantNewTitle.
+  ///
+  /// In vi, this message translates to:
+  /// **'Đăng ký người phụ thuộc'**
+  String get dependantNewTitle;
+
+  /// No description provided for @dependantFullNameLabel.
+  ///
+  /// In vi, this message translates to:
+  /// **'Họ và tên người phụ thuộc'**
+  String get dependantFullNameLabel;
+
+  /// No description provided for @dependantRelationshipLabel.
+  ///
+  /// In vi, this message translates to:
+  /// **'Mối quan hệ'**
+  String get dependantRelationshipLabel;
+
+  /// No description provided for @dependantDobLabel.
+  ///
+  /// In vi, this message translates to:
+  /// **'Ngày tháng năm sinh'**
+  String get dependantDobLabel;
+
+  /// No description provided for @dependantTaxIdLabel.
+  ///
+  /// In vi, this message translates to:
+  /// **'Mã số thuế / CCCD / Giấy khai sinh'**
+  String get dependantTaxIdLabel;
+
+  /// No description provided for @dependantStartMonthLabel.
+  ///
+  /// In vi, this message translates to:
+  /// **'Tháng bắt đầu tính giảm trừ'**
+  String get dependantStartMonthLabel;
+
+  /// No description provided for @dependantProofUploadLabel.
+  ///
+  /// In vi, this message translates to:
+  /// **'Minh chứng (Giấy khai sinh / CCCD)'**
+  String get dependantProofUploadLabel;
+
+  /// No description provided for @dependantDisclaimer.
+  ///
+  /// In vi, this message translates to:
+  /// **'Tôi cam đoan các thông tin kê khai về người phụ thuộc trên là hoàn toàn chính xác và chịu trách nhiệm trước pháp luật.'**
+  String get dependantDisclaimer;
+
+  /// No description provided for @submitDependantBtn.
+  ///
+  /// In vi, this message translates to:
+  /// **'Gửi hồ sơ đăng ký'**
+  String get submitDependantBtn;
+
+  /// No description provided for @dependantCreatedSuccess.
+  ///
+  /// In vi, this message translates to:
+  /// **'Đã gửi hồ sơ đăng ký người phụ thuộc đến phòng Nhân sự'**
+  String get dependantCreatedSuccess;
+
+  /// No description provided for @noDependantsFound.
+  ///
+  /// In vi, this message translates to:
+  /// **'Chưa có người phụ thuộc nào được đăng ký'**
+  String get noDependantsFound;
+
+  /// No description provided for @onboardingHomeTitle.
+  ///
+  /// In vi, this message translates to:
+  /// **'Hành trình Hội nhập'**
+  String get onboardingHomeTitle;
+
+  /// No description provided for @onboardingWelcomeMsg.
+  ///
+  /// In vi, this message translates to:
+  /// **'Chào mừng bạn gia nhập VSTECH!'**
+  String get onboardingWelcomeMsg;
+
+  /// No description provided for @onboardingCountdownDays.
+  ///
+  /// In vi, this message translates to:
+  /// **'Còn {days} ngày nữa đến Ngày đầu tiên ({date})'**
+  String onboardingCountdownDays(int days, String date);
+
+  /// No description provided for @onboardingProgressSummary.
+  ///
+  /// In vi, this message translates to:
+  /// **'Tiến độ chuẩn bị: {completed}/{total} bước'**
+  String onboardingProgressSummary(int completed, int total);
+
+  /// No description provided for @offerLetterTitle.
+  ///
+  /// In vi, this message translates to:
+  /// **'Thư mời nhận việc (Offer)'**
+  String get offerLetterTitle;
+
+  /// No description provided for @offerAcceptBtn.
+  ///
+  /// In vi, this message translates to:
+  /// **'Xác nhận chấp thuận Offer'**
+  String get offerAcceptBtn;
+
+  /// No description provided for @offerAcceptedBadge.
+  ///
+  /// In vi, this message translates to:
+  /// **'Đã chấp thuận Offer'**
+  String get offerAcceptedBadge;
+
+  /// No description provided for @offerSalaryProbation.
+  ///
+  /// In vi, this message translates to:
+  /// **'Lương thử việc (85%): {amount} ₫'**
+  String offerSalaryProbation(String amount);
+
+  /// No description provided for @orgIntroTitle.
+  ///
+  /// In vi, this message translates to:
+  /// **'Đội ngũ & Người đồng hành'**
+  String get orgIntroTitle;
+
+  /// No description provided for @buddyCardTitle.
+  ///
+  /// In vi, this message translates to:
+  /// **'Người hướng dẫn (Buddy) của bạn'**
+  String get buddyCardTitle;
+
+  /// No description provided for @uploadDocsTitle.
+  ///
+  /// In vi, this message translates to:
+  /// **'Nộp hồ sơ nhân sự'**
+  String get uploadDocsTitle;
+
+  /// No description provided for @uploadDocsProgress.
+  ///
+  /// In vi, this message translates to:
+  /// **'Đã nộp {uploaded}/{total} tài liệu'**
+  String uploadDocsProgress(int uploaded, int total);
+
+  /// No description provided for @capturePhotoTitle.
+  ///
+  /// In vi, this message translates to:
+  /// **'Chụp ảnh thẻ nhân viên'**
+  String get capturePhotoTitle;
+
+  /// No description provided for @capturePhotoGuide.
+  ///
+  /// In vi, this message translates to:
+  /// **'Chụp ảnh chân dung 3x4 nền sáng, nhìn thẳng vào camera'**
+  String get capturePhotoGuide;
+
+  /// No description provided for @capturePhotoBtn.
+  ///
+  /// In vi, this message translates to:
+  /// **'Chụp ảnh'**
+  String get capturePhotoBtn;
+
+  /// No description provided for @confirmPhotoBtn.
+  ///
+  /// In vi, this message translates to:
+  /// **'Xác nhận dùng ảnh này'**
+  String get confirmPhotoBtn;
+
+  /// No description provided for @ocrVerificationTitle.
+  ///
+  /// In vi, this message translates to:
+  /// **'Xác thực danh tính (OCR CCCD)'**
+  String get ocrVerificationTitle;
+
+  /// No description provided for @ocrScanBtn.
+  ///
+  /// In vi, this message translates to:
+  /// **'Quét mặt trước CCCD'**
+  String get ocrScanBtn;
+
+  /// No description provided for @ocrVerifiedBadge.
+  ///
+  /// In vi, this message translates to:
+  /// **'Đã xác thực trùng khớp 100%'**
+  String get ocrVerifiedBadge;
+
+  /// No description provided for @probationContractTitle.
+  ///
+  /// In vi, this message translates to:
+  /// **'Hợp đồng thử việc điện tử'**
+  String get probationContractTitle;
+
+  /// No description provided for @signContractBtn.
+  ///
+  /// In vi, this message translates to:
+  /// **'Xác nhận ký hợp đồng'**
+  String get signContractBtn;
+
+  /// No description provided for @contractSignedSuccess.
+  ///
+  /// In vi, this message translates to:
+  /// **'Đã hoàn tất ký hợp đồng thử việc điện tử'**
+  String get contractSignedSuccess;
+
+  /// No description provided for @dayOneGuideTitle.
+  ///
+  /// In vi, this message translates to:
+  /// **'Cẩm nang Ngày đầu tiên'**
+  String get dayOneGuideTitle;
+
+  /// No description provided for @dayOneChecklistTitle.
+  ///
+  /// In vi, this message translates to:
+  /// **'Những điều cần lưu ý cho Ngày 1'**
+  String get dayOneChecklistTitle;
+
+  /// No description provided for @startNextStepBtn.
+  ///
+  /// In vi, this message translates to:
+  /// **'Thực hiện bước tiếp theo'**
+  String get startNextStepBtn;
 }
 
 class _AppLocalizationsDelegate

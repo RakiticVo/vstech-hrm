@@ -69,11 +69,15 @@ class OfflineQueueRecordCard extends StatelessWidget {
                 ),
               ),
               8.gapW,
-              Text(
-                dateStr,
-                style: TextStyle(fontSize: 12, color: colors.textSecondary),
+              Expanded(
+                child: Text(
+                  dateStr,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: TextStyle(fontSize: 12, color: colors.textSecondary),
+                ),
               ),
-              const Spacer(),
+              8.gapW,
               Container(
                 padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
                 decoration: BoxDecoration(
@@ -100,11 +104,15 @@ class OfflineQueueRecordCard extends StatelessWidget {
                 color: item.isWithinGeofence ? colors.pineGreen : colors.error,
               ),
               6.gapW,
-              Text(
-                l10n.geofenceDistanceLabel(item.distanceMeters),
-                style: TextStyle(fontSize: 12, color: colors.textSecondary),
+              Expanded(
+                child: Text(
+                  l10n.geofenceDistanceLabel(item.distanceMeters),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: TextStyle(fontSize: 12, color: colors.textSecondary),
+                ),
               ),
-              const Spacer(),
+              8.gapW,
               Text(
                 item.isWithinGeofence ? l10n.geofenceWithinRange : l10n.geofenceOutOfRange,
                 style: TextStyle(

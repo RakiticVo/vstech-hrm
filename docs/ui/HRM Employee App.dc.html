@@ -6,6 +6,7 @@
 <script src="./support.js"></script>
 </head>
 <body>
+<template id="__bundler_thumbnail"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><rect width="100" height="100" fill="#0A544E"/><text x="50" y="62" text-anchor="middle" font-family="sans-serif" font-size="30" font-weight="800" fill="#FFF8EC">HR</text></svg></template>
 <x-dc>
 <helmet>
 <meta name="design_doc_mode" content="canvas">
@@ -69,7 +70,7 @@ a{color:#0F766E}a:hover{color:#14B8A6}
           </div>
           <div style="width:266px;height:576px;border-radius:32px;overflow:hidden;background:{{ bezel }};box-shadow:0 6px 18px rgba(15,23,42,.12)">
             <div style="width:390px;height:844px;transform:scale(.6821);transform-origin:top left;border-radius:44px;overflow:hidden">
-              <dc-import name="Phone" screen="{{ b.s }}" lang="{{ lang }}" theme="{{ theme }}" role="{{ b.role }}" att="{{ b.att }}" month="{{ b.month }}" net="{{ b.net }}" pending="{{ b.pending }}" sync="{{ b.sync }}" face-phase="{{ b.facePhase }}" face-result="{{ b.faceResult }}" security="{{ b.security }}" view="{{ b.view }}" lock="{{ b.lock }}" sign="{{ b.sign }}" rtab="{{ b.rtab }}" cperiod="{{ b.cperiod }}" sel="{{ b.sel }}" doc="{{ b.doc }}" appr="{{ b.appr }}" apsheet="{{ b.apsheet }}" swap="{{ b.swap }}" day="{{ b.day }}" font="{{ font }}" hint-size="390px,844px"></dc-import>
+              <dc-import name="Phone" screen="{{ b.s }}" prof="{{ b.prof }}" docsel="{{ b.docsel }}" lang="{{ lang }}" theme="{{ theme }}" role="{{ b.role }}" att="{{ b.att }}" month="{{ b.month }}" net="{{ b.net }}" pending="{{ b.pending }}" sync="{{ b.sync }}" face-phase="{{ b.facePhase }}" face-result="{{ b.faceResult }}" security="{{ b.security }}" view="{{ b.view }}" lock="{{ b.lock }}" sign="{{ b.sign }}" rtab="{{ b.rtab }}" cperiod="{{ b.cperiod }}" sel="{{ b.sel }}" doc="{{ b.doc }}" appr="{{ b.appr }}" apsheet="{{ b.apsheet }}" swap="{{ b.swap }}" day="{{ b.day }}" font="{{ font }}" hint-size="390px,844px"></dc-import>
             </div>
           </div>
           <div style="font-size:11.5px;font-weight:500;color:{{ muted }};line-height:1.5;margin-top:9px">{{ b.d }}</div>
@@ -171,6 +172,19 @@ class Component extends DCLogic {
          ['Ngày đầu tiên','ob-day1','Giờ, địa chỉ, lịch trình và danh sách đồ cần mang.'],
          ['Thông báo','notifications','Có nhóm, dấu chưa đọc, bấm là đi tới màn hình liên quan.'],
          ['Cá nhân','profile','Nhóm danh sách, không đổ hết dữ liệu.'],
+         ['Chỉnh sửa thông tin','profile-edit','Liên hệ cập nhật ngay; địa chỉ và tài khoản nhận lương gửi HR duyệt kèm bằng chứng.'],
+         ['Cá nhân · chờ HR duyệt','profile','Dải chờ duyệt, giá trị mới ghi dưới giá trị cũ.',null,{prof:'pending'}],
+         ['Chỉnh sửa · đang chờ duyệt','profile-edit','Tài khoản ngân hàng khoá tới khi HR xử lý, có nút huỷ yêu cầu.',null,{prof:'pending'}],
+         ['Hồ sơ & tài liệu','docs','Hợp đồng, quyết định, giấy tờ; nhắc giấy tờ thiếu hoặc sắp hết hạn.'],
+         ['Hồ sơ · đang tải','docs','Khung chờ khi tải danh sách tài liệu.',null,{view:'loading'}],
+         ['Hồ sơ · lỗi','docs','Mất kết nối; tài liệu đã mở vẫn xem ngoại tuyến.',null,{view:'error'}],
+         ['Hồ sơ · rỗng','docs','Nhân viên mới chưa có tài liệu HR phát hành.',null,{view:'empty'}],
+         ['Xem hợp đồng','doc-view','Bản xem có watermark tên nhân viên, thông tin ký điện tử, tải PDF.'],
+         ['Giấy tờ cần bổ sung','doc-view','Chưa có bản lưu, hạn nộp và hệ quả nếu trễ hạn.',null,{docsel:'health'}],
+         ['Người phụ thuộc','dependants','Mức giảm trừ đang hưởng, trạng thái từng người, nối với khiếu nại thuế.'],
+         ['Người phụ thuộc · chờ duyệt','dependants','Người mới đăng ký chờ HR, chưa có MST.',null,{prof:'dep'}],
+         ['Người phụ thuộc · rỗng','dependants','Giải thích mức giảm trừ, CTA thêm người.',null,{view:'empty'}],
+         ['Thêm người phụ thuộc','dependant-new','Quan hệ, ngày sinh, số định danh, tháng bắt đầu, giấy khai sinh.'],
          ['Phê duyệt (quản lý)','approvals','Duyệt/từ chối ngay trên thẻ.'],
          ['Hộp duyệt · chờ duyệt','approvals','Cùng dữ liệu với tab Yêu cầu; lọc theo loại và trạng thái, badge tự cập nhật.'],
          ['Hộp duyệt · đã xử lý hết','approvals','Không còn yêu cầu chờ duyệt.',null,{view:'empty'}],
@@ -263,6 +277,19 @@ class Component extends DCLogic {
          ['First day','ob-day1','Time, address, agenda and what to bring.'],
          ['Notifications','notifications','Grouped, unread dots, deep-links to the screen.'],
          ['Profile','profile','Grouped lists, not a data dump.'],
+         ['Edit details','profile-edit','Contact updates instantly; address and salary account go to HR with proof.'],
+         ['Profile · awaiting HR','profile','Pending strip; new value shown under the current one.',null,{prof:'pending'}],
+         ['Edit · change pending','profile-edit','Bank fields locked until HR decides, with a cancel link.',null,{prof:'pending'}],
+         ['Documents','docs','Contracts, decisions, personal papers; flags missing and expiring ones.'],
+         ['Documents · loading','docs','Skeleton while the list loads.',null,{view:'loading'}],
+         ['Documents · error','docs','Offline; recently opened files still readable.',null,{view:'error'}],
+         ['Documents · empty','docs','New starter with nothing issued yet.',null,{view:'empty'}],
+         ['Contract view','doc-view','Watermarked preview, e-signature details, PDF download.'],
+         ['Missing document','doc-view','Nothing on file, due date and what happens if late.',null,{docsel:'health'}],
+         ['Dependants','dependants','Relief in effect, per-person status, linked to the tax dispute.'],
+         ['Dependants · pending','dependants','New dependant awaiting HR, no tax ID yet.',null,{prof:'dep'}],
+         ['Dependants · empty','dependants','Explains the relief, with an add CTA.',null,{view:'empty'}],
+         ['Add dependant','dependant-new','Relationship, birth date, ID number, start month, birth certificate.'],
          ['Approvals (manager)','approvals','Approve or reject from the card.'],
          ['Approvals · pending','approvals','Same data as the Requests tab; type and status filters, live badges.'],
          ['Approvals · all caught up','approvals','Nothing left to approve.',null,{view:'empty'}],
@@ -294,7 +321,7 @@ class Component extends DCLogic {
          ['Approval delegation','delegate','Hand over sign-off while away · capped, time-boxed, logged.']];
 
     const board = B.map((x,i)=>({
-      n:String(i+1).padStart(2,'0'), l:x[0], s:x[1], d:x[2], month:x[3], net:(x[4]&&x[4].net)||this.state.net, pending:x[4]&&x[4].pending, sync:x[4]&&x[4].sync, facePhase:x[4]&&x[4].facePhase, faceResult:x[4]&&x[4].faceResult, security:(x[4]&&x[4].security)||'ok', view:x[4]&&x[4].view, lock:x[4]&&x[4].lock, sign:x[4]&&x[4].sign, rtab:x[4]&&x[4].rtab, cperiod:x[4]&&x[4].cperiod, sel:x[4]&&x[4].sel, doc:x[4]&&x[4].doc, appr:x[4]&&x[4].appr, apsheet:x[4]&&x[4].apsheet, swap:x[4]&&x[4].swap, day:x[4]&&x[4].day,
+      n:String(i+1).padStart(2,'0'), prof:x[4]&&x[4].prof, docsel:x[4]&&x[4].docsel, l:x[0], s:x[1], d:x[2], month:x[3], net:(x[4]&&x[4].net)||this.state.net, pending:x[4]&&x[4].pending, sync:x[4]&&x[4].sync, facePhase:x[4]&&x[4].facePhase, faceResult:x[4]&&x[4].faceResult, security:(x[4]&&x[4].security)||'ok', view:x[4]&&x[4].view, lock:x[4]&&x[4].lock, sign:x[4]&&x[4].sign, rtab:x[4]&&x[4].rtab, cperiod:x[4]&&x[4].cperiod, sel:x[4]&&x[4].sel, doc:x[4]&&x[4].doc, appr:x[4]&&x[4].appr, apsheet:x[4]&&x[4].apsheet, swap:x[4]&&x[4].swap, day:x[4]&&x[4].day,
       role: (x[1]==='onboard'||x[1].indexOf('ob-')===0) ? 'candidate' : ['exec','final','risk','delegate'].includes(x[1]) ? 'exec' : ((x[1]==='approvals'||(x[4]&&x[4].appr)) ? 'manager' : this.state.role),
       att: x[1]==='attendance' ? 'out' : this.state.att
     }));
@@ -307,19 +334,19 @@ class Component extends DCLogic {
       controls,
       title: V?'Ứng dụng nhân sự · Gạch bông':'Employee HR app · Saigon tile',
       subtitle: V
-        ? 'Điện thoại bên dưới hoạt động thật: bấm chấm công, mở yêu cầu, gửi đơn nghỉ phép, duyệt đơn. Bảng bên dưới là toàn bộ 91 màn hình theo cùng một hệ thành phần.'
-        : 'The phone below is live: punch in, open a request, submit leave, approve as a manager. The board underneath is all 91 screens on one component system.',
+        ? 'Điện thoại bên dưới hoạt động thật: bấm chấm công, mở yêu cầu, gửi đơn nghỉ phép, duyệt đơn. Bảng bên dưới là toàn bộ 104 màn hình theo cùng một hệ thành phần.'
+        : 'The phone below is live: punch in, open a request, submit leave, approve as a manager. The board underneath is all 104 screens on one component system.',
       liveLabel: V?'BẢN TƯƠNG TÁC':'LIVE PROTOTYPE',
-      boardLabel: V?'91 MÀN HÌNH':'91 SCREENS',
+      boardLabel: V?'104 MÀN HÌNH':'104 SCREENS',
       boardSub: V?'Mỗi màn hình cũng bấm được — đổi ngôn ngữ, giao diện hay vai trò ở trên và cả bảng cập nhật theo.':'Every tile is tappable too — switch language, theme or role above and the whole board follows.',
       notes: V
         ? [{t:'Cấu trúc như app ngân hàng',b:'Giờ đã làm đóng vai “số dư” trên thẻ trắng đè lên băng hoa văn. Bốn chức năng hay dùng nổi ra ngoài thành nút tròn; phần còn lại nằm sau nút “Tất cả”.'},
-           {t:'Font: Manrope hay Source Sans 3',b:'Bấm công tắc FONT để đổi cả 91 màn. Manrope hình học, chữ rộng hơn nên số liệu lớn chiếm nhiều chỗ nhưng trông chắc. Source Sans 3 nhân văn hơn, chữ thấp cao hơn nên nội dung 13px và nhãn 11px dễ đọc hơn, và gọn hơn khoảng 3% ở cùng cỡ. Cả hai đủ dấu tiếng Việt và đều có nét 800.'},
+           {t:'Font: Manrope hay Source Sans 3',b:'Bấm công tắc FONT để đổi cả 104 màn. Manrope hình học, chữ rộng hơn nên số liệu lớn chiếm nhiều chỗ nhưng trông chắc. Source Sans 3 nhân văn hơn, chữ thấp cao hơn nên nội dung 13px và nhãn 11px dễ đọc hơn, và gọn hơn khoảng 3% ở cùng cỡ. Cả hai đủ dấu tiếng Việt và đều có nét 800.'},
            {t:'Chữ ký là hoa văn gạch bông',b:'Hoạ tiết gạch bông nhà phố Sài Gòn vẽ bằng CSS gradient, dùng ở ba chỗ: băng đầu trang, dải phân mục, và thẻ hero của lương và phép.'},
            {t:'Ba cấp, một app',b:'Quản lý thêm dải chờ duyệt và trung tâm phê duyệt. Giám đốc đổi trang chủ thành bảng điều hành và tab Yêu cầu thành phê duyệt cuối — mắt xích cuối của chu trình. Phần còn lại không đổi.'},
            {t:'Trạng thái là một phần thiết kế',b:'Chấm công có 3 trạng thái (chưa vào / đang làm / xong) đổi cả số liệu, nhãn và CTA. Rỗng, tải, lỗi, thành công đều được thiết kế riêng.'}]
         : [{t:'Structured like a banking app',b:'Hours worked plays the “balance” role on a white card overlapping the tile band. Four frequent actions surface as circular buttons; everything else sits behind “All”.'},
-           {t:'Manrope or Source Sans 3',b:'Use the FONT switch to flip all 91 screens. Manrope is geometric and wider — the big figures take more room but read solidly. Source Sans 3 is humanist with a taller x-height, so 13px body and 11px labels read easier, and it sets about 3% narrower at the same size. Both cover Vietnamese diacritics and both ship a real 800.'},
+           {t:'Manrope or Source Sans 3',b:'Use the FONT switch to flip all 104 screens. Manrope is geometric and wider — the big figures take more room but read solidly. Source Sans 3 is humanist with a taller x-height, so 13px body and 11px labels read easier, and it sets about 3% narrower at the same size. Both cover Vietnamese diacritics and both ship a real 800.'},
            {t:'The tile pattern is the signature',b:'A Saigon shophouse floor-tile motif drawn in CSS gradients, used in exactly three places: the header band, the section divider, and the payroll and leave hero cards.'},
            {t:'Three tiers, one app',b:'Manager adds an approvals strip and the approval centre. C-level replaces home with an exec dashboard and Requests with final sign-off — the last link in the chain. Everything else is unchanged.'},
            {t:'States are part of the design',b:'Attendance has three states (not in / working / done) that change figures, labels and the CTA. Empty, loading, error and success are each designed.'}],

@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:material_symbols_icons/symbols.dart';
 import 'package:vstech_hrm/core/extensions/l10n_extension.dart';
 import 'package:vstech_hrm/core/responsive/app_layout.dart';
+import 'package:vstech_hrm/core/router/routes.dart';
 import 'package:vstech_hrm/core/theme/app_colors.dart';
 import 'package:vstech_hrm/features/schedule/data/datasources/shift_schedule_mock_datasource.dart';
 import 'package:vstech_hrm/features/schedule/domain/entities/shift_schedule_entity.dart';
@@ -85,6 +87,11 @@ class _ShiftScheduleScreenState extends State<ShiftScheduleScreen> {
               const PopupMenuItem(value: ShiftViewState.error, child: Text('Lỗi mạng (Retry)')),
               const PopupMenuItem(value: ShiftViewState.unpublished, child: Text('Chưa công bố (Ngày 25)')),
             ],
+          ),
+          IconButton(
+            tooltip: l10n.shiftSwapsManageTitle,
+            icon: const Icon(Symbols.sync_alt),
+            onPressed: () => context.push(AppRoutes.shiftSwaps),
           ),
           IconButton(
             tooltip: l10n.viewMonthTooltip,

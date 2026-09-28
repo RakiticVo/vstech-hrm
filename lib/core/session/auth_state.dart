@@ -1,14 +1,16 @@
 import 'package:equatable/equatable.dart';
 
-/// Supported roles in data model (Employee, Direct Manager, and HR/Admin).
+/// Supported roles in data model (Employee, Direct Manager, HR/Admin, and Candidate).
 enum UserRole {
   employee,
   manager,
-  admin;
+  admin,
+  candidate;
 
   bool get isManager => this == UserRole.manager;
   bool get isEmployee => this == UserRole.employee;
   bool get isAdmin => this == UserRole.admin;
+  bool get isCandidate => this == UserRole.candidate;
 
   static UserRole fromString(String? role) {
     if (role == null) return UserRole.employee;
@@ -18,6 +20,9 @@ enum UserRole {
     }
     if (r == 'admin' || r == 'hr' || r == 'hr_admin' || r == 'hradmin') {
       return UserRole.admin;
+    }
+    if (r == 'candidate' || r == 'ungvien' || r == 'ob' || r == 'onboarding') {
+      return UserRole.candidate;
     }
     return UserRole.employee;
   }

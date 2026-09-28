@@ -30,14 +30,19 @@ class CalendarSummaryCard extends StatelessWidget {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(
-                    rows[i].$1,
-                    style: TextStyle(
-                      fontSize: 13.5,
-                      fontWeight: FontWeight.w600,
-                      color: colors.textSecondary,
+                  Expanded(
+                    child: Text(
+                      rows[i].$1,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: TextStyle(
+                        fontSize: 13.5,
+                        fontWeight: FontWeight.w600,
+                        color: colors.textSecondary,
+                      ),
                     ),
                   ),
+                  const SizedBox(width: 8),
                   Text(
                     rows[i].$2,
                     style: TextStyle(

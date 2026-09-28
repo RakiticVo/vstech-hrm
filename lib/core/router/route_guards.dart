@@ -19,6 +19,9 @@ String? authRedirectGuard(BuildContext context, GoRouterState state, AuthState a
 
   if (authState is Authenticated) {
     if (isGoingToLogin || isGoingToSplash) {
+      if (authState.role.isCandidate) {
+        return AppRoutes.onboardingHome;
+      }
       return AppRoutes.home;
     }
 

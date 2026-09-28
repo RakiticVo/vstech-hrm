@@ -43,14 +43,19 @@ class PayrollBreakdownCard extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text(
-            title,
-            style: TextStyle(
-              fontSize: 13.5,
-              fontWeight: FontWeight.w600,
-              color: colors.textSecondary,
+          Expanded(
+            child: Text(
+              title,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+              style: TextStyle(
+                fontSize: 13.5,
+                fontWeight: FontWeight.w600,
+                color: colors.textSecondary,
+              ),
             ),
           ),
+          const SizedBox(width: 8),
           Text(
             displayAmount,
             style: TextStyle(

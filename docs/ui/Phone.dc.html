@@ -1234,6 +1234,12 @@
           <div style="display:inline-flex;align-items:center;gap:5px;margin-top:8px;background:var(--sf2);padding:4px 9px;border-radius:8px;font-size:11px;font-weight:800;color:var(--pri);font-variant-numeric:tabular-nums">NV-04821</div>
         </div>
       </div>
+      <sc-if value="{{ PF.hasPend }}">
+        <div onClick="{{ PF.openEdit }}" style="margin-top:12px;display:flex;align-items:center;gap:11px;background:{{ warnTint }};border:1px solid {{ PF.bd }};border-radius:16px;padding:12px 14px;cursor:pointer">
+          <div style="width:8px;height:8px;border-radius:4px;background:var(--acc);flex:none"></div>
+          <div style="flex:1;min-width:0"><div style="font-size:13px;font-weight:800;color:{{ PF.ink }}">{{ PF.pt }}</div><div style="font-size:11.5px;font-weight:600;color:var(--ts);margin-top:2px">{{ PF.ps }}</div></div><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" style="color:var(--ts);flex:none"><path d="m9 18 6-6-6-6"/></svg>
+        </div>
+      </sc-if>
       <sc-for list="{{ profileGroups }}" as="g" hint-placeholder-count="3">
         <div style="margin-top:20px">
           <div style="font-size:12.5px;font-weight:800;color:var(--ts);margin-bottom:9px;letter-spacing:.2px">{{ g.t }}</div>
@@ -1241,7 +1247,7 @@
             <sc-for list="{{ g.rows }}" as="r" hint-placeholder-count="4">
               <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;padding:13px 15px;border-bottom:1px solid var(--line)">
                 <div style="font-size:13px;font-weight:600;color:var(--ts);flex:none">{{ r.k }}</div>
-                <div style="font-size:13px;font-weight:700;text-align:right">{{ r.v }}</div>
+                <div style="min-width:0;text-align:right"><div style="font-size:13px;font-weight:700">{{ r.v }}</div><sc-if value="{{ r.tag }}"><div style="font-size:11px;font-weight:800;color:{{ r.tagC }};margin-top:3px">{{ r.tag }}</div></sc-if></div>
               </div>
             </sc-for>
           </div>
@@ -1251,7 +1257,7 @@
         <sc-for list="{{ profileLinks }}" as="l" hint-placeholder-count="4">
           <div onClick="{{ l.on }}" style="display:flex;align-items:center;gap:12px;padding:15px;border-bottom:1px solid var(--line);cursor:pointer">
             <div style="width:34px;height:34px;border-radius:11px;background:var(--sf2);color:var(--pri);display:flex;align-items:center;justify-content:center;flex:none;font-size:14px;font-weight:800">{{ l.mark }}</div>
-            <div style="flex:1;font-size:13.5px;font-weight:700">{{ l.l }}</div>
+            <div style="flex:1;font-size:13.5px;font-weight:700">{{ l.l }}</div><sc-if value="{{ l.badge }}"><div style="font-size:10.5px;font-weight:800;padding:3px 8px;border-radius:7px;background:{{ l.badgeBg }};color:{{ l.badgeC }};flex:none">{{ l.badge }}</div></sc-if>
             <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" style="color:var(--ts)"><path d="m9 18 6-6-6-6"/></svg>
           </div>
         </sc-for>
@@ -1259,6 +1265,280 @@
       <div onClick="{{ logout }}" style="margin-top:16px;height:50px;border-radius:15px;border:1px solid var(--err);color:var(--err);display:flex;align-items:center;justify-content:center;gap:8px;font-size:14.5px;font-weight:800;cursor:pointer">
         <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><path d="M16 17l5-5-5-5M21 12H9"/></svg>{{ L.signOut }}
       </div>
+    </div>
+  </sc-if>
+
+  <!-- ============ PROFILE EDIT ============ -->
+  <sc-if value="{{ isPEdit }}">
+    <div style="padding:2px 18px 12px;display:flex;align-items:center;gap:12px"><div onClick="{{ back }}" style="width:36px;height:36px;border-radius:12px;border:1px solid var(--line);background:var(--sf);display:flex;align-items:center;justify-content:center;cursor:pointer;flex:none"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="m15 18-6-6 6-6"/></svg></div><div style="font-size:19px;font-weight:800;letter-spacing:-.4px;flex:1;min-width:0">{{ PE.title }}</div></div>
+    <div class="hrm-sc" style="flex:1;overflow-y:auto;padding:0 18px 124px">
+      <div style="background:var(--sf2);border-radius:14px;padding:11px 13px;font-size:12px;font-weight:600;line-height:1.5;margin-bottom:16px">{{ PE.note }}</div>
+      <div style="font-size:10.5px;font-weight:800;letter-spacing:1.2px;color:var(--ts);margin:4px 0 9px">{{ PE.hContact }}</div>
+      <sc-for list="{{ PE.contact }}" as="f" hint-placeholder-count="1">
+          <div style="margin-bottom:12px;opacity:{{ f.op }}">
+            <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px"><div style="flex:1;font-size:12.5px;font-weight:700;color:var(--ts)">{{ f.l }}</div><sc-if value="{{ f.tag }}"><div style="font-size:10px;font-weight:800;padding:3px 7px;border-radius:7px;background:{{ f.tagBg }};color:{{ f.tagC }}">{{ f.tag }}</div></sc-if></div>
+            <input value="{{ f.val }}" onChange="{{ f.set }}" readOnly="{{ f.locked }}" placeholder="{{ f.ph }}" inputMode="{{ f.im }}" style="width:100%;box-sizing:border-box;height:50px;border-radius:14px;border:1.5px solid {{ f.bd }};background:var(--sf);padding:0 14px;color:var(--tp);font-family:inherit;font-size:15px;font-weight:700;outline:none;font-variant-numeric:tabular-nums">
+          </div>
+        </sc-for>
+      <div style="font-size:10.5px;font-weight:800;letter-spacing:1.2px;color:var(--ts);margin:22px 0 9px">{{ PE.hAddr }}</div>
+      <sc-for list="{{ PE.addr }}" as="f" hint-placeholder-count="1">
+          <div style="margin-bottom:12px;opacity:{{ f.op }}">
+            <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px"><div style="flex:1;font-size:12.5px;font-weight:700;color:var(--ts)">{{ f.l }}</div><sc-if value="{{ f.tag }}"><div style="font-size:10px;font-weight:800;padding:3px 7px;border-radius:7px;background:{{ f.tagBg }};color:{{ f.tagC }}">{{ f.tag }}</div></sc-if></div>
+            <input value="{{ f.val }}" onChange="{{ f.set }}" readOnly="{{ f.locked }}" placeholder="{{ f.ph }}" inputMode="{{ f.im }}" style="width:100%;box-sizing:border-box;height:50px;border-radius:14px;border:1.5px solid {{ f.bd }};background:var(--sf);padding:0 14px;color:var(--tp);font-family:inherit;font-size:15px;font-weight:700;outline:none;font-variant-numeric:tabular-nums">
+          </div>
+        </sc-for>
+      <div style="font-size:10.5px;font-weight:800;letter-spacing:1.2px;color:var(--ts);margin:22px 0 9px">{{ PE.hEc }}</div>
+      <sc-for list="{{ PE.ec }}" as="f" hint-placeholder-count="1">
+          <div style="margin-bottom:12px;opacity:{{ f.op }}">
+            <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px"><div style="flex:1;font-size:12.5px;font-weight:700;color:var(--ts)">{{ f.l }}</div><sc-if value="{{ f.tag }}"><div style="font-size:10px;font-weight:800;padding:3px 7px;border-radius:7px;background:{{ f.tagBg }};color:{{ f.tagC }}">{{ f.tag }}</div></sc-if></div>
+            <input value="{{ f.val }}" onChange="{{ f.set }}" readOnly="{{ f.locked }}" placeholder="{{ f.ph }}" inputMode="{{ f.im }}" style="width:100%;box-sizing:border-box;height:50px;border-radius:14px;border:1.5px solid {{ f.bd }};background:var(--sf);padding:0 14px;color:var(--tp);font-family:inherit;font-size:15px;font-weight:700;outline:none;font-variant-numeric:tabular-nums">
+          </div>
+        </sc-for>
+      <div style="font-size:12.5px;font-weight:700;color:var(--ts);margin:2px 0 6px">{{ PE.ecRelL }}</div>
+      <div style="display:flex;flex-wrap:wrap;gap:7px">
+          <sc-for list="{{ PE.ecRels }}" as="c" hint-placeholder-count="4"><div onClick="{{ c.on }}" style="padding:9px 13px;border-radius:11px;border:1.5px solid {{ c.bd }};background:{{ c.bg }};color:{{ c.fg }};font-size:13px;font-weight:700;cursor:pointer;opacity:{{ c.op }}">{{ c.l }}</div></sc-for>
+        </div>
+      <div style="font-size:10.5px;font-weight:800;letter-spacing:1.2px;color:var(--ts);margin:22px 0 9px">{{ PE.hBank }}</div>
+      <sc-if value="{{ PE.hasPend }}">
+        <div style="background:{{ PE.pendBg }};border:1px solid {{ PE.pendBd }};border-radius:16px;padding:13px 14px;margin-bottom:12px">
+          <div style="display:flex;align-items:center;gap:8px"><div style="font-size:10px;font-weight:800;padding:3px 7px;border-radius:7px;background:var(--acc);color:var(--onacc)">{{ PE.pendTag }}</div><div style="flex:1"></div><div onClick="{{ PE.cancelPend }}" style="font-size:12.5px;font-weight:800;color:var(--err);cursor:pointer">{{ PE.cancelPendL }}</div></div>
+          <div style="font-size:15px;font-weight:800;margin-top:8px;font-variant-numeric:tabular-nums">{{ PE.pendTxt }}</div>
+          <div style="font-size:11.5px;font-weight:600;color:var(--ts);margin-top:3px">{{ PE.pendSub }}</div>
+        </div>
+      </sc-if>
+      <div style="font-size:12.5px;font-weight:700;color:var(--ts);margin:2px 0 6px">{{ PE.bankL }}</div>
+      <div style="display:flex;flex-wrap:wrap;gap:7px">
+          <sc-for list="{{ PE.banks }}" as="c" hint-placeholder-count="4"><div onClick="{{ c.on }}" style="padding:9px 13px;border-radius:11px;border:1.5px solid {{ c.bd }};background:{{ c.bg }};color:{{ c.fg }};font-size:13px;font-weight:700;cursor:pointer;opacity:{{ c.op }}">{{ c.l }}</div></sc-for>
+        </div>
+      <div style="height:12px"></div>
+      <sc-for list="{{ PE.acctF }}" as="f" hint-placeholder-count="1">
+          <div style="margin-bottom:12px;opacity:{{ f.op }}">
+            <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px"><div style="flex:1;font-size:12.5px;font-weight:700;color:var(--ts)">{{ f.l }}</div><sc-if value="{{ f.tag }}"><div style="font-size:10px;font-weight:800;padding:3px 7px;border-radius:7px;background:{{ f.tagBg }};color:{{ f.tagC }}">{{ f.tag }}</div></sc-if></div>
+            <input value="{{ f.val }}" onChange="{{ f.set }}" readOnly="{{ f.locked }}" placeholder="{{ f.ph }}" inputMode="{{ f.im }}" style="width:100%;box-sizing:border-box;height:50px;border-radius:14px;border:1.5px solid {{ f.bd }};background:var(--sf);padding:0 14px;color:var(--tp);font-family:inherit;font-size:15px;font-weight:700;outline:none;font-variant-numeric:tabular-nums">
+          </div>
+        </sc-for>
+      <div style="font-size:11.5px;font-weight:600;color:var(--ts);line-height:1.5;margin-top:-4px">{{ PE.bankRule }}</div>
+      <sc-if value="{{ PE.needProof }}">
+        <div style="font-size:10.5px;font-weight:800;letter-spacing:1.2px;color:var(--ts);margin:22px 0 9px">{{ PE.hProof }}</div>
+        <sc-if value="{{ PE.proof.has }}">
+          <div style="display:flex;align-items:center;gap:11px;background:var(--sf);border:1px solid var(--line);border-radius:14px;padding:11px 12px">
+            <div style="width:36px;height:36px;border-radius:10px;background:var(--sf2);color:var(--pri);display:flex;align-items:center;justify-content:center;flex:none"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/></svg></div>
+            <div style="flex:1;min-width:0"><div style="font-size:13px;font-weight:800;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ PE.proof.name }}</div><div style="font-size:11px;font-weight:600;color:var(--ts);margin-top:2px">{{ PE.proof.size }}</div></div>
+            <div onClick="{{ PE.proof.rm }}" style="width:30px;height:30px;border-radius:9px;display:flex;align-items:center;justify-content:center;color:var(--ts);cursor:pointer;flex:none"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18M6 6l12 12"/></svg></div>
+          </div>
+        </sc-if>
+        <sc-if value="{{ PE.proof.none }}">
+          <div onClick="{{ PE.proof.add }}" style="height:56px;border-radius:14px;border:1.5px dashed {{ PE.proof.bd }};display:flex;align-items:center;justify-content:center;gap:9px;color:var(--pri);font-size:14px;font-weight:800;cursor:pointer"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg>{{ PE.proof.l }}</div>
+        </sc-if>
+        <div style="font-size:11.5px;font-weight:600;color:var(--ts);margin-top:7px;line-height:1.45">{{ PE.proof.hint }}</div>
+      </sc-if>
+      <sc-if value="{{ PE.showErr }}"><div style="margin-top:14px;background:{{ errTint }};border:1px solid var(--err);border-radius:14px;padding:11px 13px;font-size:12.5px;font-weight:700;color:var(--err);line-height:1.45">{{ PE.errTxt }}</div></sc-if>
+    </div>
+    <div style="position:absolute;left:0;right:0;bottom:0;background:var(--sf);border-top:1px solid var(--line);padding:12px 18px 28px;display:flex;gap:10px;z-index:20">
+      <div onClick="{{ PE.cancel }}" style="flex:1;height:52px;border-radius:16px;border:1px solid var(--line);display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:800;cursor:pointer">{{ PE.cancelL }}</div>
+      <div onClick="{{ PE.submit }}" style="flex:1.7;height:52px;border-radius:16px;background:var(--acc);color:var(--onacc);display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:800;cursor:pointer;opacity:{{ PE.submitOp }}">{{ PE.submitL }}</div>
+    </div>
+  </sc-if>
+
+  <!-- ============ DOCUMENTS ============ -->
+  <sc-if value="{{ isDocs }}">
+    <div style="padding:2px 18px 12px;display:flex;align-items:center;gap:12px"><div onClick="{{ back }}" style="width:36px;height:36px;border-radius:12px;border:1px solid var(--line);background:var(--sf);display:flex;align-items:center;justify-content:center;cursor:pointer;flex:none"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="m15 18-6-6 6-6"/></svg></div><div style="font-size:19px;font-weight:800;letter-spacing:-.4px;flex:1;min-width:0">{{ DS.title }}</div></div>
+    <sc-if value="{{ DS.loading }}">
+      <div style="flex:1;padding:0 18px">
+        <div style="height:150px;border-radius:20px;background:var(--sf2);animation:hrm-pulse 1.5s 0s infinite"></div>
+        <div style="height:42px;border-radius:14px;background:var(--sf2);margin:16px 0;animation:hrm-pulse 1.5s .1s infinite"></div>
+        <div style="height:74px;border-radius:16px;background:var(--sf2);margin-bottom:9px;animation:hrm-pulse 1.5s .15s infinite"></div>
+        <div style="height:74px;border-radius:16px;background:var(--sf2);margin-bottom:9px;animation:hrm-pulse 1.5s .2s infinite"></div>
+        <div style="height:74px;border-radius:16px;background:var(--sf2);animation:hrm-pulse 1.5s .25s infinite"></div>
+        <div style="display:flex;align-items:center;justify-content:center;gap:9px;margin-top:22px;color:var(--ts);font-size:12.5px;font-weight:700"><div style="width:16px;height:16px;border-radius:9px;border:2px solid var(--line);border-top-color:var(--pri);animation:hrm-spin .8s linear infinite"></div>{{ DS.loadingTxt }}</div>
+      </div>
+    </sc-if>
+    <sc-if value="{{ DS.err }}">
+      <div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:0 34px 100px;text-align:center">
+        <div style="width:88px;height:88px;border-radius:28px;background:{{ DS.errBg }};display:flex;align-items:center;justify-content:center;color:{{ DS.errInk }};margin-bottom:18px"><svg width="38" height="38" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M2 2l20 20"/><path d="M8.5 16a5 5 0 0 1 7 0M5 12.5a10 10 0 0 1 4.2-2.5M2 9a15 15 0 0 1 4.3-2.8M14.8 10a10 10 0 0 1 4.2 2.5M10.7 5.1A15 15 0 0 1 22 9"/><path d="M12 19.5h.01"/></svg></div>
+        <div style="font-size:17px;font-weight:800;text-wrap:pretty">{{ DS.errT }}</div>
+        <div style="font-size:13px;color:var(--ts);font-weight:600;margin-top:8px;line-height:1.55;text-wrap:pretty">{{ DS.errB }}</div>
+        <div onClick="{{ DS.errOn }}" style="margin-top:20px;height:50px;padding:0 26px;border-radius:16px;background:var(--acc);color:var(--onacc);display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:800;cursor:pointer">{{ DS.errL }}</div>
+      </div>
+    </sc-if>
+    <sc-if value="{{ DS.empty }}">
+      <div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:0 34px 100px;text-align:center">
+        <div style="width:88px;height:88px;border-radius:28px;background:{{ DS.emptyBg }};display:flex;align-items:center;justify-content:center;color:{{ DS.emptyInk }};margin-bottom:18px"><svg width="38" height="38" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/></svg></div>
+        <div style="font-size:17px;font-weight:800;text-wrap:pretty">{{ DS.emptyT }}</div>
+        <div style="font-size:13px;color:var(--ts);font-weight:600;margin-top:8px;line-height:1.55;text-wrap:pretty">{{ DS.emptyB }}</div>
+        <div onClick="{{ DS.emptyOn }}" style="margin-top:20px;height:50px;padding:0 26px;border-radius:16px;background:var(--acc);color:var(--onacc);display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:800;cursor:pointer">{{ DS.emptyL }}</div>
+      </div>
+    </sc-if>
+    <sc-if value="{{ DS.ready }}">
+      <div class="hrm-sc" style="flex:1;overflow-y:auto;padding:0 18px 104px">
+        <div style="background:var(--sf);border:1px solid var(--line);border-radius:20px;padding:16px">
+          <div style="font-size:10.5px;font-weight:800;letter-spacing:1.2px;color:var(--ts)">{{ DS.kicker }}</div>
+          <div style="display:flex;align-items:baseline;gap:8px;margin-top:6px"><div style="font-size:32px;font-weight:800;letter-spacing:-1px;line-height:1;font-variant-numeric:tabular-nums">{{ DS.heroV }}</div><div style="font-size:13px;font-weight:700;color:var(--ts)">{{ DS.heroU }}</div></div>
+          <div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin-top:14px">
+            <sc-for list="{{ DS.stats }}" as="x" hint-placeholder-count="3">
+              <div style="background:var(--sf2);border-radius:12px;padding:9px 10px"><div style="display:flex;align-items:center;gap:6px"><div style="width:7px;height:7px;border-radius:4px;background:{{ x.dot }}"></div><div style="font-size:18px;font-weight:800;font-variant-numeric:tabular-nums;color:{{ x.c }}">{{ x.v }}</div></div><div style="font-size:11px;font-weight:700;color:var(--ts);margin-top:3px;line-height:1.3">{{ x.l }}</div></div>
+            </sc-for>
+          </div>
+        </div>
+        <sc-if value="{{ DS.hasMiss }}">
+          <div style="margin-top:12px;background:{{ errTint }};border:1px solid var(--err);border-radius:16px;padding:13px 14px;display:flex;align-items:center;gap:12px">
+            <div style="flex:1;min-width:0"><div style="font-size:13.5px;font-weight:800;color:{{ DS.errInk }}">{{ DS.missT }}</div><div style="font-size:12px;font-weight:600;margin-top:3px;line-height:1.4">{{ DS.missB }}</div></div>
+            <div onClick="{{ DS.upload }}" style="height:40px;padding:0 14px;border-radius:12px;background:var(--acc);color:var(--onacc);display:flex;align-items:center;font-size:13px;font-weight:800;cursor:pointer;flex:none">{{ DS.uploadL }}</div>
+          </div>
+        </sc-if>
+        <div style="display:flex;gap:4px;background:var(--sf2);border-radius:14px;padding:4px;margin-top:16px">
+          <sc-for list="{{ DS.tabs }}" as="tb" hint-placeholder-count="3"><div onClick="{{ tb.on }}" style="flex:1;height:38px;border-radius:11px;display:flex;align-items:center;justify-content:center;gap:5px;font-size:12.5px;font-weight:800;cursor:pointer;background:{{ tb.bg }};color:{{ tb.fg }};border:1px solid {{ tb.bd }}">{{ tb.l }}<span style="font-size:11px;font-weight:700;color:var(--ts);font-variant-numeric:tabular-nums">{{ tb.n }}</span></div></sc-for>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:9px;margin-top:12px">
+          <sc-for list="{{ DS.items }}" as="d" hint-placeholder-count="4">
+            <div onClick="{{ d.on }}" style="background:var(--sf);border:1px solid var(--line);border-radius:16px;padding:13px 14px;display:flex;align-items:center;gap:12px;cursor:pointer">
+              <div style="width:40px;height:40px;border-radius:12px;background:var(--sf2);color:{{ d.icC }};display:flex;align-items:center;justify-content:center;flex:none"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/></svg></div>
+              <div style="flex:1;min-width:0">
+                <div style="font-size:13.5px;font-weight:800;line-height:1.3;text-wrap:pretty">{{ d.t }}</div>
+                <div style="font-size:11.5px;font-weight:600;color:var(--ts);margin-top:3px;font-variant-numeric:tabular-nums">{{ d.meta }}</div>
+                <div style="display:inline-block;margin-top:7px;font-size:10.5px;font-weight:800;padding:3px 8px;border-radius:7px;background:{{ d.tagBg }};color:{{ d.tagC }}">{{ d.tag }}</div>
+              </div>
+              <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" style="color:var(--ts);flex:none"><path d="m9 18 6-6-6-6"/></svg>
+            </div>
+          </sc-for>
+        </div>
+        <div style="font-size:11.5px;font-weight:600;color:var(--ts);margin-top:14px;line-height:1.5">{{ DS.foot }}</div>
+      </div>
+    </sc-if>
+  </sc-if>
+
+  <!-- ============ DOCUMENT VIEW ============ -->
+  <sc-if value="{{ isDocView }}">
+    <div style="padding:2px 18px 12px;display:flex;align-items:center;gap:12px"><div onClick="{{ back }}" style="width:36px;height:36px;border-radius:12px;border:1px solid var(--line);background:var(--sf);display:flex;align-items:center;justify-content:center;cursor:pointer;flex:none"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="m15 18-6-6 6-6"/></svg></div><div style="font-size:19px;font-weight:800;letter-spacing:-.4px;flex:1;min-width:0">{{ DO.short }}</div></div>
+    <div class="hrm-sc" style="flex:1;overflow-y:auto;padding:0 18px 104px">
+      <sc-if value="{{ DO.hasFile }}">
+        <div style="position:relative;background:#FFFFFF;border:1px solid var(--line);border-radius:14px;padding:22px 22px 26px;overflow:hidden;color:#111827">
+          <div style="display:flex;justify-content:space-between;gap:10px;font-size:8.5px;font-weight:800;letter-spacing:.4px"><div>CÔNG TY CỔ PHẦN V-STECH</div><div style="text-align:right">CỘNG HOÀ XÃ HỘI CHỦ NGHĨA VIỆT NAM</div></div>
+          <div style="font-size:8px;font-weight:600;color:#5B6572;margin-top:3px;font-variant-numeric:tabular-nums">{{ DO.no }}</div>
+          <div style="text-align:center;font-size:12.5px;font-weight:800;margin:18px 0 14px;text-transform:uppercase;letter-spacing:.3px;line-height:1.35">{{ DO.paperT }}</div>
+          <div style="display:flex;flex-direction:column;gap:7px">
+            <sc-for list="{{ DO.lines }}" as="ln" hint-placeholder-count="10"><div style="height:5px;border-radius:3px;background:#E6E2D8;width:{{ ln.w }};margin-top:{{ ln.m }}"></div></sc-for>
+          </div>
+          <div style="display:flex;justify-content:flex-end;margin-top:18px"><div style="text-align:center;font-size:8px;font-weight:700;color:#5B6572"><div>{{ DO.signRole }}</div><div style="font-family:cursive;font-size:17px;color:#0A544E;margin:6px 0 2px">{{ DO.signMark }}</div><div style="font-weight:800;color:#111827">{{ DO.signName }}</div></div></div>
+          <div style="position:absolute;left:-40px;right:-40px;top:44%;transform:rotate(-24deg);text-align:center;font-size:13px;font-weight:800;letter-spacing:1px;color:rgba(10,84,78,.13);pointer-events:none;white-space:nowrap">{{ DO.wm }}</div>
+          <div style="position:absolute;left:-40px;right:-40px;top:72%;transform:rotate(-24deg);text-align:center;font-size:13px;font-weight:800;letter-spacing:1px;color:rgba(10,84,78,.13);pointer-events:none;white-space:nowrap">{{ DO.wm }}</div>
+        </div>
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-top:8px;font-size:11.5px;font-weight:700;color:var(--ts)"><div>{{ DO.pageL }}</div><div>{{ DO.secure }}</div></div>
+      </sc-if>
+      <sc-if value="{{ DO.noFile }}">
+        <div style="border:1.5px dashed var(--err);border-radius:16px;padding:30px 20px;text-align:center;background:{{ errTint }}">
+          <div style="color:var(--err);display:flex;justify-content:center"><svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/></svg></div>
+          <div style="font-size:15px;font-weight:800;margin-top:10px">{{ DO.noFileT }}</div>
+          <div style="font-size:12.5px;font-weight:600;color:var(--ts);margin-top:5px;line-height:1.5">{{ DO.noFileB }}</div>
+        </div>
+      </sc-if>
+      <div style="display:flex;align-items:flex-start;gap:10px;margin-top:16px">
+        <div style="flex:1;min-width:0;font-size:17px;font-weight:800;letter-spacing:-.3px;line-height:1.3;text-wrap:pretty">{{ DO.title }}</div>
+        <div style="font-size:10.5px;font-weight:800;padding:4px 9px;border-radius:8px;background:{{ DO.tagBg }};color:{{ DO.tagC }};flex:none;margin-top:2px">{{ DO.tag }}</div>
+      </div>
+      <div style="background:var(--sf);border:1px solid var(--line);border-radius:18px;padding:2px 15px;margin-top:12px">
+        <sc-for list="{{ DO.rows }}" as="r" hint-placeholder-count="4">
+          <div style="display:flex;justify-content:space-between;gap:14px;padding:11px 0;border-bottom:1px solid {{ r.bd }}"><div style="font-size:12.5px;font-weight:600;color:var(--ts);flex:none">{{ r.l }}</div><div style="font-size:13px;font-weight:800;text-align:right;font-variant-numeric:tabular-nums">{{ r.v }}</div></div>
+        </sc-for>
+      </div>
+      <sc-if value="{{ DO.hasNote }}">
+        <div style="margin-top:12px;background:{{ DO.noteBg }};border:1px solid {{ DO.noteBd }};border-radius:14px;padding:12px 13px;font-size:12.5px;font-weight:700;line-height:1.5;color:{{ DO.noteC }}">{{ DO.note }}</div>
+      </sc-if>
+      <sc-if value="{{ DO.canUpload }}">
+        <div onClick="{{ DO.upload }}" style="margin-top:14px;height:52px;border-radius:16px;background:var(--acc);color:var(--onacc);display:flex;align-items:center;justify-content:center;gap:9px;font-size:15px;font-weight:800;cursor:pointer"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5M5 12l7-7 7 7"/></svg>{{ DO.uploadL }}</div>
+      </sc-if>
+      <sc-if value="{{ DO.hasFile }}">
+        <div style="margin-top:12px;height:50px;border-radius:16px;border:1.5px solid var(--pri);color:var(--pri);background:var(--sf);display:flex;align-items:center;justify-content:center;gap:9px;font-size:14.5px;font-weight:800;cursor:pointer" onClick="{{ DO.download }}"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 15V3M7 10l5 5 5-5"/><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/></svg>{{ DO.downloadL }}</div>
+      </sc-if>
+    </div>
+  </sc-if>
+
+  <!-- ============ DEPENDANTS ============ -->
+  <sc-if value="{{ isDeps }}">
+    <div style="padding:2px 18px 12px;display:flex;align-items:center;gap:12px"><div onClick="{{ back }}" style="width:36px;height:36px;border-radius:12px;border:1px solid var(--line);background:var(--sf);display:flex;align-items:center;justify-content:center;cursor:pointer;flex:none"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="m15 18-6-6 6-6"/></svg></div><div style="font-size:19px;font-weight:800;letter-spacing:-.4px;flex:1;min-width:0">{{ DP.title }}</div></div>
+    <sc-if value="{{ DP.empty }}">
+      <div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:0 34px 100px;text-align:center">
+        <div style="width:88px;height:88px;border-radius:28px;background:{{ DP.emptyBg }};display:flex;align-items:center;justify-content:center;color:{{ DP.emptyInk }};margin-bottom:18px"><svg width="38" height="38" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.9M16 3.1a4 4 0 0 1 0 7.8"/></svg></div>
+        <div style="font-size:17px;font-weight:800;text-wrap:pretty">{{ DP.emptyT }}</div>
+        <div style="font-size:13px;color:var(--ts);font-weight:600;margin-top:8px;line-height:1.55;text-wrap:pretty">{{ DP.emptyB }}</div>
+        <div onClick="{{ DP.emptyOn }}" style="margin-top:20px;height:50px;padding:0 26px;border-radius:16px;background:var(--acc);color:var(--onacc);display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:800;cursor:pointer">{{ DP.emptyL }}</div>
+      </div>
+    </sc-if>
+    <sc-if value="{{ DP.ready }}">
+      <div class="hrm-sc" style="flex:1;overflow-y:auto;padding:0 18px 104px">
+        <div style="background:var(--sf);border:1px solid var(--line);border-radius:20px;padding:16px">
+          <div style="font-size:10.5px;font-weight:800;letter-spacing:1.2px;color:var(--ts)">{{ DP.kicker }}</div>
+          <div style="display:flex;align-items:baseline;gap:8px;margin-top:6px"><div style="font-size:30px;font-weight:800;letter-spacing:-1px;line-height:1;font-variant-numeric:tabular-nums">{{ DP.heroV }}</div><div style="font-size:13px;font-weight:700;color:var(--ts)">{{ DP.heroU }}</div></div>
+          <div style="font-size:12px;font-weight:600;color:var(--ts);margin-top:6px;line-height:1.45">{{ DP.heroSub }}</div>
+        </div>
+        <sc-if value="{{ DP.showHint }}">
+          <div onClick="{{ DP.openDispute }}" style="margin-top:12px;background:{{ warnTint }};border:1px solid {{ DP.hintBd }};border-radius:16px;padding:12px 14px;display:flex;align-items:center;gap:11px;cursor:pointer">
+            <div style="flex:1;min-width:0"><div style="font-size:13px;font-weight:800;color:{{ DP.hintInk }}">{{ DP.hintT }}</div><div style="font-size:12px;font-weight:600;margin-top:3px;line-height:1.45">{{ DP.hintB }}</div></div><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" style="color:var(--ts);flex:none"><path d="m9 18 6-6-6-6"/></svg>
+          </div>
+        </sc-if>
+        <div style="font-size:10.5px;font-weight:800;letter-spacing:1.2px;color:var(--ts);margin:20px 0 9px">{{ DP.hList }}</div>
+        <div style="display:flex;flex-direction:column;gap:9px">
+          <sc-for list="{{ DP.items }}" as="d" hint-placeholder-count="2">
+            <div style="background:var(--sf);border:1.5px solid {{ d.bd }};border-radius:16px;padding:13px 14px">
+              <div style="display:flex;align-items:center;gap:12px">
+                <div style="width:40px;height:40px;border-radius:13px;background:var(--sf2);color:var(--pri);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:800;flex:none">{{ d.ini }}</div>
+                <div style="flex:1;min-width:0"><div style="font-size:14px;font-weight:800">{{ d.n }}</div><div style="font-size:11.5px;font-weight:600;color:var(--ts);margin-top:2px;font-variant-numeric:tabular-nums">{{ d.sub }}</div></div>
+                <div style="font-size:10.5px;font-weight:800;padding:4px 8px;border-radius:7px;background:{{ d.tagBg }};color:{{ d.tagC }};flex:none">{{ d.tag }}</div>
+              </div>
+              <div style="display:flex;justify-content:space-between;gap:10px;margin-top:11px;padding-top:10px;border-top:1px solid var(--line);font-size:11.5px;font-weight:700;font-variant-numeric:tabular-nums"><div style="color:var(--ts)">{{ d.l1 }}</div><div>{{ d.v1 }}</div></div>
+            </div>
+          </sc-for>
+        </div>
+        <div onClick="{{ DP.add }}" style="margin-top:14px;height:52px;border-radius:16px;background:var(--acc);color:var(--onacc);display:flex;align-items:center;justify-content:center;gap:9px;font-size:15px;font-weight:800;cursor:pointer"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg>{{ DP.addL }}</div>
+        <div style="font-size:11.5px;font-weight:600;color:var(--ts);margin-top:12px;line-height:1.5">{{ DP.foot }}</div>
+      </div>
+    </sc-if>
+  </sc-if>
+
+  <!-- ============ ADD DEPENDANT ============ -->
+  <sc-if value="{{ isDepNew }}">
+    <div style="padding:2px 18px 12px;display:flex;align-items:center;gap:12px"><div onClick="{{ back }}" style="width:36px;height:36px;border-radius:12px;border:1px solid var(--line);background:var(--sf);display:flex;align-items:center;justify-content:center;cursor:pointer;flex:none"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="m15 18-6-6 6-6"/></svg></div><div style="font-size:19px;font-weight:800;letter-spacing:-.4px;flex:1;min-width:0">{{ DN.title }}</div></div>
+    <div class="hrm-sc" style="flex:1;overflow-y:auto;padding:0 18px 124px">
+      <div style="font-size:10.5px;font-weight:800;letter-spacing:1.2px;color:var(--ts);margin:4px 0 9px">{{ DN.h1 }}</div>
+      <sc-for list="{{ DN.f1 }}" as="f" hint-placeholder-count="1">
+          <div style="margin-bottom:12px;opacity:{{ f.op }}">
+            <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px"><div style="flex:1;font-size:12.5px;font-weight:700;color:var(--ts)">{{ f.l }}</div><sc-if value="{{ f.tag }}"><div style="font-size:10px;font-weight:800;padding:3px 7px;border-radius:7px;background:{{ f.tagBg }};color:{{ f.tagC }}">{{ f.tag }}</div></sc-if></div>
+            <input value="{{ f.val }}" onChange="{{ f.set }}" readOnly="{{ f.locked }}" placeholder="{{ f.ph }}" inputMode="{{ f.im }}" style="width:100%;box-sizing:border-box;height:50px;border-radius:14px;border:1.5px solid {{ f.bd }};background:var(--sf);padding:0 14px;color:var(--tp);font-family:inherit;font-size:15px;font-weight:700;outline:none;font-variant-numeric:tabular-nums">
+          </div>
+        </sc-for>
+      <div style="font-size:12.5px;font-weight:700;color:var(--ts);margin:2px 0 6px">{{ DN.relL }}</div>
+      <div style="display:flex;flex-wrap:wrap;gap:7px">
+          <sc-for list="{{ DN.rels }}" as="c" hint-placeholder-count="4"><div onClick="{{ c.on }}" style="padding:9px 13px;border-radius:11px;border:1.5px solid {{ c.bd }};background:{{ c.bg }};color:{{ c.fg }};font-size:13px;font-weight:700;cursor:pointer;opacity:{{ c.op }}">{{ c.l }}</div></sc-for>
+        </div>
+      <div style="height:12px"></div>
+      <sc-for list="{{ DN.f2 }}" as="f" hint-placeholder-count="1">
+          <div style="margin-bottom:12px;opacity:{{ f.op }}">
+            <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px"><div style="flex:1;font-size:12.5px;font-weight:700;color:var(--ts)">{{ f.l }}</div><sc-if value="{{ f.tag }}"><div style="font-size:10px;font-weight:800;padding:3px 7px;border-radius:7px;background:{{ f.tagBg }};color:{{ f.tagC }}">{{ f.tag }}</div></sc-if></div>
+            <input value="{{ f.val }}" onChange="{{ f.set }}" readOnly="{{ f.locked }}" placeholder="{{ f.ph }}" inputMode="{{ f.im }}" style="width:100%;box-sizing:border-box;height:50px;border-radius:14px;border:1.5px solid {{ f.bd }};background:var(--sf);padding:0 14px;color:var(--tp);font-family:inherit;font-size:15px;font-weight:700;outline:none;font-variant-numeric:tabular-nums">
+          </div>
+        </sc-for>
+      <div style="font-size:10.5px;font-weight:800;letter-spacing:1.2px;color:var(--ts);margin:22px 0 9px">{{ DN.h2 }}</div>
+      <div style="display:flex;flex-wrap:wrap;gap:7px">
+          <sc-for list="{{ DN.froms }}" as="c" hint-placeholder-count="4"><div onClick="{{ c.on }}" style="padding:9px 13px;border-radius:11px;border:1.5px solid {{ c.bd }};background:{{ c.bg }};color:{{ c.fg }};font-size:13px;font-weight:700;cursor:pointer;opacity:{{ c.op }}">{{ c.l }}</div></sc-for>
+        </div>
+      <div style="font-size:11.5px;font-weight:600;color:var(--ts);margin-top:8px;line-height:1.5">{{ DN.fromHint }}</div>
+      <div style="font-size:10.5px;font-weight:800;letter-spacing:1.2px;color:var(--ts);margin:22px 0 9px">{{ DN.h3 }}</div>
+      <sc-if value="{{ DN.att.has }}">
+          <div style="display:flex;align-items:center;gap:11px;background:var(--sf);border:1px solid var(--line);border-radius:14px;padding:11px 12px">
+            <div style="width:36px;height:36px;border-radius:10px;background:var(--sf2);color:var(--pri);display:flex;align-items:center;justify-content:center;flex:none"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/></svg></div>
+            <div style="flex:1;min-width:0"><div style="font-size:13px;font-weight:800;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ DN.att.name }}</div><div style="font-size:11px;font-weight:600;color:var(--ts);margin-top:2px">{{ DN.att.size }}</div></div>
+            <div onClick="{{ DN.att.rm }}" style="width:30px;height:30px;border-radius:9px;display:flex;align-items:center;justify-content:center;color:var(--ts);cursor:pointer;flex:none"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18M6 6l12 12"/></svg></div>
+          </div>
+        </sc-if>
+        <sc-if value="{{ DN.att.none }}">
+          <div onClick="{{ DN.att.add }}" style="height:56px;border-radius:14px;border:1.5px dashed {{ DN.att.bd }};display:flex;align-items:center;justify-content:center;gap:9px;color:var(--pri);font-size:14px;font-weight:800;cursor:pointer"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg>{{ DN.att.l }}</div>
+        </sc-if>
+        <div style="font-size:11.5px;font-weight:600;color:var(--ts);margin-top:7px;line-height:1.45">{{ DN.att.hint }}</div>
+      <sc-if value="{{ DN.showErr }}"><div style="margin-top:14px;background:{{ errTint }};border:1px solid var(--err);border-radius:14px;padding:11px 13px;font-size:12.5px;font-weight:700;color:var(--err);line-height:1.45">{{ DN.errTxt }}</div></sc-if>
+    </div>
+    <div style="position:absolute;left:0;right:0;bottom:0;background:var(--sf);border-top:1px solid var(--line);padding:12px 18px 28px;display:flex;gap:10px;z-index:20">
+      <div onClick="{{ DN.cancel }}" style="flex:1;height:52px;border-radius:16px;border:1px solid var(--line);display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:800;cursor:pointer">{{ DN.cancelL }}</div>
+      <div onClick="{{ DN.submit }}" style="flex:1.7;height:52px;border-radius:16px;background:var(--acc);color:var(--onacc);display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:800;cursor:pointer;opacity:{{ DN.submitOp }}">{{ DN.submitL }}</div>
     </div>
   </sc-if>
 
@@ -2555,7 +2835,7 @@
 </div>
 
 </x-dc>
-<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:390,&quot;height&quot;:844},&quot;screen&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;splash&quot;,&quot;login&quot;,&quot;home&quot;,&quot;attendance&quot;,&quot;facescan&quot;,&quot;calendar&quot;,&quot;requests&quot;,&quot;leave&quot;,&quot;overtime&quot;,&quot;correction&quot;,&quot;leave-new&quot;,&quot;overtime-new&quot;,&quot;correction-new&quot;,&quot;request-detail&quot;,&quot;request-sent&quot;,&quot;payroll&quot;,&quot;payslip&quot;,&quot;bonus&quot;,&quot;services&quot;,&quot;holidays&quot;,&quot;jobs&quot;,&quot;job&quot;,&quot;notifications&quot;,&quot;profile&quot;,&quot;approvals&quot;,&quot;exec&quot;,&quot;final&quot;,&quot;risk&quot;,&quot;delegate&quot;,&quot;settings&quot;,&quot;loading&quot;,&quot;empty&quot;,&quot;error&quot;,&quot;success&quot;,&quot;shifts&quot;,&quot;device&quot;,&quot;device-block&quot;,&quot;payslip-lock&quot;,&quot;dispute&quot;,&quot;dispute-new&quot;,&quot;refer&quot;,&quot;refer-sent&quot;,&quot;referrals&quot;,&quot;onboard&quot;,&quot;ob-letter&quot;,&quot;ob-org&quot;,&quot;ob-docs&quot;,&quot;ob-capture&quot;,&quot;ob-ocr&quot;,&quot;ob-sign&quot;,&quot;ob-day1&quot;,&quot;swaps&quot;],&quot;default&quot;:&quot;home&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;lang&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;vi&quot;,&quot;en&quot;],&quot;default&quot;:&quot;vi&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;theme&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;light&quot;,&quot;dark&quot;],&quot;default&quot;:&quot;light&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;font&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;manrope&quot;,&quot;source&quot;],&quot;default&quot;:&quot;manrope&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;role&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;employee&quot;,&quot;manager&quot;,&quot;exec&quot;,&quot;candidate&quot;],&quot;default&quot;:&quot;employee&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Vai trò&quot;},&quot;manager&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:false,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Vai trò&quot;},&quot;att&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;out&quot;,&quot;in&quot;,&quot;done&quot;],&quot;default&quot;:&quot;in&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;month&quot;:{&quot;editor&quot;:&quot;int&quot;,&quot;default&quot;:8,&quot;min&quot;:0,&quot;max&quot;:11,&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;Yêu cầu&quot;},&quot;net&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;online&quot;,&quot;offline&quot;],&quot;default&quot;:&quot;online&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Chấm công&quot;},&quot;security&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;ok&quot;,&quot;root&quot;,&quot;mock&quot;],&quot;default&quot;:&quot;ok&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Chấm công&quot;},&quot;pending&quot;:{&quot;editor&quot;:&quot;int&quot;,&quot;default&quot;:0,&quot;min&quot;:0,&quot;max&quot;:2,&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;Chấm công&quot;},&quot;sync&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;&quot;,&quot;done&quot;],&quot;default&quot;:&quot;&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Chấm công&quot;},&quot;facePhase&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;align&quot;,&quot;scan&quot;,&quot;gps&quot;,&quot;wifi&quot;,&quot;done&quot;],&quot;default&quot;:&quot;align&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Chấm công&quot;},&quot;faceResult&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;ontime&quot;,&quot;late&quot;,&quot;early&quot;],&quot;default&quot;:&quot;ontime&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Chấm công&quot;},&quot;view&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;ready&quot;,&quot;loading&quot;,&quot;empty&quot;,&quot;error&quot;],&quot;default&quot;:&quot;ready&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Chấm công&quot;},&quot;lock&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;idle&quot;,&quot;pin&quot;,&quot;fail&quot;],&quot;default&quot;:&quot;idle&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Lương&quot;},&quot;sign&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;&quot;,&quot;pad&quot;,&quot;done&quot;],&quot;default&quot;:&quot;&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Lương&quot;},&quot;rtab&quot;:{&quot;editor&quot;:&quot;int&quot;,&quot;default&quot;:0,&quot;min&quot;:0,&quot;max&quot;:2,&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;Lương&quot;},&quot;cperiod&quot;:{&quot;editor&quot;:&quot;int&quot;,&quot;default&quot;:0,&quot;min&quot;:0,&quot;max&quot;:3,&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;Lương&quot;},&quot;sel&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Lương&quot;},&quot;doc&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;cccd&quot;,&quot;degree&quot;,&quot;cert&quot;,&quot;cv&quot;,&quot;health&quot;],&quot;default&quot;:&quot;cccd&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Tuyển dụng&quot;},&quot;appr&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:false,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Phê duyệt &amp; đổi ca&quot;},&quot;apsheet&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;&quot;,&quot;approve&quot;,&quot;reject&quot;],&quot;default&quot;:&quot;&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Phê duyệt &amp; đổi ca&quot;},&quot;swap&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;&quot;,&quot;ok&quot;,&quot;conflict&quot;],&quot;default&quot;:&quot;&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Phê duyệt &amp; đổi ca&quot;},&quot;day&quot;:{&quot;editor&quot;:&quot;int&quot;,&quot;default&quot;:16,&quot;min&quot;:1,&quot;max&quot;:30,&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;Phê duyệt &amp; đổi ca&quot;}}">
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:390,&quot;height&quot;:844},&quot;screen&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;splash&quot;,&quot;login&quot;,&quot;home&quot;,&quot;attendance&quot;,&quot;facescan&quot;,&quot;calendar&quot;,&quot;requests&quot;,&quot;leave&quot;,&quot;overtime&quot;,&quot;correction&quot;,&quot;leave-new&quot;,&quot;overtime-new&quot;,&quot;correction-new&quot;,&quot;request-detail&quot;,&quot;request-sent&quot;,&quot;payroll&quot;,&quot;payslip&quot;,&quot;bonus&quot;,&quot;services&quot;,&quot;holidays&quot;,&quot;jobs&quot;,&quot;job&quot;,&quot;notifications&quot;,&quot;profile&quot;,&quot;approvals&quot;,&quot;exec&quot;,&quot;final&quot;,&quot;risk&quot;,&quot;delegate&quot;,&quot;settings&quot;,&quot;loading&quot;,&quot;empty&quot;,&quot;error&quot;,&quot;success&quot;,&quot;shifts&quot;,&quot;device&quot;,&quot;device-block&quot;,&quot;payslip-lock&quot;,&quot;dispute&quot;,&quot;dispute-new&quot;,&quot;refer&quot;,&quot;refer-sent&quot;,&quot;referrals&quot;,&quot;onboard&quot;,&quot;ob-letter&quot;,&quot;ob-org&quot;,&quot;ob-docs&quot;,&quot;ob-capture&quot;,&quot;ob-ocr&quot;,&quot;ob-sign&quot;,&quot;ob-day1&quot;,&quot;swaps&quot;,&quot;profile-edit&quot;,&quot;docs&quot;,&quot;doc-view&quot;,&quot;dependants&quot;,&quot;dependant-new&quot;],&quot;default&quot;:&quot;home&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;lang&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;vi&quot;,&quot;en&quot;],&quot;default&quot;:&quot;vi&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;theme&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;light&quot;,&quot;dark&quot;],&quot;default&quot;:&quot;light&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;font&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;manrope&quot;,&quot;source&quot;],&quot;default&quot;:&quot;manrope&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;role&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;employee&quot;,&quot;manager&quot;,&quot;exec&quot;,&quot;candidate&quot;],&quot;default&quot;:&quot;employee&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Vai trò&quot;},&quot;manager&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:false,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Vai trò&quot;},&quot;att&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;out&quot;,&quot;in&quot;,&quot;done&quot;],&quot;default&quot;:&quot;in&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;month&quot;:{&quot;editor&quot;:&quot;int&quot;,&quot;default&quot;:8,&quot;min&quot;:0,&quot;max&quot;:11,&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;Yêu cầu&quot;},&quot;net&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;online&quot;,&quot;offline&quot;],&quot;default&quot;:&quot;online&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Chấm công&quot;},&quot;security&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;ok&quot;,&quot;root&quot;,&quot;mock&quot;],&quot;default&quot;:&quot;ok&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Chấm công&quot;},&quot;pending&quot;:{&quot;editor&quot;:&quot;int&quot;,&quot;default&quot;:0,&quot;min&quot;:0,&quot;max&quot;:2,&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;Chấm công&quot;},&quot;sync&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;&quot;,&quot;done&quot;],&quot;default&quot;:&quot;&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Chấm công&quot;},&quot;facePhase&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;align&quot;,&quot;scan&quot;,&quot;gps&quot;,&quot;wifi&quot;,&quot;done&quot;],&quot;default&quot;:&quot;align&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Chấm công&quot;},&quot;faceResult&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;ontime&quot;,&quot;late&quot;,&quot;early&quot;],&quot;default&quot;:&quot;ontime&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Chấm công&quot;},&quot;view&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;ready&quot;,&quot;loading&quot;,&quot;empty&quot;,&quot;error&quot;],&quot;default&quot;:&quot;ready&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Chấm công&quot;},&quot;lock&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;idle&quot;,&quot;pin&quot;,&quot;fail&quot;],&quot;default&quot;:&quot;idle&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Lương&quot;},&quot;sign&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;&quot;,&quot;pad&quot;,&quot;done&quot;],&quot;default&quot;:&quot;&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Lương&quot;},&quot;rtab&quot;:{&quot;editor&quot;:&quot;int&quot;,&quot;default&quot;:0,&quot;min&quot;:0,&quot;max&quot;:2,&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;Lương&quot;},&quot;cperiod&quot;:{&quot;editor&quot;:&quot;int&quot;,&quot;default&quot;:0,&quot;min&quot;:0,&quot;max&quot;:3,&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;Lương&quot;},&quot;sel&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Lương&quot;},&quot;doc&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;cccd&quot;,&quot;degree&quot;,&quot;cert&quot;,&quot;cv&quot;,&quot;health&quot;],&quot;default&quot;:&quot;cccd&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Tuyển dụng&quot;},&quot;appr&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:false,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Phê duyệt &amp; đổi ca&quot;},&quot;apsheet&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;&quot;,&quot;approve&quot;,&quot;reject&quot;],&quot;default&quot;:&quot;&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Phê duyệt &amp; đổi ca&quot;},&quot;swap&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;&quot;,&quot;ok&quot;,&quot;conflict&quot;],&quot;default&quot;:&quot;&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Phê duyệt &amp; đổi ca&quot;},&quot;day&quot;:{&quot;editor&quot;:&quot;int&quot;,&quot;default&quot;:16,&quot;min&quot;:1,&quot;max&quot;:30,&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;Phê duyệt &amp; đổi ca&quot;},&quot;prof&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;&quot;,&quot;pending&quot;,&quot;dep&quot;],&quot;default&quot;:&quot;&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Hồ sơ&quot;},&quot;docsel&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Hồ sơ&quot;}}">
 const LT = {bg:'#F6F4EF',sf:'#FFFFFF',sf2:'#F0EDE5',tp:'#111827',ts:'#5B6572',pri:'#0F766E',deep:'#0A544E',cream:'#FFF8EC',sec:'#14B8A6',acc:'#F59E0B',ok:'#10B981',err:'#EF4444',accInk:'#B45309',accInkT:'#92400E',okInk:'#047857',errInk:'#B91C1C',line:'#E3DFD6',onacc:'#1C1408',onpri:'#FFF8EC',tile:'rgba(255,248,236,.19)'};
 const DK = {bg:'#111827',sf:'#1F2937',sf2:'#263243',tp:'#F8FAFC',ts:'#94A3B8',pri:'#2DD4BF',deep:'#0A544E',cream:'#FFF8EC',sec:'#5EEAD4',acc:'#FBBF24',ok:'#34D399',err:'#F87171',accInk:'#FBBF24',accInkT:'#FBBF24',okInk:'#34D399',errInk:'#F87171',line:'#374151',onacc:'#1C1408',onpri:'#FFF8EC',tile:'rgba(45,212,191,.16)'};
 
@@ -2734,6 +3014,31 @@ const OB_QR=(()=>{ const N=25, F=[[0,0],[18,0],[0,18]]; let d='';
     if(v===null){ const h=(Math.imul(x+7,73856093)^Math.imul(y+3,19349663)^Math.imul(x*y+11,83492791))>>>0; v=(h%100)<47; }
     if(v) d+='M'+x+' '+y+'h1v1h-1z'; }
   return d; })();
+const PR_BANKS=['Vietcombank','Techcombank','BIDV','MB Bank'];
+const PR_REL=[['Vợ/Chồng','Spouse'],['Cha/Mẹ','Parent'],['Anh/Chị/Em','Sibling'],['Khác','Other']];
+const PR_INIT={phone:'+84 908 221 470',email:'minh.tuan@company.vn',addr:'218 Võ Văn Tần, P.5, Q.3, TP. Hồ Chí Minh',ecName:'Nguyễn Thị Lan',ecRel:0,ecPhone:'+84 903 118 552',bank:0,acct:'0071 0004 4821'};
+const PR_HR=['addr','bank','acct'];
+const DP_REL=[['Con','Child'],['Vợ/Chồng','Spouse'],['Cha/Mẹ','Parent'],['Khác','Other']];
+const DP_FROM=['09/2026','10/2026','11/2026'];
+const DP_RATE=6200000;
+const DP_SEED=p=>{ const a=[{id:'d1',n:'Nguyễn Minh Khang',rel:0,dob:'08/11/2019',idno:'079219004512',mst:'8741 2203 51',st:'approved',from:'01/2020'}];
+  if(p.prof==='dep') a.unshift({id:'d2',n:'Nguyễn Minh An',rel:0,dob:'22/06/2024',idno:'079224011873',mst:null,st:'pending',from:'09/2026',at:'16/09 · 14:32'});
+  return (p.screen==='dependants'&&p.view==='empty')?[]:a; };
+const DOC_SIGN=['Phạm Quốc Bảo','Giám đốc nhân sự','HR Director'];
+const DOCS=[
+  {id:'hd-2023',tab:0,t:['Hợp đồng lao động không xác định thời hạn','Indefinite-term labour contract'],s:['HĐLĐ không thời hạn','Indefinite contract'],no:'118/2023/HĐLĐ',m:['Hiệu lực từ 02/05/2023','Effective 2 May 2023'],st:'signed',sat:'02/05/2023 · 09:12',pages:4},
+  {id:'pl-2026',tab:0,t:['Phụ lục số 03 · điều chỉnh lương','Annex 03 · salary adjustment'],s:['Phụ lục 03','Annex 03'],no:'118/2023/PL03',m:['Hiệu lực từ 01/04/2026','Effective 1 Apr 2026'],st:'signed',sat:'28/03/2026 · 16:40',pages:1},
+  {id:'nda-2021',tab:0,t:['Thoả thuận bảo mật thông tin','Non-disclosure agreement'],s:['Thoả thuận bảo mật','NDA'],no:'NDA-2021-0482',m:['Ký 02/05/2021 · không thời hạn','Signed 2 May 2021 · no expiry'],st:'signed',sat:'02/05/2021 · 08:40',pages:2},
+  {id:'hd-2021',tab:0,t:['Hợp đồng lao động 24 tháng','24-month labour contract'],s:['HĐLĐ 24 tháng','24-month contract'],no:'045/2021/HĐLĐ',m:['02/05/2021 – 01/05/2023','2 May 2021 – 1 May 2023'],st:'expired',sat:'02/05/2021 · 08:35',pages:4},
+  {id:'qd-bn',tab:1,t:['Quyết định bổ nhiệm Giám sát cửa hàng','Appointment as Store Supervisor'],s:['QĐ bổ nhiệm','Appointment'],no:'212/2025/QĐ-NS',m:['Hiệu lực từ 01/07/2025','Effective 1 Jul 2025'],st:'signed',sat:'24/06/2025 · 10:05',pages:1},
+  {id:'qd-luong',tab:1,t:['Quyết định điều chỉnh lương','Salary adjustment decision'],s:['QĐ điều chỉnh lương','Salary decision'],no:'088/2026/QĐ-NS',m:['Hiệu lực từ 01/04/2026','Effective 1 Apr 2026'],st:'signed',sat:'28/03/2026 · 16:32',pages:1},
+  {id:'qd-kt',tab:1,t:['Quyết định khen thưởng quý 2/2026','Q2 2026 recognition award'],s:['QĐ khen thưởng','Award'],no:'041/2026/QĐ-KT',m:['Ký 12/07/2026','Signed 12 Jul 2026'],st:'signed',sat:'12/07/2026 · 15:20',pages:1},
+  {id:'cccd',tab:2,t:['Căn cước công dân','Citizen ID card'],s:['CCCD','Citizen ID'],no:'079094 ••• 821',m:['Hết hạn 14/03/2034','Expires 14 Mar 2034'],st:'verified',pages:2},
+  {id:'degree',tab:2,t:['Bằng Cử nhân Quản trị kinh doanh','Bachelor of Business Administration'],s:['Bằng đại học','Degree'],no:'ĐH Kinh tế TP.HCM · 2016',m:['Đã đối chiếu bản gốc','Checked against original'],st:'verified',pages:1},
+  {id:'bhxh',tab:2,t:['Sổ bảo hiểm xã hội','Social insurance book'],s:['Sổ BHXH','Insurance book'],no:'79 2156 4821',m:['Đóng từ 05/2021','Contributing since May 2021'],st:'verified',pages:1},
+  {id:'attp',tab:2,t:['Chứng nhận an toàn thực phẩm','Food safety certificate'],s:['Chứng nhận ATTP','Food safety'],no:'ATTP-2023-1182',m:['Hết hạn 30/10/2026','Expires 30 Oct 2026'],st:'expiring',pages:1},
+  {id:'health',tab:2,t:['Giấy khám sức khoẻ định kỳ 2026','2026 annual health check'],s:['Khám sức khoẻ 2026','Health check 2026'],no:'—',m:['Hạn nộp 30/09/2026','Due 30 Sep 2026'],st:'missing',pages:0}];
+
 class Component extends DCLogic {
   constructor(p){
     super(p);
@@ -2755,7 +3060,11 @@ class Component extends DCLogic {
       obPhase:(p.screen==='ob-capture'&&p.view==='error')?'fail':'frame', obEdit:{}, obRead:{letter:true,org:false},
       obSigned:{nda:null,rules:null}, obAgree:{nda:false,rules:false}, obOpenDoc:'nda', obBring:[true,true,false,false,false], sigFor:'slip',
       apprView:!!p.appr, apSheet:(p.apsheet==='reject'||p.apsheet==='approve')?p.apsheet:null, apNote:'', apReason:'', apTab:0, apType:0,
-      swapOpen:!!p.swap, swapWith:p.swap==='ok'?'huong':(p.swap==='conflict'?'anh':null), swapReason:''};
+      swapOpen:!!p.swap, swapWith:p.swap==='ok'?'huong':(p.swap==='conflict'?'anh':null), swapReason:'',
+      prof:{...PR_INIT}, pend:p.prof==='pending'?{addr:null,bank:1,acct:'1903 5566 7788',proof:'sao-ke-techcombank.pdf',at:'16/09 · 10:20'}:null, pf:{...PR_INIT,proof:null}, pfErr:false,
+      docTab:p.docsel&&DOCS.find(d=>d.id===p.docsel)?DOCS.find(d=>d.id===p.docsel).tab:0, docSel:p.docsel||'hd-2023', docUp:{},
+      docView:(p.screen==='docs'&&['loading','error','empty'].includes(p.view))?p.view:'ready',
+      deps:DP_SEED(p), dp:{n:'',rel:0,dob:'',idno:'',from:0,file:null}, dpErr:false};
     if(p.day) this.state.shSel=+p.day;
     if(p.view==='empty'&&p.screen==='approvals') this.state.reqs=this.state.reqs.map(r=>r.status==='pending'&&r.stage===1?{...r,stage:2,times:[r.times[0],'16/09 · 08:30']}:r);
   }
@@ -2808,6 +3117,146 @@ class Component extends DCLogic {
       screen:draft?mg:'request-sent',
       hist:draft?(st.hist[st.hist.length-1]===mg?st.hist.slice(0,-1):st.hist):st.hist}));
     if(draft) this.flash(V?'Đã lưu nháp. Bạn có thể gửi sau.':'Draft saved. You can submit it later.');
+  }
+  profVals(V,t,mix,s){
+    const st=this.state, P=x=>Array.isArray(x)?x[V?0:1]:x;
+    const pr=st.prof, pd=st.pend, f=st.pf||{...pr,proof:null};
+    const acctM=a=>'•••• '+String(a||'').replace(/\s/g,'').slice(-4);
+    const money=n=>String(Math.round(n)).replace(/\B(?=(\d{3})+(?!\d))/g,V?'.':',')+' ₫';
+    const TC={ok:[mix(t.ok,14),t.okInk],ts:[t.sf2,t.ts],acc:[mix(t.acc,16),t.accInk],err:[mix(t.err,14),t.errInk],pri:[mix(t.pri,12),t.pri]};
+    const chip=(l,on,fn,lock)=>({l,bd:on?t.pri:t.line,bg:on?mix(t.pri,8):t.sf,fg:on?t.pri:t.tp,op:lock&&!on?'.45':'1',on:lock?null:fn});
+    const tagP=V?'Chờ HR duyệt':'Awaiting HR';
+    const openEdit=()=>{ this.setState({pf:{...this.state.prof,proof:null},pfErr:false}); this.go('profile-edit'); };
+
+    // ---- profile overrides
+    const pendParts=pd?[pd.addr?(V?'địa chỉ':'address'):null,pd.bank!=null?(V?'tài khoản ngân hàng':'bank account'):null].filter(Boolean):[];
+    const docMiss=DOCS.filter(d=>(st.docUp[d.id]?'review':d.st)==='missing').length;
+    const profileGroups=[
+      {t:V?'Thông tin cá nhân':'Personal information',rows:[{k:V?'Họ và tên':'Full name',v:'Nguyễn Minh Tuấn'},{k:V?'Ngày sinh':'Date of birth',v:'14/03/1994'},{k:V?'Điện thoại':'Phone',v:pr.phone},{k:'Email',v:pr.email},
+        {k:V?'Địa chỉ':'Address',v:pr.addr,tag:pd&&pd.addr?tagP+': '+pd.addr:null,tagC:t.accInk}]},
+      {t:V?'Thông tin công việc':'Employment',rows:[{k:V?'Bộ phận':'Department',v:V?'Vận hành':'Operations'},{k:V?'Chức danh':'Position',v:V?'Giám sát cửa hàng':'Store Supervisor'},{k:V?'Quản lý':'Manager',v:'Lê Thu Hà'},{k:V?'Ngày vào':'Join date',v:'02/05/2021'},{k:V?'Trạng thái':'Status',v:V?'Chính thức':'Permanent'}]},
+      {t:V?'Tài khoản nhận lương':'Salary account',rows:[{k:V?'Ngân hàng':'Bank',v:PR_BANKS[pr.bank],tag:pd&&pd.bank!=null?tagP+': '+PR_BANKS[pd.bank]:null,tagC:t.accInk},{k:V?'Số tài khoản':'Account',v:acctM(pr.acct),tag:pd&&pd.bank!=null?tagP+': '+acctM(pd.acct):null,tagC:t.accInk}]}];
+    const lk=(mark,l,on,badge,tone)=>({mark,l,on,badge:badge||null,badgeBg:tone?TC[tone][0]:'',badgeC:tone?TC[tone][1]:''});
+    const nDepPend=st.deps.filter(d=>d.st==='pending').length;
+    const profileLinks=[
+      lk('S',V?'Chỉnh sửa thông tin':'Edit details',openEdit,pd?tagP:null,'acc'),
+      lk('H',V?'Hồ sơ & tài liệu':'Documents',()=>{ this.setState({docView:'ready'}); this.go('docs'); },docMiss?(V?docMiss+' cần bổ sung':docMiss+' missing'):null,'err'),
+      lk('N',V?'Người phụ thuộc':'Dependants',()=>this.go('dependants'),nDepPend?tagP:null,'acc'),
+      lk('K',V?'Liên hệ khẩn cấp':'Emergency contact',openEdit),
+      lk('T',V?'Tuyển dụng nội bộ':'Internal openings',()=>this.go('jobs')),
+      lk('C',V?'Cài đặt':'Settings',()=>this.go('settings'))];
+    const PF={hasPend:!!pd,openEdit,bd:mix(t.acc,45),ink:t.accInk,
+      pt:V?'Thay đổi '+pendParts.join(' và ')+' đang chờ HR duyệt':'Your '+pendParts.join(' and ')+' change is awaiting HR',
+      ps:pd?(V?'Gửi '+pd.at+' · áp dụng từ kỳ lương kế tiếp':'Sent '+pd.at+' · applies from the next pay run'):''};
+
+    // ---- edit
+    const up=o=>this.setState(s2=>({pf:{...(s2.pf||{...s2.prof,proof:null}),...o},pfErr:false}));
+    const ch=k=>f[k]!==pr[k];
+    const bankLock=!!(pd&&pd.bank!=null), addrLock=!!(pd&&pd.addr);
+    const fld=(k,l,ph,hr,lock,im)=>({l,val:f[k],ph,im:im||'text',set:e=>up({[k]:e.target.value}),locked:!!lock,op:lock?'.55':'1',
+      bd:ch(k)?t.pri:t.line,tag:lock?tagP:(ch(k)?(hr?(V?'Cần HR duyệt':'Needs HR'):(V?'Cập nhật ngay':'Instant')):null),
+      tagC:(hr||lock)?t.accInk:t.okInk,tagBg:(hr||lock)?mix(t.acc,16):mix(t.ok,14)});
+    const changedKeys=Object.keys(pr).filter(ch), hrCh=changedKeys.filter(k=>PR_HR.includes(k)), needProof=ch('bank')||ch('acct');
+    const submit=()=>{
+      const s2=this.state, F=s2.pf||{...s2.prof}, P0=s2.prof, keys=Object.keys(P0).filter(k=>F[k]!==P0[k]);
+      if(!keys.length){ this.flash(V?'Bạn chưa thay đổi thông tin nào.':'Nothing has changed yet.'); return; }
+      const hr=keys.filter(k=>PR_HR.includes(k)), nb=keys.includes('bank')||keys.includes('acct');
+      if(nb&&!F.proof){ this.setState({pfErr:true}); return; }
+      const inst={}; keys.filter(k=>!PR_HR.includes(k)).forEach(k=>{ inst[k]=F[k]; });
+      const op=s2.pend||{addr:null,bank:null,acct:null,proof:null};
+      const np=hr.length?{addr:keys.includes('addr')?F.addr:op.addr,bank:nb?F.bank:op.bank,acct:nb?F.acct:op.acct,proof:nb?F.proof:op.proof,at:'16/09 · 14:32'}:s2.pend;
+      this.setState({prof:{...P0,...inst},pend:np,pfErr:false}); this.pop();
+      this.flash(hr.length?(Object.keys(inst).length?(V?'Đã lưu liên hệ và gửi HR duyệt phần còn lại.':'Contact saved; the rest is sent to HR.'):(V?'Đã gửi HR duyệt.':'Sent to HR for approval.')):(V?'Đã lưu thay đổi.':'Changes saved.'));
+    };
+    const PE={title:V?'Chỉnh sửa thông tin':'Edit details',
+      note:V?'Điện thoại, email và liên hệ khẩn cấp cập nhật ngay. Địa chỉ và tài khoản nhận lương cần HR duyệt.':'Phone, email and emergency contact update straight away. Address and salary account need HR approval.',
+      hContact:V?'01 · LIÊN HỆ':'01 · CONTACT',contact:[fld('phone',V?'Điện thoại':'Phone','+84 …',false,false,'tel'),fld('email','Email','ten@company.vn',false,false,'email')],
+      hAddr:V?'02 · ĐỊA CHỈ THƯỜNG TRÚ':'02 · HOME ADDRESS',addr:[fld('addr',V?'Địa chỉ':'Address',V?'Số nhà, đường, phường, quận, tỉnh':'Street, ward, district, city',true,addrLock)],
+      hEc:V?'03 · LIÊN HỆ KHẨN CẤP':'03 · EMERGENCY CONTACT',ec:[fld('ecName',V?'Họ tên':'Name','',false),fld('ecPhone',V?'Điện thoại':'Phone','+84 …',false,false,'tel')],
+      ecRelL:V?'Quan hệ':'Relationship',ecRels:PR_REL.map((r,i)=>chip(P(r),f.ecRel===i,()=>up({ecRel:i}))),
+      hBank:V?'04 · TÀI KHOẢN NHẬN LƯƠNG':'04 · SALARY ACCOUNT',bankL:V?'Ngân hàng':'Bank',
+      banks:PR_BANKS.map((b,i)=>chip(b,f.bank===i,()=>up({bank:i}),bankLock)),
+      acctF:[fld('acct',V?'Số tài khoản':'Account number','',true,bankLock,'numeric')],
+      bankRule:V?'Chủ tài khoản phải là Nguyễn Minh Tuấn. Áp dụng từ kỳ lương kế tiếp sau khi HR duyệt.':'The account must be in the name Nguyễn Minh Tuấn. Applies from the next pay run once HR approves.',
+      hasPend:bankLock,pendBg:mix(t.acc,10),pendBd:mix(t.acc,45),pendTag:tagP,pendTxt:pd&&pd.bank!=null?PR_BANKS[pd.bank]+' · '+acctM(pd.acct):'',
+      pendSub:pd?(V?'Gửi ':'Sent ')+pd.at+' · '+(pd.proof||''):'',cancelPendL:V?'Huỷ yêu cầu':'Cancel request',
+      cancelPend:()=>{ this.setState({pend:null}); this.flash(V?'Đã huỷ yêu cầu đổi tài khoản.':'Account change cancelled.'); },
+      needProof,hProof:V?'05 · BẰNG CHỨNG':'05 · PROOF',
+      proof:{has:!!f.proof,none:!f.proof,name:f.proof||'',size:'312 KB',rm:()=>up({proof:null}),add:()=>up({proof:'sao-ke-'+PR_BANKS[f.bank].toLowerCase().replace(/\s/g,'-')+'.pdf'}),
+        bd:(st.pfErr&&!f.proof)?t.err:t.line,l:V?'Đính kèm sao kê hoặc ảnh thẻ':'Attach a statement or card photo',hint:V?'Ảnh phải thấy rõ tên chủ tài khoản và số tài khoản.':'The account holder name and number must be readable.'},
+      showErr:st.pfErr,errTxt:V?'Cần đính kèm bằng chứng khi đổi tài khoản nhận lương.':'Attach proof when changing your salary account.',
+      cancel:()=>this.pop(),cancelL:V?'Huỷ':'Cancel',submit,submitOp:changedKeys.length?'1':'.45',
+      submitL:hrCh.length?(V?'Gửi HR duyệt':'Send to HR'):(V?'Lưu thay đổi':'Save changes')};
+
+    // ---- documents
+    const eff=d=>st.docUp[d.id]?'review':d.st;
+    const DST={signed:[['Đã ký','Signed'],'ok'],verified:[['Đã xác minh','Verified'],'ok'],expired:[['Hết hiệu lực','Expired'],'ts'],expiring:[['Sắp hết hạn','Expiring soon'],'acc'],missing:[['Cần bổ sung','Missing'],'err'],review:[['Chờ HR xác minh','HR reviewing'],'pri']};
+    const upload=id=>()=>{ this.setState(s2=>({docUp:{...s2.docUp,[id]:true}})); this.flash(V?'Đã tải lên. HR sẽ xác minh trong 1 ngày làm việc.':'Uploaded. HR will verify within one working day.'); };
+    const miss=DOCS.find(d=>eff(d)==='missing');
+    const tabL=V?['Hợp đồng','Quyết định','Giấy tờ']:['Contracts','Decisions','Personal'];
+    const dv=st.docView, retry=()=>{ this.setState({docView:'loading'}); clearTimeout(this._dc); this._dc=setTimeout(()=>this.setState({docView:'ready'}),900); };
+    const DS={title:V?'Hồ sơ & tài liệu':'Documents',loading:dv==='loading',ready:dv==='ready',err:dv==='error',empty:dv==='empty',
+      loadingTxt:V?'Đang tải hồ sơ…':'Loading your documents…',
+      errBg:mix(t.err,14),errInk:t.err,errT:V?'Không tải được hồ sơ':'Couldn’t load documents',errB:V?'Kiểm tra kết nối rồi thử lại. Tài liệu đã mở gần đây vẫn xem được khi ngoại tuyến.':'Check your connection and try again. Recently opened files still work offline.',errL:V?'Thử lại':'Try again',errOn:retry,
+      emptyBg:t.sf2,emptyInk:t.ts,emptyT:V?'Chưa có tài liệu nào':'No documents yet',emptyB:V?'Hợp đồng và quyết định sẽ hiện ở đây sau khi HR phát hành. Bạn có thể tải giấy tờ cá nhân lên trước.':'Contracts and decisions appear here once HR issues them. You can upload personal documents now.',emptyL:V?'Tải giấy tờ lên':'Upload a document',emptyOn:()=>this.setState({docView:'ready',docTab:2}),
+      kicker:V?'HỒ SƠ NHÂN SỰ · NV-04821':'HR FILE · NV-04821',heroV:String(DOCS.length),heroU:V?'tài liệu':'documents',
+      stats:[{l:V?'HĐ đang hiệu lực':'Active contracts',v:String(DOCS.filter(d=>d.tab===0&&d.st==='signed').length),c:t.okInk,dot:t.ok},{l:V?'Sắp hết hạn':'Expiring',v:String(DOCS.filter(d=>eff(d)==='expiring').length),c:t.accInk,dot:t.acc},{l:V?'Cần bổ sung':'Missing',v:String(DOCS.filter(d=>eff(d)==='missing').length),c:t.errInk,dot:t.err}],
+      hasMiss:!!miss,missT:miss?P(miss.t):'',missB:miss?P(miss.m)+(V?' · nộp bản chụp, HR đối chiếu bản gốc sau.':' · upload a photo; HR checks the original later.'):'',upload:miss?upload(miss.id):null,uploadL:V?'Tải lên':'Upload',
+      tabs:tabL.map((l,i)=>({l,n:String(DOCS.filter(d=>d.tab===i).length),bg:st.docTab===i?t.sf:'transparent',fg:st.docTab===i?t.pri:t.ts,bd:st.docTab===i?t.line:'transparent',on:()=>this.setState({docTab:i})})),
+      items:DOCS.filter(d=>d.tab===st.docTab).map(d=>{ const e=DST[eff(d)], c=TC[e[1]]; return {t:P(d.t),meta:(d.no&&d.no!=='—'?d.no+' · ':'')+P(d.m),tag:P(e[0]),tagBg:c[0],tagC:c[1],icC:e[1]==='err'?t.err:(e[1]==='ts'?t.ts:t.pri),on:()=>{ this.setState({docSel:d.id}); this.go('doc-view'); }}; }),
+      foot:V?'Tài liệu mở có watermark tên bạn. Cần bản giấy có dấu đỏ, gửi yêu cầu cho HR tại quầy nhân sự.':'Opened files carry a watermark with your name. For a stamped paper copy, ask at the HR desk.'};
+    const d=DOCS.find(x=>x.id===st.docSel)||DOCS[0], de=eff(d), dc=TC[DST[de][1]], isSigned=d.tab<2;
+    const W=['92%','100%','86%','97%','74%','0','100%','93%','88%','60%','0','95%','82%'];
+    const DO={short:P(d.s),title:P(d.t),no:(V?'Số: ':'No. ')+d.no,paperT:P(d.t),tag:P(DST[de][0]),tagBg:dc[0],tagC:dc[1],
+      hasFile:de!=='missing'&&de!=='review'||de==='review',noFile:de==='missing',
+      noFileT:V?'Chưa có bản lưu':'Nothing on file',noFileB:P(d.m)+(V?'. Chụp giấy khám có dấu của cơ sở y tế.':'. Photograph the stamped certificate from the clinic.'),
+      lines:W.map((w,i)=>({w:w==='0'?'0':w,m:w==='0'?'6px':'0'})),
+      signRole:isSigned?(V?'ĐẠI DIỆN CÔNG TY':'FOR THE COMPANY'):(V?'BẢN CHỤP':'COPY'),signMark:isSigned?'Q. Bảo':'',signName:isSigned?DOC_SIGN[0]:'',
+      wm:'NGUYỄN MINH TUẤN · NV-04821 · 16/09/2026',pageL:d.pages?(V?'Trang 1 / ':'Page 1 of ')+d.pages:(V?'Bản chụp chờ xác minh':'Photo awaiting review'),secure:V?'Chặn chụp màn hình':'Screenshots blocked',
+      rows:(isSigned?[[V?'Số văn bản':'Reference',d.no],[V?'Hiệu lực':'Validity',P(d.m)],[V?'Người ký':'Signed by',DOC_SIGN[0]+' · '+(V?DOC_SIGN[1]:DOC_SIGN[2])],[V?'Ký điện tử':'E-signed',d.sat]]
+                    :[[V?'Số':'Number',d.no],[V?'Tình trạng':'Status',P(DST[de][0])],[V?'Ghi chú':'Note',P(d.m)]]).map((x,i,a)=>({l:x[0],v:x[1],bd:i<a.length-1?t.line:'transparent'})),
+      hasNote:['expiring','missing','expired','review'].includes(de),
+      note:{expiring:V?'Chứng nhận hết hạn 30/10/2026. Tải bản mới trước ngày này để tiếp tục làm việc tại quầy thực phẩm.':'Expires 30 Oct 2026. Upload the renewed certificate before then to keep working the food counter.',
+        missing:V?'Bắt buộc theo quy chế hằng năm. Quá hạn 30/09 sẽ bị tạm dừng xếp ca quầy thực phẩm.':'Required every year. After 30 Sep you can’t be rostered on the food counter.',
+        expired:V?'Đã được thay bằng HĐLĐ không xác định thời hạn số 118/2023/HĐLĐ.':'Superseded by indefinite contract 118/2023/HĐLĐ.',
+        review:V?'Đã tải lên 16/09 · HR xác minh trong 1 ngày làm việc.':'Uploaded 16 Sep · HR verifies within one working day.'}[de]||'',
+      noteBg:de==='missing'?mix(t.err,10):(de==='expiring'?mix(t.acc,12):t.sf2),noteBd:de==='missing'?mix(t.err,45):(de==='expiring'?mix(t.acc,45):t.line),noteC:de==='missing'?t.errInk:(de==='expiring'?t.accInk:t.tp),
+      canUpload:de==='missing'||de==='expiring',upload:upload(d.id),uploadL:de==='missing'?(V?'Chụp hoặc tải lên':'Photograph or upload'):(V?'Tải bản mới':'Upload renewal'),
+      downloadL:V?'Tải PDF':'Download PDF',download:()=>this.flash(V?'Đã lưu PDF có watermark vào máy.':'Watermarked PDF saved to your phone.')};
+
+    // ---- dependants
+    const act=st.deps.filter(x=>x.st==='approved').length, hasAn=st.deps.some(x=>x.rel===0&&x.id!=='d1');
+    const DSt={approved:[['Đang giảm trừ','Active'],'ok'],pending:[['Chờ HR duyệt','Awaiting HR'],'acc'],rejected:[['Từ chối','Rejected'],'err']};
+    const DP={title:V?'Người phụ thuộc':'Dependants',ready:st.deps.length>0,empty:st.deps.length===0,
+      emptyBg:t.sf2,emptyInk:t.ts,emptyT:V?'Chưa đăng ký người phụ thuộc':'No dependants registered',emptyB:V?'Mỗi người phụ thuộc giảm '+money(DP_RATE)+' thu nhập chịu thuế mỗi tháng.':'Each dependant reduces taxable income by '+money(DP_RATE)+' a month.',emptyL:V?'Thêm người phụ thuộc':'Add a dependant',
+      emptyOn:()=>{ this.setState({dp:{n:'',rel:0,dob:'',idno:'',from:0,file:null},dpErr:false}); this.go('dependant-new'); },
+      kicker:V?'GIẢM TRỪ GIA CẢNH':'DEPENDANT RELIEF',heroV:money(act*DP_RATE),heroU:V?'/ tháng':'/ month',
+      heroSub:V?act+' người đang được giảm trừ · mức '+money(DP_RATE)+'/người/tháng từ 2026':act+' dependant'+(act===1?'':'s')+' active · '+money(DP_RATE)+' per person per month from 2026',
+      showHint:!hasAn,hintBd:mix(t.acc,45),hintInk:t.accInk,hintT:V?'Khiếu nại thuế TNCN tháng 8 bị từ chối':'August income-tax dispute was rejected',hintB:V?'Lý do: chưa đăng ký con thứ hai. Đăng ký xong thì gửi lại khiếu nại.':'Reason: second child not registered. Register, then resubmit the dispute.',
+      openDispute:()=>{ this.setState({sel:'RQ-2026-0811',apprView:false}); this.go('request-detail'); },
+      hList:V?'DANH SÁCH':'REGISTERED',
+      items:st.deps.map(x=>{ const e=DSt[x.st], c=TC[e[1]]; return {n:x.n,ini:x.n.split(' ').slice(-2).map(w=>w[0]).join(''),sub:P(DP_REL[x.rel])+' · '+x.dob,tag:P(e[0]),tagBg:c[0],tagC:c[1],bd:x.id===st.dpFresh?t.pri:t.line,
+        l1:x.mst?(V?'MST người phụ thuộc':'Dependant tax ID'):(V?'Giảm trừ từ':'Relief from'),v1:x.mst?x.mst+' · '+(V?'từ ':'from ')+x.from:x.from+(x.at?(V?' · gửi ':' · sent ')+x.at:'')}; }),
+      add:()=>{ this.setState({dp:{n:'',rel:0,dob:'',idno:'',from:0,file:null},dpErr:false}); this.go('dependant-new'); },addL:V?'Thêm người phụ thuộc':'Add a dependant',
+      foot:V?'HR lập mẫu 07/ĐK-NPT-TNCN và nộp cơ quan thuế thay bạn. Giảm trừ bắt đầu từ tháng đăng ký, không tính lùi.':'HR files form 07/ĐK-NPT-TNCN with the tax office for you. Relief starts from the month you register, not before.'};
+    const g=st.dp, dup=o=>this.setState(s2=>({dp:{...s2.dp,...o},dpErr:false}));
+    const req=(k)=>st.dpErr&&!String(g[k]||'').trim();
+    const dfld=(k,l,ph,im)=>({l,val:g[k],ph,im:im||'text',set:e=>dup({[k]:e.target.value}),locked:false,op:'1',bd:req(k)?t.err:(g[k]?t.pri:t.line),tag:null});
+    const DN={title:V?'Thêm người phụ thuộc':'Add a dependant',h1:V?'01 · THÔNG TIN':'01 · DETAILS',
+      f1:[dfld('n',V?'Họ và tên':'Full name','Nguyễn Minh An')],relL:V?'Quan hệ với bạn':'Relationship',rels:DP_REL.map((r,i)=>chip(P(r),g.rel===i,()=>dup({rel:i}))),
+      f2:[dfld('dob',V?'Ngày sinh':'Date of birth','dd/mm/yyyy','numeric'),dfld('idno',V?'Số định danh cá nhân':'Personal ID number',V?'12 số trên giấy khai sinh hoặc CCCD':'12 digits from birth certificate or ID','numeric')],
+      h2:V?'02 · GIẢM TRỪ TỪ THÁNG':'02 · RELIEF STARTS',froms:DP_FROM.map((m,i)=>chip(m,g.from===i,()=>dup({from:i}))),
+      fromHint:V?'Không chọn được tháng đã chốt lương. Tháng 9 còn nhận tới 25/09.':'Closed pay months can’t be picked. September is open until 25 Sep.',
+      h3:V?'03 · GIẤY TỜ':'03 · PROOF',
+      att:{has:!!g.file,none:!g.file,name:g.file||'',size:'1,4 MB',rm:()=>dup({file:null}),add:()=>dup({file:'giay-khai-sinh.jpg'}),bd:(st.dpErr&&!g.file)?t.err:t.line,l:V?'Đính kèm giấy khai sinh':'Attach birth certificate',hint:V?'Con: giấy khai sinh. Vợ/chồng: giấy đăng ký kết hôn. Cha/mẹ: giấy tờ chứng minh quan hệ.':'Child: birth certificate. Spouse: marriage certificate. Parent: proof of relationship.'},
+      showErr:st.dpErr,errTxt:V?'Điền họ tên, ngày sinh và đính kèm giấy tờ trước khi gửi.':'Add the name, date of birth and a document before sending.',
+      cancel:()=>this.pop(),cancelL:V?'Huỷ':'Cancel',submitL:V?'Gửi HR':'Send to HR',submitOp:(g.n&&g.dob&&g.file)?'1':'.45',
+      submit:()=>{ const G=this.state.dp; if(!String(G.n).trim()||!String(G.dob).trim()||!G.file){ this.setState({dpErr:true}); return; }
+        const id='d'+Date.now(); this.setState(s2=>({deps:[{id,n:G.n.trim(),rel:G.rel,dob:G.dob.trim(),idno:G.idno,mst:null,st:'pending',from:DP_FROM[G.from],at:'16/09 · 14:32'},...s2.deps],dpFresh:id,dpErr:false})); this.pop();
+        this.flash(V?'Đã gửi HR. Mẫu 07/ĐK-NPT-TNCN được lập tự động.':'Sent to HR. Form 07/ĐK-NPT-TNCN is prepared for you.'); }};
+
+    return {profileGroups,profileLinks,PF,PE,DS,DO,DP,DN,
+      isPEdit:s==='profile-edit',isDocs:s==='docs',isDocView:s==='doc-view',isDeps:s==='dependants',isDepNew:s==='dependant-new'};
   }
   recVals(V,t,mix,s){
     const st=this.state, P=x=>Array.isArray(x)?x[V?0:1]:x;
@@ -3563,7 +4012,7 @@ class Component extends DCLogic {
       {k:'payroll',l:L.navPay,ic:IC.pay},
       {k:'profile',l:L.navProfile,ic:IC.me}
     ].map(n=>{
-      const on = s===n.k || (n.k==='home'&&s==='exec') || (n.k==='attendance'&&(s==='calendar'||s==='facescan'||s==='shifts')) || (n.k==='payroll'&&(s==='payslip'||s==='bonus'||s==='payslip-lock')) || (n.k==='profile'&&(s==='settings'||s==='device')) || (n.k==='requests'&&['leave','overtime','correction','leave-new','overtime-new','correction-new','dispute','dispute-new','swaps','request-detail','request-sent','approvals','final','delegate'].includes(s));
+      const on = s===n.k || (n.k==='home'&&s==='exec') || (n.k==='attendance'&&(s==='calendar'||s==='facescan'||s==='shifts')) || (n.k==='payroll'&&(s==='payslip'||s==='bonus'||s==='payslip-lock')) || (n.k==='profile'&&['settings','device','profile-edit','docs','doc-view','dependants','dependant-new'].includes(s)) || (n.k==='requests'&&['leave','overtime','correction','leave-new','overtime-new','correction-new','dispute','dispute-new','swaps','request-detail','request-sent','approvals','final','delegate'].includes(s));
       const dest = (n.k==='home'&&exec) ? 'exec' : (n.k==='requests'&&exec ? 'final' : (n.k==='requests'&&mgr ? 'approvals' : n.k));
       return {l:(n.k==='home'&&exec)?(V?'Điều hành':'Exec'):n.l, badge:(n.k==='requests'&&exec)?'4':n.badge, c:on?t.pri:t.ts, bar:on?t.pri:'transparent',
         icon:{__html:'<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="'+(on?2.3:1.9)+'" stroke-linecap="round" stroke-linejoin="round">'+n.ic+'</svg>'},
@@ -3807,7 +4256,7 @@ class Component extends DCLogic {
       L3: V
         ? {title:'Chấm công bằng khuôn mặt',geo:'Cửa hàng Q.3 · đã xác thực vị trí',manual:'Chấm công không dùng khuôn mặt'}
         : {title:'Face check-in',geo:'District 3 store · location verified',manual:'Check in without face scan'},
-      showNav:['home','attendance','calendar','requests','payroll','payslip','bonus','profile','settings','leave','overtime','correction','approvals','jobs','notifications','services','holidays','exec','final','risk','delegate','shifts','device','dispute','swaps'].includes(s),
+      showNav:['home','attendance','calendar','requests','payroll','payslip','bonus','profile','settings','leave','overtime','correction','approvals','jobs','notifications','services','holidays','exec','final','risk','delegate','shifts','device','dispute','swaps','docs','dependants'].includes(s),
       goServices:()=>this.go('services'), goHolidays:()=>this.go('holidays'),
       shiftTotal: V?'ca 9 giờ':'of a 9h shift',
       ringDash: (()=>{const c=2*Math.PI*34, p=att==='out'?0:(att==='in'?0.69:1); return (c*p).toFixed(1)+' '+c.toFixed(1);})(),
@@ -3848,11 +4297,11 @@ class Component extends DCLogic {
         ? [['Chấm công & thời gian',[['Chấm công vào/ra','att','attendance'],['Lịch công tháng','cal','calendar'],['Nhật ký từng ngày','list','attendance'],['Ngày lễ trong năm','flag','holidays'],['Lịch ca làm','shift','shifts'],['Thiết bị chấm công','phone','device']]],
            ['Đơn từ',[['Xin nghỉ phép','cal','leave'],['Đăng ký tăng ca','clock','overtime'],['Sửa công','edit','correction'],['Đổi ca','shift','swaps'],['Theo dõi yêu cầu','list','requests']]],
            ['Lương & thưởng',[['Bảng lương tháng','pay','payroll'],['Phiếu lương','slip','payslip'],['Thưởng & ghi nhận','star','bonus'],['Phụ cấp','pay','payroll'],['Hoa hồng','star','commission'],['Chỉ tiêu tháng','flag','targets'],['Khiếu nại lương','edit','dispute']]],
-           ['Nghề nghiệp & hồ sơ',[['Tuyển dụng nội bộ','user','jobs'],['Giới thiệu ứng viên','user','referrals'],['Hồ sơ cá nhân','user','profile'],['Cài đặt','set','settings'],['Phê duyệt','check','approvals']]]]
+           ['Nghề nghiệp & hồ sơ',[['Tuyển dụng nội bộ','user','jobs'],['Giới thiệu ứng viên','user','referrals'],['Hồ sơ cá nhân','user','profile'],['Hồ sơ & tài liệu','list','docs'],['Người phụ thuộc','user','dependants'],['Cài đặt','set','settings'],['Phê duyệt','check','approvals']]]]
         : [['Attendance & time',[['Check in / out','att','attendance'],['Monthly calendar','cal','calendar'],['Daily log','list','attendance'],['Holidays','flag','holidays'],['Shift schedule','shift','shifts'],['Punch device','phone','device']]],
            ['Requests',[['Request leave','cal','leave'],['Log overtime','clock','overtime'],['Attendance fix','edit','correction'],['Shift swap','shift','swaps'],['Track requests','list','requests']]],
            ['Pay & rewards',[['Monthly payroll','pay','payroll'],['Payslip','slip','payslip'],['Bonus & recognition','star','bonus'],['Allowances','pay','payroll'],['Commission','star','commission'],['Monthly targets','flag','targets'],['Salary dispute','edit','dispute']]],
-           ['Career & profile',[['Internal openings','user','jobs'],['Refer a candidate','user','referrals'],['My profile','user','profile'],['Settings','set','settings'],['Approvals','check','approvals']]]]
+           ['Career & profile',[['Internal openings','user','jobs'],['Refer a candidate','user','referrals'],['My profile','user','profile'],['Documents','list','docs'],['Dependants','user','dependants'],['Settings','set','settings'],['Approvals','check','approvals']]]]
       ).map(g=>({t:g[0],items:g[1].map(it=>({
         l:it[0], icon:{__html:'<svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">'+QIC[it[1]]+'</svg>'},
         on:()=>{ if(it[2]==='commission'||it[2]==='targets'){ this.setState({rtab:it[2]==='commission'?1:2}); this.go('bonus'); return; } this.go(it[2]); if(it[2]==='shifts') this.loadShifts(); if(it[2]==='device') this.loadDevice(); }
@@ -3967,7 +4416,8 @@ class Component extends DCLogic {
       ...this.reqVals(V,t,mix,s),
       ...this.attVals(V,t,mix,s,L),
       ...this.payVals(V,t,mix,s,L),
-      ...this.recVals(V,t,mix,s)
+      ...this.recVals(V,t,mix,s),
+      ...this.profVals(V,t,mix,s)
     };
   }
 }

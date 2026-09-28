@@ -1657,7 +1657,7 @@ class AppLocalizationsVi extends AppLocalizations {
   String get laborProfileTitle => 'Hồ sơ lao động & Hợp đồng';
 
   @override
-  String get contractSectionTitle => 'Hợp đồng lao động hiện tại';
+  String get contractSectionTitle => 'Hợp đồng lao động & Phụ lục';
 
   @override
   String get contractNumberLabel => 'Số hợp đồng';
@@ -2386,4 +2386,652 @@ class AppLocalizationsVi extends AppLocalizations {
 
   @override
   String get deviceCheckSafetyBtn => 'Kiểm tra an toàn';
+
+  @override
+  String get requestDetailTitle => 'Chi tiết yêu cầu';
+
+  @override
+  String get requestCodeLabel => 'Mã yêu cầu';
+
+  @override
+  String get requesterLabel => 'Người gửi';
+
+  @override
+  String get cancelRequestBtn => 'Hủy yêu cầu';
+
+  @override
+  String get cancelRequestConfirm => 'Bạn có chắc chắn muốn hủy yêu cầu này?';
+
+  @override
+  String get requestCancelledSuccess => 'Yêu cầu đã được hủy thành công';
+
+  @override
+  String get internalNoteHint =>
+      'Nhập ghi chú nội bộ (chỉ người duyệt thấy)...';
+
+  @override
+  String get approveRequestConfirm => 'Xác nhận phê duyệt yêu cầu này?';
+
+  @override
+  String get rejectRequestConfirm => 'Xác nhận từ chối yêu cầu?';
+
+  @override
+  String get approvalTimelineTitle => 'Tiến trình phê duyệt (4 cấp)';
+
+  @override
+  String get submittedFieldsTitle => 'Thông tin chi tiết';
+
+  @override
+  String get attachedFilesTitle => 'Tệp đính kèm & Minh chứng';
+
+  @override
+  String get shiftComparisonTitle => 'So sánh ca làm việc hai nhân viên';
+
+  @override
+  String get attendanceLogComparisonTitle => 'Đối chiếu giờ quẹt thẻ thực tế';
+
+  @override
+  String get disputeComparisonTitle => 'Đối chiếu khoản mục khiếu nại';
+
+  @override
+  String get disputedAmountDiff => 'Mức chênh lệch';
+
+  @override
+  String get leaveManageTitle => 'Quản lý Nghỉ phép';
+
+  @override
+  String get annualLeaveHeroTitle => 'Quỹ phép năm 2026';
+
+  @override
+  String get leaveStatusFilterAll => 'Tất cả';
+
+  @override
+  String get leaveStatusFilterPending => 'Chờ duyệt';
+
+  @override
+  String get leaveStatusFilterApproved => 'Đã duyệt';
+
+  @override
+  String get leaveStatusFilterRejected => 'Từ chối';
+
+  @override
+  String get createLeaveBtn => 'Tạo đơn nghỉ phép';
+
+  @override
+  String get overtimeManageTitle => 'Quản lý Tăng ca';
+
+  @override
+  String get totalOvertimeHours => 'Tổng giờ tăng ca';
+
+  @override
+  String get rateNormal150 => 'Ngày thường 150%';
+
+  @override
+  String get rateWeekend200 => 'Cuối tuần 200%';
+
+  @override
+  String get rateHoliday300 => 'Ngày lễ 300%';
+
+  @override
+  String get createOvertimeBtn => 'Đăng ký tăng ca';
+
+  @override
+  String get correctionManageTitle => 'Quản lý Sửa công';
+
+  @override
+  String get correctionQuotaTitle => 'Hạn mức sửa công tháng này';
+
+  @override
+  String correctionQuotaUsage(String used, String total) {
+    return 'Đã dùng $used/$total lần';
+  }
+
+  @override
+  String get missingPunchesSectionTitle => 'Ngày thiếu chấm công cần xử lý';
+
+  @override
+  String get fixPunchBtn => 'Sửa công ngay';
+
+  @override
+  String get noMissingPunches => 'Không có ngày nào bị thiếu chấm công';
+
+  @override
+  String get shiftSwapsManageTitle => 'Quản lý Đổi ca';
+
+  @override
+  String get swapsSentTab => 'Đơn gửi đi';
+
+  @override
+  String get swapsReceivedTab => 'Đơn nhận được';
+
+  @override
+  String get colleagueLabel => 'Đồng nghiệp đổi ca';
+
+  @override
+  String get swapStatusPending => 'Chờ duyệt';
+
+  @override
+  String get swapStatusApproved => 'Đã đổi ca';
+
+  @override
+  String get swapStatusRejected => 'Từ chối';
+
+  @override
+  String get requestSentTitle => 'Gửi thành công';
+
+  @override
+  String get requestSentSuccess => 'Yêu cầu của bạn đã được gửi thành công!';
+
+  @override
+  String requestAssignedTo(String name) {
+    return 'Người tiếp nhận: $name';
+  }
+
+  @override
+  String get backToListBtn => 'Về danh sách';
+
+  @override
+  String get viewRequestDetailBtn => 'Xem chi tiết yêu cầu';
+
+  @override
+  String get payslipLockTitle => 'Xác thực bảo mật';
+
+  @override
+  String get payslipLockSubtitle =>
+      'Nhập mã PIN 6 số hoặc xác thực sinh trắc học để xem phiếu lương';
+
+  @override
+  String payslipLockWrongPin(String remaining) {
+    return 'Mã PIN không chính xác. Còn lại $remaining lần thử';
+  }
+
+  @override
+  String get payslipLockLocked =>
+      'Đã khóa tạm thời trong 30 giây do nhập sai nhiều lần';
+
+  @override
+  String get payslipLockBiometricPrompt => 'Xác thực để mở khóa phiếu lương';
+
+  @override
+  String get payslipLockForgotPin => 'Quên mã PIN?';
+
+  @override
+  String get useBiometricsBtn => 'Dùng sinh trắc học';
+
+  @override
+  String get signPayslipBtn => 'Ký xác nhận phiếu lương';
+
+  @override
+  String get signPadTitle => 'Ký xác nhận điện tử';
+
+  @override
+  String get signPadSubtitle => 'Vui lòng ký tên của bạn vào khung bên dưới';
+
+  @override
+  String get signPadClear => 'Xóa chữ ký';
+
+  @override
+  String get signPadConfirm => 'Xác nhận ký';
+
+  @override
+  String get signPadDisclaimer =>
+      'Tôi xác nhận đã kiểm tra kỹ các thông tin thu nhập, khấu trừ và công chuẩn theo Bộ luật Lao động.';
+
+  @override
+  String get signPadEmptyAlert => 'Vui lòng ký tên trước khi xác nhận';
+
+  @override
+  String get payslipSignedBadge => 'Đã ký điện tử';
+
+  @override
+  String payslipSignedAt(String time) {
+    return 'Thời gian ký: $time';
+  }
+
+  @override
+  String payslipSignedHash(String hash) {
+    return 'Mã băm xác thực: $hash';
+  }
+
+  @override
+  String payslipSignedSigner(String name) {
+    return 'Người ký: $name';
+  }
+
+  @override
+  String get disputePayslipBtn => 'Khiếu nại bảng lương';
+
+  @override
+  String get disputeLineBtn => 'Khiếu nại dòng này';
+
+  @override
+  String get disputeManageTitle => 'Quản lý Khiếu nại lương';
+
+  @override
+  String get disputeNewTitle => 'Tạo khiếu nại lương';
+
+  @override
+  String get disputeMonthLabel => 'Tháng khiếu nại';
+
+  @override
+  String get disputeItemLabel => 'Khoản mục sai lệch';
+
+  @override
+  String get disputeCurrentAmountLabel => 'Số tiền trên phiếu lương (₫)';
+
+  @override
+  String get disputeExpectedAmountLabel => 'Số tiền đề xuất đúng (₫)';
+
+  @override
+  String get disputeDifferenceLabel => 'Chênh lệch đề xuất';
+
+  @override
+  String get disputeReasonLabel => 'Lý do & giải trình chi tiết';
+
+  @override
+  String get disputeReasonHint =>
+      'Nêu rõ nguyên nhân chênh lệch, ngày phát sinh, ca làm việc...';
+
+  @override
+  String get disputeAttachmentLabel =>
+      'Minh chứng (bảng công, ảnh chụp phân ca...)';
+
+  @override
+  String get submitDisputeBtn => 'Gửi khiếu nại';
+
+  @override
+  String get disputeCreatedSuccess => 'Đã gửi khiếu nại lương thành công';
+
+  @override
+  String get noDisputesFound => 'Không có khiếu nại nào';
+
+  @override
+  String get disputeStatusPending => 'Đang đối soát';
+
+  @override
+  String get disputeStatusApproved => 'Đã duyệt bù';
+
+  @override
+  String get disputeStatusRejected => 'Không chấp thuận';
+
+  @override
+  String get rewardsTabBonus => 'Thưởng';
+
+  @override
+  String get rewardsTabCommission => 'Hoa hồng';
+
+  @override
+  String get rewardsTabTargets => 'Chỉ tiêu';
+
+  @override
+  String commissionTotalTitle(String month) {
+    return 'Tổng hoa hồng tháng $month';
+  }
+
+  @override
+  String get commissionFilterDay => 'Ngày';
+
+  @override
+  String get commissionFilterWeek => 'Tuần';
+
+  @override
+  String get commissionFilterMonth => 'Tháng';
+
+  @override
+  String get commissionSourceDirect => 'Bán hàng trực tiếp';
+
+  @override
+  String get commissionSourceTeam => 'Doanh số nhóm';
+
+  @override
+  String get commissionSourceRenewal => 'Tái tục hợp đồng';
+
+  @override
+  String commissionContractsCount(int count) {
+    return '$count giao dịch';
+  }
+
+  @override
+  String get targetPersonalTitle => 'Chỉ tiêu cá nhân tháng này';
+
+  @override
+  String get targetTeamTitle => 'Chỉ tiêu đội nhóm chi nhánh';
+
+  @override
+  String get targetTiersTitle => 'Các mốc thưởng bậc thang';
+
+  @override
+  String get targetTierAchieved => 'Đã đạt mốc';
+
+  @override
+  String targetTierRemaining(String remaining) {
+    return 'Còn thiếu $remaining';
+  }
+
+  @override
+  String get targetTierNext => 'Mục tiêu kế tiếp';
+
+  @override
+  String get referCandidateBtn => 'Giới thiệu ứng viên';
+
+  @override
+  String get referralFormTitle => 'Giới thiệu ứng viên';
+
+  @override
+  String get candidateNameLabel => 'Họ và tên ứng viên';
+
+  @override
+  String get candidatePhoneLabel => 'Số điện thoại';
+
+  @override
+  String get candidateEmailLabel => 'Email liên hệ';
+
+  @override
+  String get candidatePositionLabel => 'Vị trí ứng tuyển';
+
+  @override
+  String get candidateBranchLabel => 'Chi nhánh mong muốn';
+
+  @override
+  String get candidateCvLabel => 'Tải lên CV (PDF, DOCX)';
+
+  @override
+  String candidateCvSelected(String fileName) {
+    return 'Đã đính kèm CV: $fileName';
+  }
+
+  @override
+  String get candidateDuplicateError =>
+      'Ứng viên này đã có hồ sơ trong hệ thống trong vòng 6 tháng qua';
+
+  @override
+  String get submitReferralBtn => 'Gửi hồ sơ giới thiệu';
+
+  @override
+  String get referralSuccessTitle => 'Gửi giới thiệu thành công';
+
+  @override
+  String get referralSuccessMsg =>
+      'Hồ sơ ứng viên đã được chuyển trực tiếp đến bộ phận Tuyển dụng';
+
+  @override
+  String get referralCodeLabel => 'Mã theo dõi giới thiệu';
+
+  @override
+  String get referralBonusNotice =>
+      'Thưởng giới thiệu: 3.000.000 ₫ (khi ứng viên qua thử việc)';
+
+  @override
+  String get viewMyReferralsBtn => 'Xem ứng viên tôi đã giới thiệu';
+
+  @override
+  String get myReferralsTitle => 'Ứng viên tôi đã giới thiệu';
+
+  @override
+  String get myReferralLinkTitle => 'Link & Mã QR giới thiệu của bạn';
+
+  @override
+  String get copyLinkBtn => 'Sao chép link';
+
+  @override
+  String get shareQrBtn => 'Chia sẻ QR';
+
+  @override
+  String get linkCopiedSnackbar => 'Đã sao chép link giới thiệu vào clipboard';
+
+  @override
+  String get stageReceived => 'Tiếp nhận hồ sơ';
+
+  @override
+  String get stageInterview => 'Phỏng vấn';
+
+  @override
+  String get stageProbation => 'Thử việc';
+
+  @override
+  String get stageHired => 'Đã nhận việc & Thưởng';
+
+  @override
+  String get noReferralsFound => 'Chưa có ứng viên nào được giới thiệu';
+
+  @override
+  String get profileEditTitle => 'Chỉnh sửa hồ sơ';
+
+  @override
+  String get profileEditHeader => 'Thông tin cá nhân & Tài khoản';
+
+  @override
+  String get freeEditSection => 'Thông tin liên hệ (Cập nhật ngay)';
+
+  @override
+  String get sensitiveEditSection =>
+      'Thông tin định danh & Ngân hàng (Cần HR duyệt)';
+
+  @override
+  String get sensitiveEditNotice =>
+      'Các thay đổi về CCCD/Hộ chiếu và Tài khoản ngân hàng cần được phòng Nhân sự phê duyệt trước khi áp dụng chính thức.';
+
+  @override
+  String get phoneEditLabel => 'Số điện thoại';
+
+  @override
+  String get emailEditLabel => 'Email cá nhân';
+
+  @override
+  String get addressEditLabel => 'Địa chỉ hiện tại';
+
+  @override
+  String get emergencyNameLabel => 'Người liên hệ khẩn cấp';
+
+  @override
+  String get emergencyPhoneLabel => 'SĐT khẩn cấp';
+
+  @override
+  String get bankNameEditLabel => 'Ngân hàng thụ hưởng';
+
+  @override
+  String get bankAccountEditLabel => 'Số tài khoản';
+
+  @override
+  String get bankHolderEditLabel => 'Tên chủ tài khoản';
+
+  @override
+  String get cccdEditLabel => 'Số CCCD / Hộ chiếu';
+
+  @override
+  String get cccdIssueDateLabel => 'Ngày cấp';
+
+  @override
+  String get cccdIssuePlaceLabel => 'Nơi cấp';
+
+  @override
+  String get permanentAddressLabel => 'Địa chỉ thường trú (theo CCCD)';
+
+  @override
+  String get saveChangesBtn => 'Lưu thay đổi';
+
+  @override
+  String get profileEditSuccess => 'Đã cập nhật thông tin thành công';
+
+  @override
+  String profilePendingHrAlert(String code) {
+    return 'Yêu cầu thay đổi thông tin định danh/ngân hàng đã được gửi đến HR (Mã: $code)';
+  }
+
+  @override
+  String get statusPendingHr => 'Chờ HR duyệt';
+
+  @override
+  String get documentManagementTitle => 'Tài liệu & Hồ sơ';
+
+  @override
+  String get expiringDocAlertTitle => 'Cảnh báo giấy tờ sắp hết hạn';
+
+  @override
+  String expiringDocAlertMsg(int days, String date) {
+    return 'Giấy khám sức khỏe định kỳ sẽ hết hạn sau $days ngày ($date). Vui lòng cập nhật minh chứng mới.';
+  }
+
+  @override
+  String get legalDocSectionTitle => 'Hồ sơ pháp lý & Bằng cấp';
+
+  @override
+  String get viewContractBtn => 'Xem hợp đồng';
+
+  @override
+  String get contractViewerTitle => 'Hợp đồng lao động điện tử';
+
+  @override
+  String contractWatermark(String employeeCode, String name, String date) {
+    return 'BẢN SAO ĐIỆN TỬ - $employeeCode - $name - $date';
+  }
+
+  @override
+  String get uploadNewDocBtn => 'Tải lên tài liệu mới';
+
+  @override
+  String get downloadDocBtn => 'Tải về PDF';
+
+  @override
+  String get dependantsManageTitle => 'Người phụ thuộc';
+
+  @override
+  String get dependantsTaxReliefTitle => 'Giảm trừ gia cảnh (TNCN)';
+
+  @override
+  String dependantsCountLabel(int count) {
+    return 'Số người phụ thuộc: $count người';
+  }
+
+  @override
+  String dependantsTotalReliefLabel(String amount) {
+    return 'Tổng mức giảm trừ: $amount ₫/tháng';
+  }
+
+  @override
+  String get dependantPolicyNotice =>
+      'Mức giảm trừ gia cảnh 4.400.000 ₫/người/tháng theo Nghị quyết của Ủy ban Thường vụ Quốc hội.';
+
+  @override
+  String get addDependantBtn => 'Đăng ký người phụ thuộc mới';
+
+  @override
+  String get dependantNewTitle => 'Đăng ký người phụ thuộc';
+
+  @override
+  String get dependantFullNameLabel => 'Họ và tên người phụ thuộc';
+
+  @override
+  String get dependantRelationshipLabel => 'Mối quan hệ';
+
+  @override
+  String get dependantDobLabel => 'Ngày tháng năm sinh';
+
+  @override
+  String get dependantTaxIdLabel => 'Mã số thuế / CCCD / Giấy khai sinh';
+
+  @override
+  String get dependantStartMonthLabel => 'Tháng bắt đầu tính giảm trừ';
+
+  @override
+  String get dependantProofUploadLabel => 'Minh chứng (Giấy khai sinh / CCCD)';
+
+  @override
+  String get dependantDisclaimer =>
+      'Tôi cam đoan các thông tin kê khai về người phụ thuộc trên là hoàn toàn chính xác và chịu trách nhiệm trước pháp luật.';
+
+  @override
+  String get submitDependantBtn => 'Gửi hồ sơ đăng ký';
+
+  @override
+  String get dependantCreatedSuccess =>
+      'Đã gửi hồ sơ đăng ký người phụ thuộc đến phòng Nhân sự';
+
+  @override
+  String get noDependantsFound => 'Chưa có người phụ thuộc nào được đăng ký';
+
+  @override
+  String get onboardingHomeTitle => 'Hành trình Hội nhập';
+
+  @override
+  String get onboardingWelcomeMsg => 'Chào mừng bạn gia nhập VSTECH!';
+
+  @override
+  String onboardingCountdownDays(int days, String date) {
+    return 'Còn $days ngày nữa đến Ngày đầu tiên ($date)';
+  }
+
+  @override
+  String onboardingProgressSummary(int completed, int total) {
+    return 'Tiến độ chuẩn bị: $completed/$total bước';
+  }
+
+  @override
+  String get offerLetterTitle => 'Thư mời nhận việc (Offer)';
+
+  @override
+  String get offerAcceptBtn => 'Xác nhận chấp thuận Offer';
+
+  @override
+  String get offerAcceptedBadge => 'Đã chấp thuận Offer';
+
+  @override
+  String offerSalaryProbation(String amount) {
+    return 'Lương thử việc (85%): $amount ₫';
+  }
+
+  @override
+  String get orgIntroTitle => 'Đội ngũ & Người đồng hành';
+
+  @override
+  String get buddyCardTitle => 'Người hướng dẫn (Buddy) của bạn';
+
+  @override
+  String get uploadDocsTitle => 'Nộp hồ sơ nhân sự';
+
+  @override
+  String uploadDocsProgress(int uploaded, int total) {
+    return 'Đã nộp $uploaded/$total tài liệu';
+  }
+
+  @override
+  String get capturePhotoTitle => 'Chụp ảnh thẻ nhân viên';
+
+  @override
+  String get capturePhotoGuide =>
+      'Chụp ảnh chân dung 3x4 nền sáng, nhìn thẳng vào camera';
+
+  @override
+  String get capturePhotoBtn => 'Chụp ảnh';
+
+  @override
+  String get confirmPhotoBtn => 'Xác nhận dùng ảnh này';
+
+  @override
+  String get ocrVerificationTitle => 'Xác thực danh tính (OCR CCCD)';
+
+  @override
+  String get ocrScanBtn => 'Quét mặt trước CCCD';
+
+  @override
+  String get ocrVerifiedBadge => 'Đã xác thực trùng khớp 100%';
+
+  @override
+  String get probationContractTitle => 'Hợp đồng thử việc điện tử';
+
+  @override
+  String get signContractBtn => 'Xác nhận ký hợp đồng';
+
+  @override
+  String get contractSignedSuccess =>
+      'Đã hoàn tất ký hợp đồng thử việc điện tử';
+
+  @override
+  String get dayOneGuideTitle => 'Cẩm nang Ngày đầu tiên';
+
+  @override
+  String get dayOneChecklistTitle => 'Những điều cần lưu ý cho Ngày 1';
+
+  @override
+  String get startNextStepBtn => 'Thực hiện bước tiếp theo';
 }

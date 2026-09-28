@@ -1,14 +1,16 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:material_symbols_icons/symbols.dart';
 import 'package:vstech_hrm/core/extensions/l10n_extension.dart';
 import 'package:vstech_hrm/core/responsive/app_layout.dart';
+import 'package:vstech_hrm/core/router/routes.dart';
 import 'package:vstech_hrm/core/theme/app_colors.dart';
 import 'package:vstech_hrm/core/widgets/app_success_dialog.dart';
 
 /// Screen 17: Internal Job Position Detail & Quick Application.
 class JobDetailScreen extends StatefulWidget {
-  const new({super.key});
+  const JobDetailScreen({super.key});
 
   @override
   State<JobDetailScreen> createState() => _JobDetailScreenState();
@@ -24,6 +26,13 @@ class _JobDetailScreenState extends State<JobDetailScreen> {
         title: context.l10n.applySuccessTitle,
         message: context.l10n.applySuccessMsg,
       ),
+    );
+  }
+
+  void _referCandidate() {
+    context.push(
+      AppRoutes.referralForm,
+      extra: {'position': 'Quản lý cửa hàng'},
     );
   }
 
@@ -69,9 +78,30 @@ class _JobDetailScreenState extends State<JobDetailScreen> {
       ),
       bottomNavigationBar: SafeArea(
         child: Padding(
-          padding: const EdgeInsets.all(16),
+          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
           child: Row(
             children: [
+              Expanded(
+                child: SizedBox(
+                  height: 48,
+                  child: OutlinedButton.icon(
+                    style: OutlinedButton.styleFrom(
+                      side: BorderSide(color: colors.primaryIndigo, width: 1.5),
+                      foregroundColor: colors.primaryIndigo,
+                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
+                    ),
+                    icon: const Icon(Symbols.person_add, size: 18),
+                    onPressed: _referCandidate,
+                    label: Text(
+                      context.l10n.referCandidateBtn,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w700),
+                    ),
+                  ),
+                ),
+              ),
+              10.gapW,
               Expanded(
                 child: SizedBox(
                   height: 48,
@@ -85,12 +115,14 @@ class _JobDetailScreenState extends State<JobDetailScreen> {
                     onPressed: _apply,
                     child: Text(
                       context.l10n.applyButton,
-                      style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w800),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w800),
                     ),
                   ),
                 ),
               ),
-              12.gapW,
+              10.gapW,
               InkWell(
                 borderRadius: BorderRadius.circular(14),
                 onTap: () => setState(() => _isSaved = !_isSaved),

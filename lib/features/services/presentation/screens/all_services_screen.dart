@@ -40,8 +40,10 @@ class AllServicesScreen extends StatelessWidget {
             items: [
               _ServiceItem(context.l10n.serviceCheckInOut, Symbols.power_settings_new, () => context.go(AppRoutes.attendance)),
               _ServiceItem(context.l10n.serviceShiftSchedule, Symbols.schedule, () => context.push(AppRoutes.shiftSchedule)),
+              _ServiceItem(context.l10n.shiftSwapsManageTitle, Symbols.sync_alt, () => context.push(AppRoutes.shiftSwaps)),
               _ServiceItem(context.l10n.serviceMonthlyTimesheet, Symbols.calendar_month, () => context.push(AppRoutes.calendar)),
               _ServiceItem(context.l10n.serviceHolidays, Symbols.flag, () => context.push(AppRoutes.holidays)),
+              _ServiceItem(context.l10n.registeredDeviceTitle, Symbols.smartphone, () => context.push(AppRoutes.registeredDevice)),
             ],
             colors: colors,
           ),
@@ -49,9 +51,10 @@ class AllServicesScreen extends StatelessWidget {
           _buildCategory(
             title: context.l10n.categoryRequests,
             items: [
-              _ServiceItem(context.l10n.serviceLeave, Symbols.beach_access, () => context.push(AppRoutes.leaveCreate)),
-              _ServiceItem(context.l10n.serviceOvertime, Symbols.schedule, () => context.push(AppRoutes.overtimeCreate)),
-              _ServiceItem(context.l10n.serviceCorrection, Symbols.edit_note, () => context.push(AppRoutes.attendanceCorrection)),
+              _ServiceItem(context.l10n.leaveManageTitle, Symbols.beach_access, () => context.push(AppRoutes.leaveManage)),
+              _ServiceItem(context.l10n.overtimeManageTitle, Symbols.schedule, () => context.push(AppRoutes.overtimeManage)),
+              _ServiceItem(context.l10n.correctionManageTitle, Symbols.edit_calendar, () => context.push(AppRoutes.correctionManage)),
+              _ServiceItem(context.l10n.shiftSwapsManageTitle, Symbols.swap_horiz, () => context.push(AppRoutes.shiftSwaps)),
               _ServiceItem(context.l10n.serviceTrackRequests, Symbols.list_alt, () => context.go(AppRoutes.requests)),
             ],
             colors: colors,
@@ -63,6 +66,7 @@ class AllServicesScreen extends StatelessWidget {
               _ServiceItem(context.l10n.serviceSalaryTable, Symbols.account_balance_wallet, () => context.go(AppRoutes.payroll)),
               _ServiceItem(context.l10n.servicePayslip, Symbols.receipt_long, () => context.push(AppRoutes.payslipDetail)),
               _ServiceItem(context.l10n.serviceRewards, Symbols.star, () => context.push(AppRoutes.rewards)),
+              _ServiceItem(context.l10n.disputeManageTitle, Symbols.rate_review, () => context.push(AppRoutes.salaryDisputes)),
               _ServiceItem(context.l10n.serviceAllowance, Symbols.payments, () => context.go(AppRoutes.payroll)),
             ],
             colors: colors,
@@ -72,6 +76,10 @@ class AllServicesScreen extends StatelessWidget {
             title: context.l10n.categoryCareerProfile,
             items: [
               _ServiceItem(context.l10n.serviceInternalJobs, Symbols.work, () => context.push(AppRoutes.jobRecruitment)),
+              _ServiceItem(context.l10n.myReferralsTitle, Symbols.group_add, () => context.push(AppRoutes.myReferrals)),
+              _ServiceItem(context.l10n.onboardingHomeTitle, Symbols.flight_takeoff, () => context.push(AppRoutes.onboardingHome)),
+              _ServiceItem(context.l10n.documentManagementTitle, Symbols.folder_shared, () => context.push(AppRoutes.documentManagement)),
+              _ServiceItem(context.l10n.dependantsManageTitle, Symbols.family_restroom, () => context.push(AppRoutes.dependants)),
               _ServiceItem(context.l10n.serviceProfile, Symbols.person, () => context.go(AppRoutes.profile)),
               _ServiceItem(context.l10n.serviceSettings, Symbols.settings, () => context.push(AppRoutes.settings)),
               _ServiceItem(context.l10n.serviceApprovals, Symbols.fact_check, () => context.push(AppRoutes.approvals)),
@@ -111,50 +119,56 @@ class AllServicesScreen extends StatelessWidget {
           ),
         ),
         const SizedBox(height: 12),
-        Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: items.map((item) => Expanded(
-            child: InkWell(
+        GridView.builder(
+          shrinkWrap: true,
+          physics: const NeverScrollableScrollPhysics(),
+          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: 4,
+            mainAxisSpacing: 14,
+            crossAxisSpacing: 8,
+            childAspectRatio: 0.72,
+          ),
+          itemCount: items.length,
+          itemBuilder: (context, index) {
+            final item = items[index];
+            return InkWell(
               borderRadius: BorderRadius.circular(16),
               onTap: item.onTap,
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 4),
-                child: Column(
-                  children: [
-                    Container(
-                      width: 54,
-                      height: 54,
-                      decoration: BoxDecoration(
-                        color: colors.surface,
-                        borderRadius: BorderRadius.circular(16),
-                        border: Border.all(color: colors.border),
-                      ),
-                      child: Center(
-                        child: Icon(
-                          item.icon,
-                          size: 24,
-                          color: colors.primaryIndigo,
-                        ),
+              child: Column(
+                children: [
+                  Container(
+                    width: 52,
+                    height: 52,
+                    decoration: BoxDecoration(
+                      color: colors.surface,
+                      borderRadius: BorderRadius.circular(16),
+                      border: Border.all(color: colors.border),
+                    ),
+                    child: Center(
+                      child: Icon(
+                        item.icon,
+                        size: 24,
+                        color: colors.primaryIndigo,
                       ),
                     ),
-                    const SizedBox(height: 7),
-                    Text(
-                      item.label,
-                      style: TextStyle(
-                        fontSize: 11,
-                        fontWeight: FontWeight.w700,
-                        color: colors.textPrimary,
-                        height: 1.25,
-                      ),
-                      textAlign: TextAlign.center,
-                      maxLines: 2,
-                      overflow: TextOverflow.ellipsis,
+                  ),
+                  const SizedBox(height: 6),
+                  Text(
+                    item.label,
+                    style: TextStyle(
+                      fontSize: 10.5,
+                      fontWeight: FontWeight.w700,
+                      color: colors.textPrimary,
+                      height: 1.2,
                     ),
-                  ],
-                ),
+                    textAlign: TextAlign.center,
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ],
               ),
-            ),
-          )).toList(),
+            );
+          },
         ),
       ],
     );

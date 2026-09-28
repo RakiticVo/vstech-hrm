@@ -6,6 +6,7 @@
 <script src="./support.js"></script>
 </head>
 <body>
+<template id="__bundler_thumbnail"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><rect width="100" height="100" fill="#0A544E"/><text x="50" y="62" text-anchor="middle" font-family="sans-serif" font-size="30" font-weight="800" fill="#FFF8EC">QT</text></svg></template>
 <x-dc>
 <helmet>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap">
@@ -97,7 +98,7 @@ a{color:#0F766E;text-decoration:none}a:hover{color:#0A544E}
                 <div style="margin-left:10px;width:156px;height:338px;border-radius:22px;overflow:hidden;background:{{ bezel }};box-shadow:0 0 0 {{ n.ring }} {{ n.ringC }}">
                   <sc-if value="{{ n.show }}">
                     <div style="width:390px;height:844px;transform:scale(.4);transform-origin:top left">
-                      <dc-import name="Phone" screen="{{ n.s }}" lang="{{ lang }}" theme="{{ theme }}" role="{{ n.role }}" att="{{ n.att }}" month="{{ n.month }}" net="{{ n.net }}" pending="{{ n.pending }}" sync="{{ n.sync }}" face-phase="{{ n.facePhase }}" face-result="{{ n.faceResult }}" security="{{ n.security }}" view="{{ n.view }}" lock="{{ n.lock }}" sign="{{ n.sign }}" rtab="{{ n.rtab }}" cperiod="{{ n.cperiod }}" sel="{{ n.sel }}" doc="{{ n.doc }}" appr="{{ n.appr }}" apsheet="{{ n.apsheet }}" swap="{{ n.swap }}" day="{{ n.day }}" hint-size="390px,844px"></dc-import>
+                      <dc-import name="Phone" screen="{{ n.s }}" lang="{{ lang }}" theme="{{ theme }}" role="{{ n.role }}" att="{{ n.att }}" month="{{ n.month }}" net="{{ n.net }}" pending="{{ n.pending }}" sync="{{ n.sync }}" face-phase="{{ n.facePhase }}" face-result="{{ n.faceResult }}" security="{{ n.security }}" view="{{ n.view }}" lock="{{ n.lock }}" sign="{{ n.sign }}" rtab="{{ n.rtab }}" cperiod="{{ n.cperiod }}" sel="{{ n.sel }}" doc="{{ n.doc }}" appr="{{ n.appr }}" apsheet="{{ n.apsheet }}" swap="{{ n.swap }}" day="{{ n.day }}" prof="{{ n.prof }}" docsel="{{ n.docsel }}" hint-size="390px,844px"></dc-import>
                     </div>
                   </sc-if>
                 </div>
@@ -311,6 +312,29 @@ const FLOWS=[
    ['d7','emp',4,0,'device-block',{security:'root'},'Chặn · root','Liên hệ HR','Khoá chấm công tới khi máy an toàn','ghi log bảo mật','error'],
    ['d8','emp',4,1,'device-block',{security:'mock'},'Chặn · GPS giả','Tắt ứng dụng giả lập, Kiểm tra lại','','','error']],
   e:[['d1','d2','main'],['d2','d3','main'],['d2','d4','branch','Chưa đăng ký'],['d2','d5','branch','Mất mạng'],['d3','d6','hand'],['d6','d7','branch','Root'],['d6','d8','branch','GPS giả']]},
+ {id:'hr',t:'Hồ sơ & tài liệu cá nhân',isNew:true,sum:'Nhân viên tự cập nhật thông tin, xem hợp đồng và quyết định, nộp giấy tờ còn thiếu, đăng ký người phụ thuộc. Liên hệ cập nhật ngay; địa chỉ, tài khoản nhận lương và người phụ thuộc cần HR duyệt.',entry:['Tab Cá nhân','Tất cả dịch vụ','Nhắc giấy tờ thiếu'],lanes:['emp','hr'],
+  n:[['q1','emp',0,0,'profile',null,'Cá nhân','Bấm Chỉnh sửa thông tin','','',null],
+   ['q2','emp',1,0,'profile-edit',null,'Chỉnh sửa','Đổi tài khoản ngân hàng, đính kèm sao kê, Gửi','SĐT, email, liên hệ khẩn cấp: cập nhật ngay · địa chỉ, ngân hàng: cần HR','',null],
+   ['q3','emp',2,0,'profile',{prof:'pending'},'Chờ HR duyệt','Xem dải chờ duyệt','Giá trị cũ vẫn dùng tới khi HR duyệt','bank: pending',null],
+   ['q4','hr',3,0,null,null,'Đối chiếu tên chủ tài khoản','','Tên chủ tài khoản phải trùng hồ sơ','áp dụng từ kỳ lương kế tiếp',null],
+   ['q5','emp',4,0,'profile',null,'Đã cập nhật','Nhận thông báo','','bank: approved',null],
+   ['q6','emp',3,1,'profile-edit',{prof:'pending'},'Đang có yêu cầu chờ','Huỷ yêu cầu nếu nhập nhầm','Mỗi lúc một yêu cầu đổi tài khoản','huỷ → về giá trị cũ',null],
+   ['q7','emp',1,2,'docs',null,'Hồ sơ & tài liệu','Chọn tab, bấm tài liệu','Nhắc giấy tờ thiếu hoặc sắp hết hạn','',null],
+   ['q8','emp',2,2,'doc-view',null,'Xem hợp đồng','Tải PDF','Watermark tên nhân viên · chặn chụp màn hình','',null],
+   ['q9','emp',3,2,'doc-view',{docsel:'health'},'Giấy tờ cần bổ sung','Chụp hoặc tải lên','Quá hạn 30/09 tạm dừng xếp ca quầy thực phẩm','doc: missing → review',null],
+   ['q10','hr',4,1,null,null,'Xác minh giấy tờ','','Đối chiếu bản gốc khi cần','review → verified',null],
+   ['q11','emp',1,3,'docs',{view:'loading'},'Đang tải','','','','loading'],
+   ['q12','emp',2,3,'docs',{view:'error'},'Lỗi mạng','Bấm Thử lại','Tài liệu đã mở vẫn xem ngoại tuyến','','error'],
+   ['q13','emp',3,3,'docs',{view:'empty'},'Chưa có tài liệu','Tải giấy tờ lên','Nhân viên mới chưa có HĐ phát hành','','empty'],
+   ['q14','emp',1,4,'dependants',null,'Người phụ thuộc','Bấm Thêm người phụ thuộc','Mức giảm trừ 6.200.000 ₫/người/tháng','',null],
+   ['q15','emp',2,4,'dependant-new',null,'Thêm người phụ thuộc','Nhập thông tin, đính kèm giấy khai sinh, Gửi HR','Không chọn tháng đã chốt lương','',null],
+   ['q16','emp',3,4,'dependants',{prof:'dep'},'Chờ HR duyệt','','','dep: pending',null],
+   ['q17','hr',4,2,null,null,'Nộp mẫu 07/ĐK-NPT-TNCN','','','cấp MST người phụ thuộc · giảm trừ từ tháng đăng ký',null],
+   ['q18','emp',5,4,'request-detail',{sel:'RQ-2026-0811'},'Gửi lại khiếu nại thuế','Mở khiếu nại tháng 8 bị từ chối','','',null],
+   ['q19','emp',1,5,'dependants',{view:'empty'},'Chưa đăng ký ai','Thêm người phụ thuộc','','','empty']],
+  e:[['q1','q2','main'],['q2','q3','main','Gửi'],['q3','q4','hand','Gửi HR'],['q4','q5','hand','Duyệt'],['q3','q6','branch','Mở lại'],
+   ['q1','q7','main','Hồ sơ & tài liệu'],['q7','q8','main'],['q7','q9','branch','Giấy tờ thiếu'],['q9','q10','hand','Tải lên'],['q7','q11','branch'],['q7','q12','branch','Mất mạng'],['q7','q13','branch','Nhân viên mới'],
+   ['q1','q14','main','Người phụ thuộc'],['q14','q15','main'],['q15','q16','main','Gửi'],['q16','q17','hand'],['q17','q18','hand','Có MST'],['q14','q19','branch','Chưa có ai']]},
  {id:'me',t:'Thông báo, cá nhân & điều hướng',sum:'Thông báo có nhóm và dấu chưa đọc, bấm là tới màn liên quan. Tab Cá nhân gom hồ sơ và cài đặt; Tất cả dịch vụ chứa mọi chức năng theo nhóm.',entry:['Chuông ở Trang chủ','Tab Cá nhân'],lanes:['emp'],
   n:[['m1','emp',0,0,'home',null,'Trang chủ','Bấm chuông','','',null],
    ['m2','emp',1,0,'notifications',null,'Thông báo','Lọc nhóm, bấm một thông báo','Bấm là mở màn liên quan','unread → read',null],
@@ -361,7 +385,7 @@ class Component extends DCLogic {
           tag:tg?tg[0]:null,tagBg:tc?tint(tc,16):'',tagC:tc||'',ring:tg?'2px':'1px',ringC:tc||C.line,
           sysK:FL_LANES[n[1]][V?0:1].toUpperCase(),sysBd:tint(LC[n[1]],60),sysBg:tint(LC[n[1]],8),
           s:n[4],role:FL_ROLE[n[1]]||'employee',att:p.att||'in',month:p.month,net:p.net,pending:p.pending,sync:p.sync,facePhase:p.facePhase,faceResult:p.faceResult,security:p.security,
-          view:p.view,lock:p.lock,sign:p.sign,rtab:p.rtab,cperiod:p.cperiod,sel:p.sel,doc:p.doc,appr:p.appr,apsheet:p.apsheet,swap:p.swap,day:p.day}; });
+          view:p.view,lock:p.lock,sign:p.sign,rtab:p.rtab,cperiod:p.cperiod,sel:p.sel,doc:p.doc,appr:p.appr,apsheet:p.apsheet,swap:p.swap,day:p.day,prof:p.prof,docsel:p.docsel}; });
       const mk=Object.keys(EC).map(k=>'<marker id="m-'+F.id+'-'+k+'" viewBox="0 0 10 10" refX="10" refY="5" markerUnits="userSpaceOnUse" markerWidth="11" markerHeight="11" orient="auto"><path d="M0 0L10 5L0 10z" fill="'+EC[k][0]+'"/></marker>').join('');
       const E=F.e.filter(e=>pos[e[0]]&&pos[e[1]]).map(e=>{ const A=pos[e[0]], B=pos[e[1]]; return {e,A,B,fwd:(B.x+10)>(A.x+166)+8}; });
       const RP={}, LP={}, push=(o,k,v)=>{ (o[k]=o[k]||[]).push(v); };
@@ -399,7 +423,6 @@ class Component extends DCLogic {
     });
     const P3=(p)=>p==='P1'?{pBg:tint(C.err,14),pC:C.err}:(p==='P2'?{pBg:tint(C.acc,16),pC:C.acc}:{pBg:dark?'#1E293B':'#F0EDE5',pC:C.muted});
     const more=[
-      ['Hồ sơ & tài liệu cá nhân','Xem, sửa thông tin cá nhân, người phụ thuộc, tài khoản ngân hàng; xem hợp đồng, quyết định. Mọi thay đổi gửi HR duyệt.','Nhân viên → Nhân sự','P1'],
       ['Nghỉ việc & bàn giao','Đơn thôi việc, lịch bàn giao, thu hồi tài sản, quyết toán lương và phép còn lại, phỏng vấn nghỉ việc.','Nhân viên → Quản lý → Nhân sự','P1'],
       ['Khôi phục tài khoản & đổi thiết bị','Quên mã PIN, mất máy, chuyển thiết bị chấm công sang máy mới có HR duyệt.','Nhân viên → Nhân sự','P1'],
       ['Quản lý nhóm','Quản lý xem chấm công cả nhóm theo ngày, ai đi muộn, thiếu công, đang nghỉ; phân ca và công bố lịch ca.','Quản lý','P1'],
@@ -418,7 +441,7 @@ class Component extends DCLogic {
       legendTags:Object.keys(TAGS).map(k=>({l:TAGS[k][0],c:C[TAGS[k][1]],bg:tint(C[TAGS[k][1]],16)})),
       tocLabel:'MỤC LỤC · '+FLOWS.length+' QUY TRÌNH',flows,newTag:'ĐỀ XUẤT THÊM',entryL:'Lối vào:',
       actL:'Thao tác',ruleL:'Quy tắc',dataL:'Dữ liệu',
-      moreTitle:'Nhóm chức năng còn thiếu',moreMeta:'9 đề xuất, chưa có màn hình',
+      moreTitle:'Nhóm chức năng còn thiếu',moreMeta:'8 đề xuất, chưa có màn hình',
       moreSub:'Những nhóm thường có trong app nhân sự nhưng chưa có trong bản mockup. P1 là nên làm tiếp theo vì ảnh hưởng quy trình bắt buộc; P2, P3 có thể để sau.',more};
   }
 }

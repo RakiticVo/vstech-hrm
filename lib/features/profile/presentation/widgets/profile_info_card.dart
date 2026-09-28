@@ -54,19 +54,27 @@ class ProfileInfoCard extends StatelessWidget {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text(
-                      row.$1,
-                      style: TextStyle(
-                        fontSize: 13,
-                        color: colors.textSecondary,
+                    Expanded(
+                      flex: 5,
+                      child: Text(
+                        row.$1,
+                        style: TextStyle(
+                          fontSize: 13,
+                          color: colors.textSecondary,
+                        ),
                       ),
                     ),
-                    Text(
-                      row.$2,
-                      style: TextStyle(
-                        fontSize: 13.5,
-                        fontWeight: FontWeight.w700,
-                        color: colors.textPrimary,
+                    const SizedBox(width: 8),
+                    Expanded(
+                      flex: 6,
+                      child: Text(
+                        row.$2,
+                        textAlign: TextAlign.end,
+                        style: TextStyle(
+                          fontSize: 13.5,
+                          fontWeight: FontWeight.w700,
+                          color: colors.textPrimary,
+                        ),
                       ),
                     ),
                   ],

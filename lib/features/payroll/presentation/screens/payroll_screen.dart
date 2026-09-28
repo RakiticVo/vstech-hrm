@@ -12,7 +12,7 @@ import 'package:vstech_hrm/features/payroll/presentation/widgets/payroll_breakdo
 /// Screen displaying payroll overview, Saigon tile hero card, breakdown, and history.
 /// Follows DESIGN.md §3, §6 & Phone.dc.html lines 548–586.
 class PayrollScreen extends StatefulWidget {
-  const new({super.key});
+  const PayrollScreen({super.key});
 
   @override
   State<PayrollScreen> createState() => _PayrollScreenState();
@@ -140,15 +140,20 @@ class _PayrollScreenState extends State<PayrollScreen> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text(
-                        context.l10n.payrollNetSalaryTitle,
-                        style: const TextStyle(
-                          fontSize: 10.5,
-                          fontWeight: FontWeight.w800,
-                          letterSpacing: 1.4,
-                          color: Color(0xFFFFF8EC),
+                      Expanded(
+                        child: Text(
+                          context.l10n.payrollNetSalaryTitle,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: const TextStyle(
+                            fontSize: 10.5,
+                            fontWeight: FontWeight.w800,
+                            letterSpacing: 0.8,
+                            color: Color(0xFFFFF8EC),
+                          ),
                         ),
                       ),
+                      8.gapW,
                       Container(
                         padding: const EdgeInsets.symmetric(horizontal: 9, vertical: 4),
                         decoration: BoxDecoration(
@@ -199,7 +204,7 @@ class _PayrollScreenState extends State<PayrollScreen> {
                           borderRadius: BorderRadius.circular(15),
                         ),
                       ),
-                      onPressed: () => context.push(AppRoutes.payslipDetail),
+                      onPressed: () => context.push(AppRoutes.payslipLock),
                       icon: const Icon(Symbols.description, size: 18, weight: 700),
                       label: Text(
                         context.l10n.viewPayslipButton,
@@ -221,72 +226,64 @@ class _PayrollScreenState extends State<PayrollScreen> {
 
   Widget _buildHistoryList(AppColorsExtension colors) {
     final history = [
-      (
-        context.l10n.payrollPeriodSubtitle('8', '2026'),
-        context.l10n.salaryTransferredTo('Techcombank', '05/09'),
-        '24.850.000 ₫',
-      ),
-      (
-        context.l10n.payrollPeriodSubtitle('7', '2026'),
-        context.l10n.salaryTransferredTo('Techcombank', '05/08'),
-        '24.200.000 ₫',
-      ),
-      (
-        context.l10n.payrollPeriodSubtitle('6', '2026'),
-        context.l10n.salaryTransferredTo('Techcombank', '05/07'),
-        '24.200.000 ₫',
-      ),
+      (context.l10n.payrollPeriodSubtitle('8', '2026'), context.l10n.salaryTransferredTo('Techcombank', '05/09'), '24.850.000 ₫'),
+      (context.l10n.payrollPeriodSubtitle('7', '2026'), context.l10n.salaryTransferredTo('Techcombank', '05/08'), '24.200.000 ₫'),
+      (context.l10n.payrollPeriodSubtitle('6', '2026'), context.l10n.salaryTransferredTo('Techcombank', '05/07'), '24.200.000 ₫'),
     ];
 
     return Column(
       children: history
           .map((item) => Padding(
                 padding: const EdgeInsets.only(bottom: 9),
-                child: Container(
-                  decoration: BoxDecoration(
-                    color: colors.surface,
-                    borderRadius: BorderRadius.circular(16),
-                    border: Border.all(color: colors.border),
-                  ),
-                  padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 14),
-                  child: Row(
-                    children: [
-                      Expanded(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              item.$1,
-                              style: TextStyle(
-                                fontSize: 13.5,
-                                fontWeight: FontWeight.w800,
-                                color: colors.textPrimary,
+                child: InkWell(
+                  borderRadius: BorderRadius.circular(16),
+                  onTap: () => context.push(AppRoutes.payslipLock),
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: colors.surface,
+                      borderRadius: BorderRadius.circular(16),
+                      border: Border.all(color: colors.border),
+                    ),
+                    padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 14),
+                    child: Row(
+                      children: [
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                item.$1,
+                                style: TextStyle(
+                                  fontSize: 13.5,
+                                  fontWeight: FontWeight.w800,
+                                  color: colors.textPrimary,
+                                ),
                               ),
-                            ),
-                            2.gapH,
-                            Text(
-                              item.$2,
-                              style: TextStyle(
-                                fontSize: 11.5,
-                                fontWeight: FontWeight.w600,
-                                color: colors.textSecondary,
+                              2.gapH,
+                              Text(
+                                item.$2,
+                                style: TextStyle(
+                                  fontSize: 11.5,
+                                  fontWeight: FontWeight.w600,
+                                  color: colors.textSecondary,
+                                ),
                               ),
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
-                      ),
-                      Text(
-                        _isSalaryVisible ? item.$3 : '•••••• ₫',
-                        style: TextStyle(
-                          fontSize: 14.5,
-                          fontWeight: FontWeight.w800,
-                          color: colors.textPrimary,
-                          fontFeatures: const [FontFeature.tabularFigures()],
+                        Text(
+                          _isSalaryVisible ? item.$3 : '•••••• ₫',
+                          style: TextStyle(
+                            fontSize: 14.5,
+                            fontWeight: FontWeight.w800,
+                            color: colors.textPrimary,
+                            fontFeatures: const [FontFeature.tabularFigures()],
+                          ),
                         ),
-                      ),
-                      6.gapW,
-                      Icon(Symbols.chevron_right, size: 18, color: colors.textTertiary),
-                    ],
+                        6.gapW,
+                        Icon(Symbols.chevron_right, size: 18, color: colors.textTertiary),
+                      ],
+                    ),
                   ),
                 ),
               ))

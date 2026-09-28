@@ -4,9 +4,9 @@ void main() {
   group('Phase 0 Overtime & Comp-off Business Rules Tests', () {
     test('Overtime rates correctly identified based on day type', () {
       double getRate(DateTime date, {bool isHoliday = false}) {
-        if (isHoliday) return 3.0; // 300%
+        if (isHoliday) return 3; // 300%
         if (date.weekday == DateTime.saturday || date.weekday == DateTime.sunday) {
-          return 2.0; // 200%
+          return 2; // 200%
         }
         return 1.5; // 150%
       }
@@ -29,18 +29,18 @@ void main() {
       const current = 28.5;
       expect(isOvertimeAllowed(current, 3.5), isTrue); // 32.0 <= 40
       expect(isOvertimeAllowed(current, 11.5), isTrue); // 40.0 <= 40
-      expect(isOvertimeAllowed(current, 12.0), isFalse); // 40.5 > 40
+      expect(isOvertimeAllowed(current, 12), isFalse); // 40.5 > 40
     });
 
     test('Comp-off conversion formula equates 8 OT hours to 1 leave day', () {
       double convertOtToCompOffDays(double otHours) {
-        return otHours / 8.0;
+        return otHours / 8;
       }
 
-      expect(convertOtToCompOffDays(8.0), equals(1.0));
-      expect(convertOtToCompOffDays(16.0), equals(2.0));
-      expect(convertOtToCompOffDays(4.0), equals(0.5));
-      expect(convertOtToCompOffDays(24.0), equals(3.0));
+      expect(convertOtToCompOffDays(8), equals(1.0));
+      expect(convertOtToCompOffDays(16), equals(2.0));
+      expect(convertOtToCompOffDays(4), equals(0.5));
+      expect(convertOtToCompOffDays(24), equals(3.0));
     });
   });
 }

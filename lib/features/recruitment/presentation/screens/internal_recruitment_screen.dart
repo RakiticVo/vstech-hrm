@@ -8,7 +8,7 @@ import 'package:vstech_hrm/core/theme/app_colors.dart';
 
 /// Screen 16: Internal Job Recruitment board.
 class InternalRecruitmentScreen extends StatelessWidget {
-  const new({super.key});
+  const InternalRecruitmentScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -66,10 +66,53 @@ class InternalRecruitmentScreen extends StatelessWidget {
             color: colors.textPrimary,
           ),
         ),
+        actions: [
+          IconButton(
+            icon: const Icon(Symbols.group_add),
+            tooltip: 'Hồ sơ đã giới thiệu',
+            onPressed: () => context.push(AppRoutes.myReferrals),
+          ),
+        ],
       ),
       body: ListView(
         padding: const EdgeInsets.fromLTRB(16, 14, 16, 24),
         children: [
+          // Referral Banner
+          InkWell(
+            borderRadius: BorderRadius.circular(16),
+            onTap: () => context.push(AppRoutes.myReferrals),
+            child: Container(
+              margin: const EdgeInsets.only(bottom: 14),
+              padding: const EdgeInsets.all(14),
+              decoration: BoxDecoration(
+                color: colors.primaryIndigo,
+                borderRadius: BorderRadius.circular(16),
+              ),
+              child: Row(
+                children: [
+                  Icon(Symbols.stars, color: colors.accentAmber, size: 28),
+                  12.gapW,
+                  const Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'Giới thiệu bạn bè — Thưởng 3.000.000 ₫',
+                          style: TextStyle(fontSize: 13, fontWeight: FontWeight.w800, color: Color(0xFFFFF8EC)),
+                        ),
+                        Text(
+                          'Theo dõi tiến độ hồ sơ & hoa hồng tuyển dụng',
+                          style: TextStyle(fontSize: 11.5, color: Color(0xFFFFF8EC)),
+                        ),
+                      ],
+                    ),
+                  ),
+                  8.gapW,
+                  const Icon(Symbols.chevron_right, size: 18, color: Color(0xFFFFF8EC)),
+                ],
+              ),
+            ),
+          ),
           // Search box
           TextField(
             decoration: InputDecoration(

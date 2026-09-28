@@ -400,3 +400,13 @@ Ba loại đơn dùng chung một mẫu, khớp app Flutter: **màn quản lý �
 - Một nguồn dữ liệu: mọi yêu cầu (của bạn và của nhóm, trường `emp`) nằm trong `reqs`. Tab Yêu cầu và màn quản lý chỉ hiện yêu cầu của bạn; hộp duyệt đọc toàn bộ. Duyệt/từ chối cập nhật trạng thái, thanh tiến độ, badge tab đáy "Phê duyệt" và dải chờ duyệt ở Trang chủ.
 - Hộp duyệt dùng lại thẻ yêu cầu chung, thêm dòng người gửi. Chi tiết dùng chung có chế độ người duyệt: người gửi, chấm công ngày liên quan, khối khiếu nại lương, ghi chú nội bộ, thanh Duyệt/Từ chối. Từ chối bắt buộc có lý do.
 - Đổi ca là loại yêu cầu thứ năm (`swaps`). Tạo từ thẻ chi tiết ca trong Lịch ca → bottom sheet chọn đồng nghiệp cùng chi nhánh, cùng cấp, kiểm tra điều kiện (nghỉ phép, cùng ca, 11 giờ nghỉ). Quản lý duyệt là xong; bước HR/Giám đốc hiện "Không cần". Ngày đã đổi có viền amber trên lưới tháng và nhãn "Đã đổi".
+
+
+---
+
+## 21. Hồ sơ & tài liệu cá nhân
+
+- `profile-edit`: 4 mục đánh số (liên hệ, địa chỉ, liên hệ khẩn cấp, tài khoản nhận lương). Trường đã sửa có viền teal và nhãn "Cập nhật ngay" (xanh) hoặc "Cần HR duyệt" (amber). Đổi tài khoản bắt buộc đính kèm bằng chứng; đang có yêu cầu chờ thì khoá trường ngân hàng.
+- `profile`: dải amber khi có thay đổi chờ HR; giá trị mới ghi dưới giá trị cũ. Link Hồ sơ & tài liệu có badge số giấy tờ thiếu.
+- `docs` / `doc-view`: 3 tab Hợp đồng / Quyết định / Giấy tờ; trạng thái Đã ký, Đã xác minh, Sắp hết hạn, Cần bổ sung, Chờ HR xác minh, Hết hiệu lực. Bản xem có watermark tên + mã NV.
+- `dependants` / `dependant-new`: mức giảm trừ 6.200.000 ₫/người/tháng (2026); nối với khiếu nại thuế TNCN bị từ chối RQ-2026-0811.

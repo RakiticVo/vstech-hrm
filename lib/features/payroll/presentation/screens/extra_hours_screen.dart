@@ -84,12 +84,26 @@ class ExtraHoursScreen extends StatelessWidget {
                   Divider(height: 1, color: colors.border),
                   14.gapH,
                   Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      _buildSummaryStat(l10n.extraHoursMonth, '28.5h', colors.textPrimary, colors),
-                      _buildSummaryStat(l10n.extraHoursQuarter, '64.0h', colors.textPrimary, colors),
-                      _buildSummaryStat(l10n.extraHoursPayable, '12.5h', colors.pineGreen, colors),
-                      _buildSummaryStat(l10n.extraHoursConvertedCompOff, '16.0h', colors.primaryIndigo, colors),
+                      Expanded(
+                        child: _buildSummaryStat(l10n.extraHoursMonth, '28.5h', colors.textPrimary, colors),
+                      ),
+                      12.gapW,
+                      Expanded(
+                        child: _buildSummaryStat(l10n.extraHoursQuarter, '64.0h', colors.textPrimary, colors),
+                      ),
+                    ],
+                  ),
+                  12.gapH,
+                  Row(
+                    children: [
+                      Expanded(
+                        child: _buildSummaryStat(l10n.extraHoursPayable, '12.5h', colors.pineGreen, colors),
+                      ),
+                      12.gapW,
+                      Expanded(
+                        child: _buildSummaryStat(l10n.extraHoursConvertedCompOff, '16.0h', colors.primaryIndigo, colors),
+                      ),
                     ],
                   ),
                 ],
@@ -132,44 +146,26 @@ class ExtraHoursScreen extends StatelessWidget {
                 ],
               ),
             ),
-            16.gapH,
+            20.gapH,
 
-            // Quick Actions: Apply OT / View Leave Balances
-            Row(
-              children: [
-                Expanded(
-                  child: OutlinedButton.icon(
-                    style: OutlinedButton.styleFrom(
-                      padding: const EdgeInsets.symmetric(vertical: 12),
-                      side: BorderSide(color: colors.primaryIndigo),
-                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-                    ),
-                    onPressed: () => context.push(AppRoutes.overtimeCreate),
-                    icon: Icon(Symbols.schedule, size: 18, color: colors.primaryIndigo),
-                    label: Text(
-                      l10n.requestTypeOvertime,
-                      style: TextStyle(fontWeight: FontWeight.w700, color: colors.primaryIndigo),
-                    ),
-                  ),
+            // Quick Action: Apply OT
+            SizedBox(
+              width: double.infinity,
+              child: ElevatedButton.icon(
+                style: ElevatedButton.styleFrom(
+                  padding: const EdgeInsets.symmetric(vertical: 14),
+                  backgroundColor: colors.primaryIndigo,
+                  foregroundColor: Colors.white,
+                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
+                  elevation: 0,
                 ),
-                12.gapW,
-                Expanded(
-                  child: ElevatedButton.icon(
-                    style: ElevatedButton.styleFrom(
-                      padding: const EdgeInsets.symmetric(vertical: 12),
-                      backgroundColor: colors.primaryIndigo,
-                      foregroundColor: Colors.white,
-                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-                    ),
-                    onPressed: () => context.push(AppRoutes.leaveBalance),
-                    icon: const Icon(Symbols.beach_access, size: 18),
-                    label: Text(
-                      l10n.leaveBalanceBreakdownTitle,
-                      style: const TextStyle(fontWeight: FontWeight.w700),
-                    ),
-                  ),
+                onPressed: () => context.push(AppRoutes.overtimeCreate),
+                icon: const Icon(Symbols.schedule, size: 20),
+                label: Text(
+                  l10n.createOvertimeBtn,
+                  style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w700),
                 ),
-              ],
+              ),
             ),
           ],
         ),
