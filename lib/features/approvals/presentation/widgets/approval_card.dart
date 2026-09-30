@@ -1,9 +1,9 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
-import 'package:material_symbols_icons/symbols.dart';
 import 'package:vstech_hrm/core/extensions/l10n_extension.dart';
 import 'package:vstech_hrm/core/responsive/app_layout.dart';
 import 'package:vstech_hrm/core/theme/app_colors.dart';
+import 'package:vstech_hrm/core/widgets/app_icon.dart';
 
 class ApprovalItem {
   const new({
@@ -162,7 +162,7 @@ class _ApprovalCardState extends State<ApprovalCard> {
               ),
               child: Row(
                 children: [
-                  Icon(Symbols.swap_horiz, size: 18, color: colors.primaryIndigo),
+                  AppIcon(AppIcons.shiftSwap, size: 18, color: colors.primaryIndigo),
                   8.gapW,
                   Expanded(
                     child: Text(
@@ -182,7 +182,7 @@ class _ApprovalCardState extends State<ApprovalCard> {
               onTap: () => setState(() => _showDetails = !_showDetails),
               child: Row(
                 children: [
-                  Icon(Symbols.history, size: 15, color: colors.primaryIndigo),
+                  AppIcon(AppIcons.attendance, size: 15, color: colors.primaryIndigo),
                   6.gapW,
                   Expanded(
                     child: Text(
@@ -229,7 +229,7 @@ class _ApprovalCardState extends State<ApprovalCard> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        const Icon(Symbols.check, size: 18, weight: 700),
+                        const AppIcon(AppIcons.check, size: 18, color: Colors.white),
                         6.gapW,
                         Text(l10n.actionApprove, style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w800)),
                       ],

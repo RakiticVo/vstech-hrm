@@ -4,6 +4,7 @@ import 'package:vstech_hrm/core/extensions/l10n_extension.dart';
 import 'package:vstech_hrm/core/responsive/app_layout.dart';
 import 'package:vstech_hrm/core/theme/app_colors.dart';
 import 'package:vstech_hrm/core/theme/app_text_styles.dart';
+import 'package:vstech_hrm/core/widgets/app_icon.dart';
 import 'package:vstech_hrm/features/compliance/domain/entities/delegation_entity.dart';
 
 class ActiveDelegationCard extends StatelessWidget {
@@ -137,8 +138,8 @@ class ActiveDelegationCard extends StatelessWidget {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    const Icon(
-                      Icons.cancel_outlined,
+                    const AppIcon(
+                      AppIcons.xCircle,
                       color: Color(0xFFEF4444),
                       size: 15,
                     ),

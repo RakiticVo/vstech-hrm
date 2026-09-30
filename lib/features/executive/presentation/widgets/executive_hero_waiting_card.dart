@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:material_symbols_icons/symbols.dart';
 import 'package:vstech_hrm/core/extensions/l10n_extension.dart';
 import 'package:vstech_hrm/core/responsive/app_layout.dart';
 import 'package:vstech_hrm/core/theme/app_colors.dart';
+import 'package:vstech_hrm/core/widgets/app_icon.dart';
 
 class ExecutiveHeroWaitingCard extends StatelessWidget {
   const new({
@@ -97,10 +97,12 @@ class ExecutiveHeroWaitingCard extends StatelessWidget {
                           ),
                         ],
                       ),
-                      child: const Icon(
-                        Symbols.checklist,
-                        color: Colors.white,
-                        size: 26,
+                      child: const Center(
+                        child: AppIcon(
+                          AppIcons.clipboardCheck,
+                          color: Colors.white,
+                          size: 26,
+                        ),
                       ),
                     ),
                   ],
@@ -113,7 +115,7 @@ class ExecutiveHeroWaitingCard extends StatelessWidget {
                   ),
                   child: Row(
                     children: [
-                      Icon(Symbols.schedule, size: 16, color: colors.error),
+                      AppIcon(AppIcons.clock, size: 16, color: colors.error),
                       6.gapW,
                       Expanded(
                         child: Text(
@@ -125,8 +127,8 @@ class ExecutiveHeroWaitingCard extends StatelessWidget {
                           ),
                         ),
                       ),
-                      Icon(
-                        Symbols.chevron_right,
+                      AppIcon(
+                        AppIcons.chevronRight,
                         size: 18,
                         color: colors.textTertiary,
                       ),

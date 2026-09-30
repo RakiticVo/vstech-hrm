@@ -1,9 +1,9 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
-import 'package:material_symbols_icons/symbols.dart';
 import 'package:vstech_hrm/core/extensions/l10n_extension.dart';
 import 'package:vstech_hrm/core/responsive/app_layout.dart';
 import 'package:vstech_hrm/core/theme/app_colors.dart';
+import 'package:vstech_hrm/core/widgets/app_icon.dart';
 
 /// Bottom action bar for request detail (Employee mode vs Approver mode).
 class RequestDetailApproverBar extends StatefulWidget {
@@ -130,7 +130,7 @@ class _RequestDetailApproverBarState extends State<RequestDetailApproverBar> {
               side: BorderSide(color: colors.error.withValues(alpha: 0.6)),
               shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
             ),
-            icon: const Icon(Symbols.cancel, size: 20),
+            icon: const AppIcon(AppIcons.close, size: 20),
             label: Text(
               l10n.cancelRequestBtn,
               style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w800),
@@ -156,7 +156,8 @@ class _RequestDetailApproverBarState extends State<RequestDetailApproverBar> {
             decoration: InputDecoration(
               hintText: l10n.internalNoteHint,
               hintStyle: TextStyle(fontSize: 12.5, color: colors.textTertiary),
-              prefixIcon: Icon(Symbols.note_alt, size: 18, color: colors.textSecondary),
+              prefixIcon: Center(child: AppIcon(AppIcons.comment, size: 18, color: colors.textSecondary)),
+              prefixIconConstraints: const BoxConstraints(minWidth: 40, minHeight: 40),
               filled: true,
               fillColor: colors.cardSecondary,
               contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
@@ -182,7 +183,7 @@ class _RequestDetailApproverBarState extends State<RequestDetailApproverBar> {
                       side: BorderSide(color: colors.error.withValues(alpha: 0.6)),
                       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
                     ),
-                    icon: const Icon(Symbols.close, size: 18),
+                    icon: const AppIcon(AppIcons.close, size: 18),
                     label: Text(
                       l10n.actionReject,
                       style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w800),
@@ -202,7 +203,7 @@ class _RequestDetailApproverBarState extends State<RequestDetailApproverBar> {
                       elevation: 0,
                       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
                     ),
-                    icon: const Icon(Symbols.check, size: 18),
+                    icon: const AppIcon(AppIcons.check, size: 18, color: Colors.white),
                     label: Text(
                       l10n.actionApprove,
                       style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w800),

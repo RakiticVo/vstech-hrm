@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:material_symbols_icons/symbols.dart';
 import 'package:vstech_hrm/core/extensions/l10n_extension.dart';
 import 'package:vstech_hrm/core/responsive/app_layout.dart';
 import 'package:vstech_hrm/core/theme/app_colors.dart';
+import 'package:vstech_hrm/core/widgets/app_icon.dart';
 
 /// Screen F2: Business Trip Request (Công tác dài ngày).
 class BusinessTripRequestScreen extends StatefulWidget {
@@ -59,7 +59,7 @@ class _BusinessTripRequestScreenState extends State<BusinessTripRequestScreen> {
         backgroundColor: colors.surface,
         elevation: 0,
         leading: IconButton(
-          icon: Icon(Symbols.arrow_back, color: colors.textPrimary),
+          icon: AppIcon(AppIcons.back, size: 22, color: colors.textPrimary),
           onPressed: () => Navigator.pop(context),
         ),
       ),
@@ -79,7 +79,7 @@ class _BusinessTripRequestScreenState extends State<BusinessTripRequestScreen> {
                 ),
                 child: Row(
                   children: [
-                    Icon(Symbols.verified_user, color: colors.primaryIndigo, size: 20),
+                    AppIcon(AppIcons.shield, color: colors.primaryIndigo, size: 20),
                     10.gapW,
                     Expanded(
                       child: Text(
@@ -98,7 +98,10 @@ class _BusinessTripRequestScreenState extends State<BusinessTripRequestScreen> {
               TextFormField(
                 controller: _destinationController,
                 decoration: InputDecoration(
-                  prefixIcon: Icon(Symbols.location_city, color: colors.textSecondary),
+                  prefixIcon: Padding(
+                    padding: const EdgeInsets.all(12),
+                    child: AppIcon(AppIcons.location, color: colors.textSecondary, size: 20),
+                  ),
                   filled: true,
                   fillColor: colors.surface,
                   border: OutlineInputBorder(borderRadius: BorderRadius.circular(12), borderSide: BorderSide(color: colors.border)),
@@ -169,7 +172,10 @@ class _BusinessTripRequestScreenState extends State<BusinessTripRequestScreen> {
               TextFormField(
                 controller: _colleaguesController,
                 decoration: InputDecoration(
-                  prefixIcon: Icon(Symbols.group, color: colors.textSecondary),
+                  prefixIcon: Padding(
+                    padding: const EdgeInsets.all(12),
+                    child: AppIcon(AppIcons.mentor, color: colors.textSecondary, size: 20),
+                  ),
                   filled: true,
                   fillColor: colors.surface,
                   border: OutlineInputBorder(borderRadius: BorderRadius.circular(12), borderSide: BorderSide(color: colors.border)),
@@ -189,7 +195,7 @@ class _BusinessTripRequestScreenState extends State<BusinessTripRequestScreen> {
                   ),
                   child: Row(
                     children: [
-                      Icon(_hasPlan ? Symbols.check_circle : Symbols.attach_file, color: _hasPlan ? colors.pineGreen : colors.textSecondary),
+                      AppIcon(_hasPlan ? AppIcons.check : AppIcons.attach, color: _hasPlan ? colors.pineGreen : colors.textSecondary),
                       10.gapW,
                       Expanded(
                         child: Text(
@@ -253,7 +259,7 @@ class _BusinessTripRequestScreenState extends State<BusinessTripRequestScreen> {
               '${date.day.toString().padLeft(2, '0')}/${date.month.toString().padLeft(2, '0')}/${date.year}',
               style: TextStyle(fontSize: 13.5, fontWeight: FontWeight.w600, color: colors.textPrimary),
             ),
-            Icon(Symbols.calendar_today, size: 18, color: colors.textSecondary),
+            AppIcon(AppIcons.calendar, size: 18, color: colors.textSecondary),
           ],
         ),
       ),

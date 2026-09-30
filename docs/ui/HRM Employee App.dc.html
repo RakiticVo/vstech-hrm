@@ -111,6 +111,7 @@ class Component extends DCLogic {
     const B = V
       ? [['Splash','splash','Màn hình mở app, 1.2 giây.'],
          ['Đăng nhập','login','Mã nhân viên + Face ID. Không có form dài.'],
+         ['Quên mật khẩu','forgot','Không tự đặt lại được: hướng dẫn liên hệ IT, số máy lẻ, email, giờ hỗ trợ.'],
          ['Trang chủ','home','Ca hôm nay, giờ đã làm, CTA chấm công nổi bật nhất.'],
          ['Tất cả dịch vụ','services','Lưới icon theo nhóm — mọi thứ còn lại nằm sau một lần bấm.'],
          ['Chấm công','attendance','Vòng tổng hợp tháng + nhật ký từng ngày.'],
@@ -127,7 +128,7 @@ class Component extends DCLogic {
          ['Lịch ca · chưa công bố','shifts','Rỗng: tháng sau chưa có lịch, có đường quay lại tháng này.',null,{view:'empty'}],
          ['Lịch ca · lỗi','shifts','Không kết nối được máy chủ, có nút thử lại.',null,{view:'error'}],
          ['Ngày lễ','holidays','Lịch nghỉ cả năm, tách khỏi lịch công.'],
-         ['Trung tâm yêu cầu','requests','Mọi yêu cầu một chỗ; ba ô loại đơn mở màn quản lý.'],
+         ['Trung tâm yêu cầu','requests','Chỉ liệt kê 5 loại yêu cầu kèm số chờ duyệt; danh sách phiếu nằm trong từng loại.'],
          ['Nghỉ phép · quản lý','leave','Số phép năm, lọc theo tháng và trạng thái, thẻ đơn dùng chung.'],
          ['Nghỉ phép · tạo đơn','leave-new','Khung form chung: mục đánh số, trường nhập, đính kèm, Lưu nháp / Gửi.'],
          ['Tăng ca · quản lý','overtime','Giờ tăng ca tháng, đã duyệt / chờ duyệt, cơ cấu 150/200/300%.'],
@@ -216,6 +217,7 @@ class Component extends DCLogic {
          ['Trung tâm Ủy quyền Phê duyệt','delegate','Giao quyền duyệt khi đi vắng · có hạn mức, thời hạn và nhật ký.']]
       : [['Splash','splash','App open, 1.2 seconds.'],
          ['Login','login','Employee ID + Face ID. No long form.'],
+         ['Forgot password','forgot','No self-reset: how to reach IT, extension, email, hours.'],
          ['Home','home','Today’s shift, hours worked, punch CTA dominant.'],
          ['All services','services','Grouped icon grid — everything else is one tap away.'],
          ['Attendance','attendance','Month donut plus a day-by-day log.'],
@@ -232,7 +234,7 @@ class Component extends DCLogic {
          ['Shifts · not published','shifts','Empty: next month has no roster yet, with a way back.',null,{view:'empty'}],
          ['Shifts · error','shifts','Server unreachable, with a retry.',null,{view:'error'}],
          ['Holidays','holidays','Whole-year closures, kept out of the timesheet.'],
-         ['Request centre','requests','Every request in one place; three type tiles open the management screens.'],
+         ['Request centre','requests','Lists the 5 request types with pending counts; each opens its own list.'],
          ['Leave · manage','leave','Annual balance, month and status filters, the shared request card.'],
          ['Leave · create','leave-new','Shared form skeleton: numbered sections, fields, attachments, Save draft / Submit.'],
          ['Overtime · manage','overtime','Monthly OT hours, approved / pending, 150/200/300% breakdown.'],
@@ -334,19 +336,19 @@ class Component extends DCLogic {
       controls,
       title: V?'Ứng dụng nhân sự · Gạch bông':'Employee HR app · Saigon tile',
       subtitle: V
-        ? 'Điện thoại bên dưới hoạt động thật: bấm chấm công, mở yêu cầu, gửi đơn nghỉ phép, duyệt đơn. Bảng bên dưới là toàn bộ 104 màn hình theo cùng một hệ thành phần.'
-        : 'The phone below is live: punch in, open a request, submit leave, approve as a manager. The board underneath is all 104 screens on one component system.',
+        ? 'Điện thoại bên dưới hoạt động thật: bấm chấm công, mở yêu cầu, gửi đơn nghỉ phép, duyệt đơn. Bảng bên dưới là toàn bộ 105 màn hình theo cùng một hệ thành phần.'
+        : 'The phone below is live: punch in, open a request, submit leave, approve as a manager. The board underneath is all 105 screens on one component system.',
       liveLabel: V?'BẢN TƯƠNG TÁC':'LIVE PROTOTYPE',
-      boardLabel: V?'104 MÀN HÌNH':'104 SCREENS',
+      boardLabel: V?'105 MÀN HÌNH':'105 SCREENS',
       boardSub: V?'Mỗi màn hình cũng bấm được — đổi ngôn ngữ, giao diện hay vai trò ở trên và cả bảng cập nhật theo.':'Every tile is tappable too — switch language, theme or role above and the whole board follows.',
       notes: V
         ? [{t:'Cấu trúc như app ngân hàng',b:'Giờ đã làm đóng vai “số dư” trên thẻ trắng đè lên băng hoa văn. Bốn chức năng hay dùng nổi ra ngoài thành nút tròn; phần còn lại nằm sau nút “Tất cả”.'},
-           {t:'Font: Manrope hay Source Sans 3',b:'Bấm công tắc FONT để đổi cả 104 màn. Manrope hình học, chữ rộng hơn nên số liệu lớn chiếm nhiều chỗ nhưng trông chắc. Source Sans 3 nhân văn hơn, chữ thấp cao hơn nên nội dung 13px và nhãn 11px dễ đọc hơn, và gọn hơn khoảng 3% ở cùng cỡ. Cả hai đủ dấu tiếng Việt và đều có nét 800.'},
+           {t:'Font: Manrope hay Source Sans 3',b:'Bấm công tắc FONT để đổi cả 105 màn. Manrope hình học, chữ rộng hơn nên số liệu lớn chiếm nhiều chỗ nhưng trông chắc. Source Sans 3 nhân văn hơn, chữ thấp cao hơn nên nội dung 13px và nhãn 11px dễ đọc hơn, và gọn hơn khoảng 3% ở cùng cỡ. Cả hai đủ dấu tiếng Việt và đều có nét 800.'},
            {t:'Chữ ký là hoa văn gạch bông',b:'Hoạ tiết gạch bông nhà phố Sài Gòn vẽ bằng CSS gradient, dùng ở ba chỗ: băng đầu trang, dải phân mục, và thẻ hero của lương và phép.'},
            {t:'Ba cấp, một app',b:'Quản lý thêm dải chờ duyệt và trung tâm phê duyệt. Giám đốc đổi trang chủ thành bảng điều hành và tab Yêu cầu thành phê duyệt cuối — mắt xích cuối của chu trình. Phần còn lại không đổi.'},
            {t:'Trạng thái là một phần thiết kế',b:'Chấm công có 3 trạng thái (chưa vào / đang làm / xong) đổi cả số liệu, nhãn và CTA. Rỗng, tải, lỗi, thành công đều được thiết kế riêng.'}]
         : [{t:'Structured like a banking app',b:'Hours worked plays the “balance” role on a white card overlapping the tile band. Four frequent actions surface as circular buttons; everything else sits behind “All”.'},
-           {t:'Manrope or Source Sans 3',b:'Use the FONT switch to flip all 104 screens. Manrope is geometric and wider — the big figures take more room but read solidly. Source Sans 3 is humanist with a taller x-height, so 13px body and 11px labels read easier, and it sets about 3% narrower at the same size. Both cover Vietnamese diacritics and both ship a real 800.'},
+           {t:'Manrope or Source Sans 3',b:'Use the FONT switch to flip all 105 screens. Manrope is geometric and wider — the big figures take more room but read solidly. Source Sans 3 is humanist with a taller x-height, so 13px body and 11px labels read easier, and it sets about 3% narrower at the same size. Both cover Vietnamese diacritics and both ship a real 800.'},
            {t:'The tile pattern is the signature',b:'A Saigon shophouse floor-tile motif drawn in CSS gradients, used in exactly three places: the header band, the section divider, and the payroll and leave hero cards.'},
            {t:'Three tiers, one app',b:'Manager adds an approvals strip and the approval centre. C-level replaces home with an exec dashboard and Requests with final sign-off — the last link in the chain. Everything else is unchanged.'},
            {t:'States are part of the design',b:'Attendance has three states (not in / working / done) that change figures, labels and the CTA. Empty, loading, error and success are each designed.'}],

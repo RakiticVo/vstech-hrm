@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:material_symbols_icons/symbols.dart';
 import 'package:vstech_hrm/core/extensions/l10n_extension.dart';
 import 'package:vstech_hrm/core/responsive/app_layout.dart';
 import 'package:vstech_hrm/core/theme/app_colors.dart';
+import 'package:vstech_hrm/core/widgets/app_icon.dart';
 import 'package:vstech_hrm/core/widgets/primary_button.dart';
 import 'package:vstech_hrm/core/widgets/status_chip.dart';
 import 'package:vstech_hrm/features/profile/presentation/widgets/profile_edit_field.dart';
@@ -113,7 +113,7 @@ class _ProfileEditScreenState extends State<ProfileEditScreen> {
         backgroundColor: colors.surface,
         elevation: 0,
         leading: IconButton(
-          icon: const Icon(Symbols.arrow_back),
+          icon: const AppIcon(AppIcons.back, size: 22),
           onPressed: () => Navigator.of(context).pop(),
         ),
         title: Text(
@@ -142,6 +142,7 @@ class _ProfileEditScreenState extends State<ProfileEditScreen> {
           padding: const EdgeInsets.fromLTRB(16, 8, 16, 16),
           child: PrimaryButton(
             text: l10n.saveChangesBtn,
+            iconName: AppIcons.check,
             onPressed: _saveChanges,
           ),
         ),
@@ -173,7 +174,7 @@ class _ProfileEditScreenState extends State<ProfileEditScreen> {
                         shape: BoxShape.circle,
                         border: Border.all(color: colors.surface, width: 2),
                       ),
-                      child: const Icon(Symbols.photo_camera, size: 18, color: Color(0xFF1C1408)),
+                      child: const AppIcon(AppIcons.camera, size: 18, color: Color(0xFF1C1408)),
                     ),
                   ),
                 ],
@@ -192,7 +193,7 @@ class _ProfileEditScreenState extends State<ProfileEditScreen> {
                 ),
                 child: Row(
                   children: [
-                    Icon(Symbols.schedule, color: colors.accentAmber, size: 22),
+                    AppIcon(AppIcons.attendance, color: colors.accentAmber, size: 22),
                     12.gapW,
                     Expanded(
                       child: Text(
@@ -207,38 +208,38 @@ class _ProfileEditScreenState extends State<ProfileEditScreen> {
             ],
 
             // Section 1: Free Edit (Contact Info)
-            ProfileEditSectionHeader(title: l10n.freeEditSection, icon: Symbols.contact_mail),
+            ProfileEditSectionHeader(title: l10n.freeEditSection, iconName: AppIcons.documents),
             10.gapH,
-            ProfileEditField(label: l10n.phoneEditLabel, controller: _phoneController, icon: Symbols.call),
+            ProfileEditField(label: l10n.phoneEditLabel, controller: _phoneController, iconName: AppIcons.phone),
             12.gapH,
-            ProfileEditField(label: l10n.emailEditLabel, controller: _emailController, icon: Symbols.mail),
+            ProfileEditField(label: l10n.emailEditLabel, controller: _emailController, iconName: AppIcons.mail),
             12.gapH,
-            ProfileEditField(label: l10n.addressEditLabel, controller: _currentAddressController, icon: Symbols.home),
+            ProfileEditField(label: l10n.addressEditLabel, controller: _currentAddressController, iconName: AppIcons.home),
             12.gapH,
-            ProfileEditField(label: l10n.emergencyNameLabel, controller: _emergencyNameController, icon: Symbols.person_alert),
+            ProfileEditField(label: l10n.emergencyNameLabel, controller: _emergencyNameController, iconName: AppIcons.profile),
             12.gapH,
-            ProfileEditField(label: l10n.emergencyPhoneLabel, controller: _emergencyPhoneController, icon: Symbols.contact_phone),
+            ProfileEditField(label: l10n.emergencyPhoneLabel, controller: _emergencyPhoneController, iconName: AppIcons.phone),
             22.gapH,
 
             // Section 2: Sensitive Info (Requires HR approval)
-            ProfileEditSectionHeader(title: l10n.sensitiveEditSection, icon: Symbols.lock, isProtected: true),
+            ProfileEditSectionHeader(title: l10n.sensitiveEditSection, iconName: AppIcons.lock, isProtected: true),
             6.gapH,
             Text(
               l10n.sensitiveEditNotice,
               style: TextStyle(fontSize: 12, color: colors.textSecondary, height: 1.35),
             ),
             12.gapH,
-            ProfileEditField(label: l10n.bankNameEditLabel, controller: _bankNameController, icon: Symbols.account_balance),
+            ProfileEditField(label: l10n.bankNameEditLabel, controller: _bankNameController, iconName: AppIcons.coin),
             12.gapH,
-            ProfileEditField(label: l10n.bankAccountEditLabel, controller: _bankAccountController, icon: Symbols.credit_card),
+            ProfileEditField(label: l10n.bankAccountEditLabel, controller: _bankAccountController, iconName: AppIcons.idCard),
             12.gapH,
-            ProfileEditField(label: l10n.bankHolderEditLabel, controller: _bankHolderController, icon: Symbols.badge),
+            ProfileEditField(label: l10n.bankHolderEditLabel, controller: _bankHolderController, iconName: AppIcons.profile),
             12.gapH,
-            ProfileEditField(label: l10n.cccdEditLabel, controller: _cccdController, icon: Symbols.fingerprint),
+            ProfileEditField(label: l10n.cccdEditLabel, controller: _cccdController, iconName: AppIcons.idCard),
             12.gapH,
-            ProfileEditField(label: l10n.cccdIssueDateLabel, controller: _cccdIssueDateController, icon: Symbols.calendar_today),
+            ProfileEditField(label: l10n.cccdIssueDateLabel, controller: _cccdIssueDateController, iconName: AppIcons.calendar),
             12.gapH,
-            ProfileEditField(label: l10n.permanentAddressLabel, controller: _permanentAddressController, icon: Symbols.location_on),
+            ProfileEditField(label: l10n.permanentAddressLabel, controller: _permanentAddressController, iconName: AppIcons.location),
           ],
         ),
       ),

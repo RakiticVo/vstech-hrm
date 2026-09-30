@@ -45,7 +45,7 @@ class AppColorsExtension extends ThemeExtension<AppColorsExtension> {
   // Semantic & Design Token Aliases
   Color get primary => tealPrimary;
   Color get onPrimary => const Color(0xFFFFFFFF);
-  Color get primaryIndigo => tileDark;
+  Color get primaryIndigo => tealPrimary;
   Color get accentAmber => amberCta;
   Color get accentAmberDark => amberInk;
   Color get amberGold => amberCta;

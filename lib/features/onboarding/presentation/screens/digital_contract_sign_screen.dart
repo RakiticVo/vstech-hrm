@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:material_symbols_icons/symbols.dart';
 import 'package:vstech_hrm/core/extensions/l10n_extension.dart';
 import 'package:vstech_hrm/core/responsive/app_layout.dart';
 import 'package:vstech_hrm/core/router/routes.dart';
 import 'package:vstech_hrm/core/theme/app_colors.dart';
+import 'package:vstech_hrm/core/widgets/app_icon.dart';
 import 'package:vstech_hrm/core/widgets/primary_button.dart';
 import 'package:vstech_hrm/core/widgets/status_chip.dart';
 
@@ -59,7 +59,7 @@ class _DigitalContractSignScreenState extends State<DigitalContractSignScreen> {
         backgroundColor: colors.surface,
         elevation: 0,
         leading: IconButton(
-          icon: const Icon(Symbols.arrow_back),
+          icon: AppIcon(AppIcons.arrowLeft, color: colors.textPrimary),
           onPressed: () => Navigator.of(context).pop(),
         ),
         title: Text(
@@ -132,7 +132,7 @@ class _DigitalContractSignScreenState extends State<DigitalContractSignScreen> {
                 children: [
                   Row(
                     children: [
-                      Icon(Symbols.sms, size: 20, color: colors.primaryIndigo),
+                      AppIcon(AppIcons.mail, size: 20, color: colors.primaryIndigo),
                       8.gapW,
                       Text('Xác thực mã OTP ký hợp đồng', style: TextStyle(fontSize: 13.5, fontWeight: FontWeight.w800, color: colors.textPrimary)),
                     ],
@@ -209,7 +209,7 @@ class _DigitalContractSignScreenState extends State<DigitalContractSignScreen> {
                 children: [
                   Row(
                     children: [
-                      Icon(Symbols.verified_user, color: colors.pineGreen, size: 24),
+                      AppIcon(AppIcons.shield, color: colors.pineGreen, size: 24),
                       10.gapW,
                       Expanded(
                         child: Text(
@@ -237,12 +237,12 @@ class _DigitalContractSignScreenState extends State<DigitalContractSignScreen> {
           child: _isSigned
               ? PrimaryButton(
                   text: 'Tiếp tục: Cẩm nang Ngày đầu tiên',
-                  icon: Symbols.menu_book,
+                  iconName: AppIcons.fileText,
                   onPressed: () => context.push(AppRoutes.onboardingDayOne),
                 )
               : PrimaryButton(
                   text: l10n.signContractBtn,
-                  icon: Symbols.draw,
+                  iconName: AppIcons.edit3,
                   onPressed: _signContract,
                 ),
         ),

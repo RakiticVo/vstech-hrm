@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:material_symbols_icons/symbols.dart';
 import 'package:vstech_hrm/core/extensions/l10n_extension.dart';
 import 'package:vstech_hrm/core/responsive/app_layout.dart';
 import 'package:vstech_hrm/core/theme/app_colors.dart';
+import 'package:vstech_hrm/core/widgets/app_icon.dart';
 import 'package:vstech_hrm/core/widgets/primary_button.dart';
 
 /// Interactive custom canvas signature pad bottom sheet modal.
@@ -101,7 +101,7 @@ class _SignaturePadModalState extends State<SignaturePadModal> {
               ),
               TextButton.icon(
                 onPressed: _clear,
-                icon: const Icon(Symbols.refresh, size: 16),
+                icon: const AppIcon(AppIcons.sync, size: 16),
                 label: Text(l10n.signPadClear),
               ),
             ],
@@ -178,6 +178,7 @@ class _SignaturePadModalState extends State<SignaturePadModal> {
           // Confirm button
           PrimaryButton(
             text: l10n.signPadConfirm,
+            iconName: AppIcons.sign,
             onPressed: _agreedToDisclaimer ? _confirm : null,
           ),
         ],

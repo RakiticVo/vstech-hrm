@@ -2,12 +2,12 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:material_symbols_icons/symbols.dart';
 import 'package:vstech_hrm/core/extensions/l10n_extension.dart';
 import 'package:vstech_hrm/core/responsive/app_layout.dart';
 import 'package:vstech_hrm/core/router/routes.dart';
 import 'package:vstech_hrm/core/theme/app_colors.dart';
 import 'package:vstech_hrm/core/theme/tile_pattern_painter.dart';
+import 'package:vstech_hrm/core/widgets/app_icon.dart';
 import 'package:vstech_hrm/features/executive/presentation/cubit/executive_cubit.dart';
 import 'package:vstech_hrm/features/executive/presentation/cubit/executive_state.dart';
 import 'package:vstech_hrm/features/executive/presentation/widgets/executive_dept_progress_card.dart';
@@ -115,7 +115,7 @@ class _ExecutiveDashboardScreenState extends State<ExecutiveDashboardScreen> {
                             ),
                           ),
                           IconButton(
-                            icon: const Icon(Symbols.notifications, color: Colors.white),
+                            icon: const AppIcon(AppIcons.bell, color: Colors.white, size: 20),
                             onPressed: () => context.push(AppRoutes.notifications),
                           ),
                         ],
@@ -264,7 +264,7 @@ class _ExecutiveDashboardScreenState extends State<ExecutiveDashboardScreen> {
                                   style: const TextStyle(fontWeight: FontWeight.w800),
                                 ),
                                 6.gapW,
-                                const Icon(Symbols.chevron_right, size: 18),
+                                const AppIcon(AppIcons.chevronRight, size: 18),
                               ],
                             ),
                           ),

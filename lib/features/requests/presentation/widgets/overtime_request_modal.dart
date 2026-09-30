@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:material_symbols_icons/symbols.dart';
 import 'package:vstech_hrm/core/extensions/l10n_extension.dart';
 import 'package:vstech_hrm/core/responsive/app_layout.dart';
 import 'package:vstech_hrm/core/theme/app_colors.dart';
+import 'package:vstech_hrm/core/widgets/app_icon.dart';
 
 /// Modal bottom sheet to pick date, hours, reason, and compensation for overtime.
 class OvertimeRequestModal extends StatefulWidget {
@@ -88,7 +88,7 @@ class _OvertimeRequestModalState extends State<OvertimeRequestModal> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(l10n.overtimeModalTitle, style: TextStyle(fontSize: 17, fontWeight: FontWeight.w800, color: colors.textPrimary)),
-              IconButton(icon: const Icon(Symbols.close, size: 20), onPressed: () => Navigator.pop(context)),
+              IconButton(icon: const AppIcon(AppIcons.close, size: 20), onPressed: () => Navigator.pop(context)),
             ],
           ),
           12.gapH,
@@ -116,7 +116,7 @@ class _OvertimeRequestModalState extends State<OvertimeRequestModal> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(_selectedDate, style: TextStyle(fontSize: 14, fontWeight: FontWeight.w700, color: colors.textPrimary)),
-                  Icon(Symbols.calendar_month, size: 18, color: colors.primaryIndigo),
+                  AppIcon(AppIcons.calendar, size: 18, color: colors.primaryIndigo),
                 ],
               ),
             ),
@@ -141,7 +141,7 @@ class _OvertimeRequestModalState extends State<OvertimeRequestModal> {
             decoration: BoxDecoration(color: colors.pineGreen.withValues(alpha: 0.12), borderRadius: BorderRadius.circular(10)),
             child: Row(
               children: [
-                Icon(Symbols.bolt, size: 16, color: colors.pineGreen),
+                AppIcon(AppIcons.overtime, size: 16, color: colors.pineGreen),
                 6.gapW,
                 Expanded(child: Text(rateLabel, style: TextStyle(fontSize: 12, fontWeight: FontWeight.w700, color: colors.pineGreen))),
               ],

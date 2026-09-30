@@ -1,8 +1,8 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
-import 'package:material_symbols_icons/symbols.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:vstech_hrm/core/theme/app_colors.dart';
+import 'package:vstech_hrm/core/widgets/app_icon.dart';
 
 /// Centralized service handling contextual device permission requests.
 /// Follows docs/security.md §6 and copywriting guidelines (natural Vietnamese, clear rationale).
@@ -18,7 +18,7 @@ abstract final class AppPermissionHandler {
     if (result.isPermanentlyDenied && context.mounted) {
       await _showPermissionRationaleDialog(
         context: context,
-        icon: Symbols.photo_camera,
+        iconName: AppIcons.camera,
         title: 'Cần quyền truy cập máy ảnh',
         message: 'Để quét khuôn mặt nhận diện khi đăng nhập Face ID và chấm công, '
             'vui lòng cấp quyền Camera trong Cài đặt thiết bị.',
@@ -39,7 +39,7 @@ abstract final class AppPermissionHandler {
     if (result.isPermanentlyDenied && context.mounted) {
       await _showPermissionRationaleDialog(
         context: context,
-        icon: Symbols.location_on,
+        iconName: AppIcons.mapPin,
         title: 'Cần quyền truy cập vị trí',
         message: 'Ứng dụng cần xác nhận bạn đang ở cơ sở làm việc để ghi nhận chấm công hợp lệ. '
             'Vui lòng bật quyền Vị trí trong Cài đặt thiết bị.',
@@ -66,7 +66,7 @@ abstract final class AppPermissionHandler {
     if ((result.isPermanentlyDenied || storageResult.isPermanentlyDenied) && context.mounted) {
       await _showPermissionRationaleDialog(
         context: context,
-        icon: Symbols.attach_file,
+        iconName: AppIcons.paperclip,
         title: 'Cần quyền truy cập tệp & hình ảnh',
         message: 'Để đính kèm minh chứng cho đơn xin nghỉ phép hoặc sửa công, '
             'vui lòng cấp quyền truy cập Thư viện ảnh trong Cài đặt.',
@@ -87,7 +87,7 @@ abstract final class AppPermissionHandler {
 
   static Future<void> _showPermissionRationaleDialog({
     required BuildContext context,
-    required IconData icon,
+    required String iconName,
     required String title,
     required String message,
     required Permission permission,
@@ -111,7 +111,9 @@ abstract final class AppPermissionHandler {
                 color: colors.primaryIndigo.withValues(alpha: 0.12),
                 borderRadius: BorderRadius.circular(12),
               ),
-              child: Icon(icon, color: colors.primaryIndigo, size: 20),
+              child: Center(
+                child: AppIcon(iconName, color: colors.primaryIndigo, size: 20),
+              ),
             ),
             const SizedBox(width: 12),
             Expanded(

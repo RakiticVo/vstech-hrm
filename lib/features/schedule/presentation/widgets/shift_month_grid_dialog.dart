@@ -1,9 +1,9 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
-import 'package:material_symbols_icons/symbols.dart';
 import 'package:vstech_hrm/core/extensions/l10n_extension.dart';
 import 'package:vstech_hrm/core/responsive/app_layout.dart';
 import 'package:vstech_hrm/core/theme/app_colors.dart';
+import 'package:vstech_hrm/core/widgets/app_icon.dart';
 
 /// Dialog showing a 30-day month calendar grid with color-coded shift dots.
 class ShiftMonthGridDialog extends StatelessWidget {
@@ -88,7 +88,7 @@ class ShiftMonthGridDialog extends StatelessWidget {
           children: [
             Row(
               children: [
-                Icon(Symbols.calendar_month, color: colors.tealPrimary),
+                AppIcon(AppIcons.calendar, color: colors.tealPrimary, size: 22),
                 8.gapW,
                 Expanded(
                   child: Text(
@@ -101,7 +101,7 @@ class ShiftMonthGridDialog extends StatelessWidget {
                   ),
                 ),
                 IconButton(
-                  icon: const Icon(Symbols.close, size: 20),
+                  icon: const AppIcon(AppIcons.close, size: 20),
                   onPressed: () => Navigator.of(context).pop(),
                 ),
               ],

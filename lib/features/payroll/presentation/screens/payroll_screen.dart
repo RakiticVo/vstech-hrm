@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:material_symbols_icons/symbols.dart';
 import 'package:vstech_hrm/core/extensions/l10n_extension.dart';
 import 'package:vstech_hrm/core/responsive/app_layout.dart';
 import 'package:vstech_hrm/core/router/routes.dart';
 import 'package:vstech_hrm/core/theme/app_colors.dart';
 import 'package:vstech_hrm/core/theme/tile_pattern_painter.dart';
+import 'package:vstech_hrm/core/widgets/app_icon.dart';
 import 'package:vstech_hrm/core/widgets/tile_header_banner.dart';
 import 'package:vstech_hrm/features/payroll/presentation/widgets/payroll_breakdown_card.dart';
 
@@ -46,7 +46,7 @@ class _PayrollScreenState extends State<PayrollScreen> {
                     ),
                     child: Row(
                       children: [
-                        const Icon(Symbols.star, size: 14, color: Color(0xFFFFF8EC)),
+                        const AppIcon(AppIcons.bonus, size: 14, color: Color(0xFFFFF8EC)),
                         4.gapW,
                         Text(
                           context.l10n.rewardsAction,
@@ -62,8 +62,8 @@ class _PayrollScreenState extends State<PayrollScreen> {
                 ),
                 6.gapW,
                 IconButton(
-                  icon: Icon(
-                    _isSalaryVisible ? Symbols.visibility : Symbols.visibility_off,
+                  icon: AppIcon(
+                    _isSalaryVisible ? AppIcons.eye : AppIcons.eyeOff,
                     color: const Color(0xFFFFF8EC),
                     size: 20,
                   ),
@@ -205,7 +205,7 @@ class _PayrollScreenState extends State<PayrollScreen> {
                         ),
                       ),
                       onPressed: () => context.push(AppRoutes.payslipLock),
-                      icon: const Icon(Symbols.description, size: 18, weight: 700),
+                      icon: const AppIcon(AppIcons.payslip, size: 18, color: Color(0xFF1C1408)),
                       label: Text(
                         context.l10n.viewPayslipButton,
                         style: const TextStyle(
@@ -281,7 +281,7 @@ class _PayrollScreenState extends State<PayrollScreen> {
                           ),
                         ),
                         6.gapW,
-                        Icon(Symbols.chevron_right, size: 18, color: colors.textTertiary),
+                        AppIcon(AppIcons.chevronRight, size: 18, color: colors.textTertiary),
                       ],
                     ),
                   ),

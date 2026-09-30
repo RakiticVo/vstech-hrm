@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:material_symbols_icons/symbols.dart';
 import 'package:vstech_hrm/core/responsive/app_layout.dart';
 import 'package:vstech_hrm/core/theme/app_colors.dart';
+import 'package:vstech_hrm/core/widgets/app_icon.dart';
 import 'package:vstech_hrm/core/widgets/status_chip.dart';
 
 /// Checklist step status in the onboarding journey.
@@ -47,7 +47,7 @@ class OnboardingStepItem {
   final int stepNumber;
   final String title;
   final String description;
-  final IconData icon;
+  final String icon;
   final String route;
   final OnboardingStepStatus status;
 }
@@ -102,7 +102,7 @@ class OnboardingChecklistTile extends StatelessWidget {
                   ),
                   child: Center(
                     child: isDone
-                        ? const Icon(Symbols.check, size: 20, color: Colors.white)
+                        ? const AppIcon(AppIcons.check, size: 18, color: Colors.white)
                         : Text(
                             '${item.stepNumber}',
                             style: TextStyle(
@@ -152,7 +152,7 @@ class OnboardingChecklistTile extends StatelessWidget {
                   ),
                 ),
                 8.gapW,
-                Icon(Symbols.chevron_right, size: 18, color: colors.textTertiary),
+                AppIcon(AppIcons.chevronRight, size: 18, color: colors.textTertiary),
               ],
             ),
           ),

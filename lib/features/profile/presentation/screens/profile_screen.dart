@@ -2,13 +2,13 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:material_symbols_icons/symbols.dart';
 import 'package:vstech_hrm/core/extensions/l10n_extension.dart';
 import 'package:vstech_hrm/core/responsive/app_layout.dart';
 import 'package:vstech_hrm/core/router/routes.dart';
 import 'package:vstech_hrm/core/session/auth_cubit.dart';
 import 'package:vstech_hrm/core/session/auth_state.dart';
 import 'package:vstech_hrm/core/theme/app_colors.dart';
+import 'package:vstech_hrm/core/widgets/app_icon.dart';
 import 'package:vstech_hrm/features/profile/presentation/widgets/profile_header_card.dart';
 import 'package:vstech_hrm/features/profile/presentation/widgets/profile_info_card.dart';
 
@@ -65,12 +65,12 @@ class ProfileScreen extends StatelessWidget {
         ),
         actions: [
           IconButton(
-            icon: Icon(Symbols.edit_square, size: 21, color: colors.primaryIndigo),
+            icon: AppIcon(AppIcons.correction, size: 21, color: colors.primaryIndigo),
             tooltip: context.l10n.profileEditTitle,
             onPressed: () => context.push(AppRoutes.profileEdit),
           ),
           IconButton(
-            icon: Icon(Symbols.settings, size: 22, color: colors.textPrimary),
+            icon: AppIcon(AppIcons.settings, size: 22, color: colors.textPrimary),
             onPressed: () => context.push(AppRoutes.settings),
           ),
           4.gapW,
@@ -143,7 +143,7 @@ class ProfileScreen extends StatelessWidget {
               shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
             ),
             onPressed: () => _confirmLogout(context, colors),
-            icon: const Icon(Symbols.logout, size: 18),
+            icon: AppIcon(AppIcons.logout, size: 18, color: colors.error),
             label: Text(
               context.l10n.logoutButton,
               style: const TextStyle(fontSize: 14.5, fontWeight: FontWeight.w800),
@@ -193,7 +193,7 @@ class ProfileScreen extends StatelessWidget {
                   ),
                 ),
               ),
-              Icon(Symbols.chevron_right, size: 18, color: colors.textTertiary),
+              AppIcon(AppIcons.chevronRight, size: 18, color: colors.textTertiary),
             ],
           ),
         ),

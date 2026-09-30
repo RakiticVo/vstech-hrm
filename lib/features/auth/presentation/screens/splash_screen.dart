@@ -28,14 +28,14 @@ class _SplashScreenState extends State<SplashScreen> {
     final colors = context.colors;
 
     return Scaffold(
-      backgroundColor: colors.primaryIndigo,
+      backgroundColor: const Color(0xFF0A544E),
       body: Stack(
         children: [
           Positioned.fill(
             child: CustomPaint(
               painter: TilePatternPainter(
-                backgroundColor: colors.primaryIndigo,
-                patternColor: Colors.white.withValues(alpha: 0.1),
+                backgroundColor: const Color(0xFF0A544E),
+                patternColor: const Color(0xFFFFF8EC).withValues(alpha: 0.19),
               ),
             ),
           ),

@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:material_symbols_icons/symbols.dart';
 import 'package:vstech_hrm/core/extensions/l10n_extension.dart';
 import 'package:vstech_hrm/core/responsive/app_layout.dart';
 import 'package:vstech_hrm/core/router/routes.dart';
 import 'package:vstech_hrm/core/theme/app_colors.dart';
+import 'package:vstech_hrm/core/widgets/app_icon.dart';
 
 class LeaveBalanceItem {
   const new({
@@ -14,7 +14,7 @@ class LeaveBalanceItem {
     required this.used,
     required this.pending,
     required this.available,
-    required this.icon,
+    required this.iconName,
   });
 
   final String typeKey;
@@ -23,7 +23,7 @@ class LeaveBalanceItem {
   final double used;
   final double pending;
   final double available;
-  final IconData icon;
+  final String iconName;
 }
 
 /// Screen D1: Leave Balance by Type (6 types including Comp-off).
@@ -40,7 +40,7 @@ class LeaveBalanceScreen extends StatelessWidget {
         used: 4.5,
         pending: 1,
         available: 6.5,
-        icon: Symbols.beach_access,
+        iconName: AppIcons.leave,
       ),
       LeaveBalanceItem(
         typeKey: 'compoff',
@@ -49,7 +49,7 @@ class LeaveBalanceScreen extends StatelessWidget {
         used: 1,
         pending: 0,
         available: 2,
-        icon: Symbols.more_time,
+        iconName: AppIcons.overtime,
       ),
       LeaveBalanceItem(
         typeKey: 'sick',
@@ -58,7 +58,7 @@ class LeaveBalanceScreen extends StatelessWidget {
         used: 2,
         pending: 0,
         available: 28,
-        icon: Symbols.medical_services,
+        iconName: AppIcons.attendance,
       ),
       LeaveBalanceItem(
         typeKey: 'personal',
@@ -67,7 +67,7 @@ class LeaveBalanceScreen extends StatelessWidget {
         used: 0,
         pending: 0,
         available: 3,
-        icon: Symbols.favorite,
+        iconName: AppIcons.profile,
       ),
       LeaveBalanceItem(
         typeKey: 'unpaid',
@@ -76,7 +76,7 @@ class LeaveBalanceScreen extends StatelessWidget {
         used: 1,
         pending: 0,
         available: 9,
-        icon: Symbols.event_busy,
+        iconName: AppIcons.calendar,
       ),
       LeaveBalanceItem(
         typeKey: 'maternity',
@@ -85,7 +85,7 @@ class LeaveBalanceScreen extends StatelessWidget {
         used: 0,
         pending: 0,
         available: 180,
-        icon: Symbols.child_care,
+        iconName: AppIcons.dependants,
       ),
     ];
   }
@@ -110,7 +110,7 @@ class LeaveBalanceScreen extends StatelessWidget {
         backgroundColor: colors.surface,
         elevation: 0,
         leading: IconButton(
-          icon: Icon(Symbols.arrow_back, color: colors.textPrimary),
+          icon: AppIcon(AppIcons.back, color: colors.textPrimary, size: 22),
           onPressed: () => Navigator.pop(context),
         ),
       ),
@@ -137,7 +137,7 @@ class LeaveBalanceScreen extends StatelessWidget {
                           color: colors.pineGreen.withValues(alpha: 0.12),
                           shape: BoxShape.circle,
                         ),
-                        child: Icon(Symbols.pie_chart, color: colors.pineGreen, size: 20),
+                        child: AppIcon(AppIcons.leave, color: colors.pineGreen, size: 20),
                       ),
                       10.gapW,
                       Expanded(
@@ -211,7 +211,7 @@ class LeaveBalanceScreen extends StatelessWidget {
                   color: colors.primaryIndigo.withValues(alpha: 0.1),
                   borderRadius: BorderRadius.circular(10),
                 ),
-                child: Icon(item.icon, color: colors.primaryIndigo, size: 18),
+                child: AppIcon(item.iconName, color: colors.primaryIndigo, size: 18),
               ),
               10.gapW,
               Expanded(

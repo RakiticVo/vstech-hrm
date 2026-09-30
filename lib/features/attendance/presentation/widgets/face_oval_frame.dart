@@ -1,7 +1,7 @@
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
-import 'package:material_symbols_icons/symbols.dart';
 import 'package:vstech_hrm/core/theme/app_colors.dart';
+import 'package:vstech_hrm/core/widgets/app_icon.dart';
 
 /// Oval Face Detection Frame with 4 corner guide brackets, animated laser line, and camera feed.
 class FaceOvalFrame extends StatefulWidget {
@@ -121,11 +121,12 @@ class _FaceOvalFrameState extends State<FaceOvalFrame>
                   ),
                 ],
               ),
-              child: const Icon(
-                Symbols.check,
-                color: Colors.white,
-                size: 52,
-                weight: 600,
+              child: const Center(
+                child: AppIcon(
+                  AppIcons.check,
+                  color: Colors.white,
+                  size: 52,
+                ),
               ),
             ),
         ],
@@ -162,8 +163,8 @@ class _FaceOvalFrameState extends State<FaceOvalFrame>
             ),
           ),
         ),
-        Icon(
-          Symbols.person,
+        AppIcon(
+          AppIcons.profile,
           size: 140,
           color: Colors.white.withValues(alpha: 0.22),
         ),

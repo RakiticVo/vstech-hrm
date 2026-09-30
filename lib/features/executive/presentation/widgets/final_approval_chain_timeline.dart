@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:material_symbols_icons/symbols.dart';
 import 'package:vstech_hrm/core/responsive/app_layout.dart';
 import 'package:vstech_hrm/core/theme/app_colors.dart';
+import 'package:vstech_hrm/core/widgets/app_icon.dart';
 import 'package:vstech_hrm/features/executive/domain/entities/final_approval_entity.dart';
 
 class FinalApprovalChainTimeline extends StatelessWidget {
@@ -33,12 +33,14 @@ class FinalApprovalChainTimeline extends StatelessWidget {
                           : colors.accentAmber,
                       shape: BoxShape.circle,
                     ),
-                    child: Icon(
-                      approvalChain[i].status == ApprovalStepStatus.done
-                          ? Symbols.check
-                          : Symbols.schedule,
-                      size: 11,
-                      color: Colors.white,
+                    child: Center(
+                      child: AppIcon(
+                        approvalChain[i].status == ApprovalStepStatus.done
+                            ? AppIcons.check
+                            : AppIcons.clock,
+                        size: 11,
+                        color: Colors.white,
+                      ),
                     ),
                   ),
                   if (i < approvalChain.length - 1)

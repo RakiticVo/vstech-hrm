@@ -55,7 +55,7 @@ class HomeAnnouncements extends StatelessWidget {
                 style: TextStyle(
                   fontSize: 12,
                   fontWeight: FontWeight.w700,
-                  color: colors.primaryIndigo,
+                  color: colors.tealPrimary,
                 ),
               ),
             ),
@@ -89,7 +89,7 @@ class HomeAnnouncements extends StatelessWidget {
                                 style: TextStyle(
                                   fontSize: 15,
                                   fontWeight: FontWeight.w800,
-                                  color: colors.primaryIndigo,
+                                  color: colors.tealPrimary,
                                 ),
                               ),
                             ),

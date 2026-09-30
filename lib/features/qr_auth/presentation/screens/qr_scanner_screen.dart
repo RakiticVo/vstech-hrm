@@ -2,10 +2,10 @@ import 'dart:async';
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:material_symbols_icons/symbols.dart';
 import 'package:vstech_hrm/core/extensions/l10n_extension.dart';
 import 'package:vstech_hrm/core/responsive/app_layout.dart';
 import 'package:vstech_hrm/core/theme/app_colors.dart';
+import 'package:vstech_hrm/core/widgets/app_icon.dart';
 import 'package:vstech_hrm/features/qr_auth/presentation/cubit/qr_scanner_cubit.dart';
 import 'package:vstech_hrm/features/qr_auth/presentation/cubit/qr_scanner_state.dart';
 import 'package:vstech_hrm/features/qr_auth/presentation/widgets/qr_confirmation_bottom_sheet.dart';
@@ -142,7 +142,7 @@ class _QrScannerScreenState extends State<QrScannerScreen>
                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
                 title: const Row(
                   children: [
-                    Icon(Symbols.error, color: Color(0xFFDC2626)),
+                    AppIcon(AppIcons.alertTriangle, size: 20, color: Color(0xFFDC2626)),
                     SizedBox(width: 8),
                     Text('Thông báo quét mã', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
                   ],
@@ -169,7 +169,7 @@ class _QrScannerScreenState extends State<QrScannerScreen>
             backgroundColor: Colors.transparent,
             elevation: 0,
             leading: IconButton(
-              icon: const Icon(Symbols.close, color: Colors.white),
+              icon: const AppIcon(AppIcons.x, color: Colors.white),
               onPressed: () => Navigator.of(context).pop(),
             ),
             title: Text(
@@ -178,8 +178,8 @@ class _QrScannerScreenState extends State<QrScannerScreen>
             ),
             actions: [
               IconButton(
-                icon: Icon(
-                  state.isTorchOn ? Symbols.flash_on : Symbols.flash_off,
+                icon: AppIcon(
+                  state.isTorchOn ? AppIcons.zap : AppIcons.zapOff,
                   color: Colors.white,
                 ),
                 onPressed: () => context.read<QrScannerCubit>().toggleTorch(),
@@ -199,7 +199,7 @@ class _QrScannerScreenState extends State<QrScannerScreen>
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Icon(Symbols.camera_enhance, size: 54, color: Colors.white54),
+                        AppIcon(AppIcons.camera, size: 54, color: Colors.white54),
                         SizedBox(height: 12),
                         Text(
                           'Khung ngắm quét mã QR (Simulator Ready)',
@@ -228,7 +228,7 @@ class _QrScannerScreenState extends State<QrScannerScreen>
                         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
                       ),
                       onPressed: () => _showSamplePayloads(context),
-                      icon: const Icon(Symbols.qr_code, size: 20),
+                      icon: const AppIcon(AppIcons.qrCode, size: 20, color: Colors.white),
                       label: Text(
                         l10n.qrSamplePayloadsButton,
                         style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w800),

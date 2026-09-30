@@ -1,11 +1,11 @@
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
-import 'package:material_symbols_icons/symbols.dart';
 import 'package:vstech_hrm/core/theme/app_colors.dart';
+import 'package:vstech_hrm/core/widgets/app_icon.dart';
 
 /// Oval face scanning target frame with live camera feed and animated scanning laser.
 class FaceScanFrame extends StatelessWidget {
-  const new({
+  const FaceScanFrame({
     required this.isSuccess,
     required this.scanAnimation,
     this.cameraController,
@@ -50,8 +50,8 @@ class FaceScanFrame extends StatelessWidget {
               ColoredBox(
                 color: colors.cardSecondary,
                 child: Center(
-                  child: Icon(
-                    isSuccess ? Symbols.face : Symbols.face_retouching_natural,
+                  child: AppIcon(
+                    AppIcons.scanFace,
                     size: 80,
                     color: frameColor.withValues(alpha: 0.6),
                   ),

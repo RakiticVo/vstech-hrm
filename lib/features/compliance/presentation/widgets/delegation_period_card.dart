@@ -4,6 +4,7 @@ import 'package:vstech_hrm/core/extensions/l10n_extension.dart';
 import 'package:vstech_hrm/core/responsive/app_layout.dart';
 import 'package:vstech_hrm/core/theme/app_colors.dart';
 import 'package:vstech_hrm/core/theme/app_text_styles.dart';
+import 'package:vstech_hrm/core/widgets/app_icon.dart';
 
 class DelegationPeriodCard extends StatelessWidget {
   const new({
@@ -130,8 +131,8 @@ class _DateRow extends StatelessWidget {
                 ),
               ),
               AppGap.w6,
-              Icon(
-                Icons.calendar_today_outlined,
+              AppIcon(
+                AppIcons.calendar,
                 size: 14,
                 color: colors.primary,
               ),

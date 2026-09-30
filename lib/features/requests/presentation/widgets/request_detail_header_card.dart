@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:material_symbols_icons/symbols.dart';
 import 'package:vstech_hrm/core/extensions/l10n_extension.dart';
 import 'package:vstech_hrm/core/responsive/app_layout.dart';
 import 'package:vstech_hrm/core/theme/app_colors.dart';
+import 'package:vstech_hrm/core/widgets/app_icon.dart';
 
 /// Top header card showing request code, department, title and requester information.
 class RequestDetailHeaderCard extends StatelessWidget {
@@ -90,7 +90,7 @@ class RequestDetailHeaderCard extends StatelessWidget {
                   borderRadius: BorderRadius.circular(12),
                 ),
                 child: const Center(
-                  child: Icon(Symbols.person, size: 22, color: Colors.white),
+                  child: AppIcon(AppIcons.profile, size: 22, color: Colors.white),
                 ),
               ),
               12.gapW,

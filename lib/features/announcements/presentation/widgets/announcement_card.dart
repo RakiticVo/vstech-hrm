@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:material_symbols_icons/symbols.dart';
 import 'package:vstech_hrm/core/extensions/l10n_extension.dart';
 import 'package:vstech_hrm/core/responsive/app_layout.dart';
 import 'package:vstech_hrm/core/theme/app_colors.dart';
+import 'package:vstech_hrm/core/widgets/app_icon.dart';
 import 'package:vstech_hrm/features/announcements/domain/entities/announcement_entity.dart';
 
 /// Reusable card displaying an announcement item in list view.
@@ -28,9 +28,22 @@ class AnnouncementCard extends StatelessWidget {
     };
   }
 
-  (Color, Color) _scopeColors(AnnouncementScope scope, AppColorsExtension colors) {
+  (Color, Color) _scopeColors(
+    AnnouncementScope scope,
+    AppColorsExtension colors,
+    bool isDark,
+  ) {
+    if (isDark) {
+      return switch (scope) {
+        AnnouncementScope.company => (colors.tealPrimary, colors.tealPrimary.withValues(alpha: 0.16)),
+        AnnouncementScope.factory => (colors.amberCta, colors.amberCta.withValues(alpha: 0.16)),
+        AnnouncementScope.office => (colors.tealLight, colors.tealLight.withValues(alpha: 0.16)),
+        AnnouncementScope.department => (const Color(0xFFA78BFA), const Color(0xFFA78BFA).withValues(alpha: 0.16)),
+        AnnouncementScope.all => (colors.textSecondary, colors.cardSecondary),
+      };
+    }
     return switch (scope) {
-      AnnouncementScope.company => (colors.primaryIndigo, const Color(0xFFE0E7FF)),
+      AnnouncementScope.company => (colors.tealPrimary, const Color(0xFFE0E7FF)),
       AnnouncementScope.factory => (const Color(0xFFD97706), const Color(0xFFFEF3C7)),
       AnnouncementScope.office => (const Color(0xFF0F766E), const Color(0xFFCCFBF1)),
       AnnouncementScope.department => (const Color(0xFF7C3AED), const Color(0xFFEDE9FE)),
@@ -41,18 +54,27 @@ class AnnouncementCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colors = context.colors;
-    final (chipTextColor, chipBgColor) = _scopeColors(announcement.scope, colors);
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final (chipTextColor, chipBgColor) = _scopeColors(announcement.scope, colors, isDark);
     final dateStr = DateFormat('dd/MM/yyyy • HH:mm').format(announcement.publishedAt);
+
+    final cardBgColor = announcement.isRead
+        ? colors.surface
+        : (isDark
+            ? colors.tealPrimary.withValues(alpha: 0.12)
+            : colors.tealPrimary.withValues(alpha: 0.05));
 
     return Container(
       margin: const EdgeInsets.only(bottom: 12),
       decoration: BoxDecoration(
-        color: announcement.isRead ? colors.surface : const Color(0xFFF8FAFC),
+        color: cardBgColor,
         borderRadius: BorderRadius.circular(16),
         border: Border.all(
           color: announcement.isRead
               ? colors.border
-              : colors.primaryIndigo.withValues(alpha: 0.35),
+              : (isDark
+                  ? colors.tealPrimary.withValues(alpha: 0.45)
+                  : colors.tealPrimary.withValues(alpha: 0.3)),
           width: announcement.isRead ? 1 : 1.5,
         ),
         boxShadow: [
@@ -141,8 +163,8 @@ class AnnouncementCard extends StatelessWidget {
                 12.gapH,
                 Row(
                   children: [
-                    Icon(
-                      Symbols.verified_user,
+                    AppIcon(
+                      AppIcons.shieldCheck,
                       size: 14,
                       color: colors.textTertiary,
                     ),
@@ -159,8 +181,8 @@ class AnnouncementCard extends StatelessWidget {
                         overflow: TextOverflow.ellipsis,
                       ),
                     ),
-                    Icon(
-                      Symbols.chevron_right,
+                    AppIcon(
+                      AppIcons.chevronRight,
                       size: 18,
                       color: colors.textTertiary,
                     ),

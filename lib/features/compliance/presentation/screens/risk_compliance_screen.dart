@@ -6,6 +6,7 @@ import 'package:vstech_hrm/core/extensions/l10n_extension.dart';
 import 'package:vstech_hrm/core/responsive/app_layout.dart';
 import 'package:vstech_hrm/core/theme/app_colors.dart';
 import 'package:vstech_hrm/core/theme/app_text_styles.dart';
+import 'package:vstech_hrm/core/widgets/app_icon.dart';
 import 'package:vstech_hrm/features/compliance/presentation/cubits/risk_alerts_cubit.dart';
 import 'package:vstech_hrm/features/compliance/presentation/cubits/risk_alerts_state.dart';
 import 'package:vstech_hrm/features/compliance/presentation/widgets/risk_alert_card.dart';
@@ -134,10 +135,12 @@ class _RiskComplianceScreenState extends State<RiskComplianceScreen> {
                   borderRadius: BorderRadius.circular(12),
                   border: Border.all(color: colors.borderSubtle),
                 ),
-                child: Icon(
-                  Icons.arrow_back_ios_new_rounded,
-                  size: 16,
-                  color: colors.textPrimary,
+                child: Center(
+                  child: AppIcon(
+                    AppIcons.arrowLeft,
+                    size: 18,
+                    color: colors.textPrimary,
+                  ),
                 ),
               ),
             ),

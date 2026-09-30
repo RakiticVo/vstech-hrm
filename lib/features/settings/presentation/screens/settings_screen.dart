@@ -1,13 +1,13 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:material_symbols_icons/symbols.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:vstech_hrm/core/extensions/l10n_extension.dart';
 import 'package:vstech_hrm/core/responsive/app_layout.dart';
 import 'package:vstech_hrm/core/router/routes.dart';
 import 'package:vstech_hrm/core/services/app_permission_handler.dart';
 import 'package:vstech_hrm/core/theme/app_colors.dart';
+import 'package:vstech_hrm/core/widgets/app_icon.dart';
 
 /// Screen 16: Application Settings for Notifications, Privacy, Permissions, and States.
 class SettingsScreen extends StatefulWidget {
@@ -48,7 +48,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
         backgroundColor: colors.surface,
         elevation: 0,
         leading: IconButton(
-          icon: const Icon(Symbols.arrow_back),
+          icon: AppIcon(AppIcons.arrowLeft, color: colors.textPrimary),
           onPressed: () => Navigator.of(context).pop(),
         ),
         title: Text(
@@ -96,7 +96,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
           _buildSectionHeader(context.l10n.systemPermissionsSection, colors),
           _buildContainer([
             ListTile(
-              leading: Icon(Symbols.shield, color: colors.primaryIndigo),
+              leading: AppIcon(AppIcons.shieldCheck, color: colors.primaryIndigo),
               title: Text(
                 context.l10n.manageDevicePermissions,
                 style: TextStyle(fontSize: 13.5, fontWeight: FontWeight.w700, color: colors.textPrimary),
@@ -105,7 +105,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 context.l10n.permissionsSubtext,
                 style: TextStyle(fontSize: 11.5, color: colors.textSecondary),
               ),
-              trailing: Icon(Symbols.open_in_new, size: 18, color: colors.textTertiary),
+              trailing: AppIcon(AppIcons.externalLink, size: 18, color: colors.textTertiary),
               onTap: openAppSettings,
             ),
           ], colors),
@@ -123,7 +123,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
             ),
             Divider(height: 1, color: colors.border),
             ListTile(
-              leading: Icon(Symbols.phone_iphone, color: colors.primaryIndigo),
+              leading: AppIcon(AppIcons.smartphone, color: colors.primaryIndigo),
               title: Text(
                 context.l10n.registeredDeviceTitle,
                 style: TextStyle(fontSize: 13.5, fontWeight: FontWeight.w700, color: colors.textPrimary),
@@ -132,7 +132,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 context.l10n.registeredDeviceSub,
                 style: TextStyle(fontSize: 11.5, color: colors.textSecondary),
               ),
-              trailing: Icon(Symbols.chevron_right, size: 18, color: colors.textTertiary),
+              trailing: AppIcon(AppIcons.chevronRight, size: 18, color: colors.textTertiary),
               onTap: () => context.push(AppRoutes.registeredDevice),
             ),
           ], colors),
@@ -142,7 +142,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
           _buildSectionHeader(context.l10n.designAndSystemSection, colors),
           _buildContainer([
             ListTile(
-              leading: Icon(Symbols.palette, color: colors.primaryIndigo),
+              leading: AppIcon(AppIcons.palette, color: colors.primaryIndigo),
               title: Text(
                 context.l10n.uiStateShowcase,
                 style: TextStyle(fontSize: 13.5, fontWeight: FontWeight.w700, color: colors.textPrimary),
@@ -151,12 +151,12 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 context.l10n.uiStateShowcaseDesc,
                 style: TextStyle(fontSize: 11.5, color: colors.textSecondary),
               ),
-              trailing: Icon(Symbols.chevron_right, size: 18, color: colors.textTertiary),
+              trailing: AppIcon(AppIcons.chevronRight, size: 18, color: colors.textTertiary),
               onTap: () => context.push(AppRoutes.stateShowcase),
             ),
             Divider(height: 1, color: colors.border),
             ListTile(
-              leading: Icon(Symbols.cleaning_services, color: colors.textSecondary),
+              leading: AppIcon(AppIcons.trash, color: colors.textSecondary),
               title: Text(
                 context.l10n.clearCache,
                 style: TextStyle(fontSize: 13.5, fontWeight: FontWeight.w700, color: colors.textPrimary),

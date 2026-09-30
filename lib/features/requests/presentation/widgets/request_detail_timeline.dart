@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:material_symbols_icons/symbols.dart';
 import 'package:vstech_hrm/core/extensions/l10n_extension.dart';
 import 'package:vstech_hrm/core/responsive/app_layout.dart';
 import 'package:vstech_hrm/core/theme/app_colors.dart';
+import 'package:vstech_hrm/core/widgets/app_icon.dart';
 
 class TimelineStep {
   const TimelineStep({
@@ -49,7 +49,7 @@ class RequestDetailTimeline extends StatelessWidget {
         children: [
           Row(
             children: [
-              Icon(Symbols.timeline, size: 20, color: colors.primaryIndigo),
+              AppIcon(AppIcons.approvals, size: 20, color: colors.primaryIndigo),
               8.gapW,
               Text(
                 l10n.approvalTimelineTitle,
@@ -85,11 +85,11 @@ class RequestDetailTimeline extends StatelessWidget {
             ? colors.pineGreen
             : colors.border;
 
-    final icon = step.isRejected
-        ? Symbols.close
+    final iconName = step.isRejected
+        ? AppIcons.close
         : step.isCompleted
-            ? Symbols.check
-            : Symbols.schedule;
+            ? AppIcons.check
+            : AppIcons.shift;
 
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -105,8 +105,8 @@ class RequestDetailTimeline extends StatelessWidget {
                 border: Border.all(color: dotColor, width: 2),
               ),
               child: Center(
-                child: Icon(
-                  icon,
+                child: AppIcon(
+                  iconName,
                   size: 13,
                   color: dotColor,
                 ),
@@ -150,12 +150,12 @@ class RequestDetailTimeline extends StatelessWidget {
                 4.gapH,
                 Row(
                   children: [
-                    Icon(
+                    AppIcon(
                       step.isRejected
-                          ? Symbols.cancel
+                          ? AppIcons.close
                           : step.isCompleted
-                              ? Symbols.check_circle
-                              : Symbols.schedule,
+                              ? AppIcons.check
+                              : AppIcons.shift,
                       size: 13,
                       color: step.isRejected
                           ? colors.error

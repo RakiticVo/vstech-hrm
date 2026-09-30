@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:material_symbols_icons/symbols.dart';
 import 'package:vstech_hrm/core/extensions/l10n_extension.dart';
 import 'package:vstech_hrm/core/responsive/app_layout.dart';
 import 'package:vstech_hrm/core/theme/app_colors.dart';
+import 'package:vstech_hrm/core/widgets/app_icon.dart';
 
 /// Reusable error state display with warning icon, message, and retry button.
 class AppErrorState extends StatelessWidget {
-  const new({
+  const AppErrorState({
     this.title,
     this.message,
     this.onRetry,
@@ -39,10 +39,12 @@ class AppErrorState extends StatelessWidget {
                 color: colors.error.withValues(alpha: 0.12),
                 shape: BoxShape.circle,
               ),
-              child: Icon(
-                Symbols.error,
-                size: 36,
-                color: colors.error,
+              child: Center(
+                child: AppIcon(
+                  AppIcons.alertTriangle,
+                  size: 36,
+                  color: colors.error,
+                ),
               ),
             ),
             18.gapH,
@@ -78,7 +80,7 @@ class AppErrorState extends StatelessWidget {
                   padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
                 ),
                 onPressed: onRetry,
-                icon: const Icon(Symbols.refresh, size: 18),
+                icon: const AppIcon(AppIcons.refreshCw, size: 18, color: Color(0xFFFFF8EC)),
                 label: Text(
                   resolvedRetryLabel,
                   style: const TextStyle(fontWeight: FontWeight.w700),

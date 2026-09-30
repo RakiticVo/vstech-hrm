@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:material_symbols_icons/symbols.dart';
 import 'package:vstech_hrm/core/theme/app_colors.dart';
+import 'package:vstech_hrm/core/widgets/app_icon.dart';
 
 /// Renders a list of income or deduction line items with inline dispute actions.
 class PayslipBreakdownItems extends StatelessWidget {
@@ -56,8 +56,8 @@ class PayslipBreakdownItems extends StatelessWidget {
                   ),
                   4.gapW,
                   IconButton(
-                    icon: Icon(
-                      Symbols.flag,
+                    icon: AppIcon(
+                      AppIcons.dispute,
                       size: 16,
                       color: colors.textTertiary,
                     ),

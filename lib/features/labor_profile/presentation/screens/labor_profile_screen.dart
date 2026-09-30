@@ -1,10 +1,10 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:material_symbols_icons/symbols.dart';
 import 'package:vstech_hrm/core/extensions/l10n_extension.dart';
 import 'package:vstech_hrm/core/responsive/app_layout.dart';
 import 'package:vstech_hrm/core/theme/app_colors.dart';
+import 'package:vstech_hrm/core/widgets/app_icon.dart';
 import 'package:vstech_hrm/features/labor_profile/presentation/cubit/labor_profile_cubit.dart';
 import 'package:vstech_hrm/features/labor_profile/presentation/cubit/labor_profile_state.dart';
 import 'package:vstech_hrm/features/labor_profile/presentation/widgets/contract_attachment_tile.dart';
@@ -37,7 +37,7 @@ class _LaborProfileScreenState extends State<LaborProfileScreen> {
         backgroundColor: colors.surface,
         elevation: 0,
         leading: IconButton(
-          icon: Icon(Symbols.arrow_back, color: colors.textPrimary),
+          icon: AppIcon(AppIcons.arrowLeft, color: colors.textPrimary),
           onPressed: () => Navigator.of(context).pop(),
         ),
         title: Text(
@@ -60,7 +60,7 @@ class _LaborProfileScreenState extends State<LaborProfileScreen> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Icon(Symbols.error, size: 48, color: colors.error),
+                  AppIcon(AppIcons.alertTriangle, size: 48, color: colors.error),
                   12.gapH,
                   Text(
                     state.errorMessage ?? l10n.errorOccurredMessage,
@@ -93,7 +93,7 @@ class _LaborProfileScreenState extends State<LaborProfileScreen> {
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const Icon(Symbols.info, color: Color(0xFF2563EB), size: 18),
+                    const AppIcon(AppIcons.info, color: Color(0xFF2563EB), size: 18),
                     10.gapW,
                     Expanded(
                       child: Text(

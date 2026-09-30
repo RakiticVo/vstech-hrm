@@ -1,11 +1,11 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:material_symbols_icons/symbols.dart';
 import 'package:vstech_hrm/core/extensions/l10n_extension.dart';
 import 'package:vstech_hrm/core/responsive/app_layout.dart';
 import 'package:vstech_hrm/core/router/routes.dart';
 import 'package:vstech_hrm/core/theme/app_colors.dart';
+import 'package:vstech_hrm/core/widgets/app_icon.dart';
 import 'package:vstech_hrm/core/widgets/status_chip.dart';
 
 /// Screen for managing Shift Swap requests (`swaps` in mockup & flow).
@@ -65,7 +65,7 @@ class _ShiftSwapsScreenState extends State<ShiftSwapsScreen> {
         backgroundColor: colors.surface,
         elevation: 0,
         leading: IconButton(
-          icon: const Icon(Symbols.arrow_back),
+          icon: const AppIcon(AppIcons.back, size: 20),
           onPressed: () => Navigator.of(context).pop(),
         ),
         title: Text(
@@ -211,7 +211,7 @@ class _ShiftSwapsScreenState extends State<ShiftSwapsScreen> {
                         8.gapH,
                         Row(
                           children: [
-                            Icon(Symbols.person, size: 16, color: colors.primaryIndigo),
+                            AppIcon(AppIcons.profile, size: 16, color: colors.primaryIndigo),
                             6.gapW,
                             Text(
                               item.colleague,

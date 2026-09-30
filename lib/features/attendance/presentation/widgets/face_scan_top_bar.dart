@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:material_symbols_icons/symbols.dart';
 import 'package:vstech_hrm/core/theme/app_text_styles.dart';
+import 'package:vstech_hrm/core/widgets/app_icon.dart';
 
 /// Top bar with dismiss button, title, and real-time ticking digital clock.
 class FaceScanTopBar extends StatelessWidget {
@@ -31,7 +31,7 @@ class FaceScanTopBar extends StatelessWidget {
                 color: Colors.white.withValues(alpha: 0.18),
                 borderRadius: BorderRadius.circular(12),
               ),
-              child: const Icon(Symbols.close, color: Colors.white, size: 20),
+              child: const AppIcon(AppIcons.close, color: Colors.white, size: 20),
             ),
           ),
           const SizedBox(width: 12),

@@ -1,12 +1,17 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:material_symbols_icons/symbols.dart';
+import 'package:go_router/go_router.dart';
+import 'package:local_auth/local_auth.dart';
 import 'package:vstech_hrm/core/extensions/l10n_extension.dart';
 import 'package:vstech_hrm/core/responsive/app_layout.dart';
+import 'package:vstech_hrm/core/router/routes.dart';
 import 'package:vstech_hrm/core/session/auth_cubit.dart';
 import 'package:vstech_hrm/core/session/auth_state.dart';
 import 'package:vstech_hrm/core/theme/app_colors.dart';
+import 'package:vstech_hrm/core/widgets/app_icon.dart';
+import 'package:vstech_hrm/features/auth/presentation/widgets/biometric_login_button.dart';
+import 'package:vstech_hrm/features/auth/presentation/widgets/demo_quick_login_section.dart';
 import 'package:vstech_hrm/features/auth/presentation/widgets/face_id_login_sheet.dart';
 
 /// Screen 02: Login Screen conforming to Clean Architecture and AppLayout.
@@ -22,6 +27,41 @@ class _LoginScreenState extends State<LoginScreen> {
   final _passwordController = TextEditingController(text: '123456');
   bool _obscurePassword = true;
   bool _rememberMe = true;
+  BiometricType? _primaryBiometric;
+  bool _canUseBiometric = false;
+
+  @override
+  void initState() {
+    super.initState();
+    unawaited(_checkBiometrics());
+  }
+
+  Future<void> _checkBiometrics() async {
+    try {
+      final localAuth = LocalAuthentication();
+      final isSupported = await localAuth.isDeviceSupported();
+      final canCheck = await localAuth.canCheckBiometrics;
+      if (isSupported && canCheck) {
+        final available = await localAuth.getAvailableBiometrics();
+        if (mounted) {
+          setState(() {
+            _canUseBiometric = true;
+            if (available.contains(BiometricType.face)) {
+              _primaryBiometric = BiometricType.face;
+            } else if (available.contains(BiometricType.fingerprint) ||
+                available.contains(BiometricType.strong) ||
+                available.contains(BiometricType.weak)) {
+              _primaryBiometric = BiometricType.fingerprint;
+            } else {
+              _primaryBiometric = BiometricType.fingerprint;
+            }
+          });
+        }
+      }
+    } on Object {
+      // Local biometrics unsupported fallback
+    }
+  }
 
   @override
   void dispose() {
@@ -39,8 +79,26 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
-  void _onFaceIdLogin() {
-    unawaited(FaceIdLoginSheet.show(context));
+  Future<void> _onBiometricLogin() async {
+    final l10n = context.l10n;
+    if (_canUseBiometric) {
+      try {
+        final localAuth = LocalAuthentication();
+        final isFace = _primaryBiometric == BiometricType.face;
+        final reason = isFace ? l10n.faceIdAuthReason : l10n.fingerprintAuthReason;
+        final didAuth = await localAuth.authenticate(
+          localizedReason: reason,
+        );
+        if (didAuth && mounted) {
+          await context.read<AuthCubit>().loginAsDemo(UserRole.employee);
+          return;
+        }
+      } on Object {
+        // Biometric canceled or failed
+      }
+    } else {
+      unawaited(FaceIdLoginSheet.show(context));
+    }
   }
 
   @override
@@ -66,7 +124,9 @@ class _LoginScreenState extends State<LoginScreen> {
                   color: colors.primaryIndigo,
                   borderRadius: BorderRadius.circular(16),
                 ),
-                child: const Icon(Symbols.person, color: Color(0xFFFFF8EC), size: 24),
+                child: const Center(
+                  child: AppIcon(AppIcons.user, color: Color(0xFFFFF8EC), size: 24),
+                ),
               ),
               20.gapH,
               Text(
@@ -94,7 +154,10 @@ class _LoginScreenState extends State<LoginScreen> {
               TextField(
                 controller: _codeController,
                 decoration: _inputDecoration(
-                  prefixIcon: Icon(Symbols.badge, color: colors.textSecondary, size: 20),
+                  prefixIcon: Padding(
+                    padding: const EdgeInsets.all(12),
+                    child: AppIcon(AppIcons.user, color: colors.textSecondary, size: 20),
+                  ),
                   colors: colors,
                 ),
               ),
@@ -105,10 +168,13 @@ class _LoginScreenState extends State<LoginScreen> {
                 controller: _passwordController,
                 obscureText: _obscurePassword,
                 decoration: _inputDecoration(
-                  prefixIcon: Icon(Symbols.lock, color: colors.textSecondary, size: 20),
+                  prefixIcon: Padding(
+                    padding: const EdgeInsets.all(12),
+                    child: AppIcon(AppIcons.lock, color: colors.textSecondary, size: 20),
+                  ),
                   colors: colors,
                   suffixIcon: IconButton(
-                    icon: Icon(_obscurePassword ? Symbols.visibility_off : Symbols.visibility, size: 20),
+                    icon: AppIcon(_obscurePassword ? AppIcons.eyeOff : AppIcons.eye, size: 20),
                     onPressed: () => setState(() => _obscurePassword = !_obscurePassword),
                   ),
                 ),
@@ -137,10 +203,11 @@ class _LoginScreenState extends State<LoginScreen> {
                     ],
                   ),
                   TextButton(
-                    onPressed: () => ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(content: Text(l10n.contactHr)),
+                    onPressed: () => unawaited(context.push(AppRoutes.forgotPassword)),
+                    child: Text(
+                      l10n.forgotPasswordShort,
+                      style: TextStyle(fontSize: 12.5, fontWeight: FontWeight.w700, color: colors.primaryIndigo),
                     ),
-                    child: Text(l10n.forgotPasswordShort, style: TextStyle(fontSize: 12.5, fontWeight: FontWeight.w700, color: colors.primaryIndigo)),
                   ),
                 ],
               ),
@@ -173,36 +240,13 @@ class _LoginScreenState extends State<LoginScreen> {
                 ],
               ),
               18.gapH,
-              SizedBox(
-                width: double.infinity,
-                height: 48,
-                child: OutlinedButton.icon(
-                  style: OutlinedButton.styleFrom(
-                    side: BorderSide(color: colors.border),
-                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
-                  ),
-                  onPressed: isLoading ? null : _onFaceIdLogin,
-                  icon: Icon(Symbols.face, color: colors.primaryIndigo, size: 20),
-                  label: Text(l10n.biometricLogin, style: TextStyle(fontSize: 14, fontWeight: FontWeight.w700, color: colors.textPrimary)),
-                ),
+              BiometricLoginButton(
+                primaryBiometric: _primaryBiometric,
+                isLoading: isLoading,
+                onPressed: _onBiometricLogin,
               ),
               16.gapH,
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text('${l10n.demoQuickLogin}:', style: TextStyle(fontSize: 11.5, color: colors.textTertiary)),
-                  8.gapW,
-                  GestureDetector(
-                    onTap: () => context.read<AuthCubit>().loginAsDemo(UserRole.employee),
-                    child: Text(l10n.demoEmployee, style: TextStyle(fontSize: 12, fontWeight: FontWeight.w700, color: colors.primaryIndigo, decoration: TextDecoration.underline)),
-                  ),
-                  12.gapW,
-                  GestureDetector(
-                    onTap: () => context.read<AuthCubit>().loginAsDemo(UserRole.manager),
-                    child: Text(l10n.demoManager, style: TextStyle(fontSize: 12, fontWeight: FontWeight.w700, color: colors.accentAmber, decoration: TextDecoration.underline)),
-                  ),
-                ],
-              ),
+              const DemoQuickLoginSection(),
               24.gapH,
               Center(
                 child: Text(l10n.contactHr, style: TextStyle(fontSize: 11.5, fontWeight: FontWeight.w600, color: colors.textTertiary)),

@@ -2812,8 +2812,98 @@ abstract class AppLocalizations {
   /// No description provided for @forgotPasswordShort.
   ///
   /// In vi, this message translates to:
-  /// **'Quên?'**
+  /// **'Quên mật khẩu?'**
   String get forgotPasswordShort;
+
+  /// No description provided for @forgotPasswordTitle.
+  ///
+  /// In vi, this message translates to:
+  /// **'Quên mật khẩu?'**
+  String get forgotPasswordTitle;
+
+  /// No description provided for @forgotPasswordSubtitle.
+  ///
+  /// In vi, this message translates to:
+  /// **'Vì lý do bảo mật, mật khẩu chỉ được cấp lại bởi bộ phận IT. Vui lòng liên hệ IT và cung cấp mã nhân viên để được hỗ trợ.'**
+  String get forgotPasswordSubtitle;
+
+  /// No description provided for @itHotlineLabel.
+  ///
+  /// In vi, this message translates to:
+  /// **'Tổng đài IT · máy lẻ 1234'**
+  String get itHotlineLabel;
+
+  /// No description provided for @itHotlineNumber.
+  ///
+  /// In vi, this message translates to:
+  /// **'028 3930 1234'**
+  String get itHotlineNumber;
+
+  /// No description provided for @itEmailLabel.
+  ///
+  /// In vi, this message translates to:
+  /// **'Email'**
+  String get itEmailLabel;
+
+  /// No description provided for @itEmailValue.
+  ///
+  /// In vi, this message translates to:
+  /// **'it.helpdesk@vstech.vn'**
+  String get itEmailValue;
+
+  /// No description provided for @itSupportHoursLabel.
+  ///
+  /// In vi, this message translates to:
+  /// **'Giờ hỗ trợ'**
+  String get itSupportHoursLabel;
+
+  /// No description provided for @itSupportHoursValue.
+  ///
+  /// In vi, this message translates to:
+  /// **'T2 – T7 · 07:30 – 18:00'**
+  String get itSupportHoursValue;
+
+  /// No description provided for @itSecurityDisclaimer.
+  ///
+  /// In vi, this message translates to:
+  /// **'IT sẽ xác minh danh tính qua quản lý trực tiếp trước khi cấp mật khẩu tạm. Đổi mật khẩu ngay sau lần đăng nhập đầu tiên.'**
+  String get itSecurityDisclaimer;
+
+  /// No description provided for @callItDepartmentBtn.
+  ///
+  /// In vi, this message translates to:
+  /// **'Gọi bộ phận IT'**
+  String get callItDepartmentBtn;
+
+  /// No description provided for @backToLoginBtn.
+  ///
+  /// In vi, this message translates to:
+  /// **'Quay lại đăng nhập'**
+  String get backToLoginBtn;
+
+  /// No description provided for @loginWithFaceId.
+  ///
+  /// In vi, this message translates to:
+  /// **'Đăng nhập bằng Face ID'**
+  String get loginWithFaceId;
+
+  /// No description provided for @loginWithFingerprint.
+  ///
+  /// In vi, this message translates to:
+  /// **'Đăng nhập bằng vân tay'**
+  String get loginWithFingerprint;
+
+  /// No description provided for @faceIdAuthReason.
+  ///
+  /// In vi, this message translates to:
+  /// **'Xác thực Face ID để đăng nhập'**
+  String get faceIdAuthReason;
+
+  /// No description provided for @fingerprintAuthReason.
+  ///
+  /// In vi, this message translates to:
+  /// **'Quét vân tay để đăng nhập'**
+  String get fingerprintAuthReason;
 
   /// No description provided for @orDivider.
   ///

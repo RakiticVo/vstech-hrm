@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:material_symbols_icons/symbols.dart';
 import 'package:vstech_hrm/core/extensions/l10n_extension.dart';
 import 'package:vstech_hrm/core/responsive/app_layout.dart';
 import 'package:vstech_hrm/core/services/offline_attendance_service.dart';
 import 'package:vstech_hrm/core/theme/app_colors.dart';
+import 'package:vstech_hrm/core/widgets/app_icon.dart';
 
 /// Card displaying an offline punch record with GPS distance and 5-state lifecycle chip.
 class OfflineQueueRecordCard extends StatelessWidget {
@@ -98,8 +98,8 @@ class OfflineQueueRecordCard extends StatelessWidget {
           10.gapH,
           Row(
             children: [
-              Icon(
-                item.isWithinGeofence ? Symbols.pin_drop : Symbols.location_off,
+              AppIcon(
+                item.isWithinGeofence ? AppIcons.location : AppIcons.locationOff,
                 size: 16,
                 color: item.isWithinGeofence ? colors.pineGreen : colors.error,
               ),
@@ -140,7 +140,7 @@ class OfflineQueueRecordCard extends StatelessWidget {
                   visualDensity: VisualDensity.compact,
                 ),
                 onPressed: onRetry,
-                icon: const Icon(Symbols.refresh, size: 16),
+                icon: const AppIcon(AppIcons.sync, size: 16),
                 label: Text(l10n.syncRetryButton),
               ),
             ),

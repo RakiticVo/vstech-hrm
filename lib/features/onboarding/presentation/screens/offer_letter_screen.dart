@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:material_symbols_icons/symbols.dart';
 import 'package:vstech_hrm/core/extensions/l10n_extension.dart';
 import 'package:vstech_hrm/core/responsive/app_layout.dart';
 import 'package:vstech_hrm/core/theme/app_colors.dart';
+import 'package:vstech_hrm/core/widgets/app_icon.dart';
 import 'package:vstech_hrm/core/widgets/primary_button.dart';
 import 'package:vstech_hrm/core/widgets/status_chip.dart';
 
@@ -38,7 +38,7 @@ class _OfferLetterScreenState extends State<OfferLetterScreen> {
         backgroundColor: colors.surface,
         elevation: 0,
         leading: IconButton(
-          icon: const Icon(Symbols.arrow_back),
+          icon: AppIcon(AppIcons.arrowLeft, color: colors.textPrimary),
           onPressed: () => Navigator.of(context).pop(),
         ),
         title: Text(
@@ -141,7 +141,7 @@ class _OfferLetterScreenState extends State<OfferLetterScreen> {
             ),
             child: Row(
               children: [
-                Icon(Symbols.handshake, color: colors.pineGreen, size: 24),
+                AppIcon(AppIcons.sparkles, color: colors.pineGreen, size: 24),
                 12.gapW,
                 Expanded(
                   child: Text(
@@ -159,7 +159,7 @@ class _OfferLetterScreenState extends State<OfferLetterScreen> {
           padding: const EdgeInsets.fromLTRB(16, 8, 16, 16),
           child: PrimaryButton(
             text: _isAccepted ? l10n.offerAcceptedBadge : l10n.offerAcceptBtn,
-            icon: _isAccepted ? Symbols.check_circle : Symbols.done_all,
+            iconName: _isAccepted ? AppIcons.checkCircle2 : AppIcons.checkCircle,
             onPressed: _isAccepted ? null : _acceptOffer,
           ),
         ),

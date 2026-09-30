@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:material_symbols_icons/symbols.dart';
 import 'package:vstech_hrm/core/extensions/l10n_extension.dart';
 import 'package:vstech_hrm/core/responsive/app_layout.dart';
 import 'package:vstech_hrm/core/theme/app_colors.dart';
+import 'package:vstech_hrm/core/widgets/app_icon.dart';
 
 /// Modal dialog displaying digital labor contract with dynamic anti-leak watermark.
 class ContractViewerModal extends StatelessWidget {
@@ -64,7 +64,7 @@ class ContractViewerModal extends StatelessWidget {
                   ),
                 ),
                 IconButton(
-                  icon: const Icon(Symbols.close),
+                  icon: const AppIcon(AppIcons.close, size: 20),
                   onPressed: () => Navigator.of(context).pop(),
                 ),
               ],
@@ -178,7 +178,7 @@ class ContractViewerModal extends StatelessWidget {
                       );
                       Navigator.of(context).pop();
                     },
-                    icon: const Icon(Symbols.download, size: 18),
+                    icon: AppIcon(AppIcons.download, size: 18, color: colors.primaryIndigo),
                     label: Text(l10n.downloadDocBtn, style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w700)),
                   ),
                 ),

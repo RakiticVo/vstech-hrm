@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:material_symbols_icons/symbols.dart';
 import 'package:vstech_hrm/core/extensions/l10n_extension.dart';
 import 'package:vstech_hrm/core/responsive/app_layout.dart';
 import 'package:vstech_hrm/core/theme/app_colors.dart';
+import 'package:vstech_hrm/core/widgets/app_icon.dart';
 import 'package:vstech_hrm/features/schedule/domain/entities/shift_schedule_entity.dart';
 
 class ColleagueSwapOption {
@@ -97,7 +97,7 @@ class _ShiftSwapModalState extends State<ShiftSwapModal> {
       SnackBar(
         content: Row(
           children: [
-            const Icon(Symbols.check_circle, color: Colors.white, size: 20),
+            const AppIcon(AppIcons.check, color: Colors.white, size: 20),
             8.gapW,
             Expanded(
               child: Text(
@@ -145,7 +145,7 @@ class _ShiftSwapModalState extends State<ShiftSwapModal> {
                 Container(
                   padding: const EdgeInsets.all(8),
                   decoration: BoxDecoration(color: colors.tealPrimary.withValues(alpha: 0.1), borderRadius: BorderRadius.circular(10)),
-                  child: Icon(Symbols.swap_horiz, color: colors.tealPrimary),
+                  child: AppIcon(AppIcons.shiftSwap, color: colors.tealPrimary, size: 20),
                 ),
                 12.gapW,
                 Expanded(
@@ -173,7 +173,7 @@ class _ShiftSwapModalState extends State<ShiftSwapModal> {
                 child: DropdownButton<ColleagueSwapOption>(
                   value: _selectedColleague,
                   isExpanded: true,
-                  icon: const Icon(Symbols.keyboard_arrow_down),
+                  icon: const AppIcon(AppIcons.chevronDown, size: 20),
                   items: _colleagues.map((opt) {
                     return DropdownMenuItem(
                       value: opt,
@@ -202,7 +202,7 @@ class _ShiftSwapModalState extends State<ShiftSwapModal> {
                 ),
                 child: Row(
                   children: [
-                    Icon(Symbols.warning, color: colors.error, size: 18),
+                    AppIcon(AppIcons.warning, color: colors.error, size: 18),
                     8.gapW,
                     Expanded(
                       child: Text(

@@ -1462,7 +1462,54 @@ class AppLocalizationsEn extends AppLocalizations {
   String get filterAll => 'All';
 
   @override
-  String get forgotPasswordShort => 'Forgot?';
+  String get forgotPasswordShort => 'Forgot password?';
+
+  @override
+  String get forgotPasswordTitle => 'Forgot password?';
+
+  @override
+  String get forgotPasswordSubtitle =>
+      'For security reasons, passwords can only be reset by the IT department. Please contact IT and provide your employee ID for assistance.';
+
+  @override
+  String get itHotlineLabel => 'IT Hotline · ext 1234';
+
+  @override
+  String get itHotlineNumber => '028 3930 1234';
+
+  @override
+  String get itEmailLabel => 'Email';
+
+  @override
+  String get itEmailValue => 'it.helpdesk@vstech.vn';
+
+  @override
+  String get itSupportHoursLabel => 'Support hours';
+
+  @override
+  String get itSupportHoursValue => 'Mon – Sat · 07:30 – 18:00';
+
+  @override
+  String get itSecurityDisclaimer =>
+      'IT will verify your identity via your direct manager before issuing a temporary password. Change your password immediately upon first login.';
+
+  @override
+  String get callItDepartmentBtn => 'Call IT Department';
+
+  @override
+  String get backToLoginBtn => 'Back to login';
+
+  @override
+  String get loginWithFaceId => 'Login with Face ID';
+
+  @override
+  String get loginWithFingerprint => 'Login with Fingerprint';
+
+  @override
+  String get faceIdAuthReason => 'Authenticate with Face ID to log in';
+
+  @override
+  String get fingerprintAuthReason => 'Scan your fingerprint to log in';
 
   @override
   String get orDivider => 'or';

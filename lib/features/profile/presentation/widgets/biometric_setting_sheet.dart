@@ -1,12 +1,12 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:local_auth/local_auth.dart';
-import 'package:material_symbols_icons/symbols.dart';
 import 'package:vstech_hrm/core/extensions/l10n_extension.dart';
 import 'package:vstech_hrm/core/responsive/app_layout.dart';
 import 'package:vstech_hrm/core/theme/app_colors.dart';
 import 'package:vstech_hrm/core/theme/app_text_styles.dart';
 import 'package:vstech_hrm/core/widgets/app_card.dart';
+import 'package:vstech_hrm/core/widgets/app_icon.dart';
 import 'package:vstech_hrm/core/widgets/primary_button.dart';
 
 /// BottomSheet to view, configure, and test local biometric authentication.
@@ -133,7 +133,7 @@ class _BiometricSettingSheetState extends State<BiometricSettingSheet> {
                     children: [
                       Row(
                         children: [
-                          Icon(Symbols.fingerprint, size: 24, color: colors.tealPrimary),
+                          AppIcon(AppIcons.fingerprint, size: 24, color: colors.tealPrimary),
                           10.gapW,
                           Text(
                             context.l10n.enableBiometrics,
@@ -175,7 +175,7 @@ class _BiometricSettingSheetState extends State<BiometricSettingSheet> {
                 ),
                 child: Row(
                   children: [
-                    Icon(Symbols.info, size: 20, color: colors.tealPrimary),
+                    AppIcon(AppIcons.info, size: 20, color: colors.tealPrimary),
                     8.gapW,
                     Expanded(
                       child: Text(
@@ -190,7 +190,7 @@ class _BiometricSettingSheetState extends State<BiometricSettingSheet> {
             ],
             PrimaryButton(
               text: context.l10n.testBiometricNow,
-              icon: Symbols.fingerprint,
+              iconName: AppIcons.fingerprint,
               onPressed: _testBiometric,
             ),
           ],

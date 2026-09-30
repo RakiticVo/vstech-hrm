@@ -1,31 +1,31 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:material_symbols_icons/symbols.dart';
 import 'package:vstech_hrm/core/extensions/l10n_extension.dart';
 import 'package:vstech_hrm/core/router/routes.dart';
 import 'package:vstech_hrm/core/session/auth_cubit.dart';
 import 'package:vstech_hrm/core/session/auth_state.dart';
 import 'package:vstech_hrm/core/theme/app_colors.dart';
+import 'package:vstech_hrm/core/widgets/app_icon.dart';
 
 /// Navigation item model for bottom navigation bar.
 class _NavItem {
-  const new({
+  const _NavItem({
     required this.route,
     required this.label,
-    required this.icon,
+    required this.iconName,
     this.badgeCount,
   });
 
   final String route;
   final String label;
-  final IconData icon;
+  final String iconName;
   final int? badgeCount;
 }
 
 /// Navigation Shell hosting the 5-tab bottom navigation bar for NV and QL.
 class AppShell extends StatelessWidget {
-  const new({
+  const AppShell({
     required this.child,
     required this.location,
     super.key,
@@ -109,11 +109,11 @@ class AppShell extends StatelessWidget {
                               ),
                             ],
                           ),
+                            ),
+                          ],
                         ),
-                      ],
-                    ),
-                  ),
-                );
+                      ),
+                    );
               }),
             ),
           ),
@@ -125,12 +125,11 @@ class AppShell extends StatelessWidget {
   Widget _buildNavIcon(_NavItem item, bool isSelected, AppColorsExtension colors) {
     final iconColor = isSelected ? colors.primaryIndigo : colors.textSecondary;
 
-    final iconWidget = Icon(
-      item.icon,
-      size: 22,
+    final iconWidget = AppIcon(
+      item.iconName,
+      size: 24,
       color: iconColor,
-      fill: isSelected ? 1 : 0,
-      weight: isSelected ? 600 : 400,
+      filled: isSelected,
     );
 
     if (item.badgeCount != null && item.badgeCount! > 0) {
@@ -166,28 +165,28 @@ class AppShell extends StatelessWidget {
       _NavItem(
         route: AppRoutes.home,
         label: l10n.home,
-        icon: Symbols.home,
+        iconName: AppIcons.home,
       ),
       _NavItem(
         route: AppRoutes.attendance,
         label: l10n.attendance,
-        icon: Symbols.schedule,
+        iconName: AppIcons.attendance,
       ),
       _NavItem(
         route: AppRoutes.requests,
         label: l10n.requests,
-        icon: Symbols.event_available,
+        iconName: AppIcons.requests,
         badgeCount: 1,
       ),
       _NavItem(
         route: AppRoutes.payroll,
         label: l10n.payroll,
-        icon: Symbols.account_balance_wallet,
+        iconName: AppIcons.payroll,
       ),
       _NavItem(
         route: AppRoutes.profile,
         label: l10n.profile,
-        icon: Symbols.person,
+        iconName: AppIcons.profile,
       ),
     ];
   }
@@ -198,28 +197,28 @@ class AppShell extends StatelessWidget {
       _NavItem(
         route: AppRoutes.home,
         label: l10n.home,
-        icon: Symbols.home,
+        iconName: AppIcons.home,
       ),
       _NavItem(
         route: AppRoutes.attendance,
         label: l10n.attendance,
-        icon: Symbols.schedule,
+        iconName: AppIcons.attendance,
       ),
       _NavItem(
         route: AppRoutes.approvals,
         label: l10n.approvals,
-        icon: Symbols.fact_check,
+        iconName: AppIcons.approvals,
         badgeCount: 9,
       ),
       _NavItem(
         route: AppRoutes.payroll,
         label: l10n.payroll,
-        icon: Symbols.account_balance_wallet,
+        iconName: AppIcons.payroll,
       ),
       _NavItem(
         route: AppRoutes.profile,
         label: l10n.profile,
-        icon: Symbols.person,
+        iconName: AppIcons.profile,
       ),
     ];
   }

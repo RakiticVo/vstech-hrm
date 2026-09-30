@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:material_symbols_icons/symbols.dart';
 import 'package:vstech_hrm/core/responsive/app_layout.dart';
 import 'package:vstech_hrm/core/theme/app_colors.dart';
+import 'package:vstech_hrm/core/widgets/app_icon.dart';
 
 /// Interactive 6-digit PIN dots and numeric keypad widget.
 class PinCodeKeypad extends StatelessWidget {
@@ -73,7 +73,9 @@ class PinCodeKeypad extends StatelessWidget {
           children: [
             _buildSpecialButton(
               context,
-              icon: Symbols.fingerprint,
+              iconWidget: onBiometricPressed != null
+                  ? AppIcon(AppIcons.fingerprint, size: 28, color: colors.primaryIndigo)
+                  : const SizedBox.shrink(),
               onPressed: onBiometricPressed,
             ),
             20.gapW,
@@ -81,7 +83,7 @@ class PinCodeKeypad extends StatelessWidget {
             20.gapW,
             _buildSpecialButton(
               context,
-              icon: Symbols.backspace,
+              iconWidget: AppIcon(AppIcons.back, size: 24, color: colors.textSecondary),
               onPressed: onDeletePressed,
             ),
           ],
@@ -135,11 +137,9 @@ class PinCodeKeypad extends StatelessWidget {
 
   Widget _buildSpecialButton(
     BuildContext context, {
-    required IconData icon,
+    required Widget iconWidget,
     required VoidCallback? onPressed,
   }) {
-    final colors = context.colors;
-
     return SizedBox(
       width: 72,
       height: 72,
@@ -152,11 +152,7 @@ class PinCodeKeypad extends StatelessWidget {
           borderRadius: BorderRadius.circular(24),
           onTap: isDisabled ? null : onPressed,
           child: Center(
-            child: Icon(
-              icon,
-              size: 28,
-              color: onPressed != null ? colors.primaryIndigo : Colors.transparent,
-            ),
+            child: iconWidget,
           ),
         ),
       ),

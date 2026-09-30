@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:material_symbols_icons/symbols.dart';
 import 'package:vstech_hrm/core/extensions/l10n_extension.dart';
 import 'package:vstech_hrm/core/responsive/app_layout.dart';
 import 'package:vstech_hrm/core/router/routes.dart';
 import 'package:vstech_hrm/core/theme/app_colors.dart';
+import 'package:vstech_hrm/core/widgets/app_icon.dart';
 import 'package:vstech_hrm/core/widgets/primary_button.dart';
 
 /// Screen 18 / F13: Referral application form (`refer` in mockup & flow).
@@ -98,7 +98,7 @@ class _ReferralFormScreenState extends State<ReferralFormScreen> {
         backgroundColor: colors.surface,
         elevation: 0,
         leading: IconButton(
-          icon: const Icon(Symbols.arrow_back),
+          icon: AppIcon(AppIcons.arrowLeft, color: colors.textPrimary),
           onPressed: () => Navigator.of(context).pop(),
         ),
         title: Text(
@@ -126,7 +126,7 @@ class _ReferralFormScreenState extends State<ReferralFormScreen> {
                 ),
                 child: Row(
                   children: [
-                    Icon(Symbols.warning, color: colors.error, size: 22),
+                    AppIcon(AppIcons.alertTriangle, color: colors.error, size: 22),
                     10.gapW,
                     Expanded(
                       child: Text(
@@ -148,7 +148,7 @@ class _ReferralFormScreenState extends State<ReferralFormScreen> {
             6.gapH,
             TextFormField(
               controller: _nameController,
-              decoration: _inputDecoration(colors, hint: 'Nguyễn Văn A', icon: Symbols.person),
+              decoration: _inputDecoration(colors, hint: 'Nguyễn Văn A', iconName: AppIcons.user),
               validator: (v) => v == null || v.trim().isEmpty ? 'Vui lòng nhập tên ứng viên' : null,
             ),
             14.gapH,
@@ -162,7 +162,7 @@ class _ReferralFormScreenState extends State<ReferralFormScreen> {
             TextFormField(
               controller: _phoneController,
               keyboardType: TextInputType.phone,
-              decoration: _inputDecoration(colors, hint: '0901234567', icon: Symbols.call),
+              decoration: _inputDecoration(colors, hint: '0901234567', iconName: AppIcons.phone),
               validator: (v) => v == null || v.trim().isEmpty ? 'Vui lòng nhập số điện thoại' : null,
             ),
             14.gapH,
@@ -176,7 +176,7 @@ class _ReferralFormScreenState extends State<ReferralFormScreen> {
             TextFormField(
               controller: _emailController,
               keyboardType: TextInputType.emailAddress,
-              decoration: _inputDecoration(colors, hint: 'ungvien@example.com', icon: Symbols.mail),
+              decoration: _inputDecoration(colors, hint: 'ungvien@example.com', iconName: AppIcons.mail),
               validator: (v) => v == null || v.trim().isEmpty ? 'Vui lòng nhập email' : null,
             ),
             14.gapH,
@@ -189,7 +189,7 @@ class _ReferralFormScreenState extends State<ReferralFormScreen> {
             6.gapH,
             DropdownButtonFormField<String>(
               value: _selectedPosition,
-              decoration: _inputDecoration(colors, hint: '', icon: Symbols.work),
+              decoration: _inputDecoration(colors, hint: '', iconName: AppIcons.briefcase),
               items: _positions.map((p) => DropdownMenuItem(value: p, child: Text(p, style: const TextStyle(fontSize: 13.5)))).toList(),
               onChanged: (val) {
                 if (val != null) setState(() => _selectedPosition = val);
@@ -205,7 +205,7 @@ class _ReferralFormScreenState extends State<ReferralFormScreen> {
             6.gapH,
             DropdownButtonFormField<String>(
               value: _selectedBranch,
-              decoration: _inputDecoration(colors, hint: '', icon: Symbols.location_on),
+              decoration: _inputDecoration(colors, hint: '', iconName: AppIcons.mapPin),
               items: _branches.map((b) => DropdownMenuItem(value: b, child: Text(b, style: const TextStyle(fontSize: 13.5)))).toList(),
               onChanged: (val) {
                 if (val != null) setState(() => _selectedBranch = val);
@@ -235,8 +235,8 @@ class _ReferralFormScreenState extends State<ReferralFormScreen> {
                 ),
                 child: Row(
                   children: [
-                    Icon(
-                      _cvFileName != null ? Symbols.check_circle : Symbols.upload_file,
+                    AppIcon(
+                      _cvFileName != null ? AppIcons.checkCircle2 : AppIcons.upload,
                       color: _cvFileName != null ? colors.pineGreen : colors.primaryIndigo,
                       size: 24,
                     ),
@@ -270,12 +270,15 @@ class _ReferralFormScreenState extends State<ReferralFormScreen> {
     );
   }
 
-  InputDecoration _inputDecoration(AppColorsExtension colors, {required String hint, required IconData icon}) {
+  InputDecoration _inputDecoration(AppColorsExtension colors, {required String hint, required String iconName}) {
     return InputDecoration(
       hintText: hint,
       filled: true,
       fillColor: colors.surface,
-      prefixIcon: Icon(icon, size: 20, color: colors.textSecondary),
+      prefixIcon: Padding(
+        padding: const EdgeInsets.all(12),
+        child: AppIcon(iconName, size: 20, color: colors.textSecondary),
+      ),
       contentPadding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
       border: OutlineInputBorder(borderRadius: BorderRadius.circular(14), borderSide: BorderSide(color: colors.border)),
       enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(14), borderSide: BorderSide(color: colors.border)),

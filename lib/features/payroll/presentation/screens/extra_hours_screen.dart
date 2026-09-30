@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:material_symbols_icons/symbols.dart';
 import 'package:vstech_hrm/core/extensions/l10n_extension.dart';
 import 'package:vstech_hrm/core/responsive/app_layout.dart';
 import 'package:vstech_hrm/core/router/routes.dart';
 import 'package:vstech_hrm/core/theme/app_colors.dart';
+import 'package:vstech_hrm/core/widgets/app_icon.dart';
 
 /// Screen E3: Extra Hours Balance & Comp-off (Làm thêm & Nghỉ bù).
 class ExtraHoursScreen extends StatelessWidget {
@@ -29,7 +29,7 @@ class ExtraHoursScreen extends StatelessWidget {
         backgroundColor: colors.surface,
         elevation: 0,
         leading: IconButton(
-          icon: Icon(Symbols.arrow_back, color: colors.textPrimary),
+          icon: AppIcon(AppIcons.back, color: colors.textPrimary, size: 22),
           onPressed: () => Navigator.pop(context),
         ),
       ),
@@ -56,7 +56,7 @@ class ExtraHoursScreen extends StatelessWidget {
                           color: colors.accentAmber.withValues(alpha: 0.15),
                           borderRadius: BorderRadius.circular(12),
                         ),
-                        child: Icon(Symbols.timer, color: colors.accentAmber, size: 24),
+                        child: AppIcon(AppIcons.overtime, color: colors.accentAmber, size: 24),
                       ),
                       12.gapW,
                       Expanded(
@@ -121,7 +121,7 @@ class ExtraHoursScreen extends StatelessWidget {
               ),
               child: Row(
                 children: [
-                  Icon(Symbols.info, color: colors.primaryIndigo, size: 22),
+                  AppIcon(AppIcons.info, color: colors.primaryIndigo, size: 22),
                   12.gapW,
                   Expanded(
                     child: Column(
@@ -160,7 +160,7 @@ class ExtraHoursScreen extends StatelessWidget {
                   elevation: 0,
                 ),
                 onPressed: () => context.push(AppRoutes.overtimeCreate),
-                icon: const Icon(Symbols.schedule, size: 20),
+                icon: const AppIcon(AppIcons.overtime, size: 20),
                 label: Text(
                   l10n.createOvertimeBtn,
                   style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w700),

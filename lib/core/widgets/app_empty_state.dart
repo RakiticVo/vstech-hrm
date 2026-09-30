@@ -1,15 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:material_symbols_icons/symbols.dart';
 import 'package:vstech_hrm/core/extensions/l10n_extension.dart';
 import 'package:vstech_hrm/core/responsive/app_layout.dart';
 import 'package:vstech_hrm/core/theme/app_colors.dart';
+import 'package:vstech_hrm/core/widgets/app_icon.dart';
 
 /// Reusable empty state display with icon, title, description, and action button.
 class AppEmptyState extends StatelessWidget {
-  const new({
+  const AppEmptyState({
     required this.title,
     this.message,
-    this.icon = Symbols.inbox,
+    this.iconName = AppIcons.inbox,
+    this.icon,
     this.actionLabel,
     this.onAction,
     super.key,
@@ -17,7 +18,8 @@ class AppEmptyState extends StatelessWidget {
 
   final String title;
   final String? message;
-  final IconData icon;
+  final String iconName;
+  final IconData? icon;
   final String? actionLabel;
   final VoidCallback? onAction;
 
@@ -39,10 +41,10 @@ class AppEmptyState extends StatelessWidget {
                 color: colors.cardSecondary,
                 shape: BoxShape.circle,
               ),
-              child: Icon(
-                icon,
-                size: 34,
-                color: colors.textSecondary,
+              child: Center(
+                child: icon != null
+                    ? Icon(icon, size: 34, color: colors.textSecondary)
+                    : AppIcon(iconName, size: 34, color: colors.textSecondary),
               ),
             ),
             18.gapH,

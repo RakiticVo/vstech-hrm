@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:material_symbols_icons/symbols.dart';
 import 'package:vstech_hrm/core/extensions/l10n_extension.dart';
 import 'package:vstech_hrm/core/responsive/app_layout.dart';
 import 'package:vstech_hrm/core/theme/app_colors.dart';
+import 'package:vstech_hrm/core/widgets/app_icon.dart';
 import 'package:vstech_hrm/core/widgets/primary_button.dart';
 import 'package:vstech_hrm/core/widgets/status_chip.dart';
 import 'package:vstech_hrm/features/profile/presentation/widgets/contract_viewer_modal.dart';
@@ -40,7 +40,7 @@ class DocumentManagementScreen extends StatelessWidget {
         title: 'HĐLĐ Xác định thời hạn 24 tháng',
         code: 'HĐ-2024/05/VSTECH',
         effectiveDate: '02/05/2024 — 01/05/2026',
-        icon: Symbols.contract,
+        iconName: AppIcons.documents,
         isContract: true,
         statusLabel: 'Hiệu lực',
         statusType: AppStatusType.approved,
@@ -49,7 +49,7 @@ class DocumentManagementScreen extends StatelessWidget {
         title: 'Phụ lục HĐLĐ điều chỉnh lương & chức danh',
         code: 'PL-2025/08/VSTECH',
         effectiveDate: '01/08/2025',
-        icon: Symbols.edit_document,
+        iconName: AppIcons.documents,
         isContract: true,
         statusLabel: 'Hiệu lực',
         statusType: AppStatusType.approved,
@@ -58,7 +58,7 @@ class DocumentManagementScreen extends StatelessWidget {
         title: 'Thỏa thuận bảo mật thông tin & SHTT (NDA)',
         code: 'NDA-2024/VSTECH',
         effectiveDate: '02/05/2024',
-        icon: Symbols.security,
+        iconName: AppIcons.shield,
         isContract: true,
         statusLabel: 'Hiệu lực',
         statusType: AppStatusType.approved,
@@ -70,7 +70,7 @@ class DocumentManagementScreen extends StatelessWidget {
         title: 'Căn cước công dân gắn chip',
         code: 'CCCD-079094001234',
         effectiveDate: 'Cấp ngày 12/04/2021',
-        icon: Symbols.badge,
+        iconName: AppIcons.idCard,
         statusLabel: 'Đã xác thực',
         statusType: AppStatusType.approved,
       ),
@@ -78,7 +78,7 @@ class DocumentManagementScreen extends StatelessWidget {
         title: 'Bằng Cử nhân Quản trị Kinh doanh',
         code: 'Văn bằng ĐH Kinh Tế TP.HCM',
         effectiveDate: 'Tốt nghiệp 2016',
-        icon: Symbols.school,
+        iconName: AppIcons.checklist,
         statusLabel: 'Đã xác thực',
         statusType: AppStatusType.approved,
       ),
@@ -86,7 +86,7 @@ class DocumentManagementScreen extends StatelessWidget {
         title: 'Giấy khám sức khỏe định kỳ',
         code: 'BV Nhân Dân Gia Định',
         effectiveDate: 'Hết hạn: 15/10/2026',
-        icon: Symbols.health_and_safety,
+        iconName: AppIcons.warning,
         isExpiringSoon: true,
         statusLabel: 'Hết hạn 15 ngày',
         statusType: AppStatusType.rejected,
@@ -99,7 +99,7 @@ class DocumentManagementScreen extends StatelessWidget {
         backgroundColor: colors.surface,
         elevation: 0,
         leading: IconButton(
-          icon: const Icon(Symbols.arrow_back),
+          icon: const AppIcon(AppIcons.back, size: 22),
           onPressed: () => Navigator.of(context).pop(),
         ),
         title: Text(
@@ -125,7 +125,7 @@ class DocumentManagementScreen extends StatelessWidget {
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Icon(Symbols.warning, color: colors.error, size: 24),
+                AppIcon(AppIcons.warning, color: colors.error, size: 24),
                 12.gapW,
                 Expanded(
                   child: Column(
@@ -203,7 +203,7 @@ class DocumentManagementScreen extends StatelessWidget {
           padding: const EdgeInsets.fromLTRB(16, 8, 16, 16),
           child: PrimaryButton(
             text: l10n.uploadNewDocBtn,
-            icon: Symbols.upload_file,
+            iconName: AppIcons.attach,
             onPressed: () {
               ScaffoldMessenger.of(context).showSnackBar(
                 const SnackBar(content: Text('Mở trình chọn tệp để tải lên tài liệu mới...')),

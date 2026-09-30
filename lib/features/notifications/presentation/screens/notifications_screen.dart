@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:material_symbols_icons/symbols.dart';
 import 'package:vstech_hrm/core/extensions/l10n_extension.dart';
 import 'package:vstech_hrm/core/responsive/app_layout.dart';
 import 'package:vstech_hrm/core/theme/app_colors.dart';
+import 'package:vstech_hrm/core/widgets/app_icon.dart';
 
 /// Screen 18: Notification Center with vibrant category colors and badges.
 class NotificationsScreen extends StatefulWidget {
@@ -96,16 +96,12 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
         backgroundColor: colors.surface,
         elevation: 0,
         leading: IconButton(
-          icon: const Icon(Symbols.arrow_back),
+          icon: const AppIcon(AppIcons.back, size: 22),
           onPressed: () => Navigator.of(context).pop(),
         ),
         title: Text(
           context.l10n.notificationsTitle,
-          style: TextStyle(
-            fontSize: 18,
-            fontWeight: FontWeight.w800,
-            color: colors.textPrimary,
-          ),
+          style: TextStyle(fontSize: 18, fontWeight: FontWeight.w800, color: colors.textPrimary),
         ),
         actions: [
           TextButton(
@@ -116,11 +112,7 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
             },
             child: Text(
               context.l10n.markAllRead,
-              style: TextStyle(
-                fontSize: 12.5,
-                fontWeight: FontWeight.w700,
-                color: colors.primaryIndigo,
-              ),
+              style: TextStyle(fontSize: 12.5, fontWeight: FontWeight.w700, color: colors.primaryIndigo),
             ),
           ),
         ],

@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:material_symbols_icons/symbols.dart';
 import 'package:vstech_hrm/core/extensions/l10n_extension.dart';
 import 'package:vstech_hrm/core/responsive/app_layout.dart';
 import 'package:vstech_hrm/core/router/routes.dart';
 import 'package:vstech_hrm/core/theme/app_colors.dart';
+import 'package:vstech_hrm/core/widgets/app_icon.dart';
 import 'package:vstech_hrm/features/approvals/presentation/widgets/approval_card.dart';
 
 /// Screen G3: Direct Manager Approval Center with type filters & detail insights.
@@ -112,7 +112,7 @@ class _ApprovalsScreenState extends State<ApprovalsScreen> {
                         border: Border.all(color: colors.border),
                       ),
                       child: Center(
-                        child: Icon(Symbols.chevron_left, size: 20, color: colors.textPrimary),
+                        child: AppIcon(AppIcons.back, size: 20, color: colors.textPrimary),
                       ),
                     ),
                   ),
@@ -191,7 +191,7 @@ class _ApprovalsScreenState extends State<ApprovalsScreen> {
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Icon(Symbols.task_alt, size: 48, color: colors.pineGreen),
+                          AppIcon(AppIcons.approvals, size: 48, color: colors.pineGreen),
                           12.gapH,
                           Text(
                             l10n.noPendingApprovals,

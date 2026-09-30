@@ -3,6 +3,7 @@ import 'package:vstech_hrm/core/extensions/l10n_extension.dart';
 import 'package:vstech_hrm/core/responsive/app_layout.dart';
 import 'package:vstech_hrm/core/theme/app_colors.dart';
 import 'package:vstech_hrm/core/theme/app_text_styles.dart';
+import 'package:vstech_hrm/core/widgets/app_icon.dart';
 import 'package:vstech_hrm/features/compliance/domain/entities/risk_alert_entity.dart';
 
 class RiskAlertCard extends StatelessWidget {
@@ -120,12 +121,12 @@ class RiskAlertCard extends StatelessWidget {
           Row(
             children: [
               _MetaChip(
-                icon: Icons.location_on_outlined,
+                iconName: AppIcons.mapPin,
                 label: alert.branch,
               ),
               AppGap.w8,
               _MetaChip(
-                icon: Icons.access_time_rounded,
+                iconName: AppIcons.clock,
                 label: alert.detectedTimeText,
               ),
             ],
@@ -144,8 +145,8 @@ class RiskAlertCard extends StatelessWidget {
               child: const Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Icon(
-                    Icons.check_circle_rounded,
+                  AppIcon(
+                    AppIcons.checkCircle2,
                     color: Color(0xFF10B981),
                     size: 16,
                   ),
@@ -176,8 +177,8 @@ class RiskAlertCard extends StatelessWidget {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Icon(
-                        Icons.person_add_alt_1_outlined,
+                      AppIcon(
+                        AppIcons.userPlus,
                         color: tierColor,
                         size: 16,
                       ),
@@ -202,12 +203,12 @@ class RiskAlertCard extends StatelessWidget {
 }
 
 class _MetaChip extends StatelessWidget {
-  const new({
-    required this.icon,
+  const _MetaChip({
+    required this.iconName,
     required this.label,
   });
 
-  final IconData icon;
+  final String iconName;
   final String label;
 
   @override
@@ -226,7 +227,7 @@ class _MetaChip extends StatelessWidget {
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Icon(icon, size: 12, color: colors.textSecondary),
+          AppIcon(iconName, size: 12, color: colors.textSecondary),
           AppGap.w4,
           Text(
             label,

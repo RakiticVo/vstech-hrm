@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:material_symbols_icons/symbols.dart';
 import 'package:vstech_hrm/core/extensions/l10n_extension.dart';
 import 'package:vstech_hrm/core/responsive/app_layout.dart';
 import 'package:vstech_hrm/core/theme/app_colors.dart';
+import 'package:vstech_hrm/core/widgets/app_icon.dart';
 import 'package:vstech_hrm/features/executive/domain/entities/final_approval_entity.dart';
 import 'package:vstech_hrm/features/executive/presentation/widgets/final_approval_chain_timeline.dart';
 
@@ -186,7 +186,7 @@ class FinalApprovalItemCard extends StatelessWidget {
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Icon(Symbols.info, size: 16, color: colors.textSecondary),
+                AppIcon(AppIcons.info, size: 16, color: colors.textSecondary),
                 8.gapW,
                 Expanded(
                   child: Text(
@@ -231,7 +231,7 @@ class FinalApprovalItemCard extends StatelessWidget {
                   height: 44,
                   child: ElevatedButton.icon(
                     onPressed: onApprove,
-                    icon: const Icon(Symbols.verified, size: 18),
+                    icon: const AppIcon(AppIcons.checkCircle2, size: 18, color: Colors.black),
                     label: Text(
                       l10n.finalApprovalApproveBtn,
                       style: const TextStyle(fontWeight: FontWeight.w800),

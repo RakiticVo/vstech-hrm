@@ -76,7 +76,7 @@
           <div style="width:19px;height:19px;border-radius:6px;background:var(--pri);display:flex;align-items:center;justify-content:center"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="{{ t.onpri }}" stroke-width="3.2" stroke-linecap="round"><path d="M20 6 9 17l-5-5"/></svg></div>
           {{ L.remember }}
         </div>
-        <div style="font-size:13px;font-weight:700;color:var(--pri)">{{ L.forgot }}</div>
+        <div onClick="{{ goForgot }}" style="font-size:13px;font-weight:700;color:var(--pri);cursor:pointer">{{ L.forgot }}</div>
       </div>
       <div onClick="{{ login }}" style="margin-top:26px;height:56px;border-radius:16px;background:var(--acc);color:var(--onacc);display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:800;letter-spacing:.2px;cursor:pointer">{{ L.signIn }}</div>
       <div style="display:flex;align-items:center;gap:12px;margin:22px 0">
@@ -87,6 +87,28 @@
         {{ L.faceId }}
       </div>
       <div style="margin-top:auto;text-align:center;font-size:12px;color:var(--ts);font-weight:500">{{ L.needHelp }}</div>
+    </div>
+  </sc-if>
+
+  <!-- ============ FORGOT PASSWORD ============ -->
+  <sc-if value="{{ isForgot }}">
+    <div style="padding:2px 18px 0;display:flex;align-items:center;gap:12px"><div onClick="{{ back }}" style="width:36px;height:36px;border-radius:12px;border:1px solid var(--line);background:var(--sf);display:flex;align-items:center;justify-content:center;cursor:pointer;flex:none"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="m15 18-6-6 6-6"/></svg></div></div>
+    <div class="hrm-sc" style="flex:1;overflow-y:auto;padding:6px 22px 34px;display:flex;flex-direction:column">
+      <img src="assets/forgot-password.svg" alt="" style="width:100%;max-width:300px;height:auto;align-self:center;display:block">
+      <div style="font-size:26px;font-weight:800;letter-spacing:-.5px;line-height:1.2;margin-top:10px">{{ FG.title }}</div>
+      <div style="font-size:14px;color:var(--ts);margin-top:8px;line-height:1.55;font-weight:500;text-wrap:pretty">{{ FG.body }}</div>
+      <div style="margin-top:20px;background:var(--sf);border:1px solid var(--line);border-radius:18px;padding:4px 16px">
+        <sc-for list="{{ FG.rows }}" as="r" hint-placeholder-count="3">
+          <div style="display:flex;align-items:center;gap:12px;padding:12px 0;border-bottom:1px solid {{ r.bd }}">
+            <div style="width:36px;height:36px;border-radius:11px;background:var(--sf2);color:var(--pri);display:flex;align-items:center;justify-content:center;flex:none" dangerouslySetInnerHTML="{{ r.ic }}"></div>
+            <div style="flex:1;min-width:0"><div style="font-size:12px;font-weight:700;color:var(--ts)">{{ r.l }}</div><div style="font-size:15px;font-weight:800;margin-top:2px;font-variant-numeric:tabular-nums;word-break:break-all">{{ r.v }}</div></div>
+          </div>
+        </sc-for>
+      </div>
+      <div style="font-size:12px;color:var(--ts);font-weight:600;margin-top:12px;line-height:1.5;text-wrap:pretty">{{ FG.note }}</div>
+      <div style="flex:1;min-height:20px"></div>
+      <div onClick="{{ FG.call }}" style="height:56px;border-radius:16px;background:var(--acc);color:var(--onacc);display:flex;align-items:center;justify-content:center;gap:10px;font-size:16px;font-weight:800;cursor:pointer"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.8.7 2.7a2 2 0 0 1-.5 2.1L8 9.8a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.7.7a2 2 0 0 1 1.7 2z"/></svg>{{ FG.callL }}</div>
+      <div onClick="{{ back }}" style="margin-top:12px;height:50px;border-radius:16px;border:1px solid var(--line);background:var(--sf);display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:800;cursor:pointer">{{ FG.backL }}</div>
     </div>
   </sc-if>
 
@@ -390,49 +412,31 @@
       <div style="font-size:21px;font-weight:800;letter-spacing:-.4px;flex:1">{{ L.requests }}</div>
       <div onClick="{{ openSheet }}" style="width:38px;height:38px;border-radius:13px;background:var(--acc);color:var(--onacc);display:flex;align-items:center;justify-content:center;cursor:pointer;flex:none"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></div>
     </div>
-    <div style="padding:0 18px 12px;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px">
-      <sc-for list="{{ typeTiles }}" as="tt" hint-placeholder-count="3">
-        <div onClick="{{ tt.on }}" style="background:var(--sf);border:1px solid var(--line);border-radius:15px;padding:11px;cursor:pointer">
-          <div style="width:32px;height:32px;border-radius:10px;background:var(--sf2);color:var(--pri);display:flex;align-items:center;justify-content:center" dangerouslySetInnerHTML="{{ tt.icon }}"></div>
-          <div style="font-size:12.5px;font-weight:800;margin-top:9px">{{ tt.l }}</div>
-          <div style="font-size:11px;font-weight:600;color:{{ tt.c }};margin-top:1px">{{ tt.sub }}</div>
-        </div>
-      </sc-for>
-    </div>
-    <div style="padding:0 18px 12px;display:flex;gap:7px">
-      <sc-for list="{{ reqTabs }}" as="tb" hint-placeholder-count="4">
-        <div onClick="{{ tb.on }}" style="padding:8px 13px;border-radius:11px;font-size:12.5px;font-weight:700;cursor:pointer;background:{{ tb.bg }};color:{{ tb.fg }};border:1px solid {{ tb.bd }}">{{ tb.l }}</div>
-      </sc-for>
-    </div>
     <div class="hrm-sc" style="flex:1;overflow-y:auto;padding:0 18px 104px">
-      <div style="display:flex;flex-direction:column;gap:11px">
-        <sc-for list="{{ reqList }}" as="r" hint-placeholder-count="4">
-          <div onClick="{{ r.on }}" style="background:var(--sf);border:1px solid var(--line);border-radius:18px;padding:15px;cursor:pointer">
-            <div style="display:flex;align-items:flex-start;gap:11px">
-              <div style="width:36px;height:36px;border-radius:12px;background:var(--sf2);color:var(--pri);display:flex;align-items:center;justify-content:center;flex:none;font-size:15px;font-weight:800">{{ r.mark }}</div>
-              <div style="flex:1;min-width:0">
-                <div style="font-size:14px;font-weight:800">{{ r.type }}</div>
-                <div style="font-size:12px;color:var(--ts);font-weight:600;margin-top:2px">{{ r.dates }}</div>
-              </div>
-              <div style="font-size:10.5px;font-weight:800;padding:5px 9px;border-radius:8px;background:{{ r.tint }};color:{{ r.ink }};flex:none">{{ r.status }}</div>
-            </div>
-            <div style="display:flex;align-items:center;gap:5px;margin-top:13px;padding-top:12px;border-top:1px solid var(--line)">
-              <sc-for list="{{ r.steps }}" as="s" hint-placeholder-count="4">
-                <div style="flex:1;height:4px;border-radius:3px;background:{{ s.c }}"></div>
-              </sc-for>
-              <div style="font-size:11px;font-weight:700;color:var(--ts);margin-left:6px;white-space:nowrap">{{ r.stage }}</div>
-            </div>
+      <div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px">
+        <sc-for list="{{ reqSum }}" as="x" hint-placeholder-count="3">
+          <div style="background:var(--sf);border:1px solid var(--line);border-radius:15px;padding:11px 12px">
+            <div style="display:flex;align-items:center;gap:6px"><div style="width:7px;height:7px;border-radius:4px;background:{{ x.dot }}"></div><div style="font-size:20px;font-weight:800;font-variant-numeric:tabular-nums;color:{{ x.c }}">{{ x.v }}</div></div>
+            <div style="font-size:11px;font-weight:700;color:var(--ts);margin-top:3px;line-height:1.3">{{ x.l }}</div>
           </div>
         </sc-for>
       </div>
-      <sc-if value="{{ reqEmpty }}">
-        <div style="padding:60px 20px;text-align:center">
-          <div style="width:74px;height:74px;border-radius:24px;background:var(--sf2);display:flex;align-items:center;justify-content:center;margin:0 auto 16px;color:var(--ts)"><svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/></svg></div>
-          <div style="font-size:15.5px;font-weight:800">{{ L.emptyTitle }}</div>
-          <div style="font-size:13px;color:var(--ts);font-weight:600;margin-top:7px;line-height:1.5">{{ L.emptyBody }}</div>
-          <div onClick="{{ openSheet }}" style="margin:18px auto 0;width:200px;height:48px;border-radius:15px;background:var(--acc);color:var(--onacc);display:flex;align-items:center;justify-content:center;font-size:14.5px;font-weight:800;cursor:pointer">{{ L.newRequest }}</div>
-        </div>
-      </sc-if>
+      <div style="font-size:10.5px;font-weight:800;letter-spacing:1.2px;color:var(--ts);margin:20px 0 9px">{{ reqCatH }}</div>
+      <div style="display:flex;flex-direction:column;gap:9px">
+        <sc-for list="{{ reqCats }}" as="c" hint-placeholder-count="5">
+          <div onClick="{{ c.on }}" style="background:var(--sf);border:1px solid var(--line);border-radius:18px;padding:14px;display:flex;align-items:center;gap:12px;cursor:pointer">
+            <div style="width:44px;height:44px;border-radius:14px;background:var(--sf2);color:var(--pri);display:flex;align-items:center;justify-content:center;flex:none" dangerouslySetInnerHTML="{{ c.icon }}"></div>
+            <div style="flex:1;min-width:0">
+              <div style="display:flex;align-items:center;gap:7px;flex-wrap:wrap"><div style="font-size:15px;font-weight:800">{{ c.l }}</div>
+                <sc-if value="{{ c.pend }}"><div style="font-size:10.5px;font-weight:800;padding:3px 8px;border-radius:7px;background:{{ c.pendBg }};color:{{ c.pendC }}">{{ c.pend }}</div></sc-if>
+                <sc-if value="{{ c.draft }}"><div style="font-size:10.5px;font-weight:800;padding:3px 8px;border-radius:7px;background:var(--sf2);color:var(--ts)">{{ c.draft }}</div></sc-if>
+              </div>
+              <div style="font-size:12px;font-weight:600;color:var(--ts);margin-top:3px;line-height:1.4">{{ c.sub }}</div>
+            </div>
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" style="color:var(--ts);flex:none"><path d="m9 18 6-6-6-6"/></svg>
+          </div>
+        </sc-for>
+      </div>
     </div>
   </sc-if>
 
@@ -2835,7 +2839,7 @@
 </div>
 
 </x-dc>
-<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:390,&quot;height&quot;:844},&quot;screen&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;splash&quot;,&quot;login&quot;,&quot;home&quot;,&quot;attendance&quot;,&quot;facescan&quot;,&quot;calendar&quot;,&quot;requests&quot;,&quot;leave&quot;,&quot;overtime&quot;,&quot;correction&quot;,&quot;leave-new&quot;,&quot;overtime-new&quot;,&quot;correction-new&quot;,&quot;request-detail&quot;,&quot;request-sent&quot;,&quot;payroll&quot;,&quot;payslip&quot;,&quot;bonus&quot;,&quot;services&quot;,&quot;holidays&quot;,&quot;jobs&quot;,&quot;job&quot;,&quot;notifications&quot;,&quot;profile&quot;,&quot;approvals&quot;,&quot;exec&quot;,&quot;final&quot;,&quot;risk&quot;,&quot;delegate&quot;,&quot;settings&quot;,&quot;loading&quot;,&quot;empty&quot;,&quot;error&quot;,&quot;success&quot;,&quot;shifts&quot;,&quot;device&quot;,&quot;device-block&quot;,&quot;payslip-lock&quot;,&quot;dispute&quot;,&quot;dispute-new&quot;,&quot;refer&quot;,&quot;refer-sent&quot;,&quot;referrals&quot;,&quot;onboard&quot;,&quot;ob-letter&quot;,&quot;ob-org&quot;,&quot;ob-docs&quot;,&quot;ob-capture&quot;,&quot;ob-ocr&quot;,&quot;ob-sign&quot;,&quot;ob-day1&quot;,&quot;swaps&quot;,&quot;profile-edit&quot;,&quot;docs&quot;,&quot;doc-view&quot;,&quot;dependants&quot;,&quot;dependant-new&quot;],&quot;default&quot;:&quot;home&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;lang&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;vi&quot;,&quot;en&quot;],&quot;default&quot;:&quot;vi&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;theme&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;light&quot;,&quot;dark&quot;],&quot;default&quot;:&quot;light&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;font&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;manrope&quot;,&quot;source&quot;],&quot;default&quot;:&quot;manrope&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;role&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;employee&quot;,&quot;manager&quot;,&quot;exec&quot;,&quot;candidate&quot;],&quot;default&quot;:&quot;employee&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Vai trò&quot;},&quot;manager&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:false,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Vai trò&quot;},&quot;att&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;out&quot;,&quot;in&quot;,&quot;done&quot;],&quot;default&quot;:&quot;in&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;month&quot;:{&quot;editor&quot;:&quot;int&quot;,&quot;default&quot;:8,&quot;min&quot;:0,&quot;max&quot;:11,&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;Yêu cầu&quot;},&quot;net&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;online&quot;,&quot;offline&quot;],&quot;default&quot;:&quot;online&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Chấm công&quot;},&quot;security&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;ok&quot;,&quot;root&quot;,&quot;mock&quot;],&quot;default&quot;:&quot;ok&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Chấm công&quot;},&quot;pending&quot;:{&quot;editor&quot;:&quot;int&quot;,&quot;default&quot;:0,&quot;min&quot;:0,&quot;max&quot;:2,&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;Chấm công&quot;},&quot;sync&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;&quot;,&quot;done&quot;],&quot;default&quot;:&quot;&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Chấm công&quot;},&quot;facePhase&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;align&quot;,&quot;scan&quot;,&quot;gps&quot;,&quot;wifi&quot;,&quot;done&quot;],&quot;default&quot;:&quot;align&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Chấm công&quot;},&quot;faceResult&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;ontime&quot;,&quot;late&quot;,&quot;early&quot;],&quot;default&quot;:&quot;ontime&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Chấm công&quot;},&quot;view&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;ready&quot;,&quot;loading&quot;,&quot;empty&quot;,&quot;error&quot;],&quot;default&quot;:&quot;ready&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Chấm công&quot;},&quot;lock&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;idle&quot;,&quot;pin&quot;,&quot;fail&quot;],&quot;default&quot;:&quot;idle&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Lương&quot;},&quot;sign&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;&quot;,&quot;pad&quot;,&quot;done&quot;],&quot;default&quot;:&quot;&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Lương&quot;},&quot;rtab&quot;:{&quot;editor&quot;:&quot;int&quot;,&quot;default&quot;:0,&quot;min&quot;:0,&quot;max&quot;:2,&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;Lương&quot;},&quot;cperiod&quot;:{&quot;editor&quot;:&quot;int&quot;,&quot;default&quot;:0,&quot;min&quot;:0,&quot;max&quot;:3,&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;Lương&quot;},&quot;sel&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Lương&quot;},&quot;doc&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;cccd&quot;,&quot;degree&quot;,&quot;cert&quot;,&quot;cv&quot;,&quot;health&quot;],&quot;default&quot;:&quot;cccd&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Tuyển dụng&quot;},&quot;appr&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:false,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Phê duyệt &amp; đổi ca&quot;},&quot;apsheet&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;&quot;,&quot;approve&quot;,&quot;reject&quot;],&quot;default&quot;:&quot;&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Phê duyệt &amp; đổi ca&quot;},&quot;swap&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;&quot;,&quot;ok&quot;,&quot;conflict&quot;],&quot;default&quot;:&quot;&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Phê duyệt &amp; đổi ca&quot;},&quot;day&quot;:{&quot;editor&quot;:&quot;int&quot;,&quot;default&quot;:16,&quot;min&quot;:1,&quot;max&quot;:30,&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;Phê duyệt &amp; đổi ca&quot;},&quot;prof&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;&quot;,&quot;pending&quot;,&quot;dep&quot;],&quot;default&quot;:&quot;&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Hồ sơ&quot;},&quot;docsel&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Hồ sơ&quot;}}">
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:390,&quot;height&quot;:844},&quot;screen&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;splash&quot;,&quot;login&quot;,&quot;forgot&quot;,&quot;home&quot;,&quot;attendance&quot;,&quot;facescan&quot;,&quot;calendar&quot;,&quot;requests&quot;,&quot;leave&quot;,&quot;overtime&quot;,&quot;correction&quot;,&quot;leave-new&quot;,&quot;overtime-new&quot;,&quot;correction-new&quot;,&quot;request-detail&quot;,&quot;request-sent&quot;,&quot;payroll&quot;,&quot;payslip&quot;,&quot;bonus&quot;,&quot;services&quot;,&quot;holidays&quot;,&quot;jobs&quot;,&quot;job&quot;,&quot;notifications&quot;,&quot;profile&quot;,&quot;approvals&quot;,&quot;exec&quot;,&quot;final&quot;,&quot;risk&quot;,&quot;delegate&quot;,&quot;settings&quot;,&quot;loading&quot;,&quot;empty&quot;,&quot;error&quot;,&quot;success&quot;,&quot;shifts&quot;,&quot;device&quot;,&quot;device-block&quot;,&quot;payslip-lock&quot;,&quot;dispute&quot;,&quot;dispute-new&quot;,&quot;refer&quot;,&quot;refer-sent&quot;,&quot;referrals&quot;,&quot;onboard&quot;,&quot;ob-letter&quot;,&quot;ob-org&quot;,&quot;ob-docs&quot;,&quot;ob-capture&quot;,&quot;ob-ocr&quot;,&quot;ob-sign&quot;,&quot;ob-day1&quot;,&quot;swaps&quot;,&quot;profile-edit&quot;,&quot;docs&quot;,&quot;doc-view&quot;,&quot;dependants&quot;,&quot;dependant-new&quot;],&quot;default&quot;:&quot;home&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;lang&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;vi&quot;,&quot;en&quot;],&quot;default&quot;:&quot;vi&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;theme&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;light&quot;,&quot;dark&quot;],&quot;default&quot;:&quot;light&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;font&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;manrope&quot;,&quot;source&quot;],&quot;default&quot;:&quot;manrope&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;role&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;employee&quot;,&quot;manager&quot;,&quot;exec&quot;,&quot;candidate&quot;],&quot;default&quot;:&quot;employee&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Vai trò&quot;},&quot;manager&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:false,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Vai trò&quot;},&quot;att&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;out&quot;,&quot;in&quot;,&quot;done&quot;],&quot;default&quot;:&quot;in&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;month&quot;:{&quot;editor&quot;:&quot;int&quot;,&quot;default&quot;:8,&quot;min&quot;:0,&quot;max&quot;:11,&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;Yêu cầu&quot;},&quot;net&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;online&quot;,&quot;offline&quot;],&quot;default&quot;:&quot;online&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Chấm công&quot;},&quot;security&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;ok&quot;,&quot;root&quot;,&quot;mock&quot;],&quot;default&quot;:&quot;ok&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Chấm công&quot;},&quot;pending&quot;:{&quot;editor&quot;:&quot;int&quot;,&quot;default&quot;:0,&quot;min&quot;:0,&quot;max&quot;:2,&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;Chấm công&quot;},&quot;sync&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;&quot;,&quot;done&quot;],&quot;default&quot;:&quot;&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Chấm công&quot;},&quot;facePhase&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;align&quot;,&quot;scan&quot;,&quot;gps&quot;,&quot;wifi&quot;,&quot;done&quot;],&quot;default&quot;:&quot;align&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Chấm công&quot;},&quot;faceResult&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;ontime&quot;,&quot;late&quot;,&quot;early&quot;],&quot;default&quot;:&quot;ontime&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Chấm công&quot;},&quot;view&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;ready&quot;,&quot;loading&quot;,&quot;empty&quot;,&quot;error&quot;],&quot;default&quot;:&quot;ready&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Chấm công&quot;},&quot;lock&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;idle&quot;,&quot;pin&quot;,&quot;fail&quot;],&quot;default&quot;:&quot;idle&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Lương&quot;},&quot;sign&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;&quot;,&quot;pad&quot;,&quot;done&quot;],&quot;default&quot;:&quot;&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Lương&quot;},&quot;rtab&quot;:{&quot;editor&quot;:&quot;int&quot;,&quot;default&quot;:0,&quot;min&quot;:0,&quot;max&quot;:2,&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;Lương&quot;},&quot;cperiod&quot;:{&quot;editor&quot;:&quot;int&quot;,&quot;default&quot;:0,&quot;min&quot;:0,&quot;max&quot;:3,&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;Lương&quot;},&quot;sel&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Lương&quot;},&quot;doc&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;cccd&quot;,&quot;degree&quot;,&quot;cert&quot;,&quot;cv&quot;,&quot;health&quot;],&quot;default&quot;:&quot;cccd&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Tuyển dụng&quot;},&quot;appr&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:false,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Phê duyệt &amp; đổi ca&quot;},&quot;apsheet&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;&quot;,&quot;approve&quot;,&quot;reject&quot;],&quot;default&quot;:&quot;&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Phê duyệt &amp; đổi ca&quot;},&quot;swap&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;&quot;,&quot;ok&quot;,&quot;conflict&quot;],&quot;default&quot;:&quot;&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Phê duyệt &amp; đổi ca&quot;},&quot;day&quot;:{&quot;editor&quot;:&quot;int&quot;,&quot;default&quot;:16,&quot;min&quot;:1,&quot;max&quot;:30,&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;Phê duyệt &amp; đổi ca&quot;},&quot;prof&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;&quot;,&quot;pending&quot;,&quot;dep&quot;],&quot;default&quot;:&quot;&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Hồ sơ&quot;},&quot;docsel&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Hồ sơ&quot;}}">
 const LT = {bg:'#F6F4EF',sf:'#FFFFFF',sf2:'#F0EDE5',tp:'#111827',ts:'#5B6572',pri:'#0F766E',deep:'#0A544E',cream:'#FFF8EC',sec:'#14B8A6',acc:'#F59E0B',ok:'#10B981',err:'#EF4444',accInk:'#B45309',accInkT:'#92400E',okInk:'#047857',errInk:'#B91C1C',line:'#E3DFD6',onacc:'#1C1408',onpri:'#FFF8EC',tile:'rgba(255,248,236,.19)'};
 const DK = {bg:'#111827',sf:'#1F2937',sf2:'#263243',tp:'#F8FAFC',ts:'#94A3B8',pri:'#2DD4BF',deep:'#0A544E',cream:'#FFF8EC',sec:'#5EEAD4',acc:'#FBBF24',ok:'#34D399',err:'#F87171',accInk:'#FBBF24',accInkT:'#FBBF24',okInk:'#34D399',errInk:'#F87171',line:'#374151',onacc:'#1C1408',onpri:'#FFF8EC',tile:'rgba(45,212,191,.16)'};
 
@@ -3257,6 +3261,19 @@ class Component extends DCLogic {
 
     return {profileGroups,profileLinks,PF,PE,DS,DO,DP,DN,
       isPEdit:s==='profile-edit',isDocs:s==='docs',isDocView:s==='doc-view',isDeps:s==='dependants',isDepNew:s==='dependant-new'};
+  }
+  forgotVals(){
+    const V=this.props.lang==='vi';
+    const ic=p=>({__html:'<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">'+p+'</svg>'});
+    const rows=[[V?'Tổng đài IT · máy lẻ 1234':'IT hotline · ext. 1234','028 3930 1234','<path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.8.7 2.7a2 2 0 0 1-.5 2.1L8 9.8a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.7.7a2 2 0 0 1 1.7 2z"/>'],
+      ['Email','it.helpdesk@vstech.vn','<rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-10 6L2 7"/>'],
+      [V?'Giờ hỗ trợ':'Support hours',V?'T2 – T7 · 07:30 – 18:00':'Mon – Sat · 07:30 – 18:00','<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>']];
+    return {title:V?'Quên mật khẩu?':'Forgot your password?',
+      body:V?'Vì lý do bảo mật, mật khẩu chỉ được cấp lại bởi bộ phận IT. Vui lòng liên hệ IT và cung cấp mã nhân viên để được hỗ trợ.':'For security, only the IT team can reset your password. Contact IT with your employee ID and they’ll help you sign in again.',
+      rows:rows.map((r,i)=>({l:r[0],v:r[1],ic:ic(r[2]),bd:i<rows.length-1?'var(--line)':'transparent'})),
+      note:V?'IT sẽ xác minh danh tính qua quản lý trực tiếp trước khi cấp mật khẩu tạm. Đổi mật khẩu ngay sau lần đăng nhập đầu tiên.':'IT confirms your identity with your manager before issuing a temporary password. Change it right after you sign in.',
+      callL:V?'Gọi bộ phận IT':'Call IT',backL:V?'Quay lại đăng nhập':'Back to sign in',
+      call:()=>this.flash(V?'Đang gọi 028 3930 1234 · máy lẻ 1234':'Calling 028 3930 1234 · ext. 1234')};
   }
   recVals(V,t,mix,s){
     const st=this.state, P=x=>Array.isArray(x)?x[V?0:1]:x;
@@ -3924,6 +3941,13 @@ class Component extends DCLogic {
         steps:chain(x).map(c=>({c:c.dot})),on:openDetail(x.id)};});
     const typeTiles=['leave','ot','fix','pay','swap'].map(k=>{const n=own.filter(x=>x.type===k&&x.status==='pending').length;
       return {l:P(TL[k]).split(' ')[0]===('Attendance')?(V?'Sửa công':'Correction'):P(TL[k]),icon:ic(TIC[k],17),sub:n?(n+' '+(V?'chờ duyệt':'pending')):(V?'Không có đơn chờ':'None pending'),c:n?t.accInk:t.ts,on:()=>this.go(RQ_MG[k])};});
+    const lastOf=k=>own.filter(x=>x.type===k&&x.status!=='draft')[0];
+    const DESC={leave:['Còn '+fN(lvRem)+' ngày phép năm',fN(lvRem)+' annual days left'],ot:['Đăng ký và theo dõi giờ tăng ca','Log and track overtime hours'],fix:['Ngày thiếu giờ vào hoặc giờ ra','Days missing a check-in or out'],pay:['Một dòng trên phiếu lương bị sai','A payslip line looks wrong'],swap:['Đổi ca với đồng nghiệp cùng cấp','Swap with a colleague at your level']};
+    const reqCats=['leave','ot','fix','pay','swap'].map(k=>{ const n=own.filter(x=>x.type===k&&x.status==='pending').length, dr=own.filter(x=>x.type===k&&x.status==='draft').length, lx=lastOf(k);
+      return {l:k==='fix'?(V?'Sửa công':'Attendance correction'):P(TL[k]),icon:ic(TIC[k],20),pend:n?(n+' '+(V?'chờ duyệt':'pending')):null,pendBg:mix(t.acc,16),pendC:t.accInk,draft:dr?(dr+' '+(V?'nháp':'draft')):null,
+        sub:lx?((V?'Gần nhất: ':'Latest: ')+desc(lx).dates+' · '+badge(lx).stl):P(DESC[k]),on:()=>this.go(RQ_MG[k])}; });
+    const ownM=own.filter(x=>x.status!=='draft');
+    const reqSum=[[V?'Chờ duyệt':'Pending',ownM.filter(x=>x.status==='pending').length,t.accInk,t.acc],[V?'Đã duyệt':'Approved',ownM.filter(x=>x.status==='approved').length,t.okInk,t.ok],[V?'Từ chối':'Rejected',ownM.filter(x=>x.status==='rejected').length,t.errInk,t.err]].map(x=>({l:x[0],v:String(x[1]),c:x[2],dot:x[3]}));
     const sheetItems=(V?[['P','Nghỉ phép','Còn '+fN(lvRem)+' ngày phép năm','leave'],['T','Tăng ca','Đăng ký và theo dõi giờ tăng ca','overtime'],['S','Sửa công','Ngày thiếu giờ vào hoặc giờ ra','correction'],['K','Khiếu nại lương','Một dòng trên phiếu lương bị sai','dispute'],['Đ','Đổi ca','Đổi ca với đồng nghiệp cùng cấp','swaps']]
       :[['L','Leave',fN(lvRem)+' annual days left','leave'],['O','Overtime','Log and track overtime hours','overtime'],['C','Attendance fix','Days missing a check-in or out','correction'],['D','Salary dispute','A payslip line looks wrong','dispute'],['W','Shift swap','Swap with a colleague at your level','swaps']]).map(x=>({mark:x[0],l:x[1],sub:x[2],on:()=>this.go(x[3])}));
 
@@ -3933,7 +3957,7 @@ class Component extends DCLogic {
       openMonth:()=>this.setState({monthOpen:true}),closeMonth:()=>this.setState({monthOpen:false}),monthOpen:st.monthOpen,months,
       monthTitle:V?'Chọn tháng':'Pick a month',monthHint:V?'Chấm cam: tháng có đơn.':'Amber dot: month has requests.',
       createL:V?'Tạo yêu cầu':'Create request',createReq:()=>{ if(ty==='swap'){ this.go('shifts'); this.loadShifts(); this.flash(V?'Chọn một ngày sắp tới rồi bấm Đổi ca.':'Pick an upcoming day, then tap Swap shift.'); } else this.openCreate(ty); },
-      F,D,S,AP,apprCount:String(pendN),reqList,reqEmpty:reqList.length===0,typeTiles,sheetItems};
+      F,D,S,AP,apprCount:String(pendN),reqList,reqEmpty:reqList.length===0,typeTiles,sheetItems,reqCats,reqSum,reqCatH:V?'LOẠI YÊU CẦU':'REQUEST TYPES'};
   }
   pop(){ this.setState(st=>({screen:st.hist.length?st.hist[st.hist.length-1]:(this.props.role==='candidate'?'onboard':'home'), hist:st.hist.slice(0,-1)})); }
   flash(m){ clearTimeout(this._t); this.setState({toast:m}); this._t=setTimeout(()=>this.setState({toast:null}),2600); }
@@ -4095,7 +4119,7 @@ class Component extends DCLogic {
 
     return {
       t, L, lang:this.props.lang,
-      isSplash:s==='splash', isLogin:s==='login', isHome:s==='home', isAtt:s==='attendance', isCal:s==='calendar',
+      isSplash:s==='splash', isLogin:s==='login', isForgot:s==='forgot', goForgot:()=>this.go('forgot'), FG:this.forgotVals(), isHome:s==='home', isAtt:s==='attendance', isCal:s==='calendar',
       isReq:s==='requests', isLeave:s==='leave', isOt:s==='overtime', isFix:s==='correction', isPay:s==='payroll',
       isSlip:s==='payslip', isBonus:s==='bonus', isJobs:s==='jobs', isJob:s==='job', isNotif:s==='notifications',
       isProfile:s==='profile', isAppr:s==='approvals', isSet:s==='settings',

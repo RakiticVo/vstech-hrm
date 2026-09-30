@@ -1,14 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:vstech_hrm/core/theme/app_colors.dart';
 import 'package:vstech_hrm/core/theme/app_text_styles.dart';
+import 'package:vstech_hrm/core/widgets/app_icon.dart';
 
 /// Primary Indigo Action Button following VSTech Design System.
 class PrimaryButton extends StatelessWidget {
-  const new({
+  const PrimaryButton({
     required this.text,
     required this.onPressed,
     this.isLoading = false,
     this.icon,
+    this.iconName,
     this.height = 48,
     this.width = double.infinity,
     super.key,
@@ -18,6 +20,7 @@ class PrimaryButton extends StatelessWidget {
   final VoidCallback? onPressed;
   final bool isLoading;
   final IconData? icon;
+  final String? iconName;
   final double height;
   final double width;
 
@@ -52,7 +55,10 @@ class PrimaryButton extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  if (icon != null) ...[
+                  if (iconName != null) ...[
+                    AppIcon(iconName!, size: 20, color: Colors.white),
+                    const SizedBox(width: 8),
+                  ] else if (icon != null) ...[
                     Icon(icon, size: 20, color: Colors.white),
                     const SizedBox(width: 8),
                   ],

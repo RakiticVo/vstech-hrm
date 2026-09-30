@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:material_symbols_icons/symbols.dart';
 import 'package:vstech_hrm/core/responsive/app_layout.dart';
 import 'package:vstech_hrm/core/theme/app_colors.dart';
+import 'package:vstech_hrm/core/widgets/app_icon.dart';
 import 'package:vstech_hrm/core/widgets/status_chip.dart';
 
 /// Item representation for a legal document or contract.
@@ -10,7 +10,7 @@ class DocumentItemModel {
     required this.title,
     required this.code,
     required this.effectiveDate,
-    required this.icon,
+    required this.iconName,
     this.statusLabel = 'Hiệu lực',
     this.statusType = AppStatusType.approved,
     this.isExpiringSoon = false,
@@ -20,7 +20,7 @@ class DocumentItemModel {
   final String title;
   final String code;
   final String effectiveDate;
-  final IconData icon;
+  final String iconName;
   final String statusLabel;
   final AppStatusType statusType;
   final bool isExpiringSoon;
@@ -70,8 +70,8 @@ class DocumentItemCard extends StatelessWidget {
                     borderRadius: BorderRadius.circular(12),
                   ),
                   child: Center(
-                    child: Icon(
-                      item.icon,
+                    child: AppIcon(
+                      item.iconName,
                       color: item.isExpiringSoon ? colors.error : colors.primaryIndigo,
                       size: 24,
                     ),
@@ -115,8 +115,8 @@ class DocumentItemCard extends StatelessWidget {
                   ),
                 ),
                 8.gapW,
-                Icon(
-                  Symbols.chevron_right,
+                AppIcon(
+                  AppIcons.chevronRight,
                   size: 20,
                   color: colors.textTertiary,
                 ),

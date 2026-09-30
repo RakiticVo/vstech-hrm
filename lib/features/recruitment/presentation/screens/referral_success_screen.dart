@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:material_symbols_icons/symbols.dart';
 import 'package:vstech_hrm/core/extensions/l10n_extension.dart';
 import 'package:vstech_hrm/core/responsive/app_layout.dart';
 import 'package:vstech_hrm/core/router/routes.dart';
 import 'package:vstech_hrm/core/theme/app_colors.dart';
+import 'package:vstech_hrm/core/widgets/app_icon.dart';
 import 'package:vstech_hrm/core/widgets/primary_button.dart';
 import 'package:vstech_hrm/core/widgets/secondary_button.dart';
 
@@ -44,8 +44,8 @@ class ReferralSuccessScreen extends StatelessWidget {
                   shape: BoxShape.circle,
                 ),
                 child: Center(
-                  child: Icon(
-                    Symbols.check_circle,
+                  child: AppIcon(
+                    AppIcons.checkCircle2,
                     size: 48,
                     color: colors.pineGreen,
                   ),
@@ -138,7 +138,7 @@ class ReferralSuccessScreen extends StatelessWidget {
                 ),
                 child: Row(
                   children: [
-                    Icon(Symbols.stars, color: colors.accentAmber, size: 24),
+                    AppIcon(AppIcons.star, color: colors.accentAmber, size: 24),
                     12.gapW,
                     Expanded(
                       child: Text(

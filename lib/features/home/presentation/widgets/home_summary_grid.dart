@@ -47,7 +47,7 @@ class HomeSummaryGrid extends StatelessWidget {
                 mainValue: leaveLeft,
                 subValue: ' ${l10n.daysUnit}',
                 colors: colors,
-                mainColor: colors.primaryIndigo,
+                mainColor: colors.tealPrimary,
               ),
             ),
           ],

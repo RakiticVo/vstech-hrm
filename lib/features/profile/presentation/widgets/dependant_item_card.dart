@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:material_symbols_icons/symbols.dart';
 import 'package:vstech_hrm/core/responsive/app_layout.dart';
 import 'package:vstech_hrm/core/theme/app_colors.dart';
+import 'package:vstech_hrm/core/widgets/app_icon.dart';
 import 'package:vstech_hrm/core/widgets/status_chip.dart';
 
 /// Model representing a tax-relief dependant.
@@ -63,8 +63,8 @@ class DependantItemCard extends StatelessWidget {
                       borderRadius: BorderRadius.circular(10),
                     ),
                     child: Center(
-                      child: Icon(
-                        Symbols.family_restroom,
+                      child: AppIcon(
+                        AppIcons.dependants,
                         color: colors.primaryIndigo,
                         size: 20,
                       ),

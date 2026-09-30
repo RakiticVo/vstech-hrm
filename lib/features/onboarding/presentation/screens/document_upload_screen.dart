@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:material_symbols_icons/symbols.dart';
 import 'package:vstech_hrm/core/extensions/l10n_extension.dart';
 import 'package:vstech_hrm/core/responsive/app_layout.dart';
 import 'package:vstech_hrm/core/router/routes.dart';
 import 'package:vstech_hrm/core/theme/app_colors.dart';
+import 'package:vstech_hrm/core/widgets/app_icon.dart';
 import 'package:vstech_hrm/core/widgets/primary_button.dart';
 import 'package:vstech_hrm/core/widgets/status_chip.dart';
 
@@ -66,7 +66,7 @@ class _DocumentUploadScreenState extends State<DocumentUploadScreen> {
         backgroundColor: colors.surface,
         elevation: 0,
         leading: IconButton(
-          icon: const Icon(Symbols.arrow_back),
+          icon: AppIcon(AppIcons.arrowLeft, color: colors.textPrimary),
           onPressed: () => Navigator.of(context).pop(),
         ),
         title: Text(
@@ -146,8 +146,8 @@ class _DocumentUploadScreenState extends State<DocumentUploadScreen> {
                       borderRadius: BorderRadius.circular(10),
                     ),
                     child: Center(
-                      child: Icon(
-                        doc.isUploaded ? Symbols.check_circle : Symbols.upload_file,
+                      child: AppIcon(
+                        doc.isUploaded ? AppIcons.checkCircle2 : AppIcons.upload,
                         color: doc.isUploaded ? colors.pineGreen : colors.textSecondary,
                         size: 22,
                       ),
@@ -200,7 +200,7 @@ class _DocumentUploadScreenState extends State<DocumentUploadScreen> {
           padding: const EdgeInsets.fromLTRB(16, 8, 16, 16),
           child: PrimaryButton(
             text: 'Tiếp tục: Chụp ảnh thẻ',
-            icon: Symbols.photo_camera,
+            iconName: AppIcons.camera,
             onPressed: () => context.push(AppRoutes.onboardingCapture),
           ),
         ),

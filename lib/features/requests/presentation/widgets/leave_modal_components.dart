@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:material_symbols_icons/symbols.dart';
 import 'package:vstech_hrm/core/responsive/app_layout.dart';
 import 'package:vstech_hrm/core/theme/app_colors.dart';
+import 'package:vstech_hrm/core/widgets/app_icon.dart';
 
 /// Reusable mode chip for Leave Half-day selector.
 class LeaveModeChip extends StatelessWidget {
@@ -92,7 +92,7 @@ class LeaveDateTile extends StatelessWidget {
                     color: colors.textPrimary,
                   ),
                 ),
-                Icon(Symbols.calendar_today, size: 14, color: colors.primaryIndigo),
+                AppIcon(AppIcons.calendar, size: 14, color: colors.primaryIndigo),
               ],
             ),
           ],

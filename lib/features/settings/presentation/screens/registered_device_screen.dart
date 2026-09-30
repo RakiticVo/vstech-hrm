@@ -1,11 +1,11 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:material_symbols_icons/symbols.dart';
 import 'package:vstech_hrm/core/extensions/l10n_extension.dart';
 import 'package:vstech_hrm/core/responsive/app_layout.dart';
 import 'package:vstech_hrm/core/router/routes.dart';
 import 'package:vstech_hrm/core/theme/app_colors.dart';
+import 'package:vstech_hrm/core/widgets/app_icon.dart';
 
 /// Screen B3: Registered Device & Anti-Fraud Security Status.
 class RegisteredDeviceScreen extends StatefulWidget {
@@ -38,7 +38,7 @@ class _RegisteredDeviceScreenState extends State<RegisteredDeviceScreen> {
         backgroundColor: colors.surface,
         elevation: 0,
         leading: IconButton(
-          icon: Icon(Symbols.arrow_back, color: colors.textPrimary),
+          icon: AppIcon(AppIcons.arrowLeft, color: colors.textPrimary),
           onPressed: () => Navigator.pop(context),
         ),
       ),
@@ -65,7 +65,7 @@ class _RegisteredDeviceScreenState extends State<RegisteredDeviceScreen> {
                           color: colors.primaryIndigo.withValues(alpha: 0.1),
                           shape: BoxShape.circle,
                         ),
-                        child: Icon(Symbols.phone_iphone, color: colors.primaryIndigo, size: 22),
+                        child: AppIcon(AppIcons.smartphone, color: colors.primaryIndigo, size: 22),
                       ),
                       12.gapW,
                       Expanded(
@@ -144,7 +144,7 @@ class _RegisteredDeviceScreenState extends State<RegisteredDeviceScreen> {
                 children: [
                   Row(
                     children: [
-                      Icon(Symbols.science, color: colors.accentAmber, size: 20),
+                      AppIcon(AppIcons.sparkles, color: colors.accentAmber, size: 20),
                       8.gapW,
                       Text(
                         l10n.deviceDemoTogglesTitle,
@@ -209,8 +209,8 @@ class _RegisteredDeviceScreenState extends State<RegisteredDeviceScreen> {
       ),
       child: Row(
         children: [
-          Icon(
-            isPassed ? Symbols.check_circle : Symbols.cancel,
+          AppIcon(
+            isPassed ? AppIcons.checkCircle2 : AppIcons.xCircle,
             color: isPassed ? colors.pineGreen : colors.error,
             size: 20,
           ),

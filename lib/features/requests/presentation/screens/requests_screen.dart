@@ -2,23 +2,24 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:material_symbols_icons/symbols.dart';
 import 'package:vstech_hrm/core/extensions/l10n_extension.dart';
 import 'package:vstech_hrm/core/responsive/app_layout.dart';
 import 'package:vstech_hrm/core/router/routes.dart';
 import 'package:vstech_hrm/core/session/auth_cubit.dart';
 import 'package:vstech_hrm/core/session/auth_state.dart';
 import 'package:vstech_hrm/core/theme/app_colors.dart';
+import 'package:vstech_hrm/core/widgets/app_icon.dart';
 import 'package:vstech_hrm/core/widgets/month_picker_button.dart';
 import 'package:vstech_hrm/core/widgets/tile_header_banner.dart';
 import 'package:vstech_hrm/features/requests/presentation/widgets/new_request_bottom_sheet.dart';
 import 'package:vstech_hrm/features/requests/presentation/widgets/request_card.dart';
 import 'package:vstech_hrm/features/requests/presentation/widgets/requests_category_tiles.dart';
 import 'package:vstech_hrm/features/requests/presentation/widgets/requests_role_indicator.dart';
+import 'package:vstech_hrm/features/requests/presentation/widgets/requests_summary_header.dart';
 
 /// Screen listing leave, overtime, correction, shift swap and off-site requests.
 class RequestsScreen extends StatefulWidget {
-  const new({super.key});
+  const RequestsScreen({super.key});
 
   @override
   State<RequestsScreen> createState() => _RequestsScreenState();
@@ -139,12 +140,19 @@ class _RequestsScreenState extends State<RequestsScreen> {
                 child: InkWell(
                   borderRadius: BorderRadius.circular(13),
                   onTap: () => unawaited(NewRequestBottomSheet.show(context)),
-                  child: const Center(child: Icon(Symbols.add, color: Color(0xFF1C1408), size: 22, weight: 700)),
+                  child: const Center(
+                    child: AppIcon(
+                      AppIcons.plus,
+                      color: Color(0xFF1C1408),
+                      size: 20,
+                    ),
+                  ),
                 ),
               ),
             ),
           ),
           RequestsRoleIndicator(isManager: isManager),
+          const RequestsSummaryHeader(),
           const RequestsCategoryTiles(),
 
           // Month selector row
@@ -215,7 +223,7 @@ class _RequestsScreenState extends State<RequestsScreen> {
                 ),
                 child: Row(
                   children: [
-                    Icon(Symbols.beach_access, size: 18, color: colors.primaryIndigo),
+                    AppIcon(AppIcons.leave, size: 18, color: colors.primaryIndigo),
                     8.gapW,
                     Expanded(
                       child: Text(
@@ -228,7 +236,7 @@ class _RequestsScreenState extends State<RequestsScreen> {
                       style: TextStyle(fontSize: 12, fontWeight: FontWeight.w800, color: colors.pineGreen),
                     ),
                     4.gapW,
-                    Icon(Symbols.chevron_right, size: 16, color: colors.primaryIndigo),
+                    AppIcon(AppIcons.chevronRight, size: 16, color: colors.primaryIndigo),
                   ],
                 ),
               ),

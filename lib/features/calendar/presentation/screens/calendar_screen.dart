@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:material_symbols_icons/symbols.dart';
 import 'package:vstech_hrm/core/extensions/l10n_extension.dart';
 import 'package:vstech_hrm/core/responsive/app_layout.dart';
 import 'package:vstech_hrm/core/router/routes.dart';
 import 'package:vstech_hrm/core/theme/app_colors.dart';
+import 'package:vstech_hrm/core/widgets/app_icon.dart';
 import 'package:vstech_hrm/core/widgets/tile_header_banner.dart';
 import 'package:vstech_hrm/features/calendar/presentation/widgets/calendar_legend_row.dart';
 import 'package:vstech_hrm/features/calendar/presentation/widgets/calendar_summary_card.dart';
 
 class CalDayItem {
-  const new({
+  const CalDayItem({
     required this.day,
     this.textColor = Colors.black,
     this.bgColor = Colors.transparent,
@@ -33,7 +33,7 @@ class CalDayItem {
 
 /// Screen C1: Standardized 5-Color Monthly Timesheet Calendar with Red-day Correction shortcut.
 class CalendarScreen extends StatelessWidget {
-  const new({super.key});
+  const CalendarScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -47,6 +47,7 @@ class CalendarScreen extends StatelessWidget {
           TileHeaderBanner(
             title: l10n.calendarScreenTitle,
             subtitle: l10n.calendarSubtitle,
+            onBack: () => context.pop(),
           ),
           Expanded(
             child: ListView(
@@ -96,9 +97,12 @@ class CalendarScreen extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Icon(Symbols.chevron_left, size: 20, color: colors.textSecondary),
+              RotatedBox(
+                quarterTurns: 2,
+                child: AppIcon(AppIcons.chevronRight, size: 18, color: colors.textSecondary),
+              ),
               Text('Tháng 9 2026', style: TextStyle(fontSize: 15, fontWeight: FontWeight.w800, color: colors.textPrimary)),
-              Icon(Symbols.chevron_right, size: 20, color: colors.textSecondary),
+              AppIcon(AppIcons.chevronRight, size: 18, color: colors.textSecondary),
             ],
           ),
           14.gapH,

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:material_symbols_icons/symbols.dart';
 import 'package:vstech_hrm/core/extensions/l10n_extension.dart';
 import 'package:vstech_hrm/core/responsive/app_layout.dart';
 import 'package:vstech_hrm/core/theme/app_colors.dart';
+import 'package:vstech_hrm/core/widgets/app_icon.dart';
 import 'package:vstech_hrm/features/labor_profile/domain/entities/labor_profile_entity.dart';
 
 /// Card showing agreed salary, benefits, and social insurance contribution data.
@@ -34,7 +34,7 @@ class SocialInsuranceCard extends StatelessWidget {
                 padding: const EdgeInsets.fromLTRB(16, 14, 16, 10),
                 child: Row(
                   children: [
-                    Icon(Symbols.payments, size: 20, color: colors.amberGold),
+                    AppIcon(AppIcons.wallet, size: 20, color: colors.amberGold),
                     8.gapW,
                     Text(
                       l10n.salaryAndBenefitsSection,
@@ -93,7 +93,7 @@ class SocialInsuranceCard extends StatelessWidget {
                 padding: const EdgeInsets.fromLTRB(16, 14, 16, 10),
                 child: Row(
                   children: [
-                    Icon(Symbols.health_and_safety, size: 20, color: colors.pineGreen),
+                    AppIcon(AppIcons.shieldCheck, size: 20, color: colors.pineGreen),
                     8.gapW,
                     Text(
                       l10n.socialInsuranceSection,

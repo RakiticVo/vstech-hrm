@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:material_symbols_icons/symbols.dart';
 import 'package:vstech_hrm/core/extensions/l10n_extension.dart';
 import 'package:vstech_hrm/core/responsive/app_layout.dart';
 import 'package:vstech_hrm/core/theme/app_colors.dart';
+import 'package:vstech_hrm/core/widgets/app_icon.dart';
 
 /// Screen B3: Anti-fraud Block Screen for Rooted Devices or Mock GPS.
 class DeviceBlockScreen extends StatelessWidget {
@@ -21,7 +21,7 @@ class DeviceBlockScreen extends StatelessWidget {
 
     final title = isRoot ? l10n.deviceBlockRootTitle : l10n.deviceBlockMockGpsTitle;
     final message = isRoot ? l10n.deviceBlockRootMsg : l10n.deviceBlockMockGpsMsg;
-    final icon = isRoot ? Symbols.security_update_warning : Symbols.wrong_location;
+    final iconName = isRoot ? AppIcons.warning : AppIcons.locationOff;
 
     return Scaffold(
       backgroundColor: colors.background,
@@ -33,7 +33,7 @@ class DeviceBlockScreen extends StatelessWidget {
         backgroundColor: colors.surface,
         elevation: 0,
         leading: IconButton(
-          icon: Icon(Symbols.close, color: colors.textPrimary),
+          icon: AppIcon(AppIcons.close, color: colors.textPrimary),
           onPressed: () => Navigator.pop(context),
         ),
       ),
@@ -50,7 +50,7 @@ class DeviceBlockScreen extends StatelessWidget {
                   color: colors.error.withValues(alpha: 0.12),
                   shape: BoxShape.circle,
                 ),
-                child: Icon(icon, color: colors.error, size: 48),
+                child: Center(child: AppIcon(iconName, color: colors.error, size: 48)),
               ),
               24.gapH,
               Text(
@@ -110,7 +110,7 @@ class DeviceBlockScreen extends StatelessWidget {
                     );
                     Navigator.pop(context);
                   },
-                  icon: const Icon(Symbols.refresh, size: 20),
+                  icon: const AppIcon(AppIcons.sync, size: 20, color: Colors.white),
                   label: Text(l10n.deviceRecheckBtn, style: const TextStyle(fontWeight: FontWeight.w800)),
                 )
               else
@@ -127,7 +127,7 @@ class DeviceBlockScreen extends StatelessWidget {
                     );
                     Navigator.pop(context);
                   },
-                  icon: const Icon(Symbols.support_agent, size: 20),
+                  icon: const AppIcon(AppIcons.headset, size: 20, color: Colors.white),
                   label: Text(l10n.deviceContactHrBtn, style: const TextStyle(fontWeight: FontWeight.w800)),
                 ),
             ],

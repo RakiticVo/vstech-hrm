@@ -7,6 +7,7 @@ import 'package:vstech_hrm/core/router/routes.dart';
 import 'package:vstech_hrm/core/session/auth_cubit.dart';
 import 'package:vstech_hrm/features/approvals/presentation/screens/approvals_screen.dart';
 import 'package:vstech_hrm/features/attendance/presentation/screens/attendance_screen.dart';
+import 'package:vstech_hrm/features/auth/presentation/screens/forgot_password_screen.dart';
 import 'package:vstech_hrm/features/auth/presentation/screens/login_screen.dart';
 import 'package:vstech_hrm/features/auth/presentation/screens/splash_screen.dart';
 import 'package:vstech_hrm/features/home/presentation/screens/home_screen.dart';
@@ -32,6 +33,10 @@ class AppRouter {
       GoRoute(
         path: AppRoutes.login,
         builder: (context, state) => const LoginScreen(),
+      ),
+      GoRoute(
+        path: AppRoutes.forgotPassword,
+        builder: (context, state) => const ForgotPasswordScreen(),
       ),
 
       // Standalone feature routes

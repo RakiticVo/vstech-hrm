@@ -1,10 +1,10 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:material_symbols_icons/symbols.dart';
 import 'package:vstech_hrm/core/theme/app_colors.dart';
 import 'package:vstech_hrm/core/widgets/app_empty_state.dart';
 import 'package:vstech_hrm/core/widgets/app_error_state.dart';
+import 'package:vstech_hrm/core/widgets/app_icon.dart';
 import 'package:vstech_hrm/core/widgets/app_shimmer.dart';
 import 'package:vstech_hrm/core/widgets/app_success_dialog.dart';
 
@@ -30,7 +30,7 @@ class _StateShowcaseScreenState extends State<StateShowcaseScreen> {
         backgroundColor: colors.surface,
         elevation: 0,
         leading: IconButton(
-          icon: const Icon(Symbols.arrow_back),
+          icon: AppIcon(AppIcons.arrowLeft, color: colors.textPrimary),
           onPressed: () => Navigator.of(context).pop(),
         ),
         title: const Text(

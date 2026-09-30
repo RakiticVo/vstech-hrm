@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:material_symbols_icons/symbols.dart';
 import 'package:vstech_hrm/core/extensions/l10n_extension.dart';
 import 'package:vstech_hrm/core/responsive/app_layout.dart';
 import 'package:vstech_hrm/core/router/routes.dart';
 import 'package:vstech_hrm/core/theme/app_colors.dart';
+import 'package:vstech_hrm/core/widgets/app_icon.dart';
 
 /// Monthly Net Salary Card with privacy toggle eye button.
 /// Follows DESIGN.md §7 & Phone.dc.html lines 200–213.
 class HomeSalaryCard extends StatefulWidget {
-  const new({super.key});
+  const HomeSalaryCard({super.key});
 
   @override
   State<HomeSalaryCard> createState() => _HomeSalaryCardState();
@@ -71,7 +71,7 @@ class _HomeSalaryCardState extends State<HomeSalaryCard> {
                         style: TextStyle(
                           fontSize: 11,
                           fontWeight: FontWeight.w700,
-                          color: colors.primaryIndigo,
+                          color: colors.tealPrimary,
                         ),
                       ),
                     ),
@@ -108,12 +108,12 @@ class _HomeSalaryCardState extends State<HomeSalaryCard> {
                           color: colors.cardSecondary,
                           borderRadius: BorderRadius.circular(13),
                         ),
-                        child: Icon(
-                          _isSalaryRevealed
-                              ? Symbols.visibility
-                              : Symbols.visibility_off,
-                          size: 20,
-                          color: colors.primaryIndigo,
+                        child: Center(
+                          child: AppIcon(
+                            _isSalaryRevealed ? AppIcons.eye : AppIcons.eyeOff,
+                            size: 20,
+                            color: colors.tealPrimary,
+                          ),
                         ),
                       ),
                     ),
@@ -136,8 +136,8 @@ class _HomeSalaryCardState extends State<HomeSalaryCard> {
                         ),
                       ),
                     ),
-                    Icon(
-                      Symbols.chevron_right,
+                    AppIcon(
+                      AppIcons.chevronRight,
                       size: 18,
                       color: colors.textTertiary,
                     ),

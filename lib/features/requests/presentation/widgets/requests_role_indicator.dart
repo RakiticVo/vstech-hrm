@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:material_symbols_icons/symbols.dart';
 import 'package:vstech_hrm/core/extensions/l10n_extension.dart';
 import 'package:vstech_hrm/core/responsive/app_layout.dart';
 import 'package:vstech_hrm/core/router/routes.dart';
 import 'package:vstech_hrm/core/session/auth_cubit.dart';
 import 'package:vstech_hrm/core/session/auth_state.dart';
 import 'package:vstech_hrm/core/theme/app_colors.dart';
+import 'package:vstech_hrm/core/widgets/app_icon.dart';
 
 /// Top role indicator banner in Requests Screen.
 class RequestsRoleIndicator extends StatelessWidget {
@@ -29,7 +29,7 @@ class RequestsRoleIndicator extends StatelessWidget {
         color: colors.cardSecondary,
         child: Row(
           children: [
-            Icon(Symbols.info, size: 16, color: colors.textSecondary),
+            AppIcon(AppIcons.info, size: 16, color: colors.textSecondary),
             8.gapW,
             Expanded(
               child: Text(
@@ -64,7 +64,7 @@ class RequestsRoleIndicator extends StatelessWidget {
       color: colors.accentAmber.withValues(alpha: 0.15),
       child: Row(
         children: [
-          Icon(Symbols.fact_check, size: 16, color: colors.accentAmber),
+          AppIcon(AppIcons.approvals, size: 16, color: colors.accentAmber),
           8.gapW,
           Expanded(
             child: Text(

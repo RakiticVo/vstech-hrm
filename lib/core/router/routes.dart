@@ -5,6 +5,7 @@ class AppRoutes {
   // Root & Auth
   static const String splash = '/';
   static const String login = '/login';
+  static const String forgotPassword = '/forgot-password';
 
   // 5 Main Navigation Shell Tabs (Matching reference mockups)
   static const String home = '/home';

@@ -1,12 +1,12 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:material_symbols_icons/symbols.dart';
 import 'package:vstech_hrm/core/extensions/l10n_extension.dart';
 import 'package:vstech_hrm/core/responsive/app_layout.dart';
 import 'package:vstech_hrm/core/session/locale_cubit.dart';
 import 'package:vstech_hrm/core/theme/app_colors.dart';
 import 'package:vstech_hrm/core/theme/app_text_styles.dart';
+import 'package:vstech_hrm/core/widgets/app_icon.dart';
 import 'package:vstech_hrm/core/widgets/primary_button.dart';
 
 /// BottomSheet to choose app display language (Vietnamese, English).
@@ -140,7 +140,7 @@ class LanguageSelectionSheet extends StatelessWidget {
               ),
             ),
             if (isSelected)
-              Icon(Symbols.check_circle, size: 20, color: colors.tealPrimary),
+              AppIcon(AppIcons.check, size: 20, color: colors.tealPrimary, filled: true),
           ],
         ),
       ),

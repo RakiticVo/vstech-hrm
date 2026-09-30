@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:material_symbols_icons/symbols.dart';
 import 'package:vstech_hrm/core/extensions/l10n_extension.dart';
 import 'package:vstech_hrm/core/responsive/app_layout.dart';
 import 'package:vstech_hrm/core/theme/app_colors.dart';
+import 'package:vstech_hrm/core/widgets/app_icon.dart';
 
 /// Screen 3 / OB-Org: Team structure, department hierarchy & buddy introduction.
 class OrgChartIntroScreen extends StatelessWidget {
@@ -26,7 +26,7 @@ class OrgChartIntroScreen extends StatelessWidget {
         backgroundColor: colors.surface,
         elevation: 0,
         leading: IconButton(
-          icon: const Icon(Symbols.arrow_back),
+          icon: AppIcon(AppIcons.arrowLeft, color: colors.textPrimary),
           onPressed: () => Navigator.of(context).pop(),
         ),
         title: Text(
@@ -125,7 +125,7 @@ class OrgChartIntroScreen extends StatelessWidget {
                             const SnackBar(content: Text('Đang kết nối cuộc gọi đến Buddy: 0908 123 456')),
                           );
                         },
-                        icon: const Icon(Symbols.call, size: 16),
+                        icon: const AppIcon(AppIcons.phone, size: 16, color: Color(0xFFFFF8EC)),
                         label: const Text('Gọi điện', style: TextStyle(fontSize: 12)),
                       ),
                     ),
@@ -142,7 +142,7 @@ class OrgChartIntroScreen extends StatelessWidget {
                             const SnackBar(content: Text('Mở hộp thư chat với Buddy')),
                           );
                         },
-                        icon: const Icon(Symbols.chat, size: 16),
+                        icon: const AppIcon(AppIcons.messageSquare, size: 16, color: Color(0xFFFFF8EC)),
                         label: const Text('Nhắn tin', style: TextStyle(fontSize: 12)),
                       ),
                     ),
@@ -159,13 +159,13 @@ class OrgChartIntroScreen extends StatelessWidget {
             style: TextStyle(fontSize: 14, fontWeight: FontWeight.w800, color: colors.textPrimary),
           ),
           12.gapH,
-          _buildHierarchyCard('1. Giám đốc Khối Vận hành', 'Trần Văn Cường (BGĐ)', Symbols.workspace_premium, colors, false),
+          _buildHierarchyCard('1. Giám đốc Khối Vận hành', 'Trần Văn Cường (BGĐ)', AppIcons.award, colors, false),
           _buildHierarchyConnector(colors),
-          _buildHierarchyCard('2. Quản lý Vùng TP.HCM (Buddy)', 'Lê Thu Hà', Symbols.supervisor_account, colors, false),
+          _buildHierarchyCard('2. Quản lý Vùng TP.HCM (Buddy)', 'Lê Thu Hà', AppIcons.users, colors, false),
           _buildHierarchyConnector(colors),
-          _buildHierarchyCard('3. Giám sát Cửa hàng', 'Nguyễn Minh Tuấn (Bạn)', Symbols.person, colors, true),
+          _buildHierarchyCard('3. Giám sát Cửa hàng', 'Nguyễn Minh Tuấn (Bạn)', AppIcons.user, colors, true),
           _buildHierarchyConnector(colors),
-          _buildHierarchyCard('4. Đội ngũ Cửa hàng', '18 Nhân sự (Trưởng ca, Thu ngân, Kho)', Symbols.groups, colors, false),
+          _buildHierarchyCard('4. Đội ngũ Cửa hàng', '18 Nhân sự (Trưởng ca, Thu ngân, Kho)', AppIcons.users, colors, false),
           20.gapH,
 
           // Team members list
@@ -180,7 +180,7 @@ class OrgChartIntroScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildHierarchyCard(String role, String name, IconData icon, AppColorsExtension colors, bool isCurrent) {
+  Widget _buildHierarchyCard(String role, String name, String iconName, AppColorsExtension colors, bool isCurrent) {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
       decoration: BoxDecoration(
@@ -190,7 +190,7 @@ class OrgChartIntroScreen extends StatelessWidget {
       ),
       child: Row(
         children: [
-          Icon(icon, size: 22, color: isCurrent ? colors.accentAmber : colors.primaryIndigo),
+          AppIcon(iconName, size: 22, color: isCurrent ? colors.accentAmber : colors.primaryIndigo),
           12.gapW,
           Expanded(
             child: Column(

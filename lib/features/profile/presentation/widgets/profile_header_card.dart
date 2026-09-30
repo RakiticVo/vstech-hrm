@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:material_symbols_icons/symbols.dart';
 import 'package:vstech_hrm/core/extensions/l10n_extension.dart';
 import 'package:vstech_hrm/core/responsive/app_layout.dart';
 import 'package:vstech_hrm/core/services/app_permission_handler.dart';
 import 'package:vstech_hrm/core/theme/app_colors.dart';
 import 'package:vstech_hrm/core/theme/tile_pattern_painter.dart';
+import 'package:vstech_hrm/core/widgets/app_icon.dart';
 import 'package:vstech_hrm/features/profile/presentation/widgets/role_switcher_sheet.dart';
 
 /// Compact, bounded header card for Profile Screen matching Saigon tile design.
@@ -89,7 +89,9 @@ class ProfileHeaderCard extends StatelessWidget {
                               shape: BoxShape.circle,
                               border: Border.all(color: Colors.white, width: 1.5),
                             ),
-                            child: const Icon(Symbols.photo_camera, size: 11, color: Color(0xFF1C1408)),
+                            child: const Center(
+                              child: AppIcon(AppIcons.faceScan, size: 11, color: Color(0xFF1C1408)),
+                            ),
                           ),
                         ),
                       ],
@@ -146,7 +148,7 @@ class ProfileHeaderCard extends StatelessWidget {
                             ),
                           ),
                           3.gapW,
-                          const Icon(Symbols.swap_horiz, size: 14, color: Color(0xFFFFF8EC)),
+                          const AppIcon(AppIcons.shiftSwap, size: 14, color: Color(0xFFFFF8EC)),
                         ],
                       ),
                     ),

@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:material_symbols_icons/symbols.dart';
 import 'package:vstech_hrm/core/extensions/l10n_extension.dart';
 import 'package:vstech_hrm/core/responsive/app_layout.dart';
 import 'package:vstech_hrm/core/theme/app_colors.dart';
 import 'package:vstech_hrm/core/theme/app_text_styles.dart';
 import 'package:vstech_hrm/core/widgets/app_card.dart';
+import 'package:vstech_hrm/core/widgets/app_icon.dart';
 import 'package:vstech_hrm/core/widgets/primary_button.dart';
 
 /// BottomSheet to configure application PIN lock and auto-lock timeout.
@@ -76,7 +76,7 @@ class _AppLockSheetState extends State<AppLockSheet> {
                   children: [
                     Row(
                       children: [
-                        Icon(Symbols.phonelink_lock, size: 24, color: colors.tealPrimary),
+                        AppIcon(AppIcons.lock, size: 24, color: colors.tealPrimary),
                         10.gapW,
                         Text(
                           context.l10n.enableAppLock,
@@ -139,7 +139,7 @@ class _AppLockSheetState extends State<AppLockSheet> {
           children: [
             Text(label, style: AppTextStyles.bodySmall(color: colors.textPrimary)),
             if (isSelected)
-              Icon(Symbols.check, size: 18, color: colors.tealPrimary),
+              AppIcon(AppIcons.check, size: 18, color: colors.tealPrimary),
           ],
         ),
       ),

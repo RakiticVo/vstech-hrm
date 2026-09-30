@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:material_symbols_icons/symbols.dart';
 import 'package:vstech_hrm/core/extensions/l10n_extension.dart';
 import 'package:vstech_hrm/core/responsive/app_layout.dart';
 import 'package:vstech_hrm/core/router/routes.dart';
 import 'package:vstech_hrm/core/theme/app_colors.dart';
+import 'package:vstech_hrm/core/widgets/app_icon.dart';
 import 'package:vstech_hrm/core/widgets/primary_button.dart';
 import 'package:vstech_hrm/features/requests/presentation/widgets/request_card.dart';
 
@@ -51,7 +51,7 @@ class _CorrectionManageScreenState extends State<CorrectionManageScreen> {
         backgroundColor: colors.surface,
         elevation: 0,
         leading: IconButton(
-          icon: const Icon(Symbols.arrow_back),
+          icon: const AppIcon(AppIcons.back, size: 20),
           onPressed: () => Navigator.of(context).pop(),
         ),
         title: Text(
@@ -145,7 +145,9 @@ class _CorrectionManageScreenState extends State<CorrectionManageScreen> {
                       color: colors.error.withValues(alpha: 0.15),
                       shape: BoxShape.circle,
                     ),
-                    child: Icon(Symbols.warning, size: 20, color: colors.error),
+                    child: Center(
+                      child: AppIcon(AppIcons.alertTriangle, size: 20, color: colors.error),
+                    ),
                   ),
                   12.gapW,
                   Expanded(
@@ -230,7 +232,7 @@ class _CorrectionManageScreenState extends State<CorrectionManageScreen> {
             padding: const EdgeInsets.fromLTRB(16, 8, 16, 24),
             child: PrimaryButton(
               text: 'Tạo yêu cầu sửa công',
-              icon: Symbols.edit_calendar,
+              iconName: AppIcons.correction,
               onPressed: () => context.push(AppRoutes.attendanceCorrection),
             ),
           ),

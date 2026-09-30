@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:material_symbols_icons/symbols.dart';
 import 'package:vstech_hrm/core/extensions/l10n_extension.dart';
 import 'package:vstech_hrm/core/responsive/app_layout.dart';
 import 'package:vstech_hrm/core/theme/app_colors.dart';
+import 'package:vstech_hrm/core/widgets/app_icon.dart';
 
 /// Hero card for sharing referral link and QR code.
 class ReferralLinkHeroCard extends StatelessWidget {
@@ -38,8 +38,8 @@ class ReferralLinkHeroCard extends StatelessWidget {
                 border: Border.all(color: context.colors.border),
               ),
               child: Center(
-                child: Icon(
-                  Symbols.qr_code_2,
+                child: AppIcon(
+                  AppIcons.qrCode,
                   size: 120,
                   color: context.colors.primaryIndigo,
                 ),
@@ -117,7 +117,7 @@ class ReferralLinkHeroCard extends StatelessWidget {
               ),
               child: Row(
                 children: [
-                  const Icon(Symbols.link, size: 18, color: Color(0xFFFFF8EC)),
+                  const AppIcon(AppIcons.link, size: 18, color: Color(0xFFFFF8EC)),
                   const SizedBox(width: 8),
                   Expanded(
                     child: Text(
@@ -145,7 +145,7 @@ class ReferralLinkHeroCard extends StatelessWidget {
                       ),
                     ),
                     onPressed: () => _copyLink(context),
-                    icon: const Icon(Symbols.content_copy, size: 16),
+                    icon: const AppIcon(AppIcons.copy, size: 16, color: Color(0xFFFFF8EC)),
                     label: Text(
                       l10n.copyLinkBtn,
                       style: const TextStyle(fontSize: 12),
@@ -163,7 +163,7 @@ class ReferralLinkHeroCard extends StatelessWidget {
                       ),
                     ),
                     onPressed: () => _shareQr(context),
-                    icon: const Icon(Symbols.qr_code, size: 16),
+                    icon: const AppIcon(AppIcons.qrCode, size: 16, color: Color(0xFFFFF8EC)),
                     label: Text(
                       l10n.shareQrBtn,
                       style: const TextStyle(fontSize: 12),

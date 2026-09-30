@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:material_symbols_icons/symbols.dart';
 import 'package:vstech_hrm/core/extensions/l10n_extension.dart';
 import 'package:vstech_hrm/core/responsive/app_layout.dart';
 import 'package:vstech_hrm/core/theme/app_colors.dart';
+import 'package:vstech_hrm/core/widgets/app_icon.dart';
 
 /// Card displayed on the payslip once it has been electronically signed.
 class PayslipSignedCard extends StatelessWidget {
@@ -44,10 +44,11 @@ class PayslipSignedCard extends StatelessWidget {
                   shape: BoxShape.circle,
                 ),
                 child: Center(
-                  child: Icon(
-                    Symbols.verified,
-                    size: 22,
+                  child: AppIcon(
+                    AppIcons.check,
+                    size: 20,
                     color: colors.pineGreen,
+                    filled: true,
                   ),
                 ),
               ),
@@ -111,7 +112,7 @@ class PayslipSignedCard extends StatelessWidget {
               ),
               child: Row(
                 children: [
-                  Icon(Symbols.draw, size: 18, color: colors.primaryIndigo),
+                  AppIcon(AppIcons.sign, size: 18, color: colors.primaryIndigo),
                   8.gapW,
                   Text(
                     'Chữ ký điện tử số hóa xác thực',

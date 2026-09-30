@@ -1,11 +1,11 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:material_symbols_icons/symbols.dart';
 import 'package:vstech_hrm/core/extensions/l10n_extension.dart';
 import 'package:vstech_hrm/core/responsive/app_layout.dart';
 import 'package:vstech_hrm/core/router/routes.dart';
 import 'package:vstech_hrm/core/theme/app_colors.dart';
+import 'package:vstech_hrm/core/widgets/app_icon.dart';
 import 'package:vstech_hrm/features/attendance/domain/entities/attendance_record_entity.dart';
 import 'package:vstech_hrm/features/attendance/presentation/widgets/attendance_daily_log_card.dart';
 import 'package:vstech_hrm/features/attendance/presentation/widgets/attendance_month_summary_card.dart';
@@ -63,11 +63,11 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
           IconButton(
             tooltip: l10n.offlineQueueTitle,
             onPressed: () => context.push(AppRoutes.offlineQueue),
-            icon: Icon(Symbols.cloud_sync, size: 20, color: colors.amberGold),
+            icon: AppIcon(AppIcons.sync, size: 20, color: colors.amberGold),
           ),
           TextButton.icon(
             onPressed: () => context.push(AppRoutes.shiftSchedule),
-            icon: Icon(Symbols.schedule, size: 16, color: colors.primaryIndigo),
+            icon: AppIcon(AppIcons.shift, size: 16, color: colors.primaryIndigo),
             label: Text(
               l10n.shiftScheduleNav,
               style: TextStyle(
@@ -80,7 +80,7 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
           IconButton(
             tooltip: l10n.workCalendarTooltip,
             onPressed: () => context.push(AppRoutes.calendar),
-            icon: Icon(Symbols.calendar_today, size: 18, color: colors.primaryIndigo),
+            icon: AppIcon(AppIcons.calendar, size: 18, color: colors.primaryIndigo),
           ),
           4.gapW,
         ],
@@ -127,7 +127,7 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
               ),
             ),
             onPressed: () => context.push(AppRoutes.attendanceCorrection),
-            icon: const Icon(Symbols.edit, size: 18),
+            icon: const AppIcon(AppIcons.correction, size: 18),
             label: Text(
               l10n.sendCorrectionRequest,
               style: const TextStyle(fontSize: 14.5, fontWeight: FontWeight.w800),
@@ -215,7 +215,7 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
               ),
               onPressed: _togglePunch,
-              icon: const Icon(Symbols.power_settings_new, size: 22),
+              icon: const AppIcon(AppIcons.faceScan, size: 22, color: Color(0xFF1C1408)),
               label: Text(
                 _isCheckedIn ? l10n.clockOutCta : l10n.clockInCta,
                 style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w900, letterSpacing: 0.5),
@@ -226,7 +226,7 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Icon(Symbols.location_on, size: 15, color: colors.textTertiary),
+              AppIcon(AppIcons.location, size: 15, color: colors.textTertiary),
               4.gapW,
               Text(
                 l10n.hcmOfficeVerified,

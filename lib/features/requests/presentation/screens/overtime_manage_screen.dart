@@ -1,11 +1,11 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:material_symbols_icons/symbols.dart';
 import 'package:vstech_hrm/core/extensions/l10n_extension.dart';
 import 'package:vstech_hrm/core/responsive/app_layout.dart';
 import 'package:vstech_hrm/core/router/routes.dart';
 import 'package:vstech_hrm/core/theme/app_colors.dart';
+import 'package:vstech_hrm/core/widgets/app_icon.dart';
 import 'package:vstech_hrm/core/widgets/month_picker_button.dart';
 import 'package:vstech_hrm/core/widgets/primary_button.dart';
 import 'package:vstech_hrm/features/requests/presentation/widgets/overtime_summary_card.dart';
@@ -81,7 +81,7 @@ class _OvertimeManageScreenState extends State<OvertimeManageScreen> {
         backgroundColor: colors.surface,
         elevation: 0,
         leading: IconButton(
-          icon: const Icon(Symbols.arrow_back),
+          icon: const AppIcon(AppIcons.back, size: 20),
           onPressed: () => Navigator.of(context).pop(),
         ),
         title: Text(
@@ -94,7 +94,7 @@ class _OvertimeManageScreenState extends State<OvertimeManageScreen> {
         ),
         actions: [
           IconButton(
-            icon: Icon(Symbols.savings, color: colors.accentAmber),
+            icon: AppIcon(AppIcons.overtime, color: colors.accentAmber, size: 20),
             onPressed: () => context.push(AppRoutes.extraHours),
           ),
         ],
@@ -218,7 +218,7 @@ class _OvertimeManageScreenState extends State<OvertimeManageScreen> {
             padding: const EdgeInsets.fromLTRB(16, 8, 16, 24),
             child: PrimaryButton(
               text: l10n.createOvertimeBtn,
-              icon: Symbols.add,
+              iconName: AppIcons.plus,
               onPressed: () => unawaited(context.push(AppRoutes.overtimeCreate)),
             ),
           ),

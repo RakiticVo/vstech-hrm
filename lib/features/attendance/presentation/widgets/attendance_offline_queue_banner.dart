@@ -1,12 +1,12 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:material_symbols_icons/symbols.dart';
 import 'package:vstech_hrm/core/extensions/l10n_extension.dart';
 import 'package:vstech_hrm/core/responsive/app_layout.dart';
 import 'package:vstech_hrm/core/router/routes.dart';
 import 'package:vstech_hrm/core/services/offline_attendance_service.dart';
 import 'package:vstech_hrm/core/theme/app_colors.dart';
+import 'package:vstech_hrm/core/widgets/app_icon.dart';
 
 /// Banner notifying employee of pending offline attendance records needing synchronization.
 class AttendanceOfflineQueueBanner extends StatefulWidget {
@@ -47,7 +47,7 @@ class _AttendanceOfflineQueueBannerState
         SnackBar(
           content: Row(
             children: [
-              const Icon(Symbols.cloud_done, color: Colors.white, size: 20),
+              const AppIcon(AppIcons.sync, color: Colors.white, size: 20),
               8.gapW,
               Expanded(
                 child: Text(
@@ -88,8 +88,8 @@ class _AttendanceOfflineQueueBannerState
               color: const Color(0xFFF59E0B).withValues(alpha: 0.15),
               shape: BoxShape.circle,
             ),
-            child: const Icon(
-              Symbols.cloud_off,
+            child: const AppIcon(
+              AppIcons.offline,
               color: Color(0xFFD97706),
               size: 18,
             ),
@@ -142,7 +142,7 @@ class _AttendanceOfflineQueueBannerState
                 : Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      const Icon(Symbols.sync, size: 14),
+                      const AppIcon(AppIcons.sync, size: 14, color: Colors.white),
                       4.gapW,
                       Text(l10n.syncButtonLabel, style: const TextStyle(fontSize: 12)),
                     ],

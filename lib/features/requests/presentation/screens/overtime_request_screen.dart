@@ -1,11 +1,11 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:material_symbols_icons/symbols.dart';
 import 'package:vstech_hrm/core/extensions/l10n_extension.dart';
 import 'package:vstech_hrm/core/responsive/app_layout.dart';
 import 'package:vstech_hrm/core/router/routes.dart';
 import 'package:vstech_hrm/core/theme/app_colors.dart';
+import 'package:vstech_hrm/core/widgets/app_icon.dart';
 import 'package:vstech_hrm/core/widgets/app_success_dialog.dart';
 import 'package:vstech_hrm/features/requests/presentation/widgets/overtime_request_modal.dart';
 
@@ -59,7 +59,7 @@ class _OvertimeRequestScreenState extends State<OvertimeRequestScreen> {
         backgroundColor: colors.surface,
         elevation: 0,
         leading: IconButton(
-          icon: const Icon(Symbols.arrow_back),
+          icon: const AppIcon(AppIcons.back, size: 22),
           onPressed: () => Navigator.of(context).pop(),
         ),
         title: Text(
@@ -111,7 +111,7 @@ class _OvertimeRequestScreenState extends State<OvertimeRequestScreen> {
               ),
               child: Row(
                 children: [
-                  Icon(Symbols.more_time, size: 18, color: colors.primaryIndigo),
+                  AppIcon(AppIcons.overtime, size: 18, color: colors.primaryIndigo),
                   8.gapW,
                   Expanded(
                     child: Text(
@@ -119,7 +119,7 @@ class _OvertimeRequestScreenState extends State<OvertimeRequestScreen> {
                       style: TextStyle(fontSize: 12, fontWeight: FontWeight.w700, color: colors.primaryIndigo),
                     ),
                   ),
-                  Icon(Symbols.chevron_right, size: 16, color: colors.primaryIndigo),
+                  AppIcon(AppIcons.chevronRight, size: 16, color: colors.primaryIndigo),
                 ],
               ),
             ),
@@ -185,7 +185,7 @@ class _OvertimeRequestScreenState extends State<OvertimeRequestScreen> {
           children: [
             Text(value, style: TextStyle(fontSize: 14, fontWeight: FontWeight.w800, color: isHighlight ? colors.primaryIndigo : colors.textPrimary)),
             4.gapW,
-            Icon(Symbols.edit, size: 14, color: colors.textTertiary),
+            AppIcon(AppIcons.correction, size: 14, color: colors.textTertiary),
           ],
         ),
       ],

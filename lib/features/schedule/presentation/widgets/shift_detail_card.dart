@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:material_symbols_icons/symbols.dart';
 import 'package:vstech_hrm/core/extensions/l10n_extension.dart';
 import 'package:vstech_hrm/core/responsive/app_layout.dart';
 import 'package:vstech_hrm/core/router/routes.dart';
 import 'package:vstech_hrm/core/theme/app_colors.dart';
+import 'package:vstech_hrm/core/widgets/app_icon.dart';
 import 'package:vstech_hrm/features/schedule/domain/entities/shift_schedule_entity.dart';
 import 'package:vstech_hrm/features/schedule/presentation/widgets/shift_swap_modal.dart';
 
 /// Detailed card displaying all metadata for a selected shift.
 class ShiftDetailCard extends StatelessWidget {
-  const new({
+  const ShiftDetailCard({
     required this.shift,
     super.key,
   });
@@ -57,7 +57,7 @@ class ShiftDetailCard extends StatelessWidget {
   }
 
   Widget _buildInfoRow({
-    required IconData icon,
+    required String iconName,
     required String label,
     required String value,
     required BuildContext context,
@@ -68,7 +68,7 @@ class ShiftDetailCard extends StatelessWidget {
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Icon(icon, size: 18, color: colors.textSecondary),
+          AppIcon(iconName, size: 18, color: colors.textSecondary),
           10.gapW,
           SizedBox(
             width: 80,
@@ -117,7 +117,7 @@ class ShiftDetailCard extends StatelessWidget {
                 color: Colors.orange.withValues(alpha: 0.1),
                 shape: BoxShape.circle,
               ),
-              child: const Icon(Symbols.beach_access, size: 40, color: Colors.orange),
+              child: const AppIcon(AppIcons.holiday, size: 40, color: Colors.orange),
             ),
             16.gapH,
             Text(
@@ -133,7 +133,7 @@ class ShiftDetailCard extends StatelessWidget {
             20.gapH,
             OutlinedButton.icon(
               onPressed: () => context.push(AppRoutes.overtimeCreate),
-              icon: const Icon(Symbols.add_circle, size: 18),
+              icon: AppIcon(AppIcons.plus, size: 18, color: colors.tealPrimary),
               label: Text(l10n.registerOvertimeCta),
               style: OutlinedButton.styleFrom(
                 foregroundColor: colors.tealPrimary,
@@ -186,32 +186,32 @@ class ShiftDetailCard extends StatelessWidget {
           ),
           16.gapH,
           _buildInfoRow(
-            icon: Symbols.schedule,
+            iconName: AppIcons.shift,
             label: l10n.shiftLabelTime,
             value: '${shift.startTime} — ${shift.endTime}',
             context: context,
           ),
           _buildInfoRow(
-            icon: Symbols.restaurant,
+            iconName: AppIcons.attendance,
             label: l10n.shiftLabelBreak,
             value: shift.breakTime,
             context: context,
           ),
           _buildInfoRow(
-            icon: Symbols.store,
+            iconName: AppIcons.location,
             label: l10n.shiftLabelLocation,
             value: shift.branchName,
             context: context,
           ),
           _buildInfoRow(
-            icon: Symbols.badge,
+            iconName: AppIcons.idCard,
             label: l10n.shiftLabelManager,
             value: shift.managerName,
             context: context,
           ),
           if (shift.notes != null)
             _buildInfoRow(
-              icon: Symbols.notes,
+              iconName: AppIcons.comment,
               label: l10n.shiftLabelNotes,
               value: shift.notes!,
               context: context,
@@ -224,7 +224,7 @@ class ShiftDetailCard extends StatelessWidget {
               Expanded(
                 child: OutlinedButton.icon(
                   onPressed: () => ShiftSwapModal.show(context, shift),
-                  icon: const Icon(Symbols.swap_horiz, size: 18),
+                  icon: AppIcon(AppIcons.shiftSwap, size: 18, color: colors.tealPrimary),
                   label: Text(l10n.shiftSwapButton),
                   style: OutlinedButton.styleFrom(
                     foregroundColor: colors.tealPrimary,
@@ -238,7 +238,7 @@ class ShiftDetailCard extends StatelessWidget {
               Expanded(
                 child: ElevatedButton.icon(
                   onPressed: () => context.push(AppRoutes.overtimeCreate),
-                  icon: const Icon(Symbols.more_time, size: 18),
+                  icon: const AppIcon(AppIcons.overtime, size: 18, color: Colors.white),
                   label: Text(l10n.shiftOvertimeButton),
                   style: ElevatedButton.styleFrom(
                     backgroundColor: colors.tealPrimary,

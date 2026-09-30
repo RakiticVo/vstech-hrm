@@ -1,11 +1,11 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:material_symbols_icons/symbols.dart';
 import 'package:vstech_hrm/core/extensions/l10n_extension.dart';
 import 'package:vstech_hrm/core/responsive/app_layout.dart';
 import 'package:vstech_hrm/core/router/routes.dart';
 import 'package:vstech_hrm/core/theme/app_colors.dart';
+import 'package:vstech_hrm/core/widgets/app_icon.dart';
 import 'package:vstech_hrm/core/widgets/app_success_dialog.dart';
 
 /// Screen 17: Internal Job Position Detail & Quick Application.
@@ -64,7 +64,7 @@ class _JobDetailScreenState extends State<JobDetailScreen> {
         backgroundColor: colors.surface,
         elevation: 0,
         leading: IconButton(
-          icon: const Icon(Symbols.arrow_back),
+          icon: AppIcon(AppIcons.arrowLeft, color: colors.textPrimary),
           onPressed: () => Navigator.of(context).pop(),
         ),
         title: Text(
@@ -90,7 +90,7 @@ class _JobDetailScreenState extends State<JobDetailScreen> {
                       foregroundColor: colors.primaryIndigo,
                       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
                     ),
-                    icon: const Icon(Symbols.person_add, size: 18),
+                    icon: AppIcon(AppIcons.userPlus, size: 18, color: colors.primaryIndigo),
                     onPressed: _referCandidate,
                     label: Text(
                       context.l10n.referCandidateBtn,
@@ -134,9 +134,11 @@ class _JobDetailScreenState extends State<JobDetailScreen> {
                     borderRadius: BorderRadius.circular(14),
                     border: Border.all(color: colors.border),
                   ),
-                  child: Icon(
-                    _isSaved ? Symbols.bookmark : Symbols.bookmark_border,
-                    color: _isSaved ? colors.primaryIndigo : colors.textSecondary,
+                  child: Center(
+                    child: AppIcon(
+                      AppIcons.bookmark,
+                      color: _isSaved ? colors.primaryIndigo : colors.textSecondary,
+                    ),
                   ),
                 ),
               ),

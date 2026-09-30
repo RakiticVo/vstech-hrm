@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:material_symbols_icons/symbols.dart';
 import 'package:vstech_hrm/core/extensions/l10n_extension.dart';
 import 'package:vstech_hrm/core/responsive/app_layout.dart';
 import 'package:vstech_hrm/core/theme/app_colors.dart';
+import 'package:vstech_hrm/core/widgets/app_icon.dart';
 import 'package:vstech_hrm/core/widgets/primary_button.dart';
 
 /// Screen for registering a new tax-relief dependant (`dependant-new`).
@@ -76,7 +76,7 @@ class _DependantNewScreenState extends State<DependantNewScreen> {
         backgroundColor: colors.surface,
         elevation: 0,
         leading: IconButton(
-          icon: const Icon(Symbols.arrow_back),
+          icon: const AppIcon(AppIcons.back, size: 22),
           onPressed: () => Navigator.of(context).pop(),
         ),
         title: Text(
@@ -93,6 +93,7 @@ class _DependantNewScreenState extends State<DependantNewScreen> {
           padding: const EdgeInsets.fromLTRB(16, 8, 16, 16),
           child: PrimaryButton(
             text: l10n.submitDependantBtn,
+            iconName: AppIcons.check,
             onPressed: _submit,
           ),
         ),
@@ -113,7 +114,7 @@ class _DependantNewScreenState extends State<DependantNewScreen> {
                 ),
                 child: Row(
                   children: [
-                    Icon(Symbols.error, color: colors.error, size: 20),
+                    AppIcon(AppIcons.warning, color: colors.error, size: 20),
                     10.gapW,
                     Expanded(
                       child: Text(
@@ -132,7 +133,7 @@ class _DependantNewScreenState extends State<DependantNewScreen> {
             6.gapH,
             TextFormField(
               controller: _nameController,
-              decoration: _inputDecoration(colors, hint: 'Nguyễn Minh Quân', icon: Symbols.person),
+              decoration: _inputDecoration(colors, hint: 'Nguyễn Minh Quân', iconName: AppIcons.profile),
               validator: (v) => v == null || v.trim().isEmpty ? 'Vui lòng nhập họ tên' : null,
             ),
             14.gapH,
@@ -142,7 +143,7 @@ class _DependantNewScreenState extends State<DependantNewScreen> {
             6.gapH,
             DropdownButtonFormField<String>(
               value: _selectedRelationship,
-              decoration: _inputDecoration(colors, hint: '', icon: Symbols.diversity_1),
+              decoration: _inputDecoration(colors, hint: '', iconName: AppIcons.dependants),
               items: _relationships
                   .map((r) => DropdownMenuItem(value: r, child: Text(r, style: const TextStyle(fontSize: 13.5))))
                   .toList(),
@@ -157,7 +158,7 @@ class _DependantNewScreenState extends State<DependantNewScreen> {
             6.gapH,
             TextFormField(
               controller: _dobController,
-              decoration: _inputDecoration(colors, hint: '15/10/2022', icon: Symbols.calendar_month),
+              decoration: _inputDecoration(colors, hint: '15/10/2022', iconName: AppIcons.calendar),
               validator: (v) => v == null || v.trim().isEmpty ? 'Vui lòng nhập ngày sinh' : null,
             ),
             14.gapH,
@@ -167,7 +168,7 @@ class _DependantNewScreenState extends State<DependantNewScreen> {
             6.gapH,
             TextFormField(
               controller: _idNumberController,
-              decoration: _inputDecoration(colors, hint: 'GKS: 88/2022/TPHCM hoặc CCCD', icon: Symbols.badge),
+              decoration: _inputDecoration(colors, hint: 'GKS: 88/2022/TPHCM hoặc CCCD', iconName: AppIcons.idCard),
               validator: (v) => v == null || v.trim().isEmpty ? 'Vui lòng nhập số định danh / khai sinh' : null,
             ),
             14.gapH,
@@ -177,7 +178,7 @@ class _DependantNewScreenState extends State<DependantNewScreen> {
             6.gapH,
             TextFormField(
               controller: _startMonthController,
-              decoration: _inputDecoration(colors, hint: '10/2026', icon: Symbols.date_range),
+              decoration: _inputDecoration(colors, hint: '10/2026', iconName: AppIcons.calendar),
             ),
             16.gapH,
 
@@ -201,8 +202,8 @@ class _DependantNewScreenState extends State<DependantNewScreen> {
                 ),
                 child: Row(
                   children: [
-                    Icon(
-                      _attachedDocName != null ? Symbols.check_circle : Symbols.upload_file,
+                    AppIcon(
+                      _attachedDocName != null ? AppIcons.check : AppIcons.attach,
                       color: _attachedDocName != null ? colors.pineGreen : colors.primaryIndigo,
                       size: 24,
                     ),
@@ -265,11 +266,14 @@ class _DependantNewScreenState extends State<DependantNewScreen> {
     );
   }
 
-  InputDecoration _inputDecoration(AppColorsExtension colors, {required String hint, required IconData icon}) {
+  InputDecoration _inputDecoration(AppColorsExtension colors, {required String hint, required String iconName}) {
     return InputDecoration(
       hintText: hint,
       hintStyle: TextStyle(fontSize: 13, color: colors.textTertiary),
-      prefixIcon: Icon(icon, size: 20, color: colors.textTertiary),
+      prefixIcon: Padding(
+        padding: const EdgeInsets.all(12),
+        child: AppIcon(iconName, size: 20, color: colors.textTertiary),
+      ),
       filled: true,
       fillColor: colors.surface,
       contentPadding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),

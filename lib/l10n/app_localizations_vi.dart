@@ -1456,7 +1456,54 @@ class AppLocalizationsVi extends AppLocalizations {
   String get filterAll => 'Tất cả';
 
   @override
-  String get forgotPasswordShort => 'Quên?';
+  String get forgotPasswordShort => 'Quên mật khẩu?';
+
+  @override
+  String get forgotPasswordTitle => 'Quên mật khẩu?';
+
+  @override
+  String get forgotPasswordSubtitle =>
+      'Vì lý do bảo mật, mật khẩu chỉ được cấp lại bởi bộ phận IT. Vui lòng liên hệ IT và cung cấp mã nhân viên để được hỗ trợ.';
+
+  @override
+  String get itHotlineLabel => 'Tổng đài IT · máy lẻ 1234';
+
+  @override
+  String get itHotlineNumber => '028 3930 1234';
+
+  @override
+  String get itEmailLabel => 'Email';
+
+  @override
+  String get itEmailValue => 'it.helpdesk@vstech.vn';
+
+  @override
+  String get itSupportHoursLabel => 'Giờ hỗ trợ';
+
+  @override
+  String get itSupportHoursValue => 'T2 – T7 · 07:30 – 18:00';
+
+  @override
+  String get itSecurityDisclaimer =>
+      'IT sẽ xác minh danh tính qua quản lý trực tiếp trước khi cấp mật khẩu tạm. Đổi mật khẩu ngay sau lần đăng nhập đầu tiên.';
+
+  @override
+  String get callItDepartmentBtn => 'Gọi bộ phận IT';
+
+  @override
+  String get backToLoginBtn => 'Quay lại đăng nhập';
+
+  @override
+  String get loginWithFaceId => 'Đăng nhập bằng Face ID';
+
+  @override
+  String get loginWithFingerprint => 'Đăng nhập bằng vân tay';
+
+  @override
+  String get faceIdAuthReason => 'Xác thực Face ID để đăng nhập';
+
+  @override
+  String get fingerprintAuthReason => 'Quét vân tay để đăng nhập';
 
   @override
   String get orDivider => 'hoặc';

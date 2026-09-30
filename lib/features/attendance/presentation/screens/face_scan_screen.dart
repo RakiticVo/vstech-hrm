@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:material_symbols_icons/symbols.dart';
 import 'package:vstech_hrm/core/extensions/l10n_extension.dart';
 import 'package:vstech_hrm/core/responsive/app_layout.dart';
 import 'package:vstech_hrm/core/services/app_permission_handler.dart';
@@ -12,6 +11,7 @@ import 'package:vstech_hrm/core/services/offline_attendance_service.dart';
 import 'package:vstech_hrm/core/theme/app_colors.dart';
 import 'package:vstech_hrm/core/theme/tile_pattern_painter.dart';
 import 'package:vstech_hrm/core/widgets/amber_cta_button.dart';
+import 'package:vstech_hrm/core/widgets/app_icon.dart';
 import 'package:vstech_hrm/features/attendance/domain/entities/attendance_record_entity.dart';
 import 'package:vstech_hrm/features/attendance/presentation/bloc/attendance_bloc.dart';
 import 'package:vstech_hrm/features/attendance/presentation/bloc/attendance_event.dart';
@@ -277,7 +277,7 @@ class _FaceScanScreenState extends State<FaceScanScreen> {
           14.gapH,
           AmberCtaButton(
             text: widget.type.isCheckIn ? l10n.faceScanCaptureCheckInCta : l10n.faceScanCaptureCheckOutCta,
-            icon: Symbols.camera_alt,
+            iconName: AppIcons.faceScan,
             isLoading: isSubmitting,
             onPressed: isSuccess ? null : _onCaptureAndSubmit,
           ),

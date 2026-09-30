@@ -1,11 +1,11 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:material_symbols_icons/symbols.dart';
 import 'package:vstech_hrm/core/extensions/l10n_extension.dart';
 import 'package:vstech_hrm/core/responsive/app_layout.dart';
 import 'package:vstech_hrm/core/router/routes.dart';
 import 'package:vstech_hrm/core/theme/app_colors.dart';
+import 'package:vstech_hrm/core/widgets/app_icon.dart';
 
 /// Modal bottom sheet for choosing which request type to create.
 class NewRequestBottomSheet extends StatelessWidget {
@@ -26,7 +26,7 @@ class NewRequestBottomSheet extends StatelessWidget {
 
   Widget _buildOptionTile({
     required BuildContext context,
-    required IconData icon,
+    required String iconName,
     required String title,
     required String subtitle,
     required String route,
@@ -41,7 +41,9 @@ class NewRequestBottomSheet extends StatelessWidget {
           color: colors.primaryIndigo.withValues(alpha: 0.1),
           borderRadius: BorderRadius.circular(12),
         ),
-        child: Icon(icon, color: colors.primaryIndigo, size: 22),
+        child: Center(
+          child: AppIcon(iconName, color: colors.primaryIndigo, size: 22),
+        ),
       ),
       title: Text(
         title,
@@ -58,7 +60,7 @@ class NewRequestBottomSheet extends StatelessWidget {
           color: colors.textSecondary,
         ),
       ),
-      trailing: Icon(Symbols.chevron_right, size: 20, color: colors.textSecondary),
+      trailing: AppIcon(AppIcons.chevronRight, size: 20, color: colors.textSecondary),
       onTap: () {
         Navigator.pop(context);
         unawaited(context.push(route));
@@ -100,7 +102,7 @@ class NewRequestBottomSheet extends StatelessWidget {
             12.gapH,
             _buildOptionTile(
               context: context,
-              icon: Symbols.beach_access,
+              iconName: AppIcons.leave,
               title: l10n.requestTypeLeave,
               subtitle: l10n.leaveBalanceBreakdownTitle,
               route: AppRoutes.leaveCreate,
@@ -108,7 +110,7 @@ class NewRequestBottomSheet extends StatelessWidget {
             ),
             _buildOptionTile(
               context: context,
-              icon: Symbols.schedule,
+              iconName: AppIcons.overtime,
               title: l10n.requestTypeOvertime,
               subtitle: l10n.extraHoursBalanceTitle,
               route: AppRoutes.overtimeCreate,
@@ -116,7 +118,7 @@ class NewRequestBottomSheet extends StatelessWidget {
             ),
             _buildOptionTile(
               context: context,
-              icon: Symbols.edit_note,
+              iconName: AppIcons.correction,
               title: l10n.requestTypeCorrection,
               subtitle: l10n.attendanceTitle,
               route: AppRoutes.attendanceCorrection,
@@ -124,7 +126,7 @@ class NewRequestBottomSheet extends StatelessWidget {
             ),
             _buildOptionTile(
               context: context,
-              icon: Symbols.swap_horiz,
+              iconName: AppIcons.shiftSwap,
               title: l10n.requestTypeShiftSwap,
               subtitle: l10n.shiftSwapEligibilityCheck,
               route: AppRoutes.shiftSchedule,
@@ -132,7 +134,7 @@ class NewRequestBottomSheet extends StatelessWidget {
             ),
             _buildOptionTile(
               context: context,
-              icon: Symbols.near_me,
+              iconName: AppIcons.location,
               title: l10n.requestTypeOnDuty,
               subtitle: l10n.onDutySubtitle,
               route: AppRoutes.onDutyCreate,
@@ -140,7 +142,7 @@ class NewRequestBottomSheet extends StatelessWidget {
             ),
             _buildOptionTile(
               context: context,
-              icon: Symbols.flight_takeoff,
+              iconName: AppIcons.services,
               title: l10n.requestTypeBusinessTrip,
               subtitle: l10n.businessTripSubtitle,
               route: AppRoutes.businessTripCreate,

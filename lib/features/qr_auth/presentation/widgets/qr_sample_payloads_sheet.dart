@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:material_symbols_icons/symbols.dart';
 import 'package:vstech_hrm/core/responsive/app_layout.dart';
 import 'package:vstech_hrm/core/theme/app_colors.dart';
+import 'package:vstech_hrm/core/widgets/app_icon.dart';
 
 /// Modal sheet offering interactive test payloads for verifying all QR edge cases.
 class QrSamplePayloadsSheet extends StatelessWidget {
@@ -17,31 +17,31 @@ class QrSamplePayloadsSheet extends StatelessWidget {
       (
         'QR Hợp lệ (Máy trạm Xưởng A)',
         'vstech://qr-login?session=SESS_VALID_01&browser=Chrome+122&device=Workstation+A',
-        Symbols.check_circle,
+        AppIcons.checkCircle2,
         const Color(0xFF16A34A),
       ),
       (
         'QR Hết hạn (> 5 phút)',
         'vstech://qr-login?session=SESS_EXPIRED&status=expired',
-        Symbols.timer_off,
+        AppIcons.clock,
         const Color(0xFFD97706),
       ),
       (
         'QR Đã sử dụng trước đó',
         'vstech://qr-login?session=SESS_USED&status=used',
-        Symbols.history,
+        AppIcons.history,
         const Color(0xFF2563EB),
       ),
       (
         'QR Bị huỷ bởi máy tính trạm',
         'vstech://qr-login?session=SESS_CANCELLED&status=cancelled',
-        Symbols.cancel,
+        AppIcons.xCircle,
         const Color(0xFF6B7280),
       ),
       (
         'QR Sai định dạng / Không thuộc VSTech',
         'https://external-website.com/invalid-code',
-        Symbols.error,
+        AppIcons.alertTriangle,
         const Color(0xFFDC2626),
       ),
     ];
@@ -90,7 +90,7 @@ class QrSamplePayloadsSheet extends StatelessWidget {
                 border: Border.all(color: colors.border),
               ),
               child: ListTile(
-                leading: Icon(s.$3, color: s.$4, size: 22),
+                leading: AppIcon(s.$3, color: s.$4, size: 22),
                 title: Text(
                   s.$1,
                   style: TextStyle(
@@ -99,7 +99,7 @@ class QrSamplePayloadsSheet extends StatelessWidget {
                     color: colors.textPrimary,
                   ),
                 ),
-                trailing: Icon(Symbols.chevron_right, size: 18, color: colors.textTertiary),
+                trailing: AppIcon(AppIcons.chevronRight, size: 18, color: colors.textTertiary),
                 onTap: () {
                   Navigator.of(context).pop();
                   onSelectPayload(s.$2);

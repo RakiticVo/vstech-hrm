@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:material_symbols_icons/symbols.dart';
 import 'package:vstech_hrm/core/extensions/l10n_extension.dart';
 import 'package:vstech_hrm/core/responsive/app_layout.dart';
 import 'package:vstech_hrm/core/router/routes.dart';
 import 'package:vstech_hrm/core/theme/app_colors.dart';
+import 'package:vstech_hrm/core/widgets/app_icon.dart';
 import 'package:vstech_hrm/core/widgets/primary_button.dart';
 
 /// Screen 5 / OB-Capture: Photo capture for employee ID badge.
@@ -47,7 +47,7 @@ class _CapturePhotoScreenState extends State<CapturePhotoScreen> {
         backgroundColor: colors.surface,
         elevation: 0,
         leading: IconButton(
-          icon: const Icon(Symbols.arrow_back),
+          icon: AppIcon(AppIcons.arrowLeft, color: colors.textPrimary),
           onPressed: () => Navigator.of(context).pop(),
         ),
         title: Text(
@@ -69,7 +69,7 @@ class _CapturePhotoScreenState extends State<CapturePhotoScreen> {
               ),
               child: Row(
                 children: [
-                  Icon(Symbols.info, color: colors.primaryIndigo, size: 22),
+                  AppIcon(AppIcons.info, color: colors.primaryIndigo, size: 22),
                   12.gapW,
                   Expanded(
                     child: Text(
@@ -104,8 +104,8 @@ class _CapturePhotoScreenState extends State<CapturePhotoScreen> {
                           borderRadius: BorderRadius.circular(100),
                         ),
                         child: Center(
-                          child: Icon(
-                            Symbols.face,
+                          child: AppIcon(
+                            AppIcons.user,
                             size: 100,
                             color: Colors.white.withValues(alpha: 0.3),
                           ),
@@ -141,7 +141,7 @@ class _CapturePhotoScreenState extends State<CapturePhotoScreen> {
                             child: const Row(
                               mainAxisSize: MainAxisSize.min,
                               children: [
-                                Icon(Symbols.check, size: 16, color: Colors.white),
+                                AppIcon(AppIcons.check, size: 16, color: Colors.white),
                                 SizedBox(width: 6),
                                 Text(
                                   'Ảnh đạt tiêu chuẩn 3x4',
@@ -172,7 +172,7 @@ class _CapturePhotoScreenState extends State<CapturePhotoScreen> {
                     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
                   ),
                   onPressed: _takePhoto,
-                  icon: const Icon(Symbols.photo_camera, size: 22),
+                  icon: const AppIcon(AppIcons.camera, size: 22, color: Color(0xFF1C1408)),
                   label: Text(l10n.capturePhotoBtn, style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w800)),
                 ),
               )

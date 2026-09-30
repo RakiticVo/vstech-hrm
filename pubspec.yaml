@@ -44,6 +44,7 @@ dependencies:
   screen_protector: ^1.4.0
   safe_device: ^1.1.4
   intl: ^0.20.3
+  flutter_svg: ^2.0.17
 
 dev_dependencies:
   flutter_test:
@@ -62,3 +63,6 @@ flutter:
   assets:
     - .env
     - assets/mock/
+    - assets/images/background/
+    - assets/icons/outline/
+    - assets/icons/filled/

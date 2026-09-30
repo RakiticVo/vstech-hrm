@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:material_symbols_icons/symbols.dart';
 import 'package:vstech_hrm/core/extensions/l10n_extension.dart';
 import 'package:vstech_hrm/core/responsive/app_layout.dart';
 import 'package:vstech_hrm/core/router/routes.dart';
 import 'package:vstech_hrm/core/theme/app_colors.dart';
+import 'package:vstech_hrm/core/widgets/app_icon.dart';
 import 'package:vstech_hrm/core/widgets/primary_button.dart';
 
 /// Screen 8 / OB-Day1: Comprehensive logistical guide for the candidate's first day.
@@ -17,11 +17,11 @@ class DayOneGuideScreen extends StatelessWidget {
     final l10n = context.l10n;
 
     final checklists = const [
-      ('Mang theo CCCD bản gốc', 'Đối chiếu hồ sơ thực tế và nhận thẻ đeo nhân viên thông minh.', Symbols.badge),
-      ('Trang phục chuẩn Smart Casual', 'Áo sơ mi hoặc áo polo có cổ, quần tối màu, giày lịch sự.', Symbols.checkroom),
-      ('Gửi xe tại hầm B2', 'Báo nhân viên bảo vệ: Nhân sự mới VSTECH để được quẹt vé miễn phí.', Symbols.local_parking),
-      ('Nhận thiết bị và tài khoản', 'Gặp bộ phận IT tại Tầng 8 lúc 09:30 để bàn giao laptop và kích hoạt tài khoản.', Symbols.laptop_mac),
-      ('Gặp gỡ Buddy và dùng bữa trưa', 'Chị Lê Thu Hà sẽ đón tiếp tại sảnh lễ tân lúc 08:30 và dẫn đi ăn trưa cùng nhóm.', Symbols.restaurant),
+      ('Mang theo CCCD bản gốc', 'Đối chiếu hồ sơ thực tế và nhận thẻ đeo nhân viên thông minh.', AppIcons.badgeAlert),
+      ('Trang phục chuẩn Smart Casual', 'Áo sơ mi hoặc áo polo có cổ, quần tối màu, giày lịch sự.', AppIcons.userCheck),
+      ('Gửi xe tại hầm B2', 'Báo nhân viên bảo vệ: Nhân sự mới VSTECH để được quẹt vé miễn phí.', AppIcons.mapPin),
+      ('Nhận thiết bị và tài khoản', 'Gặp bộ phận IT tại Tầng 8 lúc 09:30 để bàn giao laptop và kích hoạt tài khoản.', AppIcons.laptop),
+      ('Gặp gỡ Buddy và dùng bữa trưa', 'Chị Lê Thu Hà sẽ đón tiếp tại sảnh lễ tân lúc 08:30 và dẫn đi ăn trưa cùng nhóm.', AppIcons.coffee),
     ];
 
     return Scaffold(
@@ -30,7 +30,7 @@ class DayOneGuideScreen extends StatelessWidget {
         backgroundColor: colors.surface,
         elevation: 0,
         leading: IconButton(
-          icon: const Icon(Symbols.arrow_back),
+          icon: AppIcon(AppIcons.arrowLeft, color: colors.textPrimary),
           onPressed: () => Navigator.of(context).pop(),
         ),
         title: Text(
@@ -62,7 +62,7 @@ class DayOneGuideScreen extends StatelessWidget {
                         style: TextStyle(fontSize: 11.5, fontWeight: FontWeight.w800, color: Color(0xFF1C1408)),
                       ),
                     ),
-                    const Icon(Symbols.event, color: Color(0xFFFFF8EC), size: 20),
+                    const AppIcon(AppIcons.calendar, color: Color(0xFFFFF8EC), size: 20),
                   ],
                 ),
                 14.gapH,
@@ -85,7 +85,7 @@ class DayOneGuideScreen extends StatelessWidget {
                 12.gapH,
                 Row(
                   children: [
-                    const Icon(Symbols.person_pin, size: 18, color: Color(0xFFFFF8EC)),
+                    const AppIcon(AppIcons.user, size: 18, color: Color(0xFFFFF8EC)),
                     8.gapW,
                     Expanded(
                       child: Text(
@@ -125,7 +125,7 @@ class DayOneGuideScreen extends StatelessWidget {
                       borderRadius: BorderRadius.circular(10),
                     ),
                     child: Center(
-                      child: Icon(c.$3, size: 20, color: colors.primaryIndigo),
+                      child: AppIcon(c.$3, size: 20, color: colors.primaryIndigo),
                     ),
                   ),
                   12.gapW,
@@ -156,7 +156,7 @@ class DayOneGuideScreen extends StatelessWidget {
           padding: const EdgeInsets.fromLTRB(16, 8, 16, 16),
           child: PrimaryButton(
             text: 'Tôi đã sẵn sàng cho Ngày 1!',
-            icon: Symbols.celebration,
+            iconName: AppIcons.sparkles,
             onPressed: () {
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(

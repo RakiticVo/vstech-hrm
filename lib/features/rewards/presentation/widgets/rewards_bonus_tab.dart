@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:material_symbols_icons/symbols.dart';
 import 'package:vstech_hrm/core/extensions/l10n_extension.dart';
 import 'package:vstech_hrm/core/responsive/app_layout.dart';
 import 'package:vstech_hrm/core/theme/app_colors.dart';
+import 'package:vstech_hrm/core/widgets/app_icon.dart';
 
 /// Tab 1: Bonus breakdown, achievements and recognition reasons.
 class RewardsBonusTab extends StatelessWidget {
@@ -42,7 +42,7 @@ class RewardsBonusTab extends StatelessWidget {
                   color: Colors.white.withValues(alpha: 0.25),
                   shape: BoxShape.circle,
                 ),
-                child: const Icon(Symbols.star, color: Colors.white, size: 26),
+                child: const AppIcon(AppIcons.bonus, color: Colors.white, size: 24, filled: true),
               ),
               10.gapH,
               Text(
@@ -111,7 +111,7 @@ class RewardsBonusTab extends StatelessWidget {
                   color: colors.pineGreen.withValues(alpha: 0.14),
                   shape: BoxShape.circle,
                 ),
-                child: Icon(Symbols.check, size: 18, color: colors.pineGreen),
+                child: AppIcon(AppIcons.check, size: 18, color: colors.pineGreen),
               ),
               12.gapW,
               Expanded(

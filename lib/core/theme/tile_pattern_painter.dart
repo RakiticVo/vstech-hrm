@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 
+/// Saigon Tile (Gạch bông Sài Gòn) canvas pattern painter.
+/// Faithfully reproduces the official 46x46 Saigon tile geometry specified in
+/// `docs/ui/DESIGN.md` and `assets/images/background/gach-bong-tile-46.svg`.
 class TilePatternPainter extends CustomPainter {
   const new({
     required this.backgroundColor,
     required this.patternColor,
-    this.tileSize = 48.0,
+    this.tileSize = 46.0,
   });
 
   final Color backgroundColor;
@@ -17,51 +20,46 @@ class TilePatternPainter extends CustomPainter {
       ..save()
       ..clipRect(Offset.zero & size);
 
-    // 1. Draw solid background
+    // 1. Draw solid background (#0A544E or theme color)
     final bgPaint = Paint()..color = backgroundColor;
     canvas.drawRect(Offset.zero & size, bgPaint);
 
-    // 2. Setup pattern paint
+    final scale = tileSize / 46.0;
+
+    // 2. Setup pattern paint matching gach-bong-tile-46.svg
+    // Corner concentric arc stroke (r = 13.25, strokeWidth = 2.5 on 46x46 tile)
     final strokePaint = Paint()
       ..color = patternColor
       ..style = PaintingStyle.stroke
-      ..strokeWidth = 1.0;
+      ..strokeWidth = 2.5 * scale;
 
+    // Center dot fill (r = 2.75 on 46x46 tile)
     final fillPaint = Paint()
-      ..color = patternColor.withValues(alpha: patternColor.a * 0.4)
+      ..color = patternColor
       ..style = PaintingStyle.fill;
 
     // 3. Grid tile drawing
     final cols = (size.width / tileSize).ceil() + 1;
     final rows = (size.height / tileSize).ceil() + 1;
 
-    for (var i = 0; i < cols; i++) {
-      for (var j = 0; j < rows; j++) {
-        final cx = i * tileSize;
+    final cornerR = 13.25 * scale;
+    final centerR = 2.75 * scale;
+
+    // Draw all corner arcs at grid vertices
+    for (var i = 0; i <= cols; i++) {
+      final cx = i * tileSize;
+      for (var j = 0; j <= rows; j++) {
         final cy = j * tileSize;
+        canvas.drawCircle(Offset(cx, cy), cornerR, strokePaint);
+      }
+    }
 
-        // Draw corner arcs
-        canvas
-          ..drawCircle(Offset(cx, cy), tileSize * 0.42, strokePaint)
-          ..drawCircle(Offset(cx, cy), tileSize * 0.22, strokePaint)
-          ..drawCircle(Offset(cx, cy), tileSize * 0.08, fillPaint);
-
-        // Draw 4 petal diamonds in tile center
-        final midX = cx + tileSize / 2;
-        final midY = cy + tileSize / 2;
-        final petalR = tileSize * 0.16;
-
-        final path = Path()
-          ..moveTo(midX, midY - petalR)
-          ..quadraticBezierTo(midX + petalR * 0.7, midY, midX, midY + petalR)
-          ..quadraticBezierTo(midX - petalR * 0.7, midY, midX, midY - petalR)
-          ..moveTo(midX - petalR, midY)
-          ..quadraticBezierTo(midX, midY + petalR * 0.7, midX + petalR, midY)
-          ..quadraticBezierTo(midX, midY - petalR * 0.7, midX - petalR, midY);
-
-        canvas
-          ..drawPath(path, strokePaint)
-          ..drawCircle(Offset(midX, midY), 1.5, fillPaint);
+    // Draw center dots in cell centers
+    for (var i = 0; i < cols; i++) {
+      final midX = (i + 0.5) * tileSize;
+      for (var j = 0; j < rows; j++) {
+        final midY = (j + 0.5) * tileSize;
+        canvas.drawCircle(Offset(midX, midY), centerR, fillPaint);
       }
     }
 

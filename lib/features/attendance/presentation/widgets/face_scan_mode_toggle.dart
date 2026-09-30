@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:material_symbols_icons/symbols.dart';
 import 'package:vstech_hrm/core/extensions/l10n_extension.dart';
 import 'package:vstech_hrm/core/responsive/app_layout.dart';
+import 'package:vstech_hrm/core/widgets/app_icon.dart';
 
 /// Toggle badge between Online server mode and Offline vector matching mode.
 class FaceScanModeToggle extends StatelessWidget {
@@ -40,8 +40,8 @@ class FaceScanModeToggle extends StatelessWidget {
               child: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  Icon(
-                    isOfflineMode ? Symbols.wifi_off : Symbols.wifi,
+                  AppIcon(
+                    isOfflineMode ? AppIcons.offline : AppIcons.wifi,
                     size: 15,
                     color: isOfflineMode
                         ? const Color(0xFFF59E0B)

@@ -1,11 +1,11 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:material_symbols_icons/symbols.dart';
 import 'package:vstech_hrm/core/extensions/l10n_extension.dart';
 import 'package:vstech_hrm/core/responsive/app_layout.dart';
 import 'package:vstech_hrm/core/router/routes.dart';
 import 'package:vstech_hrm/core/theme/app_colors.dart';
+import 'package:vstech_hrm/core/widgets/app_icon.dart';
 import 'package:vstech_hrm/core/widgets/primary_button.dart';
 import 'package:vstech_hrm/core/widgets/secondary_button.dart';
 import 'package:vstech_hrm/features/payroll/presentation/widgets/payslip_breakdown_items.dart';
@@ -83,7 +83,7 @@ class _PayslipDetailScreenState extends State<PayslipDetailScreen> {
         backgroundColor: colors.surface,
         elevation: 0,
         leading: IconButton(
-          icon: const Icon(Symbols.arrow_back),
+          icon: const AppIcon(AppIcons.back, size: 20),
           onPressed: () => Navigator.of(context).pop(),
         ),
         title: Text(
@@ -96,12 +96,12 @@ class _PayslipDetailScreenState extends State<PayslipDetailScreen> {
         ),
         actions: [
           IconButton(
-            icon: const Icon(Symbols.assignment_late),
+            icon: const AppIcon(AppIcons.dispute, size: 20),
             tooltip: l10n.disputeManageTitle,
             onPressed: () => context.push(AppRoutes.salaryDisputes),
           ),
           IconButton(
-            icon: Icon(Symbols.download, color: colors.primaryIndigo),
+            icon: AppIcon(AppIcons.download, size: 20, color: colors.primaryIndigo),
             onPressed: () {
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(content: Text(l10n.downloadingPdfSnackbar)),

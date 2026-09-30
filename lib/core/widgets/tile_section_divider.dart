@@ -24,12 +24,12 @@ class TileSectionDivider extends StatelessWidget {
       height: height,
       clipBehavior: Clip.hardEdge,
       decoration: BoxDecoration(
-        color: colors.primaryIndigo,
+        color: colors.tileDark,
       ),
       child: ClipRect(
         child: CustomPaint(
           painter: _TileDividerPainter(
-            backgroundColor: colors.primaryIndigo,
+            backgroundColor: colors.tileDark,
             patternColor: patternColor,
           ),
         ),

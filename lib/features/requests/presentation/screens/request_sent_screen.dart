@@ -1,11 +1,11 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:material_symbols_icons/symbols.dart';
 import 'package:vstech_hrm/core/extensions/l10n_extension.dart';
 import 'package:vstech_hrm/core/responsive/app_layout.dart';
 import 'package:vstech_hrm/core/router/routes.dart';
 import 'package:vstech_hrm/core/theme/app_colors.dart';
+import 'package:vstech_hrm/core/widgets/app_icon.dart';
 import 'package:vstech_hrm/core/widgets/primary_button.dart';
 import 'package:vstech_hrm/core/widgets/secondary_button.dart';
 
@@ -56,10 +56,12 @@ class RequestSentScreen extends StatelessWidget {
                       color: colors.pineGreen,
                       shape: BoxShape.circle,
                     ),
-                    child: const Icon(
-                      Symbols.check,
-                      color: Colors.white,
-                      size: 38,
+                    child: const Center(
+                      child: AppIcon(
+                        AppIcons.check,
+                        color: Colors.white,
+                        size: 38,
+                      ),
                     ),
                   ),
                 ),
@@ -147,8 +149,8 @@ class RequestSentScreen extends StatelessWidget {
                     8.gapH,
                     Row(
                       children: [
-                        Icon(
-                          Symbols.account_circle,
+                        AppIcon(
+                          AppIcons.profile,
                           size: 16,
                           color: colors.textSecondary,
                         ),

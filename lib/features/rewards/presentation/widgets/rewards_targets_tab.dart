@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:material_symbols_icons/symbols.dart';
 import 'package:vstech_hrm/core/extensions/l10n_extension.dart';
 import 'package:vstech_hrm/core/responsive/app_layout.dart';
 import 'package:vstech_hrm/core/theme/app_colors.dart';
+import 'package:vstech_hrm/core/widgets/app_icon.dart';
 
 /// Tab 3: KPI and Sales Targets tracking with milestone tier bonuses.
 class RewardsTargetsTab extends StatelessWidget {
@@ -25,7 +25,7 @@ class RewardsTargetsTab extends StatelessWidget {
           progress: 0.90,
           percentText: '90%',
           color: colors.primaryIndigo,
-          icon: Symbols.person,
+          iconName: AppIcons.profile,
         ),
         16.gapH,
 
@@ -38,7 +38,7 @@ class RewardsTargetsTab extends StatelessWidget {
           progress: 0.85,
           percentText: '85%',
           color: colors.pineGreen,
-          icon: Symbols.groups,
+          iconName: AppIcons.refer,
         ),
         22.gapH,
 
@@ -86,7 +86,7 @@ class RewardsTargetsTab extends StatelessWidget {
     required double progress,
     required String percentText,
     required Color color,
-    required IconData icon,
+    required String iconName,
   }) {
     final colors = context.colors;
 
@@ -109,7 +109,7 @@ class RewardsTargetsTab extends StatelessWidget {
                   color: color.withValues(alpha: 0.12),
                   borderRadius: BorderRadius.circular(10),
                 ),
-                child: Icon(icon, size: 18, color: color),
+                child: Center(child: AppIcon(iconName, size: 18, color: color)),
               ),
               10.gapW,
               Expanded(
@@ -182,10 +182,13 @@ class RewardsTargetsTab extends StatelessWidget {
               color: statusColor.withValues(alpha: 0.12),
               shape: BoxShape.circle,
             ),
-            child: Icon(
-              isCompleted ? Symbols.check_circle : Symbols.flag,
-              size: 20,
-              color: statusColor,
+            child: Center(
+              child: AppIcon(
+                isCompleted ? AppIcons.check : AppIcons.target,
+                size: 20,
+                color: statusColor,
+                filled: isCompleted,
+              ),
             ),
           ),
           12.gapW,

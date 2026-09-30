@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:material_symbols_icons/symbols.dart';
 import 'package:vstech_hrm/core/extensions/l10n_extension.dart';
 import 'package:vstech_hrm/core/responsive/app_layout.dart';
 import 'package:vstech_hrm/core/theme/app_colors.dart';
+import 'package:vstech_hrm/core/widgets/app_icon.dart';
 
 /// Card displaying submitted request details & category-specific comparisons.
 class RequestDetailSubmittedCard extends StatelessWidget {
@@ -43,7 +43,7 @@ class RequestDetailSubmittedCard extends StatelessWidget {
         children: [
           Row(
             children: [
-              Icon(Symbols.assignment, size: 20, color: colors.primaryIndigo),
+              AppIcon(AppIcons.requests, size: 20, color: colors.primaryIndigo),
               8.gapW,
               Text(
                 l10n.submittedFieldsTitle,
@@ -109,8 +109,8 @@ class RequestDetailSubmittedCard extends StatelessWidget {
                 children: [
                   Row(
                     children: [
-                      Icon(
-                        Symbols.sync_alt,
+                      AppIcon(
+                        AppIcons.shiftSwap,
                         size: 16,
                         color: colors.primaryIndigo,
                       ),
@@ -153,7 +153,7 @@ class RequestDetailSubmittedCard extends StatelessWidget {
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Icon(Symbols.schedule, size: 16, color: colors.textSecondary),
+                  AppIcon(AppIcons.shift, size: 16, color: colors.textSecondary),
                   8.gapW,
                   Expanded(
                     child: Column(

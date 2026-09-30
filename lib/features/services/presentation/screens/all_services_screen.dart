@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:material_symbols_icons/symbols.dart';
 import 'package:vstech_hrm/core/extensions/l10n_extension.dart';
 import 'package:vstech_hrm/core/responsive/app_layout.dart';
 import 'package:vstech_hrm/core/router/routes.dart';
 import 'package:vstech_hrm/core/theme/app_colors.dart';
+import 'package:vstech_hrm/core/widgets/app_icon.dart';
 
 /// Screen 04: All Services grid hub categorized into 4 departments.
 class AllServicesScreen extends StatelessWidget {
-  const new({super.key});
+  const AllServicesScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +20,7 @@ class AllServicesScreen extends StatelessWidget {
         backgroundColor: colors.surface,
         elevation: 0,
         leading: IconButton(
-          icon: const Icon(Symbols.arrow_back),
+          icon: const AppIcon(AppIcons.back, size: 20),
           onPressed: () => Navigator.of(context).pop(),
         ),
         title: Text(
@@ -38,12 +38,12 @@ class AllServicesScreen extends StatelessWidget {
           _buildCategory(
             title: context.l10n.categoryAttendanceTime,
             items: [
-              _ServiceItem(context.l10n.serviceCheckInOut, Symbols.power_settings_new, () => context.go(AppRoutes.attendance)),
-              _ServiceItem(context.l10n.serviceShiftSchedule, Symbols.schedule, () => context.push(AppRoutes.shiftSchedule)),
-              _ServiceItem(context.l10n.shiftSwapsManageTitle, Symbols.sync_alt, () => context.push(AppRoutes.shiftSwaps)),
-              _ServiceItem(context.l10n.serviceMonthlyTimesheet, Symbols.calendar_month, () => context.push(AppRoutes.calendar)),
-              _ServiceItem(context.l10n.serviceHolidays, Symbols.flag, () => context.push(AppRoutes.holidays)),
-              _ServiceItem(context.l10n.registeredDeviceTitle, Symbols.smartphone, () => context.push(AppRoutes.registeredDevice)),
+              _ServiceItem(context.l10n.serviceCheckInOut, AppIcons.checkIn, () => context.go(AppRoutes.attendance)),
+              _ServiceItem(context.l10n.serviceShiftSchedule, AppIcons.shift, () => context.push(AppRoutes.shiftSchedule)),
+              _ServiceItem(context.l10n.shiftSwapsManageTitle, AppIcons.shiftSwap, () => context.push(AppRoutes.shiftSwaps)),
+              _ServiceItem(context.l10n.serviceMonthlyTimesheet, AppIcons.calendar, () => context.push(AppRoutes.calendar)),
+              _ServiceItem(context.l10n.serviceHolidays, AppIcons.holiday, () => context.push(AppRoutes.holidays)),
+              _ServiceItem(context.l10n.registeredDeviceTitle, AppIcons.device, () => context.push(AppRoutes.registeredDevice)),
             ],
             colors: colors,
           ),
@@ -51,11 +51,11 @@ class AllServicesScreen extends StatelessWidget {
           _buildCategory(
             title: context.l10n.categoryRequests,
             items: [
-              _ServiceItem(context.l10n.leaveManageTitle, Symbols.beach_access, () => context.push(AppRoutes.leaveManage)),
-              _ServiceItem(context.l10n.overtimeManageTitle, Symbols.schedule, () => context.push(AppRoutes.overtimeManage)),
-              _ServiceItem(context.l10n.correctionManageTitle, Symbols.edit_calendar, () => context.push(AppRoutes.correctionManage)),
-              _ServiceItem(context.l10n.shiftSwapsManageTitle, Symbols.swap_horiz, () => context.push(AppRoutes.shiftSwaps)),
-              _ServiceItem(context.l10n.serviceTrackRequests, Symbols.list_alt, () => context.go(AppRoutes.requests)),
+              _ServiceItem(context.l10n.leaveManageTitle, AppIcons.leave, () => context.push(AppRoutes.leaveManage)),
+              _ServiceItem(context.l10n.overtimeManageTitle, AppIcons.overtime, () => context.push(AppRoutes.overtimeManage)),
+              _ServiceItem(context.l10n.correctionManageTitle, AppIcons.correction, () => context.push(AppRoutes.correctionManage)),
+              _ServiceItem(context.l10n.shiftSwapsManageTitle, AppIcons.shiftSwap, () => context.push(AppRoutes.shiftSwaps)),
+              _ServiceItem(context.l10n.serviceTrackRequests, AppIcons.requests, () => context.go(AppRoutes.requests)),
             ],
             colors: colors,
           ),
@@ -63,11 +63,11 @@ class AllServicesScreen extends StatelessWidget {
           _buildCategory(
             title: context.l10n.categoryPayrollRewards,
             items: [
-              _ServiceItem(context.l10n.serviceSalaryTable, Symbols.account_balance_wallet, () => context.go(AppRoutes.payroll)),
-              _ServiceItem(context.l10n.servicePayslip, Symbols.receipt_long, () => context.push(AppRoutes.payslipDetail)),
-              _ServiceItem(context.l10n.serviceRewards, Symbols.star, () => context.push(AppRoutes.rewards)),
-              _ServiceItem(context.l10n.disputeManageTitle, Symbols.rate_review, () => context.push(AppRoutes.salaryDisputes)),
-              _ServiceItem(context.l10n.serviceAllowance, Symbols.payments, () => context.go(AppRoutes.payroll)),
+              _ServiceItem(context.l10n.serviceSalaryTable, AppIcons.payroll, () => context.go(AppRoutes.payroll)),
+              _ServiceItem(context.l10n.servicePayslip, AppIcons.payslip, () => context.push(AppRoutes.payslipDetail)),
+              _ServiceItem(context.l10n.serviceRewards, AppIcons.bonus, () => context.push(AppRoutes.rewards)),
+              _ServiceItem(context.l10n.disputeManageTitle, AppIcons.dispute, () => context.push(AppRoutes.salaryDisputes)),
+              _ServiceItem(context.l10n.serviceAllowance, AppIcons.coin, () => context.go(AppRoutes.payroll)),
             ],
             colors: colors,
           ),
@@ -75,14 +75,14 @@ class AllServicesScreen extends StatelessWidget {
           _buildCategory(
             title: context.l10n.categoryCareerProfile,
             items: [
-              _ServiceItem(context.l10n.serviceInternalJobs, Symbols.work, () => context.push(AppRoutes.jobRecruitment)),
-              _ServiceItem(context.l10n.myReferralsTitle, Symbols.group_add, () => context.push(AppRoutes.myReferrals)),
-              _ServiceItem(context.l10n.onboardingHomeTitle, Symbols.flight_takeoff, () => context.push(AppRoutes.onboardingHome)),
-              _ServiceItem(context.l10n.documentManagementTitle, Symbols.folder_shared, () => context.push(AppRoutes.documentManagement)),
-              _ServiceItem(context.l10n.dependantsManageTitle, Symbols.family_restroom, () => context.push(AppRoutes.dependants)),
-              _ServiceItem(context.l10n.serviceProfile, Symbols.person, () => context.go(AppRoutes.profile)),
-              _ServiceItem(context.l10n.serviceSettings, Symbols.settings, () => context.push(AppRoutes.settings)),
-              _ServiceItem(context.l10n.serviceApprovals, Symbols.fact_check, () => context.push(AppRoutes.approvals)),
+              _ServiceItem(context.l10n.serviceInternalJobs, AppIcons.jobs, () => context.push(AppRoutes.jobRecruitment)),
+              _ServiceItem(context.l10n.myReferralsTitle, AppIcons.refer, () => context.push(AppRoutes.myReferrals)),
+              _ServiceItem(context.l10n.onboardingHomeTitle, AppIcons.onboarding, () => context.push(AppRoutes.onboardingHome)),
+              _ServiceItem(context.l10n.documentManagementTitle, AppIcons.documents, () => context.push(AppRoutes.documentManagement)),
+              _ServiceItem(context.l10n.dependantsManageTitle, AppIcons.dependants, () => context.push(AppRoutes.dependants)),
+              _ServiceItem(context.l10n.serviceProfile, AppIcons.profile, () => context.go(AppRoutes.profile)),
+              _ServiceItem(context.l10n.serviceSettings, AppIcons.settings, () => context.push(AppRoutes.settings)),
+              _ServiceItem(context.l10n.serviceApprovals, AppIcons.approvals, () => context.push(AppRoutes.approvals)),
             ],
             colors: colors,
           ),
@@ -90,10 +90,10 @@ class AllServicesScreen extends StatelessWidget {
           _buildCategory(
             title: context.l10n.categoryGovernance,
             items: [
-              _ServiceItem(context.l10n.execDashboardTitle, Symbols.dashboard, () => context.push(AppRoutes.executiveDashboard)),
-              _ServiceItem(context.l10n.finalApprovalTitle, Symbols.verified, () => context.push(AppRoutes.finalApproval)),
-              _ServiceItem(context.l10n.riskTitle, Symbols.warning, () => context.push(AppRoutes.riskCompliance)),
-              _ServiceItem(context.l10n.delTitle, Symbols.assignment_ind, () => context.push(AppRoutes.delegationCenter)),
+              _ServiceItem(context.l10n.execDashboardTitle, AppIcons.target, () => context.push(AppRoutes.executiveDashboard)),
+              _ServiceItem(context.l10n.finalApprovalTitle, AppIcons.approve, () => context.push(AppRoutes.finalApproval)),
+              _ServiceItem(context.l10n.riskTitle, AppIcons.warning, () => context.push(AppRoutes.riskCompliance)),
+              _ServiceItem(context.l10n.delTitle, AppIcons.orgChart, () => context.push(AppRoutes.delegationCenter)),
             ],
             colors: colors,
           ),
@@ -145,8 +145,8 @@ class AllServicesScreen extends StatelessWidget {
                       border: Border.all(color: colors.border),
                     ),
                     child: Center(
-                      child: Icon(
-                        item.icon,
+                      child: AppIcon(
+                        item.iconName,
                         size: 24,
                         color: colors.primaryIndigo,
                       ),
@@ -176,9 +176,10 @@ class AllServicesScreen extends StatelessWidget {
 }
 
 class _ServiceItem {
-  const new(this.label, this.icon, this.onTap);
+  const _ServiceItem(this.label, this.iconName, this.onTap);
 
   final String label;
-  final IconData icon;
+  final String iconName;
   final VoidCallback onTap;
 }
+

@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:material_symbols_icons/symbols.dart';
 import 'package:vstech_hrm/core/extensions/l10n_extension.dart';
 import 'package:vstech_hrm/core/responsive/app_layout.dart';
 import 'package:vstech_hrm/core/router/routes.dart';
 import 'package:vstech_hrm/core/theme/app_colors.dart';
+import 'package:vstech_hrm/core/widgets/app_icon.dart';
 
 /// Screen 16: Internal Job Recruitment board.
 class InternalRecruitmentScreen extends StatelessWidget {
@@ -55,7 +55,7 @@ class InternalRecruitmentScreen extends StatelessWidget {
         backgroundColor: colors.surface,
         elevation: 0,
         leading: IconButton(
-          icon: const Icon(Symbols.arrow_back),
+          icon: AppIcon(AppIcons.arrowLeft, color: colors.textPrimary),
           onPressed: () => Navigator.of(context).pop(),
         ),
         title: Text(
@@ -68,7 +68,7 @@ class InternalRecruitmentScreen extends StatelessWidget {
         ),
         actions: [
           IconButton(
-            icon: const Icon(Symbols.group_add),
+            icon: AppIcon(AppIcons.users, color: colors.textPrimary),
             tooltip: 'Hồ sơ đã giới thiệu',
             onPressed: () => context.push(AppRoutes.myReferrals),
           ),
@@ -90,7 +90,7 @@ class InternalRecruitmentScreen extends StatelessWidget {
               ),
               child: Row(
                 children: [
-                  Icon(Symbols.stars, color: colors.accentAmber, size: 28),
+                  AppIcon(AppIcons.award, color: colors.accentAmber, size: 28),
                   12.gapW,
                   const Expanded(
                     child: Column(
@@ -108,7 +108,7 @@ class InternalRecruitmentScreen extends StatelessWidget {
                     ),
                   ),
                   8.gapW,
-                  const Icon(Symbols.chevron_right, size: 18, color: Color(0xFFFFF8EC)),
+                  const AppIcon(AppIcons.chevronRight, size: 18, color: Color(0xFFFFF8EC)),
                 ],
               ),
             ),
@@ -118,7 +118,10 @@ class InternalRecruitmentScreen extends StatelessWidget {
             decoration: InputDecoration(
               hintText: context.l10n.searchJobPlaceholder,
               hintStyle: TextStyle(fontSize: 13.5, color: colors.textTertiary),
-              prefixIcon: Icon(Symbols.search, size: 20, color: colors.textSecondary),
+              prefixIcon: Padding(
+                padding: const EdgeInsets.all(12),
+                child: AppIcon(AppIcons.search, size: 20, color: colors.textSecondary),
+              ),
               filled: true,
               fillColor: colors.surface,
               border: OutlineInputBorder(

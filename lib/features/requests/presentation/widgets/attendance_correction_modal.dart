@@ -1,10 +1,10 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
-import 'package:material_symbols_icons/symbols.dart';
 import 'package:vstech_hrm/core/extensions/l10n_extension.dart';
 import 'package:vstech_hrm/core/responsive/app_layout.dart';
 import 'package:vstech_hrm/core/services/app_permission_handler.dart';
 import 'package:vstech_hrm/core/theme/app_colors.dart';
+import 'package:vstech_hrm/core/widgets/app_icon.dart';
 
 /// Modal bottom sheet to pick date, issue type, corrected checkout time, and reason.
 class AttendanceCorrectionModal extends StatefulWidget {
@@ -148,15 +148,15 @@ class _AttendanceCorrectionModalState extends State<AttendanceCorrectionModal> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(l10n.createCorrectionTitle, style: TextStyle(fontSize: 17, fontWeight: FontWeight.w800, color: colors.textPrimary)),
-                IconButton(icon: const Icon(Symbols.close, size: 20), onPressed: () => Navigator.pop(context)),
+                IconButton(icon: const AppIcon(AppIcons.close, size: 20), onPressed: () => Navigator.pop(context)),
               ],
             ),
             12.gapH,
             Row(
               children: [
-                Expanded(child: _buildPickerTile(l10n.correctionDateLabel, _selectedDate, Symbols.calendar_today, _pickDate, colors)),
+                Expanded(child: _buildPickerTile(l10n.correctionDateLabel, _selectedDate, AppIcons.calendar, _pickDate, colors)),
                 10.gapW,
-                Expanded(child: _buildPickerTile(l10n.correctionTimeLabel, _time, Symbols.schedule, _pickTime, colors)),
+                Expanded(child: _buildPickerTile(l10n.correctionTimeLabel, _time, AppIcons.attendance, _pickTime, colors)),
               ],
             ),
             14.gapH,
@@ -207,7 +207,7 @@ class _AttendanceCorrectionModalState extends State<AttendanceCorrectionModal> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Icon(_attachedFileName != null ? Symbols.check_circle : Symbols.attach_file, size: 16, color: _attachedFileName != null ? colors.primaryIndigo : colors.textSecondary),
+                    AppIcon(_attachedFileName != null ? AppIcons.check : AppIcons.attach, size: 16, color: _attachedFileName != null ? colors.primaryIndigo : colors.textSecondary),
                     6.gapW,
                     Text(_attachedFileName ?? l10n.addProofOptional, style: TextStyle(fontSize: 12, fontWeight: FontWeight.w600, color: colors.textSecondary)),
                   ],
@@ -235,7 +235,7 @@ class _AttendanceCorrectionModalState extends State<AttendanceCorrectionModal> {
     );
   }
 
-  Widget _buildPickerTile(String label, String value, IconData icon, VoidCallback onTap, AppColorsExtension colors) {
+  Widget _buildPickerTile(String label, String value, String iconName, VoidCallback onTap, AppColorsExtension colors) {
     return InkWell(
       borderRadius: BorderRadius.circular(12),
       onTap: onTap,
@@ -251,7 +251,7 @@ class _AttendanceCorrectionModalState extends State<AttendanceCorrectionModal> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(value, style: TextStyle(fontSize: 13, fontWeight: FontWeight.w800, color: colors.textPrimary)),
-                Icon(icon, size: 14, color: colors.primaryIndigo),
+                AppIcon(iconName, size: 14, color: colors.primaryIndigo),
               ],
             ),
           ],

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:material_symbols_icons/symbols.dart';
 import 'package:vstech_hrm/core/responsive/app_layout.dart';
 import 'package:vstech_hrm/core/theme/app_colors.dart';
+import 'package:vstech_hrm/core/widgets/app_icon.dart';
 import 'package:vstech_hrm/core/widgets/status_chip.dart';
 
 /// Data model representing a referred candidate in the 4-stage pipeline.
@@ -104,7 +104,7 @@ class ReferredCandidateCard extends StatelessWidget {
                             : null,
                       ),
                       child: isPassed
-                          ? const Icon(Symbols.check, size: 10, color: Colors.white)
+                          ? const AppIcon(AppIcons.check, size: 9, color: Colors.white)
                           : null,
                     ),
                     if (sIndex < stages.length - 1)

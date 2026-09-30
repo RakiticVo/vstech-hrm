@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:material_symbols_icons/symbols.dart';
 import 'package:vstech_hrm/core/extensions/l10n_extension.dart';
 import 'package:vstech_hrm/core/theme/app_colors.dart';
+import 'package:vstech_hrm/core/widgets/app_icon.dart';
 import 'package:vstech_hrm/features/rewards/presentation/widgets/rewards_bonus_tab.dart';
 import 'package:vstech_hrm/features/rewards/presentation/widgets/rewards_commission_tab.dart';
 import 'package:vstech_hrm/features/rewards/presentation/widgets/rewards_targets_tab.dart';
@@ -23,7 +23,7 @@ class RewardsScreen extends StatelessWidget {
           backgroundColor: colors.surface,
           elevation: 0,
           leading: IconButton(
-            icon: const Icon(Symbols.arrow_back),
+            icon: const AppIcon(AppIcons.back, size: 22),
             onPressed: () => Navigator.of(context).pop(),
           ),
           title: Text(
@@ -42,15 +42,15 @@ class RewardsScreen extends StatelessWidget {
             labelStyle: const TextStyle(fontSize: 13.5, fontWeight: FontWeight.w700),
             tabs: [
               Tab(
-                icon: const Icon(Symbols.stars, size: 20),
+                icon: const AppIcon(AppIcons.bonus, size: 20),
                 text: l10n.rewardsTabBonus,
               ),
               Tab(
-                icon: const Icon(Symbols.payments, size: 20),
+                icon: const AppIcon(AppIcons.commission, size: 20),
                 text: l10n.rewardsTabCommission,
               ),
               Tab(
-                icon: const Icon(Symbols.trending_up, size: 20),
+                icon: const AppIcon(AppIcons.target, size: 20),
                 text: l10n.rewardsTabTargets,
               ),
             ],

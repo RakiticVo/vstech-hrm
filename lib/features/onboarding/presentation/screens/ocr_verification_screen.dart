@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:material_symbols_icons/symbols.dart';
 import 'package:vstech_hrm/core/extensions/l10n_extension.dart';
 import 'package:vstech_hrm/core/responsive/app_layout.dart';
 import 'package:vstech_hrm/core/router/routes.dart';
 import 'package:vstech_hrm/core/theme/app_colors.dart';
+import 'package:vstech_hrm/core/widgets/app_icon.dart';
 import 'package:vstech_hrm/core/widgets/primary_button.dart';
 import 'package:vstech_hrm/core/widgets/status_chip.dart';
 
@@ -28,7 +28,7 @@ class _OcrVerificationScreenState extends State<OcrVerificationScreen> {
         backgroundColor: colors.surface,
         elevation: 0,
         leading: IconButton(
-          icon: const Icon(Symbols.arrow_back),
+          icon: AppIcon(AppIcons.arrowLeft, color: colors.textPrimary),
           onPressed: () => Navigator.of(context).pop(),
         ),
         title: Text(
@@ -61,7 +61,9 @@ class _OcrVerificationScreenState extends State<OcrVerificationScreen> {
                             color: Colors.white.withValues(alpha: 0.1),
                             borderRadius: BorderRadius.circular(8),
                           ),
-                          child: Icon(Symbols.person, size: 50, color: Colors.white.withValues(alpha: 0.4)),
+                          child: Center(
+                            child: AppIcon(AppIcons.user, size: 50, color: Colors.white.withValues(alpha: 0.4)),
+                          ),
                         ),
                         20.gapW,
                         Column(
@@ -89,7 +91,7 @@ class _OcrVerificationScreenState extends State<OcrVerificationScreen> {
                   left: 16,
                   child: Row(
                     children: [
-                      Icon(Symbols.document_scanner, size: 16, color: colors.accentAmber),
+                      AppIcon(AppIcons.scan, size: 16, color: colors.accentAmber),
                       6.gapW,
                       const Text(
                         'Đã trích xuất dữ liệu chip NFC',
@@ -121,7 +123,7 @@ class _OcrVerificationScreenState extends State<OcrVerificationScreen> {
                       'Kết quả trích xuất tự động',
                       style: TextStyle(fontSize: 14, fontWeight: FontWeight.w800, color: colors.textPrimary),
                     ),
-                    const Icon(Symbols.verified, size: 18, color: Color(0xFF0F766E)),
+                    const AppIcon(AppIcons.checkCircle2, size: 18, color: Color(0xFF0F766E)),
                   ],
                 ),
                 12.gapH,
@@ -149,7 +151,7 @@ class _OcrVerificationScreenState extends State<OcrVerificationScreen> {
             ),
             child: Row(
               children: [
-                Icon(Symbols.check_circle, color: colors.pineGreen, size: 22),
+                AppIcon(AppIcons.checkCircle2, color: colors.pineGreen, size: 22),
                 12.gapW,
                 Expanded(
                   child: Text(
@@ -167,7 +169,7 @@ class _OcrVerificationScreenState extends State<OcrVerificationScreen> {
           padding: const EdgeInsets.fromLTRB(16, 8, 16, 16),
           child: PrimaryButton(
             text: 'Tiếp tục: Ký hợp đồng điện tử',
-            icon: Symbols.draw,
+            iconName: AppIcons.edit3,
             onPressed: () => context.push(AppRoutes.onboardingSign),
           ),
         ),

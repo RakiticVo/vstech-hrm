@@ -1,11 +1,11 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:material_symbols_icons/symbols.dart';
 import 'package:vstech_hrm/core/extensions/l10n_extension.dart';
 import 'package:vstech_hrm/core/responsive/app_layout.dart';
 import 'package:vstech_hrm/core/router/routes.dart';
 import 'package:vstech_hrm/core/theme/app_colors.dart';
+import 'package:vstech_hrm/core/widgets/app_icon.dart';
 import 'package:vstech_hrm/core/widgets/month_picker_button.dart';
 import 'package:vstech_hrm/core/widgets/primary_button.dart';
 import 'package:vstech_hrm/features/requests/presentation/widgets/leave_hero_balance_card.dart';
@@ -81,7 +81,7 @@ class _LeaveManageScreenState extends State<LeaveManageScreen> {
         backgroundColor: colors.surface,
         elevation: 0,
         leading: IconButton(
-          icon: const Icon(Symbols.arrow_back),
+          icon: const AppIcon(AppIcons.back, size: 20),
           onPressed: () => Navigator.of(context).pop(),
         ),
         title: Text(
@@ -94,7 +94,7 @@ class _LeaveManageScreenState extends State<LeaveManageScreen> {
         ),
         actions: [
           IconButton(
-            icon: Icon(Symbols.pie_chart, color: colors.primaryIndigo),
+            icon: AppIcon(AppIcons.leave, color: colors.primaryIndigo, size: 20),
             onPressed: () => context.push(AppRoutes.leaveBalance),
           ),
         ],
@@ -216,7 +216,7 @@ class _LeaveManageScreenState extends State<LeaveManageScreen> {
             padding: const EdgeInsets.fromLTRB(16, 8, 16, 24),
             child: PrimaryButton(
               text: l10n.createLeaveBtn,
-              icon: Symbols.add,
+              iconName: AppIcons.plus,
               onPressed: () => context.push(AppRoutes.leaveCreate),
             ),
           ),

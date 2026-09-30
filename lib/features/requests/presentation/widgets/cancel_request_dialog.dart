@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:material_symbols_icons/symbols.dart';
 import 'package:vstech_hrm/core/extensions/l10n_extension.dart';
 import 'package:vstech_hrm/core/responsive/app_layout.dart';
 import 'package:vstech_hrm/core/theme/app_colors.dart';
+import 'package:vstech_hrm/core/widgets/app_icon.dart';
 
 /// Modal dialog confirming request cancellation with high contrast and smooth feedback.
 class CancelRequestDialog extends StatelessWidget {
   const CancelRequestDialog({
-    super.key,
     required this.onConfirmed,
+    super.key,
   });
 
   final VoidCallback onConfirmed;
@@ -43,7 +43,7 @@ class CancelRequestDialog extends StatelessWidget {
                 shape: BoxShape.circle,
               ),
               child: Center(
-                child: Icon(Symbols.warning, size: 28, color: colors.error),
+                child: AppIcon(AppIcons.warning, size: 28, color: colors.error),
               ),
             ),
             14.gapH,

@@ -3,11 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:go_router/go_router.dart';
 import 'package:local_auth/local_auth.dart';
-import 'package:material_symbols_icons/symbols.dart';
 import 'package:vstech_hrm/core/extensions/l10n_extension.dart';
 import 'package:vstech_hrm/core/responsive/app_layout.dart';
 import 'package:vstech_hrm/core/router/routes.dart';
 import 'package:vstech_hrm/core/theme/app_colors.dart';
+import 'package:vstech_hrm/core/widgets/app_icon.dart';
 import 'package:vstech_hrm/features/payroll/presentation/widgets/pin_code_keypad.dart';
 
 /// Screen 13 / F4: Payslip Biometric & PIN Security Gate (`payslip-lock`).
@@ -141,14 +141,10 @@ class _PayslipLockScreenState extends State<PayslipLockScreen> {
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
           title: Text(
             l10n.payslipLockForgotPin,
-            style: TextStyle(
-              fontSize: 16,
-              fontWeight: FontWeight.w800,
-              color: colors.textPrimary,
-            ),
+            style: TextStyle(fontSize: 16, fontWeight: FontWeight.w800, color: colors.textPrimary),
           ),
           content: Text(
-            'Mã PIN phiếu lương mặc định trong bản demo là 123456. Vui lòng liên hệ Phòng Nhân sự (HR) để đặt lại nếu cần.',
+            'Mã PIN phiếu lương mặc định trong bản demo là 123456. Vui lòng liên hệ HR để đặt lại nếu cần.',
             style: TextStyle(fontSize: 13, color: colors.textSecondary, height: 1.4),
           ),
           actions: [
@@ -159,10 +155,7 @@ class _PayslipLockScreenState extends State<PayslipLockScreen> {
                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
               ),
               onPressed: () => Navigator.of(ctx).pop(),
-              child: Text(
-                l10n.confirm,
-                style: const TextStyle(fontWeight: FontWeight.w700),
-              ),
+              child: Text(l10n.confirm, style: const TextStyle(fontWeight: FontWeight.w700)),
             ),
           ],
         ),
@@ -181,12 +174,12 @@ class _PayslipLockScreenState extends State<PayslipLockScreen> {
         backgroundColor: Colors.transparent,
         elevation: 0,
         leading: IconButton(
-          icon: const Icon(Symbols.arrow_back),
+          icon: const AppIcon(AppIcons.back, size: 20),
           onPressed: () => Navigator.of(context).pop(),
         ),
         actions: [
           IconButton(
-            icon: const Icon(Symbols.help_outline),
+            icon: const AppIcon(AppIcons.info, size: 20),
             onPressed: _showForgotPinDialog,
           ),
         ],
@@ -197,16 +190,16 @@ class _PayslipLockScreenState extends State<PayslipLockScreen> {
           child: Column(
             children: [
               Container(
-                width: 64,
-                height: 64,
+                width: 88,
+                height: 88,
                 decoration: BoxDecoration(
                   color: colors.primaryIndigo.withValues(alpha: 0.12),
-                  shape: BoxShape.circle,
+                  borderRadius: BorderRadius.circular(30),
                 ),
                 child: Center(
-                  child: Icon(
-                    Symbols.shield_person,
-                    size: 36,
+                  child: AppIcon(
+                    AppIcons.lock,
+                    size: 40,
                     color: colors.primaryIndigo,
                   ),
                 ),

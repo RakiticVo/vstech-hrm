@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:material_symbols_icons/symbols.dart';
 import 'package:vstech_hrm/core/extensions/l10n_extension.dart';
 import 'package:vstech_hrm/core/responsive/app_layout.dart';
 import 'package:vstech_hrm/core/theme/app_colors.dart';
+import 'package:vstech_hrm/core/widgets/app_icon.dart';
 
 /// Screen F1: On Duty Request (Công tác ngắn / Đi việc ngoài trong ca).
 class OnDutyRequestScreen extends StatefulWidget {
@@ -57,7 +57,7 @@ class _OnDutyRequestScreenState extends State<OnDutyRequestScreen> {
         backgroundColor: colors.surface,
         elevation: 0,
         leading: IconButton(
-          icon: Icon(Symbols.arrow_back, color: colors.textPrimary),
+          icon: AppIcon(AppIcons.back, size: 22, color: colors.textPrimary),
           onPressed: () => Navigator.pop(context),
         ),
       ),
@@ -77,7 +77,7 @@ class _OnDutyRequestScreenState extends State<OnDutyRequestScreen> {
                 ),
                 child: Row(
                   children: [
-                    Icon(Symbols.schedule, color: colors.primaryIndigo, size: 20),
+                    AppIcon(AppIcons.attendance, color: colors.primaryIndigo, size: 20),
                     10.gapW,
                     Expanded(
                       child: Text(
@@ -117,7 +117,7 @@ class _OnDutyRequestScreenState extends State<OnDutyRequestScreen> {
                         '${_selectedDate.day.toString().padLeft(2, '0')}/${_selectedDate.month.toString().padLeft(2, '0')}/${_selectedDate.year}',
                         style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: colors.textPrimary),
                       ),
-                      Icon(Symbols.calendar_today, size: 18, color: colors.textSecondary),
+                      AppIcon(AppIcons.calendar, size: 18, color: colors.textSecondary),
                     ],
                   ),
                 ),
@@ -166,7 +166,10 @@ class _OnDutyRequestScreenState extends State<OnDutyRequestScreen> {
               TextFormField(
                 controller: _locationController,
                 decoration: InputDecoration(
-                  prefixIcon: Icon(Symbols.location_on, color: colors.textSecondary),
+                  prefixIcon: Padding(
+                    padding: const EdgeInsets.all(12),
+                    child: AppIcon(AppIcons.location, color: colors.textSecondary, size: 20),
+                  ),
                   filled: true,
                   fillColor: colors.surface,
                   border: OutlineInputBorder(borderRadius: BorderRadius.circular(12), borderSide: BorderSide(color: colors.border)),
@@ -202,7 +205,7 @@ class _OnDutyRequestScreenState extends State<OnDutyRequestScreen> {
                   ),
                   child: Row(
                     children: [
-                      Icon(_hasAttachment ? Symbols.check_circle : Symbols.attach_file, color: _hasAttachment ? colors.pineGreen : colors.textSecondary),
+                      AppIcon(_hasAttachment ? AppIcons.check : AppIcons.attach, color: _hasAttachment ? colors.pineGreen : colors.textSecondary),
                       10.gapW,
                       Expanded(
                         child: Text(
@@ -261,7 +264,7 @@ class _OnDutyRequestScreenState extends State<OnDutyRequestScreen> {
               '${time.hour.toString().padLeft(2, '0')}:${time.minute.toString().padLeft(2, '0')}',
               style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: colors.textPrimary),
             ),
-            Icon(Symbols.schedule, size: 18, color: colors.textSecondary),
+            AppIcon(AppIcons.attendance, size: 18, color: colors.textSecondary),
           ],
         ),
       ),

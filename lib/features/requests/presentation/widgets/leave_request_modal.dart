@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:material_symbols_icons/symbols.dart';
 import 'package:vstech_hrm/core/extensions/l10n_extension.dart';
 import 'package:vstech_hrm/core/responsive/app_layout.dart';
 import 'package:vstech_hrm/core/services/app_permission_handler.dart';
 import 'package:vstech_hrm/core/theme/app_colors.dart';
+import 'package:vstech_hrm/core/widgets/app_icon.dart';
 import 'package:vstech_hrm/features/requests/presentation/widgets/leave_modal_components.dart';
 
 /// Modal bottom sheet to pick leave type, half-day/full-day, handover, and attachment.
@@ -129,7 +129,7 @@ class _LeaveRequestModalState extends State<LeaveRequestModal> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(l10n.createLeaveRequestTitle, style: TextStyle(fontSize: 17, fontWeight: FontWeight.w800, color: colors.textPrimary)),
-                IconButton(icon: const Icon(Symbols.close, size: 20), onPressed: () => Navigator.pop(context)),
+                IconButton(icon: const AppIcon(AppIcons.close, size: 20), onPressed: () => Navigator.pop(context)),
               ],
             ),
             10.gapH,
@@ -251,7 +251,7 @@ class _LeaveRequestModalState extends State<LeaveRequestModal> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Icon(_attachedFileName != null ? Symbols.check_circle : Symbols.attach_file, size: 16, color: _attachedFileName != null ? colors.pineGreen : colors.textSecondary),
+                    AppIcon(_attachedFileName != null ? AppIcons.check : AppIcons.attach, size: 16, color: _attachedFileName != null ? colors.pineGreen : colors.textSecondary),
                     6.gapW,
                     Text(_attachedFileName ?? l10n.addAttachmentOptional, style: TextStyle(fontSize: 12, color: colors.textSecondary)),
                   ],

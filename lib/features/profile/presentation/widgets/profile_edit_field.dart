@@ -1,19 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:vstech_hrm/core/responsive/app_layout.dart';
 import 'package:vstech_hrm/core/theme/app_colors.dart';
+import 'package:vstech_hrm/core/widgets/app_icon.dart';
 
 /// Form input field wrapper for ProfileEditScreen.
 class ProfileEditField extends StatelessWidget {
   const ProfileEditField({
     required this.label,
     required this.controller,
-    required this.icon,
+    required this.iconName,
     super.key,
   });
 
   final String label;
   final TextEditingController controller;
-  final IconData icon;
+  final String iconName;
 
   @override
   Widget build(BuildContext context) {
@@ -37,7 +38,7 @@ class ProfileEditField extends StatelessWidget {
           border: InputBorder.none,
           labelText: label,
           labelStyle: TextStyle(fontSize: 12, color: colors.textSecondary),
-          icon: Icon(icon, size: 20, color: colors.textTertiary),
+          icon: AppIcon(iconName, size: 20, color: colors.textTertiary),
           isDense: true,
         ),
         validator: (v) =>
@@ -51,13 +52,13 @@ class ProfileEditField extends StatelessWidget {
 class ProfileEditSectionHeader extends StatelessWidget {
   const ProfileEditSectionHeader({
     required this.title,
-    required this.icon,
+    required this.iconName,
     this.isProtected = false,
     super.key,
   });
 
   final String title;
-  final IconData icon;
+  final String iconName;
   final bool isProtected;
 
   @override
@@ -66,8 +67,8 @@ class ProfileEditSectionHeader extends StatelessWidget {
 
     return Row(
       children: [
-        Icon(
-          icon,
+        AppIcon(
+          iconName,
           size: 18,
           color: isProtected ? colors.accentAmber : colors.primaryIndigo,
         ),

@@ -1,9 +1,9 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
-import 'package:material_symbols_icons/symbols.dart';
 import 'package:vstech_hrm/core/extensions/l10n_extension.dart';
 import 'package:vstech_hrm/core/responsive/app_layout.dart';
 import 'package:vstech_hrm/core/theme/app_colors.dart';
+import 'package:vstech_hrm/core/widgets/app_icon.dart';
 import 'package:vstech_hrm/core/widgets/app_success_dialog.dart';
 import 'package:vstech_hrm/features/requests/presentation/widgets/attendance_correction_modal.dart';
 
@@ -57,7 +57,7 @@ class _AttendanceCorrectionScreenState extends State<AttendanceCorrectionScreen>
         backgroundColor: colors.surface,
         elevation: 0,
         leading: IconButton(
-          icon: const Icon(Symbols.arrow_back),
+          icon: const AppIcon(AppIcons.back, size: 22),
           onPressed: () => Navigator.of(context).pop(),
         ),
         title: Text(
@@ -107,7 +107,7 @@ class _AttendanceCorrectionScreenState extends State<AttendanceCorrectionScreen>
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Icon(Symbols.error, size: 18, color: Color(0xFFE11D48)),
+                const AppIcon(AppIcons.warning, size: 18, color: Color(0xFFE11D48)),
                 8.gapW,
                 Expanded(
                   child: Text(
@@ -179,7 +179,7 @@ class _AttendanceCorrectionScreenState extends State<AttendanceCorrectionScreen>
           children: [
             Text(value, style: TextStyle(fontSize: 14, fontWeight: FontWeight.w800, color: isHighlight ? colors.primaryIndigo : colors.textPrimary)),
             4.gapW,
-            Icon(Symbols.edit, size: 14, color: colors.textTertiary),
+            AppIcon(AppIcons.correction, size: 14, color: colors.textTertiary),
           ],
         ),
       ],

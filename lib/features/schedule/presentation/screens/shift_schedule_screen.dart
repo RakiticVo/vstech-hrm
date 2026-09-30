@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:material_symbols_icons/symbols.dart';
 import 'package:vstech_hrm/core/extensions/l10n_extension.dart';
 import 'package:vstech_hrm/core/responsive/app_layout.dart';
 import 'package:vstech_hrm/core/router/routes.dart';
 import 'package:vstech_hrm/core/theme/app_colors.dart';
+import 'package:vstech_hrm/core/widgets/app_icon.dart';
 import 'package:vstech_hrm/features/schedule/data/datasources/shift_schedule_mock_datasource.dart';
 import 'package:vstech_hrm/features/schedule/domain/entities/shift_schedule_entity.dart';
 import 'package:vstech_hrm/features/schedule/presentation/widgets/shift_detail_card.dart';
@@ -15,7 +15,7 @@ enum ShiftViewState { normal, loading, error, unpublished }
 
 /// Screen displaying the employee's weekly and monthly shift schedule with demo view states.
 class ShiftScheduleScreen extends StatefulWidget {
-  const new({super.key});
+  const ShiftScheduleScreen({super.key});
 
   @override
   State<ShiftScheduleScreen> createState() => _ShiftScheduleScreenState();
@@ -78,7 +78,7 @@ class _ShiftScheduleScreenState extends State<ShiftScheduleScreen> {
         elevation: 0,
         actions: [
           PopupMenuButton<ShiftViewState>(
-            icon: const Icon(Symbols.tune, size: 20),
+            icon: const AppIcon(AppIcons.filter, size: 20),
             tooltip: 'Demo View States',
             onSelected: (s) => setState(() => _viewState = s),
             itemBuilder: (_) => [
@@ -90,12 +90,12 @@ class _ShiftScheduleScreenState extends State<ShiftScheduleScreen> {
           ),
           IconButton(
             tooltip: l10n.shiftSwapsManageTitle,
-            icon: const Icon(Symbols.sync_alt),
+            icon: AppIcon(AppIcons.shiftSwap, size: 20, color: colors.textPrimary),
             onPressed: () => context.push(AppRoutes.shiftSwaps),
           ),
           IconButton(
             tooltip: l10n.viewMonthTooltip,
-            icon: const Icon(Symbols.calendar_month),
+            icon: AppIcon(AppIcons.calendar, size: 20, color: colors.textPrimary),
             onPressed: _openMonthGrid,
           ),
         ],
@@ -117,7 +117,7 @@ class _ShiftScheduleScreenState extends State<ShiftScheduleScreen> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Icon(Symbols.cloud_off, size: 54, color: colors.error),
+                  AppIcon(AppIcons.offline, size: 54, color: colors.error),
                   14.gapH,
                   Text(l10n.errorStateTitle, style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: colors.textPrimary)),
                   6.gapH,
@@ -126,7 +126,7 @@ class _ShiftScheduleScreenState extends State<ShiftScheduleScreen> {
                   ElevatedButton.icon(
                     style: ElevatedButton.styleFrom(backgroundColor: colors.tealPrimary, foregroundColor: Colors.white),
                     onPressed: () => setState(() => _viewState = ShiftViewState.normal),
-                    icon: const Icon(Symbols.refresh, size: 18),
+                    icon: const AppIcon(AppIcons.sync, size: 18, color: Colors.white),
                     label: Text(l10n.shiftNetworkRetry, style: const TextStyle(fontWeight: FontWeight.w700)),
                   ),
                 ],
@@ -139,7 +139,7 @@ class _ShiftScheduleScreenState extends State<ShiftScheduleScreen> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Icon(Symbols.calendar_today, size: 54, color: colors.accentAmber),
+                  AppIcon(AppIcons.calendar, size: 54, color: colors.accentAmber),
                   14.gapH,
                   Text(l10n.shiftMonthUnpublished, textAlign: TextAlign.center, style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold, color: colors.textPrimary)),
                   18.gapH,
@@ -166,7 +166,7 @@ class _ShiftScheduleScreenState extends State<ShiftScheduleScreen> {
                   padding: const EdgeInsets.fromLTRB(16, 16, 16, 0),
                   child: Row(
                     children: [
-                      Icon(Symbols.event_note, size: 18, color: colors.tealPrimary),
+                      AppIcon(AppIcons.shift, size: 18, color: colors.tealPrimary),
                       6.gapW,
                       Text(
                         l10n.shiftDetailHeader(selectedShift.dayOfWeek, dateStr),
@@ -199,7 +199,7 @@ class _ShiftScheduleScreenState extends State<ShiftScheduleScreen> {
           Container(
             padding: const EdgeInsets.all(8),
             decoration: BoxDecoration(color: colors.tealPrimary, borderRadius: BorderRadius.circular(10)),
-            child: const Icon(Symbols.date_range, color: Colors.white, size: 20),
+            child: const AppIcon(AppIcons.shift, color: Colors.white, size: 20),
           ),
           12.gapW,
           Expanded(
@@ -219,7 +219,7 @@ class _ShiftScheduleScreenState extends State<ShiftScheduleScreen> {
               mainAxisSize: MainAxisSize.min,
               children: [
                 Text(l10n.viewMonth, style: const TextStyle(fontSize: 12)),
-                const Icon(Symbols.chevron_right, size: 16),
+                AppIcon(AppIcons.chevronRight, size: 16, color: colors.tealPrimary),
               ],
             ),
           ),

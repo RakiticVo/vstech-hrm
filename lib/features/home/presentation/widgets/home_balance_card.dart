@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:material_symbols_icons/symbols.dart';
 import 'package:vstech_hrm/core/extensions/l10n_extension.dart';
 import 'package:vstech_hrm/core/responsive/app_layout.dart';
 import 'package:vstech_hrm/core/router/routes.dart';
 import 'package:vstech_hrm/core/theme/app_colors.dart';
 import 'package:vstech_hrm/core/theme/app_text_styles.dart';
+import 'package:vstech_hrm/core/widgets/app_icon.dart';
 import 'package:vstech_hrm/features/attendance/domain/entities/attendance_record_entity.dart';
 import 'package:vstech_hrm/features/home/presentation/widgets/home_ring_progress_painter.dart';
 
@@ -13,7 +13,7 @@ import 'package:vstech_hrm/features/home/presentation/widgets/home_ring_progress
 /// in/out times, and primary Amber check-in CTA button.
 /// Follows DESIGN.md §6 & Phone.dc.html lines 112–141.
 class HomeBalanceCard extends StatelessWidget {
-  const new({
+  const HomeBalanceCard({
     this.workedHours = '6h 12m',
     this.shiftName,
     this.workedPercentage = 0.69,
@@ -96,14 +96,14 @@ class HomeBalanceCard extends StatelessWidget {
                               displayShiftName,
                               maxLines: 1,
                               overflow: TextOverflow.ellipsis,
-                              style: AppTextStyles.bodySmall(color: colors.textSecondary).copyWith(
+                              style: AppTextStyles.bodySmall(color: colors.tealPrimary).copyWith(
                                 fontWeight: FontWeight.w700,
                                 fontFeatures: const [FontFeature.tabularFigures()],
                               ),
                             ),
                           ),
                           4.gapW,
-                          Icon(Symbols.chevron_right, size: 16, color: colors.textSecondary),
+                          AppIcon(AppIcons.chevronRight, size: 16, color: colors.tealPrimary),
                         ],
                       ),
                     ),
@@ -153,7 +153,7 @@ class HomeBalanceCard extends StatelessWidget {
                     Text(
                       l10n.shiftCheckInLabel,
                       style: AppTextStyles.labelMicro(color: colors.textSecondary).copyWith(
-                        letterSpacing: 1.0,
+                        letterSpacing: 1,
                         fontWeight: FontWeight.w800,
                       ),
                       maxLines: 1,
@@ -182,7 +182,7 @@ class HomeBalanceCard extends StatelessWidget {
                     Text(
                       l10n.shiftCheckOutLabel,
                       style: AppTextStyles.labelMicro(color: colors.textSecondary).copyWith(
-                        letterSpacing: 1.0,
+                        letterSpacing: 1,
                         fontWeight: FontWeight.w800,
                       ),
                       maxLines: 1,
@@ -228,7 +228,7 @@ class HomeBalanceCard extends StatelessWidget {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        const Icon(Symbols.face, size: 17, weight: 600),
+                        const AppIcon(AppIcons.faceScan, size: 17, color: Color(0xFF1C1408)),
                         4.gapW,
                         Flexible(
                           child: Text(

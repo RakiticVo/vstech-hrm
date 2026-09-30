@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:material_symbols_icons/symbols.dart';
 import 'package:vstech_hrm/core/extensions/l10n_extension.dart';
 import 'package:vstech_hrm/core/responsive/app_layout.dart';
 import 'package:vstech_hrm/core/router/routes.dart';
 import 'package:vstech_hrm/core/theme/app_colors.dart';
+import 'package:vstech_hrm/core/widgets/app_icon.dart';
 import 'package:vstech_hrm/core/widgets/primary_button.dart';
+import 'package:vstech_hrm/features/payroll/presentation/widgets/dispute_read_only_field.dart';
 
 /// Screen 15 / F5: Create a new salary line discrepancy dispute (`dispute-new`).
 class SalaryDisputeNewScreen extends StatefulWidget {
@@ -34,7 +35,7 @@ class _SalaryDisputeNewScreenState extends State<SalaryDisputeNewScreen> {
   int? _difference;
   bool _hasAttachment = false;
 
-  final _availableItems = [
+  final _availableItems = const [
     'Lương tăng ca 150%',
     'Phụ cấp ăn trưa & đi lại',
     'Thưởng KPI Quý',
@@ -64,15 +65,7 @@ class _SalaryDisputeNewScreenState extends State<SalaryDisputeNewScreen> {
   void _calculateDifference() {
     final text = _expectedAmountController.text.replaceAll(RegExp(r'[^\d]'), '');
     final expected = int.tryParse(text);
-    if (expected != null) {
-      setState(() {
-        _difference = expected - widget.prefilledCurrentAmount;
-      });
-    } else {
-      setState(() {
-        _difference = null;
-      });
-    }
+    setState(() => _difference = expected != null ? expected - widget.prefilledCurrentAmount : null);
   }
 
   String _formatCurrency(int amount) {
@@ -87,15 +80,11 @@ class _SalaryDisputeNewScreenState extends State<SalaryDisputeNewScreen> {
 
   void _handleSubmit() {
     if (!_formKey.currentState!.validate()) return;
-
-    context.push(
-      AppRoutes.requestSent,
-      extra: {
-        'code': 'KN-2026-0418',
-        'title': 'Khiếu nại: $_selectedItem ($periodText)',
-        'assignedTo': 'Phạm Thu Trang (HR Admin)',
-      },
-    );
+    context.push(AppRoutes.requestSent, extra: {
+      'code': 'KN-2026-0418',
+      'title': 'Khiếu nại: $_selectedItem ($periodText)',
+      'assignedTo': 'Phạm Thu Trang (HR Admin)',
+    });
   }
 
   String get periodText => widget.periodMonth;
@@ -111,17 +100,10 @@ class _SalaryDisputeNewScreenState extends State<SalaryDisputeNewScreen> {
         backgroundColor: colors.surface,
         elevation: 0,
         leading: IconButton(
-          icon: const Icon(Symbols.arrow_back),
+          icon: const AppIcon(AppIcons.back, size: 22),
           onPressed: () => Navigator.of(context).pop(),
         ),
-        title: Text(
-          l10n.disputeNewTitle,
-          style: TextStyle(
-            fontSize: 18,
-            fontWeight: FontWeight.w800,
-            color: colors.textPrimary,
-          ),
-        ),
+        title: Text(l10n.disputeNewTitle, style: TextStyle(fontSize: 18, fontWeight: FontWeight.w800, color: colors.textPrimary)),
       ),
       body: Form(
         key: _formKey,
@@ -129,11 +111,10 @@ class _SalaryDisputeNewScreenState extends State<SalaryDisputeNewScreen> {
           padding: const EdgeInsets.fromLTRB(16, 16, 16, 32),
           children: [
             // Period display
-            _buildReadOnlyField(
-              context,
+            DisputeReadOnlyField(
               label: l10n.disputeMonthLabel,
               value: 'Tháng $periodText',
-              icon: Symbols.calendar_month,
+              iconName: AppIcons.calendar,
             ),
             14.gapH,
 
@@ -162,11 +143,10 @@ class _SalaryDisputeNewScreenState extends State<SalaryDisputeNewScreen> {
             14.gapH,
 
             // Current payslip amount (read only)
-            _buildReadOnlyField(
-              context,
+            DisputeReadOnlyField(
               label: l10n.disputeCurrentAmountLabel,
               value: _formatCurrency(widget.prefilledCurrentAmount),
-              icon: Symbols.receipt_long,
+              iconName: AppIcons.payslip,
             ),
             14.gapH,
 
@@ -183,7 +163,10 @@ class _SalaryDisputeNewScreenState extends State<SalaryDisputeNewScreen> {
                 hintText: 'Nhập số tiền thực tế (VD: 2450000)',
                 filled: true,
                 fillColor: colors.surface,
-                prefixIcon: const Icon(Symbols.attach_money, size: 20),
+                prefixIcon: const Padding(
+                  padding: EdgeInsets.all(12),
+                  child: AppIcon(AppIcons.coin, size: 20),
+                ),
                 contentPadding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
                 border: OutlineInputBorder(borderRadius: BorderRadius.circular(14), borderSide: BorderSide(color: colors.border)),
                 enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(14), borderSide: BorderSide(color: colors.border)),
@@ -269,10 +252,10 @@ class _SalaryDisputeNewScreenState extends State<SalaryDisputeNewScreen> {
                 ),
                 child: Row(
                   children: [
-                    Icon(
-                      _hasAttachment ? Symbols.check_circle : Symbols.upload_file,
+                    AppIcon(
+                      _hasAttachment ? AppIcons.check : AppIcons.attach,
                       color: _hasAttachment ? colors.pineGreen : colors.primaryIndigo,
-                      size: 24,
+                      size: 22,
                     ),
                     12.gapW,
                     Expanded(
@@ -294,49 +277,12 @@ class _SalaryDisputeNewScreenState extends State<SalaryDisputeNewScreen> {
             // Submit Button
             PrimaryButton(
               text: l10n.submitDisputeBtn,
+              iconName: AppIcons.check,
               onPressed: _handleSubmit,
             ),
           ],
         ),
       ),
-    );
-  }
-
-  Widget _buildReadOnlyField(
-    BuildContext context, {
-    required String label,
-    required String value,
-    required IconData icon,
-  }) {
-    final colors = context.colors;
-
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          label,
-          style: TextStyle(fontSize: 12.5, fontWeight: FontWeight.w700, color: colors.textSecondary),
-        ),
-        6.gapH,
-        Container(
-          padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 13),
-          decoration: BoxDecoration(
-            color: colors.surface,
-            borderRadius: BorderRadius.circular(14),
-            border: Border.all(color: colors.border),
-          ),
-          child: Row(
-            children: [
-              Icon(icon, size: 20, color: colors.textSecondary),
-              10.gapW,
-              Text(
-                value,
-                style: TextStyle(fontSize: 14, fontWeight: FontWeight.w700, color: colors.textPrimary),
-              ),
-            ],
-          ),
-        ),
-      ],
     );
   }
 }

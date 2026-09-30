@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:material_symbols_icons/symbols.dart';
 import 'package:vstech_hrm/core/extensions/l10n_extension.dart';
 import 'package:vstech_hrm/core/responsive/app_layout.dart';
 import 'package:vstech_hrm/core/router/routes.dart';
 import 'package:vstech_hrm/core/theme/app_colors.dart';
+import 'package:vstech_hrm/core/widgets/app_icon.dart';
 import 'package:vstech_hrm/core/widgets/primary_button.dart';
 import 'package:vstech_hrm/features/onboarding/presentation/widgets/onboarding_checklist_tile.dart';
 import 'package:vstech_hrm/features/onboarding/presentation/widgets/onboarding_hero_banner.dart';
@@ -23,7 +23,7 @@ class OnboardingHomeScreen extends StatelessWidget {
         stepNumber: 1,
         title: 'Xem & Chấp thuận Thư mời nhận việc',
         description: 'Xác nhận mức lương, chế độ phúc lợi và ngày nhận việc',
-        icon: Symbols.mail,
+        icon: AppIcons.mail,
         route: AppRoutes.onboardingOffer,
         status: OnboardingStepStatus.completed,
       ),
@@ -31,7 +31,7 @@ class OnboardingHomeScreen extends StatelessWidget {
         stepNumber: 2,
         title: 'Đội ngũ & Người hướng dẫn (Buddy)',
         description: 'Làm quen với người đồng hành và sơ đồ tổ chức phòng ban',
-        icon: Symbols.groups,
+        icon: AppIcons.users,
         route: AppRoutes.onboardingOrg,
         status: OnboardingStepStatus.completed,
       ),
@@ -39,7 +39,7 @@ class OnboardingHomeScreen extends StatelessWidget {
         stepNumber: 3,
         title: 'Nộp hồ sơ nhân sự đầu vào',
         description: 'Tải lên CCCD, Sơ yếu lý lịch, Giấy khám sức khỏe',
-        icon: Symbols.upload_file,
+        icon: AppIcons.upload,
         route: AppRoutes.onboardingDocs,
         status: OnboardingStepStatus.inProgress,
       ),
@@ -47,7 +47,7 @@ class OnboardingHomeScreen extends StatelessWidget {
         stepNumber: 4,
         title: 'Chụp ảnh thẻ nhân viên 3x4',
         description: 'Chụp ảnh chân dung làm thẻ ra vào và tài khoản nội bộ',
-        icon: Symbols.photo_camera,
+        icon: AppIcons.camera,
         route: AppRoutes.onboardingCapture,
         status: OnboardingStepStatus.notStarted,
       ),
@@ -55,7 +55,7 @@ class OnboardingHomeScreen extends StatelessWidget {
         stepNumber: 5,
         title: 'Xác thực danh tính (OCR CCCD)',
         description: 'Quét căn cước công dân gắn chip để đối soát tự động',
-        icon: Symbols.badge,
+        icon: AppIcons.badgeAlert,
         route: AppRoutes.onboardingOcr,
         status: OnboardingStepStatus.notStarted,
       ),
@@ -63,7 +63,7 @@ class OnboardingHomeScreen extends StatelessWidget {
         stepNumber: 6,
         title: 'Ký hợp đồng thử việc điện tử',
         description: 'Ký trực tuyến với mã xác thực OTP bảo mật cao',
-        icon: Symbols.draw,
+        icon: AppIcons.edit3,
         route: AppRoutes.onboardingSign,
         status: OnboardingStepStatus.notStarted,
       ),
@@ -71,7 +71,7 @@ class OnboardingHomeScreen extends StatelessWidget {
         stepNumber: 7,
         title: 'Cẩm nang Ngày đầu tiên đi làm',
         description: 'Thời gian, địa điểm, trang phục và người đón tiếp',
-        icon: Symbols.menu_book,
+        icon: AppIcons.fileText,
         route: AppRoutes.onboardingDayOne,
         status: OnboardingStepStatus.notStarted,
       ),
@@ -124,7 +124,7 @@ class OnboardingHomeScreen extends StatelessWidget {
           padding: const EdgeInsets.fromLTRB(16, 8, 16, 16),
           child: PrimaryButton(
             text: l10n.startNextStepBtn,
-            icon: Symbols.arrow_forward,
+            iconName: AppIcons.arrowRight,
             onPressed: () => context.push(AppRoutes.onboardingDocs),
           ),
         ),

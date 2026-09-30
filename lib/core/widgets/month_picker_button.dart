@@ -1,9 +1,9 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
-import 'package:material_symbols_icons/symbols.dart';
 import 'package:vstech_hrm/core/extensions/l10n_extension.dart';
 import 'package:vstech_hrm/core/responsive/app_layout.dart';
 import 'package:vstech_hrm/core/theme/app_colors.dart';
+import 'package:vstech_hrm/core/widgets/app_icon.dart';
 
 /// Reusable month filter button that opens a bottom sheet to select month.
 /// Used across Request Center, Leave, Overtime, and Attendance Correction screens.
@@ -38,7 +38,7 @@ class MonthPickerButton extends StatelessWidget {
   void _showMonthPicker(BuildContext context) {
     final colors = context.colors;
     final months = _resolveMonths(context);
-    final allLabel = context.l10n.filterAll;
+
 
     unawaited(
       showModalBottomSheet<void>(
@@ -66,7 +66,7 @@ class MonthPickerButton extends StatelessWidget {
                       ),
                     ),
                     IconButton(
-                      icon: const Icon(Symbols.close, size: 20),
+                      icon: const AppIcon(AppIcons.close, size: 20),
                       onPressed: () => Navigator.pop(ctx),
                     ),
                   ],
@@ -74,7 +74,7 @@ class MonthPickerButton extends StatelessWidget {
                 12.gapH,
                 ...months.map((m) {
                   final isSelected = selectedMonth == m;
-                  final isAll = m == allLabel || m == 'Tất cả' || m == 'All';
+
                   return Padding(
                     padding: const EdgeInsets.only(bottom: 8),
                     child: InkWell(
@@ -100,8 +100,8 @@ class MonthPickerButton extends StatelessWidget {
                           children: [
                             Row(
                               children: [
-                                Icon(
-                                  isAll ? Symbols.all_inclusive : Symbols.calendar_month,
+                                AppIcon(
+                                  AppIcons.calendar,
                                   size: 18,
                                   color: isSelected ? colors.primaryIndigo : colors.textSecondary,
                                 ),
@@ -117,7 +117,7 @@ class MonthPickerButton extends StatelessWidget {
                               ],
                             ),
                             if (isSelected)
-                              Icon(Symbols.check, size: 18, color: colors.primaryIndigo),
+                              AppIcon(AppIcons.check, size: 18, color: colors.primaryIndigo),
                           ],
                         ),
                       ),
@@ -135,8 +135,8 @@ class MonthPickerButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colors = context.colors;
-    final allLabel = context.l10n.filterAll;
-    final isAll = selectedMonth == allLabel || selectedMonth == 'Tất cả' || selectedMonth == 'All';
+
+
 
     return Material(
       color: Colors.transparent,
@@ -156,8 +156,8 @@ class MonthPickerButton extends StatelessWidget {
           child: Row(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Icon(
-                isAll ? Symbols.all_inclusive : Symbols.calendar_month,
+              AppIcon(
+                AppIcons.calendar,
                 size: 16,
                 color: colors.primaryIndigo,
               ),
@@ -171,7 +171,7 @@ class MonthPickerButton extends StatelessWidget {
                 ),
               ),
               4.gapW,
-              Icon(Symbols.expand_more, size: 16, color: colors.textTertiary),
+              AppIcon(AppIcons.chevronDown, size: 16, color: colors.textTertiary),
             ],
           ),
         ),
