@@ -1,0 +1,814 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<title>V-STech HRM — Hướng dẫn sử dụng</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:ital,wght@0,400;0,600;0,700;0,800;1,400&display=swap" rel="stylesheet">
+<style>
+:root{
+  --teal-deep:#0A544E; --teal:#0F766E; --teal-light:#14B8A6; --teal-tint:#E6F2F0;
+  --amber:#F59E0B; --amber-ink:#B45309; --amber-tint:#FEF3DC;
+  --cream:#FFF8EC; --ink:#1F2A2E; --muted:#5B6B70; --line:#D9E3E1;
+  --green:#047857; --green-tint:#E3F4EC; --grey-tint:#EEF1F2; --red:#B91C1C;
+}
+*{box-sizing:border-box}
+html{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+body{margin:0;font-family:"Source Sans 3","Helvetica Neue",Arial,sans-serif;color:var(--ink);font-size:10.5pt;line-height:1.5;background:#fff}
+
+@page{size:A4;margin:18mm 17mm 20mm 17mm;
+  @bottom-left{content:"V-STech HRM · Hướng dẫn sử dụng";font-family:"Source Sans 3",sans-serif;font-size:8pt;color:#7A8A8E}
+  @bottom-right{content:counter(page);font-family:"Source Sans 3",sans-serif;font-size:8.5pt;color:#0F766E;font-weight:700}
+}
+@page cover{margin:0;@bottom-left{content:none}@bottom-right{content:none}}
+
+/* Saigon tile pattern, drawn with gradients only */
+.tile{background-color:var(--teal-deep);
+  background-image:
+    radial-gradient(circle at 50% 50%, rgba(245,158,11,.55) 0 9%, transparent 10%),
+    radial-gradient(circle at 50% 50%, transparent 0 22%, rgba(255,248,236,.28) 23% 26%, transparent 27%),
+    radial-gradient(circle at 0 0, rgba(255,248,236,.22) 0 20%, transparent 21%),
+    radial-gradient(circle at 100% 0, rgba(255,248,236,.22) 0 20%, transparent 21%),
+    radial-gradient(circle at 0 100%, rgba(255,248,236,.22) 0 20%, transparent 21%),
+    radial-gradient(circle at 100% 100%, rgba(255,248,236,.22) 0 20%, transparent 21%),
+    linear-gradient(45deg, transparent 46%, rgba(255,248,236,.16) 47% 53%, transparent 54%),
+    linear-gradient(-45deg, transparent 46%, rgba(255,248,236,.16) 47% 53%, transparent 54%);
+  background-size:44px 44px;}
+
+/* Cover */
+.cover{page:cover;height:297mm;width:210mm;position:relative;overflow:hidden;break-after:page}
+.cover .band{position:absolute;inset:0 0 auto 0;height:150mm}
+.cover .band::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(10,84,78,0) 40%,rgba(10,84,78,.85))}
+.cover .brand{position:absolute;top:24mm;left:20mm;z-index:2;color:var(--cream);display:flex;align-items:center;gap:10px;font-weight:700;letter-spacing:.08em;font-size:10pt}
+.cover .logo{width:34px;height:34px;border-radius:9px;background:var(--amber);display:flex;align-items:center;justify-content:center;color:var(--teal-deep);font-weight:800;font-size:15pt}
+.cover .title{position:absolute;top:92mm;left:20mm;right:20mm;z-index:2;color:var(--cream)}
+.cover .title .kicker{font-size:11pt;letter-spacing:.18em;text-transform:uppercase;color:#FCD9A0;font-weight:700}
+.cover .title h1{font-size:44pt;line-height:1.02;margin:6px 0 0;font-weight:800}
+.cover .body{position:absolute;top:162mm;left:20mm;right:20mm}
+.cover .body .sub{font-size:16pt;font-weight:600;color:var(--teal);margin:0 0 8mm;line-height:1.3}
+.cover .pillars{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:12mm}
+.cover .pillar{border:1.5px solid var(--line);border-radius:12px;padding:12px 12px 10px;background:#fff}
+.cover .pillar b{display:block;color:var(--teal);font-size:12pt}
+.cover .pillar span{font-size:9pt;color:var(--muted)}
+.cover .meta{display:flex;gap:28px;font-size:9.5pt;color:var(--muted);border-top:1px solid var(--line);padding-top:6mm}
+.cover .meta b{display:block;color:var(--ink);font-size:10.5pt}
+.cover .foot{position:absolute;bottom:0;left:0;right:0;height:9mm}
+
+/* Chapters */
+.chapter{break-before:page}
+.chap-head{border-radius:14px;padding:16px 20px 18px;color:var(--cream);margin-bottom:16px;position:relative;overflow:hidden}
+.chap-head::before{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(10,84,78,.94) 0%,rgba(10,84,78,.86) 55%,rgba(10,84,78,.35) 100%)}
+.chap-head>*{position:relative}
+.cover .title::before{content:"";position:absolute;inset:-14mm -20mm -10mm -20mm;background:linear-gradient(90deg,rgba(10,84,78,.9),rgba(10,84,78,.55) 70%,rgba(10,84,78,0));z-index:-1}
+.chap-head .no{font-size:9pt;letter-spacing:.2em;font-weight:700;color:#FCD9A0}
+.chap-head h1{margin:2px 0 4px;font-size:22pt;line-height:1.15;font-weight:800}
+.chap-head p{margin:0;font-size:10.5pt;color:#F3EAD8;max-width:150mm}
+h2{font-size:14pt;color:var(--teal);margin:20px 0 8px;font-weight:800;break-after:avoid}
+h3{font-size:11.5pt;margin:14px 0 6px;color:var(--ink);break-after:avoid}
+p{margin:0 0 8px}
+ul,ol{margin:0 0 8px;padding-left:20px}
+li{margin:2px 0}
+.lead{font-size:11.5pt;color:#36464B}
+.muted{color:var(--muted)}
+.small{font-size:9pt}
+
+/* Status badges */
+.badge{display:inline-block;font-size:8pt;font-weight:700;letter-spacing:.04em;padding:2px 8px;border-radius:999px;vertical-align:middle;white-space:nowrap}
+.b-ready{background:var(--green-tint);color:var(--green);border:1px solid #A7DCC3}
+.b-beta{background:var(--amber-tint);color:var(--amber-ink);border:1px solid #F7CF8A}
+.b-plan{background:var(--grey-tint);color:#55656A;border:1px solid #CBD4D6}
+
+/* Feature cards */
+.feature{border:1px solid var(--line);border-radius:12px;padding:12px 16px 8px;margin:0 0 12px;break-inside:avoid;background:#fff}
+.feature .fh{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;margin-bottom:6px}
+.feature .fh h3{margin:0;font-size:12.5pt;color:var(--teal-deep)}
+.feature .who{font-size:8.5pt;color:var(--muted);margin-top:1px}
+.value{background:var(--teal-tint);border-left:3px solid var(--teal);border-radius:0 8px 8px 0;padding:6px 10px;margin:4px 0 8px;font-size:10pt}
+.value b{color:var(--teal)}
+.cols{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.lbl{font-size:8.5pt;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--amber-ink);margin:2px 0 3px}
+.rules li::marker{color:var(--amber)}
+ol.steps{counter-reset:s;list-style:none;padding-left:0}
+ol.steps>li{counter-increment:s;position:relative;padding-left:24px;margin:3px 0}
+ol.steps>li::before{content:counter(s);position:absolute;left:0;top:1px;width:17px;height:17px;border-radius:50%;background:var(--teal);color:#fff;font-size:8pt;font-weight:700;display:flex;align-items:center;justify-content:center}
+
+/* Tables */
+table{width:100%;border-collapse:collapse;margin:6px 0 12px;font-size:9.5pt;break-inside:auto}
+th{background:var(--teal);color:#fff;text-align:left;padding:6px 8px;font-weight:700}
+td{padding:5px 8px;border-bottom:1px solid var(--line);vertical-align:top}
+tr{break-inside:avoid}
+tbody tr:nth-child(even) td{background:#F7FAF9}
+td.c,th.c{text-align:center}
+.grp td{background:var(--cream)!important;font-weight:700;color:var(--teal-deep)}
+
+/* Callouts & misc */
+.note{background:var(--cream);border:1px solid #F3DDB5;border-radius:10px;padding:9px 12px;margin:8px 0 12px;font-size:10pt;break-inside:avoid}
+.note b{color:var(--amber-ink)}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:8px 0 12px}
+.grid2{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin:8px 0 12px}
+.tilecard{border:1px solid var(--line);border-radius:12px;padding:10px 12px;break-inside:avoid;background:#fff}
+.tilecard b{display:block;color:var(--teal-deep);font-size:11pt;margin-bottom:2px}
+.tilecard span{font-size:9.5pt;color:#43555A}
+.tilecard .ic{width:26px;height:26px;border-radius:8px;background:var(--amber-tint);color:var(--amber-ink);font-weight:800;display:flex;align-items:center;justify-content:center;margin-bottom:6px;font-size:10pt}
+.flow{display:flex;flex-wrap:wrap;align-items:center;gap:6px;margin:8px 0 12px}
+.flow .st{border:1.5px solid var(--teal);border-radius:10px;padding:6px 10px;font-weight:700;color:var(--teal-deep);font-size:9.5pt;background:#fff;text-align:center}
+.flow .st small{display:block;font-weight:400;color:var(--muted);font-size:8pt}
+.flow .st.amber{border-color:var(--amber);background:var(--amber-tint);color:var(--amber-ink)}
+.flow .ar{color:var(--amber);font-weight:800;font-size:13pt}
+.legend{display:flex;gap:14px;flex-wrap:wrap;margin:6px 0 10px;font-size:9.5pt}
+.legend i{display:inline-block;width:12px;height:12px;border-radius:3px;margin-right:5px;vertical-align:-1px}
+.toc{columns:1}
+.toc .row{display:flex;align-items:baseline;gap:8px;padding:5px 0;border-bottom:1px dotted #C7D3D1;font-size:11pt}
+.toc .row .n{width:34px;color:var(--amber-ink);font-weight:800}
+.toc .row .t{flex:1}
+.toc .row .t small{display:block;color:var(--muted);font-size:9pt}
+.toc .row .p{color:var(--teal);font-weight:700;min-width:22px;text-align:right}
+.divider{height:10px;border-radius:5px;margin:14px 0}
+.kpi{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:10px 0 14px}
+.kpi div{border-radius:12px;background:var(--teal-tint);padding:10px 12px}
+.kpi b{display:block;font-size:20pt;color:var(--teal);line-height:1.1}
+.kpi span{font-size:9pt;color:#43555A}
+.avoid{break-inside:avoid}
+</style>
+</head>
+<body>
+
+<!-- ============ COVER ============ -->
+<section class="cover">
+  <div class="band tile"></div>
+  <div class="brand"><div class="logo">V</div>V-STECH HRM</div>
+  <div class="title">
+    <div class="kicker">Hướng dẫn sử dụng · Giới thiệu sản phẩm</div>
+    <h1>Ứng dụng nhân sự<br>V-STech HRM</h1>
+  </div>
+  <div class="body">
+    <p class="sub">Ứng dụng di động cho nhân viên và quản lý.<br>Chấm công, đơn từ, phê duyệt, lương thưởng trên một ứng dụng.</p>
+    <div class="pillars">
+      <div class="pillar"><b>Tuyển dụng</b><span>Giới thiệu ứng viên, tuyển dụng nội bộ, hội nhập nhân viên mới</span></div>
+      <div class="pillar"><b>Chấm công</b><span>Khuôn mặt AI, GPS, Wi-Fi công ty; lịch ca, lịch công tháng</span></div>
+      <div class="pillar"><b>Tiền lương</b><span>Phiếu lương bảo mật, ký xác nhận, khiếu nại sai lệch</span></div>
+      <div class="pillar"><b>Khen thưởng</b><span>Thưởng, hoa hồng, tiến độ chỉ tiêu theo mốc</span></div>
+    </div>
+    <div class="meta">
+      <div><b>Phiên bản tài liệu</b>1.0</div>
+      <div><b>Ngày phát hành</b>02/10/2026</div>
+      <div><b>Nền tảng</b>Android 8.0+ · iOS 14+</div>
+      <div><b>Ngôn ngữ</b>Tiếng Việt · English</div>
+    </div>
+  </div>
+  <div class="foot tile"></div>
+</section>
+
+<!-- ============ TOC ============ -->
+<section>
+  <div class="chap-head tile"><div class="no">NỘI DUNG</div><h1>Mục lục</h1><p>Tài liệu dành cho ban lãnh đạo, đội kinh doanh và khách hàng doanh nghiệp muốn nắm toàn bộ chức năng của V-STech HRM.</p></div>
+  <div class="toc">
+    <div class="row"><span class="n">01</span><span class="t">Tổng quan sản phẩm<small>V-STech HRM là gì, giải quyết vấn đề gì, điểm khác biệt</small></span><span class="p">{{p01}}</span></div>
+    <div class="row"><span class="n">02</span><span class="t">Bản đồ chức năng &amp; trạng thái<small>Bảng tổng hợp toàn bộ chức năng, mức độ sẵn sàng</small></span><span class="p">{{p02}}</span></div>
+    <div class="row"><span class="n">03</span><span class="t">Vai trò người dùng &amp; điều hướng<small>Nhân viên, Quản lý, Ban Giám đốc, Ứng viên mới, HR</small></span><span class="p">{{p03}}</span></div>
+    <div class="row"><span class="n">04</span><span class="t">Bắt đầu sử dụng<small>Đăng nhập, sinh trắc học, đăng nhập Web bằng QR, Trang chủ</small></span><span class="p">{{p04}}</span></div>
+    <div class="row"><span class="n">05</span><span class="t">Chấm công &amp; bảng công<small>Khuôn mặt AI 3 lớp, ngoại tuyến, nhật ký, lịch công, ngày lễ, chống gian lận</small></span><span class="p">{{p05}}</span></div>
+    <div class="row"><span class="n">06</span><span class="t">Lịch ca &amp; đổi ca</span><span class="p">{{p06}}</span></div>
+    <div class="row"><span class="n">07</span><span class="t">Đơn từ &amp; yêu cầu<small>Nghỉ phép, tăng ca, nghỉ bù, sửa công, công đi, công tác</small></span><span class="p">{{p07}}</span></div>
+    <div class="row"><span class="n">08</span><span class="t">Phê duyệt dành cho Quản lý</span><span class="p">{{p08}}</span></div>
+    <div class="row"><span class="n">09</span><span class="t">Lương, thưởng &amp; hoa hồng</span><span class="p">{{p09}}</span></div>
+    <div class="row"><span class="n">10</span><span class="t">Hồ sơ cá nhân &amp; tài liệu</span><span class="p">{{p10}}</span></div>
+    <div class="row"><span class="n">11</span><span class="t">Thông báo &amp; truyền thông nội bộ</span><span class="p">{{p11}}</span></div>
+    <div class="row"><span class="n">12</span><span class="t">Tuyển dụng nội bộ &amp; hội nhập nhân viên mới</span><span class="p">{{p12}}</span></div>
+    <div class="row"><span class="n">13</span><span class="t">Phân hệ điều hành cho Ban Giám đốc</span><span class="p">{{p13}}</span></div>
+    <div class="row"><span class="n">14</span><span class="t">Cài đặt, bảo mật &amp; quyền riêng tư</span><span class="p">{{p14}}</span></div>
+    <div class="row"><span class="n">15</span><span class="t">Kịch bản demo 10 phút cho buổi chào hàng</span><span class="p">{{p15}}</span></div>
+    <div class="row"><span class="n">16</span><span class="t">Lộ trình phát triển &amp; khả năng tích hợp</span><span class="p">{{p16}}</span></div>
+  </div>
+  <div class="note" style="margin-top:16px"><b>Cách đọc nhãn trạng thái.</b> Mỗi chức năng trong tài liệu có một nhãn:<br>
+    <span class="badge b-ready">SẴN SÀNG</span> đã kết nối với hệ thống máy chủ V-STech HRM, chạy với dữ liệu thật của doanh nghiệp.<br>
+    <span class="badge b-beta">ĐANG HOÀN THIỆN</span> đã có giao diện đầy đủ và trình diễn được bằng dữ liệu mẫu; đang kết nối với máy chủ.<br>
+    <span class="badge b-plan">LỘ TRÌNH</span> đã có trong kế hoạch, chưa có trong ứng dụng.
+  </div>
+</section>
+
+<!-- ============ 01 OVERVIEW ============ -->
+<section class="chapter" id="c01">
+  <div class="chap-head tile"><div class="no">CHƯƠNG 01</div><h1>Tổng quan sản phẩm</h1><p>V-STech HRM là ứng dụng nhân sự trên điện thoại cho doanh nghiệp, dùng cho nhân viên và cấp quản lý trực tiếp.</p></div>
+
+  <p class="lead">V-STech HRM đưa các việc nhân sự hằng ngày lên điện thoại của nhân viên: chấm công, xem ca, gửi đơn, xem phiếu lương, nhận thông báo. Quản lý duyệt đơn ngay trên ứng dụng thay vì ký giấy hoặc nhắn tin.</p>
+
+  <h2>Bài toán doanh nghiệp đang gặp</h2>
+  <div class="grid2">
+    <div class="tilecard"><div class="ic">1</div><b>Chấm công hộ, gian lận vị trí</b><span>Máy chấm vân tay và chấm qua ứng dụng thông thường dễ bị chấm hộ, dùng ảnh in sẵn hoặc giả lập GPS.</span></div>
+    <div class="tilecard"><div class="ic">2</div><b>Đơn từ giấy chậm và thất lạc</b><span>Đơn nghỉ phép, tăng ca, giải trình công qua nhiều cấp ký, khó theo dõi đơn đang nằm ở đâu.</span></div>
+    <div class="tilecard"><div class="ic">3</div><b>Thắc mắc lương tốn thời gian của HR</b><span>Nhân viên không hiểu phiếu lương, hỏi qua tin nhắn; phiếu lương giấy dễ lộ thông tin.</span></div>
+    <div class="tilecard"><div class="ic">4</div><b>Thông tin nội bộ phân tán</b><span>Thông báo đi qua nhiều nhóm chat tự phát, không biết ai đã đọc, dễ rò rỉ thông tin.</span></div>
+  </div>
+
+  <h2>V-STech HRM giải quyết thế nào</h2>
+  <table>
+    <thead><tr><th style="width:32%">Nhu cầu</th><th>Cách V-STech HRM đáp ứng</th></tr></thead>
+    <tbody>
+      <tr><td><b>Chấm công chính xác</b></td><td>Xác thực 3 lớp mỗi lần chấm: khuôn mặt có kiểm tra người thật, vị trí GPS trong vùng làm việc, Wi-Fi nội bộ công ty. Chặn máy đã root/jailbreak và GPS giả.</td></tr>
+      <tr><td><b>Không mất công khi mất mạng</b></td><td>Chấm công ngoại tuyến: đối chiếu khuôn mặt ngay trên máy, lưu an toàn và tự đồng bộ khi có mạng.</td></tr>
+      <tr><td><b>Đơn từ không giấy</b></td><td>Một trung tâm yêu cầu cho nghỉ phép, tăng ca, sửa công, đổi ca, công đi, công tác, khiếu nại lương. Thanh tiến độ cho biết đơn đang ở bước nào.</td></tr>
+      <tr><td><b>Quản lý duyệt nhanh</b></td><td>Hộp duyệt riêng cho quản lý, có số đơn chờ trên Trang chủ. Duyệt một chạm, từ chối bắt buộc ghi lý do.</td></tr>
+      <tr><td><b>Lương minh bạch và bảo mật</b></td><td>Phiếu lương chi tiết từng dòng, chỉ mở sau xác thực sinh trắc học, chặn chụp màn hình. Nhân viên ký xác nhận hoặc khiếu nại ngay trên dòng sai.</td></tr>
+      <tr><td><b>Truyền thông nội bộ chính thức</b></td><td>Bảng tin và trung tâm thông báo, phân nhóm theo phạm vi (toàn công ty, khối văn phòng, phân xưởng), bấm thông báo là mở đúng màn liên quan.</td></tr>
+    </tbody>
+  </table>
+
+  <h2>Điểm khác biệt</h2>
+  <div class="grid3">
+    <div class="tilecard"><b>Chống gian lận 3 lớp</b><span>Khuôn mặt + GPS + Wi-Fi, kèm kiểm tra thiết bị đã đăng ký mỗi lần chấm công.</span></div>
+    <div class="tilecard"><b>Chạy cả khi mất sóng</b><span>Phù hợp nhà xưởng mái tôn, tầng hầm, công trường hay mất mạng.</span></div>
+    <div class="tilecard"><b>Thiết kế cho người dùng phổ thông</b><span>Giao diện kiểu ứng dụng ngân hàng: mở app là thấy ca hôm nay và nút chấm công.</span></div>
+    <div class="tilecard"><b>Song ngữ, sáng/tối</b><span>Chuyển Tiếng Việt / English và giao diện sáng / tối ngay trong app.</span></div>
+    <div class="tilecard"><b>Quy tắc theo luật lao động Việt Nam</b><span>Hệ số tăng ca 150% / 200% / 300%, trần giờ tăng ca, ngày lễ hưởng lương, giảm trừ người phụ thuộc.</span></div>
+    <div class="tilecard"><b>Nhận diện riêng</b><span>Phong cách "Gạch bông Sài Gòn": hoạ tiết gạch bông, màu teal và hổ phách, không giống các HRM khác.</span></div>
+  </div>
+
+  <h2>Thông số chính</h2>
+  <div class="kpi">
+    <div><b>2</b><span>Nền tảng: Android &amp; iOS</span></div>
+    <div><b>5</b><span>Vai trò: NV, QL, BGĐ, Ứng viên mới, HR</span></div>
+    <div><b>90+</b><span>Màn hình đã thiết kế</span></div>
+    <div><b>2</b><span>Ngôn ngữ: Việt &amp; Anh</span></div>
+  </div>
+  <p class="small muted">Yêu cầu thiết bị: Android 8.0 trở lên, iOS 14 trở lên, màn hình dọc. Giao diện tự co giãn cho máy màn hình nhỏ (như iPhone SE) đến máy màn hình lớn.</p>
+</section>
+
+<!-- ============ 02 FEATURE MAP ============ -->
+<section class="chapter" id="c02">
+  <div class="chap-head tile"><div class="no">CHƯƠNG 02</div><h1>Bản đồ chức năng &amp; trạng thái</h1><p>Toàn bộ chức năng hiện có trên một trang, kèm mức độ sẵn sàng để chọn phần trình diễn phù hợp với từng khách hàng.</p></div>
+
+  <table>
+    <thead><tr><th style="width:30%">Chức năng</th><th>Mô tả ngắn</th><th style="width:14%">Vai trò</th><th class="c" style="width:17%">Trạng thái</th></tr></thead>
+    <tbody>
+      <tr class="grp"><td colspan="4">Truy cập &amp; tài khoản</td></tr>
+      <tr><td>Đăng nhập, phiên làm việc</td><td>Đăng nhập bằng mã nhân viên và mật khẩu; tự giữ phiên đăng nhập</td><td>Tất cả</td><td class="c"><span class="badge b-ready">SẴN SÀNG</span></td></tr>
+      <tr><td>Mở khoá bằng sinh trắc học</td><td>Face ID / vân tay để mở app và mở màn nhạy cảm</td><td>Tất cả</td><td class="c"><span class="badge b-beta">ĐANG HOÀN THIỆN</span></td></tr>
+      <tr><td>Đăng nhập Web bằng mã QR</td><td>Quét QR trên Cổng thông tin Web để đăng nhập máy tính</td><td>Tất cả</td><td class="c"><span class="badge b-beta">ĐANG HOÀN THIỆN</span></td></tr>
+      <tr><td>Trang chủ cá nhân</td><td>Ca hôm nay, trạng thái chấm công, số liệu tóm tắt, lối tắt</td><td>NV, QL</td><td class="c"><span class="badge b-ready">SẴN SÀNG</span></td></tr>
+      <tr class="grp"><td colspan="4">Chấm công</td></tr>
+      <tr><td>Chấm công vào / ra</td><td>Xác thực khuôn mặt + GPS + Wi-Fi, phân loại đúng giờ / muộn / về sớm</td><td>NV, QL</td><td class="c"><span class="badge b-ready">SẴN SÀNG</span></td></tr>
+      <tr><td>Trạng thái chấm công hôm nay</td><td>Giờ vào/ra, nút chấm tiếp theo là vào hay ra</td><td>NV, QL</td><td class="c"><span class="badge b-ready">SẴN SÀNG</span></td></tr>
+      <tr><td>Chấm công ngoại tuyến</td><td>Đối chiếu khuôn mặt trên máy, hàng đợi tự đồng bộ</td><td>NV</td><td class="c"><span class="badge b-beta">ĐANG HOÀN THIỆN</span></td></tr>
+      <tr><td>Nhật ký công &amp; tổng hợp tháng</td><td>Danh sách ngày công, biểu đồ đúng giờ / muộn / về sớm / nghỉ</td><td>NV</td><td class="c"><span class="badge b-ready">SẴN SÀNG</span></td></tr>
+      <tr><td>Lịch công tháng 5 màu</td><td>Xem cả tháng theo màu trạng thái, bấm ngày thiếu công để sửa</td><td>NV</td><td class="c"><span class="badge b-beta">ĐANG HOÀN THIỆN</span></td></tr>
+      <tr><td>Ngày lễ</td><td>Danh mục ngày nghỉ lễ hưởng nguyên lương trong năm</td><td>Tất cả</td><td class="c"><span class="badge b-ready">SẴN SÀNG</span></td></tr>
+      <tr><td>Thiết bị đăng ký &amp; chặn gian lận</td><td>Một tài khoản một máy; chặn root/jailbreak, GPS giả</td><td>NV</td><td class="c"><span class="badge b-beta">ĐANG HOÀN THIỆN</span></td></tr>
+      <tr><td>Lịch ca &amp; đổi ca</td><td>Lịch 7 ngày và lưới tháng; đổi ca với đồng nghiệp</td><td>NV, QL</td><td class="c"><span class="badge b-beta">ĐANG HOÀN THIỆN</span></td></tr>
+      <tr class="grp"><td colspan="4">Đơn từ &amp; phê duyệt</td></tr>
+      <tr><td>Đơn nghỉ phép</td><td>Tạo, xem chi tiết, thu hồi đơn chưa duyệt</td><td>NV</td><td class="c"><span class="badge b-ready">SẴN SÀNG</span></td></tr>
+      <tr><td>Số dư phép theo loại</td><td>Phép năm, ốm, việc riêng, không lương, thai sản, nghỉ bù</td><td>NV</td><td class="c"><span class="badge b-beta">ĐANG HOÀN THIỆN</span></td></tr>
+      <tr><td>Đơn tăng ca</td><td>Đăng ký, xem trong tháng, xoá đơn chưa duyệt; tự áp hệ số</td><td>NV</td><td class="c"><span class="badge b-ready">SẴN SÀNG</span></td></tr>
+      <tr><td>Quỹ giờ làm thêm &amp; nghỉ bù</td><td>Theo dõi giờ OT đã duyệt; chọn trả lương hoặc đổi nghỉ bù</td><td>NV</td><td class="c"><span class="badge b-beta">ĐANG HOÀN THIỆN</span></td></tr>
+      <tr><td>Giải trình / sửa công</td><td>Gửi giờ đúng kèm lý do theo danh mục và ảnh minh chứng</td><td>NV</td><td class="c"><span class="badge b-ready">SẴN SÀNG</span></td></tr>
+      <tr><td>Công đi (On Duty) &amp; công tác</td><td>Làm việc ngoài văn phòng ngắn hạn và chuyến công tác nhiều ngày</td><td>NV</td><td class="c"><span class="badge b-beta">ĐANG HOÀN THIỆN</span></td></tr>
+      <tr><td>Trung tâm yêu cầu</td><td>Gom mọi loại đơn, lọc theo loại / trạng thái / tháng</td><td>NV</td><td class="c"><span class="badge b-ready">SẴN SÀNG</span></td></tr>
+      <tr><td>Hộp duyệt của quản lý</td><td>Duyệt / từ chối nghỉ phép, tăng ca, công tác, sửa công</td><td>QL</td><td class="c"><span class="badge b-ready">SẴN SÀNG</span></td></tr>
+      <tr class="grp"><td colspan="4">Lương &amp; thưởng</td></tr>
+      <tr><td>Phiếu lương chi tiết</td><td>Từng khoản thu nhập, khấu trừ, thực nhận theo kỳ lương</td><td>NV</td><td class="c"><span class="badge b-ready">SẴN SÀNG</span></td></tr>
+      <tr><td>Khoá sinh trắc học &amp; chặn chụp màn hình</td><td>Bảo vệ màn lương</td><td>NV</td><td class="c"><span class="badge b-beta">ĐANG HOÀN THIỆN</span></td></tr>
+      <tr><td>Ký xác nhận phiếu lương</td><td>Ký bằng ngón tay khi phiếu lương đúng</td><td>NV</td><td class="c"><span class="badge b-beta">ĐANG HOÀN THIỆN</span></td></tr>
+      <tr><td>Khiếu nại lương</td><td>Khiếu nại từng dòng sai, tự tính chênh lệch</td><td>NV, QL</td><td class="c"><span class="badge b-beta">ĐANG HOÀN THIỆN</span></td></tr>
+      <tr><td>Thưởng, hoa hồng, chỉ tiêu</td><td>3 tab Thưởng / Hoa hồng / Chỉ tiêu, mốc 80/100/120%</td><td>NV</td><td class="c"><span class="badge b-beta">ĐANG HOÀN THIỆN</span></td></tr>
+      <tr class="grp"><td colspan="4">Hồ sơ, truyền thông, tuyển dụng</td></tr>
+      <tr><td>Hồ sơ nhân viên 360°</td><td>Thông tin cá nhân và công việc</td><td>NV, QL</td><td class="c"><span class="badge b-ready">SẴN SÀNG</span></td></tr>
+      <tr><td>Cập nhật hồ sơ, tài liệu, người phụ thuộc</td><td>Tự sửa thông tin, nộp giấy tờ, đăng ký người phụ thuộc</td><td>NV</td><td class="c"><span class="badge b-beta">ĐANG HOÀN THIỆN</span></td></tr>
+      <tr><td>Hồ sơ lao động &amp; hợp đồng</td><td>Xem hợp đồng, phụ lục, tệp đính kèm</td><td>NV</td><td class="c"><span class="badge b-beta">ĐANG HOÀN THIỆN</span></td></tr>
+      <tr><td>Trung tâm thông báo &amp; push</td><td>Thông báo cá nhân, đánh dấu đã đọc, nhận thông báo đẩy</td><td>Tất cả</td><td class="c"><span class="badge b-ready">SẴN SÀNG</span></td></tr>
+      <tr><td>Bảng tin nội bộ</td><td>Thông báo chính thức từ HR / BGĐ theo phạm vi</td><td>Tất cả</td><td class="c"><span class="badge b-beta">ĐANG HOÀN THIỆN</span></td></tr>
+      <tr><td>Tuyển dụng nội bộ &amp; giới thiệu</td><td>Xem vị trí, ứng tuyển, giới thiệu người quen, theo dõi thưởng</td><td>NV</td><td class="c"><span class="badge b-beta">ĐANG HOÀN THIỆN</span></td></tr>
+      <tr><td>Hội nhập nhân viên mới</td><td>Thư mời, sơ đồ tổ chức, nộp giấy tờ OCR, ký NDA, ngày đầu</td><td>Ứng viên mới</td><td class="c"><span class="badge b-beta">ĐANG HOÀN THIỆN</span></td></tr>
+      <tr class="grp"><td colspan="4">Ban Giám đốc</td></tr>
+      <tr><td>Bảng điều hành</td><td>Nhân sự, tỷ lệ đi làm, quỹ lương, giờ tăng ca, nghỉ việc</td><td>BGĐ</td><td class="c"><span class="badge b-beta">ĐANG HOÀN THIỆN</span></td></tr>
+      <tr><td>Phê duyệt cuối</td><td>Duyệt các đơn vượt ngưỡng, xem tác động ngân sách</td><td>BGĐ</td><td class="c"><span class="badge b-beta">ĐANG HOÀN THIỆN</span></td></tr>
+      <tr><td>Rủi ro &amp; tuân thủ, uỷ quyền</td><td>Cảnh báo 3 mức, giao việc cho HR; uỷ quyền khi vắng mặt</td><td>BGĐ</td><td class="c"><span class="badge b-beta">ĐANG HOÀN THIỆN</span></td></tr>
+    </tbody>
+  </table>
+  <div class="note"><b>Gợi ý khi chào hàng:</b> các chức năng <span class="badge b-ready">SẴN SÀNG</span> có thể cam kết triển khai ngay. Các chức năng <span class="badge b-beta">ĐANG HOÀN THIỆN</span> trình diễn được đầy đủ trên ứng dụng bằng dữ liệu mẫu, phù hợp để khách hàng góp ý và chốt yêu cầu trước khi đưa vào vận hành.</div>
+</section>
+
+<!-- ============ 03 ROLES ============ -->
+<section class="chapter" id="c03">
+  <div class="chap-head tile"><div class="no">CHƯƠNG 03</div><h1>Vai trò người dùng &amp; điều hướng</h1><p>Cùng một ứng dụng, giao diện tự thay đổi theo vai trò của người đăng nhập.</p></div>
+
+  <table>
+    <thead><tr><th style="width:24%">Vai trò</th><th>Dùng để làm gì</th></tr></thead>
+    <tbody>
+      <tr><td><b>Nhân viên</b> (NV · tự phục vụ)</td><td>Chấm công, xem ca và bảng công, gửi đơn từ, xem phiếu lương và thưởng, cập nhật hồ sơ, nhận thông báo.</td></tr>
+      <tr><td><b>Quản lý trực tiếp</b> (QL)</td><td>Mọi chức năng của nhân viên, cộng thêm dải "Chờ duyệt" trên Trang chủ và tab Phê duyệt có huy hiệu số đơn chờ.</td></tr>
+      <tr><td><b>Ban Giám đốc</b> (BGĐ)</td><td>Bảng điều hành toàn công ty, phê duyệt cuối đơn vượt ngưỡng, theo dõi rủi ro tuân thủ, uỷ quyền khi vắng mặt.</td></tr>
+      <tr><td><b>Ứng viên mới</b></td><td>Người đã nhận thư mời nhưng chưa đi làm: hoàn tất hồ sơ, ký giấy tờ, chuẩn bị ngày đầu tiên.</td></tr>
+      <tr><td><b>Bộ phận nhân sự</b> (HR)</td><td>Làm việc trên hệ thống quản trị: xác nhận đơn, trừ phép, cập nhật bảng công, chốt lương, đăng bảng tin. Kết quả xử lý của HR hiện lại trên ứng dụng của nhân viên.</td></tr>
+    </tbody>
+  </table>
+
+  <h2>Thanh điều hướng dưới cùng</h2>
+  <div class="grid2">
+    <div class="tilecard"><b>Nhân viên</b><span>Trang chủ · Chấm công · Yêu cầu · Lương · Cá nhân</span></div>
+    <div class="tilecard"><b>Quản lý</b><span>Trang chủ (thêm dải Chờ duyệt) · Chấm công · <b style="display:inline;color:var(--amber-ink);font-size:inherit">Phê duyệt</b> (có huy hiệu số đơn) · Lương · Cá nhân</span></div>
+  </div>
+
+  <h2>Màn "Tất cả dịch vụ"</h2>
+  <p>Trên Trang chủ, các chức năng hay dùng nằm ở hàng nút tròn. Mọi chức năng khác nằm trong <b>Tất cả dịch vụ</b>, chia theo nhóm:</p>
+  <table>
+    <thead><tr><th style="width:28%">Nhóm</th><th>Chức năng</th></tr></thead>
+    <tbody>
+      <tr><td>Chấm công &amp; thời gian</td><td>Chấm công vào/ra, Ngày lễ, Thiết bị đã đăng ký</td></tr>
+      <tr><td>Đơn từ</td><td>Quản lý nghỉ phép, Quản lý tăng ca, Quản lý sửa công, Theo dõi yêu cầu</td></tr>
+      <tr><td>Lương &amp; thưởng</td><td>Bảng lương, Phiếu lương, Khiếu nại lương</td></tr>
+      <tr><td>Nghề nghiệp &amp; hồ sơ</td><td>Hồ sơ cá nhân, Phê duyệt, Bảng điều hành, Cài đặt</td></tr>
+    </tbody>
+  </table>
+
+  <h2>Quy trình phê duyệt chuẩn</h2>
+  <p>Đơn từ đi qua tối đa 4 bước. Mỗi loại đơn chỉ đi qua các bước cần thiết, nên đơn đơn giản được duyệt xong sớm hơn.</p>
+  <div class="flow">
+    <div class="st">Nhân viên gửi<small>trên app</small></div><span class="ar">→</span>
+    <div class="st">Quản lý duyệt<small>trên app</small></div><span class="ar">→</span>
+    <div class="st">HR xác nhận<small>hệ thống quản trị</small></div><span class="ar">→</span>
+    <div class="st amber">Giám đốc phê duyệt<small>chỉ đơn vượt ngưỡng</small></div>
+  </div>
+  <table>
+    <thead><tr><th style="width:26%">Loại đơn</th><th>Các bước duyệt</th></tr></thead>
+    <tbody>
+      <tr><td>Đổi ca</td><td>Quản lý duyệt là có hiệu lực, lịch ca của hai người cập nhật ngay</td></tr>
+      <tr><td>Sửa công</td><td>Quản lý đối chiếu → HR cập nhật bảng công</td></tr>
+      <tr><td>Nghỉ phép</td><td>Quản lý → HR trừ quỹ phép; Giám đốc duyệt thêm nếu nghỉ trên 10 ngày</td></tr>
+      <tr><td>Tăng ca</td><td>Quản lý → HR đối chiếu trần giờ; vượt ngân sách thì chuyển Giám đốc</td></tr>
+      <tr><td>Khiếu nại lương</td><td>Quản lý xác nhận → HR tính lại, bổ sung vào kỳ lương sau</td></tr>
+    </tbody>
+  </table>
+  <p class="small muted">Các ngưỡng (số ngày nghỉ, ngân sách tăng ca) cấu hình được theo quy chế của từng doanh nghiệp.</p>
+</section>
+
+<!-- ============ 04 GETTING STARTED ============ -->
+<section class="chapter" id="c04">
+  <div class="chap-head tile"><div class="no">CHƯƠNG 04</div><h1>Bắt đầu sử dụng</h1><p>Đăng nhập, bảo vệ tài khoản và làm quen với Trang chủ.</p></div>
+
+  <div class="feature">
+    <div class="fh"><div><h3>Đăng nhập</h3><div class="who">Tất cả vai trò</div></div><span class="badge b-ready">SẴN SÀNG</span></div>
+    <div class="value"><b>Giá trị:</b> nhân viên đăng nhập một lần, ứng dụng giữ phiên an toàn; lần sau mở app là vào thẳng Trang chủ.</div>
+    <div class="cols">
+      <div><div class="lbl">Cách sử dụng</div>
+        <ol class="steps"><li>Mở ứng dụng. Nếu còn phiên đăng nhập, app vào thẳng Trang chủ.</li><li>Nhập <b>mã nhân viên</b> và <b>mật khẩu</b> do HR cấp.</li><li>Bấm <b>Đăng nhập</b>.</li></ol></div>
+      <div><div class="lbl">Quy tắc</div>
+        <ul class="rules"><li>Sai mật khẩu 5 lần liên tiếp: tài khoản tạm khoá 15 phút.</li><li><b>Quên mật khẩu:</b> liên hệ IT/HR. IT xác minh qua quản lý trực tiếp rồi cấp mật khẩu tạm; nhân viên bắt buộc đổi mật khẩu ở lần đăng nhập sau.</li><li>Mã thông báo đăng nhập được lưu trong vùng bảo mật của thiết bị.</li></ul></div>
+    </div>
+  </div>
+
+  <div class="feature">
+    <div class="fh"><div><h3>Mở khoá bằng sinh trắc học</h3><div class="who">Tất cả vai trò</div></div><span class="badge b-beta">ĐANG HOÀN THIỆN</span></div>
+    <div class="value"><b>Giá trị:</b> mở ứng dụng nhanh bằng Face ID hoặc vân tay; người khác cầm máy cũng không xem được dữ liệu cá nhân.</div>
+    <ol class="steps"><li>Vào <b>Cá nhân → Cài đặt → Bảo mật &amp; quyền riêng tư</b>.</li><li>Bật <b>Mở khoá bằng sinh trắc học</b>, xác nhận bằng Face ID / vân tay.</li><li>Từ lần sau, app hỏi sinh trắc học khi mở và khi vào màn lương.</li></ol>
+  </div>
+
+  <div class="feature">
+    <div class="fh"><div><h3>Đăng nhập Cổng thông tin Web bằng mã QR</h3><div class="who">Tất cả vai trò</div></div><span class="badge b-beta">ĐANG HOÀN THIỆN</span></div>
+    <div class="value"><b>Giá trị:</b> đăng nhập trên máy tính không cần gõ mật khẩu, giảm rủi ro lộ mật khẩu ở máy dùng chung.</div>
+    <div class="cols">
+      <div><div class="lbl">Cách sử dụng</div>
+        <ol class="steps"><li>Mở Cổng thông tin Web trên máy tính, màn hình hiện mã QR.</li><li>Trên điện thoại, mở <b>Quét mã QR đăng nhập</b> và hướng camera vào mã.</li><li>Kiểm tra trình duyệt, thiết bị, vị trí, thời gian, địa chỉ IP của yêu cầu.</li><li>Bấm <b>Xác nhận đăng nhập</b> và xác thực sinh trắc học, hoặc bấm <b>Từ chối</b>.</li></ol></div>
+      <div><div class="lbl">Quy tắc</div>
+        <ul class="rules"><li>Mã QR hết hạn, đã dùng, không thuộc hệ thống hoặc đã bị huỷ từ máy tính đều bị từ chối kèm thông báo rõ.</li><li>Có đèn flash cho nơi thiếu sáng.</li></ul></div>
+    </div>
+  </div>
+
+  <div class="feature">
+    <div class="fh"><div><h3>Trang chủ cá nhân</h3><div class="who">Nhân viên · Quản lý</div></div><span class="badge b-ready">SẴN SÀNG</span></div>
+    <div class="value"><b>Giá trị:</b> mở app trong 3 giây là biết hôm nay làm ca nào, đã chấm công chưa, còn mấy ngày phép, có đơn nào đang chờ.</div>
+    <div class="cols">
+      <div><div class="lbl">Trên Trang chủ có</div>
+        <ul class="rules"><li>Lời chào, ảnh đại diện, mã NV, chức danh, phòng ban.</li><li><b>Thẻ ca hôm nay</b>: tên ca, giờ bắt đầu/kết thúc, số giờ đã làm, vòng tiến độ ca.</li><li><b>Nút Chấm công</b> (chỉ hiện khi hôm nay có ca).</li><li>Lưới 4 số liệu: ngày công thực tế, phép còn lại, giờ tăng ca tháng, đơn chờ duyệt.</li><li>Thẻ lương: số tiền ẩn mặc định (•••••• ₫), bấm để hiện.</li><li>Thông báo mới nhất từ công ty.</li></ul></div>
+      <div><div class="lbl">Riêng Quản lý</div>
+        <ul class="rules"><li>Dải <b>Chờ duyệt</b> nổi bật, ghi số đơn đang chờ quản lý. Bấm vào là mở Hộp duyệt.</li><li>Số trên dải giảm ngay sau mỗi lần duyệt hoặc từ chối.</li></ul></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 05 ATTENDANCE ============ -->
+<section class="chapter" id="c05">
+  <div class="chap-head tile"><div class="no">CHƯƠNG 05</div><h1>Chấm công &amp; bảng công</h1><p>Phần cốt lõi của V-STech HRM: chấm công chính xác, chống gian lận, nhân viên tự theo dõi ngày công của mình.</p></div>
+
+  <div class="feature">
+    <div class="fh"><div><h3>Chấm công bằng khuôn mặt AI, xác thực 3 lớp</h3><div class="who">Nhân viên · Quản lý</div></div><span class="badge b-ready">SẴN SÀNG</span></div>
+    <div class="value"><b>Giá trị:</b> loại bỏ chấm công hộ và chấm công từ xa. Mỗi lượt chấm có bằng chứng: khuôn mặt, vị trí, mạng Wi-Fi, thiết bị.</div>
+    <div class="flow">
+      <div class="st">Lớp 1 · Khuôn mặt<small>kiểm tra người thật</small></div><span class="ar">+</span>
+      <div class="st">Lớp 2 · GPS<small>trong vùng làm việc</small></div><span class="ar">+</span>
+      <div class="st">Lớp 3 · Wi-Fi<small>mạng nội bộ công ty</small></div><span class="ar">→</span>
+      <div class="st amber">Ghi nhận lượt chấm</div>
+    </div>
+    <div class="cols">
+      <div><div class="lbl">Cách sử dụng</div>
+        <ol class="steps"><li>Trên Trang chủ, bấm <b>Chấm công vào</b> (hoặc <b>Chấm công ra</b> khi hết ca).</li><li>Đưa mặt vào khung oval, giữ yên. Thanh tiến độ hiện từng bước kiểm tra.</li><li>Xem kết quả: giờ chấm, phân loại, vị trí. Bấm <b>Xong</b>.</li></ol></div>
+      <div><div class="lbl">Phân loại tự động</div>
+        <ul class="rules"><li><b>Đúng giờ</b>: chấm vào trước mốc cho phép (ví dụ 08:05).</li><li><b>Đi muộn</b>: chấm vào sau mốc cho phép, xử lý theo quy chế.</li><li><b>Về sớm</b>: chấm ra trước giờ kết thúc ca.</li><li>Có âm thanh và rung khi có kết quả.</li><li>Ngày không có ca: không hiện nút chấm công.</li></ul></div>
+    </div>
+  </div>
+
+  <div class="feature">
+    <div class="fh"><div><h3>Chấm công ngoại tuyến (khi mất mạng)</h3><div class="who">Nhân viên</div></div><span class="badge b-beta">ĐANG HOÀN THIỆN</span></div>
+    <div class="value"><b>Giá trị:</b> nhà xưởng, tầng hầm, công trường mất sóng vẫn chấm công được. Không mất ngày công, không bị trừ lương oan.</div>
+    <div class="cols">
+      <div><div class="lbl">Cách hoạt động</div>
+        <ol class="steps"><li>Khi mất mạng, ứng dụng đối chiếu khuôn mặt ngay trên máy với mẫu khuôn mặt đã lưu (độ khớp từ 85% trở lên).</li><li>Lượt chấm được lưu vào hàng đợi bảo mật trên máy, kèm thời gian và mã thiết bị.</li><li>Banner hiện số lượt chưa gửi và nút <b>Đồng bộ ngay</b>.</li><li>Khi có mạng, hàng đợi tự gửi lên máy chủ.</li></ol></div>
+      <div><div class="lbl">Cơ chế an toàn</div>
+        <ul class="rules"><li>Mỗi lượt chấm có mã riêng, gửi lại nhiều lần máy chủ vẫn chỉ ghi nhận một lần.</li><li>Gửi thành công lượt nào thì xoá lượt đó; lượt lỗi được giữ lại để gửi tiếp.</li><li>Có thể cấu hình chỉ đồng bộ qua Wi-Fi công ty để chống gian lận vị trí.</li><li>Chặn đăng xuất khi còn lượt chưa gửi.</li></ul></div>
+    </div>
+  </div>
+
+  <div class="feature">
+    <div class="fh"><div><h3>Nhật ký công &amp; tổng hợp tháng</h3><div class="who">Nhân viên</div></div><span class="badge b-ready">SẴN SÀNG</span></div>
+    <div class="value"><b>Giá trị:</b> nhân viên tự xem ngày công, ít phải hỏi HR; sai sót được phát hiện sớm trước ngày chốt công.</div>
+    <ul class="rules"><li>Vào tab <b>Chấm công</b>. Phía trên là biểu đồ vòng của tháng: Đúng giờ / Đi muộn / Về sớm / Nghỉ phép.</li><li>Bên dưới là danh sách từng ngày: giờ vào, giờ ra, số phút muộn/sớm, trạng thái xác thực.</li><li>Lọc theo ngày, tuần, tháng. Có ô tổng giờ làm, ngày công.</li></ul>
+  </div>
+
+  <div class="feature">
+    <div class="fh"><div><h3>Lịch công tháng</h3><div class="who">Nhân viên</div></div><span class="badge b-beta">ĐANG HOÀN THIỆN</span></div>
+    <div class="value"><b>Giá trị:</b> nhìn một lần là thấy cả tháng; ngày thiếu công dẫn thẳng tới đơn sửa công đã điền sẵn.</div>
+    <div class="legend">
+      <span><i style="background:#16A34A"></i>Đủ công</span>
+      <span><i style="background:#F59E0B"></i>Đi muộn / về sớm</span>
+      <span><i style="background:#DC2626"></i>Thiếu công / nghỉ không phép</span>
+      <span><i style="background:#7C3AED"></i>Nghỉ phép đã duyệt</span>
+      <span><i style="background:#9CA3AF"></i>Nghỉ tuần / lễ</span>
+    </div>
+    <ol class="steps"><li>Từ tab Chấm công, bấm <b>Lịch tháng</b>.</li><li>Xem tổng công chuẩn, ngày công thực tế, tổng giờ trong tháng.</li><li>Bấm một ngày màu đỏ, chọn <b>Tạo yêu cầu sửa công</b>. Ngày được điền sẵn vào đơn.</li></ol>
+  </div>
+
+  <div class="feature">
+    <div class="fh"><div><h3>Ngày lễ</h3><div class="who">Tất cả vai trò</div></div><span class="badge b-ready">SẴN SÀNG</span></div>
+    <div class="value"><b>Giá trị:</b> nhân viên biết trước lịch nghỉ cả năm; đăng ký tăng ca vào ngày lễ tự áp hệ số 300%.</div>
+    <p>Mở <b>Tất cả dịch vụ → Ngày lễ</b> để xem danh mục ngày nghỉ lễ hưởng nguyên lương theo Bộ luật Lao động. Ngày lễ hiện màu xám trên lịch công và lịch ca.</p>
+  </div>
+
+  <div class="feature">
+    <div class="fh"><div><h3>Thiết bị đăng ký &amp; chặn gian lận</h3><div class="who">Nhân viên</div></div><span class="badge b-beta">ĐANG HOÀN THIỆN</span></div>
+    <div class="value"><b>Giá trị:</b> mỗi tài khoản chỉ chấm công trên một điện thoại, không thể đưa máy cho người khác chấm hộ hay dùng phần mềm giả vị trí.</div>
+    <div class="cols">
+      <div><div class="lbl">Màn Thiết bị đã đăng ký</div>
+        <ul class="rules"><li>Tên máy, ngày đăng ký và kết quả 4 lớp kiểm tra: thiết bị đã đăng ký, không root/jailbreak, không GPS giả, ứng dụng nguyên vẹn.</li><li>Máy chưa đăng ký: bấm <b>Đăng ký thiết bị này</b>.</li><li>Đổi máy cần HR duyệt.</li></ul></div>
+      <div><div class="lbl">Khi phát hiện bất thường</div>
+        <ul class="rules"><li><b>Máy đã root/jailbreak:</b> khoá chấm công, hướng dẫn liên hệ HR.</li><li><b>GPS giả:</b> yêu cầu tắt ứng dụng giả lập vị trí rồi bấm <b>Kiểm tra lại</b>.</li><li>Mọi lần bị chặn đều được ghi nhật ký bảo mật (thời gian, thiết bị, lý do).</li></ul></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 06 SHIFTS ============ -->
+<section class="chapter" id="c06">
+  <div class="chap-head tile"><div class="no">CHƯƠNG 06</div><h1>Lịch ca &amp; đổi ca</h1><p>Phù hợp doanh nghiệp làm theo ca: sản xuất, bán lẻ, dịch vụ, nhà hàng, bệnh viện.</p></div>
+
+  <div class="feature">
+    <div class="fh"><div><h3>Lịch ca cá nhân</h3><div class="who">Nhân viên</div></div><span class="badge b-beta">ĐANG HOÀN THIỆN</span></div>
+    <div class="value"><b>Giá trị:</b> nhân viên luôn biết lịch làm việc của mình, giảm vắng ca do nhầm lịch.</div>
+    <ul class="rules"><li>Mở từ thẻ <b>Ca hôm nay</b> trên Trang chủ. Dải 7 ngày dạng viên thuốc, bấm để mở lưới cả tháng.</li><li>Các loại ca có màu riêng và chú thích: Sáng, Chiều, Ca gãy, Hành chính, Đêm, Nghỉ tuần.</li><li>Chi tiết ca: tên ca, giờ bắt đầu/kết thúc, giờ nghỉ giữa ca, chi nhánh làm việc.</li><li>Lịch tháng sau chưa công bố: app báo ngày công bố (ví dụ ngày 25 hằng tháng).</li></ul>
+  </div>
+
+  <div class="feature">
+    <div class="fh"><div><h3>Đổi ca với đồng nghiệp</h3><div class="who">Nhân viên gửi · Quản lý duyệt</div></div><span class="badge b-beta">ĐANG HOÀN THIỆN</span></div>
+    <div class="value"><b>Giá trị:</b> nhân viên tự sắp xếp đổi ca hợp lệ, quản lý chỉ cần duyệt; hệ thống tự kiểm tra luật lao động.</div>
+    <div class="cols">
+      <div><div class="lbl">Cách sử dụng</div>
+        <ol class="steps"><li>Trong Lịch ca, chọn một ngày sắp tới và bấm <b>Đổi ca</b>.</li><li>Chọn đồng nghiệp muốn đổi, nhập lý do, bấm <b>Gửi</b>.</li><li>Theo dõi yêu cầu trong mục Đổi ca.</li><li>Quản lý duyệt xong, lịch của cả hai người cập nhật, ngày đổi có nhãn <b>Đã đổi</b>.</li></ol></div>
+      <div><div class="lbl">Hệ thống tự kiểm tra trước khi gửi</div>
+        <ul class="rules"><li>Cùng chi nhánh, cùng cấp bậc.</li><li>Không ai đang nghỉ phép ngày đó; hai người không cùng ca.</li><li>Đủ thời gian nghỉ tối thiểu giữa hai ca.</li><li>Không vượt 48 giờ làm việc thường mỗi tuần.</li><li>Không hợp lệ: app nói rõ lý do và không cho gửi.</li></ul></div>
+    </div>
+  </div>
+
+  <div class="note"><b>Mở rộng cho nhà máy:</b> phân hệ <i>Tổng hợp công theo ca trong tuần của tổ/nhóm</i> cho Tổ trưởng xem trong vài giây ai làm ca nào, so sánh ca kế hoạch với ca thực tế, lọc theo phân xưởng / dây chuyền / tổ, xuất PDF hoặc Excel. <span class="badge b-plan">LỘ TRÌNH</span></div>
+</section>
+
+<!-- ============ 07 REQUESTS ============ -->
+<section class="chapter" id="c07">
+  <div class="chap-head tile"><div class="no">CHƯƠNG 07</div><h1>Đơn từ &amp; yêu cầu</h1><p>Mọi loại đơn từ trên điện thoại, theo dõi được tiến độ duyệt, không cần giấy.</p></div>
+
+  <div class="feature">
+    <div class="fh"><div><h3>Trung tâm yêu cầu</h3><div class="who">Nhân viên</div></div><span class="badge b-ready">SẴN SÀNG</span></div>
+    <div class="value"><b>Giá trị:</b> một nơi duy nhất cho mọi đơn từ, nhân viên không phải hỏi "đơn của tôi tới đâu rồi".</div>
+    <ul class="rules"><li>Tab <b>Yêu cầu</b> gom tất cả: nghỉ phép, tăng ca, sửa công, đổi ca, công đi, công tác, khiếu nại lương.</li><li>Lọc theo loại, theo trạng thái (Chờ duyệt / Đã duyệt / Từ chối / Đã huỷ) và theo tháng.</li><li>Chi tiết đơn có thanh tiến độ các bước duyệt, ý kiến của người duyệt và lý do nếu bị từ chối.</li><li>Đơn có thể <b>lưu nháp</b>. Đơn đang chờ duyệt có thể <b>huỷ / thu hồi</b>.</li></ul>
+  </div>
+
+  <div class="feature">
+    <div class="fh"><div><h3>Nghỉ phép</h3><div class="who">Nhân viên</div></div><span class="badge b-ready">SẴN SÀNG</span></div>
+    <div class="value"><b>Giá trị:</b> xin nghỉ trong một phút, tự tính số ngày, không vượt quá số phép còn lại.</div>
+    <div class="cols">
+      <div><div class="lbl">Cách sử dụng</div>
+        <ol class="steps"><li>Trang chủ → <b>Nghỉ phép</b>, xem số phép rồi bấm <b>Tạo yêu cầu</b>.</li><li>Chọn loại nghỉ, từ ngày – đến ngày, nghỉ cả ngày hoặc nửa ca.</li><li>Nhập lý do, chọn người bàn giao, đính kèm giấy tờ nếu có (ví dụ giấy khám bệnh).</li><li>Bấm <b>Gửi</b> hoặc <b>Lưu nháp</b>.</li></ol></div>
+      <div><div class="lbl">Quy tắc</div>
+        <ul class="rules"><li>Không tính cuối tuần và ngày lễ vào số ngày nghỉ.</li><li>Không gửi được nếu vượt số phép khả dụng.</li><li>Chỉ thu hồi được khi đơn còn chờ duyệt.</li><li>Đơn đã duyệt: ngày nghỉ hiện màu tím trên lịch công.</li><li>Nghỉ ốm cần giấy của cơ sở y tế.</li></ul></div>
+    </div>
+  </div>
+
+  <div class="feature">
+    <div class="fh"><div><h3>Số dư phép theo loại</h3><div class="who">Nhân viên</div></div><span class="badge b-beta">ĐANG HOÀN THIỆN</span></div>
+    <div class="value"><b>Giá trị:</b> minh bạch quỹ phép, giảm câu hỏi cho HR.</div>
+    <p>Mỗi loại phép hiện 4 con số: <b>được hưởng · đã dùng · đang chờ duyệt · còn lại</b>. Các loại: Phép năm, Nghỉ ốm (BHXH), Việc riêng hưởng lương, Nghỉ không lương, Thai sản, Nghỉ bù (từ giờ tăng ca quy đổi).</p>
+  </div>
+
+  <div class="feature">
+    <div class="fh"><div><h3>Tăng ca</h3><div class="who">Nhân viên</div></div><span class="badge b-ready">SẴN SÀNG</span></div>
+    <div class="value"><b>Giá trị:</b> đăng ký tăng ca minh bạch, hệ số lương tự tính đúng luật, kiểm soát trần giờ tăng ca.</div>
+    <div class="cols">
+      <div><div class="lbl">Cách sử dụng</div>
+        <ol class="steps"><li>Trang chủ → <b>Tăng ca</b>, xem tổng giờ tháng rồi bấm <b>Tạo yêu cầu</b>.</li><li>Chọn ngày, giờ bắt đầu – kết thúc, loại tăng ca (sản xuất, trực lễ, dự án cao điểm, kiểm kê), nhập lý do.</li><li>Chọn hình thức: <b>Trả lương</b> hoặc <b>Đổi nghỉ bù</b>.</li><li>Bấm <b>Gửi</b>. Tổng giờ được tính tự động.</li></ol></div>
+      <div><div class="lbl">Hệ số tự động</div>
+        <table style="margin-top:2px"><tbody>
+          <tr><td>Ngày thường</td><td class="c"><b>150%</b></td></tr>
+          <tr><td>Ngày nghỉ tuần</td><td class="c"><b>200%</b></td></tr>
+          <tr><td>Ngày lễ</td><td class="c"><b>300%</b></td></tr>
+        </tbody></table>
+        <ul class="rules"><li>Cảnh báo khi gần trần giờ tăng ca tháng (ví dụ 40 giờ), chặn gửi khi vượt.</li><li>Chỉ xoá được đơn chưa duyệt.</li><li>Sau khi duyệt, giờ × hệ số vào kỳ lương tháng.</li></ul></div>
+    </div>
+  </div>
+
+  <div class="feature">
+    <div class="fh"><div><h3>Quỹ giờ làm thêm &amp; nghỉ bù</h3><div class="who">Nhân viên</div></div><span class="badge b-beta">ĐANG HOÀN THIỆN</span></div>
+    <div class="value"><b>Giá trị:</b> doanh nghiệp linh hoạt trả tiền hoặc cho nghỉ bù; nhân viên thấy rõ quỹ giờ của mình.</div>
+    <p>Thẻ quỹ giờ hiện: giờ tháng này, giờ quý này, giờ sẽ được trả lương, giờ đã đổi nghỉ bù. Tỷ lệ quy đổi cấu hình được (ví dụ 8 giờ tăng ca = 1 ngày nghỉ bù). Giờ đã đổi nghỉ bù không còn tính là giờ được trả lương, và hiện thành loại phép <b>Nghỉ bù</b> trong số dư phép.</p>
+  </div>
+
+  <div class="feature">
+    <div class="fh"><div><h3>Giải trình / sửa công</h3><div class="who">Nhân viên</div></div><span class="badge b-ready">SẴN SÀNG</span></div>
+    <div class="value"><b>Giá trị:</b> xử lý quên chấm công, máy lỗi, đi việc đột xuất có bằng chứng, có duyệt, tránh tranh cãi khi chốt lương.</div>
+    <div class="cols">
+      <div><div class="lbl">Cách sử dụng</div>
+        <ol class="steps"><li>Từ Lịch công (ngày đỏ), Trang chủ hoặc thông báo thiếu công, mở <b>Sửa công</b> → <b>Tạo yêu cầu</b>.</li><li>Bước 1: chọn ngày phát sinh.</li><li>Bước 2: chọn vấn đề và lý do trong danh mục.</li><li>Bước 3: nhập giờ đúng, giải trình, đính kèm ảnh minh chứng, bấm <b>Gửi</b>.</li></ol></div>
+      <div><div class="lbl">Quy tắc</div>
+        <ul class="rules"><li>Vòng đời: Nháp → Chờ duyệt → Đã duyệt / Từ chối / Đã huỷ.</li><li>Giới hạn cấu hình được, ví dụ tối đa 3 lần/tháng, gửi trước ngày 20.</li><li>Quản lý đối chiếu giờ chấm thực tế trước khi duyệt; HR cập nhật bảng công, ngày đó đổi màu trên lịch.</li></ul></div>
+    </div>
+  </div>
+
+  <div class="feature">
+    <div class="fh"><div><h3>Công đi (On Duty) &amp; công tác</h3><div class="who">Nhân viên gửi · Quản lý duyệt</div></div><span class="badge b-beta">ĐANG HOÀN THIỆN</span></div>
+    <div class="value"><b>Giá trị:</b> nhân viên làm việc ngoài văn phòng vẫn được tính đủ công, không bị ghi thiếu công hay đi muộn.</div>
+    <div class="cols">
+      <div><div class="lbl">Công đi (ngắn hạn)</div>
+        <p>Gặp khách hàng, làm việc với cơ quan nhà nước, khảo sát thị trường, việc gấp. Nhập ngày, khung giờ (nằm trong ca của ngày đó), địa điểm, nội dung công việc, tệp đính kèm.</p></div>
+      <div><div class="lbl">Công tác (nhiều ngày)</div>
+        <p>Trong nước hoặc nước ngoài. Nhập điểm đến, ngày đi – ngày về, mục đích, người đi cùng, kế hoạch đính kèm. Sau khi quản lý duyệt, mọi ngày công tác được tính đủ công với nhãn <b>Công đi</b>.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 08 APPROVALS ============ -->
+<section class="chapter" id="c08">
+  <div class="chap-head tile"><div class="no">CHƯƠNG 08</div><h1>Phê duyệt dành cho Quản lý</h1><p>Quản lý duyệt đơn của nhân viên cấp dưới ở bất cứ đâu, không còn đơn nằm chờ trên bàn.</p></div>
+
+  <div class="feature">
+    <div class="fh"><div><h3>Hộp duyệt</h3><div class="who">Quản lý trực tiếp</div></div><span class="badge b-ready">SẴN SÀNG</span></div>
+    <div class="value"><b>Giá trị:</b> rút ngắn thời gian duyệt từ vài ngày xuống vài phút; mọi quyết định đều có lưu vết và lý do.</div>
+    <div class="cols">
+      <div><div class="lbl">Cách sử dụng</div>
+        <ol class="steps"><li>Bấm dải <b>Chờ duyệt</b> trên Trang chủ hoặc tab <b>Phê duyệt</b> (huy hiệu ghi số đơn chờ).</li><li>Chọn tab trạng thái, lọc theo loại đơn.</li><li>Mở một đơn để xem lý do, chứng từ đính kèm và dữ liệu chấm công của nhân viên ở ngày liên quan.</li><li>Bấm <b>Duyệt</b>, hoặc <b>Từ chối</b> và nhập lý do.</li></ol></div>
+      <div><div class="lbl">Quy tắc</div>
+        <ul class="rules"><li>Duyệt nhanh ngay trên thẻ đơn, không cần mở chi tiết.</li><li>Nút Từ chối chỉ bật khi đã có lý do.</li><li>Có ghi chú nội bộ, nhân viên không nhìn thấy.</li><li>Đơn đổi ca: xem lịch của cả hai người trước khi duyệt.</li><li>Khiếu nại lương: xem dòng lương và mức chênh lệch.</li><li>Sau mỗi thao tác, huy hiệu và dải Trang chủ giảm ngay; nhân viên nhận thông báo kết quả.</li></ul></div>
+    </div>
+  </div>
+
+  <h2>Loại đơn quản lý duyệt được</h2>
+  <table>
+    <thead><tr><th>Loại đơn</th><th>Duyệt / từ chối trên app</th><th class="c">Trạng thái</th></tr></thead>
+    <tbody>
+      <tr><td>Nghỉ phép</td><td>Có</td><td class="c"><span class="badge b-ready">SẴN SÀNG</span></td></tr>
+      <tr><td>Tăng ca</td><td>Có</td><td class="c"><span class="badge b-ready">SẴN SÀNG</span></td></tr>
+      <tr><td>Công tác</td><td>Có</td><td class="c"><span class="badge b-ready">SẴN SÀNG</span></td></tr>
+      <tr><td>Giải trình / sửa công</td><td>Có</td><td class="c"><span class="badge b-ready">SẴN SÀNG</span></td></tr>
+      <tr><td>Đổi ca, công đi, khiếu nại lương</td><td>Có</td><td class="c"><span class="badge b-beta">ĐANG HOÀN THIỆN</span></td></tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- ============ 09 PAYROLL ============ -->
+<section class="chapter" id="c09">
+  <div class="chap-head tile"><div class="no">CHƯƠNG 09</div><h1>Lương, thưởng &amp; hoa hồng</h1><p>Dữ liệu tài chính nhạy cảm được bảo vệ nhiều lớp; nhân viên hiểu rõ từng khoản thu nhập.</p></div>
+
+  <div class="feature">
+    <div class="fh"><div><h3>Tổng quan lương &amp; phiếu lương chi tiết</h3><div class="who">Nhân viên</div></div><span class="badge b-ready">SẴN SÀNG</span></div>
+    <div class="value"><b>Giá trị:</b> nhân viên tự đọc hiểu phiếu lương, HR bớt thời gian giải thích.</div>
+    <ul class="rules"><li>Tab <b>Lương</b>: thẻ lương thực nhận theo kỳ, cơ cấu lương, các khoản phụ cấp và trích nộp.</li><li>Phiếu lương chi tiết: ngày công thực tế, phụ cấp, tiền tăng ca, thưởng, BHXH / BHYT / BHTN, giảm trừ và thuế TNCN, thực nhận.</li><li>Lương chốt và phát hành theo lịch của doanh nghiệp (ví dụ ngày 25), nhân viên nhận thông báo khi có phiếu mới.</li></ul>
+  </div>
+
+  <div class="feature">
+    <div class="fh"><div><h3>Bảo vệ màn lương</h3><div class="who">Nhân viên</div></div><span class="badge b-beta">ĐANG HOÀN THIỆN</span></div>
+    <div class="value"><b>Giá trị:</b> không ai xem trộm được lương khi mượn máy; thông tin lương không bị chụp màn hình phát tán.</div>
+    <ul class="rules"><li>Bắt buộc xác thực Face ID, vân tay hoặc mã PIN 6 số <b>mỗi lần</b> mở phiếu lương.</li><li>Chặn chụp và quay màn hình trên các màn lương.</li><li>Tự khoá sau 2 phút không thao tác.</li><li>Số tiền trên Trang chủ ẩn mặc định.</li></ul>
+  </div>
+
+  <div class="feature">
+    <div class="fh"><div><h3>Ký xác nhận &amp; khiếu nại lương</h3><div class="who">Nhân viên · Quản lý · HR</div></div><span class="badge b-beta">ĐANG HOÀN THIỆN</span></div>
+    <div class="value"><b>Giá trị:</b> có bằng chứng nhân viên đã xác nhận lương; sai sót được xử lý theo quy trình, không qua tin nhắn.</div>
+    <div class="cols">
+      <div><div class="lbl">Phiếu lương đúng</div>
+        <ol class="steps"><li>Kiểm tra từng dòng.</li><li>Bấm <b>Ký xác nhận</b>, ký bằng ngón tay.</li><li>Phiếu chuyển trạng thái <b>Đã ký</b>.</li></ol></div>
+      <div><div class="lbl">Phiếu lương có dòng sai</div>
+        <ol class="steps"><li>Bấm vào dòng sai, nhập giá trị đúng và bằng chứng. App tự tính chênh lệch.</li><li>Quản lý xác nhận, HR tính lại.</li><li>Khoản đúng được bổ sung vào kỳ lương sau; nhân viên theo dõi kết quả trong mục Khiếu nại lương.</li></ol></div>
+    </div>
+  </div>
+
+  <div class="feature">
+    <div class="fh"><div><h3>Thưởng, hoa hồng &amp; chỉ tiêu</h3><div class="who">Nhân viên (đặc biệt khối kinh doanh)</div></div><span class="badge b-beta">ĐANG HOÀN THIỆN</span></div>
+    <div class="value"><b>Giá trị:</b> nhân viên thấy ngay vì sao được thưởng và còn thiếu bao nhiêu để đạt mốc tiếp theo, tạo động lực bán hàng.</div>
+    <table><thead><tr><th style="width:20%">Tab</th><th>Nội dung</th></tr></thead><tbody>
+      <tr><td><b>Thưởng</b></td><td>Các khoản thưởng trong tháng, ghi rõ lý do được thưởng.</td></tr>
+      <tr><td><b>Hoa hồng</b></td><td>3 nguồn: doanh thu chi nhánh, nhóm sản phẩm mục tiêu, hợp đồng mới. Xem theo giao dịch, ngày, tuần, tháng.</td></tr>
+      <tr><td><b>Chỉ tiêu</b></td><td>Tiến độ cá nhân và nhóm so với chỉ tiêu, bảng ước tính thưởng khi đạt 80% / 100% / 120%.</td></tr>
+    </tbody></table>
+  </div>
+</section>
+
+<!-- ============ 10 PROFILE ============ -->
+<section class="chapter" id="c10">
+  <div class="chap-head tile"><div class="no">CHƯƠNG 10</div><h1>Hồ sơ cá nhân &amp; tài liệu</h1><p>Nhân viên tự cập nhật thông tin của mình; HR chỉ duyệt các thay đổi quan trọng.</p></div>
+
+  <div class="feature">
+    <div class="fh"><div><h3>Hồ sơ nhân viên 360°</h3><div class="who">Nhân viên · Quản lý</div></div><span class="badge b-ready">SẴN SÀNG</span></div>
+    <div class="value"><b>Giá trị:</b> mọi thông tin nhân sự của một người ở cùng một chỗ, luôn cập nhật.</div>
+    <div class="cols">
+      <div><div class="lbl">Thông tin cá nhân</div><p>Họ tên, ảnh thẻ, ngày sinh, giới tính, CCCD, email, số điện thoại, địa chỉ, liên hệ khẩn cấp.</p></div>
+      <div><div class="lbl">Thông tin công việc</div><p>Mã NV, chức vụ, phòng ban / chi nhánh, quản lý trực tiếp, ngày vào làm, loại hợp đồng, nơi làm việc.</p></div>
+    </div>
+  </div>
+
+  <div class="feature">
+    <div class="fh"><div><h3>Chỉnh sửa thông tin</h3><div class="who">Nhân viên · HR duyệt</div></div><span class="badge b-beta">ĐANG HOÀN THIỆN</span></div>
+    <div class="value"><b>Giá trị:</b> giảm việc nhập liệu cho HR mà vẫn kiểm soát được thông tin quan trọng như tài khoản nhận lương.</div>
+    <ul class="rules"><li><b>Cập nhật ngay:</b> số điện thoại, email, liên hệ khẩn cấp.</li><li><b>Cần HR duyệt:</b> địa chỉ, tài khoản ngân hàng nhận lương (đính kèm sao kê). Giá trị cũ vẫn dùng tới khi HR duyệt.</li><li>HR đối chiếu tên chủ tài khoản phải trùng với hồ sơ. Mỗi lúc chỉ có một yêu cầu đổi tài khoản; nhập nhầm có thể huỷ.</li></ul>
+  </div>
+
+  <div class="feature">
+    <div class="fh"><div><h3>Hồ sơ lao động, hợp đồng &amp; giấy tờ</h3><div class="who">Nhân viên</div></div><span class="badge b-beta">ĐANG HOÀN THIỆN</span></div>
+    <div class="value"><b>Giá trị:</b> nhân viên luôn có bản hợp đồng, quyết định của mình; HR không bị thiếu giấy tờ.</div>
+    <ul class="rules"><li>Xem hợp đồng lao động, phụ lục, quyết định và tệp đính kèm.</li><li>Tải PDF có <b>watermark tên nhân viên</b>; chặn chụp màn hình.</li><li>App nhắc giấy tờ còn thiếu hoặc sắp hết hạn. Nhân viên chụp hoặc tải lên ngay, HR xác minh.</li><li>Tài liệu đã mở vẫn xem được khi mất mạng.</li></ul>
+  </div>
+
+  <div class="feature">
+    <div class="fh"><div><h3>Người phụ thuộc (giảm trừ gia cảnh)</h3><div class="who">Nhân viên · HR</div></div><span class="badge b-beta">ĐANG HOÀN THIỆN</span></div>
+    <div class="value"><b>Giá trị:</b> nhân viên tự đăng ký giảm trừ gia cảnh để giảm thuế TNCN, không phải nộp giấy cho HR.</div>
+    <ol class="steps"><li>Vào <b>Người phụ thuộc</b>: xem tổng mức giảm trừ (6.200.000 ₫/người/tháng) và danh sách đã đăng ký.</li><li>Bấm <b>Thêm người phụ thuộc</b>, nhập thông tin, đính kèm giấy khai sinh / giấy tờ liên quan, gửi HR.</li><li>HR duyệt và nộp mẫu đăng ký người phụ thuộc với cơ quan thuế. Không chọn được tháng đã chốt lương.</li></ol>
+  </div>
+</section>
+
+<!-- ============ 11 COMMS ============ -->
+<section class="chapter" id="c11">
+  <div class="chap-head tile"><div class="no">CHƯƠNG 11</div><h1>Thông báo &amp; truyền thông nội bộ</h1><p>Kênh chính thức thay cho các nhóm chat tự phát.</p></div>
+
+  <div class="feature">
+    <div class="fh"><div><h3>Trung tâm thông báo &amp; thông báo đẩy</h3><div class="who">Tất cả vai trò</div></div><span class="badge b-ready">SẴN SÀNG</span></div>
+    <div class="value"><b>Giá trị:</b> nhân viên không bỏ lỡ kết quả duyệt đơn, lịch chấm công hay phiếu lương mới.</div>
+    <div class="cols">
+      <div><div class="lbl">Nhận thông báo khi</div>
+        <ul class="rules"><li>Đơn được duyệt hoặc bị từ chối.</li><li>Đổi ca được duyệt (gửi cho cả hai người).</li><li>Nhắc chấm công trước giờ vào ca và trước giờ hết ca.</li><li>Phiếu lương mới được phát hành.</li><li>Thông báo khẩn từ công ty.</li></ul></div>
+      <div><div class="lbl">Cách sử dụng</div>
+        <ol class="steps"><li>Bấm biểu tượng chuông trên Trang chủ.</li><li>Lọc theo nhóm: Công ty, Đơn từ, Chấm công, Lương.</li><li>Bấm một thông báo để mở đúng màn liên quan.</li><li>Bấm <b>Đọc tất cả</b> để đánh dấu đã đọc toàn bộ.</li></ol></div>
+    </div>
+  </div>
+
+  <div class="feature">
+    <div class="fh"><div><h3>Bảng tin nội bộ</h3><div class="who">Tất cả vai trò · HR / BGĐ đăng bài</div></div><span class="badge b-beta">ĐANG HOÀN THIỆN</span></div>
+    <div class="value"><b>Giá trị:</b> thông tin chính thức tới đúng người, không rò rỉ ra ngoài; biết được ai đã đọc thông báo quan trọng.</div>
+    <ul class="rules"><li>Thông báo chính thức từ HR và Ban Giám đốc, hiển thị người gửi, thời gian và phạm vi.</li><li>Lọc theo phạm vi: Toàn công ty, Khối văn phòng, Phân xưởng &amp; Tổ, Phòng ban.</li><li>Bài mới có nhãn <b>MỚI</b>; đánh dấu đã đọc từng bài hoặc tất cả.</li><li>Nhân viên chỉ đọc; quyền đăng bài thuộc HR, Ban Giám đốc và quản lý được phân quyền.</li></ul>
+    <p class="small muted">Lộ trình mở rộng: bài khẩn cấp luôn ở đầu trang, bài bắt buộc xác nhận "Tôi đã đọc" (an toàn lao động, nội quy), thống kê tỷ lệ đọc theo phân xưởng, bình luận và thả cảm xúc.</p>
+  </div>
+</section>
+
+<!-- ============ 12 RECRUITMENT ============ -->
+<section class="chapter" id="c12">
+  <div class="chap-head tile"><div class="no">CHƯƠNG 12</div><h1>Tuyển dụng nội bộ &amp; hội nhập nhân viên mới</h1><p>Biến mỗi nhân viên thành một kênh tuyển dụng; số hoá hồ sơ cho người mới.</p></div>
+
+  <div class="feature">
+    <div class="fh"><div><h3>Tuyển dụng nội bộ &amp; giới thiệu ứng viên</h3><div class="who">Nhân viên · HR xử lý</div></div><span class="badge b-beta">ĐANG HOÀN THIỆN</span></div>
+    <div class="value"><b>Giá trị:</b> tuyển nhanh hơn, rẻ hơn nhờ mạng lưới của nhân viên; thưởng giới thiệu minh bạch và tự động.</div>
+    <div class="cols">
+      <div><div class="lbl">Cách sử dụng</div>
+        <ol class="steps"><li><b>Tất cả dịch vụ → Tuyển dụng nội bộ</b>: xem các vị trí đang mở.</li><li>Bấm một vị trí, chọn <b>Ứng tuyển</b> (cho chính mình) hoặc <b>Giới thiệu</b>.</li><li>Nhập tên, số điện thoại, vị trí, chi nhánh mong muốn, đính kèm CV.</li><li>Theo dõi tại <b>Giới thiệu của tôi</b>; chia sẻ link hoặc mã QR giới thiệu cá nhân.</li></ol></div>
+      <div><div class="lbl">Quy tắc</div>
+        <ul class="rules"><li>Bắt buộc có tên và số điện thoại; ứng viên chưa có hồ sơ trong 6 tháng gần nhất.</li><li>Theo dõi 4 bước: Tiếp nhận → Phỏng vấn → Thử việc → Ký hợp đồng.</li><li>Link giới thiệu được tính cho người giới thiệu trong 90 ngày.</li><li>Thưởng (ví dụ 3.000.000 ₫) tự kích hoạt khi ứng viên ký hợp đồng chính thức.</li></ul></div>
+    </div>
+  </div>
+
+  <div class="feature">
+    <div class="fh"><div><h3>Hội nhập nhân viên mới (Pre-onboarding)</h3><div class="who">Ứng viên mới · HR</div></div><span class="badge b-beta">ĐANG HOÀN THIỆN</span></div>
+    <div class="value"><b>Giá trị:</b> người mới hoàn tất giấy tờ trước ngày đầu tiên; HR không phải nhập tay thông tin CCCD; giảm giấy tờ in ấn.</div>
+    <div class="flow">
+      <div class="st">Thư mời<small>nhận việc</small></div><span class="ar">→</span>
+      <div class="st">Sơ đồ tổ chức<small>quản lý, mentor</small></div><span class="ar">→</span>
+      <div class="st">Giấy tờ<small>chụp CCCD + OCR</small></div><span class="ar">→</span>
+      <div class="st">Ký NDA<small>&amp; nội quy</small></div><span class="ar">→</span>
+      <div class="st amber">Ngày đầu tiên<small>lịch trình</small></div>
+    </div>
+    <ul class="rules"><li>Trang hội nhập có đếm ngược tới ngày đi làm và tiến độ các bước chuẩn bị.</li><li>Chụp CCCD mặt trước, mặt sau; app tự chụp khi ảnh rõ nét. OCR tự trích xuất thông tin; ô có độ tin cậy thấp được tô viền để người mới xem lại. Ảnh loá thì chụp lại.</li><li>Ký điện tử NDA và nội quy lao động; phải đánh dấu đã đọc trước khi ký.</li><li>Ngày đầu tiên: lịch trình, danh sách đồ cần mang. HR đối chiếu bản gốc vào ngày đầu.</li></ul>
+  </div>
+</section>
+
+<!-- ============ 13 EXEC ============ -->
+<section class="chapter" id="c13">
+  <div class="chap-head tile"><div class="no">CHƯƠNG 13</div><h1>Phân hệ điều hành cho Ban Giám đốc</h1><p>Bức tranh nhân sự toàn công ty trên điện thoại, cho người ra quyết định.</p></div>
+
+  <div class="feature">
+    <div class="fh"><div><h3>Bảng điều hành</h3><div class="who">Ban Giám đốc</div></div><span class="badge b-beta">ĐANG HOÀN THIỆN</span></div>
+    <div class="value"><b>Giá trị:</b> Giám đốc nắm tình hình nhân sự hôm nay mà không cần chờ báo cáo.</div>
+    <ul class="rules"><li>Số đơn chờ phê duyệt cuối, đơn cũ nhất đã chờ bao lâu.</li><li>Tình hình hôm nay: tổng nhân sự, tỷ lệ đi làm, quỹ lương tháng, giờ tăng ca tháng, tỷ lệ nghỉ việc.</li><li>Tỷ lệ đi làm theo khối / phân xưởng.</li><li>Các cảnh báo rủi ro &amp; tuân thủ cần chú ý.</li></ul>
+  </div>
+
+  <div class="feature">
+    <div class="fh"><div><h3>Phê duyệt cuối</h3><div class="who">Ban Giám đốc</div></div><span class="badge b-beta">ĐANG HOÀN THIỆN</span></div>
+    <div class="value"><b>Giá trị:</b> Giám đốc chỉ phải xem các đơn vượt ngưỡng, kèm tác động ngân sách để quyết định nhanh.</div>
+    <p>Chỉ các yêu cầu vượt ngưỡng mới lên Giám đốc: nghỉ trên 10 ngày, tăng ca vượt ngân sách, đề xuất tuyển thêm. Duyệt hoặc từ chối kèm ý kiến.</p>
+  </div>
+
+  <div class="grid2">
+    <div class="feature" style="margin:0">
+      <div class="fh"><div><h3>Rủi ro &amp; tuân thủ</h3></div><span class="badge b-beta">ĐANG HOÀN THIỆN</span></div>
+      <p>Cảnh báo theo 3 mức: <b>Nghiêm trọng</b>, <b>Cảnh báo cao</b>, <b>Theo dõi</b>. Giám đốc bấm <b>Giao việc cho HR</b>; HR xử lý và báo lại.</p>
+    </div>
+    <div class="feature" style="margin:0">
+      <div class="fh"><div><h3>Uỷ quyền</h3></div><span class="badge b-beta">ĐANG HOÀN THIỆN</span></div>
+      <p>Khi vắng mặt, chọn người được uỷ quyền, phạm vi và thời hạn. Uỷ quyền có thời hạn và thu hồi được bất cứ lúc nào.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 14 SETTINGS & SECURITY ============ -->
+<section class="chapter" id="c14">
+  <div class="chap-head tile"><div class="no">CHƯƠNG 14</div><h1>Cài đặt, bảo mật &amp; quyền riêng tư</h1><p>Cá nhân hoá ứng dụng và các lớp bảo vệ dữ liệu nhân sự.</p></div>
+
+  <h2>Cài đặt ứng dụng</h2>
+  <table>
+    <thead><tr><th style="width:30%">Mục</th><th>Nội dung</th></tr></thead>
+    <tbody>
+      <tr><td>Ngôn ngữ &amp; giao diện</td><td>Chuyển Tiếng Việt / English; giao diện Sáng / Tối.</td></tr>
+      <tr><td>Thông báo</td><td>Bật/tắt thông báo đẩy; nhắc chấm công đầu và cuối ca; nhận báo cáo qua email.</td></tr>
+      <tr><td>Bảo mật &amp; quyền riêng tư</td><td>Mở khoá sinh trắc học; Thiết bị đã đăng ký.</td></tr>
+      <tr><td>Quyền hệ thống</td><td>Quản lý quyền camera, vị trí, thông báo của ứng dụng.</td></tr>
+      <tr><td>Bộ nhớ</td><td>Xoá bộ nhớ đệm.</td></tr>
+    </tbody>
+  </table>
+
+  <h2>Các lớp bảo mật của V-STech HRM</h2>
+  <table>
+    <thead><tr><th style="width:30%">Lớp bảo vệ</th><th>Chi tiết</th></tr></thead>
+    <tbody>
+      <tr><td><b>Tài khoản</b></td><td>Đăng nhập bằng mã NV và mật khẩu; khoá tạm khi sai nhiều lần; mã đăng nhập lưu trong vùng bảo mật của thiết bị.</td></tr>
+      <tr><td><b>Thiết bị</b></td><td>Một tài khoản một thiết bị chấm công; phát hiện root/jailbreak, GPS giả; đổi máy cần HR duyệt.</td></tr>
+      <tr><td><b>Chấm công</b></td><td>Khuôn mặt có kiểm tra người thật, GPS trong vùng làm việc, Wi-Fi nội bộ; lưu vết mọi lần bị chặn.</td></tr>
+      <tr><td><b>Dữ liệu sinh trắc</b></td><td>Mẫu khuôn mặt dùng để đối chiếu ngoại tuyến được lưu mã hoá trên thiết bị.</td></tr>
+      <tr><td><b>Lương &amp; hợp đồng</b></td><td>Xác thực sinh trắc học / PIN mỗi lần mở; chặn chụp màn hình; tự khoá sau 2 phút; tài liệu tải về có watermark tên nhân viên.</td></tr>
+      <tr><td><b>Nhật ký</b></td><td>Ứng dụng không ghi mật khẩu, mã đăng nhập, dữ liệu khuôn mặt hay chi tiết lương vào nhật ký hệ thống.</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- ============ 15 DEMO SCRIPT ============ -->
+<section class="chapter" id="c15">
+  <div class="chap-head tile"><div class="no">CHƯƠNG 15</div><h1>Kịch bản demo 10 phút</h1><p>Trình tự gợi ý khi trình diễn cho khách hàng, đi trọn vòng chấm công, đơn từ, duyệt đơn.</p></div>
+  <p>Ứng dụng có tài khoản demo để chuyển nhanh giữa vai trò <b>Nhân viên</b> và <b>Quản lý</b> ngay trên một máy.</p>
+  <table>
+    <thead><tr><th class="c" style="width:6%">#</th><th style="width:13%">Vai trò</th><th>Thao tác</th><th style="width:30%">Điểm nhấn với khách hàng</th></tr></thead>
+    <tbody>
+      <tr><td class="c">1</td><td>Nhân viên</td><td>Mở app, xem ca hôm nay trên Trang chủ. Chấm công vào lúc 08:12.</td><td>Xác thực 3 lớp; tự phân loại <b>Đi muộn</b></td></tr>
+      <tr><td class="c">2</td><td>Nhân viên</td><td>Bật chế độ máy bay, chấm công ra. Tắt chế độ máy bay, bấm Đồng bộ ngay.</td><td>Mất mạng vẫn chấm công được</td></tr>
+      <tr><td class="c">3</td><td>Nhân viên</td><td>Bật chế độ giả GPS (công tắc demo), thử chấm công.</td><td>Màn chặn gian lận</td></tr>
+      <tr><td class="c">4</td><td>Nhân viên</td><td>Mở Lịch công, bấm một ngày đỏ, gửi đơn sửa công.</td><td>Từ lịch sang đơn chỉ một chạm</td></tr>
+      <tr><td class="c">5</td><td>Nhân viên</td><td>Mở Ngày lễ, đăng ký tăng ca vào ngày lễ kế tiếp, chọn đổi nghỉ bù.</td><td>Hệ số 300% tự áp; quỹ nghỉ bù</td></tr>
+      <tr><td class="c">6</td><td>Nhân viên</td><td>Xem số dư phép, xin nghỉ nửa ngày phép năm.</td><td>Tự tính ngày, không vượt quỹ phép</td></tr>
+      <tr><td class="c">7</td><td>Nhân viên</td><td>Đổi ca với đồng nghiệp; thử trước với người không hợp lệ.</td><td>Hệ thống tự kiểm tra luật lao động</td></tr>
+      <tr><td class="c">8</td><td>Nhân viên</td><td>Gửi đơn công đi để gặp khách hàng.</td><td>Làm ngoài văn phòng vẫn đủ công</td></tr>
+      <tr><td class="c">9</td><td>Quản lý</td><td>Xem dải Chờ duyệt, lọc theo loại, duyệt phần lớn, từ chối một đơn kèm lý do.</td><td>Duyệt một chạm; huy hiệu giảm ngay</td></tr>
+      <tr><td class="c">10</td><td>Nhân viên</td><td>Mở Thông báo, xem kết quả; mở lại lịch công và lịch ca.</td><td>Ngày phép màu tím, nhãn "Công đi", "Đã đổi"</td></tr>
+    </tbody>
+  </table>
+  <div class="note"><b>Mở rộng tuỳ khách hàng:</b> với khách hàng quan tâm lương, thêm bước mở phiếu lương (xác thực sinh trắc học, thử chụp màn hình bị chặn, ký xác nhận, khiếu nại một dòng). Với khách hàng tuyển dụng nhiều, trình diễn luồng giới thiệu ứng viên và hội nhập nhân viên mới (chụp CCCD + OCR). Với lãnh đạo doanh nghiệp, mở Bảng điều hành Ban Giám đốc.</div>
+</section>
+
+<!-- ============ 16 ROADMAP ============ -->
+<section class="chapter" id="c16">
+  <div class="chap-head tile"><div class="no">CHƯƠNG 16</div><h1>Lộ trình phát triển &amp; khả năng tích hợp</h1><p>Các chức năng đã có trong kế hoạch, và cách V-STech HRM kết nối với hệ thống của doanh nghiệp.</p></div>
+
+  <h2>Lộ trình chức năng <span class="badge b-plan">LỘ TRÌNH</span></h2>
+  <table>
+    <thead><tr><th style="width:24%">Nhóm</th><th>Chức năng dự kiến</th></tr></thead>
+    <tbody>
+      <tr><td>Chấm công &amp; ca</td><td>Tổng hợp công theo ca của tổ/nhóm cho Tổ trưởng; widget chấm công trên màn hình khoá; lịch nghỉ đội nhóm; đăng ký làm việc tại nhà; timesheet theo dự án.</td></tr>
+      <tr><td>Hợp đồng điện tử</td><td>Ký số hợp đồng, phụ lục, NDA trên điện thoại; khoá bất biến bằng mã băm; đại diện doanh nghiệp ký số.</td></tr>
+      <tr><td>Truyền thông</td><td>Bài khẩn cấp, bài bắt buộc xác nhận đã đọc, thống kê tỷ lệ đọc, bình luận; thư viện cẩm nang / quy chế.</td></tr>
+      <tr><td>Lương &amp; phúc lợi</td><td>Lịch sử thay đổi lương, xuất PDF; nhận lương sớm (EWA); tra cứu BHXH, khai báo thuế; phúc lợi linh hoạt.</td></tr>
+      <tr><td>Công tác &amp; chi phí</td><td>Công tác phí, hoàn ứng có OCR hoá đơn.</td></tr>
+      <tr><td>Dịch vụ HR</td><td>HR Helpdesk, danh bạ nhân viên, tài sản cấp phát, đơn thôi việc &amp; bàn giao, điều chuyển công tác.</td></tr>
+      <tr><td>Phát triển con người</td><td>KPI/OKR, đánh giá năng lực, lộ trình nghề nghiệp, học tập ngắn, ghi nhận &amp; khen thưởng, khảo sát eNPS, trợ lý AI hội thoại.</td></tr>
+    </tbody>
+  </table>
+
+  <h2>Khả năng tích hợp</h2>
+  <div class="grid2">
+    <div class="tilecard"><b>Máy chủ V-STech HRM</b><span>Ứng dụng kết nối qua API chuẩn REST, xác thực bằng JWT. Hiện đã có các nhóm API: tài khoản &amp; hồ sơ, chấm công vào/ra, nghỉ phép, tăng ca, giải trình công, phê duyệt của quản lý, phiếu lương, thông báo &amp; push, ngày lễ.</span></div>
+    <div class="tilecard"><b>Thông báo đẩy</b><span>Tích hợp Firebase Cloud Messaging để gửi thông báo tức thời tới Android và iOS.</span></div>
+    <div class="tilecard"><b>Hệ thống quản trị cho HR</b><span>HR xác nhận đơn, quản lý quỹ phép, cập nhật bảng công, chốt và phát hành lương; kết quả đồng bộ về ứng dụng của nhân viên.</span></div>
+    <div class="tilecard"><b>Cấu hình theo doanh nghiệp</b><span>Mốc giờ đúng giờ, giới hạn sửa công, trần tăng ca, ngưỡng duyệt cấp Giám đốc, tỷ lệ quy đổi nghỉ bù, vùng GPS và Wi-Fi của từng chi nhánh.</span></div>
+  </div>
+
+  <div class="divider tile"></div>
+  <p class="small muted">Tài liệu tổng hợp từ bộ thiết kế, tài liệu nghiệp vụ và mã nguồn của dự án V-STech HRM tại thời điểm 02/10/2026. Các con số trong phần quy tắc (mốc giờ, giới hạn, mức thưởng) là cấu hình mẫu và điều chỉnh được theo quy chế từng doanh nghiệp.</p>
+</section>
+
+</body>
+</html>

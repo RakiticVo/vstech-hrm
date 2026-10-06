@@ -22,6 +22,8 @@
   - Bổ sung bộ kiểm thử 91/91 unit & widget tests phủ toàn diện các phân hệ mới (100% passed).
 
 ### Changed
+- Chuẩn hóa payload Tạo đơn nghỉ phép (`POST /api/LeaveRequests`): hỗ trợ cặp ngày thực tế `from` - `to`, thời hạn gói phép `validFrom` - `validTo`, cờ `isMultiple`, số lượng ngày `leaveAmountType` dạng chuỗi và loại bỏ `/self` riêng cho endpoint tạo phiếu.
+- Tích hợp Face ID / sinh trắc học thiết bị thật và cơ chế quét khuôn mặt sống (Live Face Scan & Face Enrollment).
 - Tách bộ lọc tháng và bộ lọc trạng thái thành 2 dòng riêng biệt tại các màn Quản lý nghỉ phép và Quản lý tăng ca, loại bỏ lỗi tràn viền (overflow).
 - Tái cấu trúc tiến trình phê duyệt tại màn Chi tiết yêu cầu: đưa trạng thái và thời gian xuống dưới tiêu đề bước để tiêu đề dài tự động xuống dòng linh hoạt.
 - Thiết kế lại dialog xác nhận Hủy yêu cầu với bo góc mềm mại, nút bấm tương phản cao, và cơ chế tự động quay về màn hình trước đó sau khi xác nhận.

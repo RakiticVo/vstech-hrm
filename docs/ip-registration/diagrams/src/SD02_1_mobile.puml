@@ -1,0 +1,147 @@
+@startuml
+
+skinparam dpi 160
+skinparam defaultFontName Arial
+skinparam defaultFontSize 12
+skinparam shadowing false
+skinparam roundCorner 8
+skinparam maxMessageSize 260
+skinparam sequenceMessageAlign left
+skinparam responseMessageBelowArrow true
+skinparam ParticipantPadding 6
+skinparam BoxPadding 4
+skinparam titleFontSize 16
+skinparam titleFontStyle bold
+skinparam titleFontColor #0A544E
+skinparam sequence {
+  ArrowColor #0F766E
+  ArrowThickness 1.2
+  LifeLineBorderColor #94A3B8
+  LifeLineBackgroundColor #CCFBF1
+  ParticipantBorderColor #0F766E
+  ParticipantBackgroundColor #FFFFFF
+  ParticipantFontStyle bold
+  ActorBorderColor #0F766E
+  ActorBackgroundColor #FFF8EC
+  BoxBorderColor #CBD5E1
+  GroupBorderColor #B45309
+  GroupBackgroundColor #FFFBEB
+  GroupHeaderFontColor #92400E
+  DividerBackgroundColor #F0FDFA
+  DividerBorderColor #0F766E
+  ReferenceBackgroundColor #F8FAFC
+}
+skinparam note {
+  BackgroundColor #FFF8EC
+  BorderColor #F59E0B
+  FontSize 11
+}
+
+autonumber "<b>00."
+title SD02 · Chấm công vào / ra ca bằng nhận diện khuôn mặt AI (trực tuyến)\n<size:12>Tầng 1 – Mobile App</size>
+actor "Nhân viên" as U
+box "Presentation" #E6F4F1
+participant "Home / Attendance\nScreen" as H
+participant "FaceScanScreen" as S
+participant "AttendanceBloc" as B
+end box
+box "Thiết bị" #F1F5F9
+participant "Geolocator\n(GPS)" as GPS
+participant "CameraController\n(camera trước)" as CAM
+end box
+box "Domain" #FEF9E7
+participant "CheckFaceRegistration /\nVerifyFace UseCase" as UCF
+participant "CheckIn / CheckOut /\nGetTodayAttendance UseCase" as UCA
+end box
+box "Data" #EEF2FF
+participant "FaceAuthRepositoryImpl\n→ FaceAuthRemoteDataSource\n(FaceDioClient)" as FR
+participant "AttendanceRepositoryImpl\n→ AttendanceRemoteDataSource\n(DioClient + JWT)" as AR
+end box
+box "Máy chủ" #FFF1F2
+participant "Face Authentication\nAPI" as FAPI
+participant "HRM Backend\nAPI" as API
+end box
+
+U -> H : Bấm "CHẤM CÔNG VÀO" / "CHẤM CÔNG RA"
+H -> S : push(/home/check-in, type = checkIn | checkOut)
+activate S
+S -> B : add(PrepareFaceScanEvent(type, employeeCode))
+activate B
+B -> B : emit(status: loading)
+B -> GPS : checkPermission()
+alt Đã cấp quyền vị trí
+  B -> GPS : getCurrentPosition(timeLimit: 4s)
+  GPS --> B : latitude, longitude
+else Không có quyền / quá thời gian
+  B -> B : Dùng toạ độ trụ sở mặc định (ghi log cảnh báo)
+end
+B -> UCF : CheckFaceRegistrationUseCase(code)
+UCF -> FR : checkRegistration(code)
+FR -> FAPI : GET /checkreg/?Code={mãNV}&AppCode=HRM
+FAPI --> FR : {status, registered, count, message}
+FR --> UCF : Right(FaceCheckRegEntity)
+UCF --> B : isRegistered
+alt Chưa đăng ký khuôn mặt
+  B -> B : emit(faceNotRegistered)
+  B --> S : state
+  S --> U : UnregisteredFaceDialog\n"Đăng ký khuôn mặt ngay"
+  ref over S : SD03 – Đăng ký / cập nhật khuôn mặt
+else Đã đăng ký
+  B -> B : emit(readyToScan, lat, lng, isWithinGeofence,\nisWifiValid, locationName)
+  B --> S : state
+end
+deactivate B
+
+S -> S : AppPermissionHandler.requestCamera()\n+ requestLocation()
+S -> CAM : availableCameras() → chọn camera trước\nCameraController(ResolutionPreset.medium).initialize()
+CAM --> S : Preview khung oval (FaceOvalFrame)\n+ đồng hồ thời gian thực, trạng thái GPS
+U -> S : Căn khuôn mặt vào khung, bấm chụp
+S -> CAM : takePicture()
+CAM --> S : imagePath (JPEG)
+S -> B : add(SubmitFaceScanEvent(imagePath, type, employeeCode))
+activate B
+B -> B : emit(faceVerifying)
+B -> UCF : VerifyFaceUseCase(code, imagePath)
+UCF -> FR : verifyFace(code, imagePath)
+FR -> FAPI : POST /verify/  multipart/form-data\n{Code, AppCode, file = verify_face.jpg}
+FAPI --> FR : {status, match, similarity, message}
+FR --> UCF : Right(FaceVerifyResultEntity)
+UCF --> B : isSuccess, isMatch, similarity
+alt Không khớp / lỗi xác thực
+  B -> B : emit(faceVerifyFailed, similarity, message)
+  B --> S : state
+  S --> U : SnackBar "Khuôn mặt không khớp với hồ sơ nhân viên"\n(cho phép chụp lại)
+else Khớp khuôn mặt
+  B -> B : emit(submitting)
+  B -> B : CheckInParams(imagePath, lat, lng, bssid,\ncapturedAt = now, note)
+  B -> UCA : CheckInUseCase(params) / CheckOutUseCase(params)
+  UCA -> AR : checkIn(params) / checkOut(params)
+  AR -> API : POST /api/Enrollments/Checkin | Checkout\nAuthorization: Bearer ‹JWT›\nEnrollForm{coordinate: "lat,lng", local: bssid, fingerprint}
+  alt 200 OK
+    API --> AR : EnrollActionResponse{message, checkin, checkout}
+    AR -> AR : Tạo AttendanceRecordModel\nphân loại: onTime / late / earlyLeave
+    AR --> UCA : Right(AttendanceRecordEntity)
+    UCA --> B : Right(record)
+    B -> UCA : GetTodayAttendanceUseCase()
+    UCA -> AR : getTodayAttendance()
+    AR -> API : GET /api/Enrollments/info
+    API --> AR : EnrollmentInfoResponse{timesheet, enroll,\nstartShift, endShift, enrolls[], serverTime}
+    AR --> UCA : Right(AttendanceTodayEntity)
+    UCA --> B : todayAttendance
+    B -> B : emit(success, lastRecord, todayAttendance)
+    B --> S : state
+    S -> S : HapticFeedback.mediumImpact()
+    S --> U : AttendanceSuccessSheet – biên lai:\ngiờ chấm, trạng thái, vị trí, toạ độ
+    S --> H : pop(true) → làm mới thẻ chấm công
+  else 400 – vi phạm quy tắc chấm công
+    API --> AR : ServiceResultResponse{message}
+    AR --> UCA : Left(ServerFailure(message))
+    UCA --> B : Left(Failure)
+    B -> B : emit(failure, errorMessage)
+    B --> S : state
+    S --> U : Hiển thị lỗi kèm đường thoát (liên hệ HR)
+  end
+end
+deactivate B
+deactivate S
+@enduml

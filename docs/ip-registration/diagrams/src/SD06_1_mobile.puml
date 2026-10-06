@@ -1,0 +1,105 @@
+@startuml
+
+skinparam dpi 160
+skinparam defaultFontName Arial
+skinparam defaultFontSize 12
+skinparam shadowing false
+skinparam roundCorner 8
+skinparam maxMessageSize 260
+skinparam sequenceMessageAlign left
+skinparam responseMessageBelowArrow true
+skinparam ParticipantPadding 6
+skinparam BoxPadding 4
+skinparam titleFontSize 16
+skinparam titleFontStyle bold
+skinparam titleFontColor #0A544E
+skinparam sequence {
+  ArrowColor #0F766E
+  ArrowThickness 1.2
+  LifeLineBorderColor #94A3B8
+  LifeLineBackgroundColor #CCFBF1
+  ParticipantBorderColor #0F766E
+  ParticipantBackgroundColor #FFFFFF
+  ParticipantFontStyle bold
+  ActorBorderColor #0F766E
+  ActorBackgroundColor #FFF8EC
+  BoxBorderColor #CBD5E1
+  GroupBorderColor #B45309
+  GroupBackgroundColor #FFFBEB
+  GroupHeaderFontColor #92400E
+  DividerBackgroundColor #F0FDFA
+  DividerBorderColor #0F766E
+  ReferenceBackgroundColor #F8FAFC
+}
+skinparam note {
+  BackgroundColor #FFF8EC
+  BorderColor #F59E0B
+  FontSize 11
+}
+
+autonumber "<b>00."
+title SD06 · Tạo đơn xin nghỉ phép\n<size:12>Tầng 1 – Mobile App</size>
+actor "Nhân viên" as U
+box "Presentation" #E6F4F1
+participant "LeaveRequestScreen /\nLeaveManageScreen" as S
+participant "LeaveRequestModal" as M
+participant "AuthCubit" as AC
+end box
+box "Domain" #FEF9E7
+participant "GetLeavePlans /\nCreateLeaveRequest /\nGetLeaveRequests UseCase" as UC
+end box
+box "Data" #EEF2FF
+participant "RequestsRepositoryImpl" as REPO
+participant "RequestsRemoteDataSource\n(DioClient + JWT)" as DS
+end box
+
+box "Máy chủ" #FFF1F2
+participant "HRM Backend API\n<size:10>REST · JWT</size>" as API
+end box
+
+
+U -> S : Mở "Nghỉ phép"
+activate S
+S -> UC : GetLeavePlansUseCase()
+UC -> REPO : getLeavePlans()
+REPO -> DS : getLeavePlans()
+DS -> API : GET /api/LeaveRequests/self?init=1&version=1
+API --> DS : leavePlans[] {code, name, symbol, amount}
+DS --> REPO : List‹LeavePlanModel›
+REPO --> UC : Right(List‹LeavePlanEntity›)
+UC --> S : Loại phép: phép năm, ốm BHXH,\nviệc riêng có lương, không lương, thai sản…
+S -> UC : GetLeaveRequestsUseCase()
+UC -> REPO : getLeaveRequests()
+REPO -> DS : getLeaveRequests()
+DS -> API : GET /api/LeaveRequests/self
+API --> DS : LeaveRequestResponsePagedResult{results[], rowCount, pageCount}
+DS --> REPO : List‹LeaveRequestResponseItem›
+REPO --> UC : Right(List‹LeaveItemEntity›)
+UC --> S : Lịch sử đơn + số dư phép
+U -> S : Bấm "Tạo đơn nghỉ"
+S -> M : LeaveRequestModal.show(plans, ngày mặc định)
+U -> M : Chọn loại phép, từ ngày – đến ngày,\ncả ngày / nửa ca (sáng/chiều), lý do
+M -> M : Tự tính tổng số ngày nghỉ\nKiểm tra ngày kết thúc ≥ ngày bắt đầu, lý do bắt buộc
+M --> S : onConfirm(plan, start, end, total, halfShift, reason)
+S -> AC : state.user.employeeCode
+S -> S : CreateLeaveParams{employeeCode, from, to,\nleavePlanCode, leaveAmountType = total,\nhalfShiftType, note}
+S -> UC : CreateLeaveRequestUseCase(params)
+UC -> REPO : createLeaveRequest(params)
+REPO -> REPO : Map → LeaveRequestCreateCommand
+REPO -> DS : createLeaveRequest(command)
+DS -> API : POST /api/LeaveRequests/self\nLeaveRequestCreate{employeeCode, from, to, leavePlanCode,\nleaveAmountType, halfShiftType, note}
+alt 200 OK
+  API --> DS : LeaveRequestServiceResultResponse{message, data}
+  DS --> REPO : true
+  REPO --> UC : Right(true)
+  UC --> S : Right(true)
+  S --> U : AppSuccessDialog "Đã gửi đơn {loại phép}\n{từ ngày} – {đến ngày} ({n} ngày)"\n→ chờ Quản lý duyệt
+else 400 – vượt quỹ phép / trùng lịch
+  API --> DS : ServiceResultResponse{message}
+  DS --> REPO : DioException → ServerException(message)
+  REPO --> UC : Left(ServerFailure(message))
+  UC --> S : Left(Failure)
+  S --> U : SnackBar thông báo lỗi nghiệp vụ
+end
+deactivate S
+@enduml

@@ -1,0 +1,114 @@
+@startuml
+
+skinparam dpi 160
+skinparam defaultFontName Arial
+skinparam defaultFontSize 12
+skinparam shadowing false
+skinparam roundCorner 8
+skinparam maxMessageSize 260
+skinparam sequenceMessageAlign left
+skinparam responseMessageBelowArrow true
+skinparam ParticipantPadding 6
+skinparam BoxPadding 4
+skinparam titleFontSize 16
+skinparam titleFontStyle bold
+skinparam titleFontColor #0A544E
+skinparam sequence {
+  ArrowColor #0F766E
+  ArrowThickness 1.2
+  LifeLineBorderColor #94A3B8
+  LifeLineBackgroundColor #CCFBF1
+  ParticipantBorderColor #0F766E
+  ParticipantBackgroundColor #FFFFFF
+  ParticipantFontStyle bold
+  ActorBorderColor #0F766E
+  ActorBackgroundColor #FFF8EC
+  BoxBorderColor #CBD5E1
+  GroupBorderColor #B45309
+  GroupBackgroundColor #FFFBEB
+  GroupHeaderFontColor #92400E
+  DividerBackgroundColor #F0FDFA
+  DividerBorderColor #0F766E
+  ReferenceBackgroundColor #F8FAFC
+}
+skinparam note {
+  BackgroundColor #FFF8EC
+  BorderColor #F59E0B
+  FontSize 11
+}
+
+autonumber "<b>00."
+title SD11 · Xem phiếu lương điện tử có bảo vệ sinh trắc học và ký xác nhận\n<size:12>Tầng 1 – Mobile App</size>
+actor "Nhân viên" as U
+box "Presentation" #E6F4F1
+participant "PayrollScreen\n(PayrollHeroCard)" as P
+participant "PayslipLockScreen\n+ PinCodeKeypad" as L
+participant "PayslipDetailScreen" as D
+participant "SignaturePadModal" as SIG
+end box
+box "Thiết bị" #F1F5F9
+participant "local_auth\n(Face ID / Vân tay)" as BIO
+end box
+box "Domain" #FEF9E7
+participant "GetPayslipDetailUseCase" as UC
+end box
+box "Data" #EEF2FF
+participant "PayrollRepositoryImpl" as REPO
+participant "PayrollRemoteDataSource" as DS
+end box
+
+box "Máy chủ" #FFF1F2
+participant "HRM Backend API\n<size:10>REST · JWT</size>" as API
+end box
+
+
+U -> P : Mở tab "Lương"
+P -> UC : GetPayslipDetailUseCase(id)
+UC -> REPO : getPayslipDetail(id)
+REPO -> DS : getPayslipDetail(id)
+DS -> API : GET /api/EmployeeSalaryPayrolls/detail/{id}\nAuthorization: Bearer ‹JWT›
+API --> DS : {message, data{item: EmployeeSalaryPayroll, timesheets}}
+DS --> REPO : PayslipDetailModel
+REPO --> UC : Right(PayslipEntity)
+UC --> P : Thực nhận, tổng thu nhập, khấu trừ
+P --> U : Thẻ lương (mặc định che số liệu "•••••••• ₫"),\nbấm biểu tượng mắt để hiện
+U -> P : Bấm "Xem phiếu lương"
+P -> L : push(/payroll/lock, target = /payroll/payslip)
+activate L
+L -> BIO : isDeviceSupported(), canCheckBiometrics
+L -> BIO : authenticate(localizedReason)
+alt Sinh trắc học hợp lệ
+  BIO --> L : true
+  L -> D : go(/payroll/payslip)
+else Không hỗ trợ / huỷ → nhập mã PIN 6 số
+  U -> L : Nhập PIN
+  L -> L : So khớp mã PIN
+  alt Đúng
+    L -> D : go(/payroll/payslip)
+  else Sai
+    L -> L : Rung cảnh báo, giảm số lần còn lại (tối đa 5)
+    opt Hết 5 lần
+      L -> L : Khoá 30 giây (đếm ngược)
+    end
+  end
+end
+deactivate L
+activate D
+D -> UC : GetPayslipDetailUseCase(id)
+UC --> D : PayslipEntity
+D --> U : Phiếu lương chi tiết:\nThu nhập – lương cơ bản thực tế, phụ cấp, ăn trưa,\nđiện thoại, lương tăng ca, thưởng KPI\nKhấu trừ – BHXH/BHYT/BHTN, thuế TNCN, quỹ\n→ Thực nhận (sumPayAmount)
+opt Ký xác nhận phiếu lương
+  U -> D : Bấm "Ký xác nhận"
+  D -> SIG : SignaturePadModal.show()
+  U -> SIG : Ký tay trên màn hình
+  SIG --> D : strokes (nét ký)
+  D -> D : Lưu trạng thái đã ký, thời điểm ký,\nmã băm xác thực
+  D --> U : PayslipSignedCard – "Đã ký xác nhận"
+end
+opt Khiếu nại một dòng lương
+  U -> D : Chạm dòng lương cần khiếu nại
+  D -> D : push(/payroll/dispute-new,\n{item, amount, period})
+  ref over D : SD12 – Khiếu nại sai lệch lương
+end
+deactivate D
+@enduml

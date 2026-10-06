@@ -1,0 +1,93 @@
+@startuml
+
+!pragma layout smetana
+skinparam dpi 160
+skinparam defaultFontName Arial
+skinparam defaultFontSize 12
+skinparam shadowing false
+skinparam roundCorner 10
+skinparam titleFontSize 16
+skinparam titleFontStyle bold
+skinparam titleFontColor #0A544E
+skinparam ArrowColor #0F766E
+skinparam componentStyle rectangle
+skinparam rectangle {
+  BorderColor #0F766E
+  BackgroundColor #FFFFFF
+}
+skinparam package {
+  BorderColor #0A544E
+  BackgroundColor #F0FDFA
+  FontColor #0A544E
+}
+skinparam node {
+  BorderColor #0A544E
+  BackgroundColor #F8FAFC
+}
+skinparam database {
+  BorderColor #0A544E
+  BackgroundColor #ECFEFF
+}
+skinparam cloud {
+  BorderColor #B45309
+  BackgroundColor #FFFBEB
+}
+skinparam note {
+  BackgroundColor #FFF8EC
+  BorderColor #F59E0B
+}
+skinparam class {
+  BorderColor #0F766E
+  BackgroundColor #FFFFFF
+  HeaderBackgroundColor #CCFBF1
+  ArrowColor #0F766E
+}
+skinparam state {
+  BorderColor #0F766E
+  BackgroundColor #F0FDFA
+  ArrowColor #0F766E
+}
+
+
+title Kiến trúc Clean Architecture của ứng dụng Mobile
+top to bottom direction
+package "Presentation (lib/features/*/presentation)" as P {
+  rectangle "Screens\n(≤ 300 dòng / file)" as SCR
+  rectangle "Widgets dùng lại" as WID
+  rectangle "BLoC / Cubit\n(AttendanceBloc, AuthCubit,\nOfflineQueueCubit…)" as BLOC
+}
+package "Domain (thuần Dart)" as D {
+  rectangle "Entities" as ENT
+  rectangle "UseCases\n(1 UseCase = 1 nghiệp vụ)" as UC
+  rectangle "Repository\n(interface trừu tượng)" as RI
+}
+package "Data" as DA {
+  rectangle "Repository Impl\n(Exception → Failure)" as RIMPL
+  rectangle "Remote DataSources" as DS
+  rectangle "Models / DTO\n(fromJson / toJson)" as MOD
+}
+package "Core" as CO {
+  rectangle "DioClient · FaceDioClient\nAuthInterceptor · Logging\nMockDioInterceptor" as NET
+  rectangle "GetIt (injector.dart)" as DI
+  rectangle "GoRouter + authRedirectGuard\nAppShell (5 tab theo vai trò)" as ROUTER
+  rectangle "AuthCubit · ThemeCubit · LocaleCubit" as SES
+  rectangle "Theme Saigon Tile · AppLayout\nl10n (vi / en)" as THEME
+  rectangle "OfflineAttendanceService\nAppPermissionHandler" as SRV
+}
+SCR --> BLOC
+SCR --> UC : gọi trực tiếp qua GetIt\n(màn hình form đơn giản)
+BLOC --> UC
+UC --> RI
+UC --> ENT
+RIMPL ..|> RI : implements
+RIMPL --> DS
+DS --> MOD
+DS --> NET
+DI ..> RIMPL : đăng ký
+DI ..> UC
+note right of D
+  Domain không phụ thuộc Flutter,
+  Dio hay tầng Data.
+  Kết quả trả về: Either‹Failure, T› (fpdart)
+end note
+@enduml

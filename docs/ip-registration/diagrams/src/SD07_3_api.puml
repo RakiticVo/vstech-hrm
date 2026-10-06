@@ -1,0 +1,83 @@
+@startuml
+
+skinparam dpi 160
+skinparam defaultFontName Arial
+skinparam defaultFontSize 12
+skinparam shadowing false
+skinparam roundCorner 8
+skinparam maxMessageSize 260
+skinparam sequenceMessageAlign left
+skinparam responseMessageBelowArrow true
+skinparam ParticipantPadding 6
+skinparam BoxPadding 4
+skinparam titleFontSize 16
+skinparam titleFontStyle bold
+skinparam titleFontColor #0A544E
+skinparam sequence {
+  ArrowColor #0F766E
+  ArrowThickness 1.2
+  LifeLineBorderColor #94A3B8
+  LifeLineBackgroundColor #CCFBF1
+  ParticipantBorderColor #0F766E
+  ParticipantBackgroundColor #FFFFFF
+  ParticipantFontStyle bold
+  ActorBorderColor #0F766E
+  ActorBackgroundColor #FFF8EC
+  BoxBorderColor #CBD5E1
+  GroupBorderColor #B45309
+  GroupBackgroundColor #FFFBEB
+  GroupHeaderFontColor #92400E
+  DividerBackgroundColor #F0FDFA
+  DividerBorderColor #0F766E
+  ReferenceBackgroundColor #F8FAFC
+}
+skinparam note {
+  BackgroundColor #FFF8EC
+  BorderColor #F59E0B
+  FontSize 11
+}
+
+autonumber "<b>00."
+title SD07 · Trung tâm yêu cầu – xem tiến độ duyệt và thu hồi đơn\n<size:12>Tầng 3 – API (hợp đồng giao tiếp)</size>
+participant "Ứng dụng Mobile\n<size:10>DioClient / FaceDioClient</size>" as APP
+box "Máy chủ" #FFF1F2
+participant "HRM Backend API\n<size:10>REST · JSON · JWT</size>" as HRM
+end box
+APP -> HRM : <b>GET /api/LeaveRequests/self</b>\nHeader: Bearer ‹JWT›
+activate HRM
+note over HRM : Xử lý nội bộ: <color:#B91C1C><i>[API bổ sung]</i></color>\n(xác thực, kiểm tra quyền, quy tắc nghiệp vụ)
+HRM --> APP : <b>200 OK</b>\nLeaveRequestResponsePagedResult
+deactivate HRM
+APP -> HRM : <b>GET /api/OvertimeRequests/self</b>\nQuery: month
+activate HRM
+note over HRM : Xử lý nội bộ: <color:#B91C1C><i>[API bổ sung]</i></color>\n(xác thực, kiểm tra quyền, quy tắc nghiệp vụ)
+HRM --> APP : <b>200 OK</b>\nOvertimeRequestSelfItem[]
+deactivate HRM
+APP -> HRM : <b>GET /api/TimesheetConfirmRequests?personal=true</b>\nQuery: month, personal
+activate HRM
+note over HRM : Xử lý nội bộ: <color:#B91C1C><i>[API bổ sung]</i></color>\n(xác thực, kiểm tra quyền, quy tắc nghiệp vụ)
+HRM --> APP : <b>200 OK</b>\nTimesheetConfirmRequestQueryListServiceResultResponse{message, data[]}
+deactivate HRM
+APP -> HRM : <b>DELETE /api/LeaveRequests/self/{id}</b>\nPath: id
+activate HRM
+note over HRM : Xử lý nội bộ: <color:#B91C1C><i>[API bổ sung]</i></color>\n(xác thực, kiểm tra quyền, quy tắc nghiệp vụ)
+alt Thành công
+  HRM --> APP : <b>200 OK</b>\nLeaveRequestServiceResultResponse{message}
+else 400
+  HRM --> APP : <b>400</b>\nServiceResultResponse – đơn đã duyệt, không thể thu hồi
+end
+deactivate HRM
+APP -> HRM : <b>DELETE /api/OvertimeRequests/self/{id}</b>\nPath: id
+activate HRM
+note over HRM : Xử lý nội bộ: <color:#B91C1C><i>[API bổ sung]</i></color>\n(xác thực, kiểm tra quyền, quy tắc nghiệp vụ)
+alt Thành công
+  HRM --> APP : <b>200 OK</b>\nServiceResultResponse{message}
+else 400
+  HRM --> APP : <b>400</b>\nServiceResultResponse – Status = 1 (đã duyệt)
+else 401
+  HRM --> APP : <b>401</b>\nProblemDetails
+else 404
+  HRM --> APP : <b>404</b>\nProblemDetails
+end
+deactivate HRM
+@enduml

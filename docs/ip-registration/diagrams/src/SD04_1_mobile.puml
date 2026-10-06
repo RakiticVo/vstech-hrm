@@ -1,0 +1,120 @@
+@startuml
+
+skinparam dpi 160
+skinparam defaultFontName Arial
+skinparam defaultFontSize 12
+skinparam shadowing false
+skinparam roundCorner 8
+skinparam maxMessageSize 260
+skinparam sequenceMessageAlign left
+skinparam responseMessageBelowArrow true
+skinparam ParticipantPadding 6
+skinparam BoxPadding 4
+skinparam titleFontSize 16
+skinparam titleFontStyle bold
+skinparam titleFontColor #0A544E
+skinparam sequence {
+  ArrowColor #0F766E
+  ArrowThickness 1.2
+  LifeLineBorderColor #94A3B8
+  LifeLineBackgroundColor #CCFBF1
+  ParticipantBorderColor #0F766E
+  ParticipantBackgroundColor #FFFFFF
+  ParticipantFontStyle bold
+  ActorBorderColor #0F766E
+  ActorBackgroundColor #FFF8EC
+  BoxBorderColor #CBD5E1
+  GroupBorderColor #B45309
+  GroupBackgroundColor #FFFBEB
+  GroupHeaderFontColor #92400E
+  DividerBackgroundColor #F0FDFA
+  DividerBorderColor #0F766E
+  ReferenceBackgroundColor #F8FAFC
+}
+skinparam note {
+  BackgroundColor #FFF8EC
+  BorderColor #F59E0B
+  FontSize 11
+}
+
+autonumber "<b>00."
+title SD04 · Chấm công ngoại tuyến và đồng bộ hàng đợi (Offline Queue)\n<size:12>Tầng 1 – Mobile App</size>
+actor "Nhân viên" as U
+box "Presentation" #E6F4F1
+participant "FaceScanScreen\n(chế độ ngoại tuyến)" as S
+participant "FaceScanOfflineHandler" as H
+participant "OfflineQueueScreen" as Q
+participant "OfflineQueueCubit" as QC
+end box
+box "Core service" #FEF9E7
+participant "OfflineAttendanceService" as SV
+end box
+box "Lưu trữ an toàn" #EEF2FF
+participant "FlutterSecureStorage" as SEC
+end box
+
+box "Máy chủ" #FFF1F2
+participant "HRM Backend API\n<size:10>REST · JWT</size>" as API
+end box
+
+
+== A. Ghi nhận chấm công khi mất kết nối ==
+U -> S : Bật công tắc "Ngoại tuyến" (FaceScanModeToggle)
+U -> S : Bấm chụp
+S -> H : processOfflinePunch(type, employeeCode)
+activate H
+H -> SV : getOrEnrollVector(employeeCode)
+SV -> SEC : read("face_vector_‹mãNV›")
+alt Đã có vector mẫu 128 chiều
+  SEC --> SV : vector đã đăng ký
+else Lần đầu
+  SV -> SEC : write(vector mẫu)
+end
+SV --> H : baseline[128]
+H -> SV : Trích xuất vector khuôn mặt vừa quét
+H -> SV : calculateSimilarity(baseline, scan)
+SV -> SV : Cosine similarity =\nΣ(aᵢ·bᵢ) / (‖a‖·‖b‖)
+SV --> H : score
+alt score ≥ 0,85 (matchThreshold)
+  H -> H : Tạo OfflineAttendanceRecord\n{id, employeeCode, type, timestamp,\nlat, lng, similarityScore, syncStatus = pending}
+  H -> SV : enqueueOfflinePunch(record)
+  SV -> SEC : write("offline_attendance_queue", JSON)
+  H --> S : AttendanceRecordEntity
+  S --> U : SnackBar "Khớp {score}%" + biên lai ngoại tuyến
+else score dưới 0,85
+  H --> S : null
+  S --> U : SnackBar "Không khớp khuôn mặt – thử lại"
+end
+deactivate H
+
+== B. Xem và đồng bộ hàng đợi khi có mạng trở lại ==
+U -> Q : Mở "Hàng đợi chấm công"
+Q -> QC : loadQueue()
+QC -> SV : getQueuedRecords()
+SV -> SEC : read("offline_attendance_queue")
+SEC --> SV : JSON
+SV --> QC : List‹OfflineAttendanceRecord›
+QC -> SV : getFactoryReminders()
+QC --> Q : emit(records, remindersConfig)
+Q --> U : Danh sách theo 5 trạng thái:\nrecorded · pending · syncing · synced · failed\n(kèm khoảng cách tới điểm chấm công / geofence 50 m)
+U -> Q : Bấm "Đồng bộ tất cả"
+Q -> QC : syncAll()
+QC -> QC : emit(isSyncing = true)
+QC -> SV : syncPendingRecords()
+loop Mỗi bản ghi chưa đồng bộ
+  SV -> API : POST /api/Enrollments/Checkin | Checkout\nEnrollForm{coordinate, local, fingerprint, time, date}
+  note right of API : Điểm tích hợp đồng bộ – EnrollForm hỗ trợ\ntrường time/date để ghi nhận đúng giờ đã chấm
+  API --> SV : EnrollActionResponse
+  SV -> SV : Cập nhật syncStatus = synced / failed
+end
+SV -> SEC : write(queue đã cập nhật)
+SV --> QC : số bản ghi đã đồng bộ
+QC -> SV : getQueuedRecords()
+QC --> Q : emit(records, isSyncing = false, message)
+Q --> U : "Đã đồng bộ toàn bộ hàng đợi"
+opt Bản ghi thất bại
+  U -> Q : Bấm "Thử lại" trên bản ghi
+  Q -> QC : retryRecord(id)
+  QC -> SV : retryRecord(id)
+end
+@enduml

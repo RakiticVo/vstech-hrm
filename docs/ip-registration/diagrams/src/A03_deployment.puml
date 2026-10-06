@@ -1,0 +1,86 @@
+@startuml
+
+!pragma layout smetana
+skinparam dpi 160
+skinparam defaultFontName Arial
+skinparam defaultFontSize 12
+skinparam shadowing false
+skinparam roundCorner 10
+skinparam titleFontSize 16
+skinparam titleFontStyle bold
+skinparam titleFontColor #0A544E
+skinparam ArrowColor #0F766E
+skinparam componentStyle rectangle
+skinparam rectangle {
+  BorderColor #0F766E
+  BackgroundColor #FFFFFF
+}
+skinparam package {
+  BorderColor #0A544E
+  BackgroundColor #F0FDFA
+  FontColor #0A544E
+}
+skinparam node {
+  BorderColor #0A544E
+  BackgroundColor #F8FAFC
+}
+skinparam database {
+  BorderColor #0A544E
+  BackgroundColor #ECFEFF
+}
+skinparam cloud {
+  BorderColor #B45309
+  BackgroundColor #FFFBEB
+}
+skinparam note {
+  BackgroundColor #FFF8EC
+  BorderColor #F59E0B
+}
+skinparam class {
+  BorderColor #0F766E
+  BackgroundColor #FFFFFF
+  HeaderBackgroundColor #CCFBF1
+  ArrowColor #0F766E
+}
+skinparam state {
+  BorderColor #0F766E
+  BackgroundColor #F0FDFA
+  ArrowColor #0F766E
+}
+
+
+title Sơ đồ triển khai (Deployment)
+node "Điện thoại nhân viên\n(Android 8.0+ / iOS 14+)" as PHONE {
+  rectangle "App HRM VSTECH\n(Flutter)" as APP
+  database "Keychain / Keystore\n(FlutterSecureStorage)\nJWT · phiên · hàng đợi\nchấm công ngoại tuyến" as KS
+  rectangle "Camera · GPS · Wi-Fi\nSinh trắc học (local_auth)" as HW
+}
+node "Máy trạm HR" as PC {
+  rectangle "Trình duyệt\nWeb Quản trị" as BROWSER
+}
+node "Máy chủ ứng dụng\n<color:#B91C1C>[Backend bổ sung: OS, runtime, số node]</color>" as APPSRV {
+  rectangle "Reverse proxy / TLS" as RP
+  rectangle "HRM Backend API" as API
+  rectangle "Web Quản trị (hosting)" as WEBH
+}
+node "Máy chủ nhận diện khuôn mặt" as FSRV {
+  rectangle "Face Authentication API" as FACE
+}
+node "Máy chủ CSDL\n<color:#B91C1C>[DB bổ sung]</color>" as DBSRV {
+  database "CSDL HRM" as DB
+}
+cloud "Firebase (FCM)" as FCM
+cloud "App Store / Google Play\n(phân phối ứng dụng)" as STORE
+
+APP --> RP : HTTPS 443
+APP --> FACE : HTTPS 443
+BROWSER --> RP : HTTPS 443
+RP --> API
+RP --> WEBH
+API --> DB
+API --> FCM
+FCM ..> APP
+STORE ..> APP : cài đặt / cập nhật
+APP -- KS
+APP -- HW
+@enduml

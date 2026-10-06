@@ -1,0 +1,66 @@
+@startuml
+
+skinparam dpi 160
+skinparam defaultFontName Arial
+skinparam defaultFontSize 12
+skinparam shadowing false
+skinparam roundCorner 8
+skinparam maxMessageSize 260
+skinparam sequenceMessageAlign left
+skinparam responseMessageBelowArrow true
+skinparam ParticipantPadding 6
+skinparam BoxPadding 4
+skinparam titleFontSize 16
+skinparam titleFontStyle bold
+skinparam titleFontColor #0A544E
+skinparam sequence {
+  ArrowColor #0F766E
+  ArrowThickness 1.2
+  LifeLineBorderColor #94A3B8
+  LifeLineBackgroundColor #CCFBF1
+  ParticipantBorderColor #0F766E
+  ParticipantBackgroundColor #FFFFFF
+  ParticipantFontStyle bold
+  ActorBorderColor #0F766E
+  ActorBackgroundColor #FFF8EC
+  BoxBorderColor #CBD5E1
+  GroupBorderColor #B45309
+  GroupBackgroundColor #FFFBEB
+  GroupHeaderFontColor #92400E
+  DividerBackgroundColor #F0FDFA
+  DividerBorderColor #0F766E
+  ReferenceBackgroundColor #F8FAFC
+}
+skinparam note {
+  BackgroundColor #FFF8EC
+  BorderColor #F59E0B
+  FontSize 11
+}
+
+autonumber "<b>00."
+title SD03 · Đăng ký / cập nhật dữ liệu khuôn mặt (Face Enrollment)\n<size:12>Tầng 2 – Backend (khung – chờ bổ sung)</size>
+participant "Ứng dụng Mobile" as APP
+participant "Face Authentication\nService" as FACE
+box "Backend" #FFF1F2
+participant "API Gateway /\nReverse Proxy" as GW
+participant "Middleware\n<size:10>JWT · phân quyền · log</size>" as MW
+participant "Controller" as CTL
+participant "Service\n<size:10>nghiệp vụ</size>" as SVC
+participant "Repository / ORM" as REP
+end box
+box "Dữ liệu" #EEF2FF
+database "Database" as DB
+end box
+APP -> FACE : GET /checkreg/
+note over FACE : Trích xuất vector, so khớp, lưu trữ: <color:#B91C1C><i>[Backend bổ sung]</i></color>
+FACE --> APP : {status, registered, count, message}
+APP -> FACE : POST /register/
+note over FACE : Trích xuất vector, so khớp, lưu trữ: <color:#B91C1C><i>[Backend bổ sung]</i></color>
+FACE --> APP : {status, message}
+APP -> FACE : POST /update/
+note over FACE : Trích xuất vector, so khớp, lưu trữ: <color:#B91C1C><i>[Backend bổ sung]</i></color>
+FACE --> APP : {status, message}
+APP -> FACE : DELETE /delete/
+note over FACE : Trích xuất vector, so khớp, lưu trữ: <color:#B91C1C><i>[Backend bổ sung]</i></color>
+FACE --> APP : {status, message}
+@enduml

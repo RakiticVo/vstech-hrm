@@ -1,0 +1,225 @@
+@startuml
+
+!pragma layout smetana
+skinparam dpi 160
+skinparam defaultFontName Arial
+skinparam defaultFontSize 12
+skinparam shadowing false
+skinparam roundCorner 10
+skinparam titleFontSize 16
+skinparam titleFontStyle bold
+skinparam titleFontColor #0A544E
+skinparam ArrowColor #0F766E
+skinparam componentStyle rectangle
+skinparam rectangle {
+  BorderColor #0F766E
+  BackgroundColor #FFFFFF
+}
+skinparam package {
+  BorderColor #0A544E
+  BackgroundColor #F0FDFA
+  FontColor #0A544E
+}
+skinparam node {
+  BorderColor #0A544E
+  BackgroundColor #F8FAFC
+}
+skinparam database {
+  BorderColor #0A544E
+  BackgroundColor #ECFEFF
+}
+skinparam cloud {
+  BorderColor #B45309
+  BackgroundColor #FFFBEB
+}
+skinparam note {
+  BackgroundColor #FFF8EC
+  BorderColor #F59E0B
+}
+skinparam class {
+  BorderColor #0F766E
+  BackgroundColor #FFFFFF
+  HeaderBackgroundColor #CCFBF1
+  ArrowColor #0F766E
+}
+skinparam state {
+  BorderColor #0F766E
+  BackgroundColor #F0FDFA
+  ArrowColor #0F766E
+}
+
+
+title Sơ đồ thực thể – quan hệ (ER) các nghiệp vụ cốt lõi
+hide circle
+hide methods
+skinparam linetype ortho
+
+entity "Employee\n(Nhân viên)" as Employee {
+  * code : string <<PK>>
+  --
+  name, mail, phoneNumber
+  birthday, gender, hireDate
+  currentDepartmentCode <<FK>>
+  currentPositionCode <<FK>>
+  defaultShiftCode <<FK>>
+  status, isQuit
+}
+entity "User\n(Tài khoản)" as User {
+  * id : int <<PK>>
+  --
+  userName, email
+  employeeCode <<FK>>
+  mainDeviceId
+  isFaceRegistered, allowFaceEnroll
+  validTo, isActive
+}
+entity "Department\n(Phòng ban / Chi nhánh)" as Department {
+  * code <<PK>>
+  --
+  name, managerCode <<FK>>
+  parentCode, address
+  latitude, longitude
+}
+entity "Position\n(Chức danh)" as Position {
+  * code <<PK>>
+  --
+  name, isManager
+}
+entity "Shift\n(Ca làm việc)" as Shift {
+  * code <<PK>>
+  --
+  name, startHour, endHour
+  startBreak, endBreak
+  allowLate, allowEarly
+  latestCheckin, workDay
+}
+entity "Enrollment\n(Lượt chấm công)" as Enrollment {
+  * id <<PK>>
+  --
+  employeeCode <<FK>>
+  shiftCode <<FK>>
+  timeSheetCode <<FK>>
+  enrollDate, checkinTime, checkoutTime
+  late, early, coordinate
+  fingerprintIn, fingerprintOut
+}
+entity "TimeSheet\n(Công ngày)" as TimeSheet {
+  * code <<PK>>
+  --
+  employeeCode <<FK>>
+  workDate, workTime, actualWorkTime
+  overtime, leaveTime, late, early
+  symbol, isConfirmed
+}
+entity "MonthlyTimeSheet\n(Bảng công tháng)" as MTS {
+  * code <<PK>>
+  --
+  employeeCode <<FK>>
+  from, to, standardDate
+  actualTime, totalWorkingDay
+  normalOvertime, holidayOvertime
+}
+entity "LeavePlan\n(Loại phép)" as LeavePlan {
+  * code <<PK>>
+  --
+  name, symbol, amount
+  hasSalary, maxCarry
+}
+entity "LeaveEnrollment\n(Quỹ phép)" as LeaveEnrollment {
+  * id <<PK>>
+  --
+  employeeCode <<FK>>
+  leavePlanCode <<FK>>
+  amount, total, expireDate
+}
+entity "LeaveRequest\n(Đơn nghỉ phép)" as LeaveRequest {
+  * code <<PK>>
+  --
+  employeeCode <<FK>>
+  leavePlanCode <<FK>>
+  confirmByCode <<FK>>
+  from, to, leaveAmountType
+  halfShiftType, note, status
+}
+entity "OvertimeType\n(Loại tăng ca)" as OvertimeType {
+  * code <<PK>>
+  --
+  name, scale
+  dayOffScale, holidayScale
+  maxMonth, maxYear
+}
+entity "OvertimeRequest\n(Đơn tăng ca)" as OvertimeRequest {
+  * code <<PK>>
+  --
+  employeeCode <<FK>>
+  overtimeTypeCode <<FK>>
+  confirmByCode <<FK>>
+  date, startOvertime, endOvertime
+  length, status, note
+}
+entity "TimesheetConfirmRequest\n(Phiếu giải trình công)" as TCR {
+  * id <<PK>>
+  --
+  employeeCode <<FK>>
+  reasonTypeCode <<FK>>
+  managerCode, hrAdminCode, hrManagerCode
+  workDate, worktime, confirmedWorktime
+  confirmLevel, isReject, imageUrl
+}
+entity "TimesheetConfirmRequestType\n(Lý do giải trình)" as TCRT {
+  * code <<PK>>
+  --
+  name, mustHaveNote, mustHaveImage
+}
+entity "EmployeeSalaryPayroll\n(Phiếu lương)" as Payroll {
+  * id <<PK>>
+  --
+  employeeCode <<FK>>
+  month, baseSalary
+  actualBaseSalary, actualAllowance
+  actualOvertimeSalary, actualKpiSalary
+  insurance1, insurance2, taxTNCN
+  incomeTotal, payAmount
+}
+entity "Contract\n(Hợp đồng lao động)" as Contract {
+  * code <<PK>>
+  --
+  employeeAcode <<FK>>
+  contractTypeCode
+  signDate, expireDate, salary
+}
+entity "Holiday\n(Ngày lễ)" as Holiday {
+  * code <<PK>>
+  --
+  name, date, scale, yearly
+}
+entity "Notification\n(Thông báo)" as Notification {
+  * id <<PK>>
+  --
+  userCode <<FK>>
+  title, body, keyPage
+  status, dateSent
+}
+
+Employee ||--o| User
+Department ||--o{ Employee
+Position ||--o{ Employee
+Shift ||--o{ Employee
+Employee ||--o{ Enrollment
+Shift ||--o{ Enrollment
+TimeSheet ||--o{ Enrollment
+Employee ||--o{ TimeSheet
+Employee ||--o{ MTS
+Employee ||--o{ LeaveEnrollment
+LeavePlan ||--o{ LeaveEnrollment
+Employee ||--o{ LeaveRequest
+LeavePlan ||--o{ LeaveRequest
+Employee ||--o{ OvertimeRequest
+OvertimeType ||--o{ OvertimeRequest
+Employee ||--o{ TCR
+TCRT ||--o{ TCR
+Employee ||--o{ Payroll
+MTS ||--o| Payroll
+Employee ||--o{ Contract
+User ||--o{ Notification
+@enduml
