@@ -46,12 +46,6 @@ class RequestsCategoryTiles extends StatelessWidget {
         route: AppRoutes.overtimeManage,
         pendingBadge: '1 chờ',
       ),
-      _CategoryItem(
-        iconName: AppIcons.correction,
-        title: l10n.quickActionCorrection,
-        subtitle: 'Bổ sung giờ vào/ra, quên chấm...',
-        route: AppRoutes.correctionManage,
-      ),
       const _CategoryItem(
         iconName: AppIcons.dispute,
         title: 'Khiếu nại lương',

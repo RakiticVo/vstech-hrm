@@ -1,32 +1,45 @@
-import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:vstech_hrm/core/extensions/l10n_extension.dart';
 import 'package:vstech_hrm/core/responsive/app_layout.dart';
 import 'package:vstech_hrm/core/services/app_permission_handler.dart';
 import 'package:vstech_hrm/core/theme/app_colors.dart';
 import 'package:vstech_hrm/core/widgets/app_icon.dart';
+import 'package:vstech_hrm/features/requests/domain/entities/request_params.dart';
+import 'package:vstech_hrm/features/requests/presentation/widgets/correction_modal_components.dart';
 
-/// Modal bottom sheet to pick date, issue type, corrected checkout time, and reason.
+/// Modal bottom sheet to pick date, issue/reason, corrected time, and explanation.
 class AttendanceCorrectionModal extends StatefulWidget {
-  const new({
+  const AttendanceCorrectionModal({
     required this.initialDate,
-    required this.initialIssue,
-    required this.initialTime,
     required this.onConfirm,
+    this.availableReasons = const [],
+    this.initialReasonCode,
     super.key,
   });
 
-  final String initialDate;
-  final String initialIssue;
-  final String initialTime;
-  final void Function(String date, String issue, String time, String reason) onConfirm;
+  final DateTime initialDate;
+  final List<CorrectionReasonEntity> availableReasons;
+  final String? initialReasonCode;
+  final void Function(
+    CorrectionReasonEntity reason,
+    DateTime date,
+    double worktime,
+    String note,
+    String? imageUrl,
+  ) onConfirm;
 
   static Future<void> show(
     BuildContext context, {
-    required String initialDate,
-    required String initialIssue,
-    required String initialTime,
-    required void Function(String date, String issue, String time, String reason) onConfirm,
+    required DateTime initialDate,
+    required void Function(
+      CorrectionReasonEntity reason,
+      DateTime date,
+      double worktime,
+      String note,
+      String? imageUrl,
+    ) onConfirm,
+    List<CorrectionReasonEntity> availableReasons = const [],
+    String? initialReasonCode,
   }) {
     final colors = context.colors;
     return showModalBottomSheet<void>(
@@ -38,8 +51,8 @@ class AttendanceCorrectionModal extends StatefulWidget {
       ),
       builder: (_) => AttendanceCorrectionModal(
         initialDate: initialDate,
-        initialIssue: initialIssue,
-        initialTime: initialTime,
+        availableReasons: availableReasons,
+        initialReasonCode: initialReasonCode,
         onConfirm: onConfirm,
       ),
     );
@@ -50,78 +63,98 @@ class AttendanceCorrectionModal extends StatefulWidget {
 }
 
 class _AttendanceCorrectionModalState extends State<AttendanceCorrectionModal> {
-  late String _selectedDate;
-  late String _selectedIssue;
-  late String _time;
+  late DateTime _selectedDate;
+  late TimeOfDay _time;
   String? _attachedFileName;
   late TextEditingController _reasonController;
-
+  late TextEditingController _worktimeController;
+  late List<CorrectionReasonEntity> _reasons;
+  late CorrectionReasonEntity _selectedReason;
 
   @override
   void initState() {
     super.initState();
     _selectedDate = widget.initialDate;
-    _selectedIssue = widget.initialIssue;
-    _time = widget.initialTime;
-    _reasonController = TextEditingController(
-      text: 'Điện thoại hết pin cuối ca. Log bảo vệ ghi nhận tôi ra lúc 17:34.',
+    _time = const TimeOfDay(hour: 17, minute: 30);
+    _reasonController = TextEditingController();
+    _worktimeController = TextEditingController(text: '8.0');
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    final l10n = context.l10n;
+    _reasons = widget.availableReasons.isNotEmpty
+        ? widget.availableReasons
+        : [
+            CorrectionReasonEntity(code: 'MISSING_CHECKOUT', name: l10n.issueMissingCheckout),
+            CorrectionReasonEntity(code: 'MISSING_CHECKIN', name: l10n.issueMissingCheckin),
+            CorrectionReasonEntity(code: 'SCANNER_ERROR', name: l10n.issueScannerError),
+            CorrectionReasonEntity(code: 'WRONG_SHIFT', name: l10n.issueWrongShift),
+          ];
+    _selectedReason = _reasons.firstWhere(
+      (r) => r.code == widget.initialReasonCode,
+      orElse: () => _reasons.first,
     );
   }
 
   @override
   void dispose() {
     _reasonController.dispose();
+    _worktimeController.dispose();
     super.dispose();
   }
+
+  String _formatDate(DateTime dt) =>
+      '${dt.day.toString().padLeft(2, '0')}/${dt.month.toString().padLeft(2, '0')}/${dt.year}';
+
+  String _formatTime(TimeOfDay t) =>
+      '${t.hour.toString().padLeft(2, '0')}:${t.minute.toString().padLeft(2, '0')}';
 
   Future<void> _pickDate() async {
     final picked = await showDatePicker(
       context: context,
-      initialDate: DateTime(2026, 9, 15),
-      firstDate: DateTime(2026, 8),
-      lastDate: DateTime(2026, 12),
+      initialDate: _selectedDate,
+      firstDate: DateTime.now().subtract(const Duration(days: 30)),
+      lastDate: DateTime.now(),
     );
     if (picked != null) {
-      final d = picked.day.toString().padLeft(2, '0');
-      final m = picked.month.toString().padLeft(2, '0');
-      setState(() => _selectedDate = '$d/$m/${picked.year}');
+      setState(() => _selectedDate = picked);
     }
   }
 
   Future<void> _pickTime() async {
-    final parts = _time.split(':');
-    final initialH = int.tryParse(parts[0]) ?? 17;
-    final initialM = parts.length > 1 ? (int.tryParse(parts[1]) ?? 34) : 0;
     final picked = await showTimePicker(
       context: context,
-      initialTime: TimeOfDay(hour: initialH, minute: initialM),
+      initialTime: _time,
     );
     if (picked != null) {
-      final h = picked.hour.toString().padLeft(2, '0');
-      final m = picked.minute.toString().padLeft(2, '0');
-      setState(() => _time = '$h:$m');
+      setState(() => _time = picked);
     }
   }
 
   Future<void> _pickAttachment() async {
     final granted = await AppPermissionHandler.requestPhotos(context);
-    if (!mounted) return;
-    if (granted) {
-      setState(() => _attachedFileName = 'bang_log_bao_ve.jpg');
-      if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text(context.l10n.proofSelected('bang_log_bao_ve.jpg', '850 KB')),
-            backgroundColor: const Color(0xFF0F766E),
-          ),
-        );
-      }
-    }
+    if (!mounted || !granted) return;
+    setState(() => _attachedFileName = 'bang_chung_cham_cong.jpg');
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(context.l10n.proofSelected('bang_chung_cham_cong.jpg', '850 KB')),
+        backgroundColor: const Color(0xFF0F766E),
+      ),
+    );
   }
 
   void _onConfirmTap() {
     Navigator.pop(context);
-    widget.onConfirm(_selectedDate, _selectedIssue, _time, _reasonController.text.trim());
+    final worktime = double.tryParse(_worktimeController.text.trim()) ?? 8.0;
+    widget.onConfirm(
+      _selectedReason,
+      _selectedDate,
+      worktime,
+      _reasonController.text.trim(),
+      _attachedFileName,
+    );
   }
 
   @override
@@ -129,13 +162,6 @@ class _AttendanceCorrectionModalState extends State<AttendanceCorrectionModal> {
     final colors = context.colors;
     final l10n = context.l10n;
     final bottomInset = MediaQuery.of(context).viewInsets.bottom;
-
-    final issues = [
-      l10n.issueMissingCheckout,
-      l10n.issueMissingCheckin,
-      l10n.issueWrongShift,
-      l10n.issueScannerError,
-    ];
 
     return Padding(
       padding: EdgeInsets.fromLTRB(18, 20, 18, bottomInset + 24),
@@ -154,33 +180,34 @@ class _AttendanceCorrectionModalState extends State<AttendanceCorrectionModal> {
             12.gapH,
             Row(
               children: [
-                Expanded(child: _buildPickerTile(l10n.correctionDateLabel, _selectedDate, AppIcons.calendar, _pickDate, colors)),
+                Expanded(child: CorrectionPickerTile(label: l10n.correctionDateLabel, value: _formatDate(_selectedDate), iconName: AppIcons.calendar, onTap: _pickDate, colors: colors)),
                 10.gapW,
-                Expanded(child: _buildPickerTile(l10n.correctionTimeLabel, _time, AppIcons.attendance, _pickTime, colors)),
+                Expanded(child: CorrectionPickerTile(label: l10n.correctionTimeLabel, value: _formatTime(_time), iconName: AppIcons.attendance, onTap: _pickTime, colors: colors)),
               ],
             ),
             14.gapH,
             Text(l10n.correctionIssueLabel, style: TextStyle(fontSize: 13, fontWeight: FontWeight.w700, color: colors.textSecondary)),
             8.gapH,
-            Wrap(
-              spacing: 8,
-              runSpacing: 8,
-              children: issues.map((issue) {
-                final isSel = _selectedIssue == issue;
-                return InkWell(
-                  borderRadius: BorderRadius.circular(10),
-                  onTap: () => setState(() => _selectedIssue = issue),
-                  child: Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 7),
-                    decoration: BoxDecoration(
-                      color: isSel ? colors.primaryIndigo.withValues(alpha: 0.1) : colors.surface,
-                      borderRadius: BorderRadius.circular(10),
-                      border: Border.all(color: isSel ? colors.primaryIndigo : colors.border, width: isSel ? 1.5 : 1),
-                    ),
-                    child: Text(issue, style: TextStyle(fontSize: 12.5, fontWeight: isSel ? FontWeight.w800 : FontWeight.w600, color: isSel ? colors.primaryIndigo : colors.textPrimary)),
-                  ),
-                );
-              }).toList(),
+            CorrectionReasonChips(
+              reasons: _reasons,
+              selectedReason: _selectedReason,
+              onSelected: (r) => setState(() => _selectedReason = r),
+              colors: colors,
+            ),
+            14.gapH,
+            Text('Số giờ công xác nhận (giờ)', style: TextStyle(fontSize: 13, fontWeight: FontWeight.w700, color: colors.textSecondary)),
+            6.gapH,
+            TextField(
+              controller: _worktimeController,
+              keyboardType: const TextInputType.numberWithOptions(decimal: true),
+              style: TextStyle(fontSize: 13, color: colors.textPrimary),
+              decoration: InputDecoration(
+                filled: true,
+                fillColor: colors.surface,
+                contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+                border: OutlineInputBorder(borderRadius: BorderRadius.circular(12), borderSide: BorderSide(color: colors.border)),
+                enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(12), borderSide: BorderSide(color: colors.border)),
+              ),
             ),
             14.gapH,
             Text(l10n.explanationDetailLabel, style: TextStyle(fontSize: 13, fontWeight: FontWeight.w700, color: colors.textSecondary)),
@@ -228,31 +255,6 @@ class _AttendanceCorrectionModalState extends State<AttendanceCorrectionModal> {
                 onPressed: _onConfirmTap,
                 child: Text(l10n.confirmSendCorrection, style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w800)),
               ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget _buildPickerTile(String label, String value, String iconName, VoidCallback onTap, AppColorsExtension colors) {
-    return InkWell(
-      borderRadius: BorderRadius.circular(12),
-      onTap: onTap,
-      child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
-        decoration: BoxDecoration(color: colors.surface, borderRadius: BorderRadius.circular(12), border: Border.all(color: colors.border)),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(label, style: TextStyle(fontSize: 11, color: colors.textSecondary)),
-            4.gapH,
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(value, style: TextStyle(fontSize: 13, fontWeight: FontWeight.w800, color: colors.textPrimary)),
-                AppIcon(iconName, size: 14, color: colors.primaryIndigo),
-              ],
             ),
           ],
         ),

@@ -1,32 +1,47 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:vstech_hrm/core/di/injector.dart';
 import 'package:vstech_hrm/core/extensions/l10n_extension.dart';
 import 'package:vstech_hrm/core/responsive/app_layout.dart';
-import 'package:vstech_hrm/core/services/app_permission_handler.dart';
 import 'package:vstech_hrm/core/theme/app_colors.dart';
 import 'package:vstech_hrm/core/widgets/app_icon.dart';
+import 'package:vstech_hrm/features/requests/domain/entities/leave_plan_entity.dart';
+import 'package:vstech_hrm/features/requests/domain/usecases/get_leave_plans_usecase.dart';
 import 'package:vstech_hrm/features/requests/presentation/widgets/leave_modal_components.dart';
 
-/// Modal bottom sheet to pick leave type, half-day/full-day, handover, and attachment.
+typedef LeaveConfirmCallback = void Function(
+  LeavePlanEntity plan,
+  DateTime from,
+  DateTime to,
+  double totalDays,
+  String? halfShift,
+  String reason,
+);
+
+/// Modal bottom sheet to pick leave plan, date range, half-day/full-day, and reason.
 class LeaveRequestModal extends StatefulWidget {
   const new({
-    required this.initialType,
-    required this.initialStartDate,
-    required this.initialEndDate,
+    required this.initialFrom,
+    required this.initialTo,
     required this.onConfirm,
+    this.availablePlans = const [],
+    this.initialPlanCode,
     super.key,
   });
 
-  final String initialType;
-  final String initialStartDate;
-  final String initialEndDate;
-  final void Function(String type, String startDate, String endDate, String totalDays, String reason) onConfirm;
+  final DateTime initialFrom;
+  final DateTime initialTo;
+  final List<LeavePlanEntity> availablePlans;
+  final String? initialPlanCode;
+  final LeaveConfirmCallback onConfirm;
 
   static Future<void> show(
     BuildContext context, {
-    required String initialType,
-    required String initialStartDate,
-    required String initialEndDate,
-    required void Function(String type, String startDate, String endDate, String totalDays, String reason) onConfirm,
+    required DateTime initialFrom,
+    required DateTime initialTo,
+    required LeaveConfirmCallback onConfirm,
+    List<LeavePlanEntity> availablePlans = const [],
+    String? initialPlanCode,
   }) {
     final colors = context.colors;
     return showModalBottomSheet<void>(
@@ -35,9 +50,10 @@ class LeaveRequestModal extends StatefulWidget {
       backgroundColor: colors.surface,
       shape: const RoundedRectangleBorder(borderRadius: BorderRadius.vertical(top: Radius.circular(22))),
       builder: (_) => LeaveRequestModal(
-        initialType: initialType,
-        initialStartDate: initialStartDate,
-        initialEndDate: initialEndDate,
+        initialFrom: initialFrom,
+        initialTo: initialTo,
+        availablePlans: availablePlans,
+        initialPlanCode: initialPlanCode,
         onConfirm: onConfirm,
       ),
     );
@@ -48,67 +64,137 @@ class LeaveRequestModal extends StatefulWidget {
 }
 
 class _LeaveRequestModalState extends State<LeaveRequestModal> {
-  late String _selectedType;
-  late String _startDate;
-  late String _endDate;
-  String? _attachedFileName;
+  late DateTime _from;
+  late DateTime _to;
+  LeavePlanEntity? _selectedPlan;
+  List<LeavePlanEntity> _plans = [];
+  bool _isLoadingPlans = false;
   late TextEditingController _reasonController;
-  late TextEditingController _handoverController;
   int _halfDayMode = 0; // 0: full day, 1: morning half, 2: afternoon half
 
   @override
   void initState() {
     super.initState();
-    _selectedType = widget.initialType;
-    _startDate = widget.initialStartDate;
-    _endDate = widget.initialEndDate;
-    _reasonController = TextEditingController(text: 'Việc gia đình, đã bàn giao công việc cho bạn cùng ca.');
-    _handoverController = TextEditingController(text: 'Phạm Thu Hương (NV0091)');
+    _from = widget.initialFrom;
+    _to = widget.initialTo;
+    _reasonController = TextEditingController();
+
+    if (widget.availablePlans.isNotEmpty) {
+      _plans = widget.availablePlans;
+      _selectedPlan = _plans.firstWhere(
+        (p) => p.code == widget.initialPlanCode,
+        orElse: () => _plans.first,
+      );
+    } else {
+      unawaited(_fetchPlans());
+    }
+  }
+
+  Future<void> _fetchPlans() async {
+    if (!sl.isRegistered<GetLeavePlansUseCase>()) return;
+    setState(() => _isLoadingPlans = true);
+    final res = await sl<GetLeavePlansUseCase>()();
+    if (!mounted) return;
+    res.fold(
+      (_) => setState(() => _isLoadingPlans = false),
+      (plans) {
+        setState(() {
+          _isLoadingPlans = false;
+          if (plans.isNotEmpty) {
+            _plans = plans;
+            _selectedPlan = plans.firstWhere(
+              (p) => p.code == widget.initialPlanCode,
+              orElse: () => plans.first,
+            );
+          }
+        });
+      },
+    );
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    if (_plans.isEmpty && !_isLoadingPlans) {
+      final l10n = context.l10n;
+      final year = DateTime.now().year;
+      _plans = [
+        LeavePlanEntity(
+          code: 'PN2026',
+          name: l10n.leaveTypeAnnual,
+          validFrom: '$year-01-01',
+          validTo: '${year + 1}-03-31',
+        ),
+        LeavePlanEntity(
+          code: 'LP_SICK',
+          name: l10n.leaveTypeSick,
+          validFrom: '$year-01-01',
+          validTo: '$year-12-31',
+        ),
+        LeavePlanEntity(
+          code: 'LP_COMPOFF',
+          name: l10n.leaveTypeCompOff,
+          validFrom: '$year-01-01',
+          validTo: '$year-12-31',
+        ),
+        LeavePlanEntity(
+          code: 'LP_UNPAID',
+          name: l10n.leaveTypeUnpaid,
+          validFrom: '$year-01-01',
+          validTo: '$year-12-31',
+        ),
+      ];
+      _selectedPlan ??= _plans.first;
+    }
   }
 
   @override
   void dispose() {
     _reasonController.dispose();
-    _handoverController.dispose();
     super.dispose();
   }
 
-  Future<void> _pickDate(bool isStart) async {
+  String _formatDate(DateTime dt) =>
+      '${dt.day.toString().padLeft(2, '0')}/${dt.month.toString().padLeft(2, '0')}/${dt.year}';
+
+  Future<void> _pickDate(bool isFrom) async {
     final picked = await showDatePicker(
       context: context,
-      initialDate: DateTime(2026, 9, 21),
-      firstDate: DateTime(2026, 8),
-      lastDate: DateTime(2026, 12),
+      initialDate: isFrom ? _from : _to,
+      firstDate: DateTime.now().subtract(const Duration(days: 30)),
+      lastDate: DateTime.now().add(const Duration(days: 365)),
     );
     if (picked != null) {
-      final s = '${picked.day.toString().padLeft(2, '0')}/${picked.month.toString().padLeft(2, '0')}/${picked.year}';
       setState(() {
-        if (isStart) {
-          _startDate = s;
+        if (isFrom) {
+          _from = picked;
+          if (_to.isBefore(picked)) _to = picked;
         } else {
-          _endDate = s;
+          _to = picked;
+          if (_from.isAfter(picked)) _from = picked;
         }
       });
     }
   }
 
-  Future<void> _pickAttachment() async {
-    final granted = await AppPermissionHandler.requestPhotos(context);
-    if (!mounted || !granted) return;
-    setState(() => _attachedFileName = 'giay_chung_nhan_y_te.pdf');
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text(context.l10n.attachmentSelected('giay_chung_nhan_y_te.pdf', '1.2 MB'))),
-    );
-  }
 
-  void _onConfirmTap(bool isDraft) {
+  void _onConfirmTap() {
     Navigator.pop(context);
-    if (isDraft) {
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(context.l10n.leaveDraftSaved)));
-      return;
+    final double amount;
+    String? halfShift;
+    if (_halfDayMode == 1) {
+      amount = 0.5;
+      halfShift = 'Morning';
+    } else if (_halfDayMode == 2) {
+      amount = 0.5;
+      halfShift = 'Afternoon';
+    } else {
+      amount = (_to.difference(_from).inDays.abs() + 1).toDouble();
+      halfShift = null;
     }
-    final duration = _halfDayMode == 0 ? '3 ngày' : '0.5 ngày';
-    widget.onConfirm(_selectedType, _startDate, _endDate, duration, _reasonController.text.trim());
+    final selected = _selectedPlan ?? (_plans.isNotEmpty ? _plans.first : null);
+    if (selected == null) return;
+    widget.onConfirm(selected, _from, _to, amount, halfShift, _reasonController.text.trim());
   }
 
   @override
@@ -116,7 +202,6 @@ class _LeaveRequestModalState extends State<LeaveRequestModal> {
     final colors = context.colors;
     final l10n = context.l10n;
     final bottomInset = MediaQuery.of(context).viewInsets.bottom;
-    final leaveTypes = [l10n.leaveTypeAnnual, l10n.leaveTypeSick, l10n.leaveTypeCompOff, l10n.leaveTypeUnpaid];
 
     return Padding(
       padding: EdgeInsets.fromLTRB(18, 18, 18, bottomInset + 18),
@@ -133,99 +218,32 @@ class _LeaveRequestModalState extends State<LeaveRequestModal> {
               ],
             ),
             10.gapH,
-
-            // Half-day mode toggle
             Row(
               children: [
-                LeaveModeChip(
-                  text: 'Cả ngày',
-                  mode: 0,
-                  currentMode: _halfDayMode,
-                  onSelected: (m) => setState(() => _halfDayMode = m),
-                  colors: colors,
-                ),
+                LeaveModeChip(text: 'Cả ngày', mode: 0, currentMode: _halfDayMode, onSelected: (m) => setState(() => _halfDayMode = m), colors: colors),
                 8.gapW,
-                LeaveModeChip(
-                  text: l10n.leaveHalfDayMorning,
-                  mode: 1,
-                  currentMode: _halfDayMode,
-                  onSelected: (m) => setState(() => _halfDayMode = m),
-                  colors: colors,
-                ),
+                LeaveModeChip(text: l10n.leaveHalfDayMorning, mode: 1, currentMode: _halfDayMode, onSelected: (m) => setState(() => _halfDayMode = m), colors: colors),
                 8.gapW,
-                LeaveModeChip(
-                  text: l10n.leaveHalfDayAfternoon,
-                  mode: 2,
-                  currentMode: _halfDayMode,
-                  onSelected: (m) => setState(() => _halfDayMode = m),
-                  colors: colors,
-                ),
+                LeaveModeChip(text: l10n.leaveHalfDayAfternoon, mode: 2, currentMode: _halfDayMode, onSelected: (m) => setState(() => _halfDayMode = m), colors: colors),
               ],
             ),
             12.gapH,
-
-            // Leave types
-            Wrap(
-              spacing: 8,
-              runSpacing: 8,
-              children: leaveTypes.map((t) {
-                final isSel = _selectedType == t;
-                return InkWell(
-                  borderRadius: BorderRadius.circular(10),
-                  onTap: () => setState(() => _selectedType = t),
-                  child: Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
-                    decoration: BoxDecoration(
-                      color: isSel ? colors.primaryIndigo.withValues(alpha: 0.1) : colors.surface,
-                      borderRadius: BorderRadius.circular(10),
-                      border: Border.all(color: isSel ? colors.primaryIndigo : colors.border, width: isSel ? 1.5 : 1),
-                    ),
-                    child: Text(t, style: TextStyle(fontSize: 12, fontWeight: isSel ? FontWeight.w800 : FontWeight.w600, color: isSel ? colors.primaryIndigo : colors.textPrimary)),
-                  ),
-                );
-              }).toList(),
+            LeavePlanSelector(
+              plans: _plans,
+              selectedPlan: _selectedPlan,
+              isLoading: _isLoadingPlans,
+              colors: colors,
+              onSelected: (p) => setState(() => _selectedPlan = p),
             ),
             12.gapH,
-
             Row(
               children: [
-                Expanded(
-                  child: LeaveDateTile(
-                    label: l10n.fromDateLabel,
-                    value: _startDate,
-                    onTap: () => _pickDate(true),
-                    colors: colors,
-                  ),
-                ),
+                Expanded(child: LeaveDateTile(label: l10n.fromDateLabel, value: _formatDate(_from), onTap: () => _pickDate(true), colors: colors)),
                 10.gapW,
-                Expanded(
-                  child: LeaveDateTile(
-                    label: l10n.toDateLabel,
-                    value: _endDate,
-                    onTap: () => _pickDate(false),
-                    colors: colors,
-                  ),
-                ),
+                Expanded(child: LeaveDateTile(label: l10n.toDateLabel, value: _formatDate(_to), onTap: () => _pickDate(false), colors: colors)),
               ],
             ),
             10.gapH,
-
-            // Handover Colleague
-            Text(l10n.leaveHandoverPerson, style: TextStyle(fontSize: 12, fontWeight: FontWeight.w700, color: colors.textSecondary)),
-            4.gapH,
-            TextField(
-              controller: _handoverController,
-              style: TextStyle(fontSize: 13, color: colors.textPrimary),
-              decoration: InputDecoration(
-                filled: true,
-                fillColor: colors.surface,
-                contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
-                border: OutlineInputBorder(borderRadius: BorderRadius.circular(12), borderSide: BorderSide(color: colors.border)),
-              ),
-            ),
-            10.gapH,
-
-            // Reason
             Text(l10n.reasonLabel, style: TextStyle(fontSize: 12, fontWeight: FontWeight.w700, color: colors.textSecondary)),
             4.gapH,
             TextField(
@@ -239,56 +257,19 @@ class _LeaveRequestModalState extends State<LeaveRequestModal> {
                 border: OutlineInputBorder(borderRadius: BorderRadius.circular(12), borderSide: BorderSide(color: colors.border)),
               ),
             ),
-            10.gapH,
-
-            // Attachment button
-            InkWell(
-              borderRadius: BorderRadius.circular(12),
-              onTap: _pickAttachment,
-              child: Container(
-                padding: const EdgeInsets.symmetric(vertical: 8),
-                decoration: BoxDecoration(color: colors.surface, borderRadius: BorderRadius.circular(12), border: Border.all(color: colors.border)),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    AppIcon(_attachedFileName != null ? AppIcons.check : AppIcons.attach, size: 16, color: _attachedFileName != null ? colors.pineGreen : colors.textSecondary),
-                    6.gapW,
-                    Text(_attachedFileName ?? l10n.addAttachmentOptional, style: TextStyle(fontSize: 12, color: colors.textSecondary)),
-                  ],
+            18.gapH,
+            SizedBox(
+              height: 48,
+              width: double.infinity,
+              child: ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: const Color(0xFFF59E0B),
+                  foregroundColor: const Color(0xFF1C1408),
+                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
                 ),
+                onPressed: _onConfirmTap,
+                child: Text(l10n.confirmSendLeaveRequest, style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w800)),
               ),
-            ),
-            16.gapH,
-
-            // Draft & Submit buttons
-            Row(
-              children: [
-                Expanded(
-                  child: OutlinedButton(
-                    style: OutlinedButton.styleFrom(
-                      padding: const EdgeInsets.symmetric(vertical: 12),
-                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-                      side: BorderSide(color: colors.border),
-                    ),
-                    onPressed: () => _onConfirmTap(true),
-                    child: Text(l10n.leaveSaveDraftBtn, style: TextStyle(color: colors.textSecondary, fontWeight: FontWeight.w700)),
-                  ),
-                ),
-                10.gapW,
-                Expanded(
-                  flex: 2,
-                  child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: const Color(0xFFF59E0B),
-                      foregroundColor: const Color(0xFF1C1408),
-                      padding: const EdgeInsets.symmetric(vertical: 12),
-                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-                    ),
-                    onPressed: () => _onConfirmTap(false),
-                    child: Text(l10n.confirmSendLeaveRequest, style: const TextStyle(fontWeight: FontWeight.w800)),
-                  ),
-                ),
-              ],
             ),
           ],
         ),

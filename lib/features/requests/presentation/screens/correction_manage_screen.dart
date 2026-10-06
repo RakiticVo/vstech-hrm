@@ -1,11 +1,14 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:vstech_hrm/core/di/injector.dart';
 import 'package:vstech_hrm/core/extensions/l10n_extension.dart';
 import 'package:vstech_hrm/core/responsive/app_layout.dart';
 import 'package:vstech_hrm/core/router/routes.dart';
 import 'package:vstech_hrm/core/theme/app_colors.dart';
 import 'package:vstech_hrm/core/widgets/app_icon.dart';
 import 'package:vstech_hrm/core/widgets/primary_button.dart';
+import 'package:vstech_hrm/features/requests/domain/usecases/get_correction_requests_usecase.dart';
 import 'package:vstech_hrm/features/requests/presentation/widgets/request_card.dart';
 
 /// Screen 13: Dedicated Timesheet Correction Management Screen (`correction` in mockup & flow).
@@ -17,28 +20,45 @@ class CorrectionManageScreen extends StatefulWidget {
 }
 
 class _CorrectionManageScreenState extends State<CorrectionManageScreen> {
-  final _correctionRequests = const [
-    RequestData(
-      mark: 'S',
-      type: 'Sửa công · thiếu giờ vào',
-      dates: '15/09/2026',
-      status: 'Đã duyệt',
-      statusCode: 2,
-      stage: 'Hoàn tất',
-      completedSteps: 2,
-      requestTypeKey: 'correction',
-    ),
-    RequestData(
-      mark: 'S',
-      type: 'Sửa công · quên quẹt thẻ ra',
-      dates: '21/09/2026',
-      status: 'Chờ duyệt',
-      statusCode: 1,
-      stage: 'Chờ quản lý',
-      completedSteps: 1,
-      requestTypeKey: 'correction',
-    ),
-  ];
+  bool _isLoading = false;
+  List<RequestData> _correctionRequests = [];
+
+  @override
+  void initState() {
+    super.initState();
+    unawaited(_loadData());
+  }
+
+  Future<void> _loadData() async {
+    if (!sl.isRegistered<GetCorrectionRequestsUseCase>()) return;
+    setState(() => _isLoading = true);
+    final result = await sl<GetCorrectionRequestsUseCase>()(personal: true);
+    if (!mounted) return;
+    result.fold(
+      (_) => setState(() => _isLoading = false),
+      (entities) {
+        setState(() {
+          _isLoading = false;
+          _correctionRequests = entities.map((e) {
+            final statusCode = e.isApproved ? 2 : (e.isReject ? 3 : 1);
+            final statusText = e.isApproved
+                ? 'Đã duyệt'
+                : (e.isReject ? 'Từ chối' : 'Chờ duyệt');
+            return RequestData(
+              mark: 'S',
+              type: 'Sửa công · ${e.reasonTypeName ?? 'Giải trình'}',
+              dates: '${e.workDate ?? ''} (${e.worktime ?? 0}h)',
+              status: statusText,
+              statusCode: statusCode,
+              stage: statusText,
+              completedSteps: statusCode,
+              requestTypeKey: 'correction',
+            );
+          }).toList();
+        });
+      },
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -192,39 +212,56 @@ class _CorrectionManageScreenState extends State<CorrectionManageScreen> {
 
           // List of Correction Requests
           Expanded(
-            child: ListView.separated(
-              padding: const EdgeInsets.fromLTRB(16, 4, 16, 16),
-              itemCount: _correctionRequests.length,
-              separatorBuilder: (_, _) => 10.gapH,
-              itemBuilder: (ctx, index) {
-                final req = _correctionRequests[index];
-                return InkWell(
-                  borderRadius: BorderRadius.circular(18),
-                  onTap: () {
-                    context.push(
-                      AppRoutes.requestDetail,
-                      extra: {
-                        'code': 'RQ-2026-0929',
-                        'title': req.type,
-                        'category': 'correction',
-                        'requesterName': 'Nguyễn Minh Tuấn (NV-04821)',
-                        'initialStatus': req.statusCode == 2 ? 'approved' : 'pending',
-                        'isApprover': false,
-                        'attendanceSnippet': 'Log quẹt thẻ cổng: Vào 07:52, Ra 17:05 (Bảo vệ ghi sổ)',
-                        'fields': [
-                          ('Ngày cần sửa', '15/09/2026'),
-                          ('Vấn đề phát sinh', 'Quên quẹt thẻ ra do cúp điện cửa quét'),
-                          ('Giờ vào đúng', '07:52'),
-                          ('Giờ ra đề nghị', '17:05'),
-                          ('Minh chứng', 'Ảnh chụp xác nhận của bảo vệ trực cổng'),
-                        ],
-                      },
-                    );
-                  },
-                  child: RequestCard(item: req),
-                );
-              },
-            ),
+            child: _isLoading
+                ? const Center(child: CircularProgressIndicator())
+                : RefreshIndicator(
+                    onRefresh: _loadData,
+                    child: _correctionRequests.isEmpty
+                        ? ListView(
+                            children: [
+                              60.gapH,
+                              Center(
+                                child: Text(
+                                  'Chưa có yêu cầu sửa công nào',
+                                  style: TextStyle(fontSize: 13, color: colors.textSecondary),
+                                ),
+                              ),
+                            ],
+                          )
+                        : ListView.separated(
+                            padding: const EdgeInsets.fromLTRB(16, 4, 16, 16),
+                            itemCount: _correctionRequests.length,
+                            separatorBuilder: (_, _) => 10.gapH,
+                            itemBuilder: (ctx, index) {
+                              final req = _correctionRequests[index];
+                              return InkWell(
+                                borderRadius: BorderRadius.circular(18),
+                                onTap: () {
+                                  context.push(
+                                    AppRoutes.requestDetail,
+                                    extra: {
+                                      'code': 'RQ-2026-0929',
+                                      'title': req.type,
+                                      'category': 'correction',
+                                      'requesterName': 'Nguyễn Minh Tuấn (NV-04821)',
+                                      'initialStatus': req.statusCode == 2 ? 'approved' : 'pending',
+                                      'isApprover': false,
+                                      'attendanceSnippet': 'Log quẹt thẻ cổng: Vào 07:52, Ra 17:05 (Bảo vệ ghi sổ)',
+                                      'fields': [
+                                        ('Ngày cần sửa', '15/09/2026'),
+                                        ('Vấn đề phát sinh', 'Quên quẹt thẻ ra do cúp điện cửa quét'),
+                                        ('Giờ vào đúng', '07:52'),
+                                        ('Giờ ra đề nghị', '17:05'),
+                                        ('Minh chứng', 'Ảnh chụp xác nhận của bảo vệ trực cổng'),
+                                      ],
+                                    },
+                                  );
+                                },
+                                child: RequestCard(item: req),
+                              );
+                            },
+                          ),
+                  ),
           ),
 
           // Bottom Action Button

@@ -5,7 +5,7 @@ import 'package:vstech_hrm/core/theme/app_colors.dart';
 
 /// Top summary hero card for overtime statistics with rate breakdown badges.
 class OvertimeSummaryCard extends StatelessWidget {
-  const OvertimeSummaryCard({
+  const new({
     this.totalHours = '10.0h',
     this.rate150Hours = '6.0h',
     this.rate200Hours = '4.0h',

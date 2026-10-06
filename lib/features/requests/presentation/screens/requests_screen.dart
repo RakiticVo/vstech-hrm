@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:vstech_hrm/core/di/injector.dart';
 import 'package:vstech_hrm/core/extensions/l10n_extension.dart';
 import 'package:vstech_hrm/core/responsive/app_layout.dart';
 import 'package:vstech_hrm/core/router/routes.dart';
@@ -11,6 +12,9 @@ import 'package:vstech_hrm/core/theme/app_colors.dart';
 import 'package:vstech_hrm/core/widgets/app_icon.dart';
 import 'package:vstech_hrm/core/widgets/month_picker_button.dart';
 import 'package:vstech_hrm/core/widgets/tile_header_banner.dart';
+import 'package:vstech_hrm/features/requests/domain/usecases/get_correction_requests_usecase.dart';
+import 'package:vstech_hrm/features/requests/domain/usecases/get_leave_requests_usecase.dart';
+import 'package:vstech_hrm/features/requests/domain/usecases/get_overtime_requests_usecase.dart';
 import 'package:vstech_hrm/features/requests/presentation/widgets/new_request_bottom_sheet.dart';
 import 'package:vstech_hrm/features/requests/presentation/widgets/request_card.dart';
 import 'package:vstech_hrm/features/requests/presentation/widgets/requests_category_tiles.dart';
@@ -28,82 +32,64 @@ class RequestsScreen extends StatefulWidget {
 class _RequestsScreenState extends State<RequestsScreen> {
   int _selectedTab = 0;
   String _selectedMonth = 'Tháng 9, 2026';
+  bool _isLoading = false;
+  List<RequestData> _requests = [];
 
-  final _requests = const [
-    RequestData(
-      mark: 'P',
-      type: 'Nghỉ phép năm · 1 ngày',
-      dates: '24/09/2026',
-      status: 'Chờ duyệt',
-      statusCode: 1,
-      stage: 'Chờ quản lý',
-      completedSteps: 1,
-      requestTypeKey: 'leave',
-    ),
-    RequestData(
-      mark: 'T',
-      type: 'Tăng ca · 3.5 giờ',
-      dates: '22/09/2026',
-      status: 'Đã duyệt',
-      statusCode: 2,
-      stage: 'Hoàn tất',
-      completedSteps: 2,
-      requestTypeKey: 'ot',
-    ),
-    RequestData(
-      mark: 'V',
-      type: 'Đi việc ngoài · Sở KH&ĐT',
-      dates: '25/09/2026',
-      status: 'Chờ duyệt',
-      statusCode: 1,
-      stage: 'Chờ quản lý',
-      completedSteps: 1,
-      totalSteps: 1,
-      requestTypeKey: 'offSite',
-    ),
-    RequestData(
-      mark: 'Đ',
-      type: 'Đổi ca · với Phạm Thu Hương',
-      dates: '18/09/2026',
-      status: 'Đã duyệt',
-      statusCode: 2,
-      stage: 'Đã đổi ca',
-      completedSteps: 1,
-      totalSteps: 1,
-      requestTypeKey: 'swap',
-    ),
-    RequestData(
-      mark: 'C',
-      type: 'Công tác · Hà Nội 3 ngày',
-      dates: '28–30/09/2026',
-      status: 'Chờ duyệt',
-      statusCode: 1,
-      stage: 'Chờ quản lý',
-      completedSteps: 1,
-      totalSteps: 1,
-      requestTypeKey: 'offSite',
-    ),
-    RequestData(
-      mark: 'S',
-      type: 'Sửa công · thiếu giờ vào',
-      dates: '15/09/2026',
-      status: 'Đã duyệt',
-      statusCode: 2,
-      stage: 'Hoàn tất',
-      completedSteps: 2,
-      requestTypeKey: 'correction',
-    ),
-    RequestData(
-      mark: 'P',
-      type: 'Nghỉ không lương · 1 ngày',
-      dates: '10/09/2026',
-      status: 'Từ chối',
-      statusCode: 3,
-      stage: 'Từ chối',
-      completedSteps: 1,
-      requestTypeKey: 'leave',
-    ),
-  ];
+  @override
+  void initState() {
+    super.initState();
+    unawaited(_loadRequests());
+  }
+
+  Future<void> _loadRequests() async {
+    setState(() => _isLoading = true);
+    final leaveResult = await sl<GetLeaveRequestsUseCase>()();
+    final otResult = await sl<GetOvertimeRequestsUseCase>()();
+    final corrResult = await sl<GetCorrectionRequestsUseCase>()(personal: true);
+
+    if (!mounted) return;
+    final items = <RequestData>[];
+
+    void addReq(String mark, String type, String dates, bool ok, bool rej, String key) {
+      final code = ok ? 2 : (rej ? 3 : 1);
+      final text = ok ? 'Đã duyệt' : (rej ? 'Từ chối' : 'Chờ duyệt');
+      items.add(RequestData(
+        mark: mark,
+        type: type,
+        dates: dates,
+        status: text,
+        statusCode: code,
+        stage: text,
+        completedSteps: code,
+        requestTypeKey: key,
+      ));
+    }
+
+    leaveResult.fold((_) {}, (list) {
+      for (final l in list) {
+        final start = l.from ?? l.validFrom ?? '';
+        final end = l.to ?? l.validTo ?? '';
+        addReq('P', '${l.leavePlan} · ${l.code}', '$start - $end', l.isApproved, l.isRejected, 'leave');
+      }
+    });
+
+    otResult.fold((_) {}, (list) {
+      for (final o in list) {
+        addReq('T', '${o.overtimeReason ?? 'Tăng ca'} · ${o.length ?? 0}h', '${o.date ?? ''} (${o.timeRange ?? ''})', o.isApproved, o.isRejected, 'ot');
+      }
+    });
+
+    corrResult.fold((_) {}, (list) {
+      for (final c in list) {
+        addReq('S', 'Sửa công · ${c.reasonTypeName ?? 'Giải trình'}', '${c.workDate ?? ''} (${c.worktime ?? 0}h)', c.isApproved, c.isReject, 'correction');
+      }
+    });
+
+    setState(() {
+      _isLoading = false;
+      _requests = items;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -208,84 +194,59 @@ class _RequestsScreenState extends State<RequestsScreen> {
             ),
           ),
 
-          // Leave Balance & Comp-off Shortcut
-          Padding(
-            padding: const EdgeInsets.fromLTRB(16, 2, 16, 6),
-            child: InkWell(
-              borderRadius: BorderRadius.circular(12),
-              onTap: () => unawaited(context.push(AppRoutes.leaveBalance)),
-              child: Container(
-                padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-                decoration: BoxDecoration(
-                  color: colors.primaryIndigo.withValues(alpha: 0.08),
-                  borderRadius: BorderRadius.circular(12),
-                  border: Border.all(color: colors.primaryIndigo.withValues(alpha: 0.15)),
-                ),
-                child: Row(
-                  children: [
-                    AppIcon(AppIcons.leave, size: 18, color: colors.primaryIndigo),
-                    8.gapW,
-                    Expanded(
-                      child: Text(
-                        l10n.leaveBalanceBreakdownTitle,
-                        style: TextStyle(fontSize: 12, fontWeight: FontWeight.w700, color: colors.primaryIndigo),
-                      ),
-                    ),
-                    Text(
-                      l10n.availableDays('6.5'),
-                      style: TextStyle(fontSize: 12, fontWeight: FontWeight.w800, color: colors.pineGreen),
-                    ),
-                    4.gapW,
-                    AppIcon(AppIcons.chevronRight, size: 16, color: colors.primaryIndigo),
-                  ],
-                ),
-              ),
-            ),
-          ),
-
           // Requests list
           Expanded(
-            child: filtered.isEmpty
-                ? Center(
-                    child: Text(
-                      l10n.noRequestsInMonth(_selectedMonth),
-                      style: TextStyle(fontSize: 13, color: colors.textSecondary),
-                    ),
-                  )
-                : ListView.separated(
-                    padding: const EdgeInsets.fromLTRB(16, 4, 16, 24),
-                    itemCount: filtered.length,
-                    separatorBuilder: (_, _) => 11.gapH,
-                    itemBuilder: (ctx, index) {
-                      final item = filtered[index];
-                      return InkWell(
-                        borderRadius: BorderRadius.circular(18),
-                        onTap: () {
-                          unawaited(
-                            context.push(
-                              AppRoutes.requestDetail,
-                              extra: {
-                                'code': 'RQ-2026-09${20 + index}',
-                                'title': item.type,
-                                'category': item.requestTypeKey,
-                                'requesterName': 'Nguyễn Minh Tuấn (NV-04821)',
-                                'initialStatus': item.statusCode == 2
-                                    ? 'approved'
-                                    : item.statusCode == 3
-                                        ? 'rejected'
-                                        : 'pending',
-                                'isApprover': false,
-                              },
-                            ),
-                          );
-                        },
-                        child: RequestCard(item: item),
-                      );
-                    },
+            child: _isLoading
+                ? const Center(child: CircularProgressIndicator())
+                : RefreshIndicator(
+                    onRefresh: _loadRequests,
+                    child: filtered.isEmpty
+                        ? ListView(
+                            children: [
+                              100.gapH,
+                              Center(
+                                child: Text(
+                                  l10n.noRequestsInMonth(_selectedMonth),
+                                  style: TextStyle(fontSize: 13, color: colors.textSecondary),
+                                ),
+                              ),
+                            ],
+                          )
+                        : ListView.separated(
+                            padding: const EdgeInsets.fromLTRB(16, 4, 16, 24),
+                            itemCount: filtered.length,
+                            separatorBuilder: (_, _) => 11.gapH,
+                            itemBuilder: (ctx, index) {
+                              final item = filtered[index];
+                              return InkWell(
+                                borderRadius: BorderRadius.circular(18),
+                                onTap: () => unawaited(_openDetail(item, index)),
+                                child: RequestCard(item: item),
+                              );
+                            },
+                          ),
                   ),
           ),
         ],
       ),
+    );
+  }
+
+  Future<void> _openDetail(RequestData item, int index) {
+    return context.push(
+      AppRoutes.requestDetail,
+      extra: {
+        'code': 'RQ-2026-09${20 + index}',
+        'title': item.type,
+        'category': item.requestTypeKey,
+        'requesterName': 'Nguyễn Minh Tuấn (NV-04821)',
+        'initialStatus': item.statusCode == 2
+            ? 'approved'
+            : item.statusCode == 3
+                ? 'rejected'
+                : 'pending',
+        'isApprover': false,
+      },
     );
   }
 }
