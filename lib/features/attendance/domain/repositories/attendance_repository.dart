@@ -29,6 +29,8 @@ class CheckInParams extends Equatable {
 abstract class AttendanceRepository {
   Future<Either<Failure, AttendanceTodayEntity>> getTodayAttendance();
 
+  Future<Either<Failure, String>> getAttendMode();
+
   Future<Either<Failure, AttendanceRecordEntity>> checkIn(CheckInParams params);
 
   Future<Either<Failure, AttendanceRecordEntity>> checkOut(CheckInParams params);
@@ -38,3 +40,4 @@ abstract class AttendanceRepository {
     DateTime? to,
   });
 }
+

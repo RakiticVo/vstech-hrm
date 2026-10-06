@@ -13,14 +13,18 @@ class LoadTodayAttendanceEvent extends AttendanceEvent {
   const new();
 }
 
-/// Event to prepare scan screen (check camera, GPS location, and Wi-Fi state).
+/// Event to prepare scan screen (check camera, GPS location, Wi-Fi state, and face registration).
 class PrepareFaceScanEvent extends AttendanceEvent {
-  const new({required this.type});
+  const new({
+    required this.type,
+    this.employeeCode,
+  });
 
   final AttendanceType type;
+  final String? employeeCode;
 
   @override
-  List<Object?> get props => [type];
+  List<Object?> get props => [type, employeeCode];
 }
 
 /// Event to submit captured face photo along with GPS & Wi-Fi data.
@@ -28,15 +32,17 @@ class SubmitFaceScanEvent extends AttendanceEvent {
   const new({
     required this.imagePath,
     required this.type,
+    this.employeeCode,
     this.note,
   });
 
   final String imagePath;
   final AttendanceType type;
+  final String? employeeCode;
   final String? note;
 
   @override
-  List<Object?> get props => [imagePath, type, note];
+  List<Object?> get props => [imagePath, type, employeeCode, note];
 }
 
 /// Event to reset the scan state after successful punch or cancel.

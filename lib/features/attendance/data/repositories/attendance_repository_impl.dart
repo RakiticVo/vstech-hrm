@@ -29,6 +29,21 @@ class AttendanceRepositoryImpl implements AttendanceRepository {
   }
 
   @override
+  Future<Either<Failure, String>> getAttendMode() async {
+    try {
+      final mode = await _remoteDataSource.getAttendMode();
+      return Right(mode);
+    } on ServerException catch (e) {
+      return Left(ServerFailure(message: e.message, statusCode: e.statusCode));
+    } on NetworkException catch (e) {
+      return Left(NetworkFailure(message: e.message));
+    } on Object catch (e) {
+      return Left(UnknownFailure(message: e.toString()));
+    }
+  }
+
+
+  @override
   Future<Either<Failure, AttendanceRecordEntity>> checkIn(CheckInParams params) async {
     try {
       final model = await _remoteDataSource.checkIn(params);

@@ -6,6 +6,9 @@ enum AttendanceProcessStatus {
   initial,
   loading,
   readyToScan,
+  faceNotRegistered,
+  faceVerifying,
+  faceVerifyFailed,
   submitting,
   success,
   failure,
@@ -25,6 +28,9 @@ class AttendanceState extends Equatable {
     this.isWifiValid = true,
     this.isCameraReady = false,
     this.isSimulator = false,
+    this.isFaceRegistered,
+    this.faceVerifyMessage,
+    this.faceSimilarity,
     this.errorMessage,
   });
 
@@ -39,6 +45,9 @@ class AttendanceState extends Equatable {
   final bool isWifiValid;
   final bool isCameraReady;
   final bool isSimulator;
+  final bool? isFaceRegistered;
+  final String? faceVerifyMessage;
+  final double? faceSimilarity;
   final String? errorMessage;
 
   AttendanceState copyWith({
@@ -53,6 +62,9 @@ class AttendanceState extends Equatable {
     bool? isWifiValid,
     bool? isCameraReady,
     bool? isSimulator,
+    bool? isFaceRegistered,
+    String? faceVerifyMessage,
+    double? faceSimilarity,
     String? errorMessage,
   }) {
     return AttendanceState(
@@ -67,6 +79,9 @@ class AttendanceState extends Equatable {
       isWifiValid: isWifiValid ?? this.isWifiValid,
       isCameraReady: isCameraReady ?? this.isCameraReady,
       isSimulator: isSimulator ?? this.isSimulator,
+      isFaceRegistered: isFaceRegistered ?? this.isFaceRegistered,
+      faceVerifyMessage: faceVerifyMessage ?? this.faceVerifyMessage,
+      faceSimilarity: faceSimilarity ?? this.faceSimilarity,
       errorMessage: errorMessage,
     );
   }
@@ -84,6 +99,9 @@ class AttendanceState extends Equatable {
         isWifiValid,
         isCameraReady,
         isSimulator,
+        isFaceRegistered,
+        faceVerifyMessage,
+        faceSimilarity,
         errorMessage,
       ];
 }
