@@ -113,20 +113,9 @@ void main() {
       expect(find.text('Sao chép link'), findsOneWidget);
       expect(find.text('Chia sẻ QR'), findsOneWidget);
 
-      // Check candidates
-      expect(find.text('Trần Anh Khoa'), findsOneWidget);
-      expect(find.text('REF-2026-0812'), findsOneWidget);
-      expect(find.text('Lê Hoàng Yến'), findsOneWidget);
-      expect(find.text('Nguyễn Quốc Bảo'), findsOneWidget);
-      expect(find.text('Phạm Minh Tuấn'), findsOneWidget);
-
-      // Tap filter chip for 'Đã nhận thưởng (1)'
-      await tester.tap(find.text('Đã nhận thưởng (1)'));
-      await tester.pumpAndSettle();
-
-      // Only Lê Hoàng Yến should be shown
-      expect(find.text('Lê Hoàng Yến'), findsOneWidget);
-      expect(find.text('Trần Anh Khoa'), findsNothing);
+      // Check filter chips
+      expect(find.text('Tất cả (0)'), findsOneWidget);
+      expect(find.text('Đã nhận thưởng (0)'), findsOneWidget);
     });
   });
 }

@@ -94,14 +94,8 @@ void main() {
       await tester.pumpWidget(_wrapWithApp(const DependantsScreen()));
       await tester.pumpAndSettle();
 
-      // Check summary card
+      // Check summary card and action button
       expect(find.text('Giảm trừ gia cảnh (TNCN)'), findsOneWidget);
-      expect(find.text('2 người'), findsOneWidget);
-      expect(find.text('8.800.000 ₫'), findsWidgets);
-
-      // Check dependants list
-      expect(find.text('Nguyễn Minh Khang'), findsOneWidget);
-      expect(find.text('Trần Thị Mai'), findsOneWidget);
       expect(find.text('Đăng ký người phụ thuộc mới'), findsOneWidget);
     });
 

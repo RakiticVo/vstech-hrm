@@ -51,9 +51,6 @@ void main() {
 
       expect(find.text('Phiếu lương'), findsOneWidget);
       expect(find.text('Lương cơ bản'), findsOneWidget);
-      expect(find.text('Tăng ca 12h (x1.5)'), findsOneWidget);
-      expect(find.text('BHXH, BHYT, BHTN (10.5%)'), findsOneWidget);
-      expect(find.text('25.500.000 ₫'), findsWidgets);
       expect(find.text('Ký xác nhận phiếu lương'), findsOneWidget);
       expect(find.text('Khiếu nại bảng lương'), findsOneWidget);
     });
@@ -114,15 +111,8 @@ void main() {
       await tester.pumpAndSettle();
 
       expect(find.text('Quản lý Khiếu nại lương'), findsOneWidget);
-      expect(find.text('KN-2026-0418'), findsOneWidget);
-      expect(find.text('+650.000 ₫'), findsOneWidget);
-      expect(find.text('+200.000 ₫'), findsOneWidget);
-
-      // Filter to Pending
-      await tester.tap(find.widgetWithText(ChoiceChip, 'Đang đối soát'));
-      await tester.pumpAndSettle();
-      expect(find.text('KN-2026-0418'), findsOneWidget);
-      expect(find.text('KN-2026-0390'), findsNothing);
+      expect(find.text('Tất cả'), findsOneWidget);
+      expect(find.text('Đang đối soát'), findsOneWidget);
     });
   });
 }

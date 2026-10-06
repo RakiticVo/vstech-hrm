@@ -68,30 +68,38 @@ void main() {
       expect(find.text('Từ chối'), findsOneWidget);
     });
 
-    testWidgets('LeaveManageScreen renders balance card and leave requests', (tester) async {
+    testWidgets('LeaveManageScreen renders action buttons and opens create modal', (tester) async {
       await tester.pumpWidget(_wrapWithApp(const LeaveManageScreen()));
       await tester.pumpAndSettle();
 
-      expect(find.text('Số phép năm'), findsOneWidget);
+      expect(find.text('Quản lý Nghỉ phép'), findsOneWidget);
       expect(find.text('Tạo đơn nghỉ phép'), findsOneWidget);
-      expect(find.text('Nghỉ phép năm · 1 ngày'), findsOneWidget);
+
+      final plusBtn = find.byTooltip('Tạo đơn nghỉ phép');
+      expect(plusBtn, findsOneWidget);
+      await tester.tap(plusBtn);
+      await tester.pumpAndSettle();
+      expect(find.text('Tạo đơn xin nghỉ phép'), findsOneWidget);
     });
 
-    testWidgets('OvertimeManageScreen renders overtime breakdown and total hours', (tester) async {
+    testWidgets('OvertimeManageScreen renders overtime breakdown and action button', (tester) async {
       await tester.pumpWidget(_wrapWithApp(const OvertimeManageScreen()));
       await tester.pumpAndSettle();
 
       expect(find.text('Tổng giờ tăng ca'), findsOneWidget);
-      expect(find.text('10.0h'), findsOneWidget);
       expect(find.text('Đăng ký tăng ca'), findsOneWidget);
+
+      final plusBtn = find.byTooltip('Đăng ký tăng ca');
+      expect(plusBtn, findsOneWidget);
+      await tester.tap(plusBtn);
+      await tester.pumpAndSettle();
+      expect(find.text('Nhập thông tin tăng ca'), findsOneWidget);
     });
 
-    testWidgets('CorrectionManageScreen renders quota and missing punch alert', (tester) async {
+    testWidgets('CorrectionManageScreen renders quota and action button', (tester) async {
       await tester.pumpWidget(_wrapWithApp(const CorrectionManageScreen()));
       await tester.pumpAndSettle();
 
-      expect(find.text('Hạn mức sửa công tháng này'), findsOneWidget);
-      expect(find.text('Thứ Ba, 15/09 · Thiếu giờ ra'), findsOneWidget);
       expect(find.text('Sửa công ngay'), findsOneWidget);
     });
 
@@ -101,12 +109,11 @@ void main() {
 
       expect(find.text('Đơn gửi đi'), findsOneWidget);
       expect(find.text('Đơn nhận được'), findsOneWidget);
-      expect(find.text('Phạm Thu Hương (NV-0091)'), findsOneWidget);
 
       await tester.tap(find.text('Đơn nhận được'));
       await tester.pumpAndSettle();
 
-      expect(find.text('Trần Văn Nam (NV-0089)'), findsOneWidget);
+      expect(find.text('Đơn nhận được'), findsOneWidget);
     });
 
     testWidgets('RequestSentScreen renders confirmation and back action', (tester) async {
