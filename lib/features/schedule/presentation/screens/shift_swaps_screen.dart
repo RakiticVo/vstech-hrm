@@ -19,38 +19,8 @@ class ShiftSwapsScreen extends StatefulWidget {
 class _ShiftSwapsScreenState extends State<ShiftSwapsScreen> {
   int _selectedTab = 0;
 
-  final _sentSwaps = const [
-    _SwapItemData(
-      code: 'RQ-2026-0933',
-      colleague: 'Phạm Thu Hương (NV-0091)',
-      dates: '18/09/2026',
-      shiftDetail: 'Ca Sáng (08:00–17:00) ↔ Ca Chiều (13:00–21:00)',
-      reason: 'Đổi ca chiều để đi khám sức khỏe định kỳ. Đã thỏa thuận với Hương.',
-      status: 'Đã duyệt',
-      statusCode: 2,
-    ),
-    _SwapItemData(
-      code: 'RQ-2026-0941',
-      colleague: 'Lê Văn Tùng (NV-0142)',
-      dates: '26/09/2026',
-      shiftDetail: 'Ca Chiều (13:00–21:00) ↔ Ca Sáng (08:00–17:00)',
-      reason: 'Bận việc gia đình buổi tối.',
-      status: 'Chờ duyệt',
-      statusCode: 1,
-    ),
-  ];
-
-  final _receivedSwaps = const [
-    _SwapItemData(
-      code: 'RQ-2026-0925',
-      colleague: 'Trần Văn Nam (NV-0089)',
-      dates: '12/09/2026',
-      shiftDetail: 'Ca Gãy (10:00–14:00 & 17:00–21:00) ↔ Ca Hành chính',
-      reason: 'Nam nhờ hỗ trợ ca gãy do đưa con đi nhập học.',
-      status: 'Đã đổi ca',
-      statusCode: 2,
-    ),
-  ];
+  final List<_SwapItemData> _sentSwaps = [];
+  final List<_SwapItemData> _receivedSwaps = [];
 
   @override
   Widget build(BuildContext context) {
@@ -147,9 +117,23 @@ class _ShiftSwapsScreenState extends State<ShiftSwapsScreen> {
 
           // List of swap items
           Expanded(
-            child: ListView.separated(
-              padding: const EdgeInsets.fromLTRB(16, 4, 16, 24),
-              itemCount: items.length,
+            child: items.isEmpty
+                ? Center(
+                    child: Padding(
+                      padding: const EdgeInsets.all(24),
+                      child: Text(
+                        'Chưa có yêu cầu đổi ca nào.',
+                        style: TextStyle(
+                          fontSize: 13.5,
+                          fontWeight: FontWeight.w600,
+                          color: colors.textSecondary,
+                        ),
+                      ),
+                    ),
+                  )
+                : ListView.separated(
+                    padding: const EdgeInsets.fromLTRB(16, 4, 16, 24),
+                    itemCount: items.length,
               separatorBuilder: (_, _) => 12.gapH,
               itemBuilder: (ctx, index) {
                 final item = items[index];

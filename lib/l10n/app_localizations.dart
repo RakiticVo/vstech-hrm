@@ -248,11 +248,23 @@ abstract class AppLocalizations {
   /// **'Nhập mã nhân viên và mật khẩu của bạn'**
   String get loginInstruction;
 
+  /// No description provided for @noSavedCredentialsForBiometric.
+  ///
+  /// In vi, this message translates to:
+  /// **'Vui lòng đăng nhập bằng tài khoản và mật khẩu trước để kích hoạt tính năng này'**
+  String get noSavedCredentialsForBiometric;
+
   /// No description provided for @loginButton.
   ///
   /// In vi, this message translates to:
   /// **'ĐĂNG NHẬP HỆ THỐNG'**
   String get loginButton;
+
+  /// No description provided for @rememberMe.
+  ///
+  /// In vi, this message translates to:
+  /// **'Ghi nhớ'**
+  String get rememberMe;
 
   /// No description provided for @biometricLogin.
   ///
@@ -317,13 +329,13 @@ abstract class AppLocalizations {
   /// No description provided for @clockInCta.
   ///
   /// In vi, this message translates to:
-  /// **'CHẤM CÔNG VÀO'**
+  /// **'CHECK IN'**
   String get clockInCta;
 
   /// No description provided for @clockOutCta.
   ///
   /// In vi, this message translates to:
-  /// **'CHẤM CÔNG RA'**
+  /// **'CHECK OUT'**
   String get clockOutCta;
 
   /// No description provided for @timeIn.
@@ -461,13 +473,13 @@ abstract class AppLocalizations {
   /// No description provided for @shiftDoneCta.
   ///
   /// In vi, this message translates to:
-  /// **'XONG CA'**
+  /// **'CHECK OUT'**
   String get shiftDoneCta;
 
   /// No description provided for @shiftCheckOutCta.
   ///
   /// In vi, this message translates to:
-  /// **'CHẤM RA'**
+  /// **'CHECK OUT'**
   String get shiftCheckOutCta;
 
   /// No description provided for @todayShiftDefault.
@@ -635,26 +647,38 @@ abstract class AppLocalizations {
   /// No description provided for @faceScanCheckInTitle.
   ///
   /// In vi, this message translates to:
-  /// **'Chấm công Giờ vào'**
+  /// **'Check in khuôn mặt'**
   String get faceScanCheckInTitle;
 
   /// No description provided for @faceScanCheckOutTitle.
   ///
   /// In vi, this message translates to:
-  /// **'Chấm công Giờ ra'**
+  /// **'Check out khuôn mặt'**
   String get faceScanCheckOutTitle;
 
   /// No description provided for @faceScanCaptureCheckInCta.
   ///
   /// In vi, this message translates to:
-  /// **'Chụp ảnh & Chấm công Vào'**
+  /// **'Chụp ảnh & Check in'**
   String get faceScanCaptureCheckInCta;
 
   /// No description provided for @faceScanCaptureCheckOutCta.
   ///
   /// In vi, this message translates to:
-  /// **'Chụp ảnh & Chấm công Ra'**
+  /// **'Chụp ảnh & Check out'**
   String get faceScanCaptureCheckOutCta;
+
+  /// No description provided for @faceCheckingRegistration.
+  ///
+  /// In vi, this message translates to:
+  /// **'Đang kiểm tra dữ liệu khuôn mặt...'**
+  String get faceCheckingRegistration;
+
+  /// No description provided for @faceCheckingButton.
+  ///
+  /// In vi, this message translates to:
+  /// **'Đang kiểm tra...'**
+  String get faceCheckingButton;
 
   /// No description provided for @offlineLocationLabel.
   ///
@@ -2323,6 +2347,24 @@ abstract class AppLocalizations {
   /// **'Khoá app ngay khi chuyển sang ứng dụng khác'**
   String get autoLockDesc;
 
+  /// No description provided for @displaySection.
+  ///
+  /// In vi, this message translates to:
+  /// **'Hiển thị'**
+  String get displaySection;
+
+  /// No description provided for @themeModeLabel.
+  ///
+  /// In vi, this message translates to:
+  /// **'Chế độ giao diện'**
+  String get themeModeLabel;
+
+  /// No description provided for @languageLabel.
+  ///
+  /// In vi, this message translates to:
+  /// **'Ngôn ngữ'**
+  String get languageLabel;
+
   /// No description provided for @designAndSystemSection.
   ///
   /// In vi, this message translates to:
@@ -2358,6 +2400,12 @@ abstract class AppLocalizations {
   /// In vi, this message translates to:
   /// **'Vui lòng bật quyền Thông báo trong Cài đặt hệ thống'**
   String get enableNotificationInSettings;
+
+  /// No description provided for @appVersionFooter.
+  ///
+  /// In vi, this message translates to:
+  /// **'Phiên bản 1.0.0 · Bản dựng 2026'**
+  String get appVersionFooter;
 
   /// No description provided for @allServicesTitle.
   ///
@@ -4168,19 +4216,19 @@ abstract class AppLocalizations {
   /// No description provided for @otRateWeekday.
   ///
   /// In vi, this message translates to:
-  /// **'Ngày thường (150%)'**
+  /// **'Ngày thường'**
   String get otRateWeekday;
 
   /// No description provided for @otRateWeekend.
   ///
   /// In vi, this message translates to:
-  /// **'Nghỉ tuần (200%)'**
+  /// **'Cuối tuần'**
   String get otRateWeekend;
 
   /// No description provided for @otRateHoliday.
   ///
   /// In vi, this message translates to:
-  /// **'Ngày lễ (300%)'**
+  /// **'Ngày lễ'**
   String get otRateHoliday;
 
   /// No description provided for @otCompensationType.
@@ -4459,11 +4507,11 @@ abstract class AppLocalizations {
   /// **'Tất cả'**
   String get approvalTypeFilterAll;
 
-  /// No description provided for @approvalTypeFilterLeave.
+  /// No description provided for @approvalTypeFilterCorrection.
   ///
   /// In vi, this message translates to:
-  /// **'Nghỉ phép'**
-  String get approvalTypeFilterLeave;
+  /// **'Xác nhận giờ công'**
+  String get approvalTypeFilterCorrection;
 
   /// No description provided for @approvalTypeFilterOT.
   ///
@@ -4471,11 +4519,11 @@ abstract class AppLocalizations {
   /// **'Tăng ca'**
   String get approvalTypeFilterOT;
 
-  /// No description provided for @approvalTypeFilterCorrection.
+  /// No description provided for @approvalTypeFilterLeave.
   ///
   /// In vi, this message translates to:
-  /// **'Sửa công'**
-  String get approvalTypeFilterCorrection;
+  /// **'Nghỉ phép'**
+  String get approvalTypeFilterLeave;
 
   /// No description provided for @approvalTypeFilterSwap.
   ///
@@ -4488,6 +4536,36 @@ abstract class AppLocalizations {
   /// In vi, this message translates to:
   /// **'Đi việc ngoài'**
   String get approvalTypeFilterOffSite;
+
+  /// No description provided for @confirmTimesheetDialogTitle.
+  ///
+  /// In vi, this message translates to:
+  /// **'Xác nhận giờ công'**
+  String get confirmTimesheetDialogTitle;
+
+  /// No description provided for @confirmTimesheetHoursLabel.
+  ///
+  /// In vi, this message translates to:
+  /// **'Số giờ công xác nhận'**
+  String get confirmTimesheetHoursLabel;
+
+  /// No description provided for @confirmTimesheetNoteLabel.
+  ///
+  /// In vi, this message translates to:
+  /// **'Ghi chú xác nhận (tuỳ chọn)'**
+  String get confirmTimesheetNoteLabel;
+
+  /// No description provided for @confirmTimesheetSubmitBtn.
+  ///
+  /// In vi, this message translates to:
+  /// **'Xác nhận công'**
+  String get confirmTimesheetSubmitBtn;
+
+  /// No description provided for @confirmTimesheetSuccess.
+  ///
+  /// In vi, this message translates to:
+  /// **'Đã xác nhận giờ công cho {name}'**
+  String confirmTimesheetSuccess(String name);
 
   /// No description provided for @approvalAttendanceSnippet.
   ///
@@ -4762,19 +4840,19 @@ abstract class AppLocalizations {
   /// No description provided for @rateNormal150.
   ///
   /// In vi, this message translates to:
-  /// **'Ngày thường 150%'**
+  /// **'Ngày thường'**
   String get rateNormal150;
 
   /// No description provided for @rateWeekend200.
   ///
   /// In vi, this message translates to:
-  /// **'Cuối tuần 200%'**
+  /// **'Cuối tuần'**
   String get rateWeekend200;
 
   /// No description provided for @rateHoliday300.
   ///
   /// In vi, this message translates to:
-  /// **'Ngày lễ 300%'**
+  /// **'Ngày lễ'**
   String get rateHoliday300;
 
   /// No description provided for @createOvertimeBtn.
@@ -5796,6 +5874,24 @@ abstract class AppLocalizations {
   /// In vi, this message translates to:
   /// **'Thực hiện bước tiếp theo'**
   String get startNextStepBtn;
+
+  /// No description provided for @faceAuthTitle.
+  ///
+  /// In vi, this message translates to:
+  /// **'Nhận diện khuôn mặt'**
+  String get faceAuthTitle;
+
+  /// No description provided for @faceNotRegisteredPrompt.
+  ///
+  /// In vi, this message translates to:
+  /// **'Bạn chưa đăng ký khuôn mặt trên hệ thống. Vui lòng đăng ký nhận diện khuôn mặt tại trang Cá nhân trước khi chấm công.'**
+  String get faceNotRegisteredPrompt;
+
+  /// No description provided for @goToProfileCta.
+  ///
+  /// In vi, this message translates to:
+  /// **'Đến trang Cá nhân'**
+  String get goToProfileCta;
 }
 
 class _AppLocalizationsDelegate

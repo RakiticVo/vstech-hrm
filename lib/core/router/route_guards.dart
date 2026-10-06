@@ -10,7 +10,14 @@ String? authRedirectGuard(BuildContext context, GoRouterState state, AuthState a
   final isGoingToSplash = currentPath == AppRoutes.splash;
   final isGoingToForgotPassword = currentPath == AppRoutes.forgotPassword;
 
-  if (authState is AuthInitial || authState is AuthLoading) {
+  if (authState is AuthLoading) {
+    if (isGoingToLogin || isGoingToForgotPassword) {
+      return null;
+    }
+    return isGoingToSplash ? null : AppRoutes.splash;
+  }
+
+  if (authState is AuthInitial) {
     return isGoingToSplash ? null : AppRoutes.splash;
   }
 

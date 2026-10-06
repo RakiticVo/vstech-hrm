@@ -1,11 +1,13 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:vstech_hrm/core/di/injector.dart';
 import 'package:vstech_hrm/core/extensions/l10n_extension.dart';
 import 'package:vstech_hrm/core/responsive/app_layout.dart';
 import 'package:vstech_hrm/core/router/routes.dart';
 import 'package:vstech_hrm/core/theme/app_colors.dart';
 import 'package:vstech_hrm/core/widgets/app_icon.dart';
-import 'package:vstech_hrm/features/schedule/data/datasources/shift_schedule_mock_datasource.dart';
+import 'package:vstech_hrm/features/attendance/domain/usecases/get_today_attendance_usecase.dart';
 import 'package:vstech_hrm/features/schedule/domain/entities/shift_schedule_entity.dart';
 import 'package:vstech_hrm/features/schedule/presentation/widgets/shift_detail_card.dart';
 import 'package:vstech_hrm/features/schedule/presentation/widgets/shift_month_grid_dialog.dart';
@@ -22,18 +24,75 @@ class ShiftScheduleScreen extends StatefulWidget {
 }
 
 class _ShiftScheduleScreenState extends State<ShiftScheduleScreen> {
-  late final List<ShiftScheduleEntity> _weekShifts;
+  List<ShiftScheduleEntity> _weekShifts = [];
   late DateTime _selectedDate;
   ShiftViewState _viewState = ShiftViewState.normal;
 
   @override
   void initState() {
     super.initState();
-    _weekShifts = ShiftScheduleMockDatasource.getWeekShifts();
-    _selectedDate = DateTime(2026, 9, 22);
+    _selectedDate = DateTime.now();
+    _generateWeekShifts();
+    unawaited(_loadShiftFromApi());
+  }
+
+  void _generateWeekShifts([String shiftName = 'Ca Hành chính', String start = '08:00', String end = '17:00']) {
+    final now = DateTime.now();
+    final today = DateTime(now.year, now.month, now.day);
+    final monday = today.subtract(Duration(days: now.weekday - 1));
+    const dayNames = ['T2', 'T3', 'T4', 'T5', 'T6', 'T7', 'CN'];
+
+    final list = <ShiftScheduleEntity>[];
+    for (int i = 0; i < 7; i++) {
+      final d = monday.add(Duration(days: i));
+      final isSunday = i == 6;
+      final isPast = d.isBefore(today);
+      final isToday = d.year == today.year && d.month == today.month && d.day == today.day;
+
+      final ShiftStatus status;
+      if (isSunday) {
+        status = ShiftStatus.dayOff;
+      } else if (isPast) {
+        status = ShiftStatus.completed;
+      } else if (isToday) {
+        status = ShiftStatus.active;
+      } else {
+        status = ShiftStatus.upcoming;
+      }
+
+      list.add(
+        ShiftScheduleEntity(
+          id: 'shift_${d.year}_${d.month}_${d.day}',
+          date: d,
+          dayOfWeek: dayNames[i],
+          shiftName: isSunday ? 'Nghỉ tuần' : shiftName,
+          startTime: isSunday ? '—' : start,
+          endTime: isSunday ? '—' : end,
+          breakTime: isSunday ? '—' : '12:00 — 13:00',
+          branchName: 'Trụ sở chính VSTech',
+          managerName: 'Trưởng bộ phận',
+          status: status,
+          color: isSunday
+              ? const Color(0xFF94A3B8)
+              : (isToday ? const Color(0xFF0F766E) : const Color(0xFF3B82F6)),
+        ),
+      );
+    }
+    setState(() => _weekShifts = list);
+  }
+
+  Future<void> _loadShiftFromApi() async {
+    final res = await sl<GetTodayAttendanceUseCase>()();
+    if (!mounted) return;
+    res.fold((_) {}, (today) {
+      _generateWeekShifts(today.shiftName, today.shiftStart, today.shiftEnd);
+    });
   }
 
   ShiftScheduleEntity get _selectedShift {
+    if (_weekShifts.isEmpty) {
+      _generateWeekShifts();
+    }
     return _weekShifts.firstWhere(
       (s) => s.date.year == _selectedDate.year && s.date.month == _selectedDate.month && s.date.day == _selectedDate.day,
       orElse: () => _weekShifts.first,
@@ -45,12 +104,13 @@ class _ShiftScheduleScreenState extends State<ShiftScheduleScreen> {
   }
 
   void _openMonthGrid() {
+    final now = DateTime.now();
     ShiftMonthGridDialog.show(
       context,
-      currentMonth: DateTime(2026, 9),
+      currentMonth: DateTime(now.year, now.month),
       selectedDate: _selectedDate,
       onDatePicked: (date) {
-        if (date.month > 9) {
+        if (date.month > now.month) {
           setState(() => _viewState = ShiftViewState.unpublished);
         } else {
           setState(() {

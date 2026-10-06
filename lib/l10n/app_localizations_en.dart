@@ -85,7 +85,14 @@ class AppLocalizationsEn extends AppLocalizations {
   String get loginInstruction => 'Enter your employee ID and password';
 
   @override
+  String get noSavedCredentialsForBiometric =>
+      'Please log in with your credentials at least once to enable this feature';
+
+  @override
   String get loginButton => 'LOG IN';
+
+  @override
+  String get rememberMe => 'Remember me';
 
   @override
   String get biometricLogin => 'Sign in with Face ID / Biometrics';
@@ -118,10 +125,10 @@ class AppLocalizationsEn extends AppLocalizations {
   String get todayShiftLabel => 'Today\'s Shift';
 
   @override
-  String get clockInCta => 'CLOCK IN';
+  String get clockInCta => 'CHECK IN';
 
   @override
-  String get clockOutCta => 'CLOCK OUT';
+  String get clockOutCta => 'CHECK OUT';
 
   @override
   String get timeIn => 'Time in';
@@ -190,7 +197,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get shiftCheckOutLabel => 'CHECK-OUT';
 
   @override
-  String get shiftDoneCta => 'SHIFT DONE';
+  String get shiftDoneCta => 'CHECK OUT';
 
   @override
   String get shiftCheckOutCta => 'CHECK OUT';
@@ -285,16 +292,22 @@ class AppLocalizationsEn extends AppLocalizations {
   String get onlineAttendanceModeLabel => 'Online Mode';
 
   @override
-  String get faceScanCheckInTitle => 'Clock-in Face Scan';
+  String get faceScanCheckInTitle => 'Face Check In';
 
   @override
-  String get faceScanCheckOutTitle => 'Clock-out Face Scan';
+  String get faceScanCheckOutTitle => 'Face Check Out';
 
   @override
-  String get faceScanCaptureCheckInCta => 'Capture & Clock In';
+  String get faceScanCaptureCheckInCta => 'Capture & Check In';
 
   @override
-  String get faceScanCaptureCheckOutCta => 'Capture & Clock Out';
+  String get faceScanCaptureCheckOutCta => 'Capture & Check Out';
+
+  @override
+  String get faceCheckingRegistration => 'Checking face registration...';
+
+  @override
+  String get faceCheckingButton => 'Checking...';
 
   @override
   String get offlineLocationLabel => 'HCM Office (Local GPS Check)';
@@ -1211,6 +1224,15 @@ class AppLocalizationsEn extends AppLocalizations {
   String get autoLockDesc => 'Lock app immediately when switching apps';
 
   @override
+  String get displaySection => 'Display';
+
+  @override
+  String get themeModeLabel => 'Theme Mode';
+
+  @override
+  String get languageLabel => 'Language';
+
+  @override
   String get designAndSystemSection => 'Design & System';
 
   @override
@@ -1230,6 +1252,9 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get enableNotificationInSettings =>
       'Please enable notification permissions in system settings';
+
+  @override
+  String get appVersionFooter => 'Version 1.0.0 · Build 2026';
 
   @override
   String get allServicesTitle => 'All Services';
@@ -2196,13 +2221,13 @@ class AppLocalizationsEn extends AppLocalizations {
   String get leaveDraftSaved => 'Draft saved successfully!';
 
   @override
-  String get otRateWeekday => 'Weekday (150%)';
+  String get otRateWeekday => 'Weekday';
 
   @override
-  String get otRateWeekend => 'Weekly Off (200%)';
+  String get otRateWeekend => 'Weekend';
 
   @override
-  String get otRateHoliday => 'Holiday (300%)';
+  String get otRateHoliday => 'Holiday';
 
   @override
   String get otCompensationType => 'Compensation Type';
@@ -2357,19 +2382,36 @@ class AppLocalizationsEn extends AppLocalizations {
   String get approvalTypeFilterAll => 'All';
 
   @override
-  String get approvalTypeFilterLeave => 'Leave';
+  String get approvalTypeFilterCorrection => 'Timesheet Confirm';
 
   @override
   String get approvalTypeFilterOT => 'Overtime';
 
   @override
-  String get approvalTypeFilterCorrection => 'Correction';
+  String get approvalTypeFilterLeave => 'Leave';
 
   @override
   String get approvalTypeFilterSwap => 'Shift Swap';
 
   @override
   String get approvalTypeFilterOffSite => 'Off-site';
+
+  @override
+  String get confirmTimesheetDialogTitle => 'Timesheet Confirmation';
+
+  @override
+  String get confirmTimesheetHoursLabel => 'Confirmed Work Hours';
+
+  @override
+  String get confirmTimesheetNoteLabel => 'Confirmation Note (Optional)';
+
+  @override
+  String get confirmTimesheetSubmitBtn => 'Confirm Worktime';
+
+  @override
+  String confirmTimesheetSuccess(String name) {
+    return 'Confirmed timesheet for $name';
+  }
 
   @override
   String get approvalAttendanceSnippet => 'Attendance on relevant date';
@@ -2515,13 +2557,13 @@ class AppLocalizationsEn extends AppLocalizations {
   String get totalOvertimeHours => 'Total Overtime Hours';
 
   @override
-  String get rateNormal150 => 'Regular 150%';
+  String get rateNormal150 => 'Weekday';
 
   @override
-  String get rateWeekend200 => 'Weekend 200%';
+  String get rateWeekend200 => 'Weekend';
 
   @override
-  String get rateHoliday300 => 'Holiday 300%';
+  String get rateHoliday300 => 'Holiday';
 
   @override
   String get createOvertimeBtn => 'Request Overtime';
@@ -3086,4 +3128,14 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get startNextStepBtn => 'Continue Next Step';
+
+  @override
+  String get faceAuthTitle => 'Face Authentication';
+
+  @override
+  String get faceNotRegisteredPrompt =>
+      'Your face is not registered in the system. Please register your face in your Profile before clocking in/out.';
+
+  @override
+  String get goToProfileCta => 'Go to Profile';
 }

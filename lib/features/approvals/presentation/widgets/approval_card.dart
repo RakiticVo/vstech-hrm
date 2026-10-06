@@ -6,7 +6,8 @@ import 'package:vstech_hrm/core/theme/app_colors.dart';
 import 'package:vstech_hrm/core/widgets/app_icon.dart';
 
 class ApprovalItem {
-  const new({
+  const ApprovalItem({
+    this.id,
     required this.initials,
     required this.name,
     required this.type,
@@ -16,8 +17,10 @@ class ApprovalItem {
     this.attendanceSnippet,
     this.swapBothSchedules,
     this.internalNote,
+    this.worktime,
   });
 
+  final String? id;
   final String initials;
   final String name;
   final String type;
@@ -27,6 +30,7 @@ class ApprovalItem {
   final String? attendanceSnippet;
   final String? swapBothSchedules;
   final String? internalNote;
+  final double? worktime;
 }
 
 class ApprovalCard extends StatefulWidget {

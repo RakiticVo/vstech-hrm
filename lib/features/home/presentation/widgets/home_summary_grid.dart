@@ -1,25 +1,71 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:vstech_hrm/core/di/injector.dart';
 import 'package:vstech_hrm/core/extensions/l10n_extension.dart';
 import 'package:vstech_hrm/core/responsive/app_layout.dart';
 import 'package:vstech_hrm/core/theme/app_colors.dart';
+import 'package:vstech_hrm/features/attendance/domain/usecases/get_today_attendance_usecase.dart';
+import 'package:vstech_hrm/features/requests/domain/usecases/get_leave_requests_usecase.dart';
+import 'package:vstech_hrm/features/requests/domain/usecases/get_overtime_requests_usecase.dart';
 
 /// 2x2 Summary Metrics Grid (Ngày công, Phép còn, Tăng ca, Muộn/sớm)
-/// Follows DESIGN.md §7 & Phone.dc.html lines 180–196.
-class HomeSummaryGrid extends StatelessWidget {
-  const new({
-    this.workedDays = '18',
-    this.standardDays = '22',
-    this.leaveLeft = '6',
-    this.overtimeHours = '12',
-    this.lateEarlyCount = '1 / 0',
-    super.key,
-  });
+/// Connects to real API endpoints for leave, overtime, and attendance metrics.
+class HomeSummaryGrid extends StatefulWidget {
+  const HomeSummaryGrid({super.key});
 
-  final String workedDays;
-  final String standardDays;
-  final String leaveLeft;
-  final String overtimeHours;
-  final String lateEarlyCount;
+  @override
+  State<HomeSummaryGrid> createState() => _HomeSummaryGridState();
+}
+
+class _HomeSummaryGridState extends State<HomeSummaryGrid> {
+  String _workedDays = '0';
+  final String _standardDays = '22';
+  String _leaveLeft = '12';
+  String _overtimeHours = '0';
+  String _lateEarlyCount = '0 / 0';
+
+  @override
+  void initState() {
+    super.initState();
+    unawaited(_loadMetrics());
+  }
+
+  Future<void> _loadMetrics() async {
+    // 1. Overtime total hours
+    final otResult = await sl<GetOvertimeRequestsUseCase>()();
+    if (!mounted) return;
+    otResult.fold((_) {}, (list) {
+      double totalOt = 0;
+      for (final item in list) {
+        if (item.status == 1 || item.status == 0) {
+          totalOt += (item.length ?? 0);
+        }
+      }
+      setState(() => _overtimeHours = totalOt % 1 == 0 ? totalOt.toInt().toString() : totalOt.toStringAsFixed(1));
+    });
+
+    // 2. Leave requests count
+    final leaveResult = await sl<GetLeaveRequestsUseCase>()();
+    if (!mounted) return;
+    leaveResult.fold((_) {}, (list) {
+      final usedLeaves = list.where((item) => item.status == 1).length;
+      final remaining = (12 - usedLeaves).clamp(0, 12);
+      setState(() => _leaveLeft = remaining.toString());
+    });
+
+    // 3. Today attendance info
+    final attResult = await sl<GetTodayAttendanceUseCase>()();
+    if (!mounted) return;
+    attResult.fold((_) {}, (today) {
+      final lateCount = today.classification.name == 'late' ? 1 : 0;
+      setState(() {
+        _lateEarlyCount = '$lateCount / 0';
+        if (today.hasCheckedIn) {
+          _workedDays = '1';
+        }
+      });
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -34,8 +80,8 @@ class HomeSummaryGrid extends StatelessWidget {
               child: _buildCard(
                 context: context,
                 label: l10n.metricWorkdays.toUpperCase(),
-                mainValue: workedDays,
-                subValue: ' / $standardDays',
+                mainValue: _workedDays,
+                subValue: ' / $_standardDays',
                 colors: colors,
               ),
             ),
@@ -44,7 +90,7 @@ class HomeSummaryGrid extends StatelessWidget {
               child: _buildCard(
                 context: context,
                 label: l10n.metricLeaveBalance.toUpperCase(),
-                mainValue: leaveLeft,
+                mainValue: _leaveLeft,
                 subValue: ' ${l10n.daysUnit}',
                 colors: colors,
                 mainColor: colors.tealPrimary,
@@ -59,7 +105,7 @@ class HomeSummaryGrid extends StatelessWidget {
               child: _buildCard(
                 context: context,
                 label: l10n.metricOvertime.toUpperCase(),
-                mainValue: overtimeHours,
+                mainValue: _overtimeHours,
                 subValue: l10n.hoursUnit,
                 colors: colors,
               ),
@@ -69,7 +115,7 @@ class HomeSummaryGrid extends StatelessWidget {
               child: _buildCard(
                 context: context,
                 label: l10n.metricLateEarly,
-                mainValue: lateEarlyCount,
+                mainValue: _lateEarlyCount,
                 subValue: '',
                 colors: colors,
               ),

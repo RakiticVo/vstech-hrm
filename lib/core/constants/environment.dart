@@ -15,14 +15,24 @@ enum Environment {
 class EnvConfig {
   const new _();
 
+  static String? _getEnv(String key) {
+    return dotenv.isInitialized ? dotenv.env[key] : null;
+  }
+
   static Environment get current =>
-      Environment.fromString(dotenv.env['ENVIRONMENT']);
+      Environment.fromString(_getEnv('ENVIRONMENT'));
 
   static String get apiBaseUrl =>
-      dotenv.env['API_BASE_URL'] ?? 'https://api.dev.vstech-hrm.example.com';
+      _getEnv('API_BASE_URL') ?? 'https://api.dev.vstech-hrm.example.com';
+
+  static String get faceApiBaseUrl =>
+      _getEnv('FACE_API_BASE_URL') ?? 'https://face.vitinhkimhung.com';
+
+  static String get faceAppCode =>
+      _getEnv('FACE_APP_CODE') ?? 'HRM';
 
   static bool get useMockData =>
-      (dotenv.env['USE_MOCK_DATA'] ?? 'false').toLowerCase() == 'true';
+      (_getEnv('USE_MOCK_DATA') ?? 'false').toLowerCase() == 'true';
 
   static bool get isDev => current == Environment.dev;
   static bool get isProd => current == Environment.prod;

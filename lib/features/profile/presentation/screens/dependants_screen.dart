@@ -6,7 +6,6 @@ import 'package:vstech_hrm/core/router/routes.dart';
 import 'package:vstech_hrm/core/theme/app_colors.dart';
 import 'package:vstech_hrm/core/widgets/app_icon.dart';
 import 'package:vstech_hrm/core/widgets/primary_button.dart';
-import 'package:vstech_hrm/core/widgets/status_chip.dart';
 import 'package:vstech_hrm/features/profile/presentation/widgets/dependant_item_card.dart';
 
 /// Screen displaying registered dependants for Personal Income Tax (PIT) relief.
@@ -18,28 +17,7 @@ class DependantsScreen extends StatefulWidget {
 }
 
 class _DependantsScreenState extends State<DependantsScreen> {
-  final _dependants = const [
-    DependantItemModel(
-      name: 'Nguyễn Minh Khang',
-      relationship: 'Con ruột (< 18 tuổi)',
-      birthDate: '12/08/2020',
-      idNumber: 'GKS: 45/2020/TPHCM',
-      startMonth: '01/2021',
-      reliefAmount: '4.400.000 ₫/tháng',
-      status: 'Đang áp dụng',
-      statusType: AppStatusType.approved,
-    ),
-    DependantItemModel(
-      name: 'Trần Thị Mai',
-      relationship: 'Mẹ ruột (ngoài tuổi lao động)',
-      birthDate: '05/04/1958',
-      idNumber: 'CCCD: 079158000412',
-      startMonth: '06/2023',
-      reliefAmount: '4.400.000 ₫/tháng',
-      status: 'Đang áp dụng',
-      statusType: AppStatusType.approved,
-    ),
-  ];
+  final List<DependantItemModel> _dependants = [];
 
   @override
   Widget build(BuildContext context) {
@@ -153,7 +131,7 @@ class _DependantsScreenState extends State<DependantsScreen> {
                             ),
                             4.gapH,
                             Text(
-                              '8.800.000 ₫',
+                              _dependants.isEmpty ? '0 ₫' : '${_dependants.length * 4400000} ₫',
                               style: TextStyle(
                                 fontSize: 16,
                                 fontWeight: FontWeight.w900,
@@ -181,12 +159,32 @@ class _DependantsScreenState extends State<DependantsScreen> {
             style: TextStyle(fontSize: 14, fontWeight: FontWeight.w800, color: colors.textPrimary),
           ),
           10.gapH,
-          ..._dependants.map(
-            (dep) => Padding(
-              padding: const EdgeInsets.only(bottom: 12),
-              child: DependantItemCard(item: dep),
+          if (_dependants.isEmpty)
+            Container(
+              padding: const EdgeInsets.all(24),
+              decoration: BoxDecoration(
+                color: colors.surface,
+                borderRadius: BorderRadius.circular(16),
+                border: Border.all(color: colors.border),
+              ),
+              child: Center(
+                child: Text(
+                  'Chưa có người phụ thuộc nào được đăng ký.',
+                  style: TextStyle(
+                    fontSize: 13,
+                    color: colors.textSecondary,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+              ),
+            )
+          else
+            ..._dependants.map(
+              (dep) => Padding(
+                padding: const EdgeInsets.only(bottom: 12),
+                child: DependantItemCard(item: dep),
+              ),
             ),
-          ),
         ],
       ),
       bottomNavigationBar: SafeArea(

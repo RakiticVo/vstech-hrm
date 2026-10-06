@@ -1,13 +1,20 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:intl/intl.dart';
+import 'package:vstech_hrm/core/di/injector.dart';
 import 'package:vstech_hrm/core/extensions/l10n_extension.dart';
 import 'package:vstech_hrm/core/responsive/app_layout.dart';
 import 'package:vstech_hrm/core/router/routes.dart';
+import 'package:vstech_hrm/core/session/auth_cubit.dart';
+import 'package:vstech_hrm/core/session/auth_state.dart';
 import 'package:vstech_hrm/core/theme/app_colors.dart';
 import 'package:vstech_hrm/core/widgets/app_icon.dart';
 import 'package:vstech_hrm/core/widgets/primary_button.dart';
 import 'package:vstech_hrm/core/widgets/secondary_button.dart';
+import 'package:vstech_hrm/features/payroll/domain/entities/payslip_entity.dart';
+import 'package:vstech_hrm/features/payroll/domain/usecases/get_payslip_detail_usecase.dart';
 import 'package:vstech_hrm/features/payroll/presentation/widgets/payslip_breakdown_items.dart';
 import 'package:vstech_hrm/features/payroll/presentation/widgets/payslip_signed_card.dart';
 import 'package:vstech_hrm/features/payroll/presentation/widgets/signature_pad_modal.dart';
@@ -24,18 +31,33 @@ class PayslipDetailScreen extends StatefulWidget {
 class _PayslipDetailScreenState extends State<PayslipDetailScreen> {
   bool _isSigned = false;
   List<List<Offset>>? _signatureStrokes;
-  String _signedAt = '05/10/2026 14:22:08';
+  String _signedAt = '';
   final String _verificationHash = 'SHA256: e7a9c24f8b1d30ac68';
+  PayslipEntity? _payslip;
+
+  @override
+  void initState() {
+    super.initState();
+    unawaited(_loadPayslip());
+  }
+
+  Future<void> _loadPayslip() async {
+    if (!sl.isRegistered<GetPayslipDetailUseCase>()) return;
+    final result = await sl<GetPayslipDetailUseCase>()(1);
+    if (!mounted) return;
+    result.fold((_) {}, (data) => setState(() => _payslip = data));
+  }
 
   void _handleOpenSignPad() {
     unawaited(
       SignaturePadModal.show(
         context,
         onConfirmed: (strokes) {
+          final now = DateTime.now();
           setState(() {
             _isSigned = true;
             _signatureStrokes = strokes;
-            _signedAt = '28/09/2026 10:30:15';
+            _signedAt = DateFormat('dd/MM/yyyy HH:mm:ss').format(now);
           });
           ScaffoldMessenger.of(context).showSnackBar(
             const SnackBar(content: Text('Đã ký xác nhận phiếu lương thành công!')),
@@ -53,27 +75,53 @@ class _PayslipDetailScreenState extends State<PayslipDetailScreen> {
         extra: {
           'item': itemName,
           'amount': numeric,
-          'period': '09/2026',
+          'period': '${_payslip?.month ?? DateTime.now().month}/${DateTime.now().year}',
         },
       ),
     );
+  }
+
+  String _fmt(double amount, {bool isNegative = false}) {
+    if (amount == 0) return '0 ₫';
+    final str = NumberFormat('#,###', 'vi_VN').format(amount);
+    return isNegative ? '-$str ₫' : '$str ₫';
   }
 
   @override
   Widget build(BuildContext context) {
     final colors = context.colors;
     final l10n = context.l10n;
+    UserSession? user;
+    try {
+      final authState = context.watch<AuthCubit>().state;
+      if (authState is Authenticated) user = authState.user;
+    } catch (_) {
+      if (sl.isRegistered<AuthCubit>()) {
+        final authState = sl<AuthCubit>().state;
+        if (authState is Authenticated) user = authState.user;
+      }
+    }
+    final userName = user?.name ?? 'Nhân viên';
+    final userCode = user?.employeeCode ?? (_payslip?.employeeCode ?? 'NV');
+
+    final baseSalary = _payslip?.actualBaseSalary ?? 0;
+    final allowance = (_payslip?.actualLunchFee ?? 0) + (_payslip?.actualAllowance ?? 0);
+    final otSalary = _payslip?.actualOvertimeSalary ?? 0;
+    final kpiSalary = _payslip?.actualKpiSalary ?? 0;
+    final insurance = _payslip?.subtractionFund ?? 0;
+    final tax = _payslip?.taxAddition ?? 0;
+    final netSalary = _payslip?.sumPayAmount ?? 0;
 
     final incomes = [
-      (l10n.basicSalaryLabel, '20.000.000 ₫'),
-      (l10n.lunchAndTransportAllowance, '1.200.000 ₫'),
-      (l10n.overtimePayLabel, '1.800.000 ₫'),
-      (l10n.kpiQuarterBonus(3), '2.500.000 ₫'),
+      (l10n.basicSalaryLabel, _fmt(baseSalary)),
+      (l10n.lunchAndTransportAllowance, _fmt(allowance)),
+      (l10n.overtimePayLabel, _fmt(otSalary)),
+      (l10n.kpiQuarterBonus(3), _fmt(kpiSalary)),
     ];
 
     final deductions = [
-      (l10n.socialInsuranceDeduction, '-2.135.000 ₫'),
-      (l10n.personalIncomeTaxDeduction, '-865.000 ₫'),
+      (l10n.socialInsuranceDeduction, _fmt(insurance, isNegative: insurance > 0)),
+      (l10n.personalIncomeTaxDeduction, _fmt(tax, isNegative: tax > 0)),
       (l10n.unionFeeDeduction, '-0 ₫'),
     ];
 
@@ -110,93 +158,92 @@ class _PayslipDetailScreenState extends State<PayslipDetailScreen> {
           ),
         ],
       ),
-      body: ListView(
-        padding: const EdgeInsets.fromLTRB(16, 14, 16, 32),
-        children: [
-          // Employee Header Card
-          _buildEmployeeHeaderCard(colors, l10n),
-          20.gapH,
+      body: RefreshIndicator(
+        onRefresh: _loadPayslip,
+        child: ListView(
+          padding: const EdgeInsets.fromLTRB(16, 14, 16, 32),
+          children: [
+            _buildEmployeeHeaderCard(colors, l10n, userName, userCode),
+            20.gapH,
 
-          // Incomes section
-          Text(
-            l10n.incomeSectionTitle,
-            style: TextStyle(fontSize: 13, fontWeight: FontWeight.w700, color: colors.textSecondary),
-          ),
-          10.gapH,
-          PayslipBreakdownItems(
-            items: incomes,
-            valueColor: colors.textPrimary,
-            onDisputeLine: _handleDisputeLine,
-          ),
-          20.gapH,
-
-          // Deductions section
-          Text(
-            l10n.deductionSectionTitle,
-            style: TextStyle(fontSize: 13, fontWeight: FontWeight.w700, color: colors.textSecondary),
-          ),
-          10.gapH,
-          PayslipBreakdownItems(
-            items: deductions,
-            valueColor: colors.error,
-            onDisputeLine: _handleDisputeLine,
-          ),
-          20.gapH,
-
-          // Net Salary Footer Card
-          Container(
-            decoration: BoxDecoration(
-              color: colors.surface,
-              borderRadius: BorderRadius.circular(16),
-              border: Border.all(color: colors.pineGreen.withValues(alpha: 0.3)),
+            Text(
+              l10n.incomeSectionTitle,
+              style: TextStyle(fontSize: 13, fontWeight: FontWeight.w700, color: colors.textSecondary),
             ),
-            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  l10n.netSalaryLabel,
-                  style: TextStyle(fontSize: 14, fontWeight: FontWeight.w800, color: colors.textPrimary),
-                ),
-                Text(
-                  '25.500.000 ₫',
-                  style: TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.w800,
-                    color: colors.pineGreen,
-                    fontFeatures: const [FontFeature.tabularFigures()],
+            10.gapH,
+            PayslipBreakdownItems(
+              items: incomes,
+              valueColor: colors.textPrimary,
+              onDisputeLine: _handleDisputeLine,
+            ),
+            20.gapH,
+
+            Text(
+              l10n.deductionSectionTitle,
+              style: TextStyle(fontSize: 13, fontWeight: FontWeight.w700, color: colors.textSecondary),
+            ),
+            10.gapH,
+            PayslipBreakdownItems(
+              items: deductions,
+              valueColor: colors.error,
+              onDisputeLine: _handleDisputeLine,
+            ),
+            20.gapH,
+
+            Container(
+              decoration: BoxDecoration(
+                color: colors.surface,
+                borderRadius: BorderRadius.circular(16),
+                border: Border.all(color: colors.pineGreen.withValues(alpha: 0.3)),
+              ),
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    l10n.netSalaryLabel,
+                    style: TextStyle(fontSize: 14, fontWeight: FontWeight.w800, color: colors.textPrimary),
                   ),
-                ),
-              ],
+                  Text(
+                    _fmt(netSalary),
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w800,
+                      color: colors.pineGreen,
+                      fontFeatures: const [FontFeature.tabularFigures()],
+                    ),
+                  ),
+                ],
+              ),
             ),
-          ),
-          20.gapH,
+            20.gapH,
 
-          // Signature Section
-          if (_isSigned)
-            PayslipSignedCard(
-              signerName: 'Nguyễn Minh Tuấn (NV-04821)',
-              signedAt: _signedAt,
-              verificationHash: _verificationHash,
-              signatureStrokes: _signatureStrokes,
-            )
-          else ...[
-            PrimaryButton(
-              text: l10n.signPayslipBtn,
-              onPressed: _handleOpenSignPad,
-            ),
-            12.gapH,
-            SecondaryButton(
-              text: l10n.disputePayslipBtn,
-              onPressed: () => context.push(AppRoutes.salaryDisputeNew),
-            ),
+            if (_isSigned)
+              PayslipSignedCard(
+                signerName: '$userName ($userCode)',
+                signedAt: _signedAt,
+                verificationHash: _verificationHash,
+                signatureStrokes: _signatureStrokes,
+              )
+            else ...[
+              PrimaryButton(
+                text: l10n.signPayslipBtn,
+                onPressed: _handleOpenSignPad,
+              ),
+              12.gapH,
+              SecondaryButton(
+                text: l10n.disputePayslipBtn,
+                onPressed: () => context.push(AppRoutes.salaryDisputeNew),
+              ),
+            ],
           ],
-        ],
+        ),
       ),
     );
   }
 
-  Widget _buildEmployeeHeaderCard(AppColorsExtension colors, AppLocalizations l10n) {
+  Widget _buildEmployeeHeaderCard(AppColorsExtension colors, AppLocalizations l10n, String name, String code) {
+    final period = '${_payslip?.month ?? DateTime.now().month}/${DateTime.now().year}';
     return Container(
       decoration: BoxDecoration(
         color: colors.surface,
@@ -205,59 +252,32 @@ class _PayslipDetailScreenState extends State<PayslipDetailScreen> {
       ),
       padding: const EdgeInsets.all(16),
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Container(
-                width: 44,
-                height: 44,
-                decoration: BoxDecoration(
-                  color: colors.primaryIndigo,
-                  borderRadius: BorderRadius.circular(14),
-                ),
-                child: const Center(
-                  child: Text(
-                    'MT',
-                    style: TextStyle(fontSize: 15, fontWeight: FontWeight.w800, color: Color(0xFFFFF8EC)),
-                  ),
-                ),
+              Text(
+                name,
+                style: TextStyle(fontSize: 16, fontWeight: FontWeight.w800, color: colors.textPrimary),
               ),
-              12.gapW,
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'Nguyễn Minh Tuấn',
-                      style: TextStyle(fontSize: 15, fontWeight: FontWeight.w800, color: colors.textPrimary),
-                    ),
-                    const SizedBox(height: 2),
-                    Text(
-                      'NV-04821 · Vận hành',
-                      style: TextStyle(fontSize: 12, fontWeight: FontWeight.w600, color: colors.textSecondary),
-                    ),
-                  ],
+              Container(
+                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
+                decoration: BoxDecoration(
+                  color: colors.pineGreen.withValues(alpha: 0.12),
+                  borderRadius: BorderRadius.circular(6),
+                ),
+                child: Text(
+                  period,
+                  style: TextStyle(fontSize: 12, fontWeight: FontWeight.w700, color: colors.pineGreen),
                 ),
               ),
             ],
           ),
-          14.gapH,
-          Divider(height: 1, color: colors.border),
-          12.gapH,
-          Text(
-            l10n.payslipNetSalaryMonth('9', '2026'),
-            style: TextStyle(fontSize: 11.5, color: colors.textSecondary, fontWeight: FontWeight.w600),
-          ),
           4.gapH,
           Text(
-            '25.500.000 ₫',
-            style: TextStyle(
-              fontSize: 28,
-              fontWeight: FontWeight.w800,
-              color: colors.pineGreen,
-              letterSpacing: -0.5,
-              fontFeatures: const [FontFeature.tabularFigures()],
-            ),
+            'Mã NV: $code',
+            style: TextStyle(fontSize: 12.5, fontWeight: FontWeight.w600, color: colors.textSecondary),
           ),
         ],
       ),

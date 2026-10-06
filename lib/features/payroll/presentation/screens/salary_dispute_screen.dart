@@ -20,41 +20,7 @@ class SalaryDisputeScreen extends StatefulWidget {
 class _SalaryDisputeScreenState extends State<SalaryDisputeScreen> {
   int _selectedTabIndex = 0;
 
-  final _allDisputes = [
-    _DisputeItem(
-      code: 'KN-2026-0418',
-      period: '09/2026',
-      itemName: 'Lương tăng ca 150%',
-      payslipAmount: '1.800.000 ₫',
-      expectedAmount: '2.450.000 ₫',
-      difference: '+650.000 ₫',
-      status: 'pending',
-      date: '28/09/2026',
-      reason: 'Thiếu 4h tăng ca ngày thứ 7 tuần trước tại cơ sở 1.',
-    ),
-    _DisputeItem(
-      code: 'KN-2026-0390',
-      period: '08/2026',
-      itemName: 'Phụ cấp ăn trưa & đi lại',
-      payslipAmount: '1.000.000 ₫',
-      expectedAmount: '1.200.000 ₫',
-      difference: '+200.000 ₫',
-      status: 'approved',
-      date: '06/09/2026',
-      reason: 'Bổ sung 4 ngày đi công tác ngoại tỉnh.',
-    ),
-    _DisputeItem(
-      code: 'KN-2026-0312',
-      period: '07/2026',
-      itemName: 'Trừ vi phạm quẹt thẻ',
-      payslipAmount: '-300.000 ₫',
-      expectedAmount: '0 ₫',
-      difference: '+300.000 ₫',
-      status: 'rejected',
-      date: '07/08/2026',
-      reason: 'Quên chấm công ra ca tối nhưng có camera ghi nhận.',
-    ),
-  ];
+  final List<_DisputeItem> _allDisputes = [];
 
   @override
   Widget build(BuildContext context) {

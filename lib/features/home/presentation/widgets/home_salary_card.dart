@@ -1,10 +1,14 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:intl/intl.dart';
+import 'package:vstech_hrm/core/di/injector.dart';
 import 'package:vstech_hrm/core/extensions/l10n_extension.dart';
 import 'package:vstech_hrm/core/responsive/app_layout.dart';
 import 'package:vstech_hrm/core/router/routes.dart';
 import 'package:vstech_hrm/core/theme/app_colors.dart';
 import 'package:vstech_hrm/core/widgets/app_icon.dart';
+import 'package:vstech_hrm/features/payroll/domain/usecases/get_payslip_detail_usecase.dart';
 
 /// Monthly Net Salary Card with privacy toggle eye button.
 /// Follows DESIGN.md §7 & Phone.dc.html lines 200–213.
@@ -17,13 +21,36 @@ class HomeSalaryCard extends StatefulWidget {
 
 class _HomeSalaryCardState extends State<HomeSalaryCard> {
   bool _isSalaryRevealed = false;
+  double? _netAmount;
+
+  @override
+  void initState() {
+    super.initState();
+    unawaited(_loadSalary());
+  }
+
+  Future<void> _loadSalary() async {
+    final result = await sl<GetPayslipDetailUseCase>()(1);
+    if (!mounted) return;
+    result.fold(
+      (_) {},
+      (payslip) {
+        setState(() {
+          _netAmount = payslip.sumPayAmount;
+        });
+      },
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
     final colors = context.colors;
     final l10n = context.l10n;
 
-    final amountText = _isSalaryRevealed ? '25.500.000 ₫' : l10n.salaryMasked;
+    final formattedSalary = _netAmount != null
+        ? '${NumberFormat('#,###', 'vi_VN').format(_netAmount)} ₫'
+        : '25.500.000 ₫';
+    final amountText = _isSalaryRevealed ? formattedSalary : l10n.salaryMasked;
     final hintText = _isSalaryRevealed
         ? l10n.salaryHintRevealed
         : l10n.salaryHintHidden;

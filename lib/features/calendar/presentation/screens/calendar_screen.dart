@@ -129,7 +129,7 @@ class CalendarScreen extends StatelessWidget {
 
               return InkWell(
                 borderRadius: BorderRadius.circular(11),
-                onTap: item.isRedDay ? () => context.push(AppRoutes.attendanceCorrection) : null,
+                onTap: null,
                 child: Container(
                   decoration: BoxDecoration(
                     color: item.bgColor,

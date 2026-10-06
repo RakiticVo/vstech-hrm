@@ -21,63 +21,22 @@ class MyReferralsScreen extends StatefulWidget {
 class _MyReferralsScreenState extends State<MyReferralsScreen> {
   int _selectedFilterIndex = 0;
 
-  final _candidates = const [
-    ReferredCandidateItem(
-      code: 'REF-2026-0812',
-      name: 'Trần Anh Khoa',
-      position: 'Quản lý cửa hàng',
-      branch: 'Chi nhánh 01 (Quận 1)',
-      appliedDate: '26/09/2026',
-      currentStageIndex: 2, // 0: Received, 1: Interview, 2: Probation, 3: Hired
-      stageLabel: 'Đang thử việc (Tháng 2/2)',
-      bonusAmount: '3.000.000 ₫',
-      statusType: AppStatusType.inProgress,
-    ),
-    ReferredCandidateItem(
-      code: 'REF-2026-0740',
-      name: 'Lê Hoàng Yến',
-      position: 'Chuyên viên Đào tạo',
-      branch: 'Trụ sở chính',
-      appliedDate: '15/07/2026',
-      currentStageIndex: 3,
-      stageLabel: 'Đã ký HĐ & Đã nhận thưởng',
-      bonusAmount: '3.000.000 ₫',
-      statusType: AppStatusType.approved,
-    ),
-    ReferredCandidateItem(
-      code: 'REF-2026-0801',
-      name: 'Nguyễn Quốc Bảo',
-      position: 'Giám sát kho',
-      branch: 'Kho Dĩ An',
-      appliedDate: '20/09/2026',
-      currentStageIndex: 1,
-      stageLabel: 'Phỏng vấn vòng 2 (Trực tiếp)',
-      bonusAmount: '2.500.000 ₫',
-      statusType: AppStatusType.pending,
-    ),
-    ReferredCandidateItem(
-      code: 'REF-2026-0685',
-      name: 'Phạm Minh Tuấn',
-      position: 'Thu ngân',
-      branch: 'Chi nhánh 02',
-      appliedDate: '10/06/2026',
-      currentStageIndex: 1,
-      stageLabel: 'Không phù hợp tiêu chí',
-      bonusAmount: '0 ₫',
-      statusType: AppStatusType.rejected,
-    ),
-  ];
+  final List<ReferredCandidateItem> _candidates = [];
 
   @override
   Widget build(BuildContext context) {
     final colors = context.colors;
     final l10n = context.l10n;
 
+    final inProgressCount = _candidates.where((c) => c.statusType == AppStatusType.inProgress || c.statusType == AppStatusType.pending).length;
+    final approvedCount = _candidates.where((c) => c.statusType == AppStatusType.approved).length;
+    final rejectedCount = _candidates.where((c) => c.statusType == AppStatusType.rejected).length;
+
     final filterTabs = [
-      'Tất cả (4)',
-      'Đang xử lý (2)',
-      'Đã nhận thưởng (1)',
-      'Không phù hợp (1)',
+      'Tất cả (${_candidates.length})',
+      'Đang xử lý ($inProgressCount)',
+      'Đã nhận thưởng ($approvedCount)',
+      'Không phù hợp ($rejectedCount)',
     ];
 
     final filtered = _candidates.where((c) {

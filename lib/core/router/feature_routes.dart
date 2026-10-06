@@ -11,6 +11,7 @@ import 'package:vstech_hrm/features/attendance/domain/entities/attendance_record
 import 'package:vstech_hrm/features/attendance/presentation/bloc/attendance_bloc.dart';
 import 'package:vstech_hrm/features/attendance/presentation/cubit/offline_queue_cubit.dart';
 import 'package:vstech_hrm/features/attendance/presentation/screens/device_block_screen.dart';
+import 'package:vstech_hrm/features/attendance/presentation/screens/face_enrollment_screen.dart';
 import 'package:vstech_hrm/features/attendance/presentation/screens/face_scan_screen.dart';
 import 'package:vstech_hrm/features/attendance/presentation/screens/offline_queue_screen.dart';
 import 'package:vstech_hrm/features/calendar/presentation/screens/calendar_screen.dart';
@@ -232,6 +233,7 @@ List<RouteBase> getStandaloneFeatureRoutes() => [
   GoRoute(path: AppRoutes.documentManagement, builder: (context, state) => const DocumentManagementScreen()),
   GoRoute(path: AppRoutes.dependants, builder: (context, state) => const DependantsScreen()),
   GoRoute(path: AppRoutes.dependantNew, builder: (context, state) => const DependantNewScreen()),
+  GoRoute(path: AppRoutes.faceEnrollment, builder: (context, state) => const FaceEnrollmentScreen()),
   GoRoute(path: AppRoutes.onboardingHome, builder: (context, state) => const OnboardingHomeScreen()),
   GoRoute(path: AppRoutes.onboardingOffer, builder: (context, state) => const OfferLetterScreen()),
   GoRoute(path: AppRoutes.onboardingOrg, builder: (context, state) => const OrgChartIntroScreen()),

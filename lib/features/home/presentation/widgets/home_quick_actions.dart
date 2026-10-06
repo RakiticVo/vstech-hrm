@@ -20,18 +20,12 @@ class HomeQuickActions extends StatelessWidget {
       _ActionItem(
         label: l10n.quickActionLeave,
         iconName: AppIcons.leave,
-        onTap: () => context.push(AppRoutes.leaveCreate),
+        onTap: () => context.push(AppRoutes.leaveManage),
       ),
       _ActionItem(
         label: l10n.quickActionOvertime,
         iconName: AppIcons.overtime,
-        onTap: () => context.push(AppRoutes.overtimeCreate),
-      ),
-      _ActionItem(
-        label: l10n.quickActionCorrection,
-        iconName: AppIcons.correction,
-        badge: '1',
-        onTap: () => context.push(AppRoutes.attendanceCorrection),
+        onTap: () => context.push(AppRoutes.overtimeManage),
       ),
       _ActionItem(
         label: l10n.quickActionPayroll,

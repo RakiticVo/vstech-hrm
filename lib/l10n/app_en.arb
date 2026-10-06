@@ -27,7 +27,9 @@
 
   "loginSubtitle": "Smart Human Resource Management",
   "loginInstruction": "Enter your employee ID and password",
+  "noSavedCredentialsForBiometric": "Please log in with your credentials at least once to enable this feature",
   "loginButton": "LOG IN",
+  "rememberMe": "Remember me",
   "biometricLogin": "Sign in with Face ID / Biometrics",
   "demoQuickLogin": "Quick Login (Demo Mode)",
   "demoEmployee": "Employee",
@@ -40,8 +42,8 @@
 
   "todayWorkedHours": "TODAY'S WORKED HOURS",
   "todayShiftLabel": "Today's Shift",
-  "clockInCta": "CLOCK IN",
-  "clockOutCta": "CLOCK OUT",
+  "clockInCta": "CHECK IN",
+  "clockOutCta": "CHECK OUT",
   "timeIn": "Time in",
   "timeOut": "Time out",
   "lateMinutes": "Late",
@@ -69,7 +71,7 @@
 
   "shiftCheckInLabel": "CHECK-IN",
   "shiftCheckOutLabel": "CHECK-OUT",
-  "shiftDoneCta": "SHIFT DONE",
+  "shiftDoneCta": "CHECK OUT",
   "shiftCheckOutCta": "CHECK OUT",
   "todayShiftDefault": "Today's shift 08:00 — 17:00",
 
@@ -117,10 +119,12 @@
   "zeroMinutes": "0 min",
   "offlineAttendanceModeLabel": "Offline Punch (Vector ≥ 85%)",
   "onlineAttendanceModeLabel": "Online Mode",
-  "faceScanCheckInTitle": "Clock-in Face Scan",
-  "faceScanCheckOutTitle": "Clock-out Face Scan",
-  "faceScanCaptureCheckInCta": "Capture & Clock In",
-  "faceScanCaptureCheckOutCta": "Capture & Clock Out",
+  "faceScanCheckInTitle": "Face Check In",
+  "faceScanCheckOutTitle": "Face Check Out",
+  "faceScanCaptureCheckInCta": "Capture & Check In",
+  "faceScanCaptureCheckOutCta": "Capture & Check Out",
+  "faceCheckingRegistration": "Checking face registration...",
+  "faceCheckingButton": "Checking...",
   "offlineLocationLabel": "HCM Office (Local GPS Check)",
   "offlineMatchSuccess": "Face match {pct}% (≥ 85%). Saved to offline queue.",
   "@offlineMatchSuccess": {
@@ -608,12 +612,16 @@
   "biometricUnlockDesc": "Use Face ID or Fingerprint to unlock",
   "autoLock": "Auto Lock",
   "autoLockDesc": "Lock app immediately when switching apps",
+  "displaySection": "Display",
+  "themeModeLabel": "Theme Mode",
+  "languageLabel": "Language",
   "designAndSystemSection": "Design & System",
   "uiStateShowcase": "Showcase 4 UI States (Empty, Shimmer, Error, Success)",
   "uiStateShowcaseDesc": "Inspect Empty, Loading Shimmer, Error & Success layouts",
   "clearCache": "Clear App Cache",
   "cacheClearedSnackbar": "Cache cleaned successfully",
   "enableNotificationInSettings": "Please enable notification permissions in system settings",
+  "appVersionFooter": "Version 1.0.0 · Build 2026",
 
   "allServicesTitle": "All Services",
   "categoryAttendanceTime": "Time & Attendance",
@@ -1006,9 +1014,9 @@
   "leaveSaveDraftBtn": "Save Draft",
   "leaveDraftSaved": "Draft saved successfully!",
 
-  "otRateWeekday": "Weekday (150%)",
-  "otRateWeekend": "Weekly Off (200%)",
-  "otRateHoliday": "Holiday (300%)",
+  "otRateWeekday": "Weekday",
+  "otRateWeekend": "Weekend",
+  "otRateHoliday": "Holiday",
   "otCompensationType": "Compensation Type",
   "otCompensationPay": "Paid Overtime",
   "otCompensationCompOff": "Convert to Comp-off",
@@ -1074,11 +1082,21 @@
   "faceThumbnailLabel": "AI Face Verification Snapshot",
 
   "approvalTypeFilterAll": "All",
-  "approvalTypeFilterLeave": "Leave",
+  "approvalTypeFilterCorrection": "Timesheet Confirm",
   "approvalTypeFilterOT": "Overtime",
-  "approvalTypeFilterCorrection": "Correction",
+  "approvalTypeFilterLeave": "Leave",
   "approvalTypeFilterSwap": "Shift Swap",
   "approvalTypeFilterOffSite": "Off-site",
+  "confirmTimesheetDialogTitle": "Timesheet Confirmation",
+  "confirmTimesheetHoursLabel": "Confirmed Work Hours",
+  "confirmTimesheetNoteLabel": "Confirmation Note (Optional)",
+  "confirmTimesheetSubmitBtn": "Confirm Worktime",
+  "confirmTimesheetSuccess": "Confirmed timesheet for {name}",
+  "@confirmTimesheetSuccess": {
+    "placeholders": {
+      "name": {"type": "String"}
+    }
+  },
   "approvalAttendanceSnippet": "Attendance on relevant date",
   "approvalSwapBothSchedules": "Both employees' schedules",
   "approvalInternalNoteLabel": "Internal Note (Manager only)",
@@ -1136,9 +1154,9 @@
   "createLeaveBtn": "New Leave Request",
   "overtimeManageTitle": "Overtime Management",
   "totalOvertimeHours": "Total Overtime Hours",
-  "rateNormal150": "Regular 150%",
-  "rateWeekend200": "Weekend 200%",
-  "rateHoliday300": "Holiday 300%",
+  "rateNormal150": "Weekday",
+  "rateWeekend200": "Weekend",
+  "rateHoliday300": "Holiday",
   "createOvertimeBtn": "Request Overtime",
   "correctionManageTitle": "Timesheet Correction Management",
   "correctionQuotaTitle": "Monthly Correction Quota",
@@ -1411,5 +1429,8 @@
   "contractSignedSuccess": "Digital probation contract signed successfully",
   "dayOneGuideTitle": "Day One Survival Guide",
   "dayOneChecklistTitle": "Essential Notes for Day One",
-  "startNextStepBtn": "Continue Next Step"
+  "startNextStepBtn": "Continue Next Step",
+  "faceAuthTitle": "Face Authentication",
+  "faceNotRegisteredPrompt": "Your face is not registered in the system. Please register your face in your Profile before clocking in/out.",
+  "goToProfileCta": "Go to Profile"
 }

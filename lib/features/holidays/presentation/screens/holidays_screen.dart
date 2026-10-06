@@ -1,26 +1,79 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:vstech_hrm/core/di/injector.dart';
 import 'package:vstech_hrm/core/extensions/l10n_extension.dart';
 import 'package:vstech_hrm/core/responsive/app_layout.dart';
 import 'package:vstech_hrm/core/router/routes.dart';
 import 'package:vstech_hrm/core/theme/app_colors.dart';
 import 'package:vstech_hrm/core/widgets/app_icon.dart';
+import 'package:vstech_hrm/features/holidays/domain/usecases/get_holidays_usecase.dart';
 
 /// Screen 08: National Holidays and Compensatory Leave days matching reference design.
-class HolidaysScreen extends StatelessWidget {
+class HolidaysScreen extends StatefulWidget {
   const new({super.key});
+
+  @override
+  State<HolidaysScreen> createState() => _HolidaysScreenState();
+}
+
+class _HolidaysScreenState extends State<HolidaysScreen> {
+  bool _isLoading = false;
+  List<_HolidayItem> _holidays = [];
+
+  @override
+  void initState() {
+    super.initState();
+    unawaited(_loadHolidays());
+  }
+
+  Future<void> _loadHolidays() async {
+    setState(() => _isLoading = true);
+    final result = await sl<GetHolidaysUseCase>()();
+    if (!mounted) return;
+    final colors = context.colors;
+    result.fold(
+      (_) => setState(() => _isLoading = false),
+      (entities) {
+        setState(() {
+          _isLoading = false;
+          _holidays = entities.map((h) {
+            var day = '01';
+            var month = 'TH1';
+            if (h.date.contains('-')) {
+              final parts = h.date.split('-');
+              if (parts.length >= 3) {
+                day = parts[2].padLeft(2, '0');
+                month = 'TH${int.tryParse(parts[1]) ?? 1}';
+              }
+            } else if (h.date.contains('/')) {
+              final parts = h.date.split('/');
+              if (parts.length >= 2) {
+                day = parts[0].padLeft(2, '0');
+                month = 'TH${int.tryParse(parts[1]) ?? 1}';
+              }
+            }
+            final isOptional = h.symbol?.toLowerCase().contains('opt') ?? false;
+            final tintColor = isOptional ? colors.accentAmber : colors.primaryIndigo;
+            final bgTint = tintColor.withValues(alpha: isOptional ? 0.14 : 0.12);
+            return _HolidayItem(
+              day,
+              month,
+              h.name,
+              h.symbol ?? 'Ngày nghỉ lễ',
+              isOptional ? 'Tự chọn' : 'Ngày lễ',
+              tintColor,
+              bgTint,
+            );
+          }).toList();
+        });
+      },
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
     final colors = context.colors;
-
-    final holidays = [
-      _HolidayItem('02', 'TH9', 'Quốc khánh', 'Thứ Tư', 'Ngày lễ', colors.primaryIndigo, colors.primaryIndigo.withValues(alpha: 0.12)),
-      _HolidayItem('30', 'TH4', 'Giải phóng miền Nam', 'Thứ Năm', 'Ngày lễ', colors.primaryIndigo, colors.primaryIndigo.withValues(alpha: 0.12)),
-      _HolidayItem('01', 'TH5', 'Quốc tế Lao động', 'Thứ Sáu', 'Ngày lễ', colors.primaryIndigo, colors.primaryIndigo.withValues(alpha: 0.12)),
-      _HolidayItem('24', 'TH12', 'Giáng sinh', 'Thứ Năm', 'Tự chọn', colors.accentAmber, colors.accentAmber.withValues(alpha: 0.14)),
-      _HolidayItem('17', 'TH2', 'Tết Nguyên đán', 'Thứ Ba', 'Ngày lễ', colors.primaryIndigo, colors.primaryIndigo.withValues(alpha: 0.12)),
-    ];
 
     return Scaffold(
       backgroundColor: colors.background,
@@ -55,40 +108,48 @@ class HolidaysScreen extends StatelessWidget {
           ),
         ],
       ),
-      body: ListView(
-        padding: const EdgeInsets.fromLTRB(16, 14, 16, 24),
-        children: [
-          // 3 Top Stat Cards
-          Row(
-            children: [
-              Expanded(
-                child: _buildStatCard('14', context.l10n.nationalHolidaysStat, colors),
-              ),
-              10.gapW,
-              Expanded(
-                child: _buildStatCard('3', context.l10n.compensatoryLeaveStat, colors),
-              ),
-              10.gapW,
-              Expanded(
-                child: _buildStatCard('2', context.l10n.optionalHolidaysStat, colors),
-              ),
-            ],
-          ),
-          18.gapH,
+      body: RefreshIndicator(
+        onRefresh: _loadHolidays,
+        child: ListView(
+          padding: const EdgeInsets.fromLTRB(16, 14, 16, 24),
+          children: [
+            // 3 Top Stat Cards
+            Row(
+              children: [
+                Expanded(
+                  child: _buildStatCard('${_holidays.length}', context.l10n.nationalHolidaysStat, colors),
+                ),
+                10.gapW,
+                Expanded(
+                  child: _buildStatCard('3', context.l10n.compensatoryLeaveStat, colors),
+                ),
+                10.gapW,
+                Expanded(
+                  child: _buildStatCard('2', context.l10n.optionalHolidaysStat, colors),
+                ),
+              ],
+            ),
+            18.gapH,
 
-          // Holiday Items List
-          ...holidays.map((h) => Padding(
-                padding: const EdgeInsets.only(bottom: 11),
-                child: InkWell(
-                  borderRadius: BorderRadius.circular(18),
-                  onTap: () => context.push(AppRoutes.overtimeCreate),
-                  child: Container(
-                    decoration: BoxDecoration(
-                      color: colors.surface,
+            // Holiday Items List
+            if (_isLoading)
+              const Padding(
+                padding: EdgeInsets.symmetric(vertical: 40),
+                child: Center(child: CircularProgressIndicator()),
+              )
+            else
+              ..._holidays.map((h) => Padding(
+                    padding: const EdgeInsets.only(bottom: 11),
+                    child: InkWell(
                       borderRadius: BorderRadius.circular(18),
-                      border: Border.all(color: colors.border),
-                    ),
-                    padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+                      onTap: () => context.push(AppRoutes.overtimeCreate),
+                      child: Container(
+                        decoration: BoxDecoration(
+                          color: colors.surface,
+                          borderRadius: BorderRadius.circular(18),
+                          border: Border.all(color: colors.border),
+                        ),
+                        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
                     child: Row(
                       children: [
                       // Date Box Badge
@@ -172,8 +233,11 @@ class HolidaysScreen extends StatelessWidget {
                     ],
                   ),
                 ),
-              ))),
-        ],
+              ),
+            ),
+          ),
+          ],
+        ),
       ),
     );
   }

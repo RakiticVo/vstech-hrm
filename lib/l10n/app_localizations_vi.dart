@@ -85,7 +85,14 @@ class AppLocalizationsVi extends AppLocalizations {
   String get loginInstruction => 'Nhập mã nhân viên và mật khẩu của bạn';
 
   @override
+  String get noSavedCredentialsForBiometric =>
+      'Vui lòng đăng nhập bằng tài khoản và mật khẩu trước để kích hoạt tính năng này';
+
+  @override
   String get loginButton => 'ĐĂNG NHẬP HỆ THỐNG';
+
+  @override
+  String get rememberMe => 'Ghi nhớ';
 
   @override
   String get biometricLogin => 'Đăng nhập bằng Face ID / Vân tay';
@@ -118,10 +125,10 @@ class AppLocalizationsVi extends AppLocalizations {
   String get todayShiftLabel => 'Ca hôm nay';
 
   @override
-  String get clockInCta => 'CHẤM CÔNG VÀO';
+  String get clockInCta => 'CHECK IN';
 
   @override
-  String get clockOutCta => 'CHẤM CÔNG RA';
+  String get clockOutCta => 'CHECK OUT';
 
   @override
   String get timeIn => 'Giờ vào';
@@ -190,10 +197,10 @@ class AppLocalizationsVi extends AppLocalizations {
   String get shiftCheckOutLabel => 'RA VỀ';
 
   @override
-  String get shiftDoneCta => 'XONG CA';
+  String get shiftDoneCta => 'CHECK OUT';
 
   @override
-  String get shiftCheckOutCta => 'CHẤM RA';
+  String get shiftCheckOutCta => 'CHECK OUT';
 
   @override
   String get todayShiftDefault => 'Ca hôm nay 08:00 — 17:00';
@@ -285,16 +292,22 @@ class AppLocalizationsVi extends AppLocalizations {
   String get onlineAttendanceModeLabel => 'Chế độ Trực tuyến (Online)';
 
   @override
-  String get faceScanCheckInTitle => 'Chấm công Giờ vào';
+  String get faceScanCheckInTitle => 'Check in khuôn mặt';
 
   @override
-  String get faceScanCheckOutTitle => 'Chấm công Giờ ra';
+  String get faceScanCheckOutTitle => 'Check out khuôn mặt';
 
   @override
-  String get faceScanCaptureCheckInCta => 'Chụp ảnh & Chấm công Vào';
+  String get faceScanCaptureCheckInCta => 'Chụp ảnh & Check in';
 
   @override
-  String get faceScanCaptureCheckOutCta => 'Chụp ảnh & Chấm công Ra';
+  String get faceScanCaptureCheckOutCta => 'Chụp ảnh & Check out';
+
+  @override
+  String get faceCheckingRegistration => 'Đang kiểm tra dữ liệu khuôn mặt...';
+
+  @override
+  String get faceCheckingButton => 'Đang kiểm tra...';
 
   @override
   String get offlineLocationLabel => 'Văn phòng HCM (Đối soát GPS cục bộ)';
@@ -1205,6 +1218,15 @@ class AppLocalizationsVi extends AppLocalizations {
   String get autoLockDesc => 'Khoá app ngay khi chuyển sang ứng dụng khác';
 
   @override
+  String get displaySection => 'Hiển thị';
+
+  @override
+  String get themeModeLabel => 'Chế độ giao diện';
+
+  @override
+  String get languageLabel => 'Ngôn ngữ';
+
+  @override
   String get designAndSystemSection => 'Thiết kế & Hệ thống';
 
   @override
@@ -1224,6 +1246,9 @@ class AppLocalizationsVi extends AppLocalizations {
   @override
   String get enableNotificationInSettings =>
       'Vui lòng bật quyền Thông báo trong Cài đặt hệ thống';
+
+  @override
+  String get appVersionFooter => 'Phiên bản 1.0.0 · Bản dựng 2026';
 
   @override
   String get allServicesTitle => 'Tất cả dịch vụ';
@@ -2192,13 +2217,13 @@ class AppLocalizationsVi extends AppLocalizations {
   String get leaveDraftSaved => 'Đã lưu bản nháp thành công!';
 
   @override
-  String get otRateWeekday => 'Ngày thường (150%)';
+  String get otRateWeekday => 'Ngày thường';
 
   @override
-  String get otRateWeekend => 'Nghỉ tuần (200%)';
+  String get otRateWeekend => 'Cuối tuần';
 
   @override
-  String get otRateHoliday => 'Ngày lễ (300%)';
+  String get otRateHoliday => 'Ngày lễ';
 
   @override
   String get otCompensationType => 'Hình thức tính bù';
@@ -2353,19 +2378,36 @@ class AppLocalizationsVi extends AppLocalizations {
   String get approvalTypeFilterAll => 'Tất cả';
 
   @override
-  String get approvalTypeFilterLeave => 'Nghỉ phép';
+  String get approvalTypeFilterCorrection => 'Xác nhận giờ công';
 
   @override
   String get approvalTypeFilterOT => 'Tăng ca';
 
   @override
-  String get approvalTypeFilterCorrection => 'Sửa công';
+  String get approvalTypeFilterLeave => 'Nghỉ phép';
 
   @override
   String get approvalTypeFilterSwap => 'Đổi ca';
 
   @override
   String get approvalTypeFilterOffSite => 'Đi việc ngoài';
+
+  @override
+  String get confirmTimesheetDialogTitle => 'Xác nhận giờ công';
+
+  @override
+  String get confirmTimesheetHoursLabel => 'Số giờ công xác nhận';
+
+  @override
+  String get confirmTimesheetNoteLabel => 'Ghi chú xác nhận (tuỳ chọn)';
+
+  @override
+  String get confirmTimesheetSubmitBtn => 'Xác nhận công';
+
+  @override
+  String confirmTimesheetSuccess(String name) {
+    return 'Đã xác nhận giờ công cho $name';
+  }
 
   @override
   String get approvalAttendanceSnippet => 'Chấm công ngày liên quan';
@@ -2511,13 +2553,13 @@ class AppLocalizationsVi extends AppLocalizations {
   String get totalOvertimeHours => 'Tổng giờ tăng ca';
 
   @override
-  String get rateNormal150 => 'Ngày thường 150%';
+  String get rateNormal150 => 'Ngày thường';
 
   @override
-  String get rateWeekend200 => 'Cuối tuần 200%';
+  String get rateWeekend200 => 'Cuối tuần';
 
   @override
-  String get rateHoliday300 => 'Ngày lễ 300%';
+  String get rateHoliday300 => 'Ngày lễ';
 
   @override
   String get createOvertimeBtn => 'Đăng ký tăng ca';
@@ -3081,4 +3123,14 @@ class AppLocalizationsVi extends AppLocalizations {
 
   @override
   String get startNextStepBtn => 'Thực hiện bước tiếp theo';
+
+  @override
+  String get faceAuthTitle => 'Nhận diện khuôn mặt';
+
+  @override
+  String get faceNotRegisteredPrompt =>
+      'Bạn chưa đăng ký khuôn mặt trên hệ thống. Vui lòng đăng ký nhận diện khuôn mặt tại trang Cá nhân trước khi chấm công.';
+
+  @override
+  String get goToProfileCta => 'Đến trang Cá nhân';
 }
