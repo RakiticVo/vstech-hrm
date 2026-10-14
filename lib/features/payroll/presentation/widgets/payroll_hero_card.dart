@@ -12,7 +12,7 @@ import 'package:vstech_hrm/features/payroll/presentation/widgets/payslip_auth_di
 
 /// Hero tile card displaying net salary, pay date, and view payslip action.
 class PayrollHeroCard extends StatelessWidget {
-  const PayrollHeroCard({
+  const new({
     required this.isSalaryVisible,
     this.payslip,
     super.key,
@@ -59,13 +59,12 @@ class PayrollHeroCard extends StatelessWidget {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Expanded(
+                      Flexible(
                         child: Text(
                           context.l10n.payrollNetSalaryTitle,
                           maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
                           style: const TextStyle(
-                            fontSize: 10.5,
+                            fontSize: 11,
                             fontWeight: FontWeight.w800,
                             letterSpacing: 0.8,
                             color: Color(0xFFFFF8EC),
@@ -74,31 +73,48 @@ class PayrollHeroCard extends StatelessWidget {
                       ),
                       8.gapW,
                       Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 9, vertical: 4),
+                        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3.5),
                         decoration: BoxDecoration(
-                          color: const Color(0xFFFFF8EC).withValues(alpha: 0.2),
+                          color: const Color(0xFFFFF8EC).withValues(alpha: 0.18),
                           borderRadius: BorderRadius.circular(8),
-                        ),
-                        child: Text(
-                          context.l10n.payrollPeriodSubtitle(periodMonth, '${DateTime.now().year}'),
-                          style: const TextStyle(
-                            fontSize: 11.5,
-                            fontWeight: FontWeight.w800,
-                            color: Color(0xFFFFF8EC),
+                          border: Border.all(
+                            color: const Color(0xFFFFF8EC).withValues(alpha: 0.25),
                           ),
+                        ),
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            const AppIcon(AppIcons.calendar, size: 12, color: Color(0xFFFFF8EC)),
+                            4.gapW,
+                            Text(
+                              context.l10n.timesheetMonthDisplay(
+                                int.tryParse(periodMonth) ?? DateTime.now().month,
+                                DateTime.now().year,
+                              ),
+                              style: const TextStyle(
+                                fontSize: 11,
+                                fontWeight: FontWeight.w800,
+                                color: Color(0xFFFFF8EC),
+                              ),
+                            ),
+                          ],
                         ),
                       ),
                     ],
                   ),
                   6.gapH,
-                  Text(
-                    displayNet,
-                    style: const TextStyle(
-                      fontSize: 34,
-                      fontWeight: FontWeight.w800,
-                      letterSpacing: -1.3,
-                      color: Color(0xFFFFF8EC),
-                      fontFeatures: [FontFeature.tabularFigures()],
+                  FittedBox(
+                    fit: BoxFit.scaleDown,
+                    alignment: Alignment.centerLeft,
+                    child: Text(
+                      displayNet,
+                      style: const TextStyle(
+                        fontSize: 34,
+                        fontWeight: FontWeight.w800,
+                        letterSpacing: -1.3,
+                        color: Color(0xFFFFF8EC),
+                        fontFeatures: [FontFeature.tabularFigures()],
+                      ),
                     ),
                   ),
                   16.gapH,

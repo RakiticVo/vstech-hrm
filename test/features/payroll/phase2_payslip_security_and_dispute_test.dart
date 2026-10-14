@@ -6,6 +6,7 @@ import 'package:vstech_hrm/features/payroll/presentation/screens/payslip_detail_
 import 'package:vstech_hrm/features/payroll/presentation/screens/payslip_lock_screen.dart';
 import 'package:vstech_hrm/features/payroll/presentation/screens/salary_dispute_new_screen.dart';
 import 'package:vstech_hrm/features/payroll/presentation/screens/salary_dispute_screen.dart';
+import 'package:vstech_hrm/features/payroll/presentation/widgets/payroll_hero_card.dart';
 import 'package:vstech_hrm/features/payroll/presentation/widgets/payslip_signed_card.dart';
 import 'package:vstech_hrm/l10n/app_localizations.dart';
 
@@ -83,11 +84,7 @@ void main() {
 
       await tester.pumpWidget(
         _wrapWithApp(
-          const SalaryDisputeNewScreen(
-            prefilledItem: 'Lương tăng ca 150%',
-            prefilledCurrentAmount: 1800000,
-            periodMonth: '09/2026',
-          ),
+          const SalaryDisputeNewScreen(),
         ),
       );
       await tester.pumpAndSettle();
@@ -113,6 +110,23 @@ void main() {
       expect(find.text('Quản lý Khiếu nại lương'), findsOneWidget);
       expect(find.text('Tất cả'), findsOneWidget);
       expect(find.widgetWithText(ChoiceChip, 'Đang đối soát'), findsOneWidget);
+    });
+
+    testWidgets('PayrollHeroCard renders net salary label, month tag without overflow and view button', (tester) async {
+      await tester.pumpWidget(
+        _wrapWithApp(
+          const Scaffold(
+            body: SingleChildScrollView(
+              child: PayrollHeroCard(isSalaryVisible: true),
+            ),
+          ),
+        ),
+      );
+      await tester.pumpAndSettle();
+
+      expect(find.text('LƯƠNG THỰC NHẬN (NET)'), findsOneWidget);
+      expect(find.text('Tháng 10/2026'), findsOneWidget);
+      expect(find.text('Xem phiếu lương'), findsOneWidget);
     });
   });
 }
