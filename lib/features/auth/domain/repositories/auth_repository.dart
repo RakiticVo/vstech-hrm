@@ -7,4 +7,5 @@ import 'package:vstech_hrm/features/auth/domain/entities/login_params.dart';
 abstract class AuthRepository {
   Future<Either<Failure, AuthResultEntity>> login(LoginParams params);
   Future<Either<Failure, bool>> checkAuth();
+  Future<Either<Failure, void>> logout();
 }

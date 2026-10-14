@@ -4540,8 +4540,14 @@ abstract class AppLocalizations {
   /// No description provided for @approvalTypeFilterCorrection.
   ///
   /// In vi, this message translates to:
-  /// **'Xác nhận giờ công'**
+  /// **'Giải trình / Sửa công'**
   String get approvalTypeFilterCorrection;
+
+  /// No description provided for @approvalTypeFilterTimesheet.
+  ///
+  /// In vi, this message translates to:
+  /// **'Bảng công'**
+  String get approvalTypeFilterTimesheet;
 
   /// No description provided for @approvalTypeFilterOT.
   ///

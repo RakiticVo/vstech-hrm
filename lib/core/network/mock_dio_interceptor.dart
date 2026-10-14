@@ -147,6 +147,39 @@ class MockDioInterceptor extends Interceptor {
             },
           ),
         );
+      } else if (path.contains(ApiEndpoints.logout)) {
+        return handler.resolve(
+          Response<dynamic>(
+            requestOptions: options,
+            statusCode: 200,
+            data: <String, dynamic>{
+              'code': 0,
+              'message': 'Đăng xuất thành công',
+            },
+          ),
+        );
+      } else if (path.contains('/api/TimesheetConfirmRequests/confirm/')) {
+        return handler.resolve(
+          Response<dynamic>(
+            requestOptions: options,
+            statusCode: 200,
+            data: <String, dynamic>{
+              'code': 0,
+              'message': 'Duyệt phiếu giải trình thành công',
+            },
+          ),
+        );
+      } else if (path.contains('/api/TimesheetConfirmRequests/reject/')) {
+        return handler.resolve(
+          Response<dynamic>(
+            requestOptions: options,
+            statusCode: 200,
+            data: <String, dynamic>{
+              'code': 0,
+              'message': 'Từ chối phiếu giải trình thành công',
+            },
+          ),
+        );
       } else if (path.contains(ApiEndpoints.timesheetConfirmRequests)) {
         return handler.resolve(
           Response<dynamic>(

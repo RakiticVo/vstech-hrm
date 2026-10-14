@@ -160,18 +160,15 @@ class _ApprovalsScreenState extends State<ApprovalsScreen> {
 
     final filterOptions = [
       ('all', l10n.approvalTypeFilterAll),
-      ('timesheet', l10n.approvalTypeFilterCorrection),
+      ('correction', l10n.approvalTypeFilterCorrection),
+      ('timesheet', l10n.approvalTypeFilterTimesheet),
       ('ot', l10n.approvalTypeFilterOT),
       ('leave', l10n.approvalTypeFilterLeave),
     ];
 
     final filtered = _approvals.where((item) {
-      if (_selectedCategory != 'all') {
-        if (_selectedCategory == 'timesheet') {
-          if (item.category != 'timesheet' && item.category != 'correction') return false;
-        } else if (item.category != _selectedCategory) {
-          return false;
-        }
+      if (_selectedCategory != 'all' && item.category != _selectedCategory) {
+        return false;
       }
       if (_statusTab == 0) return item.isPending;
       if (_statusTab == 1) return !item.isPending;

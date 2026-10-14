@@ -2393,7 +2393,10 @@ class AppLocalizationsVi extends AppLocalizations {
   String get approvalTypeFilterAll => 'Tất cả';
 
   @override
-  String get approvalTypeFilterCorrection => 'Xác nhận giờ công';
+  String get approvalTypeFilterCorrection => 'Giải trình / Sửa công';
+
+  @override
+  String get approvalTypeFilterTimesheet => 'Bảng công';
 
   @override
   String get approvalTypeFilterOT => 'Tăng ca';

@@ -8,6 +8,7 @@ class ApiEndpoints {
   static const String accountBasic = '/api/Account/basic';
   static const String checkAuth = '/api/Account/check-auth';
   static const String refreshToken = '/api/Account/refresh-token';
+  static const String logout = '/api/Account/logout';
 
   // 2. Enrollments (Attendance & Check-in/out)
   static const String attendanceCheckIn = '/api/Enrollments/Checkin';

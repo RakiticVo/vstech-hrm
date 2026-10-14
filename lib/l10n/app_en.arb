@@ -1087,7 +1087,8 @@
   "faceThumbnailLabel": "AI Face Verification Snapshot",
 
   "approvalTypeFilterAll": "All",
-  "approvalTypeFilterCorrection": "Timesheet Confirm",
+  "approvalTypeFilterCorrection": "Attendance Correction",
+  "approvalTypeFilterTimesheet": "Timesheets",
   "approvalTypeFilterOT": "Overtime",
   "approvalTypeFilterLeave": "Leave",
   "approvalTypeFilterSwap": "Shift Swap",

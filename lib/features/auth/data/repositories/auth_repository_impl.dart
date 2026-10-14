@@ -72,4 +72,14 @@ class AuthRepositoryImpl implements AuthRepository {
       return Left(UnknownFailure(message: 'Lỗi kiểm tra phiên: $e'));
     }
   }
+
+  @override
+  Future<Either<Failure, void>> logout() async {
+    try {
+      await remoteDataSource.logout();
+      return const Right(null);
+    } on Object catch (e) {
+      return Left(ServerFailure(message: 'Lỗi khi đăng xuất: $e'));
+    }
+  }
 }

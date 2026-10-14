@@ -11,6 +11,7 @@ abstract class AuthRemoteDataSource {
   Future<EmployeeBasicInfoModel> getBasicInfo();
   Future<Map<String, dynamic>> getFullProfile();
   Future<bool> checkAuth();
+  Future<void> logout();
 }
 
 class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
@@ -103,6 +104,15 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
       );
     } on Object catch (e) {
       throw ServerException(message: 'Lỗi kiểm tra phiên: $e');
+    }
+  }
+
+  @override
+  Future<void> logout() async {
+    try {
+      await _dioClient.post<dynamic>(ApiEndpoints.logout);
+    } on Object {
+      // Ignore network or token expiration errors on logout to allow local cleanup
     }
   }
 }

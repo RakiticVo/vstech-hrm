@@ -2397,7 +2397,10 @@ class AppLocalizationsEn extends AppLocalizations {
   String get approvalTypeFilterAll => 'All';
 
   @override
-  String get approvalTypeFilterCorrection => 'Timesheet Confirm';
+  String get approvalTypeFilterCorrection => 'Attendance Correction';
+
+  @override
+  String get approvalTypeFilterTimesheet => 'Timesheets';
 
   @override
   String get approvalTypeFilterOT => 'Overtime';

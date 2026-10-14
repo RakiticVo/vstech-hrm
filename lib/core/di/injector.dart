@@ -18,6 +18,7 @@ import 'package:vstech_hrm/features/attendance/attendance_injection.dart';
 import 'package:vstech_hrm/features/auth/auth_injection.dart';
 import 'package:vstech_hrm/features/auth/domain/usecases/check_auth_usecase.dart';
 import 'package:vstech_hrm/features/auth/domain/usecases/login_usecase.dart';
+import 'package:vstech_hrm/features/auth/domain/usecases/logout_usecase.dart';
 import 'package:vstech_hrm/features/compliance/compliance_injection.dart';
 import 'package:vstech_hrm/features/executive/executive_injection.dart';
 import 'package:vstech_hrm/features/holidays/holidays_injection.dart';
@@ -90,6 +91,7 @@ Future<void> initDependencies() async {
       secureStorage: sl<FlutterSecureStorage>(),
       loginUseCase: sl<LoginUseCase>(),
       checkAuthUseCase: sl<CheckAuthUseCase>(),
+      logoutUseCase: sl<LogoutUseCase>(),
     ),
   );
   sl.registerLazySingleton<ThemeCubit>(

@@ -1,4 +1,5 @@
 import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:vstech_hrm/core/di/injector.dart';
@@ -51,7 +52,10 @@ class _PayrollScreenState extends State<PayrollScreen> {
         children: [
           TileHeaderBanner(
             title: context.l10n.payrollTitle,
-            subtitle: context.l10n.payrollPeriodSubtitle(currentMonth, '${DateTime.now().year}'),
+            subtitle: context.l10n.payrollPeriodSubtitle(
+              currentMonth,
+              '${DateTime.now().year}',
+            ),
             trailing: Row(
               mainAxisSize: MainAxisSize.min,
               children: [
@@ -62,7 +66,10 @@ class _PayrollScreenState extends State<PayrollScreen> {
                     onAuthenticated: () => context.push(AppRoutes.rewards),
                   ),
                   child: Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 10,
+                      vertical: 5,
+                    ),
                     decoration: BoxDecoration(
                       color: Colors.white,
                       borderRadius: BorderRadius.circular(8),
@@ -76,7 +83,11 @@ class _PayrollScreenState extends State<PayrollScreen> {
                     ),
                     child: Row(
                       children: [
-                        AppIcon(AppIcons.bonus, size: 14, color: colors.tealPrimary),
+                        AppIcon(
+                          AppIcons.bonus,
+                          size: 14,
+                          color: colors.tealPrimary,
+                        ),
                         4.gapW,
                         Text(
                           context.l10n.rewardsAction,
@@ -92,12 +103,27 @@ class _PayrollScreenState extends State<PayrollScreen> {
                 ),
                 6.gapW,
                 IconButton(
-                  icon: AppIcon(
-                    _isSalaryVisible ? AppIcons.eye : AppIcons.eyeOff,
-                    color: const Color(0xFFFFF8EC),
-                    size: 20,
+                  icon: Container(
+                    padding: const EdgeInsets.all(7),
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(10),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black.withValues(alpha: 0.08),
+                          blurRadius: 4,
+                          offset: const Offset(0, 1),
+                        ),
+                      ],
+                    ),
+                    child: AppIcon(
+                      _isSalaryVisible ? AppIcons.eye : AppIcons.eyeOff,
+                      color: colors.tealPrimary,
+                      size: 20,
+                    ),
                   ),
-                  onPressed: () => setState(() => _isSalaryVisible = !_isSalaryVisible),
+                  onPressed: () =>
+                      setState(() => _isSalaryVisible = !_isSalaryVisible),
                 ),
               ],
             ),
@@ -190,7 +216,10 @@ class _PayrollScreenState extends State<PayrollScreen> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    context.l10n.payrollPeriodSubtitle(_payslip!.month, '${DateTime.now().year}'),
+                    context.l10n.payrollPeriodSubtitle(
+                      _payslip!.month,
+                      '${DateTime.now().year}',
+                    ),
                     style: TextStyle(
                       fontSize: 13.5,
                       fontWeight: FontWeight.w800,
@@ -210,7 +239,11 @@ class _PayrollScreenState extends State<PayrollScreen> {
               ),
             ),
             6.gapW,
-            AppIcon(AppIcons.chevronRight, size: 18, color: colors.textTertiary),
+            AppIcon(
+              AppIcons.chevronRight,
+              size: 18,
+              color: colors.textTertiary,
+            ),
           ],
         ),
       ),

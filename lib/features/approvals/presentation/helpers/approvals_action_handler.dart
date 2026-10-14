@@ -204,7 +204,7 @@ abstract final class ApprovalsActionHandler {
     String? note,
   }) async {
     final idStr = item.id ?? '';
-    final idInt = int.tryParse(idStr);
+    final idInt = int.tryParse(idStr.replaceAll(RegExp('[^0-9]'), ''));
 
     if (item.category == 'leave') {
       final res = await sl<ApproveLeaveUseCase>()(idStr);
@@ -218,23 +218,23 @@ abstract final class ApprovalsActionHandler {
       return res.map((r) => r.message ?? 'Đã duyệt đơn tăng ca');
     }
 
-    if (item.category == 'timesheet' || (item.category == 'correction' && item.employeeCode != null && idInt == null)) {
+    if (item.category == 'correction' && idInt != null) {
+      final res = await sl<ApproveTimesheetCorrectionUseCase>()(
+        idInt,
+        confirmedWorktime: hours,
+        note: note,
+      );
+      res.fold((_) {}, (_) => invalidateCache());
+      return res.map((r) => r.message ?? 'Đã duyệt phiếu giải trình');
+    }
+
+    if (item.category == 'timesheet' || (item.category == 'correction' && item.employeeCode != null)) {
       final empCode = item.employeeCode ?? '';
       final wDate = item.dates.contains('T') ? item.dates : '${item.dates}T00:00:00';
       final res = await sl<AdminConfirmTimesheetUseCase>()(
         employeeCode: empCode,
         workDate: wDate,
         validActualTime: hours ?? item.worktime ?? 8.0,
-      );
-      res.fold((_) {}, (_) => invalidateCache());
-      return res.map((r) => r.message ?? 'Đã xác nhận giờ công');
-    }
-
-    if (item.category == 'correction' && idInt != null) {
-      final res = await sl<ApproveTimesheetCorrectionUseCase>()(
-        idInt,
-        confirmedWorktime: hours,
-        note: note,
       );
       res.fold((_) {}, (_) => invalidateCache());
       return res.map((r) => r.message ?? 'Đã xác nhận giờ công');
@@ -249,7 +249,7 @@ abstract final class ApprovalsActionHandler {
     String? reason,
   }) async {
     final idStr = item.id ?? '';
-    final idInt = int.tryParse(idStr);
+    final idInt = int.tryParse(idStr.replaceAll(RegExp('[^0-9]'), ''));
 
     if (item.category == 'leave') {
       final res = await sl<RejectLeaveUseCase>()(idStr);
@@ -263,7 +263,16 @@ abstract final class ApprovalsActionHandler {
       return res.map((r) => r.message ?? 'Đã từ chối đơn tăng ca');
     }
 
-    if (item.category == 'timesheet' || (item.category == 'correction' && item.employeeCode != null && idInt == null)) {
+    if (item.category == 'correction' && idInt != null) {
+      final res = await sl<RejectTimesheetCorrectionUseCase>()(
+        idInt,
+        note: reason,
+      );
+      res.fold((_) {}, (_) => invalidateCache());
+      return res.map((r) => r.message ?? 'Đã từ chối phiếu giải trình');
+    }
+
+    if (item.category == 'timesheet' || (item.category == 'correction' && item.employeeCode != null)) {
       final empCode = item.employeeCode ?? '';
       final wDate = item.dates.contains('T') ? item.dates : '${item.dates}T00:00:00';
       final res = await sl<RejectTimesheetUseCase>()(
@@ -273,15 +282,6 @@ abstract final class ApprovalsActionHandler {
       );
       res.fold((_) {}, (_) => invalidateCache());
       return res.map((r) => r.message ?? 'Đã từ chối giờ công');
-    }
-
-    if (item.category == 'correction' && idInt != null) {
-      final res = await sl<RejectTimesheetCorrectionUseCase>()(
-        idInt,
-        note: reason,
-      );
-      res.fold((_) {}, (_) => invalidateCache());
-      return res.map((r) => r.message ?? 'Đã từ chối phiếu giải trình');
     }
 
     return const Left(ServerFailure(message: 'Yêu cầu không hợp lệ'));

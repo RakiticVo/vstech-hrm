@@ -203,7 +203,10 @@ class _CorrectionManageScreenState extends State<CorrectionManageScreen> {
                       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
                       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
                     ),
-                    onPressed: () => context.push(AppRoutes.attendanceCorrection),
+                    onPressed: () async {
+                      await context.push(AppRoutes.attendanceCorrection);
+                      if (mounted) unawaited(_loadData());
+                    },
                     child: Text(
                       l10n.fixPunchBtn,
                       style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w800),
@@ -275,7 +278,10 @@ class _CorrectionManageScreenState extends State<CorrectionManageScreen> {
             child: PrimaryButton(
               text: 'Tạo yêu cầu sửa công',
               iconName: AppIcons.correction,
-              onPressed: () => context.push(AppRoutes.attendanceCorrection),
+              onPressed: () async {
+                await context.push(AppRoutes.attendanceCorrection);
+                if (mounted) unawaited(_loadData());
+              },
             ),
           ),
         ],

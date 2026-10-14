@@ -5,6 +5,7 @@ import 'package:vstech_hrm/features/auth/data/repositories/auth_repository_impl.
 import 'package:vstech_hrm/features/auth/domain/repositories/auth_repository.dart';
 import 'package:vstech_hrm/features/auth/domain/usecases/check_auth_usecase.dart';
 import 'package:vstech_hrm/features/auth/domain/usecases/login_usecase.dart';
+import 'package:vstech_hrm/features/auth/domain/usecases/logout_usecase.dart';
 
 /// Dependency injection bindings for Auth feature.
 void initAuthInjection(GetIt sl) {
@@ -24,5 +25,8 @@ void initAuthInjection(GetIt sl) {
   );
   sl.registerLazySingleton<CheckAuthUseCase>(
     () => CheckAuthUseCase(sl<AuthRepository>()),
+  );
+  sl.registerLazySingleton<LogoutUseCase>(
+    () => LogoutUseCase(sl<AuthRepository>()),
   );
 }

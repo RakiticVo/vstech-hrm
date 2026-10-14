@@ -1087,7 +1087,8 @@
   "faceThumbnailLabel": "Ảnh chụp đối chiếu AI",
 
   "approvalTypeFilterAll": "Tất cả",
-  "approvalTypeFilterCorrection": "Xác nhận giờ công",
+  "approvalTypeFilterCorrection": "Giải trình / Sửa công",
+  "approvalTypeFilterTimesheet": "Bảng công",
   "approvalTypeFilterOT": "Tăng ca",
   "approvalTypeFilterLeave": "Nghỉ phép",
   "approvalTypeFilterSwap": "Đổi ca",

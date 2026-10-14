@@ -5,7 +5,17 @@
 ## [Unreleased]
 
 ### Added
-- Đồng bộ mô hình dữ liệu và giao diện với cập nhật API (12/10/2026 - OpenAPI v9):
+- Mở lại và tích hợp toàn diện tính năng "Giải trình / Sửa công" (`/api/TimesheetConfirmRequests`) cho mọi nhân viên và cấp quản lý:
+  - Nhân viên (NV): Mở quyền truy cập danh sách và gửi yêu cầu giải trình/sửa công tại Trung tâm yêu cầu (`RequestsScreen`) và menu tạo nhanh (`NewRequestBottomSheet`).
+  - Quản lý (QL): Tích hợp bộ lọc "Giải trình / Sửa công" tại Trung tâm xác nhận (`ApprovalsScreen`), hỗ trợ duyệt đơn (`POST /api/TimesheetConfirmRequests/confirm/{id}`) và từ chối đơn (`POST /api/TimesheetConfirmRequests/reject/{id}`).
+- Triển khai API Đăng xuất (`POST /api/Account/logout`) theo OpenAPI spec v11, thu hồi token trên backend và dọn dẹp phiên lưu trữ an toàn.
+- Bổ sung Dialog cảnh báo phiên đăng nhập hết hạn khi nhận mã lỗi 400 trước khi điều hướng an toàn ra màn hình Đăng nhập.
+- Đồng bộ mở tính năng xem Thưởng trực tiếp từ Phiếu lương và đồng bộ kỳ lương hiển thị.
+
+### Fixed
+- Khắc phục lỗi tràn viền (overflow) trên thẻ tổng quan lương khi hiển thị tag kỳ lương dài tại Bảng lương (`PayrollScreen`).
+- Cải thiện độ tương phản (đổi sang nền trắng) cho các nút điều hướng "Lịch & ca làm việc", "Thưởng" và bộ chọn kỳ lương tại màn hình Chấm công và Lương & Thu nhập.
+- Loại bỏ các thành phần UI thừa (nút "Gọi bộ phận IT" tại Quên mật khẩu, "Liên hệ HR" tại Đăng nhập, và dòng "trả ngày..." tại Trang chủ).
   - Hỗ trợ 2 trường cảnh báo `lateWarning` và `earlyWarning` trong `AccountEnrollmentModel`, `AttendanceRecordModel`, `AttendanceRecordEntity`, `AccountTimesheetModel` và `AccountTimesheetEntity` (GET `/api/Account/enrollment`).
   - Tự động hiển thị huy hiệu và cảnh báo đi muộn/về sớm cho ca sản xuất theo cờ cấu hình `Attendance:VnCalc` tại danh sách lịch sử chấm công (`AttendanceDailyLogCard`), thẻ chi tiết công (`TimesheetOverviewCard`) và bottom sheet chi tiết ngày công (`TimesheetDayDetailSheet`).
   - Bổ sung bộ kiểm thử đơn vị và giao diện `test/features/attendance/account_enrollment_warning_test.dart` (5/5 tests passing).

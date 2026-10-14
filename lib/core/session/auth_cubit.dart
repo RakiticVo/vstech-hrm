@@ -7,21 +7,25 @@ import 'package:vstech_hrm/core/session/auth_state.dart';
 import 'package:vstech_hrm/features/auth/domain/entities/login_params.dart';
 import 'package:vstech_hrm/features/auth/domain/usecases/check_auth_usecase.dart';
 import 'package:vstech_hrm/features/auth/domain/usecases/login_usecase.dart';
+import 'package:vstech_hrm/features/auth/domain/usecases/logout_usecase.dart';
 
 /// Cubit managing app-wide authentication, user session, and current role.
 class AuthCubit extends Cubit<AuthState> {
-  new({
+  AuthCubit({
     required FlutterSecureStorage secureStorage,
     LoginUseCase? loginUseCase,
     CheckAuthUseCase? checkAuthUseCase,
+    LogoutUseCase? logoutUseCase,
   })  : _secureStorage = secureStorage,
         _loginUseCase = loginUseCase,
         _checkAuthUseCase = checkAuthUseCase,
+        _logoutUseCase = logoutUseCase,
         super(const AuthInitial());
 
   final FlutterSecureStorage _secureStorage;
   final LoginUseCase? _loginUseCase;
   final CheckAuthUseCase? _checkAuthUseCase;
+  final LogoutUseCase? _logoutUseCase;
 
   static const String _userSessionKey = 'vstech_user_session';
   static const String _tokenValidToKey = 'vstech_token_valid_to';
@@ -138,7 +142,6 @@ class AuthCubit extends Cubit<AuthState> {
         versionRelease: versionRelease ?? '18.0',
         versionApp: versionApp ?? '1.0.0',
         checkMobile: checkMobile,
-        root: '0',
       );
 
       final result = await _loginUseCase.call(params);
@@ -219,10 +222,18 @@ class AuthCubit extends Cubit<AuthState> {
   }
 
   Future<void> logout() async {
-    await _secureStorage.delete(key: AppConstants.tokenStorageKey);
-    await _secureStorage.delete(key: AppConstants.refreshTokenStorageKey);
-    await _secureStorage.delete(key: _userSessionKey);
-    await _secureStorage.delete(key: _tokenValidToKey);
-    emit(const Unauthenticated());
+    try {
+      if (_logoutUseCase != null) {
+        await _logoutUseCase.call();
+      }
+    } on Object catch (e) {
+      appLogger.w('Backend logout failed: $e');
+    } finally {
+      await _secureStorage.delete(key: AppConstants.tokenStorageKey);
+      await _secureStorage.delete(key: AppConstants.refreshTokenStorageKey);
+      await _secureStorage.delete(key: _userSessionKey);
+      await _secureStorage.delete(key: _tokenValidToKey);
+      emit(const Unauthenticated());
+    }
   }
 }

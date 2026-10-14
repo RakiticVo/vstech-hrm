@@ -1,12 +1,9 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:vstech_hrm/core/extensions/l10n_extension.dart';
 import 'package:vstech_hrm/core/responsive/app_layout.dart';
 import 'package:vstech_hrm/core/router/routes.dart';
-import 'package:vstech_hrm/core/session/auth_cubit.dart';
-import 'package:vstech_hrm/core/session/auth_state.dart';
 import 'package:vstech_hrm/core/theme/app_colors.dart';
 import 'package:vstech_hrm/core/widgets/app_icon.dart';
 
@@ -75,8 +72,6 @@ class NewRequestBottomSheet extends StatelessWidget {
   Widget build(BuildContext context) {
     final colors = context.colors;
     final l10n = context.l10n;
-    final authState = context.watch<AuthCubit>().state;
-    final isManager = authState is Authenticated && authState.role.isManager;
 
     return SafeArea(
       child: Padding(
@@ -121,15 +116,14 @@ class NewRequestBottomSheet extends StatelessWidget {
               route: AppRoutes.overtimeManage,
               colors: colors,
             ),
-            if (isManager)
-              _buildOptionTile(
-                context: context,
-                iconName: AppIcons.correction,
-                title: l10n.requestTypeCorrection,
-                subtitle: l10n.createCorrectionTitle,
-                route: AppRoutes.correctionManage,
-                colors: colors,
-              ),
+            _buildOptionTile(
+              context: context,
+              iconName: AppIcons.correction,
+              title: l10n.requestTypeCorrection,
+              subtitle: l10n.createCorrectionTitle,
+              route: AppRoutes.correctionManage,
+              colors: colors,
+            ),
           ],
         ),
       ),
