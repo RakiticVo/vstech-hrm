@@ -35,19 +35,24 @@ class _SalaryDisputeNewScreenState extends State<SalaryDisputeNewScreen> {
   int? _difference;
   bool _hasAttachment = false;
 
-  final _availableItems = const [
-    'Lương tăng ca 150%',
-    'Phụ cấp ăn trưa & đi lại',
-    'Thưởng KPI Quý',
-    'Bảo hiểm xã hội',
-    'Thuế thu nhập cá nhân',
-    'Trừ vi phạm chấm công',
-  ];
+  late final List<String> _availableItems;
 
   @override
   void initState() {
     super.initState();
     _selectedItem = widget.prefilledItem;
+    final defaults = [
+      widget.prefilledItem,
+      'Lương cơ bản',
+      'Lương tăng ca 150%',
+      'Phụ cấp ăn trưa & đi lại',
+      'Thưởng KPI Quý',
+      'Bảo hiểm xã hội',
+      'Thuế thu nhập cá nhân',
+      'Kinh phí công đoàn',
+      'Trừ vi phạm chấm công',
+    ];
+    _availableItems = defaults.toSet().toList();
     _currentAmountController = TextEditingController(
       text: _formatCurrency(widget.prefilledCurrentAmount),
     );

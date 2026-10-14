@@ -12,6 +12,7 @@ import 'package:vstech_hrm/features/payroll/domain/entities/payslip_entity.dart'
 import 'package:vstech_hrm/features/payroll/domain/usecases/get_payslip_detail_usecase.dart';
 import 'package:vstech_hrm/features/payroll/presentation/widgets/payroll_breakdown_card.dart';
 import 'package:vstech_hrm/features/payroll/presentation/widgets/payroll_hero_card.dart';
+import 'package:vstech_hrm/features/payroll/presentation/widgets/payslip_auth_dialog.dart';
 
 /// Screen displaying payroll overview, Saigon tile hero card, breakdown, and history.
 class PayrollScreen extends StatefulWidget {
@@ -161,7 +162,10 @@ class _PayrollScreenState extends State<PayrollScreen> {
 
     return InkWell(
       borderRadius: BorderRadius.circular(16),
-      onTap: () => context.push(AppRoutes.payslipLock),
+      onTap: () => PayslipAuthDialog.show(
+        context,
+        onAuthenticated: () => context.push(AppRoutes.payslipDetail),
+      ),
       child: Container(
         decoration: BoxDecoration(
           color: colors.surface,

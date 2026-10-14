@@ -112,7 +112,7 @@ void main() {
 
       expect(find.text('Quản lý Khiếu nại lương'), findsOneWidget);
       expect(find.text('Tất cả'), findsOneWidget);
-      expect(find.text('Đang đối soát'), findsOneWidget);
+      expect(find.widgetWithText(ChoiceChip, 'Đang đối soát'), findsOneWidget);
     });
   });
 }

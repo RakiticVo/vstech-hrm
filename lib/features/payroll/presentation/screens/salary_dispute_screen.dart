@@ -20,7 +20,30 @@ class SalaryDisputeScreen extends StatefulWidget {
 class _SalaryDisputeScreenState extends State<SalaryDisputeScreen> {
   int _selectedTabIndex = 0;
 
-  final List<_DisputeItem> _allDisputes = [];
+  final List<_DisputeItem> _allDisputes = [
+    const _DisputeItem(
+      code: 'KN-2026-0412',
+      period: '09/2026',
+      itemName: 'Lương tăng ca 150%',
+      payslipAmount: '1.800.000 ₫',
+      expectedAmount: '2.450.000 ₫',
+      difference: '+650.000 ₫',
+      status: 'pending',
+      date: '02/10/2026',
+      reason: 'Thiếu 4 giờ tăng ca dự án ngày 15/09',
+    ),
+    const _DisputeItem(
+      code: 'KN-2026-0398',
+      period: '08/2026',
+      itemName: 'Phụ cấp ăn trưa & đi lại',
+      payslipAmount: '730.000 ₫',
+      expectedAmount: '1.200.000 ₫',
+      difference: '+470.000 ₫',
+      status: 'approved',
+      date: '03/09/2026',
+      reason: 'Bổ sung chi phí công tác ngoại tỉnh',
+    ),
+  ];
 
   @override
   Widget build(BuildContext context) {

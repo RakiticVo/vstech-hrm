@@ -54,7 +54,7 @@
   "managerApprovalAction": "Review now",
 
   "metricWorkdays": "Workdays",
-  "metricLeaveBalance": "Leave Left",
+  "metricLeaveBalance": "Annual Leave Left",
   "metricOvertime": "Overtime",
   "metricPending": "Pending",
 
@@ -73,9 +73,9 @@
   "shiftCheckOutLabel": "CHECK-OUT",
   "shiftDoneCta": "CHECK OUT",
   "shiftCheckOutCta": "CHECK OUT",
-  "todayShiftDefault": "Today's shift 08:00 — 17:00",
+  "todayShiftDefault": "Today's shift",
 
-  "metricLateEarly": "LATE / EARLY",
+  "metricLateEarly": "Late In / Early Out",
   "daysUnit": "days",
   "hoursUnit": "h",
 
@@ -114,8 +114,8 @@
   "sendCorrectionRequest": "Submit Attendance Correction",
   "statusCheckedIn": "Checked in",
   "statusNotCheckedIn": "Not checked in",
-  "shiftPromptArrive": "Your shift starts at 08:00. Punch in upon arrival.",
-  "hcmOfficeVerified": "HCM Office - Location verified",
+  "shiftPromptArrive": "Please punch in upon arriving at work.",
+  "hcmOfficeVerified": "Attendance location verified",
   "zeroMinutes": "0 min",
   "offlineAttendanceModeLabel": "Offline Punch (Vector ≥ 85%)",
   "onlineAttendanceModeLabel": "Online Mode",
@@ -125,7 +125,7 @@
   "faceScanCaptureCheckOutCta": "Capture & Check Out",
   "faceCheckingRegistration": "Checking face registration...",
   "faceCheckingButton": "Checking...",
-  "offlineLocationLabel": "HCM Office (Local GPS Check)",
+  "offlineLocationLabel": "Local GPS Check",
   "offlineMatchSuccess": "Face match {pct}% (≥ 85%). Saved to offline queue.",
   "@offlineMatchSuccess": {
     "placeholders": {
@@ -201,6 +201,9 @@
   "dayOffDescription": "No shifts scheduled for today. Rest, recharge, and get ready for the upcoming week!",
   "registerOvertimeCta": "Register Overtime (OT)",
   "shiftLabelTime": "Time:",
+  "shiftLabelDate": "Work Date:",
+  "shiftLabelCode": "Shift Code:",
+  "shiftLabelSource": "Shift Source:",
   "shiftLabelBreak": "Break:",
   "shiftLabelLocation": "Location:",
   "shiftLabelManager": "Shift Manager:",
@@ -511,6 +514,8 @@
   "cancelButton": "Cancel",
   "roleBadgeManager": "MGR",
   "roleBadgeEmployee": "EMP",
+  "roleNameManager": "Manager",
+  "roleNameEmployee": "Employee",
   "readyToUploadAvatarSnackbar": "Ready to upload new profile avatar",
 
   "languageSettingTitle": "LANGUAGE SETTINGS",
@@ -608,8 +613,8 @@
   "manageDevicePermissions": "Manage Device Permissions",
   "permissionsSubtext": "Camera, GPS Location, Files & Photos, Notifications",
   "securityAndPrivacySection": "Security & Privacy",
-  "biometricUnlock": "Biometric Unlock",
-  "biometricUnlockDesc": "Use Face ID or Fingerprint to unlock",
+  "biometricUnlock": "Face ID / Fingerprint Auth",
+  "biometricUnlockDesc": "Use Face ID or fingerprint for app & payslip unlock",
   "autoLock": "Auto Lock",
   "autoLockDesc": "Lock app immediately when switching apps",
   "displaySection": "Display",
@@ -658,7 +663,7 @@
 
   "calendarScreenTitle": "Calendar & Shifts",
   "calendarSubtitle": "Month 09/2026 · 22 Standard Workdays",
-  "monthSummaryTitle": "September Summary",
+  "monthSummaryTitle": "Monthly Summary",
   "payableWorkdays": "Payable Workdays",
   "totalWorkHours": "Total Work Hours",
   "cumulativeOvertime": "Cumulative Overtime",
@@ -760,7 +765,7 @@
       "hours": {"type": "String"}
     }
   },
-  "statusLateMinutes": "Late {minutes} mins",
+  "statusLateMinutes": "{minutes} mins",
   "@statusLateMinutes": {
     "placeholders": {
       "minutes": {"type": "String"}
@@ -1432,5 +1437,131 @@
   "startNextStepBtn": "Continue Next Step",
   "faceAuthTitle": "Face Authentication",
   "faceNotRegisteredPrompt": "Your face is not registered in the system. Please register your face in your Profile before clocking in/out.",
-  "goToProfileCta": "Go to Profile"
+  "goToProfileCta": "Go to Profile",
+  "systemAndSupportSection": "SYSTEM & SUPPORT",
+  "faqTitle": "Frequently Asked Questions (FAQ)",
+  "privacyPolicyTitle": "Privacy Policy",
+  "payslipAuthDialogTitle": "Verify to View Payslip",
+  "payslipAuthDialogSubtitleBiometric": "To protect salary information, please enter account password or use biometrics:",
+  "payslipAuthDialogSubtitlePasswordOnly": "To protect salary information, please enter your account password:",
+  "payslipAuthPasswordHint": "Enter account password",
+  "payslipAuthIncorrectPassword": "Incorrect password, please try again",
+  "payslipAuthEmptyPassword": "Please enter your account password",
+  "useBiometricsButton": "Use Fingerprint / Face ID",
+  "faqCategoryAll": "All",
+  "faqCategoryAttendance": "Attendance",
+  "faqCategoryPayroll": "Payroll",
+  "faqCategoryRequests": "Requests",
+  "faqCategoryAccount": "Account",
+  "faqSearchHint": "Search questions & answers...",
+  "faqQ1": "How do I check in when there is no internet connection?",
+  "faqA1": "The system supports an Offline Attendance Queue. When disconnected, check-ins along with facial feature vectors are stored securely on your device and automatically synced once an internet connection is restored.",
+  "faqQ2": "Why is security verification required to view payslips?",
+  "faqA2": "Payslips contain sensitive personal financial data. The system requires account password or biometrics (Fingerprint / Face ID) to ensure that only you can view your earnings.",
+  "faqQ3": "What is the request approval process?",
+  "faqA3": "Leave and overtime requests are submitted to your direct manager for initial approval, followed by HR confirmation before final execution.",
+  "faqQ4": "How do I update my personal information?",
+  "faqA4": "Sensitive records such as Citizen ID and bank account details require HR verification to maintain record accuracy and security.",
+  "faqQ5": "How do I enable Fingerprint / Face ID login?",
+  "faqA5": "Navigate to Profile > System Settings > toggle on 'Biometric Authentication (Fingerprint / Face ID)'. Once enabled, you can quickly log in and unlock payslips.",
+  "faqQ6": "What should I do if I forget my login password?",
+  "faqA6": "For enterprise security, passwords are managed by the IT department. Please tap 'Forgot Password' on the login screen for IT support contact details.",
+  "privacyLastUpdated": "Last updated: October 2026",
+  "privacySec1Title": "1. Biometric Data Collection",
+  "privacySec1Content": "Facial recognition data is encoded as 128-dimensional mathematical vectors and stored securely on your device via FlutterSecureStorage. Original photos are not saved on company servers.",
+  "privacySec2Title": "2. Location Data & Attendance",
+  "privacySec2Content": "GPS location is accessed strictly at the moment you punch in or out to verify branch geofencing. There is no continuous background tracking.",
+  "privacySec3Title": "3. Salary and Profile Security",
+  "privacySec3Content": "All financial, payroll, and employee records are encrypted in transit via TLS 1.3 and access-controlled strictly for you and your direct reporting manager.",
+  "privacySec4Title": "4. Privacy & Data Control",
+  "privacySec4Content": "Employees have full access to inspect attendance logs, view historical requests, review payslips, and request corrections through HR.",
+  "privacySec5Title": "5. Compliance & Data Retention",
+  "privacySec5Content": "The system complies with personal data protection regulations (Decree 13/2023/ND-CP) and enterprise internal privacy policies.",
+  "faqEmptySearch": "No matching questions found",
+  "homeQuickActionsSection": "Quick Actions",
+  "homeMonthlyStatsSection": "Monthly Statistics",
+  "createOvertimeForSubordinate": "Create Overtime on Behalf",
+  "createOvertimeForSubordinateSubtitle": "Register overtime for subordinate employee",
+  "overtimeTargetEmployee": "Target Employee",
+  "overtimeTargetSelf": "Myself",
+  "selectSubordinateEmployee": "Select Subordinate",
+  "searchEmployeePlaceholder": "Search by name or employee code...",
+  "noSubordinatesFound": "No subordinates found",
+  "overtimeSubmittedForSubordinateMsg": "Overtime request on {date} for {employee} has been submitted successfully.",
+  "@overtimeSubmittedForSubordinateMsg": {
+    "placeholders": {
+      "date": {"type": "String"},
+      "employee": {"type": "String"}
+    }
+  },
+  "timesheetDetailTitle": "Timesheet Detail",
+  "timesheetShift": "Shift",
+  "timesheetCheckIn": "Check-in",
+  "timesheetCheckOut": "Check-out",
+  "timesheetActualHours": "Actual Work Hours",
+  "timesheetValidHours": "Valid Hours",
+  "timesheetLate": "Late",
+  "timesheetEarly": "Early departure",
+  "timesheetStatus": "Timesheet Status",
+  "timesheetConfirmed": "Confirmed",
+  "timesheetNotConfirmed": "Not confirmed",
+  "timesheetRejected": "Rejected",
+  "timesheetRejectReason": "Reject reason",
+  "timesheetOvertimeSlip": "Overtime Slip",
+  "timesheetLeaveSlip": "Leave Slip",
+  "timesheetBusinessSlip": "Business Slip",
+  "timesheetExplanationSlip": "Explanation Slip",
+  "shiftTabPersonal": "Personal",
+  "shiftTabDepartment": "Team",
+  "shiftTabTimesheet": "Timesheet",
+  "shiftSourceScheduled": "Scheduled",
+  "shiftSourceDefault": "Default Shift",
+  "shiftSourceOff": "Day Off",
+  "shiftOvernightBadge": "Overnight Shift",
+  "rosterSearchHint": "Search by name or employee code...",
+  "rosterFilterAll": "All",
+  "rosterTotalEmployees": "{count} staff",
+  "@rosterTotalEmployees": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+  "rosterOnDutyCount": "{count} on duty",
+  "@rosterOnDutyCount": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+  "rosterOffDutyCount": "{count} off",
+  "@rosterOffDutyCount": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+  "rosterEmptyTitle": "No matching employees",
+  "rosterEmptySubtitle": "No shift roster data found for the selected date.",
+  "rosterAssignedByLabel": "Assigned by: {name}",
+  "@rosterAssignedByLabel": {
+    "placeholders": {
+      "name": {"type": "String"}
+    }
+  },
+  "rosterDatePickTooltip": "Pick roster date",
+  "rosterRefreshTooltip": "Refresh data",
+  "timesheetMonthDisplay": "Month {month}/{year}",
+  "@timesheetMonthDisplay": {
+    "placeholders": {
+      "month": {"type": "int"},
+      "year": {"type": "int"}
+    }
+  },
+  "timesheetOvertimeHours": "Overtime",
+  "timesheetLeaveHours": "Leave",
+  "timesheetLunchLabel": "Lunch Allowance",
+  "timesheetNoteLabel": "Notes",
+  "timesheetNoData": "No timesheet data for this month",
+  "timesheetWorkDate": "Work Date",
+  "timesheetOnTime": "On time",
+  "rosterAllDepartments": "All workshops / departments",
+  "rosterDepartmentLabel": "Workshop / Department"
 }

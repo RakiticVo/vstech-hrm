@@ -11,14 +11,14 @@ import 'package:vstech_hrm/core/session/auth_state.dart';
 import 'package:vstech_hrm/core/theme/app_colors.dart';
 import 'package:vstech_hrm/core/widgets/app_icon.dart';
 import 'package:vstech_hrm/core/widgets/logout_confirm_dialog.dart';
+import 'package:vstech_hrm/core/widgets/tile_header_banner.dart';
 import 'package:vstech_hrm/features/auth/data/datasources/auth_remote_datasource.dart';
 import 'package:vstech_hrm/features/profile/presentation/widgets/profile_header_card.dart';
 import 'package:vstech_hrm/features/profile/presentation/widgets/profile_info_card.dart';
-import 'package:vstech_hrm/features/profile/presentation/widgets/theme_selection_sheet.dart';
 
 /// Screen 19: Comprehensive Employee Profile matching Screen 19 reference image.
 class ProfileScreen extends StatefulWidget {
-  const ProfileScreen({super.key});
+  const new({super.key});
 
   @override
   State<ProfileScreen> createState() => _ProfileScreenState();
@@ -51,20 +51,48 @@ class _ProfileScreenState extends State<ProfileScreen> {
     final user = authState is Authenticated ? authState.user : null;
     final isManager = authState is Authenticated && authState.role.isManager;
 
-    final userName = user?.name ?? (_profileData?['fullName']?.toString() ?? 'Nhân viên');
-    final userCode = user?.employeeCode ?? (_profileData?['code']?.toString() ?? '—');
-    final department = user?.department ?? (_profileData?['department']?['name']?.toString() ?? 'VSTech');
-    final userEmail = user?.email ?? (_profileData?['email']?.toString() ?? '—');
+    final emp = (_profileData?['employee'] as Map<String, dynamic>?) ??
+        (_profileData?['data'] as Map<String, dynamic>?) ??
+        _profileData ??
+        <String, dynamic>{};
 
-    final phone = _profileData?['phone']?.toString() ?? '—';
-    final dob = _profileData?['birthday']?.toString() ?? (_profileData?['dob']?.toString() ?? '—');
-    final address = _profileData?['address']?.toString() ?? '—';
-    final jobTitle = _profileData?['position']?['name']?.toString() ??
-        (_profileData?['jobTitle']?.toString() ?? (isManager ? 'Quản lý bộ phận' : 'Chuyên viên'));
-    final directManager = _profileData?['managerName']?.toString() ?? '—';
-    final joinDate = _profileData?['hireDate']?.toString() ?? (_profileData?['joinDate']?.toString() ?? '—');
-    final bankName = _profileData?['bankName']?.toString() ?? '—';
-    final bankAccount = _profileData?['bankAccountNumber']?.toString() ?? '—';
+    final userName = emp['name']?.toString() ??
+        emp['fullName']?.toString() ??
+        user?.name ??
+        'Nhân viên';
+    final userCode = emp['code']?.toString() ??
+        emp['employeeCode']?.toString() ??
+        user?.employeeCode ??
+        '—';
+    final department = emp['departmentName']?.toString() ??
+        (emp['department'] is Map ? (emp['department'] as Map)['name']?.toString() : null) ??
+        user?.department ??
+        'VSTech';
+    final userEmail = emp['mail']?.toString() ??
+        emp['email']?.toString() ??
+        user?.email ??
+        '—';
+
+    final phone = emp['phoneNumber']?.toString() ??
+        emp['phone']?.toString() ??
+        '—';
+    final dob = emp['birthDay']?.toString() ??
+        emp['birthday']?.toString() ??
+        emp['dob']?.toString() ??
+        '—';
+    final address = emp['address']?.toString() ?? '—';
+    final jobTitle = emp['positionName']?.toString() ??
+        (emp['position'] is Map ? (emp['position'] as Map)['name']?.toString() : null) ??
+        emp['jobTitle']?.toString() ??
+        (isManager ? 'Quản lý bộ phận' : 'Chuyên viên');
+    final directManager = emp['managerName']?.toString() ?? '—';
+    final joinDate = emp['hireDate']?.toString() ??
+        emp['joinDate']?.toString() ??
+        '—';
+    final bankName = emp['bankName']?.toString() ?? '—';
+    final bankAccount = emp['bankNumber']?.toString() ??
+        emp['bankAccountNumber']?.toString() ??
+        '—';
 
     final personalRows = [
       (context.l10n.fullNameLabel, userName),
@@ -89,39 +117,39 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
     return Scaffold(
       backgroundColor: colors.background,
-      appBar: AppBar(
-        backgroundColor: colors.surface,
-        elevation: 0,
-        title: Text(
-          context.l10n.profileTitle,
-          style: TextStyle(
-            fontSize: 18,
-            fontWeight: FontWeight.w800,
-            color: colors.textPrimary,
+      body: Column(
+        children: [
+          TileHeaderBanner(
+            title: context.l10n.profileTitle,
+            subtitle: userCode != '—' ? '#$userCode · $department' : department,
+            trailing: InkWell(
+              borderRadius: BorderRadius.circular(10),
+              onTap: () => context.push(AppRoutes.settings),
+              child: Container(
+                padding: const EdgeInsets.all(7),
+                decoration: BoxDecoration(
+                  color: const Color(0xFFFFF8EC).withValues(alpha: 0.2),
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child: const AppIcon(
+                  AppIcons.settings,
+                  size: 20,
+                  color: Color(0xFFFFF8EC),
+                ),
+              ),
+            ),
           ),
-        ),
-        actions: [
-          IconButton(
-            icon: AppIcon(AppIcons.correction, size: 21, color: colors.primaryIndigo),
-            tooltip: context.l10n.profileEditTitle,
-            onPressed: () => context.push(AppRoutes.profileEdit),
-          ),
-          IconButton(
-            icon: AppIcon(AppIcons.settings, size: 22, color: colors.textPrimary),
-            onPressed: () => context.push(AppRoutes.settings),
-          ),
-          4.gapW,
-        ],
-      ),
-      body: RefreshIndicator(
-        onRefresh: _loadProfile,
-        child: ListView(
-          padding: const EdgeInsets.fromLTRB(16, 12, 16, 32),
-          children: [
+          Expanded(
+            child: RefreshIndicator(
+              onRefresh: _loadProfile,
+              child: ListView(
+                padding: const EdgeInsets.fromLTRB(16, 12, 16, 32),
+                children: [
             ProfileHeaderCard(
               name: userName,
               employeeCode: userCode,
-              position: '$jobTitle · $department',
+              position: jobTitle,
+              department: department,
               isManager: isManager,
             ),
             18.gapH,
@@ -142,7 +170,18 @@ class _ProfileScreenState extends State<ProfileScreen> {
               title: context.l10n.bankAccountSection,
               rows: bankRows,
             ),
-            16.gapH,
+            18.gapH,
+
+            Text(
+              context.l10n.systemAndSupportSection,
+              style: TextStyle(
+                fontSize: 12,
+                fontWeight: FontWeight.w800,
+                color: colors.textSecondary,
+                letterSpacing: 0.5,
+              ),
+            ),
+            8.gapH,
 
             Container(
               decoration: BoxDecoration(
@@ -152,21 +191,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
               ),
               child: Column(
                 children: [
-                  _buildLetterLinkTile('S', context.l10n.profileEditTitle, () => context.push(AppRoutes.profileEdit), colors),
+                  _buildIconLinkTile(AppIcons.scanFace, context.l10n.faceAuthTitle, () => context.push(AppRoutes.faceEnrollment), colors),
                   Divider(height: 1, indent: 62, color: colors.border.withValues(alpha: 0.5)),
-                  _buildLetterLinkTile('T', context.l10n.documentManagementTitle, () => context.push(AppRoutes.documentManagement), colors),
+                  _buildIconLinkTile(AppIcons.settings, context.l10n.settingsLink, () => context.push(AppRoutes.settings), colors),
                   Divider(height: 1, indent: 62, color: colors.border.withValues(alpha: 0.5)),
-                  _buildLetterLinkTile('P', context.l10n.dependantsManageTitle, () => context.push(AppRoutes.dependants), colors),
+                  _buildIconLinkTile(AppIcons.info, context.l10n.faqTitle, () => context.push(AppRoutes.faq), colors),
                   Divider(height: 1, indent: 62, color: colors.border.withValues(alpha: 0.5)),
-                  _buildLetterLinkTile('H', context.l10n.documentsAndRecordsLink, () => context.push(AppRoutes.laborProfile), colors),
-                  Divider(height: 1, indent: 62, color: colors.border.withValues(alpha: 0.5)),
-                  _buildLetterLinkTile('R', context.l10n.internalRecruitmentLink, () => context.push(AppRoutes.jobRecruitment), colors),
-                  Divider(height: 1, indent: 62, color: colors.border.withValues(alpha: 0.5)),
-                  _buildLetterLinkTile('K', context.l10n.faceAuthTitle, () => context.push(AppRoutes.faceEnrollment), colors),
-                  Divider(height: 1, indent: 62, color: colors.border.withValues(alpha: 0.5)),
-                  _buildLetterLinkTile('G', context.l10n.themeSettingTitle, () => ThemeSelectionSheet.show(context), colors),
-                  Divider(height: 1, indent: 62, color: colors.border.withValues(alpha: 0.5)),
-                  _buildLetterLinkTile('C', context.l10n.settingsLink, () => context.push(AppRoutes.settings), colors),
+                  _buildIconLinkTile(AppIcons.shieldCheck, context.l10n.privacyPolicyTitle, () => context.push(AppRoutes.privacyPolicy), colors),
                 ],
               ),
             ),
@@ -186,13 +217,28 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 style: const TextStyle(fontSize: 14.5, fontWeight: FontWeight.w800),
               ),
             ),
+            16.gapH,
+
+            Center(
+              child: Text(
+                context.l10n.appVersionFooter,
+                style: TextStyle(
+                  fontSize: 11.5,
+                  fontWeight: FontWeight.w600,
+                  color: colors.textTertiary,
+                ),
+              ),
+            ),
           ],
         ),
       ),
-    );
-  }
+    ),
+  ],
+),
+);
+}
 
-  Widget _buildLetterLinkTile(String letter, String title, VoidCallback onTap, AppColorsExtension colors) {
+  Widget _buildIconLinkTile(String iconName, String title, VoidCallback onTap, AppColorsExtension colors) {
     return Material(
       color: Colors.transparent,
       child: InkWell(
@@ -203,20 +249,17 @@ class _ProfileScreenState extends State<ProfileScreen> {
           child: Row(
             children: [
               Container(
-                width: 32,
-                height: 32,
+                width: 34,
+                height: 34,
                 decoration: BoxDecoration(
-                  color: const Color(0xFFF0FDF4),
-                  borderRadius: BorderRadius.circular(9),
+                  color: colors.pineGreen.withValues(alpha: 0.1),
+                  borderRadius: BorderRadius.circular(10),
                 ),
                 child: Center(
-                  child: Text(
-                    letter,
-                    style: TextStyle(
-                      fontSize: 14,
-                      fontWeight: FontWeight.w800,
-                      color: colors.primaryIndigo,
-                    ),
+                  child: AppIcon(
+                    iconName,
+                    size: 18,
+                    color: colors.pineGreen,
                   ),
                 ),
               ),

@@ -91,54 +91,57 @@ class HomeBalanceBottomRow extends StatelessWidget {
           ),
         ),
 
-        // Amber CTA Button
-        Expanded(
-          flex: 17,
-          child: SizedBox(
-            height: context.custom(compact: 42, normal: 46, expanded: 50).toDouble(),
-            child: ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                backgroundColor: colors.accentAmber,
-                foregroundColor: const Color(0xFF1C1408),
-                elevation: 0,
-                padding: const EdgeInsets.symmetric(horizontal: 6),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(14),
+        // Action CTA Button
+        () {
+          final isWorking = checkInTime != '--:--' && !isShiftComplete;
+          final ctaText = isWorking ? l10n.clockOutCta : l10n.clockInCta;
+          final ctaBgColor = isWorking ? const Color(0xFFF59E0B) : const Color(0xFF0F766E);
+          final ctaFgColor = isWorking ? const Color(0xFF1C1408) : const Color(0xFFFFF8EC);
+
+          return Expanded(
+            flex: 17,
+            child: SizedBox(
+              height: context.custom(compact: 42, normal: 46, expanded: 50).toDouble(),
+              child: ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: ctaBgColor,
+                  foregroundColor: ctaFgColor,
+                  elevation: 0,
+                  padding: const EdgeInsets.symmetric(horizontal: 6),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(14),
+                  ),
                 ),
-              ),
-              onPressed: onPunchPressed ??
-                  () => context.push(
-                        AppRoutes.checkInCamera,
-                        extra: (checkInTime != '--:--' && !isShiftComplete)
-                            ? AttendanceType.checkOut
-                            : AttendanceType.checkIn,
-                      ),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  const AppIcon(AppIcons.faceScan, size: 17, color: Color(0xFF1C1408)),
-                  4.gapW,
-                  Flexible(
-                    child: Text(
-                      isShiftComplete
-                          ? l10n.shiftDoneCta
-                          : (checkInTime != '--:--'
-                              ? l10n.shiftCheckOutCta
-                              : l10n.clockInCta),
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                      style: TextStyle(
-                        fontSize: context.custom(compact: 11, normal: 12.5, expanded: 13.5),
-                        fontWeight: FontWeight.w800,
-                        letterSpacing: 0.2,
+                onPressed: onPunchPressed ??
+                    () => context.push(
+                          AppRoutes.checkInCamera,
+                          extra: isWorking
+                              ? AttendanceType.checkOut
+                              : AttendanceType.checkIn,
+                        ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    AppIcon(AppIcons.faceScan, size: 17, color: ctaFgColor),
+                    4.gapW,
+                    Flexible(
+                      child: Text(
+                        ctaText,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: TextStyle(
+                          fontSize: context.custom(compact: 11, normal: 12.5, expanded: 13.5),
+                          fontWeight: FontWeight.w800,
+                          letterSpacing: 0.2,
+                        ),
                       ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
-          ),
-        ),
+          );
+        }(),
       ],
     );
   }

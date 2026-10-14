@@ -5,7 +5,6 @@ import 'package:vstech_hrm/core/services/app_permission_handler.dart';
 import 'package:vstech_hrm/core/theme/app_colors.dart';
 import 'package:vstech_hrm/core/theme/tile_pattern_painter.dart';
 import 'package:vstech_hrm/core/widgets/app_icon.dart';
-import 'package:vstech_hrm/features/profile/presentation/widgets/role_switcher_sheet.dart';
 
 /// Compact, bounded header card for Profile Screen matching Saigon tile design.
 class ProfileHeaderCard extends StatelessWidget {
@@ -14,6 +13,7 @@ class ProfileHeaderCard extends StatelessWidget {
     required this.employeeCode,
     required this.position,
     required this.isManager,
+    this.department,
     super.key,
   });
 
@@ -21,10 +21,41 @@ class ProfileHeaderCard extends StatelessWidget {
   final String employeeCode;
   final String position;
   final bool isManager;
+  final String? department;
+
+  Widget _buildTag({
+    required String text,
+    bool isRole = false,
+  }) {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 9, vertical: 3.5),
+      decoration: BoxDecoration(
+        color: isRole ? const Color(0xFFF59E0B) : const Color(0xFFFFF8EC),
+        borderRadius: BorderRadius.circular(7),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withValues(alpha: 0.18),
+            blurRadius: 4,
+            offset: const Offset(0, 1.5),
+          ),
+        ],
+      ),
+      child: Text(
+        text,
+        style: TextStyle(
+          fontSize: 11,
+          fontWeight: FontWeight.w800,
+          color: isRole ? const Color(0xFF1C1408) : const Color(0xFF0F172A),
+          letterSpacing: 0.2,
+        ),
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
     final colors = context.colors;
+    final l10n = context.l10n;
 
     return ClipRRect(
       borderRadius: BorderRadius.circular(20),
@@ -52,7 +83,7 @@ class ProfileHeaderCard extends StatelessWidget {
                       final granted = await AppPermissionHandler.requestPhotos(context);
                       if (context.mounted && granted) {
                         ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(content: Text(context.l10n.readyToUploadAvatarSnackbar)),
+                          SnackBar(content: Text(l10n.readyToUploadAvatarSnackbar)),
                         );
                       }
                     },
@@ -112,45 +143,29 @@ class ProfileHeaderCard extends StatelessWidget {
                             color: Color(0xFFFFF8EC),
                           ),
                         ),
-                        3.gapH,
-                        Text(
-                          '$employeeCode · $position',
-                          style: TextStyle(
-                            fontSize: 12,
-                            color: const Color(0xFFFFF8EC).withValues(alpha: 0.85),
-                            fontWeight: FontWeight.w500,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
+                        6.gapH,
+                        () {
+                          final roleName = isManager ? l10n.roleNameManager : l10n.roleNameEmployee;
+                          final isPosDuplicate = position.trim().toLowerCase() == roleName.trim().toLowerCase() ||
+                              position.trim().toLowerCase() == 'nhân viên' ||
+                              position.trim().toLowerCase() == 'quản lý';
+                          final isDeptDuplicate = department?.trim().toLowerCase() == roleName.trim().toLowerCase();
 
-                  // Role Switcher pill
-                  InkWell(
-                    borderRadius: BorderRadius.circular(10),
-                    onTap: () => RoleSwitcherSheet.show(context),
-                    child: Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 9, vertical: 5),
-                      decoration: BoxDecoration(
-                        color: const Color(0xFFFFF8EC).withValues(alpha: 0.22),
-                        borderRadius: BorderRadius.circular(10),
-                        border: Border.all(color: const Color(0xFFFFF8EC).withValues(alpha: 0.4)),
-                      ),
-                      child: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Text(
-                            isManager ? context.l10n.roleBadgeManager : context.l10n.roleBadgeEmployee,
-                            style: const TextStyle(
-                              fontSize: 11.5,
-                              fontWeight: FontWeight.w800,
-                              color: Color(0xFFFFF8EC),
-                            ),
-                          ),
-                          3.gapW,
-                          const AppIcon(AppIcons.shiftSwap, size: 14, color: Color(0xFFFFF8EC)),
-                        ],
-                      ),
+                          return Wrap(
+                            spacing: 6,
+                            runSpacing: 5,
+                            children: [
+                              _buildTag(text: roleName, isRole: true),
+                              if (employeeCode.isNotEmpty && employeeCode != '—')
+                                _buildTag(text: employeeCode),
+                              if (position.isNotEmpty && position != '—' && !isPosDuplicate)
+                                _buildTag(text: position),
+                              if (department != null && department!.isNotEmpty && department != '—' && !isDeptDuplicate)
+                                _buildTag(text: department!),
+                            ],
+                          );
+                        }(),
+                      ],
                     ),
                   ),
                 ],

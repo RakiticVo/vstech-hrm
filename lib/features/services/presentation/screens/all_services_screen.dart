@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:vstech_hrm/core/extensions/l10n_extension.dart';
 import 'package:vstech_hrm/core/responsive/app_layout.dart';
 import 'package:vstech_hrm/core/router/routes.dart';
+import 'package:vstech_hrm/core/session/auth_cubit.dart';
+import 'package:vstech_hrm/core/session/auth_state.dart';
 import 'package:vstech_hrm/core/theme/app_colors.dart';
 import 'package:vstech_hrm/core/widgets/app_icon.dart';
 
@@ -13,6 +16,12 @@ class AllServicesScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colors = context.colors;
+    final authState = context.watch<AuthCubit>().state;
+    final isManager = authState is Authenticated &&
+        (authState.user.role.isManager ||
+            authState.user.role.isAdmin ||
+            authState.user.claims.contains('manager.approve') ||
+            authState.user.claims.contains('hr:admin'));
 
     return Scaffold(
       backgroundColor: colors.background,
@@ -39,18 +48,7 @@ class AllServicesScreen extends StatelessWidget {
             title: context.l10n.categoryAttendanceTime,
             items: [
               _ServiceItem(context.l10n.serviceCheckInOut, AppIcons.checkIn, () => context.go(AppRoutes.attendance)),
-              _ServiceItem(
-                context.l10n.serviceHolidays,
-                AppIcons.holiday,
-                () => context.push(AppRoutes.holidays),
-                isEnabled: false,
-              ),
-              _ServiceItem(
-                context.l10n.registeredDeviceTitle,
-                AppIcons.device,
-                () => context.push(AppRoutes.registeredDevice),
-                isEnabled: false,
-              ),
+              _ServiceItem(context.l10n.calendarScreenTitle, AppIcons.calendar, () => context.push(AppRoutes.shiftSchedule)),
             ],
             colors: colors,
           ),
@@ -60,7 +58,12 @@ class AllServicesScreen extends StatelessWidget {
             items: [
               _ServiceItem(context.l10n.leaveManageTitle, AppIcons.leave, () => context.push(AppRoutes.leaveManage)),
               _ServiceItem(context.l10n.overtimeManageTitle, AppIcons.overtime, () => context.push(AppRoutes.overtimeManage)),
-              _ServiceItem(context.l10n.serviceTrackRequests, AppIcons.requests, () => context.go(AppRoutes.requests)),
+              if (isManager)
+                _ServiceItem(
+                  context.l10n.approvalsCenterTitle,
+                  AppIcons.approvals,
+                  () => context.go(AppRoutes.approvals),
+                ),
             ],
             colors: colors,
           ),
@@ -69,18 +72,15 @@ class AllServicesScreen extends StatelessWidget {
             title: context.l10n.categoryPayrollRewards,
             items: [
               _ServiceItem(context.l10n.serviceSalaryTable, AppIcons.payroll, () => context.go(AppRoutes.payroll)),
-              _ServiceItem(context.l10n.servicePayslip, AppIcons.payslip, () => context.push(AppRoutes.payslipDetail)),
               _ServiceItem(context.l10n.disputeManageTitle, AppIcons.dispute, () => context.push(AppRoutes.salaryDisputes)),
             ],
             colors: colors,
           ),
           22.gapH,
           _buildCategory(
-            title: context.l10n.categoryCareerProfile,
+            title: context.l10n.profile,
             items: [
               _ServiceItem(context.l10n.serviceProfile, AppIcons.profile, () => context.go(AppRoutes.profile)),
-              _ServiceItem(context.l10n.serviceApprovals, AppIcons.approvals, () => context.push(AppRoutes.approvals)),
-              _ServiceItem(context.l10n.execDashboardTitle, AppIcons.target, () => context.push(AppRoutes.executiveDashboard)),
               _ServiceItem(context.l10n.serviceSettings, AppIcons.settings, () => context.push(AppRoutes.settings)),
             ],
             colors: colors,
@@ -95,6 +95,8 @@ class AllServicesScreen extends StatelessWidget {
     required List<_ServiceItem> items,
     required AppColorsExtension colors,
   }) {
+    if (items.isEmpty) return const SizedBox.shrink();
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -119,44 +121,40 @@ class AllServicesScreen extends StatelessWidget {
           itemCount: items.length,
           itemBuilder: (context, index) {
             final item = items[index];
-            final isEnabled = item.isEnabled;
             return InkWell(
               borderRadius: BorderRadius.circular(16),
-              onTap: isEnabled ? item.onTap : null,
-              child: Opacity(
-                opacity: isEnabled ? 1.0 : 0.38,
-                child: Column(
-                  children: [
-                    Container(
-                      width: 52,
-                      height: 52,
-                      decoration: BoxDecoration(
-                        color: colors.surface,
-                        borderRadius: BorderRadius.circular(16),
-                        border: Border.all(color: colors.border),
-                      ),
-                      child: Center(
-                        child: AppIcon(
-                          item.iconName,
-                          color: isEnabled ? colors.primaryIndigo : colors.textTertiary,
-                        ),
+              onTap: item.onTap,
+              child: Column(
+                children: [
+                  Container(
+                    width: 52,
+                    height: 52,
+                    decoration: BoxDecoration(
+                      color: colors.surface,
+                      borderRadius: BorderRadius.circular(16),
+                      border: Border.all(color: colors.border),
+                    ),
+                    child: Center(
+                      child: AppIcon(
+                        item.iconName,
+                        color: colors.primaryIndigo,
                       ),
                     ),
-                    const SizedBox(height: 6),
-                    Text(
-                      item.label,
-                      style: TextStyle(
-                        fontSize: 10.5,
-                        fontWeight: FontWeight.w700,
-                        color: isEnabled ? colors.textPrimary : colors.textTertiary,
-                        height: 1.2,
-                      ),
-                      textAlign: TextAlign.center,
-                      maxLines: 2,
-                      overflow: TextOverflow.ellipsis,
+                  ),
+                  const SizedBox(height: 6),
+                  Text(
+                    item.label,
+                    style: TextStyle(
+                      fontSize: 10.5,
+                      fontWeight: FontWeight.w700,
+                      color: colors.textPrimary,
+                      height: 1.2,
                     ),
-                  ],
-                ),
+                    textAlign: TextAlign.center,
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ],
               ),
             );
           },
@@ -170,13 +168,10 @@ class _ServiceItem {
   const new(
     this.label,
     this.iconName,
-    this.onTap, {
-    this.isEnabled = true,
-  });
+    this.onTap,
+  );
 
   final String label;
   final String iconName;
   final VoidCallback? onTap;
-  final bool isEnabled;
 }
-

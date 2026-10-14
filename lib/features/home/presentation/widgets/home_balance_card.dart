@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:vstech_hrm/core/extensions/l10n_extension.dart';
@@ -12,9 +13,9 @@ import 'package:vstech_hrm/features/home/presentation/widgets/home_ring_progress
 
 /// Primary "Balance" Card showing worked hours today, progress ring,
 /// in/out times, and primary Amber check-in CTA button.
-/// Follows DESIGN.md §6 & Phone.dc.html lines 112–141.
-class HomeBalanceCard extends StatelessWidget {
-  const HomeBalanceCard({
+/// Includes live real-time Timer ticking when employee is clocked in.
+class HomeBalanceCard extends StatefulWidget {
+  const new({
     this.todayAttendance,
     this.workedHours,
     this.shiftName,
@@ -35,55 +36,100 @@ class HomeBalanceCard extends StatelessWidget {
   final bool? isShiftComplete;
   final VoidCallback? onPunchPressed;
 
+  @override
+  State<HomeBalanceCard> createState() => _HomeBalanceCardState();
+}
+
+class _HomeBalanceCardState extends State<HomeBalanceCard> {
+  Timer? _ticker;
+
+  @override
+  void initState() {
+    super.initState();
+    _syncTimer();
+  }
+
+  @override
+  void didUpdateWidget(HomeBalanceCard oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (oldWidget.todayAttendance != widget.todayAttendance) {
+      _syncTimer();
+    }
+  }
+
+  @override
+  void dispose() {
+    _ticker?.cancel();
+    super.dispose();
+  }
+
+  void _syncTimer() {
+    final att = widget.todayAttendance;
+    final isWorking = att != null && att.hasCheckedIn && !att.hasCheckedOut;
+    if (isWorking) {
+      _ticker ??= Timer.periodic(const Duration(seconds: 1), (_) {
+        if (mounted) setState(() {});
+      });
+    } else {
+      _ticker?.cancel();
+      _ticker = null;
+    }
+  }
+
+  DateTime? _parseTime(String? raw) {
+    if (raw == null || raw.isEmpty) return null;
+    final trimmed = raw.trim();
+    final now = DateTime.now();
+    final iso = DateTime.tryParse(trimmed);
+    if (iso != null) return DateTime(now.year, now.month, now.day, iso.hour, iso.minute, iso.second);
+    final parts = (trimmed.contains('T') ? trimmed.split('T')[1] : trimmed).split(':');
+    if (parts.length >= 2) {
+      final h = int.tryParse(parts[0]);
+      final m = int.tryParse(parts[1]);
+      final s = parts.length > 2 ? (int.tryParse(parts[2].split('.')[0]) ?? 0) : 0;
+      if (h != null && m != null) return DateTime(now.year, now.month, now.day, h, m, s);
+    }
+    return null;
+  }
+
+  Duration _calculateWorkedDuration() {
+    final att = widget.todayAttendance;
+    if (att == null || !att.hasCheckedIn || att.checkInTime == null) return Duration.zero;
+    final inTime = _parseTime(att.checkInTime);
+    if (inTime == null) return Duration.zero;
+    final now = DateTime.now();
+    final endTime = (att.hasCheckedOut && att.checkOutTime != null)
+        ? (_parseTime(att.checkOutTime) ?? now)
+        : now;
+    var diff = endTime.difference(inTime);
+    if (diff.isNegative && diff.inHours.abs() >= 5) {
+      diff = endTime.difference(inTime.subtract(const Duration(hours: 7)));
+    }
+    return diff.isNegative ? Duration.zero : diff;
+  }
+
   String _computedWorkedHours() {
-    if (workedHours != null) return workedHours!;
-    final att = todayAttendance;
+    if (widget.workedHours != null) return widget.workedHours!;
+    final att = widget.todayAttendance;
     if (att == null || !att.hasCheckedIn || att.checkInTime == null) {
       return '0h 00m';
     }
-    try {
-      final parts = att.checkInTime!.split(':');
-      if (parts.length >= 2) {
-        final now = DateTime.now();
-        final inTime = DateTime(now.year, now.month, now.day, int.parse(parts[0]), int.parse(parts[1]));
-        final endTime = (att.hasCheckedOut && att.checkOutTime != null)
-            ? DateTime(now.year, now.month, now.day, int.parse(att.checkOutTime!.split(':')[0]), int.parse(att.checkOutTime!.split(':')[1]))
-            : now;
-        final diff = endTime.difference(inTime);
-        if (!diff.isNegative) {
-          final hours = diff.inHours;
-          final mins = diff.inMinutes.remainder(60);
-          return '${hours}h ${mins.toString().padLeft(2, '0')}m';
-        }
-      }
-    } on Object {
-      // Fallback
+
+    final diff = _calculateWorkedDuration();
+    final hours = diff.inHours;
+    final mins = diff.inMinutes.remainder(60);
+    final secs = diff.inSeconds.remainder(60);
+
+    if (att.hasCheckedIn && !att.hasCheckedOut) {
+      return '${hours}h ${mins.toString().padLeft(2, '0')}m ${secs.toString().padLeft(2, '0')}s';
     }
-    return '0h 00m';
+    return '${hours}h ${mins.toString().padLeft(2, '0')}m';
   }
 
   double _computedPercentage() {
-    if (workedPercentage != null) return workedPercentage!;
-    final att = todayAttendance;
-    if (att == null || !att.hasCheckedIn || att.checkInTime == null) {
-      return 0;
-    }
-    try {
-      final parts = att.checkInTime!.split(':');
-      if (parts.length >= 2) {
-        final now = DateTime.now();
-        final inTime = DateTime(now.year, now.month, now.day, int.parse(parts[0]), int.parse(parts[1]));
-        final endTime = (att.hasCheckedOut && att.checkOutTime != null)
-            ? DateTime(now.year, now.month, now.day, int.parse(att.checkOutTime!.split(':')[0]), int.parse(att.checkOutTime!.split(':')[1]))
-            : now;
-        final diff = endTime.difference(inTime);
-        final ratio = diff.inMinutes / (8.0 * 60.0);
-        return ratio.clamp(0.0, 1.0);
-      }
-    } on Object {
-      // Fallback
-    }
-    return 0;
+    if (widget.workedPercentage != null) return widget.workedPercentage!;
+    final diff = _calculateWorkedDuration();
+    return (diff.inSeconds / (8.0 * 3600.0)).clamp(0.0, 1.0);
   }
 
   @override
@@ -93,14 +139,17 @@ class HomeBalanceCard extends StatelessWidget {
 
     final displayHours = _computedWorkedHours();
     final displayPercentage = _computedPercentage();
-    final displayCheckIn = checkInTime ?? todayAttendance?.checkInTime ?? '--:--';
-    final displayCheckOut = checkOutTime ?? todayAttendance?.checkOutTime ?? '--:--';
-    final displayShiftComplete = isShiftComplete ?? todayAttendance?.hasCheckedOut ?? false;
-    final displayShiftName = shiftName ?? todayAttendance?.shiftName ?? l10n.todayShiftDefault;
+    final displayCheckIn = widget.checkInTime ?? widget.todayAttendance?.checkInTime ?? '--:--';
+    final displayCheckOut = widget.checkOutTime ?? widget.todayAttendance?.checkOutTime ?? '--:--';
+    final displayShiftComplete = widget.isShiftComplete ?? widget.todayAttendance?.hasCheckedOut ?? false;
+    final shiftStart = widget.todayAttendance?.shiftStart ?? '';
+    final shiftEnd = widget.todayAttendance?.shiftEnd ?? '';
+    final shiftHours = (shiftStart.isNotEmpty && shiftEnd.isNotEmpty) ? '$shiftStart - $shiftEnd' : null;
+    final rawShift = widget.shiftName ?? widget.todayAttendance?.shiftName ?? l10n.todayShiftDefault;
 
     final cardPadding = context.custom(compact: 14, normal: 18, expanded: 22);
     final ringSize = context.custom(compact: 68, normal: 80, expanded: 88);
-    final hoursFontSize = context.custom(compact: 32, normal: 38, expanded: 42);
+    final hoursFontSize = context.custom(compact: 28, normal: 34, expanded: 38);
 
     return Container(
       decoration: BoxDecoration(
@@ -119,7 +168,6 @@ class HomeBalanceCard extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // Top section: Left metrics + Right progress ring
           Row(
             children: [
               Expanded(
@@ -134,45 +182,76 @@ class HomeBalanceCard extends StatelessWidget {
                       ),
                     ),
                     5.gapH,
-                    Text(
-                      displayHours,
-                      style: TextStyle(
-                        fontSize: hoursFontSize.toDouble(),
-                        fontWeight: FontWeight.w800,
-                        letterSpacing: -1.6,
-                        height: 1,
-                        color: colors.textPrimary,
-                        fontFeatures: const [FontFeature.tabularFigures()],
+                    FittedBox(
+                      fit: BoxFit.scaleDown,
+                      alignment: Alignment.centerLeft,
+                      child: Text(
+                        displayHours,
+                        style: TextStyle(
+                          fontSize: hoursFontSize.toDouble(),
+                          fontWeight: FontWeight.w800,
+                          letterSpacing: -1.2,
+                          height: 1,
+                          color: colors.textPrimary,
+                          fontFeatures: const [FontFeature.tabularFigures()],
+                        ),
                       ),
                     ),
-                    5.gapH,
+                    7.gapH,
                     InkWell(
                       onTap: () => context.push(AppRoutes.shiftSchedule),
-                      borderRadius: BorderRadius.circular(6),
-                      child: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Flexible(
-                            child: Text(
-                              displayShiftName,
-                              maxLines: 1,
-                              overflow: TextOverflow.ellipsis,
-                              style: AppTextStyles.bodySmall(color: colors.tealPrimary).copyWith(
-                                fontWeight: FontWeight.w700,
-                                fontFeatures: const [FontFeature.tabularFigures()],
+                      borderRadius: BorderRadius.circular(8),
+                      child: Container(
+                        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                        decoration: BoxDecoration(
+                          color: colors.tealPrimary.withValues(alpha: 0.1),
+                          borderRadius: BorderRadius.circular(8),
+                          border: Border.all(color: colors.tealPrimary.withValues(alpha: 0.25)),
+                        ),
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Icon(Icons.badge_outlined, size: 14, color: colors.tealPrimary),
+                            5.gapW,
+                            Flexible(
+                              child: Column(
+                                mainAxisSize: MainAxisSize.min,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    rawShift,
+                                    maxLines: 1,
+                                    overflow: TextOverflow.ellipsis,
+                                    style: AppTextStyles.bodySmall(color: colors.tealPrimary).copyWith(
+                                      fontWeight: FontWeight.w700,
+                                      fontSize: 12,
+                                    ),
+                                  ),
+                                  if (shiftHours != null)
+                                    Text(
+                                      shiftHours,
+                                      maxLines: 1,
+                                      overflow: TextOverflow.ellipsis,
+                                      style: AppTextStyles.bodySmall(
+                                        color: colors.tealPrimary.withValues(alpha: 0.85),
+                                      ).copyWith(
+                                        fontWeight: FontWeight.w600,
+                                        fontSize: 11,
+                                      ),
+                                    ),
+                                ],
                               ),
                             ),
-                          ),
-                          4.gapW,
-                          AppIcon(AppIcons.chevronRight, size: 16, color: colors.tealPrimary),
-                        ],
+                            2.gapW,
+                            AppIcon(AppIcons.chevronRight, size: 14, color: colors.tealPrimary),
+                          ],
+                        ),
                       ),
                     ),
                   ],
                 ),
               ),
               14.gapW,
-              // Circular progress ring
               SizedBox(
                 width: ringSize.toDouble(),
                 height: ringSize.toDouble(),
@@ -197,17 +276,14 @@ class HomeBalanceCard extends StatelessWidget {
               ),
             ],
           ),
-
           14.gapH,
           Divider(height: 1, color: colors.border),
           14.gapH,
-
-          // Bottom section: Check-in / Check-out / CTA button
           HomeBalanceBottomRow(
             checkInTime: displayCheckIn,
             checkOutTime: displayCheckOut,
             isShiftComplete: displayShiftComplete,
-            onPunchPressed: onPunchPressed,
+            onPunchPressed: widget.onPunchPressed,
           ),
         ],
       ),

@@ -15,11 +15,10 @@ import 'package:vstech_hrm/core/widgets/app_card.dart';
 import 'package:vstech_hrm/core/widgets/app_icon.dart';
 import 'package:vstech_hrm/core/widgets/tile_header_banner.dart';
 import 'package:vstech_hrm/core/widgets/tile_section_divider.dart';
-import 'package:vstech_hrm/features/approvals/domain/usecases/get_pending_approvals_usecase.dart';
+import 'package:vstech_hrm/features/approvals/presentation/helpers/approvals_action_handler.dart';
 import 'package:vstech_hrm/features/attendance/domain/entities/attendance_record_entity.dart';
 import 'package:vstech_hrm/features/attendance/domain/entities/attendance_today_entity.dart';
 import 'package:vstech_hrm/features/attendance/domain/usecases/get_today_attendance_usecase.dart';
-import 'package:vstech_hrm/features/attendance/presentation/widgets/attendance_offline_queue_banner.dart';
 import 'package:vstech_hrm/features/home/presentation/widgets/home_announcements.dart';
 import 'package:vstech_hrm/features/home/presentation/widgets/home_balance_card.dart';
 import 'package:vstech_hrm/features/home/presentation/widgets/home_manager_approval_strip.dart';
@@ -27,10 +26,12 @@ import 'package:vstech_hrm/features/home/presentation/widgets/home_quick_actions
 import 'package:vstech_hrm/features/home/presentation/widgets/home_salary_card.dart';
 import 'package:vstech_hrm/features/home/presentation/widgets/home_summary_grid.dart';
 
+import 'package:vstech_hrm/features/schedule/domain/usecases/get_my_shift_schedule_usecase.dart';
+
 /// Main Home Screen for Employee (NV) and Manager (QL).
 /// Follows Clean Architecture, AppLayout, and L10n standards.
 class HomeScreen extends StatefulWidget {
-  const HomeScreen({super.key});
+  const new({super.key});
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
@@ -47,16 +48,51 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Future<void> _loadHomeData() async {
-    final res = await sl<GetPendingApprovalsUseCase>()();
-    if (!mounted) return;
-    res.fold((_) {}, (list) {
-      setState(() => _pendingCount = list.length);
-    });
+    final authState = context.read<AuthCubit>().state;
+    final canApprove = authState is Authenticated && authState.role.canApprove;
+    if (canApprove) {
+      final items = await ApprovalsActionHandler.loadAllPendingApprovals();
+      if (!mounted) return;
+      setState(() => _pendingCount = items.where((i) => i.isPending).length);
+    }
     final att = await sl<GetTodayAttendanceUseCase>()();
     if (!mounted) return;
     att.fold((_) {}, (attendance) {
       setState(() => _todayAttendance = attendance);
     });
+
+    if (sl.isRegistered<GetMyShiftScheduleUseCase>()) {
+      final now = DateTime.now();
+      final todayStr = '${now.year}-${now.month.toString().padLeft(2, '0')}-${now.day.toString().padLeft(2, '0')}';
+      final myShiftRes = await sl<GetMyShiftScheduleUseCase>()(from: todayStr, to: todayStr);
+      if (!mounted) return;
+      myShiftRes.fold((_) {}, (shifts) {
+        final todayShift = shifts.firstOrNull;
+        if (todayShift != null && mounted) {
+          final hasShift = todayShift.hasShift;
+          final sName = hasShift
+              ? (todayShift.shiftName?.isNotEmpty == true ? todayShift.shiftName! : 'Ca ${todayShift.shiftCode}')
+              : context.l10n.noShiftAssigned;
+          final sStart = hasShift ? (todayShift.startHour?.isNotEmpty == true ? todayShift.startHour! : '08:00') : '';
+          final sEnd = hasShift ? (todayShift.endHour?.isNotEmpty == true ? todayShift.endHour! : '17:00') : '';
+          setState(() {
+            _todayAttendance = (_todayAttendance ?? AttendanceTodayEntity(
+              hasCheckedIn: false,
+              hasCheckedOut: false,
+              shiftName: sName,
+              shiftStart: sStart,
+              shiftEnd: sEnd,
+              classification: AttendanceClassification.onTime,
+              todayDate: todayStr,
+            )).copyWith(
+              shiftName: sName,
+              shiftStart: sStart,
+              shiftEnd: sEnd,
+            );
+          });
+        }
+      });
+    }
   }
 
   Future<void> _onPunch() async {
@@ -106,20 +142,10 @@ class _HomeScreenState extends State<HomeScreen> {
                 subtitle: _formatCurrentDate(),
                 secondSubtitle: department,
                 avatarFallbackText: userInitials,
-                trailing: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    IconButton(
-                      icon: const AppIcon(AppIcons.qr, color: Color(0xFFFFF8EC), size: 22),
-                      tooltip: l10n.qrScannerTitle,
-                      onPressed: () => context.push(AppRoutes.qrScanner),
-                    ),
-                    IconButton(
-                      icon: const AppIcon(AppIcons.bell, color: Color(0xFFFFF8EC), size: 22),
-                      tooltip: l10n.notificationsTitle,
-                      onPressed: () => context.push(AppRoutes.notifications),
-                    ),
-                  ],
+                trailing: IconButton(
+                  icon: const AppIcon(AppIcons.bell, color: Color(0xFFFFF8EC), size: 22),
+                  tooltip: l10n.notificationsTitle,
+                  onPressed: () => context.push(AppRoutes.notifications),
                 ),
                 bottomPadding: context.custom(normal: 68, compact: 56),
               ),
@@ -129,9 +155,6 @@ class _HomeScreenState extends State<HomeScreen> {
                   padding: context.paddingCustom(horizontal: 16),
                   child: Column(
                     children: [
-                      // Persistent Offline Queue Warning Banner
-                      const AttendanceOfflineQueueBanner(),
-
                       // Balance card (Worked hours & punch CTA)
                       HomeBalanceCard(
                         todayAttendance: _todayAttendance,
@@ -146,14 +169,22 @@ class _HomeScreenState extends State<HomeScreen> {
 
                       // 5 Circular Quick Actions
                       20.gapH,
+                      _buildSectionTitle(l10n.homeQuickActionsSection, colors),
+                      12.gapH,
                       const HomeQuickActions(),
 
                       // Saigon Tile Section Divider
-                      20.gapH,
+                      18.gapH,
                       const TileSectionDivider(),
 
-                      // 2x2 Summary Grid
+                      // 2x2 Summary Grid (Ngày công, Phép còn, Tăng ca, Muộn/Sớm)
                       18.gapH,
+                      _buildSectionTitle(
+                        l10n.homeMonthlyStatsSection,
+                        colors,
+                        trailing: 'T${DateTime.now().month}/${DateTime.now().year}',
+                      ),
+                      12.gapH,
                       const HomeSummaryGrid(),
 
                       // Salary Card with eye toggle
@@ -215,6 +246,32 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ],
       ),
+    );
+  }
+
+  Widget _buildSectionTitle(String title, AppColorsExtension colors, {String? trailing}) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Text(
+          title,
+          style: TextStyle(
+            fontSize: 13.5,
+            fontWeight: FontWeight.w800,
+            color: colors.textPrimary,
+            letterSpacing: 0.1,
+          ),
+        ),
+        if (trailing != null)
+          Text(
+            trailing,
+            style: TextStyle(
+              fontSize: 12,
+              fontWeight: FontWeight.w600,
+              color: colors.textSecondary,
+            ),
+          ),
+      ],
     );
   }
 }

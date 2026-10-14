@@ -14,6 +14,7 @@ import 'package:vstech_hrm/core/session/auth_cubit.dart';
 import 'package:vstech_hrm/core/session/auth_state.dart';
 import 'package:vstech_hrm/core/theme/app_colors.dart';
 import 'package:vstech_hrm/core/widgets/app_icon.dart';
+import 'package:vstech_hrm/core/widgets/app_toast.dart';
 import 'package:vstech_hrm/features/auth/presentation/widgets/biometric_login_button.dart';
 import 'package:vstech_hrm/features/auth/presentation/widgets/login_header_widget.dart';
 import 'package:vstech_hrm/features/auth/presentation/widgets/login_submit_button.dart';
@@ -133,9 +134,7 @@ class _LoginScreenState extends State<LoginScreen> {
     final username = _codeController.text.trim();
     final password = _passwordController.text.trim();
     if (username.isEmpty || password.isEmpty) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(context.l10n.fillRequiredField), backgroundColor: context.colors.error),
-      );
+      context.showErrorToast(context.l10n.fillRequiredField);
       return;
     }
 
@@ -154,9 +153,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
     if (effectiveUser.isEmpty || effectivePass.isEmpty) {
       if (!mounted) return;
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(context.l10n.noSavedCredentialsForBiometric), backgroundColor: context.colors.error),
-      );
+      context.showErrorToast(context.l10n.noSavedCredentialsForBiometric);
       return;
     }
 
@@ -185,13 +182,7 @@ class _LoginScreenState extends State<LoginScreen> {
         if (state is Unauthenticated &&
             state.message != null &&
             state.message!.isNotEmpty) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: Text(state.message!),
-              backgroundColor: colors.error,
-              behavior: SnackBarBehavior.floating,
-            ),
-          );
+          context.showErrorToast(state.message!);
         }
       },
       child: Scaffold(

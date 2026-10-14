@@ -68,7 +68,7 @@ class _HomeSalaryCardState extends State<HomeSalaryCard> {
         color: Colors.transparent,
         child: InkWell(
           borderRadius: BorderRadius.circular(18),
-          onTap: () => context.push(AppRoutes.payslipDetail),
+          onTap: () => context.push(AppRoutes.payroll),
           child: Padding(
             padding: EdgeInsets.all(cardPadding),
             child: Column(

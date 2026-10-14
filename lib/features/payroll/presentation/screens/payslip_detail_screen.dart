@@ -67,20 +67,6 @@ class _PayslipDetailScreenState extends State<PayslipDetailScreen> {
     );
   }
 
-  void _handleDisputeLine(String itemName, String amountStr) {
-    final numeric = int.tryParse(amountStr.replaceAll(RegExp(r'[^\d]'), '')) ?? 1000000;
-    unawaited(
-      context.push(
-        AppRoutes.salaryDisputeNew,
-        extra: {
-          'item': itemName,
-          'amount': numeric,
-          'period': '${_payslip?.month ?? DateTime.now().month}/${DateTime.now().year}',
-        },
-      ),
-    );
-  }
-
   String _fmt(double amount, {bool isNegative = false}) {
     if (amount == 0) return '0 ₫';
     final str = NumberFormat('#,###', 'vi_VN').format(amount);
@@ -174,7 +160,6 @@ class _PayslipDetailScreenState extends State<PayslipDetailScreen> {
             PayslipBreakdownItems(
               items: incomes,
               valueColor: colors.textPrimary,
-              onDisputeLine: _handleDisputeLine,
             ),
             20.gapH,
 
@@ -186,7 +171,6 @@ class _PayslipDetailScreenState extends State<PayslipDetailScreen> {
             PayslipBreakdownItems(
               items: deductions,
               valueColor: colors.error,
-              onDisputeLine: _handleDisputeLine,
             ),
             20.gapH,
 

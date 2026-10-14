@@ -8,6 +8,7 @@ import 'package:vstech_hrm/core/theme/app_colors.dart';
 import 'package:vstech_hrm/core/theme/tile_pattern_painter.dart';
 import 'package:vstech_hrm/core/widgets/app_icon.dart';
 import 'package:vstech_hrm/features/payroll/domain/entities/payslip_entity.dart';
+import 'package:vstech_hrm/features/payroll/presentation/widgets/payslip_auth_dialog.dart';
 
 /// Hero tile card displaying net salary, pay date, and view payslip action.
 class PayrollHeroCard extends StatelessWidget {
@@ -123,7 +124,10 @@ class PayrollHeroCard extends StatelessWidget {
                           borderRadius: BorderRadius.circular(15),
                         ),
                       ),
-                      onPressed: () => context.push(AppRoutes.payslipLock),
+                      onPressed: () => PayslipAuthDialog.show(
+                        context,
+                        onAuthenticated: () => context.push(AppRoutes.payslipDetail),
+                      ),
                       icon: const AppIcon(AppIcons.payslip, size: 18, color: Color(0xFF1C1408)),
                       label: Text(
                         context.l10n.viewPayslipButton,

@@ -54,7 +54,7 @@
   "managerApprovalAction": "Duyệt ngay",
 
   "metricWorkdays": "Ngày công",
-  "metricLeaveBalance": "Phép còn lại",
+  "metricLeaveBalance": "Phép năm còn lại",
   "metricOvertime": "Giờ tăng ca",
   "metricPending": "Chờ duyệt",
 
@@ -73,9 +73,9 @@
   "shiftCheckOutLabel": "RA VỀ",
   "shiftDoneCta": "CHECK OUT",
   "shiftCheckOutCta": "CHECK OUT",
-  "todayShiftDefault": "Ca hôm nay 08:00 — 17:00",
+  "todayShiftDefault": "Ca làm việc hôm nay",
 
-  "metricLateEarly": "MUỘN / SỚM",
+  "metricLateEarly": "Vào trễ / Ra sớm",
   "daysUnit": "ngày",
   "hoursUnit": "h",
 
@@ -114,8 +114,8 @@
   "sendCorrectionRequest": "Gửi yêu cầu sửa công",
   "statusCheckedIn": "Đã chấm công vào",
   "statusNotCheckedIn": "Chưa chấm công",
-  "shiftPromptArrive": "Ca của bạn bắt đầu 08:00. Chấm công khi bạn đến.",
-  "hcmOfficeVerified": "Văn phòng HCM - đã xác thực vị trí",
+  "shiftPromptArrive": "Vui lòng chấm công khi đến nơi làm việc.",
+  "hcmOfficeVerified": "Đã xác thực vị trí chấm công",
   "zeroMinutes": "0 phút",
   "offlineAttendanceModeLabel": "Chấm công Ngoại tuyến (Vector ≥ 85%)",
   "onlineAttendanceModeLabel": "Chế độ Trực tuyến (Online)",
@@ -125,7 +125,7 @@
   "faceScanCaptureCheckOutCta": "Chụp ảnh & Check out",
   "faceCheckingRegistration": "Đang kiểm tra dữ liệu khuôn mặt...",
   "faceCheckingButton": "Đang kiểm tra...",
-  "offlineLocationLabel": "Văn phòng HCM (Đối soát GPS cục bộ)",
+  "offlineLocationLabel": "Đối soát GPS cục bộ",
   "offlineMatchSuccess": "Độ khớp khuôn mặt {pct}% (≥ 85%). Đã lưu hàng đợi offline.",
   "@offlineMatchSuccess": {
     "placeholders": {
@@ -201,6 +201,9 @@
   "dayOffDescription": "Không có ca làm việc được phân công. Hãy nghỉ ngơi, nạp năng lượng chuẩn bị cho tuần mới!",
   "registerOvertimeCta": "Đăng ký làm thêm (OT)",
   "shiftLabelTime": "Thời gian:",
+  "shiftLabelDate": "Ngày làm việc:",
+  "shiftLabelCode": "Mã ca:",
+  "shiftLabelSource": "Phân loại ca:",
   "shiftLabelBreak": "Nghỉ giữa ca:",
   "shiftLabelLocation": "Địa điểm:",
   "shiftLabelManager": "Quản lý ca:",
@@ -511,6 +514,8 @@
   "cancelButton": "Hủy",
   "roleBadgeManager": "QL",
   "roleBadgeEmployee": "NV",
+  "roleNameManager": "Quản lý",
+  "roleNameEmployee": "Nhân viên",
   "readyToUploadAvatarSnackbar": "Đã sẵn sàng tải lên ảnh đại diện mới",
 
   "languageSettingTitle": "CÀI ĐẶT NGÔN NGỮ",
@@ -608,8 +613,8 @@
   "manageDevicePermissions": "Quản lý quyền thiết bị",
   "permissionsSubtext": "Máy ảnh, Vị trí GPS, Tệp & ảnh, Thông báo",
   "securityAndPrivacySection": "Bảo mật & Quyền riêng tư",
-  "biometricUnlock": "Mở khoá sinh trắc học",
-  "biometricUnlockDesc": "Dùng Face ID hoặc vân tay để mở app",
+  "biometricUnlock": "Xác nhận Face ID / Vân tay",
+  "biometricUnlockDesc": "Dùng Face ID hoặc vân tay để mở app & phiếu lương",
   "autoLock": "Tự động khoá",
   "autoLockDesc": "Khoá app ngay khi chuyển sang ứng dụng khác",
   "displaySection": "Hiển thị",
@@ -658,7 +663,7 @@
 
   "calendarScreenTitle": "Lịch & Ca làm việc",
   "calendarSubtitle": "Tháng 09/2026 · 22 ngày công chuẩn",
-  "monthSummaryTitle": "Tổng hợp tháng 9",
+  "monthSummaryTitle": "Tổng hợp tháng",
   "payableWorkdays": "Ngày công tính lương",
   "totalWorkHours": "Tổng giờ làm việc",
   "cumulativeOvertime": "Tăng ca lũy kế",
@@ -760,7 +765,7 @@
       "hours": {"type": "String"}
     }
   },
-  "statusLateMinutes": "Đi muộn {minutes} phút",
+  "statusLateMinutes": "{minutes} phút",
   "@statusLateMinutes": {
     "placeholders": {
       "minutes": {"type": "String"}
@@ -1432,5 +1437,131 @@
   "startNextStepBtn": "Thực hiện bước tiếp theo",
   "faceAuthTitle": "Nhận diện khuôn mặt",
   "faceNotRegisteredPrompt": "Bạn chưa đăng ký khuôn mặt trên hệ thống. Vui lòng đăng ký nhận diện khuôn mặt tại trang Cá nhân trước khi chấm công.",
-  "goToProfileCta": "Đến trang Cá nhân"
+  "goToProfileCta": "Đến trang Cá nhân",
+  "systemAndSupportSection": "HỆ THỐNG & HỖ TRỢ",
+  "faqTitle": "Câu hỏi thường gặp (FAQ)",
+  "privacyPolicyTitle": "Chính sách bảo mật",
+  "payslipAuthDialogTitle": "Xác thực xem phiếu lương",
+  "payslipAuthDialogSubtitleBiometric": "Để bảo mật thông tin thu nhập, vui lòng nhập mật khẩu tài khoản hoặc dùng sinh trắc học:",
+  "payslipAuthDialogSubtitlePasswordOnly": "Để bảo mật thông tin thu nhập, vui lòng nhập mật khẩu tài khoản:",
+  "payslipAuthPasswordHint": "Nhập mật khẩu tài khoản",
+  "payslipAuthIncorrectPassword": "Mật khẩu không chính xác, vui lòng thử lại",
+  "payslipAuthEmptyPassword": "Vui lòng nhập mật khẩu tài khoản",
+  "useBiometricsButton": "Sử dụng Vân tay / Face ID",
+  "faqCategoryAll": "Tất cả",
+  "faqCategoryAttendance": "Chấm công",
+  "faqCategoryPayroll": "Phiếu lương",
+  "faqCategoryRequests": "Đơn từ",
+  "faqCategoryAccount": "Tài khoản",
+  "faqSearchHint": "Tìm kiếm câu hỏi giải đáp...",
+  "faqQ1": "Làm sao để điểm danh khi mất kết nối mạng?",
+  "faqA1": "Hệ thống hỗ trợ hàng đợi điểm danh ngoại tuyến (Offline Queue). Khi mất mạng, lượt chấm công kèm vector khuôn mặt sẽ được lưu trữ an toàn trong máy và tự động đồng bộ khi có Internet.",
+  "faqQ2": "Tại sao cần xác thực bảo mật khi xem phiếu lương?",
+  "faqA2": "Phiếu lương chứa thông tin tài chính cá nhân nhạy cảm. Hệ thống yêu cầu xác thực mật khẩu hoặc sinh trắc học (vân tay / Face ID) để đảm bảo chỉ bạn mới có thể truy cập.",
+  "faqQ3": "Quy trình phê duyệt đơn từ diễn ra như thế nào?",
+  "faqA3": "Đơn nghỉ phép hoặc tăng ca sau khi gửi sẽ chuyển qua Quản lý trực tiếp phê duyệt, sau đó chuyển tới phòng Nhân sự xác nhận.",
+  "faqQ4": "Tôi muốn cập nhật thông tin cá nhân thì làm thế nào?",
+  "faqA4": "Các thông tin nhạy cảm như CCCD và Số tài khoản ngân hàng cần gửi yêu cầu xác nhận tới phòng Nhân sự để đảm bảo an toàn và tính chính xác dữ liệu.",
+  "faqQ5": "Làm thế nào để bật đăng nhập bằng Vân tay / Face ID?",
+  "faqA5": "Vào mục Cá nhân > Cài đặt hệ thống > Bật công tắc 'Xác thực sinh trắc học (Vân tay / Face ID)'. Sau khi kích hoạt, bạn có thể đăng nhập và mở khóa phiếu lương nhanh chóng.",
+  "faqQ6": "Nếu quên mật khẩu đăng nhập thì phải làm sao?",
+  "faqA6": "Vì lý do bảo mật doanh nghiệp, mật khẩu tài khoản được quản lý tập trung bởi bộ phận IT. Vui lòng bấm 'Quên mật khẩu' tại màn hình Đăng nhập để nhận hướng dẫn hỗ trợ.",
+  "privacyLastUpdated": "Cập nhật lần cuối: Tháng 10/2026",
+  "privacySec1Title": "1. Thu thập dữ liệu sinh trắc học",
+  "privacySec1Content": "Dữ liệu nhận diện khuôn mặt và sinh trắc học được mã hóa theo vector toán học 128 chiều và lưu trữ an toàn trên thiết bị thông qua FlutterSecureStorage. Chúng tôi không lưu ảnh gốc khuôn mặt lên máy chủ.",
+  "privacySec2Title": "2. Dữ liệu vị trí và chấm công",
+  "privacySec2Content": "Vị trí GPS chỉ được truy cập tại thời điểm bạn thực hiện thao tác chấm công để xác minh trong bán kính văn phòng/chi nhánh cho phép, hoàn toàn không theo dõi vị trí nền liên tục.",
+  "privacySec3Title": "3. Bảo mật thông tin lương và hồ sơ",
+  "privacySec3Content": "Tất cả thông tin tài chính, lương thưởng và nhân sự được mã hóa theo chuẩn đường truyền TLS 1.3 và chỉ được phân quyền xem cho cá nhân và cấp quản lý trực tiếp được chỉ định.",
+  "privacySec4Title": "4. Quyền riêng tư và kiểm soát dữ liệu",
+  "privacySec4Content": "Nhân viên có toàn quyền kiểm tra lịch sử điểm danh, xem các đơn từ đã gửi, tra cứu bảng lương và yêu cầu phòng Nhân sự đính chính khi có sai lệch.",
+  "privacySec5Title": "5. Tiêu chuẩn tuân thủ và lưu trữ",
+  "privacySec5Content": "Hệ thống tuân thủ chặt chẽ các quy định pháp lý về bảo vệ dữ liệu cá nhân (Nghị định 13/2023/NĐ-CP) và chính sách bảo mật nội bộ của doanh nghiệp.",
+  "faqEmptySearch": "Không tìm thấy câu hỏi phù hợp",
+  "homeQuickActionsSection": "Tiện ích nhanh",
+  "homeMonthlyStatsSection": "Thống kê tháng này",
+  "createOvertimeForSubordinate": "Tạo tăng ca hộ",
+  "createOvertimeForSubordinateSubtitle": "Đăng ký làm thêm giờ cho nhân viên cấp dưới",
+  "overtimeTargetEmployee": "Nhân viên tăng ca",
+  "overtimeTargetSelf": "Chính mình",
+  "selectSubordinateEmployee": "Chọn nhân viên cấp dưới",
+  "searchEmployeePlaceholder": "Tìm theo tên hoặc mã NV...",
+  "noSubordinatesFound": "Không tìm thấy nhân viên cấp dưới",
+  "overtimeSubmittedForSubordinateMsg": "Yêu cầu làm thêm giờ ngày {date} cho {employee} đã được gửi thành công.",
+  "@overtimeSubmittedForSubordinateMsg": {
+    "placeholders": {
+      "date": {"type": "String"},
+      "employee": {"type": "String"}
+    }
+  },
+  "timesheetDetailTitle": "Chi tiết ngày công",
+  "timesheetShift": "Ca làm việc",
+  "timesheetCheckIn": "Giờ vào",
+  "timesheetCheckOut": "Giờ ra",
+  "timesheetActualHours": "Thời gian làm việc",
+  "timesheetValidHours": "Công hợp lệ",
+  "timesheetLate": "Đi muộn",
+  "timesheetEarly": "Về sớm",
+  "timesheetStatus": "Trạng thái công",
+  "timesheetConfirmed": "Đã xác nhận",
+  "timesheetNotConfirmed": "Chưa xác nhận",
+  "timesheetRejected": "Đã từ chối",
+  "timesheetRejectReason": "Lý do từ chối",
+  "timesheetOvertimeSlip": "Phiếu tăng ca",
+  "timesheetLeaveSlip": "Phiếu nghỉ phép",
+  "timesheetBusinessSlip": "Phiếu công tác",
+  "timesheetExplanationSlip": "Phiếu giải trình",
+  "shiftTabPersonal": "Cá nhân",
+  "shiftTabDepartment": "Đội ngũ",
+  "shiftTabTimesheet": "Bảng công",
+  "shiftSourceScheduled": "Theo lịch phân",
+  "shiftSourceDefault": "Ca cố định",
+  "shiftSourceOff": "Nghỉ tuần",
+  "shiftOvernightBadge": "Ca qua đêm",
+  "rosterSearchHint": "Tìm theo tên hoặc mã nhân viên...",
+  "rosterFilterAll": "Tất cả",
+  "rosterTotalEmployees": "{count} nhân sự",
+  "@rosterTotalEmployees": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+  "rosterOnDutyCount": "{count} đi làm",
+  "@rosterOnDutyCount": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+  "rosterOffDutyCount": "{count} nghỉ",
+  "@rosterOffDutyCount": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+  "rosterEmptyTitle": "Không có nhân viên phù hợp",
+  "rosterEmptySubtitle": "Không tìm thấy dữ liệu phân ca trong ngày đã chọn.",
+  "rosterAssignedByLabel": "Phân ca bởi: {name}",
+  "@rosterAssignedByLabel": {
+    "placeholders": {
+      "name": {"type": "String"}
+    }
+  },
+  "rosterDatePickTooltip": "Chọn ngày xem ca",
+  "rosterRefreshTooltip": "Làm mới dữ liệu",
+  "timesheetMonthDisplay": "Tháng {month}/{year}",
+  "@timesheetMonthDisplay": {
+    "placeholders": {
+      "month": {"type": "int"},
+      "year": {"type": "int"}
+    }
+  },
+  "timesheetOvertimeHours": "Tăng ca",
+  "timesheetLeaveHours": "Nghỉ phép",
+  "timesheetLunchLabel": "Cơm trưa / Suất ăn",
+  "timesheetNoteLabel": "Ghi chú",
+  "timesheetNoData": "Không có dữ liệu công trong tháng này",
+  "timesheetWorkDate": "Ngày làm việc",
+  "timesheetOnTime": "Đúng giờ",
+  "rosterAllDepartments": "Tất cả xưởng / phòng ban",
+  "rosterDepartmentLabel": "Xưởng / Phòng ban"
 }

@@ -5,6 +5,14 @@
 ## [Unreleased]
 
 ### Added
+- Đồng bộ mô hình dữ liệu và giao diện với cập nhật API (12/10/2026 - OpenAPI v9):
+  - Hỗ trợ 2 trường cảnh báo `lateWarning` và `earlyWarning` trong `AccountEnrollmentModel`, `AttendanceRecordModel`, `AttendanceRecordEntity`, `AccountTimesheetModel` và `AccountTimesheetEntity` (GET `/api/Account/enrollment`).
+  - Tự động hiển thị huy hiệu và cảnh báo đi muộn/về sớm cho ca sản xuất theo cờ cấu hình `Attendance:VnCalc` tại danh sách lịch sử chấm công (`AttendanceDailyLogCard`), thẻ chi tiết công (`TimesheetOverviewCard`) và bottom sheet chi tiết ngày công (`TimesheetDayDetailSheet`).
+  - Bổ sung bộ kiểm thử đơn vị và giao diện `test/features/attendance/account_enrollment_warning_test.dart` (5/5 tests passing).
+- Hệ thống Floating Toast mềm mại (`AppToast`, `AppToastCard`) với bo góc tròn, hiệu ứng trượt êm ái thay thế SnackBar mặc định.
+- Hiển thị tên người xác nhận (`confirmedBy` / `confirmerName`) trên thẻ yêu cầu và chi tiết phiếu (ẩn nếu chưa duyệt, hiện kèm icon xác thực khi đã duyệt).
+- Đồng bộ chỉ số "Phép năm còn lại" trên Trang chủ qua API `GetValidLeavePlansUseCase` (`/api/LeavePlans/valid-leave-plan2`).
+- Nâng cấp Header màn hình Chấm công và Cá nhân sang banner họa tiết gạch bông `TileHeaderBanner` đồng bộ với Bảng lương và Trung tâm yêu cầu.
 - Hoàn thiện trọn bộ các phân hệ mở rộng theo luồng nghiệp vụ HRM Process Flows & UI:
   - Phân hệ Yêu cầu & Quản lý đơn từ (`lib/features/requests/`):
     - Các màn hình quản lý chuyên biệt: Quản lý nghỉ phép (`LeaveManageScreen`), Quản lý tăng ca (`OvertimeManageScreen`), Quản lý sửa công (`CorrectionManageScreen`), Quản lý đổi ca (`ShiftSwapsScreen`).
@@ -20,6 +28,14 @@
   - Phân hệ Hồ sơ cá nhân nâng cao (`lib/features/profile/`):
     - Chỉnh sửa thông tin có phân luồng phê duyệt (`ProfileEditScreen`), Quản lý tài liệu hồ sơ (`DocumentManagementScreen`), Đăng ký người phụ thuộc giảm trừ gia cảnh (`DependantsScreen`, `DependantNewScreen`).
   - Bổ sung bộ kiểm thử 91/91 unit & widget tests phủ toàn diện các phân hệ mới (100% passed).
+
+### Fixed
+- Khắc phục lỗi tính công khống: ngày công tính lương (`payableWorkdays`) và giờ công chỉ ghi nhận các ngày công đã được phê duyệt xác nhận (`isConfirmed == true` và `validActualTime > 0`).
+- Tự động hiển thị đúng tháng xem bảng công (ví dụ "Tổng hợp tháng 10") thay vì tháng cố định.
+- Tự động đăng xuất và điều hướng ra màn hình Đăng nhập khi gặp lỗi 400 (phiên đăng nhập hết hạn).
+- Đảo trạng thái nút chấm công thành "Check in lại" khi nhân viên đã check-out trong ngày kèm màu sắc phân biệt trực quan.
+- Loại bỏ tiền tố thừa `Ca: Ca...` và hỗ trợ xuống dòng tự động cho tên ca làm việc dài tại Trang chủ và Chấm công.
+- Tách thông tin phụ dưới tên nhân viên thành từng tag badge riêng biệt, loại bỏ tag "NV" trùng lặp.
 
 ### Changed
 - Chuẩn hóa payload Tạo đơn nghỉ phép (`POST /api/LeaveRequests`): hỗ trợ cặp ngày thực tế `from` - `to`, thời hạn gói phép `validFrom` - `validTo`, cờ `isMultiple`, số lượng ngày `leaveAmountType` dạng chuỗi và loại bỏ `/self` riêng cho endpoint tạo phiếu.

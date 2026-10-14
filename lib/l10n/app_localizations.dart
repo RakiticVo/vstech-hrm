@@ -389,7 +389,7 @@ abstract class AppLocalizations {
   /// No description provided for @metricLeaveBalance.
   ///
   /// In vi, this message translates to:
-  /// **'Phép còn lại'**
+  /// **'Phép năm còn lại'**
   String get metricLeaveBalance;
 
   /// No description provided for @metricOvertime.
@@ -485,13 +485,13 @@ abstract class AppLocalizations {
   /// No description provided for @todayShiftDefault.
   ///
   /// In vi, this message translates to:
-  /// **'Ca hôm nay 08:00 — 17:00'**
+  /// **'Ca làm việc hôm nay'**
   String get todayShiftDefault;
 
   /// No description provided for @metricLateEarly.
   ///
   /// In vi, this message translates to:
-  /// **'MUỘN / SỚM'**
+  /// **'Vào trễ / Ra sớm'**
   String get metricLateEarly;
 
   /// No description provided for @daysUnit.
@@ -617,13 +617,13 @@ abstract class AppLocalizations {
   /// No description provided for @shiftPromptArrive.
   ///
   /// In vi, this message translates to:
-  /// **'Ca của bạn bắt đầu 08:00. Chấm công khi bạn đến.'**
+  /// **'Vui lòng chấm công khi đến nơi làm việc.'**
   String get shiftPromptArrive;
 
   /// No description provided for @hcmOfficeVerified.
   ///
   /// In vi, this message translates to:
-  /// **'Văn phòng HCM - đã xác thực vị trí'**
+  /// **'Đã xác thực vị trí chấm công'**
   String get hcmOfficeVerified;
 
   /// No description provided for @zeroMinutes.
@@ -683,7 +683,7 @@ abstract class AppLocalizations {
   /// No description provided for @offlineLocationLabel.
   ///
   /// In vi, this message translates to:
-  /// **'Văn phòng HCM (Đối soát GPS cục bộ)'**
+  /// **'Đối soát GPS cục bộ'**
   String get offlineLocationLabel;
 
   /// No description provided for @offlineMatchSuccess.
@@ -805,6 +805,24 @@ abstract class AppLocalizations {
   /// In vi, this message translates to:
   /// **'Thời gian:'**
   String get shiftLabelTime;
+
+  /// No description provided for @shiftLabelDate.
+  ///
+  /// In vi, this message translates to:
+  /// **'Ngày làm việc:'**
+  String get shiftLabelDate;
+
+  /// No description provided for @shiftLabelCode.
+  ///
+  /// In vi, this message translates to:
+  /// **'Mã ca:'**
+  String get shiftLabelCode;
+
+  /// No description provided for @shiftLabelSource.
+  ///
+  /// In vi, this message translates to:
+  /// **'Phân loại ca:'**
+  String get shiftLabelSource;
 
   /// No description provided for @shiftLabelBreak.
   ///
@@ -1819,6 +1837,18 @@ abstract class AppLocalizations {
   /// **'NV'**
   String get roleBadgeEmployee;
 
+  /// No description provided for @roleNameManager.
+  ///
+  /// In vi, this message translates to:
+  /// **'Quản lý'**
+  String get roleNameManager;
+
+  /// No description provided for @roleNameEmployee.
+  ///
+  /// In vi, this message translates to:
+  /// **'Nhân viên'**
+  String get roleNameEmployee;
+
   /// No description provided for @readyToUploadAvatarSnackbar.
   ///
   /// In vi, this message translates to:
@@ -2326,13 +2356,13 @@ abstract class AppLocalizations {
   /// No description provided for @biometricUnlock.
   ///
   /// In vi, this message translates to:
-  /// **'Mở khoá sinh trắc học'**
+  /// **'Xác nhận Face ID / Vân tay'**
   String get biometricUnlock;
 
   /// No description provided for @biometricUnlockDesc.
   ///
   /// In vi, this message translates to:
-  /// **'Dùng Face ID hoặc vân tay để mở app'**
+  /// **'Dùng Face ID hoặc vân tay để mở app & phiếu lương'**
   String get biometricUnlockDesc;
 
   /// No description provided for @autoLock.
@@ -2608,7 +2638,7 @@ abstract class AppLocalizations {
   /// No description provided for @monthSummaryTitle.
   ///
   /// In vi, this message translates to:
-  /// **'Tổng hợp tháng 9'**
+  /// **'Tổng hợp tháng'**
   String get monthSummaryTitle;
 
   /// No description provided for @payableWorkdays.
@@ -3112,7 +3142,7 @@ abstract class AppLocalizations {
   /// No description provided for @statusLateMinutes.
   ///
   /// In vi, this message translates to:
-  /// **'Đi muộn {minutes} phút'**
+  /// **'{minutes} phút'**
   String statusLateMinutes(String minutes);
 
   /// No description provided for @noShiftAssigned.
@@ -5892,6 +5922,570 @@ abstract class AppLocalizations {
   /// In vi, this message translates to:
   /// **'Đến trang Cá nhân'**
   String get goToProfileCta;
+
+  /// No description provided for @systemAndSupportSection.
+  ///
+  /// In vi, this message translates to:
+  /// **'HỆ THỐNG & HỖ TRỢ'**
+  String get systemAndSupportSection;
+
+  /// No description provided for @faqTitle.
+  ///
+  /// In vi, this message translates to:
+  /// **'Câu hỏi thường gặp (FAQ)'**
+  String get faqTitle;
+
+  /// No description provided for @privacyPolicyTitle.
+  ///
+  /// In vi, this message translates to:
+  /// **'Chính sách bảo mật'**
+  String get privacyPolicyTitle;
+
+  /// No description provided for @payslipAuthDialogTitle.
+  ///
+  /// In vi, this message translates to:
+  /// **'Xác thực xem phiếu lương'**
+  String get payslipAuthDialogTitle;
+
+  /// No description provided for @payslipAuthDialogSubtitleBiometric.
+  ///
+  /// In vi, this message translates to:
+  /// **'Để bảo mật thông tin thu nhập, vui lòng nhập mật khẩu tài khoản hoặc dùng sinh trắc học:'**
+  String get payslipAuthDialogSubtitleBiometric;
+
+  /// No description provided for @payslipAuthDialogSubtitlePasswordOnly.
+  ///
+  /// In vi, this message translates to:
+  /// **'Để bảo mật thông tin thu nhập, vui lòng nhập mật khẩu tài khoản:'**
+  String get payslipAuthDialogSubtitlePasswordOnly;
+
+  /// No description provided for @payslipAuthPasswordHint.
+  ///
+  /// In vi, this message translates to:
+  /// **'Nhập mật khẩu tài khoản'**
+  String get payslipAuthPasswordHint;
+
+  /// No description provided for @payslipAuthIncorrectPassword.
+  ///
+  /// In vi, this message translates to:
+  /// **'Mật khẩu không chính xác, vui lòng thử lại'**
+  String get payslipAuthIncorrectPassword;
+
+  /// No description provided for @payslipAuthEmptyPassword.
+  ///
+  /// In vi, this message translates to:
+  /// **'Vui lòng nhập mật khẩu tài khoản'**
+  String get payslipAuthEmptyPassword;
+
+  /// No description provided for @useBiometricsButton.
+  ///
+  /// In vi, this message translates to:
+  /// **'Sử dụng Vân tay / Face ID'**
+  String get useBiometricsButton;
+
+  /// No description provided for @faqCategoryAll.
+  ///
+  /// In vi, this message translates to:
+  /// **'Tất cả'**
+  String get faqCategoryAll;
+
+  /// No description provided for @faqCategoryAttendance.
+  ///
+  /// In vi, this message translates to:
+  /// **'Chấm công'**
+  String get faqCategoryAttendance;
+
+  /// No description provided for @faqCategoryPayroll.
+  ///
+  /// In vi, this message translates to:
+  /// **'Phiếu lương'**
+  String get faqCategoryPayroll;
+
+  /// No description provided for @faqCategoryRequests.
+  ///
+  /// In vi, this message translates to:
+  /// **'Đơn từ'**
+  String get faqCategoryRequests;
+
+  /// No description provided for @faqCategoryAccount.
+  ///
+  /// In vi, this message translates to:
+  /// **'Tài khoản'**
+  String get faqCategoryAccount;
+
+  /// No description provided for @faqSearchHint.
+  ///
+  /// In vi, this message translates to:
+  /// **'Tìm kiếm câu hỏi giải đáp...'**
+  String get faqSearchHint;
+
+  /// No description provided for @faqQ1.
+  ///
+  /// In vi, this message translates to:
+  /// **'Làm sao để điểm danh khi mất kết nối mạng?'**
+  String get faqQ1;
+
+  /// No description provided for @faqA1.
+  ///
+  /// In vi, this message translates to:
+  /// **'Hệ thống hỗ trợ hàng đợi điểm danh ngoại tuyến (Offline Queue). Khi mất mạng, lượt chấm công kèm vector khuôn mặt sẽ được lưu trữ an toàn trong máy và tự động đồng bộ khi có Internet.'**
+  String get faqA1;
+
+  /// No description provided for @faqQ2.
+  ///
+  /// In vi, this message translates to:
+  /// **'Tại sao cần xác thực bảo mật khi xem phiếu lương?'**
+  String get faqQ2;
+
+  /// No description provided for @faqA2.
+  ///
+  /// In vi, this message translates to:
+  /// **'Phiếu lương chứa thông tin tài chính cá nhân nhạy cảm. Hệ thống yêu cầu xác thực mật khẩu hoặc sinh trắc học (vân tay / Face ID) để đảm bảo chỉ bạn mới có thể truy cập.'**
+  String get faqA2;
+
+  /// No description provided for @faqQ3.
+  ///
+  /// In vi, this message translates to:
+  /// **'Quy trình phê duyệt đơn từ diễn ra như thế nào?'**
+  String get faqQ3;
+
+  /// No description provided for @faqA3.
+  ///
+  /// In vi, this message translates to:
+  /// **'Đơn nghỉ phép hoặc tăng ca sau khi gửi sẽ chuyển qua Quản lý trực tiếp phê duyệt, sau đó chuyển tới phòng Nhân sự xác nhận.'**
+  String get faqA3;
+
+  /// No description provided for @faqQ4.
+  ///
+  /// In vi, this message translates to:
+  /// **'Tôi muốn cập nhật thông tin cá nhân thì làm thế nào?'**
+  String get faqQ4;
+
+  /// No description provided for @faqA4.
+  ///
+  /// In vi, this message translates to:
+  /// **'Các thông tin nhạy cảm như CCCD và Số tài khoản ngân hàng cần gửi yêu cầu xác nhận tới phòng Nhân sự để đảm bảo an toàn và tính chính xác dữ liệu.'**
+  String get faqA4;
+
+  /// No description provided for @faqQ5.
+  ///
+  /// In vi, this message translates to:
+  /// **'Làm thế nào để bật đăng nhập bằng Vân tay / Face ID?'**
+  String get faqQ5;
+
+  /// No description provided for @faqA5.
+  ///
+  /// In vi, this message translates to:
+  /// **'Vào mục Cá nhân > Cài đặt hệ thống > Bật công tắc \'Xác thực sinh trắc học (Vân tay / Face ID)\'. Sau khi kích hoạt, bạn có thể đăng nhập và mở khóa phiếu lương nhanh chóng.'**
+  String get faqA5;
+
+  /// No description provided for @faqQ6.
+  ///
+  /// In vi, this message translates to:
+  /// **'Nếu quên mật khẩu đăng nhập thì phải làm sao?'**
+  String get faqQ6;
+
+  /// No description provided for @faqA6.
+  ///
+  /// In vi, this message translates to:
+  /// **'Vì lý do bảo mật doanh nghiệp, mật khẩu tài khoản được quản lý tập trung bởi bộ phận IT. Vui lòng bấm \'Quên mật khẩu\' tại màn hình Đăng nhập để nhận hướng dẫn hỗ trợ.'**
+  String get faqA6;
+
+  /// No description provided for @privacyLastUpdated.
+  ///
+  /// In vi, this message translates to:
+  /// **'Cập nhật lần cuối: Tháng 10/2026'**
+  String get privacyLastUpdated;
+
+  /// No description provided for @privacySec1Title.
+  ///
+  /// In vi, this message translates to:
+  /// **'1. Thu thập dữ liệu sinh trắc học'**
+  String get privacySec1Title;
+
+  /// No description provided for @privacySec1Content.
+  ///
+  /// In vi, this message translates to:
+  /// **'Dữ liệu nhận diện khuôn mặt và sinh trắc học được mã hóa theo vector toán học 128 chiều và lưu trữ an toàn trên thiết bị thông qua FlutterSecureStorage. Chúng tôi không lưu ảnh gốc khuôn mặt lên máy chủ.'**
+  String get privacySec1Content;
+
+  /// No description provided for @privacySec2Title.
+  ///
+  /// In vi, this message translates to:
+  /// **'2. Dữ liệu vị trí và chấm công'**
+  String get privacySec2Title;
+
+  /// No description provided for @privacySec2Content.
+  ///
+  /// In vi, this message translates to:
+  /// **'Vị trí GPS chỉ được truy cập tại thời điểm bạn thực hiện thao tác chấm công để xác minh trong bán kính văn phòng/chi nhánh cho phép, hoàn toàn không theo dõi vị trí nền liên tục.'**
+  String get privacySec2Content;
+
+  /// No description provided for @privacySec3Title.
+  ///
+  /// In vi, this message translates to:
+  /// **'3. Bảo mật thông tin lương và hồ sơ'**
+  String get privacySec3Title;
+
+  /// No description provided for @privacySec3Content.
+  ///
+  /// In vi, this message translates to:
+  /// **'Tất cả thông tin tài chính, lương thưởng và nhân sự được mã hóa theo chuẩn đường truyền TLS 1.3 và chỉ được phân quyền xem cho cá nhân và cấp quản lý trực tiếp được chỉ định.'**
+  String get privacySec3Content;
+
+  /// No description provided for @privacySec4Title.
+  ///
+  /// In vi, this message translates to:
+  /// **'4. Quyền riêng tư và kiểm soát dữ liệu'**
+  String get privacySec4Title;
+
+  /// No description provided for @privacySec4Content.
+  ///
+  /// In vi, this message translates to:
+  /// **'Nhân viên có toàn quyền kiểm tra lịch sử điểm danh, xem các đơn từ đã gửi, tra cứu bảng lương và yêu cầu phòng Nhân sự đính chính khi có sai lệch.'**
+  String get privacySec4Content;
+
+  /// No description provided for @privacySec5Title.
+  ///
+  /// In vi, this message translates to:
+  /// **'5. Tiêu chuẩn tuân thủ và lưu trữ'**
+  String get privacySec5Title;
+
+  /// No description provided for @privacySec5Content.
+  ///
+  /// In vi, this message translates to:
+  /// **'Hệ thống tuân thủ chặt chẽ các quy định pháp lý về bảo vệ dữ liệu cá nhân (Nghị định 13/2023/NĐ-CP) và chính sách bảo mật nội bộ của doanh nghiệp.'**
+  String get privacySec5Content;
+
+  /// No description provided for @faqEmptySearch.
+  ///
+  /// In vi, this message translates to:
+  /// **'Không tìm thấy câu hỏi phù hợp'**
+  String get faqEmptySearch;
+
+  /// No description provided for @homeQuickActionsSection.
+  ///
+  /// In vi, this message translates to:
+  /// **'Tiện ích nhanh'**
+  String get homeQuickActionsSection;
+
+  /// No description provided for @homeMonthlyStatsSection.
+  ///
+  /// In vi, this message translates to:
+  /// **'Thống kê tháng này'**
+  String get homeMonthlyStatsSection;
+
+  /// No description provided for @createOvertimeForSubordinate.
+  ///
+  /// In vi, this message translates to:
+  /// **'Tạo tăng ca hộ'**
+  String get createOvertimeForSubordinate;
+
+  /// No description provided for @createOvertimeForSubordinateSubtitle.
+  ///
+  /// In vi, this message translates to:
+  /// **'Đăng ký làm thêm giờ cho nhân viên cấp dưới'**
+  String get createOvertimeForSubordinateSubtitle;
+
+  /// No description provided for @overtimeTargetEmployee.
+  ///
+  /// In vi, this message translates to:
+  /// **'Nhân viên tăng ca'**
+  String get overtimeTargetEmployee;
+
+  /// No description provided for @overtimeTargetSelf.
+  ///
+  /// In vi, this message translates to:
+  /// **'Chính mình'**
+  String get overtimeTargetSelf;
+
+  /// No description provided for @selectSubordinateEmployee.
+  ///
+  /// In vi, this message translates to:
+  /// **'Chọn nhân viên cấp dưới'**
+  String get selectSubordinateEmployee;
+
+  /// No description provided for @searchEmployeePlaceholder.
+  ///
+  /// In vi, this message translates to:
+  /// **'Tìm theo tên hoặc mã NV...'**
+  String get searchEmployeePlaceholder;
+
+  /// No description provided for @noSubordinatesFound.
+  ///
+  /// In vi, this message translates to:
+  /// **'Không tìm thấy nhân viên cấp dưới'**
+  String get noSubordinatesFound;
+
+  /// No description provided for @overtimeSubmittedForSubordinateMsg.
+  ///
+  /// In vi, this message translates to:
+  /// **'Yêu cầu làm thêm giờ ngày {date} cho {employee} đã được gửi thành công.'**
+  String overtimeSubmittedForSubordinateMsg(String date, String employee);
+
+  /// No description provided for @timesheetDetailTitle.
+  ///
+  /// In vi, this message translates to:
+  /// **'Chi tiết ngày công'**
+  String get timesheetDetailTitle;
+
+  /// No description provided for @timesheetShift.
+  ///
+  /// In vi, this message translates to:
+  /// **'Ca làm việc'**
+  String get timesheetShift;
+
+  /// No description provided for @timesheetCheckIn.
+  ///
+  /// In vi, this message translates to:
+  /// **'Giờ vào'**
+  String get timesheetCheckIn;
+
+  /// No description provided for @timesheetCheckOut.
+  ///
+  /// In vi, this message translates to:
+  /// **'Giờ ra'**
+  String get timesheetCheckOut;
+
+  /// No description provided for @timesheetActualHours.
+  ///
+  /// In vi, this message translates to:
+  /// **'Thời gian làm việc'**
+  String get timesheetActualHours;
+
+  /// No description provided for @timesheetValidHours.
+  ///
+  /// In vi, this message translates to:
+  /// **'Công hợp lệ'**
+  String get timesheetValidHours;
+
+  /// No description provided for @timesheetLate.
+  ///
+  /// In vi, this message translates to:
+  /// **'Đi muộn'**
+  String get timesheetLate;
+
+  /// No description provided for @timesheetEarly.
+  ///
+  /// In vi, this message translates to:
+  /// **'Về sớm'**
+  String get timesheetEarly;
+
+  /// No description provided for @timesheetStatus.
+  ///
+  /// In vi, this message translates to:
+  /// **'Trạng thái công'**
+  String get timesheetStatus;
+
+  /// No description provided for @timesheetConfirmed.
+  ///
+  /// In vi, this message translates to:
+  /// **'Đã xác nhận'**
+  String get timesheetConfirmed;
+
+  /// No description provided for @timesheetNotConfirmed.
+  ///
+  /// In vi, this message translates to:
+  /// **'Chưa xác nhận'**
+  String get timesheetNotConfirmed;
+
+  /// No description provided for @timesheetRejected.
+  ///
+  /// In vi, this message translates to:
+  /// **'Đã từ chối'**
+  String get timesheetRejected;
+
+  /// No description provided for @timesheetRejectReason.
+  ///
+  /// In vi, this message translates to:
+  /// **'Lý do từ chối'**
+  String get timesheetRejectReason;
+
+  /// No description provided for @timesheetOvertimeSlip.
+  ///
+  /// In vi, this message translates to:
+  /// **'Phiếu tăng ca'**
+  String get timesheetOvertimeSlip;
+
+  /// No description provided for @timesheetLeaveSlip.
+  ///
+  /// In vi, this message translates to:
+  /// **'Phiếu nghỉ phép'**
+  String get timesheetLeaveSlip;
+
+  /// No description provided for @timesheetBusinessSlip.
+  ///
+  /// In vi, this message translates to:
+  /// **'Phiếu công tác'**
+  String get timesheetBusinessSlip;
+
+  /// No description provided for @timesheetExplanationSlip.
+  ///
+  /// In vi, this message translates to:
+  /// **'Phiếu giải trình'**
+  String get timesheetExplanationSlip;
+
+  /// No description provided for @shiftTabPersonal.
+  ///
+  /// In vi, this message translates to:
+  /// **'Cá nhân'**
+  String get shiftTabPersonal;
+
+  /// No description provided for @shiftTabDepartment.
+  ///
+  /// In vi, this message translates to:
+  /// **'Đội ngũ'**
+  String get shiftTabDepartment;
+
+  /// No description provided for @shiftTabTimesheet.
+  ///
+  /// In vi, this message translates to:
+  /// **'Bảng công'**
+  String get shiftTabTimesheet;
+
+  /// No description provided for @shiftSourceScheduled.
+  ///
+  /// In vi, this message translates to:
+  /// **'Theo lịch phân'**
+  String get shiftSourceScheduled;
+
+  /// No description provided for @shiftSourceDefault.
+  ///
+  /// In vi, this message translates to:
+  /// **'Ca cố định'**
+  String get shiftSourceDefault;
+
+  /// No description provided for @shiftSourceOff.
+  ///
+  /// In vi, this message translates to:
+  /// **'Nghỉ tuần'**
+  String get shiftSourceOff;
+
+  /// No description provided for @shiftOvernightBadge.
+  ///
+  /// In vi, this message translates to:
+  /// **'Ca qua đêm'**
+  String get shiftOvernightBadge;
+
+  /// No description provided for @rosterSearchHint.
+  ///
+  /// In vi, this message translates to:
+  /// **'Tìm theo tên hoặc mã nhân viên...'**
+  String get rosterSearchHint;
+
+  /// No description provided for @rosterFilterAll.
+  ///
+  /// In vi, this message translates to:
+  /// **'Tất cả'**
+  String get rosterFilterAll;
+
+  /// No description provided for @rosterTotalEmployees.
+  ///
+  /// In vi, this message translates to:
+  /// **'{count} nhân sự'**
+  String rosterTotalEmployees(int count);
+
+  /// No description provided for @rosterOnDutyCount.
+  ///
+  /// In vi, this message translates to:
+  /// **'{count} đi làm'**
+  String rosterOnDutyCount(int count);
+
+  /// No description provided for @rosterOffDutyCount.
+  ///
+  /// In vi, this message translates to:
+  /// **'{count} nghỉ'**
+  String rosterOffDutyCount(int count);
+
+  /// No description provided for @rosterEmptyTitle.
+  ///
+  /// In vi, this message translates to:
+  /// **'Không có nhân viên phù hợp'**
+  String get rosterEmptyTitle;
+
+  /// No description provided for @rosterEmptySubtitle.
+  ///
+  /// In vi, this message translates to:
+  /// **'Không tìm thấy dữ liệu phân ca trong ngày đã chọn.'**
+  String get rosterEmptySubtitle;
+
+  /// No description provided for @rosterAssignedByLabel.
+  ///
+  /// In vi, this message translates to:
+  /// **'Phân ca bởi: {name}'**
+  String rosterAssignedByLabel(String name);
+
+  /// No description provided for @rosterDatePickTooltip.
+  ///
+  /// In vi, this message translates to:
+  /// **'Chọn ngày xem ca'**
+  String get rosterDatePickTooltip;
+
+  /// No description provided for @rosterRefreshTooltip.
+  ///
+  /// In vi, this message translates to:
+  /// **'Làm mới dữ liệu'**
+  String get rosterRefreshTooltip;
+
+  /// No description provided for @timesheetMonthDisplay.
+  ///
+  /// In vi, this message translates to:
+  /// **'Tháng {month}/{year}'**
+  String timesheetMonthDisplay(int month, int year);
+
+  /// No description provided for @timesheetOvertimeHours.
+  ///
+  /// In vi, this message translates to:
+  /// **'Tăng ca'**
+  String get timesheetOvertimeHours;
+
+  /// No description provided for @timesheetLeaveHours.
+  ///
+  /// In vi, this message translates to:
+  /// **'Nghỉ phép'**
+  String get timesheetLeaveHours;
+
+  /// No description provided for @timesheetLunchLabel.
+  ///
+  /// In vi, this message translates to:
+  /// **'Cơm trưa / Suất ăn'**
+  String get timesheetLunchLabel;
+
+  /// No description provided for @timesheetNoteLabel.
+  ///
+  /// In vi, this message translates to:
+  /// **'Ghi chú'**
+  String get timesheetNoteLabel;
+
+  /// No description provided for @timesheetNoData.
+  ///
+  /// In vi, this message translates to:
+  /// **'Không có dữ liệu công trong tháng này'**
+  String get timesheetNoData;
+
+  /// No description provided for @timesheetWorkDate.
+  ///
+  /// In vi, this message translates to:
+  /// **'Ngày làm việc'**
+  String get timesheetWorkDate;
+
+  /// No description provided for @timesheetOnTime.
+  ///
+  /// In vi, this message translates to:
+  /// **'Đúng giờ'**
+  String get timesheetOnTime;
+
+  /// No description provided for @rosterAllDepartments.
+  ///
+  /// In vi, this message translates to:
+  /// **'Tất cả xưởng / phòng ban'**
+  String get rosterAllDepartments;
+
+  /// No description provided for @rosterDepartmentLabel.
+  ///
+  /// In vi, this message translates to:
+  /// **'Xưởng / Phòng ban'**
+  String get rosterDepartmentLabel;
 }
 
 class _AppLocalizationsDelegate

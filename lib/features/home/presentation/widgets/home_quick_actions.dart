@@ -30,7 +30,12 @@ class HomeQuickActions extends StatelessWidget {
       _ActionItem(
         label: l10n.quickActionPayroll,
         iconName: AppIcons.payslip,
-        onTap: () => context.push(AppRoutes.payslipDetail),
+        onTap: () => context.push(AppRoutes.payroll),
+      ),
+      _ActionItem(
+        label: l10n.shiftScheduleNav,
+        iconName: AppIcons.calendar,
+        onTap: () => context.push(AppRoutes.shiftSchedule),
       ),
       _ActionItem(
         label: l10n.quickActionAll,
@@ -98,51 +103,23 @@ class HomeQuickActions extends StatelessWidget {
       );
     }
 
-    return Stack(
-      clipBehavior: Clip.none,
-      children: [
-        Container(
-          width: size,
-          height: size,
-          decoration: BoxDecoration(
-            color: colors.surface,
-            shape: BoxShape.circle,
-            border: Border.all(
-              color: colors.border,
-            ),
-          ),
-          child: Center(
-            child: AppIcon(
-              act.iconName,
-              size: iconSize,
-              color: colors.tealPrimary,
-            ),
-          ),
+    return Container(
+      width: size,
+      height: size,
+      decoration: BoxDecoration(
+        color: colors.surface,
+        shape: BoxShape.circle,
+        border: Border.all(
+          color: colors.border,
         ),
-        if (act.badge != null)
-          Positioned(
-            top: -2,
-            right: -2,
-            child: Container(
-              width: 18,
-              height: 18,
-              decoration: BoxDecoration(
-                color: colors.error,
-                shape: BoxShape.circle,
-              ),
-              child: Center(
-                child: Text(
-                  act.badge!,
-                  style: const TextStyle(
-                    fontSize: 10,
-                    fontWeight: FontWeight.w800,
-                    color: Colors.white,
-                  ),
-                ),
-              ),
-            ),
-          ),
-      ],
+      ),
+      child: Center(
+        child: AppIcon(
+          act.iconName,
+          size: iconSize,
+          color: colors.tealPrimary,
+        ),
+      ),
     );
   }
 }
@@ -152,14 +129,11 @@ class _ActionItem {
     required this.label,
     required this.iconName,
     required this.onTap,
-    this.badge,
     this.isAllButton = false,
   });
 
   final String label;
   final String iconName;
   final VoidCallback onTap;
-  final String? badge;
   final bool isAllButton;
 }
-

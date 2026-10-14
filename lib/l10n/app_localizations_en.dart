@@ -155,7 +155,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get metricWorkdays => 'Workdays';
 
   @override
-  String get metricLeaveBalance => 'Leave Left';
+  String get metricLeaveBalance => 'Annual Leave Left';
 
   @override
   String get metricOvertime => 'Overtime';
@@ -203,10 +203,10 @@ class AppLocalizationsEn extends AppLocalizations {
   String get shiftCheckOutCta => 'CHECK OUT';
 
   @override
-  String get todayShiftDefault => 'Today\'s shift 08:00 — 17:00';
+  String get todayShiftDefault => 'Today\'s shift';
 
   @override
-  String get metricLateEarly => 'LATE / EARLY';
+  String get metricLateEarly => 'Late In / Early Out';
 
   @override
   String get daysUnit => 'days';
@@ -276,11 +276,10 @@ class AppLocalizationsEn extends AppLocalizations {
   String get statusNotCheckedIn => 'Not checked in';
 
   @override
-  String get shiftPromptArrive =>
-      'Your shift starts at 08:00. Punch in upon arrival.';
+  String get shiftPromptArrive => 'Please punch in upon arriving at work.';
 
   @override
-  String get hcmOfficeVerified => 'HCM Office - Location verified';
+  String get hcmOfficeVerified => 'Attendance location verified';
 
   @override
   String get zeroMinutes => '0 min';
@@ -310,7 +309,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get faceCheckingButton => 'Checking...';
 
   @override
-  String get offlineLocationLabel => 'HCM Office (Local GPS Check)';
+  String get offlineLocationLabel => 'Local GPS Check';
 
   @override
   String offlineMatchSuccess(String pct) {
@@ -385,6 +384,15 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get shiftLabelTime => 'Time:';
+
+  @override
+  String get shiftLabelDate => 'Work Date:';
+
+  @override
+  String get shiftLabelCode => 'Shift Code:';
+
+  @override
+  String get shiftLabelSource => 'Shift Source:';
 
   @override
   String get shiftLabelBreak => 'Break:';
@@ -940,6 +948,12 @@ class AppLocalizationsEn extends AppLocalizations {
   String get roleBadgeEmployee => 'EMP';
 
   @override
+  String get roleNameManager => 'Manager';
+
+  @override
+  String get roleNameEmployee => 'Employee';
+
+  @override
   String get readyToUploadAvatarSnackbar =>
       'Ready to upload new profile avatar';
 
@@ -1212,10 +1226,11 @@ class AppLocalizationsEn extends AppLocalizations {
   String get securityAndPrivacySection => 'Security & Privacy';
 
   @override
-  String get biometricUnlock => 'Biometric Unlock';
+  String get biometricUnlock => 'Face ID / Fingerprint Auth';
 
   @override
-  String get biometricUnlockDesc => 'Use Face ID or Fingerprint to unlock';
+  String get biometricUnlockDesc =>
+      'Use Face ID or fingerprint for app & payslip unlock';
 
   @override
   String get autoLock => 'Auto Lock';
@@ -1356,7 +1371,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get calendarSubtitle => 'Month 09/2026 · 22 Standard Workdays';
 
   @override
-  String get monthSummaryTitle => 'September Summary';
+  String get monthSummaryTitle => 'Monthly Summary';
 
   @override
   String get payableWorkdays => 'Payable Workdays';
@@ -1621,7 +1636,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String statusLateMinutes(String minutes) {
-    return 'Late $minutes mins';
+    return '$minutes mins';
   }
 
   @override
@@ -3138,4 +3153,314 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get goToProfileCta => 'Go to Profile';
+
+  @override
+  String get systemAndSupportSection => 'SYSTEM & SUPPORT';
+
+  @override
+  String get faqTitle => 'Frequently Asked Questions (FAQ)';
+
+  @override
+  String get privacyPolicyTitle => 'Privacy Policy';
+
+  @override
+  String get payslipAuthDialogTitle => 'Verify to View Payslip';
+
+  @override
+  String get payslipAuthDialogSubtitleBiometric =>
+      'To protect salary information, please enter account password or use biometrics:';
+
+  @override
+  String get payslipAuthDialogSubtitlePasswordOnly =>
+      'To protect salary information, please enter your account password:';
+
+  @override
+  String get payslipAuthPasswordHint => 'Enter account password';
+
+  @override
+  String get payslipAuthIncorrectPassword =>
+      'Incorrect password, please try again';
+
+  @override
+  String get payslipAuthEmptyPassword => 'Please enter your account password';
+
+  @override
+  String get useBiometricsButton => 'Use Fingerprint / Face ID';
+
+  @override
+  String get faqCategoryAll => 'All';
+
+  @override
+  String get faqCategoryAttendance => 'Attendance';
+
+  @override
+  String get faqCategoryPayroll => 'Payroll';
+
+  @override
+  String get faqCategoryRequests => 'Requests';
+
+  @override
+  String get faqCategoryAccount => 'Account';
+
+  @override
+  String get faqSearchHint => 'Search questions & answers...';
+
+  @override
+  String get faqQ1 => 'How do I check in when there is no internet connection?';
+
+  @override
+  String get faqA1 =>
+      'The system supports an Offline Attendance Queue. When disconnected, check-ins along with facial feature vectors are stored securely on your device and automatically synced once an internet connection is restored.';
+
+  @override
+  String get faqQ2 => 'Why is security verification required to view payslips?';
+
+  @override
+  String get faqA2 =>
+      'Payslips contain sensitive personal financial data. The system requires account password or biometrics (Fingerprint / Face ID) to ensure that only you can view your earnings.';
+
+  @override
+  String get faqQ3 => 'What is the request approval process?';
+
+  @override
+  String get faqA3 =>
+      'Leave and overtime requests are submitted to your direct manager for initial approval, followed by HR confirmation before final execution.';
+
+  @override
+  String get faqQ4 => 'How do I update my personal information?';
+
+  @override
+  String get faqA4 =>
+      'Sensitive records such as Citizen ID and bank account details require HR verification to maintain record accuracy and security.';
+
+  @override
+  String get faqQ5 => 'How do I enable Fingerprint / Face ID login?';
+
+  @override
+  String get faqA5 =>
+      'Navigate to Profile > System Settings > toggle on \'Biometric Authentication (Fingerprint / Face ID)\'. Once enabled, you can quickly log in and unlock payslips.';
+
+  @override
+  String get faqQ6 => 'What should I do if I forget my login password?';
+
+  @override
+  String get faqA6 =>
+      'For enterprise security, passwords are managed by the IT department. Please tap \'Forgot Password\' on the login screen for IT support contact details.';
+
+  @override
+  String get privacyLastUpdated => 'Last updated: October 2026';
+
+  @override
+  String get privacySec1Title => '1. Biometric Data Collection';
+
+  @override
+  String get privacySec1Content =>
+      'Facial recognition data is encoded as 128-dimensional mathematical vectors and stored securely on your device via FlutterSecureStorage. Original photos are not saved on company servers.';
+
+  @override
+  String get privacySec2Title => '2. Location Data & Attendance';
+
+  @override
+  String get privacySec2Content =>
+      'GPS location is accessed strictly at the moment you punch in or out to verify branch geofencing. There is no continuous background tracking.';
+
+  @override
+  String get privacySec3Title => '3. Salary and Profile Security';
+
+  @override
+  String get privacySec3Content =>
+      'All financial, payroll, and employee records are encrypted in transit via TLS 1.3 and access-controlled strictly for you and your direct reporting manager.';
+
+  @override
+  String get privacySec4Title => '4. Privacy & Data Control';
+
+  @override
+  String get privacySec4Content =>
+      'Employees have full access to inspect attendance logs, view historical requests, review payslips, and request corrections through HR.';
+
+  @override
+  String get privacySec5Title => '5. Compliance & Data Retention';
+
+  @override
+  String get privacySec5Content =>
+      'The system complies with personal data protection regulations (Decree 13/2023/ND-CP) and enterprise internal privacy policies.';
+
+  @override
+  String get faqEmptySearch => 'No matching questions found';
+
+  @override
+  String get homeQuickActionsSection => 'Quick Actions';
+
+  @override
+  String get homeMonthlyStatsSection => 'Monthly Statistics';
+
+  @override
+  String get createOvertimeForSubordinate => 'Create Overtime on Behalf';
+
+  @override
+  String get createOvertimeForSubordinateSubtitle =>
+      'Register overtime for subordinate employee';
+
+  @override
+  String get overtimeTargetEmployee => 'Target Employee';
+
+  @override
+  String get overtimeTargetSelf => 'Myself';
+
+  @override
+  String get selectSubordinateEmployee => 'Select Subordinate';
+
+  @override
+  String get searchEmployeePlaceholder => 'Search by name or employee code...';
+
+  @override
+  String get noSubordinatesFound => 'No subordinates found';
+
+  @override
+  String overtimeSubmittedForSubordinateMsg(String date, String employee) {
+    return 'Overtime request on $date for $employee has been submitted successfully.';
+  }
+
+  @override
+  String get timesheetDetailTitle => 'Timesheet Detail';
+
+  @override
+  String get timesheetShift => 'Shift';
+
+  @override
+  String get timesheetCheckIn => 'Check-in';
+
+  @override
+  String get timesheetCheckOut => 'Check-out';
+
+  @override
+  String get timesheetActualHours => 'Actual Work Hours';
+
+  @override
+  String get timesheetValidHours => 'Valid Hours';
+
+  @override
+  String get timesheetLate => 'Late';
+
+  @override
+  String get timesheetEarly => 'Early departure';
+
+  @override
+  String get timesheetStatus => 'Timesheet Status';
+
+  @override
+  String get timesheetConfirmed => 'Confirmed';
+
+  @override
+  String get timesheetNotConfirmed => 'Not confirmed';
+
+  @override
+  String get timesheetRejected => 'Rejected';
+
+  @override
+  String get timesheetRejectReason => 'Reject reason';
+
+  @override
+  String get timesheetOvertimeSlip => 'Overtime Slip';
+
+  @override
+  String get timesheetLeaveSlip => 'Leave Slip';
+
+  @override
+  String get timesheetBusinessSlip => 'Business Slip';
+
+  @override
+  String get timesheetExplanationSlip => 'Explanation Slip';
+
+  @override
+  String get shiftTabPersonal => 'Personal';
+
+  @override
+  String get shiftTabDepartment => 'Team';
+
+  @override
+  String get shiftTabTimesheet => 'Timesheet';
+
+  @override
+  String get shiftSourceScheduled => 'Scheduled';
+
+  @override
+  String get shiftSourceDefault => 'Default Shift';
+
+  @override
+  String get shiftSourceOff => 'Day Off';
+
+  @override
+  String get shiftOvernightBadge => 'Overnight Shift';
+
+  @override
+  String get rosterSearchHint => 'Search by name or employee code...';
+
+  @override
+  String get rosterFilterAll => 'All';
+
+  @override
+  String rosterTotalEmployees(int count) {
+    return '$count staff';
+  }
+
+  @override
+  String rosterOnDutyCount(int count) {
+    return '$count on duty';
+  }
+
+  @override
+  String rosterOffDutyCount(int count) {
+    return '$count off';
+  }
+
+  @override
+  String get rosterEmptyTitle => 'No matching employees';
+
+  @override
+  String get rosterEmptySubtitle =>
+      'No shift roster data found for the selected date.';
+
+  @override
+  String rosterAssignedByLabel(String name) {
+    return 'Assigned by: $name';
+  }
+
+  @override
+  String get rosterDatePickTooltip => 'Pick roster date';
+
+  @override
+  String get rosterRefreshTooltip => 'Refresh data';
+
+  @override
+  String timesheetMonthDisplay(int month, int year) {
+    return 'Month $month/$year';
+  }
+
+  @override
+  String get timesheetOvertimeHours => 'Overtime';
+
+  @override
+  String get timesheetLeaveHours => 'Leave';
+
+  @override
+  String get timesheetLunchLabel => 'Lunch Allowance';
+
+  @override
+  String get timesheetNoteLabel => 'Notes';
+
+  @override
+  String get timesheetNoData => 'No timesheet data for this month';
+
+  @override
+  String get timesheetWorkDate => 'Work Date';
+
+  @override
+  String get timesheetOnTime => 'On time';
+
+  @override
+  String get rosterAllDepartments => 'All workshops / departments';
+
+  @override
+  String get rosterDepartmentLabel => 'Workshop / Department';
 }

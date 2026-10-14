@@ -39,57 +39,54 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
   Future<void> _checkBiometricSupport() async {
     try {
+      if (sl.isRegistered<FlutterSecureStorage>()) {
+        final storage = sl<FlutterSecureStorage>();
+        final enabledStr = await storage.read(key: AppConstants.keyBiometricEnabled);
+        if (mounted) {
+          setState(() => _biometrics = enabledStr == 'true');
+        }
+      }
       final localAuth = LocalAuthentication();
       final isSupported = await localAuth.isDeviceSupported();
       final canCheck = await localAuth.canCheckBiometrics;
-      if (isSupported && canCheck) {
-        final available = await localAuth.getAvailableBiometrics();
-        if (available.isNotEmpty) {
-          final storage = sl<FlutterSecureStorage>();
-          final enabledStr = await storage.read(key: AppConstants.keyBiometricEnabled);
-          if (mounted) {
-            setState(() {
-              _hasBiometrics = true;
-              _biometrics = enabledStr == 'true';
-            });
-          }
-          return;
-        }
+      if (mounted) {
+        setState(() => _hasBiometrics = isSupported && canCheck);
       }
     } on Object {
-      // Biometric hardware check fallback
-    }
-    if (mounted) {
-      setState(() {
-        _hasBiometrics = false;
-        _biometrics = false;
-      });
+      // Fallback
     }
   }
 
   Future<void> _toggleBiometrics(bool value) async {
     if (value) {
-      try {
-        final localAuth = LocalAuthentication();
-        final didAuth = await localAuth.authenticate(
-          localizedReason: context.l10n.biometricUnlockDesc,
-        );
-        if (didAuth && mounted) {
-          setState(() => _biometrics = true);
+      var didAuth = true;
+      if (_hasBiometrics) {
+        try {
+          final localAuth = LocalAuthentication();
+          didAuth = await localAuth.authenticate(
+            localizedReason: context.l10n.biometricUnlockDesc,
+          );
+        } on Object {
+          didAuth = false;
+        }
+      }
+      if (didAuth && mounted) {
+        setState(() => _biometrics = true);
+        if (sl.isRegistered<FlutterSecureStorage>()) {
           await sl<FlutterSecureStorage>().write(
             key: AppConstants.keyBiometricEnabled,
             value: 'true',
           );
         }
-      } on Object {
-        // Biometric canceled or failed
       }
     } else {
       setState(() => _biometrics = false);
-      await sl<FlutterSecureStorage>().write(
-        key: AppConstants.keyBiometricEnabled,
-        value: 'false',
-      );
+      if (sl.isRegistered<FlutterSecureStorage>()) {
+        await sl<FlutterSecureStorage>().write(
+          key: AppConstants.keyBiometricEnabled,
+          value: 'false',
+        );
+      }
     }
   }
 
@@ -167,15 +164,13 @@ class _SettingsScreenState extends State<SettingsScreen> {
           // Section: Quyền truy cập & Bảo mật
           SettingsSectionHeader(title: context.l10n.securityAndPrivacySection),
           SettingsContainer(children: [
-            if (_hasBiometrics) ...[
-              SettingsSwitchTile(
-                title: context.l10n.biometricUnlock,
-                subtitle: context.l10n.biometricUnlockDesc,
-                value: _biometrics,
-                onChanged: _toggleBiometrics,
-              ),
-              Divider(height: 1, color: colors.border),
-            ],
+            SettingsSwitchTile(
+              title: context.l10n.biometricUnlock,
+              subtitle: context.l10n.biometricUnlockDesc,
+              value: _biometrics,
+              onChanged: _toggleBiometrics,
+            ),
+            Divider(height: 1, color: colors.border),
             ListTile(
               leading: AppIcon(AppIcons.smartphone, color: colors.primaryIndigo),
               title: Text(
@@ -206,43 +201,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
           ]),
           20.gapH,
 
-          // Section: Thiết kế & Dữ liệu
-          SettingsSectionHeader(title: context.l10n.designAndSystemSection),
-          SettingsContainer(children: [
-            ListTile(
-              leading: AppIcon(AppIcons.palette, color: colors.primaryIndigo),
-              title: Text(
-                context.l10n.uiStateShowcase,
-                style: TextStyle(fontSize: 13.5, fontWeight: FontWeight.w700, color: colors.textPrimary),
-              ),
-              subtitle: Text(
-                context.l10n.uiStateShowcaseDesc,
-                style: TextStyle(fontSize: 11.5, color: colors.textSecondary),
-              ),
-              trailing: AppIcon(AppIcons.chevronRight, size: 18, color: colors.textTertiary),
-              onTap: () => context.push(AppRoutes.stateShowcase),
-            ),
-            Divider(height: 1, color: colors.border),
-            ListTile(
-              leading: AppIcon(AppIcons.trash, color: colors.textSecondary),
-              title: Text(
-                context.l10n.clearCache,
-                style: TextStyle(fontSize: 13.5, fontWeight: FontWeight.w700, color: colors.textPrimary),
-              ),
-              trailing: Text(
-                '14.2 MB',
-                style: TextStyle(fontSize: 12, fontWeight: FontWeight.w600, color: colors.textTertiary),
-              ),
-              onTap: () {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(content: Text(context.l10n.cacheClearedSnackbar)),
-                );
-              },
-            ),
-          ]),
-          24.gapH,
-
-          // Nút Đăng xuất
           OutlinedButton.icon(
             style: OutlinedButton.styleFrom(
               foregroundColor: colors.error,

@@ -213,5 +213,47 @@ void main() {
 
       verify(() => mockStorage.write(key: AppConstants.tokenStorageKey, value: 'token_abc')).called(1);
     });
+
+    test('TC-AUTH-06: Login with hr:admin claim grants approval role and permissions', () async {
+      final mockStorage = MockFlutterSecureStorage();
+      final mockRepo = MockAuthRepository();
+      final loginUseCase = LoginUseCase(mockRepo);
+      final checkAuthUseCase = CheckAuthUseCase(mockRepo);
+
+      const authEntity = AuthResultEntity(
+        token: 'token_hr_admin',
+        validTo: '2026-10-02 23:59',
+        employeeName: 'Lê Hoàng HR',
+        employeeCode: 'HR0001',
+        userName: 'le.hoang',
+        userId: 3,
+        claims: <String>['attendance.checkin', 'hr:admin'],
+      );
+
+      when(() => mockRepo.login(any())).thenAnswer((_) async => const Right(authEntity));
+      when(() => mockStorage.write(key: any(named: 'key'), value: any(named: 'value')))
+          .thenAnswer((_) async {});
+      when(() => mockStorage.read(key: any(named: 'key'))).thenAnswer((_) async => null);
+
+      final cubit = AuthCubit(
+        secureStorage: mockStorage,
+        loginUseCase: loginUseCase,
+        checkAuthUseCase: checkAuthUseCase,
+      );
+
+      expectLater(
+        cubit.stream,
+        emitsInOrder([
+          isA<AuthLoading>(),
+          isA<Authenticated>()
+              .having((s) => s.role.canApprove, 'canApprove', true)
+              .having((s) => s.role.isManager, 'isManager', true)
+              .having((s) => s.role.isAdmin, 'isAdmin', true)
+              .having((s) => s.user.canApprove, 'user.canApprove', true),
+        ]),
+      );
+
+      await cubit.login(username: 'le.hoang', password: 'password123');
+    });
   });
 }

@@ -155,7 +155,7 @@ class AppLocalizationsVi extends AppLocalizations {
   String get metricWorkdays => 'Ngày công';
 
   @override
-  String get metricLeaveBalance => 'Phép còn lại';
+  String get metricLeaveBalance => 'Phép năm còn lại';
 
   @override
   String get metricOvertime => 'Giờ tăng ca';
@@ -203,10 +203,10 @@ class AppLocalizationsVi extends AppLocalizations {
   String get shiftCheckOutCta => 'CHECK OUT';
 
   @override
-  String get todayShiftDefault => 'Ca hôm nay 08:00 — 17:00';
+  String get todayShiftDefault => 'Ca làm việc hôm nay';
 
   @override
-  String get metricLateEarly => 'MUỘN / SỚM';
+  String get metricLateEarly => 'Vào trễ / Ra sớm';
 
   @override
   String get daysUnit => 'ngày';
@@ -275,11 +275,10 @@ class AppLocalizationsVi extends AppLocalizations {
   String get statusNotCheckedIn => 'Chưa chấm công';
 
   @override
-  String get shiftPromptArrive =>
-      'Ca của bạn bắt đầu 08:00. Chấm công khi bạn đến.';
+  String get shiftPromptArrive => 'Vui lòng chấm công khi đến nơi làm việc.';
 
   @override
-  String get hcmOfficeVerified => 'Văn phòng HCM - đã xác thực vị trí';
+  String get hcmOfficeVerified => 'Đã xác thực vị trí chấm công';
 
   @override
   String get zeroMinutes => '0 phút';
@@ -310,7 +309,7 @@ class AppLocalizationsVi extends AppLocalizations {
   String get faceCheckingButton => 'Đang kiểm tra...';
 
   @override
-  String get offlineLocationLabel => 'Văn phòng HCM (Đối soát GPS cục bộ)';
+  String get offlineLocationLabel => 'Đối soát GPS cục bộ';
 
   @override
   String offlineMatchSuccess(String pct) {
@@ -385,6 +384,15 @@ class AppLocalizationsVi extends AppLocalizations {
 
   @override
   String get shiftLabelTime => 'Thời gian:';
+
+  @override
+  String get shiftLabelDate => 'Ngày làm việc:';
+
+  @override
+  String get shiftLabelCode => 'Mã ca:';
+
+  @override
+  String get shiftLabelSource => 'Phân loại ca:';
 
   @override
   String get shiftLabelBreak => 'Nghỉ giữa ca:';
@@ -938,6 +946,12 @@ class AppLocalizationsVi extends AppLocalizations {
   String get roleBadgeEmployee => 'NV';
 
   @override
+  String get roleNameManager => 'Quản lý';
+
+  @override
+  String get roleNameEmployee => 'Nhân viên';
+
+  @override
   String get readyToUploadAvatarSnackbar =>
       'Đã sẵn sàng tải lên ảnh đại diện mới';
 
@@ -1206,10 +1220,11 @@ class AppLocalizationsVi extends AppLocalizations {
   String get securityAndPrivacySection => 'Bảo mật & Quyền riêng tư';
 
   @override
-  String get biometricUnlock => 'Mở khoá sinh trắc học';
+  String get biometricUnlock => 'Xác nhận Face ID / Vân tay';
 
   @override
-  String get biometricUnlockDesc => 'Dùng Face ID hoặc vân tay để mở app';
+  String get biometricUnlockDesc =>
+      'Dùng Face ID hoặc vân tay để mở app & phiếu lương';
 
   @override
   String get autoLock => 'Tự động khoá';
@@ -1350,7 +1365,7 @@ class AppLocalizationsVi extends AppLocalizations {
   String get calendarSubtitle => 'Tháng 09/2026 · 22 ngày công chuẩn';
 
   @override
-  String get monthSummaryTitle => 'Tổng hợp tháng 9';
+  String get monthSummaryTitle => 'Tổng hợp tháng';
 
   @override
   String get payableWorkdays => 'Ngày công tính lương';
@@ -1616,7 +1631,7 @@ class AppLocalizationsVi extends AppLocalizations {
 
   @override
   String statusLateMinutes(String minutes) {
-    return 'Đi muộn $minutes phút';
+    return '$minutes phút';
   }
 
   @override
@@ -3133,4 +3148,314 @@ class AppLocalizationsVi extends AppLocalizations {
 
   @override
   String get goToProfileCta => 'Đến trang Cá nhân';
+
+  @override
+  String get systemAndSupportSection => 'HỆ THỐNG & HỖ TRỢ';
+
+  @override
+  String get faqTitle => 'Câu hỏi thường gặp (FAQ)';
+
+  @override
+  String get privacyPolicyTitle => 'Chính sách bảo mật';
+
+  @override
+  String get payslipAuthDialogTitle => 'Xác thực xem phiếu lương';
+
+  @override
+  String get payslipAuthDialogSubtitleBiometric =>
+      'Để bảo mật thông tin thu nhập, vui lòng nhập mật khẩu tài khoản hoặc dùng sinh trắc học:';
+
+  @override
+  String get payslipAuthDialogSubtitlePasswordOnly =>
+      'Để bảo mật thông tin thu nhập, vui lòng nhập mật khẩu tài khoản:';
+
+  @override
+  String get payslipAuthPasswordHint => 'Nhập mật khẩu tài khoản';
+
+  @override
+  String get payslipAuthIncorrectPassword =>
+      'Mật khẩu không chính xác, vui lòng thử lại';
+
+  @override
+  String get payslipAuthEmptyPassword => 'Vui lòng nhập mật khẩu tài khoản';
+
+  @override
+  String get useBiometricsButton => 'Sử dụng Vân tay / Face ID';
+
+  @override
+  String get faqCategoryAll => 'Tất cả';
+
+  @override
+  String get faqCategoryAttendance => 'Chấm công';
+
+  @override
+  String get faqCategoryPayroll => 'Phiếu lương';
+
+  @override
+  String get faqCategoryRequests => 'Đơn từ';
+
+  @override
+  String get faqCategoryAccount => 'Tài khoản';
+
+  @override
+  String get faqSearchHint => 'Tìm kiếm câu hỏi giải đáp...';
+
+  @override
+  String get faqQ1 => 'Làm sao để điểm danh khi mất kết nối mạng?';
+
+  @override
+  String get faqA1 =>
+      'Hệ thống hỗ trợ hàng đợi điểm danh ngoại tuyến (Offline Queue). Khi mất mạng, lượt chấm công kèm vector khuôn mặt sẽ được lưu trữ an toàn trong máy và tự động đồng bộ khi có Internet.';
+
+  @override
+  String get faqQ2 => 'Tại sao cần xác thực bảo mật khi xem phiếu lương?';
+
+  @override
+  String get faqA2 =>
+      'Phiếu lương chứa thông tin tài chính cá nhân nhạy cảm. Hệ thống yêu cầu xác thực mật khẩu hoặc sinh trắc học (vân tay / Face ID) để đảm bảo chỉ bạn mới có thể truy cập.';
+
+  @override
+  String get faqQ3 => 'Quy trình phê duyệt đơn từ diễn ra như thế nào?';
+
+  @override
+  String get faqA3 =>
+      'Đơn nghỉ phép hoặc tăng ca sau khi gửi sẽ chuyển qua Quản lý trực tiếp phê duyệt, sau đó chuyển tới phòng Nhân sự xác nhận.';
+
+  @override
+  String get faqQ4 => 'Tôi muốn cập nhật thông tin cá nhân thì làm thế nào?';
+
+  @override
+  String get faqA4 =>
+      'Các thông tin nhạy cảm như CCCD và Số tài khoản ngân hàng cần gửi yêu cầu xác nhận tới phòng Nhân sự để đảm bảo an toàn và tính chính xác dữ liệu.';
+
+  @override
+  String get faqQ5 => 'Làm thế nào để bật đăng nhập bằng Vân tay / Face ID?';
+
+  @override
+  String get faqA5 =>
+      'Vào mục Cá nhân > Cài đặt hệ thống > Bật công tắc \'Xác thực sinh trắc học (Vân tay / Face ID)\'. Sau khi kích hoạt, bạn có thể đăng nhập và mở khóa phiếu lương nhanh chóng.';
+
+  @override
+  String get faqQ6 => 'Nếu quên mật khẩu đăng nhập thì phải làm sao?';
+
+  @override
+  String get faqA6 =>
+      'Vì lý do bảo mật doanh nghiệp, mật khẩu tài khoản được quản lý tập trung bởi bộ phận IT. Vui lòng bấm \'Quên mật khẩu\' tại màn hình Đăng nhập để nhận hướng dẫn hỗ trợ.';
+
+  @override
+  String get privacyLastUpdated => 'Cập nhật lần cuối: Tháng 10/2026';
+
+  @override
+  String get privacySec1Title => '1. Thu thập dữ liệu sinh trắc học';
+
+  @override
+  String get privacySec1Content =>
+      'Dữ liệu nhận diện khuôn mặt và sinh trắc học được mã hóa theo vector toán học 128 chiều và lưu trữ an toàn trên thiết bị thông qua FlutterSecureStorage. Chúng tôi không lưu ảnh gốc khuôn mặt lên máy chủ.';
+
+  @override
+  String get privacySec2Title => '2. Dữ liệu vị trí và chấm công';
+
+  @override
+  String get privacySec2Content =>
+      'Vị trí GPS chỉ được truy cập tại thời điểm bạn thực hiện thao tác chấm công để xác minh trong bán kính văn phòng/chi nhánh cho phép, hoàn toàn không theo dõi vị trí nền liên tục.';
+
+  @override
+  String get privacySec3Title => '3. Bảo mật thông tin lương và hồ sơ';
+
+  @override
+  String get privacySec3Content =>
+      'Tất cả thông tin tài chính, lương thưởng và nhân sự được mã hóa theo chuẩn đường truyền TLS 1.3 và chỉ được phân quyền xem cho cá nhân và cấp quản lý trực tiếp được chỉ định.';
+
+  @override
+  String get privacySec4Title => '4. Quyền riêng tư và kiểm soát dữ liệu';
+
+  @override
+  String get privacySec4Content =>
+      'Nhân viên có toàn quyền kiểm tra lịch sử điểm danh, xem các đơn từ đã gửi, tra cứu bảng lương và yêu cầu phòng Nhân sự đính chính khi có sai lệch.';
+
+  @override
+  String get privacySec5Title => '5. Tiêu chuẩn tuân thủ và lưu trữ';
+
+  @override
+  String get privacySec5Content =>
+      'Hệ thống tuân thủ chặt chẽ các quy định pháp lý về bảo vệ dữ liệu cá nhân (Nghị định 13/2023/NĐ-CP) và chính sách bảo mật nội bộ của doanh nghiệp.';
+
+  @override
+  String get faqEmptySearch => 'Không tìm thấy câu hỏi phù hợp';
+
+  @override
+  String get homeQuickActionsSection => 'Tiện ích nhanh';
+
+  @override
+  String get homeMonthlyStatsSection => 'Thống kê tháng này';
+
+  @override
+  String get createOvertimeForSubordinate => 'Tạo tăng ca hộ';
+
+  @override
+  String get createOvertimeForSubordinateSubtitle =>
+      'Đăng ký làm thêm giờ cho nhân viên cấp dưới';
+
+  @override
+  String get overtimeTargetEmployee => 'Nhân viên tăng ca';
+
+  @override
+  String get overtimeTargetSelf => 'Chính mình';
+
+  @override
+  String get selectSubordinateEmployee => 'Chọn nhân viên cấp dưới';
+
+  @override
+  String get searchEmployeePlaceholder => 'Tìm theo tên hoặc mã NV...';
+
+  @override
+  String get noSubordinatesFound => 'Không tìm thấy nhân viên cấp dưới';
+
+  @override
+  String overtimeSubmittedForSubordinateMsg(String date, String employee) {
+    return 'Yêu cầu làm thêm giờ ngày $date cho $employee đã được gửi thành công.';
+  }
+
+  @override
+  String get timesheetDetailTitle => 'Chi tiết ngày công';
+
+  @override
+  String get timesheetShift => 'Ca làm việc';
+
+  @override
+  String get timesheetCheckIn => 'Giờ vào';
+
+  @override
+  String get timesheetCheckOut => 'Giờ ra';
+
+  @override
+  String get timesheetActualHours => 'Thời gian làm việc';
+
+  @override
+  String get timesheetValidHours => 'Công hợp lệ';
+
+  @override
+  String get timesheetLate => 'Đi muộn';
+
+  @override
+  String get timesheetEarly => 'Về sớm';
+
+  @override
+  String get timesheetStatus => 'Trạng thái công';
+
+  @override
+  String get timesheetConfirmed => 'Đã xác nhận';
+
+  @override
+  String get timesheetNotConfirmed => 'Chưa xác nhận';
+
+  @override
+  String get timesheetRejected => 'Đã từ chối';
+
+  @override
+  String get timesheetRejectReason => 'Lý do từ chối';
+
+  @override
+  String get timesheetOvertimeSlip => 'Phiếu tăng ca';
+
+  @override
+  String get timesheetLeaveSlip => 'Phiếu nghỉ phép';
+
+  @override
+  String get timesheetBusinessSlip => 'Phiếu công tác';
+
+  @override
+  String get timesheetExplanationSlip => 'Phiếu giải trình';
+
+  @override
+  String get shiftTabPersonal => 'Cá nhân';
+
+  @override
+  String get shiftTabDepartment => 'Đội ngũ';
+
+  @override
+  String get shiftTabTimesheet => 'Bảng công';
+
+  @override
+  String get shiftSourceScheduled => 'Theo lịch phân';
+
+  @override
+  String get shiftSourceDefault => 'Ca cố định';
+
+  @override
+  String get shiftSourceOff => 'Nghỉ tuần';
+
+  @override
+  String get shiftOvernightBadge => 'Ca qua đêm';
+
+  @override
+  String get rosterSearchHint => 'Tìm theo tên hoặc mã nhân viên...';
+
+  @override
+  String get rosterFilterAll => 'Tất cả';
+
+  @override
+  String rosterTotalEmployees(int count) {
+    return '$count nhân sự';
+  }
+
+  @override
+  String rosterOnDutyCount(int count) {
+    return '$count đi làm';
+  }
+
+  @override
+  String rosterOffDutyCount(int count) {
+    return '$count nghỉ';
+  }
+
+  @override
+  String get rosterEmptyTitle => 'Không có nhân viên phù hợp';
+
+  @override
+  String get rosterEmptySubtitle =>
+      'Không tìm thấy dữ liệu phân ca trong ngày đã chọn.';
+
+  @override
+  String rosterAssignedByLabel(String name) {
+    return 'Phân ca bởi: $name';
+  }
+
+  @override
+  String get rosterDatePickTooltip => 'Chọn ngày xem ca';
+
+  @override
+  String get rosterRefreshTooltip => 'Làm mới dữ liệu';
+
+  @override
+  String timesheetMonthDisplay(int month, int year) {
+    return 'Tháng $month/$year';
+  }
+
+  @override
+  String get timesheetOvertimeHours => 'Tăng ca';
+
+  @override
+  String get timesheetLeaveHours => 'Nghỉ phép';
+
+  @override
+  String get timesheetLunchLabel => 'Cơm trưa / Suất ăn';
+
+  @override
+  String get timesheetNoteLabel => 'Ghi chú';
+
+  @override
+  String get timesheetNoData => 'Không có dữ liệu công trong tháng này';
+
+  @override
+  String get timesheetWorkDate => 'Ngày làm việc';
+
+  @override
+  String get timesheetOnTime => 'Đúng giờ';
+
+  @override
+  String get rosterAllDepartments => 'Tất cả xưởng / phòng ban';
+
+  @override
+  String get rosterDepartmentLabel => 'Xưởng / Phòng ban';
 }

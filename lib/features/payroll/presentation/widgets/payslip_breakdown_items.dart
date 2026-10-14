@@ -4,16 +4,14 @@ import 'package:vstech_hrm/core/widgets/app_icon.dart';
 
 /// Renders a list of income or deduction line items with inline dispute actions.
 class PayslipBreakdownItems extends StatelessWidget {
-  const PayslipBreakdownItems({
+  const new({
     required this.items,
     required this.valueColor,
-    required this.onDisputeLine,
     super.key,
   });
 
   final List<(String, String)> items;
   final Color valueColor;
-  final void Function(String itemName, String amount) onDisputeLine;
 
   @override
   Widget build(BuildContext context) {
@@ -53,19 +51,6 @@ class PayslipBreakdownItems extends StatelessWidget {
                       color: valueColor,
                       fontFeatures: const [FontFeature.tabularFigures()],
                     ),
-                  ),
-                  4.gapW,
-                  IconButton(
-                    icon: AppIcon(
-                      AppIcons.dispute,
-                      size: 16,
-                      color: colors.textTertiary,
-                    ),
-                    tooltip: 'Khiếu nại khoản mục này',
-                    visualDensity: VisualDensity.compact,
-                    padding: EdgeInsets.zero,
-                    constraints: const BoxConstraints(minWidth: 28, minHeight: 28),
-                    onPressed: () => onDisputeLine(items[i].$1, items[i].$2),
                   ),
                 ],
               ),
