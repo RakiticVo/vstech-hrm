@@ -44,6 +44,17 @@ class AppTheme {
         centerTitle: true,
         titleTextStyle: AppTextStyles.h2.copyWith(color: colors.textPrimary),
       ),
+      snackBarTheme: SnackBarThemeData(
+        behavior: SnackBarBehavior.floating,
+        backgroundColor: const Color(0xFF0F172A),
+        contentTextStyle: AppTextStyles.bodyMedium(color: Colors.white),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(24),
+          side: BorderSide(color: Colors.white.withValues(alpha: 0.12)),
+        ),
+        elevation: 6,
+        insetPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+      ),
       extensions: const [colors],
     );
   }
@@ -84,6 +95,17 @@ class AppTheme {
         elevation: 0,
         centerTitle: true,
         titleTextStyle: AppTextStyles.h2.copyWith(color: colors.textPrimary),
+      ),
+      snackBarTheme: SnackBarThemeData(
+        behavior: SnackBarBehavior.floating,
+        backgroundColor: const Color(0xFF1E293B),
+        contentTextStyle: AppTextStyles.bodyMedium(color: Colors.white),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(24),
+          side: BorderSide(color: Colors.white.withValues(alpha: 0.14)),
+        ),
+        elevation: 8,
+        insetPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
       ),
       extensions: const [colors],
     );

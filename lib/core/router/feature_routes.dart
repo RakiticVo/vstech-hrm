@@ -7,6 +7,7 @@ import 'package:vstech_hrm/features/announcements/domain/entities/announcement_e
 import 'package:vstech_hrm/features/announcements/presentation/cubit/announcements_cubit.dart';
 import 'package:vstech_hrm/features/announcements/presentation/screens/announcement_detail_screen.dart';
 import 'package:vstech_hrm/features/announcements/presentation/screens/announcements_screen.dart';
+import 'package:vstech_hrm/features/approvals/presentation/widgets/approval_card.dart';
 import 'package:vstech_hrm/features/attendance/domain/entities/attendance_record_entity.dart';
 import 'package:vstech_hrm/features/attendance/presentation/bloc/attendance_bloc.dart';
 import 'package:vstech_hrm/features/attendance/presentation/cubit/offline_queue_cubit.dart';
@@ -14,7 +15,6 @@ import 'package:vstech_hrm/features/attendance/presentation/screens/device_block
 import 'package:vstech_hrm/features/attendance/presentation/screens/face_enrollment_screen.dart';
 import 'package:vstech_hrm/features/attendance/presentation/screens/face_scan_screen.dart';
 import 'package:vstech_hrm/features/attendance/presentation/screens/offline_queue_screen.dart';
-import 'package:vstech_hrm/features/calendar/presentation/screens/calendar_screen.dart';
 import 'package:vstech_hrm/features/compliance/presentation/cubits/delegation_cubit.dart';
 import 'package:vstech_hrm/features/compliance/presentation/cubits/risk_alerts_cubit.dart';
 import 'package:vstech_hrm/features/compliance/presentation/screens/delegation_center_screen.dart';
@@ -27,13 +27,6 @@ import 'package:vstech_hrm/features/holidays/presentation/screens/holidays_scree
 import 'package:vstech_hrm/features/labor_profile/presentation/cubit/labor_profile_cubit.dart';
 import 'package:vstech_hrm/features/labor_profile/presentation/screens/labor_profile_screen.dart';
 import 'package:vstech_hrm/features/notifications/presentation/screens/notifications_screen.dart';
-import 'package:vstech_hrm/features/payroll/presentation/screens/extra_hours_screen.dart';
-import 'package:vstech_hrm/features/payroll/presentation/screens/payslip_detail_screen.dart';
-import 'package:vstech_hrm/features/payroll/presentation/screens/payslip_lock_screen.dart';
-import 'package:vstech_hrm/features/payroll/presentation/screens/salary_dispute_new_screen.dart';
-import 'package:vstech_hrm/features/payroll/presentation/screens/salary_dispute_screen.dart';
-import 'package:vstech_hrm/features/qr_auth/presentation/cubit/qr_scanner_cubit.dart';
-import 'package:vstech_hrm/features/qr_auth/presentation/screens/qr_scanner_screen.dart';
 import 'package:vstech_hrm/features/onboarding/presentation/screens/capture_photo_screen.dart';
 import 'package:vstech_hrm/features/onboarding/presentation/screens/day_one_guide_screen.dart';
 import 'package:vstech_hrm/features/onboarding/presentation/screens/digital_contract_sign_screen.dart';
@@ -42,10 +35,19 @@ import 'package:vstech_hrm/features/onboarding/presentation/screens/ocr_verifica
 import 'package:vstech_hrm/features/onboarding/presentation/screens/offer_letter_screen.dart';
 import 'package:vstech_hrm/features/onboarding/presentation/screens/onboarding_home_screen.dart';
 import 'package:vstech_hrm/features/onboarding/presentation/screens/org_chart_intro_screen.dart';
+import 'package:vstech_hrm/features/payroll/presentation/screens/extra_hours_screen.dart';
+import 'package:vstech_hrm/features/payroll/presentation/screens/payslip_detail_screen.dart';
+import 'package:vstech_hrm/features/payroll/presentation/screens/payslip_lock_screen.dart';
+import 'package:vstech_hrm/features/payroll/presentation/screens/salary_dispute_new_screen.dart';
+import 'package:vstech_hrm/features/payroll/presentation/screens/salary_dispute_screen.dart';
 import 'package:vstech_hrm/features/profile/presentation/screens/dependant_new_screen.dart';
 import 'package:vstech_hrm/features/profile/presentation/screens/dependants_screen.dart';
 import 'package:vstech_hrm/features/profile/presentation/screens/document_management_screen.dart';
+import 'package:vstech_hrm/features/profile/presentation/screens/faq_screen.dart';
+import 'package:vstech_hrm/features/profile/presentation/screens/privacy_policy_screen.dart';
 import 'package:vstech_hrm/features/profile/presentation/screens/profile_edit_screen.dart';
+import 'package:vstech_hrm/features/qr_auth/presentation/cubit/qr_scanner_cubit.dart';
+import 'package:vstech_hrm/features/qr_auth/presentation/screens/qr_scanner_screen.dart';
 import 'package:vstech_hrm/features/recruitment/presentation/screens/internal_recruitment_screen.dart';
 import 'package:vstech_hrm/features/recruitment/presentation/screens/job_detail_screen.dart';
 import 'package:vstech_hrm/features/recruitment/presentation/screens/my_referrals_screen.dart';
@@ -79,7 +81,7 @@ List<RouteBase> getStandaloneFeatureRoutes() => [
     },
   ),
   GoRoute(path: AppRoutes.services, builder: (context, state) => const AllServicesScreen()),
-  GoRoute(path: AppRoutes.calendar, builder: (context, state) => const CalendarScreen()),
+  GoRoute(path: AppRoutes.calendar, builder: (context, state) => const ShiftScheduleScreen(initialTab: 1)),
   GoRoute(path: AppRoutes.holidays, builder: (context, state) => const HolidaysScreen()),
   GoRoute(path: AppRoutes.leaveCreate, builder: (context, state) => const LeaveRequestScreen()),
   GoRoute(path: AppRoutes.leaveBalance, builder: (context, state) => const LeaveBalanceScreen()),
@@ -153,7 +155,7 @@ List<RouteBase> getStandaloneFeatureRoutes() => [
           title: extra['title'] as String? ?? 'Nghỉ phép năm',
           category: extra['category'] as String? ?? 'leave',
           requesterName: extra['requesterName'] as String? ?? 'Nguyễn Minh Tuấn (NV-04821)',
-          department: extra['department'] as String? ?? 'Vận hành · Chi nhánh 01',
+          department: extra['department'] as String?,
           initialStatus: extra['initialStatus'] as String? ?? 'pending',
           isApprover: extra['isApprover'] as bool? ?? false,
           swapComparison: extra['swapComparison'] as String?,
@@ -161,12 +163,11 @@ List<RouteBase> getStandaloneFeatureRoutes() => [
           disputePayslipValue: extra['disputePayslipValue'] as String?,
           disputeExpectedValue: extra['disputeExpectedValue'] as String?,
           disputeDifference: extra['disputeDifference'] as String?,
+          rawItem: extra['rawItem'] as ApprovalItem?,
           fields: extra['fields'] as List<(String, String)>? ?? const [
             ('Loại yêu cầu', 'Nghỉ phép năm (Phép hưởng 100% lương)'),
             ('Thời gian', '24/09/2026 (08:00 — 17:00)'),
             ('Số ngày nghỉ', '1.0 ngày'),
-            ('Người bàn giao', 'Lê Văn Tùng (NV-0142)'),
-            ('Lý do', 'Việc cá nhân giải quyết thủ tục hành chính.'),
           ],
         );
       }
@@ -234,6 +235,8 @@ List<RouteBase> getStandaloneFeatureRoutes() => [
   GoRoute(path: AppRoutes.dependants, builder: (context, state) => const DependantsScreen()),
   GoRoute(path: AppRoutes.dependantNew, builder: (context, state) => const DependantNewScreen()),
   GoRoute(path: AppRoutes.faceEnrollment, builder: (context, state) => const FaceEnrollmentScreen()),
+  GoRoute(path: AppRoutes.faq, builder: (context, state) => const FaqScreen()),
+  GoRoute(path: AppRoutes.privacyPolicy, builder: (context, state) => const PrivacyPolicyScreen()),
   GoRoute(path: AppRoutes.onboardingHome, builder: (context, state) => const OnboardingHomeScreen()),
   GoRoute(path: AppRoutes.onboardingOffer, builder: (context, state) => const OfferLetterScreen()),
   GoRoute(path: AppRoutes.onboardingOrg, builder: (context, state) => const OrgChartIntroScreen()),

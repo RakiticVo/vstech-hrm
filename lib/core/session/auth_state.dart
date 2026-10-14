@@ -7,10 +7,11 @@ enum UserRole {
   admin,
   candidate;
 
-  bool get isManager => this == UserRole.manager;
+  bool get isManager => this == UserRole.manager || this == UserRole.admin;
   bool get isEmployee => this == UserRole.employee;
   bool get isAdmin => this == UserRole.admin;
   bool get isCandidate => this == UserRole.candidate;
+  bool get canApprove => this == UserRole.manager || this == UserRole.admin;
 
   static UserRole fromString(String? role) {
     if (role == null) return UserRole.employee;
@@ -18,7 +19,12 @@ enum UserRole {
     if (r == 'manager' || r == 'ql' || r == 'mss') {
       return UserRole.manager;
     }
-    if (r == 'admin' || r == 'hr' || r == 'hr_admin' || r == 'hradmin') {
+    if (r == 'admin' ||
+        r == 'hr' ||
+        r == 'hr_admin' ||
+        r == 'hradmin' ||
+        r == 'hr:admin' ||
+        r == 'hr.admin') {
       return UserRole.admin;
     }
     if (r == 'candidate' || r == 'ungvien' || r == 'ob' || r == 'onboarding') {
@@ -38,6 +44,7 @@ class UserSession extends Equatable {
     required this.department,
     required this.role,
     this.avatarUrl,
+    this.claims = const <String>[],
   });
 
   factory fromJson(Map<String, dynamic> json) {
@@ -49,6 +56,10 @@ class UserSession extends Equatable {
       department: json['department']?.toString() ?? '',
       role: UserRole.fromString(json['role']?.toString()),
       avatarUrl: json['avatarUrl']?.toString(),
+      claims: (json['claims'] as List<dynamic>?)
+              ?.map((dynamic e) => e.toString())
+              .toList() ??
+          const <String>[],
     );
   }
 
@@ -59,6 +70,18 @@ class UserSession extends Equatable {
   final String department;
   final UserRole role;
   final String? avatarUrl;
+  final List<String> claims;
+
+  bool get canApprove =>
+      role.canApprove ||
+      claims.any((c) {
+        final lower = c.toLowerCase().trim();
+        return lower == 'manager.approve' ||
+            lower == 'hr:admin' ||
+            lower == 'hr.admin' ||
+            lower == 'hr_admin' ||
+            lower == 'admin';
+      });
 
   Map<String, dynamic> toJson() => {
         'id': id,
@@ -68,10 +91,20 @@ class UserSession extends Equatable {
         'department': department,
         'role': role.name,
         'avatarUrl': avatarUrl,
+        'claims': claims,
       };
 
   @override
-  List<Object?> get props => [id, name, email, employeeCode, department, role, avatarUrl];
+  List<Object?> get props => [
+        id,
+        name,
+        email,
+        employeeCode,
+        department,
+        role,
+        avatarUrl,
+        claims,
+      ];
 }
 
 /// Sealed state hierarchy for authentication and role session.

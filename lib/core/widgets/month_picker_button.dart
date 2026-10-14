@@ -1,148 +1,46 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
-import 'package:vstech_hrm/core/extensions/l10n_extension.dart';
 import 'package:vstech_hrm/core/responsive/app_layout.dart';
 import 'package:vstech_hrm/core/theme/app_colors.dart';
 import 'package:vstech_hrm/core/widgets/app_icon.dart';
+import 'package:vstech_hrm/core/widgets/month_picker_dialog.dart';
 
-/// Reusable month filter button that opens a bottom sheet to select month.
+/// Reusable month filter button that opens a custom Saigon Tile Month Picker Dialog.
 /// Used across Request Center, Leave, Overtime, and Attendance Correction screens.
 class MonthPickerButton extends StatelessWidget {
   const new({
     required this.selectedMonth,
     required this.onMonthChanged,
-    this.availableMonths,
+    this.allowAll = true,
     this.isCompact = false,
     super.key,
   });
 
   final String selectedMonth;
   final ValueChanged<String> onMonthChanged;
-  final List<String>? availableMonths;
+  final bool allowAll;
   final bool isCompact;
 
-  List<String> _resolveMonths(BuildContext context) {
-    if (availableMonths != null && availableMonths!.isNotEmpty) {
-      return availableMonths!;
-    }
-    final allLabel = context.l10n.filterAll;
-    return [
-      'Tháng 9, 2026',
-      'Tháng 8, 2026',
-      'Tháng 7, 2026',
-      'Tháng 6, 2026',
-      allLabel,
-    ];
-  }
-
-  void _showMonthPicker(BuildContext context) {
-    final colors = context.colors;
-    final months = _resolveMonths(context);
-
-
-    unawaited(
-      showModalBottomSheet<void>(
-        context: context,
-        backgroundColor: colors.surface,
-        shape: const RoundedRectangleBorder(
-          borderRadius: BorderRadius.vertical(top: Radius.circular(22)),
-        ),
-        builder: (ctx) => SafeArea(
-          child: Padding(
-            padding: const EdgeInsets.fromLTRB(20, 16, 20, 20),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      context.l10n.selectMonthToView,
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w800,
-                        color: colors.textPrimary,
-                      ),
-                    ),
-                    IconButton(
-                      icon: const AppIcon(AppIcons.close, size: 20),
-                      onPressed: () => Navigator.pop(ctx),
-                    ),
-                  ],
-                ),
-                12.gapH,
-                ...months.map((m) {
-                  final isSelected = selectedMonth == m;
-
-                  return Padding(
-                    padding: const EdgeInsets.only(bottom: 8),
-                    child: InkWell(
-                      borderRadius: BorderRadius.circular(14),
-                      onTap: () {
-                        Navigator.pop(ctx);
-                        onMonthChanged(m);
-                      },
-                      child: Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
-                        decoration: BoxDecoration(
-                          color: isSelected
-                              ? colors.primaryIndigo.withValues(alpha: 0.08)
-                              : colors.surface,
-                          borderRadius: BorderRadius.circular(14),
-                          border: Border.all(
-                            color: isSelected ? colors.primaryIndigo : colors.border,
-                            width: isSelected ? 1.5 : 1,
-                          ),
-                        ),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Row(
-                              children: [
-                                AppIcon(
-                                  AppIcons.calendar,
-                                  size: 18,
-                                  color: isSelected ? colors.primaryIndigo : colors.textSecondary,
-                                ),
-                                10.gapW,
-                                Text(
-                                  m,
-                                  style: TextStyle(
-                                    fontSize: 13.5,
-                                    fontWeight: isSelected ? FontWeight.w800 : FontWeight.w600,
-                                    color: isSelected ? colors.primaryIndigo : colors.textPrimary,
-                                  ),
-                                ),
-                              ],
-                            ),
-                            if (isSelected)
-                              AppIcon(AppIcons.check, size: 18, color: colors.primaryIndigo),
-                          ],
-                        ),
-                      ),
-                    ),
-                  );
-                }),
-              ],
-            ),
-          ),
-        ),
-      ),
+  Future<void> _showMonthPicker(BuildContext context) async {
+    final result = await AppMonthPickerDialog.show(
+      context,
+      initialMonth: selectedMonth,
+      allowAll: allowAll,
     );
+    if (result != null && result.isNotEmpty) {
+      onMonthChanged(result);
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     final colors = context.colors;
 
-
-
     return Material(
       color: Colors.transparent,
       child: InkWell(
         borderRadius: BorderRadius.circular(12),
-        onTap: () => _showMonthPicker(context),
+        onTap: () => unawaited(_showMonthPicker(context)),
         child: Container(
           padding: EdgeInsets.symmetric(
             horizontal: isCompact ? 10 : 12,

@@ -21,6 +21,7 @@ import 'package:vstech_hrm/features/notifications/notifications_injection.dart';
 import 'package:vstech_hrm/features/payroll/payroll_injection.dart';
 import 'package:vstech_hrm/features/qr_auth/qr_auth_injection.dart';
 import 'package:vstech_hrm/features/requests/requests_injection.dart';
+import 'package:vstech_hrm/features/schedule/schedule_injection.dart';
 
 final GetIt sl = GetIt.instance;
 
@@ -59,6 +60,7 @@ Future<void> initDependencies() async {
   initNotificationsDependencies(sl);
   initExecutiveInjection(sl);
   initComplianceInjection(sl);
+  initScheduleDependencies(sl);
 
   // 5. Global Session, Theme & Locale Cubits
   sl.registerLazySingleton<AuthCubit>(

@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:dio/dio.dart';
 import 'package:flutter/services.dart';
 import 'package:vstech_hrm/core/constants/api_endpoints.dart';
+import 'package:vstech_hrm/core/network/mock_approval_data.dart';
 
 /// Interceptor that returns local mock JSON fixtures instead of calling live backend APIs.
 class MockDioInterceptor extends Interceptor {
@@ -75,6 +76,88 @@ class MockDioInterceptor extends Interceptor {
             },
           ),
         );
+      } else if (path.contains(ApiEndpoints.leaveRequestsAdminMobile)) {
+        return handler.resolve(
+          Response<dynamic>(
+            requestOptions: options,
+            statusCode: 200,
+            data: <String, dynamic>{
+              'message': '',
+              'data': MockApprovalData.leaveRequests,
+            },
+          ),
+        );
+      } else if (path.contains(ApiEndpoints.overtimeRequestsAdminMobile)) {
+        return handler.resolve(
+          Response<dynamic>(
+            requestOptions: options,
+            statusCode: 200,
+            data: <String, dynamic>{
+              'items': MockApprovalData.overtimeRequests,
+            },
+          ),
+        );
+      } else if (path.contains('/confirm/') ||
+          path.contains('/reject/') ||
+          path.contains('/accept/') ||
+          path.contains('/deny/') ||
+          path.contains('/Deny/')) {
+        return handler.resolve(
+          Response<dynamic>(
+            requestOptions: options,
+            statusCode: 200,
+            data: <String, dynamic>{
+              'code': 0,
+              'message': 'Phê duyệt phiếu thành công',
+            },
+          ),
+        );
+      } else if (path.contains(ApiEndpoints.timesheetsMobile)) {
+        return handler.resolve(
+          Response<dynamic>(
+            requestOptions: options,
+            statusCode: 200,
+            data: <String, dynamic>{
+              'items': MockApprovalData.timesheetMobileItems,
+              'depts': <dynamic>[],
+              'statuses': <dynamic>[],
+              'employees': <dynamic>[],
+            },
+          ),
+        );
+      } else if (path.contains(ApiEndpoints.timesheetAdminConfirm)) {
+        return handler.resolve(
+          Response<dynamic>(
+            requestOptions: options,
+            statusCode: 200,
+            data: <String, dynamic>{
+              'code': 0,
+              'message': 'Xác nhận giờ công thành công',
+            },
+          ),
+        );
+      } else if (path.contains(ApiEndpoints.timesheetReject)) {
+        return handler.resolve(
+          Response<dynamic>(
+            requestOptions: options,
+            statusCode: 200,
+            data: <String, dynamic>{
+              'code': 0,
+              'message': 'Từ chối giờ công thành công',
+            },
+          ),
+        );
+      } else if (path.contains(ApiEndpoints.timesheetConfirmRequests)) {
+        return handler.resolve(
+          Response<dynamic>(
+            requestOptions: options,
+            statusCode: 200,
+            data: <String, dynamic>{
+              'message': '',
+              'data': MockApprovalData.timesheetConfirmRequests,
+            },
+          ),
+        );
       } else if (path.contains(ApiEndpoints.leaveRequests) ||
           path.contains(ApiEndpoints.overtimeRequests)) {
         return handler.resolve(
@@ -85,14 +168,6 @@ class MockDioInterceptor extends Interceptor {
               'results': <dynamic>[],
               'total': 0,
             },
-          ),
-        );
-      } else if (path.contains(ApiEndpoints.pendingApprovals)) {
-        return handler.resolve(
-          Response<dynamic>(
-            requestOptions: options,
-            statusCode: 200,
-            data: <dynamic>[],
           ),
         );
       }
@@ -127,11 +202,15 @@ class MockDioInterceptor extends Interceptor {
   Future<Response<dynamic>> _handleLogin(RequestOptions options) async {
     final dynamic body = options.data;
     var isManager = false;
+    var isHrAdmin = false;
     var username = 'NV0142';
     if (body is Map<String, dynamic>) {
       username = body['username']?.toString() ?? 'NV0142';
       final lower = username.toLowerCase();
-      if (lower.contains('manager') || lower.contains('ql')) {
+      if (lower.contains('admin') || lower.contains('hr')) {
+        isHrAdmin = true;
+        isManager = true;
+      } else if (lower.contains('manager') || lower.contains('ql')) {
         isManager = true;
       }
     }
@@ -141,14 +220,16 @@ class MockDioInterceptor extends Interceptor {
 
     final userJson = isManager
         ? <String, dynamic>{
-            'id': 2,
-            'userCode': 'NV0089',
-            'userName': 'tran.mai',
-            'employeeName': 'Trần Thị Mai',
-            'employeeCode': 'NV0089',
-            'email': 'tran.mai@vstech.vn',
-            'avatar': 'avatars/nv0089.png',
-            'claims': <String>['attendance.checkin', 'leave.create', 'overtime.create', 'manager.approve'],
+            'id': isHrAdmin ? 3 : 2,
+            'userCode': isHrAdmin ? 'HR0001' : 'NV0089',
+            'userName': isHrAdmin ? 'le.hoang' : 'tran.mai',
+            'employeeName': isHrAdmin ? 'Lê Hoàng HR' : 'Trần Thị Mai',
+            'employeeCode': isHrAdmin ? 'HR0001' : 'NV0089',
+            'email': isHrAdmin ? 'hr.admin@vstech.vn' : 'tran.mai@vstech.vn',
+            'avatar': isHrAdmin ? 'avatars/hr0001.png' : 'avatars/nv0089.png',
+            'claims': isHrAdmin
+                ? <String>['attendance.checkin', 'leave.create', 'overtime.create', 'hr:admin']
+                : <String>['attendance.checkin', 'leave.create', 'overtime.create', 'manager.approve'],
             'allowFaceRegisterTo': '2026-12-31',
             'isFaceRegistered': true,
             'allowFaceEnroll': true,

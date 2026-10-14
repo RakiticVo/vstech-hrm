@@ -81,6 +81,8 @@ class AppRoutes {
   static const String dependants = '/profile/dependants';
   static const String dependantNew = '/profile/dependants/new';
   static const String faceEnrollment = '/profile/face-enrollment';
+  static const String faq = '/profile/faq';
+  static const String privacyPolicy = '/profile/privacy-policy';
 
   // Phase 6 Full Candidate Onboarding Experience (OB Suite)
   static const String onboardingHome = '/onboarding/home';

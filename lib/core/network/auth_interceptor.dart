@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:vstech_hrm/core/constants/app_constants.dart';
+import 'package:vstech_hrm/core/network/api_error_handler.dart';
 
 /// Interceptor that attaches the Bearer JWT token to outbound requests.
 class AuthInterceptor extends Interceptor {
@@ -29,8 +30,23 @@ class AuthInterceptor extends Interceptor {
 
   @override
   void onError(DioException err, ErrorInterceptorHandler handler) {
-    if (err.response?.statusCode == 401) {
-      _onAuthExpired?.call();
+    final path = err.requestOptions.path;
+    final isAuthPath = path.contains('/Account') || path.contains('/login');
+    if (!isAuthPath) {
+      final statusCode = err.response?.statusCode;
+      if (statusCode == 401) {
+        _onAuthExpired?.call();
+      } else if (statusCode == 400 || statusCode == 403) {
+        final message = ApiErrorHandler.extractErrorMessage(err).toLowerCase();
+        if (message.contains('phiên đăng nhập') ||
+            message.contains('hết hạn') ||
+            message.contains('đăng nhập lại') ||
+            message.contains('đăng xuất ra') ||
+            message.contains('token expired') ||
+            message.contains('session expired')) {
+          _onAuthExpired?.call();
+        }
+      }
     }
     return handler.next(err);
   }

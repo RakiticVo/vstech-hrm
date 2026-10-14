@@ -56,14 +56,30 @@ class AuthCubit extends Cubit<AuthState> {
   Future<void> loginAsDemo(UserRole role) async {
     emit(const AuthLoading());
     final isManager = role.isManager;
+    final isHr = role.isAdmin;
     final user = isManager
-        ? const UserSession(
-            id: '2',
-            name: 'Trần Thị Mai',
-            email: 'tran.mai@vstech.vn',
-            employeeCode: 'NV0089',
-            department: 'Phòng Kỹ thuật & Sản phẩm',
-            role: UserRole.manager,
+        ? UserSession(
+            id: isHr ? '3' : '2',
+            name: isHr ? 'Lê Hoàng HR' : 'Trần Thị Mai',
+            email: isHr ? 'hr.admin@vstech.vn' : 'tran.mai@vstech.vn',
+            employeeCode: isHr ? 'HR0001' : 'NV0089',
+            department: isHr
+                ? 'Phòng Nhân sự & Quản trị'
+                : 'Phòng Kỹ thuật & Sản phẩm',
+            role: role,
+            claims: isHr
+                ? const <String>[
+                    'attendance.checkin',
+                    'leave.create',
+                    'overtime.create',
+                    'hr:admin',
+                  ]
+                : const <String>[
+                    'attendance.checkin',
+                    'leave.create',
+                    'overtime.create',
+                    'manager.approve',
+                  ],
           )
         : const UserSession(
             id: '1',
@@ -72,6 +88,11 @@ class AuthCubit extends Cubit<AuthState> {
             employeeCode: 'NV0142',
             department: 'Bộ phận Phát triển Mobile',
             role: UserRole.employee,
+            claims: <String>[
+              'attendance.checkin',
+              'leave.create',
+              'overtime.create',
+            ],
           );
 
     final token = 'mock_jwt_${role.name}_${DateTime.now().millisecondsSinceEpoch}';
@@ -80,6 +101,14 @@ class AuthCubit extends Cubit<AuthState> {
     await _secureStorage.write(
       key: _userSessionKey,
       value: jsonEncode(user.toJson()),
+    );
+    await _secureStorage.write(
+      key: AppConstants.keySavedUsername,
+      value: user.employeeCode,
+    );
+    await _secureStorage.write(
+      key: AppConstants.keySavedPassword,
+      value: '123456',
     );
 
     emit(Authenticated(user: user, token: token, role: role));
@@ -118,21 +147,38 @@ class AuthCubit extends Cubit<AuthState> {
           emit(Unauthenticated(message: failure.message));
         },
         (authResult) async {
-          final isManager = authResult.claims.contains('manager.approve') ||
+          final isHrAdmin = authResult.claims.any((c) {
+            final lower = c.toLowerCase().trim();
+            return lower == 'hr:admin' ||
+                lower == 'hr.admin' ||
+                lower == 'hr_admin' ||
+                lower == 'admin';
+          });
+          final isDirectManager = authResult.claims.any(
+                (c) => c.toLowerCase().trim() == 'manager.approve',
+              ) ||
               username.toLowerCase().contains('manager') ||
               username.toLowerCase().contains('ql');
-          final role = isManager ? UserRole.manager : UserRole.employee;
+          final isManager = isHrAdmin ||
+              isDirectManager ||
+              username.toLowerCase().contains('hr');
+          final role = isHrAdmin
+              ? UserRole.admin
+              : (isManager ? UserRole.manager : UserRole.employee);
 
           final user = UserSession(
             id: authResult.userId?.toString() ?? authResult.employeeCode,
             name: authResult.employeeName,
             email: authResult.email ?? '',
             employeeCode: authResult.employeeCode,
-            department: isManager
-                ? 'Phòng Kỹ thuật & Quản lý'
-                : 'Bộ phận Phát triển Mobile',
+            department: isHrAdmin
+                ? 'Phòng Nhân sự & Quản trị'
+                : (isManager
+                    ? 'Phòng Kỹ thuật & Quản lý'
+                    : 'Bộ phận Phát triển Mobile'),
             role: role,
             avatarUrl: authResult.avatar,
+            claims: authResult.claims,
           );
 
           await _secureStorage.write(
@@ -160,9 +206,14 @@ class AuthCubit extends Cubit<AuthState> {
         },
       );
     } else {
-      final isManager = username.toLowerCase().contains('manager') ||
+      final isHr = username.toLowerCase().contains('hr') ||
+          username.toLowerCase().contains('admin');
+      final isManager = isHr ||
+          username.toLowerCase().contains('manager') ||
           username.toLowerCase().contains('ql');
-      final role = isManager ? UserRole.manager : UserRole.employee;
+      final role = isHr
+          ? UserRole.admin
+          : (isManager ? UserRole.manager : UserRole.employee);
       await loginAsDemo(role);
     }
   }
