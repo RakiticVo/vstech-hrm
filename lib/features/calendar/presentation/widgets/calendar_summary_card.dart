@@ -3,17 +3,30 @@ import 'package:vstech_hrm/core/extensions/l10n_extension.dart';
 import 'package:vstech_hrm/core/theme/app_colors.dart';
 
 class CalendarSummaryCard extends StatelessWidget {
-  const new({super.key});
+  const CalendarSummaryCard({
+    super.key,
+    this.payableWorkdaysText,
+    this.totalWorkHoursText,
+    this.cumulativeOvertimeText,
+    this.paidLeaveDaysText,
+    this.lateEarlyArrivalsText,
+  });
+
+  final String? payableWorkdaysText;
+  final String? totalWorkHoursText;
+  final String? cumulativeOvertimeText;
+  final String? paidLeaveDaysText;
+  final String? lateEarlyArrivalsText;
 
   @override
   Widget build(BuildContext context) {
     final colors = context.colors;
     final rows = [
-      (context.l10n.payableWorkdays, '18.0 / 22 ngày', colors.textPrimary),
-      (context.l10n.totalWorkHours, '144.5 giờ', colors.textPrimary),
-      (context.l10n.cumulativeOvertime, '12.0 giờ', colors.textPrimary),
-      (context.l10n.paidLeaveDays, '2.0 ngày', colors.primaryIndigo),
-      (context.l10n.lateEarlyArrivals, '1 lần (12 phút)', colors.accentAmber),
+      (context.l10n.payableWorkdays, payableWorkdaysText ?? '--', colors.textPrimary),
+      (context.l10n.totalWorkHours, totalWorkHoursText ?? '--', colors.textPrimary),
+      (context.l10n.cumulativeOvertime, cumulativeOvertimeText ?? '--', colors.textPrimary),
+      (context.l10n.paidLeaveDays, paidLeaveDaysText ?? '--', colors.primaryIndigo),
+      (context.l10n.lateEarlyArrivals, lateEarlyArrivalsText ?? '--', colors.accentAmber),
     ];
 
     return Container(

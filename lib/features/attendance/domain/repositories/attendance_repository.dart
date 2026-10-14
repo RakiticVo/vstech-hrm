@@ -1,8 +1,10 @@
 import 'package:equatable/equatable.dart';
 import 'package:fpdart/fpdart.dart';
 import 'package:vstech_hrm/core/errors/failures.dart';
+import 'package:vstech_hrm/features/attendance/domain/entities/account_timesheet_entity.dart';
 import 'package:vstech_hrm/features/attendance/domain/entities/attendance_record_entity.dart';
 import 'package:vstech_hrm/features/attendance/domain/entities/attendance_today_entity.dart';
+import 'package:vstech_hrm/features/attendance/domain/entities/timesheet_detail_entity.dart';
 
 class CheckInParams extends Equatable {
   const new({
@@ -39,5 +41,10 @@ abstract class AttendanceRepository {
     DateTime? from,
     DateTime? to,
   });
-}
 
+  Future<Either<Failure, TimesheetDetailEntity?>> getTimesheetDetail(String id);
+
+  Future<Either<Failure, List<AccountTimesheetEntity>>> getAccountTimesheet({
+    required String monthYear,
+  });
+}

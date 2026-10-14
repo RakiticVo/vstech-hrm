@@ -1,8 +1,12 @@
 import 'package:vstech_hrm/core/constants/api_endpoints.dart';
 import 'package:vstech_hrm/core/errors/exceptions.dart';
+import 'package:vstech_hrm/core/network/api_error_handler.dart';
 import 'package:vstech_hrm/core/network/dio_client.dart';
+import 'package:vstech_hrm/features/attendance/data/models/account_enrollment_model.dart';
+import 'package:vstech_hrm/features/attendance/data/models/account_timesheet_model.dart';
 import 'package:vstech_hrm/features/attendance/data/models/attendance_record_model.dart';
 import 'package:vstech_hrm/features/attendance/data/models/attendance_today_model.dart';
+import 'package:vstech_hrm/features/attendance/data/models/timesheet_detail_model.dart';
 import 'package:vstech_hrm/features/attendance/domain/repositories/attendance_repository.dart';
 
 abstract class AttendanceRemoteDataSource {
@@ -18,6 +22,12 @@ abstract class AttendanceRemoteDataSource {
     DateTime? from,
     DateTime? to,
   });
+
+  Future<Map<String, int>> getTimesheetSummary({DateTime? month});
+
+  Future<List<AccountTimesheetModel>> getAccountTimesheet({required String monthYear});
+
+  Future<TimesheetDetailModel?> getTimesheetDetail(String id);
 }
 
 class AttendanceRemoteDataSourceImpl implements AttendanceRemoteDataSource {
@@ -42,7 +52,7 @@ class AttendanceRemoteDataSourceImpl implements AttendanceRemoteDataSource {
     } on AppException {
       rethrow;
     } on Object catch (e) {
-      throw ServerException(message: 'Lỗi khi tải thông tin chấm công hôm nay: $e');
+      throw ApiErrorHandler.toServerException(e, 'Lỗi khi tải thông tin chấm công hôm nay');
     }
   }
 
@@ -92,7 +102,9 @@ class AttendanceRemoteDataSourceImpl implements AttendanceRemoteDataSource {
         timestamp: params.capturedAt,
         type: 'checkIn',
         classification: isLate ? 'late' : 'onTime',
-        locationName: 'Trụ sở chính VSTech',
+        locationName: (params.lat == 10.7769 && params.lng == 106.7009)
+            ? 'Trụ sở chính VSTech'
+            : 'Vị trí thực tế (${params.lat.toStringAsFixed(4)}, ${params.lng.toStringAsFixed(4)})',
         lat: params.lat,
         lng: params.lng,
         bssid: params.bssid,
@@ -101,7 +113,7 @@ class AttendanceRemoteDataSourceImpl implements AttendanceRemoteDataSource {
     } on AppException {
       rethrow;
     } on Object catch (e) {
-      throw ServerException(message: 'Lỗi khi thực hiện Check-in: $e');
+      throw ApiErrorHandler.toServerException(e, 'Lỗi khi thực hiện Check-in');
     }
   }
 
@@ -132,7 +144,9 @@ class AttendanceRemoteDataSourceImpl implements AttendanceRemoteDataSource {
         timestamp: params.capturedAt,
         type: 'checkOut',
         classification: isEarly ? 'earlyLeave' : 'onTime',
-        locationName: 'Trụ sở chính VSTech',
+        locationName: (params.lat == 10.7769 && params.lng == 106.7009)
+            ? 'Trụ sở chính VSTech'
+            : 'Vị trí thực tế (${params.lat.toStringAsFixed(4)}, ${params.lng.toStringAsFixed(4)})',
         lat: params.lat,
         lng: params.lng,
         bssid: params.bssid,
@@ -141,7 +155,7 @@ class AttendanceRemoteDataSourceImpl implements AttendanceRemoteDataSource {
     } on AppException {
       rethrow;
     } on Object catch (e) {
-      throw ServerException(message: 'Lỗi khi thực hiện Check-out: $e');
+      throw ApiErrorHandler.toServerException(e, 'Lỗi khi thực hiện Check-out');
     }
   }
 
@@ -151,15 +165,29 @@ class AttendanceRemoteDataSourceImpl implements AttendanceRemoteDataSource {
     DateTime? to,
   }) async {
     try {
+      final targetDate = from ?? DateTime.now();
+      final monthYear =
+          '${targetDate.year}-${targetDate.month.toString().padLeft(2, '0')}-01';
+
       final response = await _dioClient.get<dynamic>(
         ApiEndpoints.attendanceHistory,
         queryParameters: <String, dynamic>{
-          if (from != null) 'from': from.toIso8601String(),
-          if (to != null) 'to': to.toIso8601String(),
+          'monthYear': monthYear,
         },
       );
       final dynamic body = response.data;
       if (body is Map<String, dynamic>) {
+        if (body['items'] is List) {
+          final items = body['items'] as List;
+          final allRecords = <AttendanceRecordModel>[];
+          for (final e in items) {
+            if (e is Map<String, dynamic>) {
+              final enrollment = AccountEnrollmentModel.fromJson(e);
+              allRecords.addAll(enrollment.toAttendanceRecords());
+            }
+          }
+          return allRecords;
+        }
         if (body['data'] is List) {
           final list = body['data'] as List;
           return list
@@ -183,16 +211,21 @@ class AttendanceRemoteDataSourceImpl implements AttendanceRemoteDataSource {
                 final year = int.tryParse(dParts[2]) ?? DateTime.now().year;
                 final hour = int.tryParse(tParts[0]) ?? 0;
                 final min = int.tryParse(tParts[1]) ?? 0;
-                final sec = tParts.length > 2 ? (int.tryParse(tParts[2].split('.')[0]) ?? 0) : 0;
-                // Add 7 hours to convert from server UTC to Vietnam Time (ICT)
-                timestamp = DateTime.utc(year, month, day, hour, min, sec).add(const Duration(hours: 7));
+                final sec = tParts.length > 2
+                    ? (int.tryParse(tParts[2].split('.')[0]) ?? 0)
+                    : 0;
+                timestamp = DateTime.utc(year, month, day, hour, min, sec).toLocal();
               }
             }
+            final localTimeStr =
+                '${timestamp.hour.toString().padLeft(2, '0')}:${timestamp.minute.toString().padLeft(2, '0')}';
             return AttendanceRecordModel(
               id: 'att_${map['date']}_$timeStr',
               timestamp: timestamp,
               type: 'checkIn',
-              classification: ((map['late'] as num?) ?? 0) > 0 ? 'late' : 'onTime',
+              checkinTime: localTimeStr,
+              classification:
+                  ((map['late'] as num?) ?? 0) > 0 ? 'late' : 'onTime',
               locationName: 'Trụ sở chính VSTech',
             );
           }).toList();
@@ -202,7 +235,59 @@ class AttendanceRemoteDataSourceImpl implements AttendanceRemoteDataSource {
     } on AppException {
       rethrow;
     } on Object catch (e) {
-      throw ServerException(message: 'Lỗi khi tải lịch sử chấm công: $e');
+      throw ApiErrorHandler.toServerException(e, 'Lỗi khi tải lịch sử chấm công');
+    }
+  }
+
+  @override
+  Future<List<AccountTimesheetModel>> getAccountTimesheet({required String monthYear}) async {
+    try {
+      final response = await _dioClient.get<dynamic>(
+        ApiEndpoints.accountTimesheet,
+        queryParameters: <String, dynamic>{'monthYear': monthYear},
+      );
+      final dynamic body = response.data;
+      final dynamic raw = body is Map<String, dynamic>
+          ? (body['items'] ?? body['data'])
+          : body;
+      if (raw is List) {
+        return raw
+            .whereType<Map<String, dynamic>>()
+            .map(AccountTimesheetModel.fromJson)
+            .toList();
+      }
+      return <AccountTimesheetModel>[];
+    } on AppException {
+      rethrow;
+    } on Object catch (e) {
+      throw ApiErrorHandler.toServerException(e, 'Lỗi khi tải bảng công tháng');
+    }
+  }
+
+  @override
+  Future<Map<String, int>> getTimesheetSummary({DateTime? month}) async {
+    try {
+      final target = month ?? DateTime.now();
+      final monthStr = '${target.year}-${target.month.toString().padLeft(2, '0')}-01';
+      final items = await getAccountTimesheet(monthYear: monthStr);
+      final present = items.where((i) => i.validActualTime > 0 || i.actualWorkTime > 0).length;
+      final leave = items.where((i) => i.leaveTime > 0).length;
+      return {'present': present, 'leave': leave};
+    } on Object {
+      return {'present': 0, 'leave': 0};
+    }
+  }
+
+  @override
+  Future<TimesheetDetailModel?> getTimesheetDetail(String id) async {
+    try {
+      final response = await _dioClient.get<dynamic>(ApiEndpoints.timesheetDetail(id));
+      if (response.data is Map<String, dynamic>) {
+        return TimesheetDetailModel.fromJson(response.data as Map<String, dynamic>);
+      }
+      return null;
+    } on Object catch (e) {
+      throw ApiErrorHandler.toServerException(e, 'Lỗi khi tải chi tiết ngày công');
     }
   }
 }

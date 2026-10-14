@@ -18,7 +18,6 @@ import 'package:vstech_hrm/features/attendance/presentation/bloc/attendance_stat
 import 'package:vstech_hrm/features/attendance/presentation/widgets/face_oval_frame.dart';
 import 'package:vstech_hrm/features/attendance/presentation/widgets/face_scan_bottom_controls.dart';
 import 'package:vstech_hrm/features/attendance/presentation/widgets/face_scan_listener_helper.dart';
-import 'package:vstech_hrm/features/attendance/presentation/widgets/face_scan_mode_toggle.dart';
 import 'package:vstech_hrm/features/attendance/presentation/widgets/face_scan_offline_handler.dart';
 import 'package:vstech_hrm/features/attendance/presentation/widgets/face_scan_step_progress.dart';
 import 'package:vstech_hrm/features/attendance/presentation/widgets/face_scan_top_bar.dart';
@@ -40,7 +39,7 @@ class _FaceScanScreenState extends State<FaceScanScreen> {
   CameraController? _cameraController;
   late final Timer _clockTimer;
   String _currentTime = '';
-  bool _isOfflineMode = false;
+  static const bool _isOfflineMode = false;
   bool _isOfflineProcessing = false;
 
   String _getUserCode() {
@@ -54,7 +53,9 @@ class _FaceScanScreenState extends State<FaceScanScreen> {
     _updateClock();
     _clockTimer = Timer.periodic(const Duration(seconds: 1), (_) => _updateClock());
 
-    WidgetsBinding.instance.addPostFrameCallback((_) {
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      await AppPermissionHandler.requestLocation(context);
+      if (!mounted) return;
       context.read<AttendanceBloc>().add(
             PrepareFaceScanEvent(
               type: widget.type,
@@ -127,6 +128,17 @@ class _FaceScanScreenState extends State<FaceScanScreen> {
   }
 
   Future<void> _onCaptureAndSubmit() async {
+    final attendanceState = context.read<AttendanceBloc>().state;
+    if (!attendanceState.isLocationReady && !_isOfflineMode) {
+      context.read<AttendanceBloc>().add(
+            PrepareFaceScanEvent(
+              type: widget.type,
+              employeeCode: _getUserCode(),
+            ),
+          );
+      return;
+    }
+
     if (_isOfflineMode) {
       setState(() => _isOfflineProcessing = true);
       final record = await FaceScanOfflineHandler.processOfflinePunch(
@@ -208,15 +220,6 @@ class _FaceScanScreenState extends State<FaceScanScreen> {
                           : l10n.faceScanCheckOutTitle,
                       currentTime: _currentTime,
                       onClose: () => context.pop(),
-                    ),
-                    FaceScanModeToggle(
-                      isOfflineMode: _isOfflineMode,
-                      onToggle: () {
-                        setState(() => _isOfflineMode = !_isOfflineMode);
-                        if (_isOfflineMode && _cameraController == null) {
-                          unawaited(_initCamera());
-                        }
-                      },
                     ),
                     Expanded(
                       child: Column(

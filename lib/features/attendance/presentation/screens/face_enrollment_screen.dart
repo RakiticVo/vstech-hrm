@@ -31,6 +31,7 @@ class _FaceEnrollmentScreenState extends State<FaceEnrollmentScreen> {
   bool _isChecking = true;
   bool _isSubmitting = false;
   bool _isRegistered = false;
+  bool _isSuccessCaptured = false;
   String? _errorMessage;
 
   @override
@@ -133,6 +134,7 @@ class _FaceEnrollmentScreenState extends State<FaceEnrollmentScreen> {
           setState(() {
             _isSubmitting = false;
             _isRegistered = true;
+            _isSuccessCaptured = true;
           });
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
@@ -194,7 +196,7 @@ class _FaceEnrollmentScreenState extends State<FaceEnrollmentScreen> {
                         Center(
                           child: FaceOvalFrame(
                             cameraController: _cameraController,
-                            isSuccess: _isRegistered,
+                            isSuccess: _isSuccessCaptured,
                             isScanning: !_isSubmitting,
                           ),
                         )

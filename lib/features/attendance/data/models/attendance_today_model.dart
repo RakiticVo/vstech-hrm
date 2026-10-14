@@ -9,6 +9,7 @@ class AttendanceTodayModel {
     required this.shiftTime,
     required this.status,
     required this.isLate,
+    this.lateMinutes = 0,
     this.checkInTime,
     this.checkOutTime,
   });
@@ -41,7 +42,49 @@ class AttendanceTodayModel {
       final ts = json['timesheet'] is Map<String, dynamic>
           ? json['timesheet'] as Map<String, dynamic>
           : null;
-      final isLate = ts != null && ((ts['late'] as num?) ?? 0) > 0;
+
+      num lateNum = 0;
+      if (ts != null && ts['late'] != null) {
+        lateNum = (ts['late'] as num?) ?? 0;
+      }
+      if (lateNum == 0) {
+        for (final e in enrolls) {
+          if (e is Map && e['late'] != null) {
+            final eLate = (e['late'] as num?) ?? 0;
+            if (eLate > 0) {
+              lateNum = eLate;
+              break;
+            }
+          }
+        }
+      }
+      if (lateNum == 0 && json['late'] != null) {
+        lateNum = (json['late'] as num?) ?? 0;
+      }
+
+      var lateMinutes = 0;
+      if (lateNum > 0) {
+        if (lateNum < 5.0) {
+          lateMinutes = (lateNum * 60).round();
+        } else {
+          lateMinutes = lateNum.round();
+        }
+      } else if (firstCheckIn != null) {
+        final inParts = firstCheckIn.split(':');
+        final startParts = start.split(':');
+        if (inParts.length >= 2 && startParts.length >= 2) {
+          final inH = int.tryParse(inParts[0]) ?? 0;
+          final inM = int.tryParse(inParts[1]) ?? 0;
+          final startH = int.tryParse(startParts[0]) ?? 0;
+          final startM = int.tryParse(startParts[1]) ?? 0;
+          final diff = (inH * 60 + inM) - (startH * 60 + startM);
+          if (diff > 0) {
+            lateMinutes = diff;
+          }
+        }
+      }
+
+      final isLate = lateMinutes > 0;
 
       final String status;
       if (enrollMode == 'OUT' || (firstCheckIn != null && lastCheckOut == null)) {
@@ -59,6 +102,7 @@ class AttendanceTodayModel {
         shiftTime: '$start - $end',
         status: status,
         isLate: isLate,
+        lateMinutes: lateMinutes,
         checkInTime: firstCheckIn,
         checkOutTime: lastCheckOut,
       );
@@ -70,6 +114,7 @@ class AttendanceTodayModel {
       shiftTime: json['shiftTime']?.toString() ?? '08:30 - 17:30',
       status: json['status']?.toString() ?? 'not_started',
       isLate: json['isLate'] == true,
+      lateMinutes: (json['lateMinutes'] as num?)?.toInt() ?? 0,
       checkInTime: formatToVietnamTime(json['checkInTime']?.toString()),
       checkOutTime: formatToVietnamTime(json['checkOutTime']?.toString()),
     );
@@ -145,6 +190,7 @@ class AttendanceTodayModel {
   final String shiftTime;
   final String status;
   final bool isLate;
+  final int lateMinutes;
   final String? checkInTime;
   final String? checkOutTime;
 
@@ -154,6 +200,7 @@ class AttendanceTodayModel {
         'shiftTime': shiftTime,
         'status': status,
         'isLate': isLate,
+        'lateMinutes': lateMinutes,
         'checkInTime': checkInTime,
         'checkOutTime': checkOutTime,
       };
@@ -184,6 +231,7 @@ class AttendanceTodayModel {
       todayDate: date,
       checkInTime: hasValidCheckIn ? checkInTime : null,
       checkOutTime: hasValidCheckOut ? checkOutTime : null,
+      lateMinutes: lateMinutes,
     );
   }
 }

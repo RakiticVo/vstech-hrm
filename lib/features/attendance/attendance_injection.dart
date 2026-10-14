@@ -11,8 +11,10 @@ import 'package:vstech_hrm/features/attendance/domain/usecases/check_face_regist
 import 'package:vstech_hrm/features/attendance/domain/usecases/check_in_usecase.dart';
 import 'package:vstech_hrm/features/attendance/domain/usecases/check_out_usecase.dart';
 import 'package:vstech_hrm/features/attendance/domain/usecases/delete_face_usecase.dart';
+import 'package:vstech_hrm/features/attendance/domain/usecases/get_account_timesheet_usecase.dart';
 import 'package:vstech_hrm/features/attendance/domain/usecases/get_attend_mode_usecase.dart';
 import 'package:vstech_hrm/features/attendance/domain/usecases/get_attendance_history_usecase.dart';
+import 'package:vstech_hrm/features/attendance/domain/usecases/get_timesheet_detail_usecase.dart';
 import 'package:vstech_hrm/features/attendance/domain/usecases/get_today_attendance_usecase.dart';
 import 'package:vstech_hrm/features/attendance/domain/usecases/live_verify_face_usecase.dart';
 import 'package:vstech_hrm/features/attendance/domain/usecases/register_face_usecase.dart';
@@ -46,6 +48,9 @@ void initAttendanceDependencies(GetIt sl) {
   sl.registerLazySingleton<GetAttendanceHistoryUseCase>(
     () => GetAttendanceHistoryUseCase(sl<AttendanceRepository>()),
   );
+  sl.registerLazySingleton<GetTimesheetDetailUseCase>(
+    () => GetTimesheetDetailUseCase(sl<AttendanceRepository>()),
+  );
   sl.registerLazySingleton<CheckInUseCase>(
     () => CheckInUseCase(sl<AttendanceRepository>()),
   );
@@ -54,6 +59,9 @@ void initAttendanceDependencies(GetIt sl) {
   );
   sl.registerLazySingleton<GetAttendModeUseCase>(
     () => GetAttendModeUseCase(sl<AttendanceRepository>()),
+  );
+  sl.registerLazySingleton<GetAccountTimesheetUseCase>(
+    () => GetAccountTimesheetUseCase(repository: sl<AttendanceRepository>()),
   );
 
   sl.registerLazySingleton<CheckFaceRegistrationUseCase>(

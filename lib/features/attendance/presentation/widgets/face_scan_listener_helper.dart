@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:go_router/go_router.dart';
 import 'package:vstech_hrm/core/extensions/l10n_extension.dart';
 import 'package:vstech_hrm/core/theme/app_colors.dart';
+import 'package:vstech_hrm/core/widgets/app_toast.dart';
 import 'package:vstech_hrm/features/attendance/domain/entities/attendance_record_entity.dart';
 import 'package:vstech_hrm/features/attendance/presentation/bloc/attendance_state.dart';
 import 'package:vstech_hrm/features/attendance/presentation/widgets/attendance_success_dialog.dart';
@@ -36,20 +37,16 @@ class FaceScanListenerHelper {
         ),
       );
     } else if (state.status == AttendanceProcessStatus.faceVerifyFailed) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(state.errorMessage ?? 'Xác thực khuôn mặt thất bại'),
-          backgroundColor: colors.brickRed,
-        ),
+      AppToast.showError(
+        context,
+        state.errorMessage ?? 'Xác thực khuôn mặt thất bại',
       );
     } else if (state.status == AttendanceProcessStatus.success && state.lastRecord != null) {
       unawaited(onShowSuccess(state.lastRecord!));
     } else if (state.status == AttendanceProcessStatus.failure) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(state.errorMessage ?? l10n.attendanceFailed),
-          backgroundColor: colors.brickRed,
-        ),
+      AppToast.showError(
+        context,
+        state.errorMessage ?? l10n.attendanceFailed,
       );
     }
   }

@@ -16,17 +16,18 @@ enum AttendanceProcessStatus {
 
 /// State holding attendance session, location verification, and punch outcomes.
 class AttendanceState extends Equatable {
-  const new({
+  const AttendanceState({
     this.status = AttendanceProcessStatus.initial,
     this.todayAttendance,
     this.lastRecord,
-    this.locationName = 'Trụ sở chính VSTech • Bán kính 50m',
-    this.lat = 10.7769,
-    this.lng = 106.7009,
+    this.locationName = 'Đang xác định vị trí...',
+    this.lat = 0.0,
+    this.lng = 0.0,
     this.bssid = 'vstech-office-5g',
-    this.isWithinGeofence = true,
+    this.isWithinGeofence = false,
     this.isWifiValid = true,
     this.isCameraReady = false,
+    this.isLocationReady = false,
     this.isSimulator = false,
     this.isFaceRegistered,
     this.faceVerifyMessage,
@@ -44,6 +45,7 @@ class AttendanceState extends Equatable {
   final bool isWithinGeofence;
   final bool isWifiValid;
   final bool isCameraReady;
+  final bool isLocationReady;
   final bool isSimulator;
   final bool? isFaceRegistered;
   final String? faceVerifyMessage;
@@ -61,6 +63,7 @@ class AttendanceState extends Equatable {
     bool? isWithinGeofence,
     bool? isWifiValid,
     bool? isCameraReady,
+    bool? isLocationReady,
     bool? isSimulator,
     bool? isFaceRegistered,
     String? faceVerifyMessage,
@@ -78,6 +81,7 @@ class AttendanceState extends Equatable {
       isWithinGeofence: isWithinGeofence ?? this.isWithinGeofence,
       isWifiValid: isWifiValid ?? this.isWifiValid,
       isCameraReady: isCameraReady ?? this.isCameraReady,
+      isLocationReady: isLocationReady ?? this.isLocationReady,
       isSimulator: isSimulator ?? this.isSimulator,
       isFaceRegistered: isFaceRegistered ?? this.isFaceRegistered,
       faceVerifyMessage: faceVerifyMessage ?? this.faceVerifyMessage,
@@ -98,6 +102,7 @@ class AttendanceState extends Equatable {
         isWithinGeofence,
         isWifiValid,
         isCameraReady,
+        isLocationReady,
         isSimulator,
         isFaceRegistered,
         faceVerifyMessage,

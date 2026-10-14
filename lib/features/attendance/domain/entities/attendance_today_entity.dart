@@ -3,7 +3,7 @@ import 'package:vstech_hrm/features/attendance/domain/entities/attendance_record
 
 /// Domain entity representing today's attendance summary for home dashboard.
 class AttendanceTodayEntity extends Equatable {
-  const new({
+  const AttendanceTodayEntity({
     required this.hasCheckedIn,
     required this.hasCheckedOut,
     required this.shiftName,
@@ -13,6 +13,7 @@ class AttendanceTodayEntity extends Equatable {
     required this.todayDate,
     this.checkInTime,
     this.checkOutTime,
+    this.lateMinutes = 0,
   });
 
   final bool hasCheckedIn;
@@ -24,6 +25,7 @@ class AttendanceTodayEntity extends Equatable {
   final String todayDate;
   final String? checkInTime;
   final String? checkOutTime;
+  final int lateMinutes;
 
   AttendanceTodayEntity copyWith({
     bool? hasCheckedIn,
@@ -35,6 +37,7 @@ class AttendanceTodayEntity extends Equatable {
     String? todayDate,
     String? checkInTime,
     String? checkOutTime,
+    int? lateMinutes,
   }) {
     return AttendanceTodayEntity(
       hasCheckedIn: hasCheckedIn ?? this.hasCheckedIn,
@@ -46,6 +49,7 @@ class AttendanceTodayEntity extends Equatable {
       todayDate: todayDate ?? this.todayDate,
       checkInTime: checkInTime ?? this.checkInTime,
       checkOutTime: checkOutTime ?? this.checkOutTime,
+      lateMinutes: lateMinutes ?? this.lateMinutes,
     );
   }
 
@@ -60,5 +64,6 @@ class AttendanceTodayEntity extends Equatable {
         todayDate,
         checkInTime,
         checkOutTime,
+        lateMinutes,
       ];
 }

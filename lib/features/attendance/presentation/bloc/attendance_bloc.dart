@@ -14,13 +14,18 @@ import 'package:vstech_hrm/features/attendance/presentation/bloc/attendance_stat
 
 /// BLoC managing attendance lifecycle, camera readiness, GPS verification, and punch submissions.
 class AttendanceBloc extends Bloc<AttendanceEvent, AttendanceState> {
-  new({
-    required this._getTodayAttendanceUseCase,
-    required this._checkInUseCase,
-    required this._checkOutUseCase,
-    required this._checkFaceRegistrationUseCase,
-    required this._verifyFaceUseCase,
-  })  : super(const AttendanceState()) {
+  AttendanceBloc({
+    required GetTodayAttendanceUseCase getTodayAttendanceUseCase,
+    required CheckInUseCase checkInUseCase,
+    required CheckOutUseCase checkOutUseCase,
+    required CheckFaceRegistrationUseCase checkFaceRegistrationUseCase,
+    required VerifyFaceUseCase verifyFaceUseCase,
+  })  : _getTodayAttendanceUseCase = getTodayAttendanceUseCase,
+        _checkInUseCase = checkInUseCase,
+        _checkOutUseCase = checkOutUseCase,
+        _checkFaceRegistrationUseCase = checkFaceRegistrationUseCase,
+        _verifyFaceUseCase = verifyFaceUseCase,
+        super(const AttendanceState()) {
     on<LoadTodayAttendanceEvent>(_onLoadTodayAttendance);
     on<PrepareFaceScanEvent>(_onPrepareFaceScan);
     on<SubmitFaceScanEvent>(_onSubmitFaceScan);
@@ -32,6 +37,40 @@ class AttendanceBloc extends Bloc<AttendanceEvent, AttendanceState> {
   final CheckOutUseCase _checkOutUseCase;
   final CheckFaceRegistrationUseCase _checkFaceRegistrationUseCase;
   final VerifyFaceUseCase _verifyFaceUseCase;
+
+  Future<Position?> _getRealPosition() async {
+    try {
+      final serviceEnabled = await Geolocator.isLocationServiceEnabled();
+      if (!serviceEnabled) {
+        appLogger.w('Location service is disabled');
+        return null;
+      }
+
+      var permission = await Geolocator.checkPermission();
+      if (permission == LocationPermission.denied) {
+        permission = await Geolocator.requestPermission();
+      }
+
+      if (permission == LocationPermission.denied ||
+          permission == LocationPermission.deniedForever) {
+        return null;
+      }
+
+      try {
+        return await Geolocator.getCurrentPosition(
+          locationSettings: const LocationSettings(
+            accuracy: LocationAccuracy.medium,
+            timeLimit: Duration(seconds: 5),
+          ),
+        );
+      } on Object catch (_) {
+        return await Geolocator.getLastKnownPosition();
+      }
+    } on Object catch (e) {
+      appLogger.w('Geolocator position retrieval failed: $e');
+    }
+    return null;
+  }
 
   Future<void> _onLoadTodayAttendance(
     LoadTodayAttendanceEvent event,
@@ -59,26 +98,35 @@ class AttendanceBloc extends Bloc<AttendanceEvent, AttendanceState> {
     PrepareFaceScanEvent event,
     Emitter<AttendanceState> emit,
   ) async {
-    emit(state.copyWith(status: AttendanceProcessStatus.loading));
+    emit(
+      state.copyWith(
+        status: AttendanceProcessStatus.loading,
+        isLocationReady: false,
+        locationName: 'Đang xác định vị trí GPS...',
+      ),
+    );
 
-    var lat = 10.7769;
-    var lng = 106.7009;
-    const isWithinGeofence = true;
+    final pos = await _getRealPosition();
+    final double lat;
+    final double lng;
+    final String locationLabel;
+    final bool isLocReady;
 
-    try {
-      final permission = await Geolocator.checkPermission();
-      if (permission == LocationPermission.always ||
-          permission == LocationPermission.whileInUse) {
-        final position = await Geolocator.getCurrentPosition(
-          locationSettings: const LocationSettings(
-            timeLimit: Duration(seconds: 4),
-          ),
-        );
-        lat = position.latitude;
-        lng = position.longitude;
+    if (pos != null) {
+      lat = pos.latitude;
+      lng = pos.longitude;
+      isLocReady = true;
+      final dist = Geolocator.distanceBetween(lat, lng, 10.7769, 106.7009);
+      if (dist <= 200) {
+        locationLabel = 'Trụ sở chính VSTech • ${dist.round()}m';
+      } else {
+        locationLabel = 'GPS thực tế: ${lat.toStringAsFixed(4)}, ${lng.toStringAsFixed(4)}';
       }
-    } on Object catch (e) {
-      appLogger.w('Geolocator fallback to office coordinates: $e');
+    } else {
+      lat = 0.0;
+      lng = 0.0;
+      isLocReady = false;
+      locationLabel = 'Chưa lấy được toạ độ GPS';
     }
 
     bool? isRegistered;
@@ -98,10 +146,11 @@ class AttendanceBloc extends Bloc<AttendanceEvent, AttendanceState> {
             : AttendanceProcessStatus.readyToScan,
         lat: lat,
         lng: lng,
-        isWithinGeofence: isWithinGeofence,
+        isWithinGeofence: isLocReady,
         isWifiValid: true,
         isFaceRegistered: isRegistered,
-        locationName: 'Trụ sở chính VSTech • Bán kính 50m',
+        isLocationReady: isLocReady,
+        locationName: locationLabel,
       ),
     );
   }
@@ -151,11 +200,15 @@ class AttendanceBloc extends Bloc<AttendanceEvent, AttendanceState> {
 
     emit(state.copyWith(status: AttendanceProcessStatus.submitting));
 
+    final freshPos = await _getRealPosition();
+    final actualLat = freshPos?.latitude ?? state.lat;
+    final actualLng = freshPos?.longitude ?? state.lng;
+
     final now = DateTime.now();
     final params = CheckInParams(
       imagePath: event.imagePath,
-      lat: state.lat,
-      lng: state.lng,
+      lat: actualLat,
+      lng: actualLng,
       bssid: state.bssid,
       capturedAt: now,
       note: event.note,

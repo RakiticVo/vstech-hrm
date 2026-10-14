@@ -46,7 +46,7 @@ class FaceScanOfflineHandler {
         timestamp: record.timestamp,
         type: type,
         classification: AttendanceClassification.onTime,
-        locationName: 'Văn phòng HCM (Ngoại tuyến)',
+        locationName: 'Chấm công ngoại tuyến',
         lat: record.latitude,
         lng: record.longitude,
         note: 'Offline match $pct%',

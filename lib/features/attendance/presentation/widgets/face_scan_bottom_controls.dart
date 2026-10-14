@@ -33,6 +33,8 @@ class FaceScanBottomControls extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = context.l10n;
+    final isLocationAcquired = isOfflineMode || state.isLocationReady;
+
     var ctaText = type.isCheckIn
         ? l10n.faceScanCaptureCheckInCta
         : l10n.faceScanCaptureCheckOutCta;
@@ -43,9 +45,11 @@ class FaceScanBottomControls extends StatelessWidget {
       ctaText = 'Đang xác thực khuôn mặt...';
     } else if (state.status == AttendanceProcessStatus.submitting) {
       ctaText = 'Đang ghi nhận chấm công...';
+    } else if (!isLocationAcquired) {
+      ctaText = state.locationName;
     }
 
-    final disableButton = isSuccess || isLoading || isSubmitting;
+    final disableButton = !isLocationAcquired || isSuccess || isLoading || isSubmitting;
 
     return Padding(
       padding: const EdgeInsets.fromLTRB(18, 0, 18, 24),
@@ -53,7 +57,7 @@ class FaceScanBottomControls extends StatelessWidget {
         children: [
           LocationStatusCard(
             locationName: isOfflineMode ? l10n.offlineLocationLabel : state.locationName,
-            isVerified: true,
+            isVerified: isLocationAcquired,
           ),
           14.gapH,
           AmberCtaButton(
