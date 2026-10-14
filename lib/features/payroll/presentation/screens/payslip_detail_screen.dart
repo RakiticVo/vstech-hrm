@@ -73,20 +73,21 @@ class _PayslipDetailScreenState extends State<PayslipDetailScreen> {
     return isNegative ? '-$str ₫' : '$str ₫';
   }
 
+  UserSession? _resolveUser(BuildContext context) {
+    try {
+      final s = context.watch<AuthCubit>().state;
+      return s is Authenticated ? s.user : null;
+    } on Object catch (_) {
+      final s = sl.isRegistered<AuthCubit>() ? sl<AuthCubit>().state : null;
+      return s is Authenticated ? s.user : null;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final colors = context.colors;
     final l10n = context.l10n;
-    UserSession? user;
-    try {
-      final authState = context.watch<AuthCubit>().state;
-      if (authState is Authenticated) user = authState.user;
-    } catch (_) {
-      if (sl.isRegistered<AuthCubit>()) {
-        final authState = sl<AuthCubit>().state;
-        if (authState is Authenticated) user = authState.user;
-      }
-    }
+    final user = _resolveUser(context);
     final userName = user?.name ?? 'Nhân viên';
     final userCode = user?.employeeCode ?? (_payslip?.employeeCode ?? 'NV');
 
@@ -130,6 +131,11 @@ class _PayslipDetailScreenState extends State<PayslipDetailScreen> {
         ),
         actions: [
           IconButton(
+            icon: const AppIcon(AppIcons.bonus, size: 20),
+            tooltip: l10n.rewardsTitle,
+            onPressed: () => context.push(AppRoutes.rewards),
+          ),
+          IconButton(
             icon: const AppIcon(AppIcons.dispute, size: 20),
             tooltip: l10n.disputeManageTitle,
             onPressed: () => context.push(AppRoutes.salaryDisputes),
@@ -150,7 +156,9 @@ class _PayslipDetailScreenState extends State<PayslipDetailScreen> {
           padding: const EdgeInsets.fromLTRB(16, 14, 16, 32),
           children: [
             _buildEmployeeHeaderCard(colors, l10n, userName, userCode),
-            20.gapH,
+            12.gapH,
+            _buildRewardsLink(colors, l10n),
+            18.gapH,
 
             Text(
               l10n.incomeSectionTitle,
@@ -247,14 +255,8 @@ class _PayslipDetailScreenState extends State<PayslipDetailScreen> {
               ),
               Container(
                 padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
-                decoration: BoxDecoration(
-                  color: colors.pineGreen.withValues(alpha: 0.12),
-                  borderRadius: BorderRadius.circular(6),
-                ),
-                child: Text(
-                  period,
-                  style: TextStyle(fontSize: 12, fontWeight: FontWeight.w700, color: colors.pineGreen),
-                ),
+                decoration: BoxDecoration(color: colors.pineGreen.withValues(alpha: 0.12), borderRadius: BorderRadius.circular(6)),
+                child: Text(period, style: TextStyle(fontSize: 12, fontWeight: FontWeight.w700, color: colors.pineGreen)),
               ),
             ],
           ),
@@ -264,6 +266,25 @@ class _PayslipDetailScreenState extends State<PayslipDetailScreen> {
             style: TextStyle(fontSize: 12.5, fontWeight: FontWeight.w600, color: colors.textSecondary),
           ),
         ],
+      ),
+    );
+  }
+
+  Widget _buildRewardsLink(AppColorsExtension colors, AppLocalizations l10n) {
+    return InkWell(
+      borderRadius: BorderRadius.circular(12),
+      onTap: () => context.push(AppRoutes.rewards),
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
+        decoration: BoxDecoration(color: colors.cardSecondary, borderRadius: BorderRadius.circular(12), border: Border.all(color: colors.border)),
+        child: Row(
+          children: [
+            AppIcon(AppIcons.bonus, size: 18, color: colors.tealPrimary),
+            10.gapW,
+            Expanded(child: Text(l10n.rewardsTitle, style: TextStyle(fontSize: 13, fontWeight: FontWeight.w700, color: colors.textPrimary))),
+            AppIcon(AppIcons.chevronRight, size: 16, color: colors.textTertiary),
+          ],
+        ),
       ),
     );
   }

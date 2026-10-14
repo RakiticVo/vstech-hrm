@@ -57,7 +57,10 @@ class _PayrollScreenState extends State<PayrollScreen> {
               children: [
                 InkWell(
                   borderRadius: BorderRadius.circular(8),
-                  onTap: () => context.push(AppRoutes.rewards),
+                  onTap: () => PayslipAuthDialog.show(
+                    context,
+                    onAuthenticated: () => context.push(AppRoutes.rewards),
+                  ),
                   child: Container(
                     padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                     decoration: BoxDecoration(

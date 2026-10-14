@@ -173,24 +173,28 @@ class _AttendancePunchCardState extends State<AttendancePunchCard> {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   Icon(Icons.badge_outlined, size: 14, color: colors.tealPrimary),
-                  6.gapW,
-                  Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Text(
-                        widget.shiftName ?? l10n.todayShiftDefault,
-                        style: TextStyle(fontSize: 12, fontWeight: FontWeight.w700, color: colors.tealPrimary),
-                      ),
-                      if (widget.shiftTime != null)
+                  Flexible(
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
                         Text(
-                          widget.shiftTime!,
-                          style: TextStyle(
-                            fontSize: 11,
-                            fontWeight: FontWeight.w600,
-                            color: colors.tealPrimary.withValues(alpha: 0.85),
-                          ),
+                          widget.shiftName ?? l10n.todayShiftDefault,
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
+                          textAlign: TextAlign.center,
+                          style: TextStyle(fontSize: 12, fontWeight: FontWeight.w700, color: colors.tealPrimary),
                         ),
-                    ],
+                        if (widget.shiftTime != null)
+                          Text(
+                            widget.shiftTime!,
+                            style: TextStyle(
+                              fontSize: 11,
+                              fontWeight: FontWeight.w600,
+                              color: colors.tealPrimary.withValues(alpha: 0.85),
+                            ),
+                          ),
+                      ],
+                    ),
                   ),
                   4.gapW,
                   AppIcon(AppIcons.chevronRight, size: 13, color: colors.tealPrimary),

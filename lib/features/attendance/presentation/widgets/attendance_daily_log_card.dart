@@ -123,6 +123,7 @@ class _AttendanceDailyLogCardState extends State<AttendanceDailyLogCard> {
                       ),
                     )
                   : ListView.separated(
+                      padding: EdgeInsets.zero,
                       shrinkWrap: true,
                       physics: const NeverScrollableScrollPhysics(),
                       itemCount: _records.length,

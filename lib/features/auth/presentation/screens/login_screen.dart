@@ -244,17 +244,6 @@ class _LoginScreenState extends State<LoginScreen> {
                     onPressed: _onBiometricLogin,
                   ),
                 ],
-                24.gapH,
-                Center(
-                  child: Text(
-                    l10n.contactHr,
-                    style: TextStyle(
-                      fontSize: 11.5,
-                      fontWeight: FontWeight.w600,
-                      color: colors.textTertiary,
-                    ),
-                  ),
-                ),
               ],
             ),
           ),

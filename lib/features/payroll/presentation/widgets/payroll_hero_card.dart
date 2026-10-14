@@ -48,7 +48,6 @@ class PayrollHeroCard extends StatelessWidget {
                 painter: TilePatternPainter(
                   backgroundColor: colors.primaryIndigo,
                   patternColor: patternColor,
-                  tileSize: 46,
                 ),
               ),
             ),
@@ -100,15 +99,6 @@ class PayrollHeroCard extends StatelessWidget {
                       letterSpacing: -1.3,
                       color: Color(0xFFFFF8EC),
                       fontFeatures: [FontFeature.tabularFigures()],
-                    ),
-                  ),
-                  2.gapH,
-                  Text(
-                    context.l10n.payrollPayDate('05/${DateTime.now().month.toString().padLeft(2, '0')}/${DateTime.now().year}'),
-                    style: const TextStyle(
-                      fontSize: 12.5,
-                      fontWeight: FontWeight.w700,
-                      color: Color(0xFFFFF8EC),
                     ),
                   ),
                   16.gapH,

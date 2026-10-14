@@ -38,6 +38,7 @@ class ProfileInfoCard extends StatelessWidget {
             border: Border.all(color: colors.border),
           ),
           child: ListView.separated(
+            padding: EdgeInsets.zero,
             shrinkWrap: true,
             physics: const NeverScrollableScrollPhysics(),
             itemCount: rows.length,

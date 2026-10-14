@@ -94,7 +94,7 @@ class _HomeSalaryCardState extends State<HomeSalaryCard> {
                         borderRadius: BorderRadius.circular(7),
                       ),
                       child: Text(
-                        'Th9',
+                        'Th${DateTime.now().month}',
                         style: TextStyle(
                           fontSize: 11,
                           fontWeight: FontWeight.w700,

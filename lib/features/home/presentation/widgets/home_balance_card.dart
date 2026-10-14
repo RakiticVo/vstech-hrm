@@ -220,11 +220,12 @@ class _HomeBalanceCardState extends State<HomeBalanceCard> {
                                 children: [
                                   Text(
                                     rawShift,
-                                    maxLines: 1,
+                                    maxLines: 2,
                                     overflow: TextOverflow.ellipsis,
                                     style: AppTextStyles.bodySmall(color: colors.tealPrimary).copyWith(
                                       fontWeight: FontWeight.w700,
                                       fontSize: 12,
+                                      height: 1.25,
                                     ),
                                   ),
                                   if (shiftHours != null)

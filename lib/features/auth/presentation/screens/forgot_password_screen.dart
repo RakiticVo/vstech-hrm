@@ -10,16 +10,6 @@ import 'package:vstech_hrm/core/widgets/app_icon.dart';
 class ForgotPasswordScreen extends StatelessWidget {
   const new({super.key});
 
-  void _onCallIt(BuildContext context) {
-    final l10n = context.l10n;
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text('${l10n.callItDepartmentBtn}: ${l10n.itHotlineNumber}'),
-        behavior: SnackBarBehavior.floating,
-      ),
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     final colors = context.colors;
@@ -158,44 +148,23 @@ class ForgotPasswordScreen extends StatelessWidget {
               ),
               24.gapH,
 
-              // Primary Call IT Button
+              // Back to Login Button
               SizedBox(
                 width: double.infinity,
                 height: 50,
-                child: ElevatedButton.icon(
+                child: ElevatedButton(
                   style: ElevatedButton.styleFrom(
                     backgroundColor: colors.accentAmber,
                     foregroundColor: const Color(0xFF1C1408),
                     elevation: 0,
                     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
                   ),
-                  onPressed: () => _onCallIt(context),
-                  icon: const AppIcon(AppIcons.phone, size: 20, color: Color(0xFF1C1408)),
-                  label: Text(
-                    l10n.callItDepartmentBtn,
-                    style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w800),
-                  ),
-                ),
-              ),
-              12.gapH,
-
-              // Secondary Back to Login Button
-              SizedBox(
-                width: double.infinity,
-                height: 50,
-                child: OutlinedButton(
-                  style: OutlinedButton.styleFrom(
-                    backgroundColor: colors.cardBackground,
-                    side: BorderSide(color: colors.border),
-                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-                  ),
                   onPressed: () => Navigator.of(context).pop(),
                   child: Text(
                     l10n.backToLoginBtn,
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontSize: 15,
-                      fontWeight: FontWeight.w700,
-                      color: colors.textPrimary,
+                      fontWeight: FontWeight.w800,
                     ),
                   ),
                 ),
