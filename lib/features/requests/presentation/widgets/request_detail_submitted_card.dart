@@ -6,7 +6,7 @@ import 'package:vstech_hrm/core/widgets/app_icon.dart';
 
 /// Card displaying submitted request details & category-specific comparisons.
 class RequestDetailSubmittedCard extends StatelessWidget {
-  const RequestDetailSubmittedCard({
+  const new({
     required this.category,
     required this.fields,
     this.swapComparison,

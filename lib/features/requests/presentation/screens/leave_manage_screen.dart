@@ -5,10 +5,14 @@ import 'package:vstech_hrm/core/di/injector.dart';
 import 'package:vstech_hrm/core/extensions/l10n_extension.dart';
 import 'package:vstech_hrm/core/responsive/app_layout.dart';
 import 'package:vstech_hrm/core/router/routes.dart';
+import 'package:vstech_hrm/core/session/auth_cubit.dart';
+import 'package:vstech_hrm/core/session/auth_state.dart';
 import 'package:vstech_hrm/core/theme/app_colors.dart';
 import 'package:vstech_hrm/core/widgets/app_icon.dart';
 import 'package:vstech_hrm/core/widgets/app_success_dialog.dart';
+import 'package:vstech_hrm/core/widgets/app_toast.dart';
 import 'package:vstech_hrm/core/widgets/month_picker_button.dart';
+import 'package:vstech_hrm/core/widgets/month_picker_dialog.dart';
 import 'package:vstech_hrm/core/widgets/primary_button.dart';
 import 'package:vstech_hrm/features/requests/domain/entities/leave_plan_entity.dart';
 import 'package:vstech_hrm/features/requests/domain/entities/request_params.dart';
@@ -18,6 +22,7 @@ import 'package:vstech_hrm/features/requests/domain/usecases/get_leave_requests_
 import 'package:vstech_hrm/features/requests/presentation/widgets/leave_request_modal.dart';
 import 'package:vstech_hrm/features/requests/presentation/widgets/request_card.dart';
 import 'package:vstech_hrm/features/requests/presentation/widgets/request_status_filter_chips.dart';
+import 'package:vstech_hrm/features/requests/presentation/widgets/valid_leave_plans_sheet.dart';
 
 /// Screen 11: Dedicated Leave Management Screen (`leave` in mockup & flow).
 class LeaveManageScreen extends StatefulWidget {
@@ -28,7 +33,7 @@ class LeaveManageScreen extends StatefulWidget {
 }
 
 class _LeaveManageScreenState extends State<LeaveManageScreen> {
-  String _selectedMonth = 'Tháng 9, 2026';
+  late String _selectedMonth;
   String _selectedStatus = 'all';
   bool _isLoading = false;
   List<RequestData> _leaveRequests = [];
@@ -37,6 +42,8 @@ class _LeaveManageScreenState extends State<LeaveManageScreen> {
   @override
   void initState() {
     super.initState();
+    final now = DateTime.now();
+    _selectedMonth = 'Tháng ${now.month}, ${now.year}';
     unawaited(_loadData());
   }
 
@@ -50,24 +57,38 @@ class _LeaveManageScreenState extends State<LeaveManageScreen> {
       setState(() => _isLoading = false);
       return;
     }
-    final result = await sl<GetLeaveRequestsUseCase>()();
+    final range = AppMonthPickerDialog.getMonthDateRange(_selectedMonth);
+    final result = await sl<GetLeaveRequestsUseCase>()(from: range?.from, to: range?.to);
     if (!mounted) return;
     result.fold(
       (_) => setState(() => _isLoading = false),
       (entities) {
+        final auth = sl.isRegistered<AuthCubit>() ? sl<AuthCubit>().state : null;
+        final curUserName = auth is Authenticated ? auth.user.name : null;
+
         setState(() {
           _isLoading = false;
           _leaveRequests = entities.map((e) {
             final statusCode = e.status == 0 ? 1 : (e.status == 1 ? 2 : 3);
+            final start = e.from ?? e.validFrom ?? '';
+            final end = e.to ?? e.validTo ?? '';
+            final datesStr = start == end ? start : (start.isNotEmpty && end.isNotEmpty ? '$start - $end' : '$start$end');
+            final reqName = (e.employeeName != null && e.employeeName!.isNotEmpty)
+                ? e.employeeName!
+                : (curUserName ?? 'Nhân viên');
             return RequestData(
               mark: 'P',
-              type: '${e.leavePlan} · ${e.code}',
-              dates: '${e.validFrom ?? ''} - ${e.validTo ?? ''}',
+              type: e.leavePlan.isNotEmpty ? e.leavePlan : 'Nghỉ phép',
+              dates: datesStr,
               status: e.statusText,
               statusCode: statusCode,
               stage: e.statusText,
               completedSteps: statusCode,
               requestTypeKey: 'leave',
+              code: e.code,
+              requesterName: reqName,
+              reason: e.note,
+              confirmerName: e.confirmBy,
             );
           }).toList();
         });
@@ -91,9 +112,7 @@ class _LeaveManageScreenState extends State<LeaveManageScreen> {
       initialFrom: tomorrow,
       initialTo: tomorrow,
       availablePlans: _leavePlans,
-      onConfirm: (plan, from, to, total, halfShift, reason) async {
-        await _submitLeave(plan, from, to, total, halfShift, reason);
-      },
+      onConfirm: _submitLeave,
     );
   }
 
@@ -107,14 +126,11 @@ class _LeaveManageScreenState extends State<LeaveManageScreen> {
   ) async {
     final fromStr = _toYmd(from);
     final toStr = _toYmd(to);
-    final validFromStr = _cleanYmd(plan.validFrom, DateTime(from.year, 1, 1));
-    final validToStr = _cleanYmd(plan.validTo, DateTime(from.year + 1, 3, 31));
-
     final params = CreateLeaveParams(
       from: fromStr,
       to: toStr,
-      validFrom: validFromStr,
-      validTo: validToStr,
+      validFrom: _cleanYmd(plan.validFrom, DateTime(from.year)),
+      validTo: _cleanYmd(plan.validTo, DateTime(from.year + 1, 3, 31)),
       leavePlanCode: plan.code,
       leaveAmountType: total,
       halfShiftType: halfShift,
@@ -128,9 +144,7 @@ class _LeaveManageScreenState extends State<LeaveManageScreen> {
     final l10n = context.l10n;
     if (result.isLeft()) {
       final failure = result.getLeft().toNullable();
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(failure?.message ?? 'Lỗi gửi đơn nghỉ phép'), backgroundColor: Colors.red),
-      );
+      context.showErrorToast(failure?.message ?? 'Lỗi gửi đơn nghỉ phép');
       return;
     }
 
@@ -145,23 +159,42 @@ class _LeaveManageScreenState extends State<LeaveManageScreen> {
     );
   }
 
+  Future<void> _openDetail(RequestData req) async {
+    final status = req.statusCode == 2 ? 'approved' : (req.statusCode == 3 ? 'rejected' : 'pending');
+    final res = await context.push(AppRoutes.requestDetail, extra: {
+      'code': req.code ?? req.type,
+      'title': req.type,
+      'category': 'leave',
+      'requesterName': req.requesterName ?? 'Nhân viên',
+      'initialStatus': status,
+      'isApprover': false,
+      'fields': [
+        if (req.code != null && req.code!.isNotEmpty) ('Mã đơn', req.code!),
+        ('Loại phép', req.type),
+        ('Thời gian', req.dates),
+        ('Trạng thái', req.status),
+        if (req.confirmerName != null && req.confirmerName!.isNotEmpty) ('Người xác nhận', req.confirmerName!),
+        if (req.reason != null && req.reason!.isNotEmpty) ('Lý do', req.reason!),
+      ],
+    });
+    if (res == true || res == 'cancelled') await _loadData();
+  }
+
   @override
   Widget build(BuildContext context) {
     final colors = context.colors;
     final l10n = context.l10n;
 
     final filterOptions = [
-      ('all', l10n.leaveStatusFilterAll),
-      ('pending', l10n.leaveStatusFilterPending),
-      ('approved', l10n.leaveStatusFilterApproved),
-      ('rejected', l10n.leaveStatusFilterRejected),
+      ('all', l10n.leaveStatusFilterAll), ('pending', l10n.leaveStatusFilterPending),
+      ('approved', l10n.leaveStatusFilterApproved), ('rejected', l10n.leaveStatusFilterRejected),
     ];
 
     final filtered = _leaveRequests.where((item) {
-      if (_selectedStatus == 'pending') return item.statusCode == 1;
-      if (_selectedStatus == 'approved') return item.statusCode == 2;
-      if (_selectedStatus == 'rejected') return item.statusCode == 3;
-      return true;
+      if (_selectedStatus == 'pending' && item.statusCode != 1) return false;
+      if (_selectedStatus == 'approved' && item.statusCode != 2) return false;
+      if (_selectedStatus == 'rejected' && item.statusCode != 3) return false;
+      return AppMonthPickerDialog.matchesMonth(item.dates, _selectedMonth, context);
     }).toList();
 
     return Scaffold(
@@ -179,9 +212,9 @@ class _LeaveManageScreenState extends State<LeaveManageScreen> {
         ),
         actions: [
           IconButton(
-            icon: AppIcon(AppIcons.plus, color: colors.primaryIndigo, size: 22),
-            tooltip: l10n.createLeaveBtn,
-            onPressed: () => unawaited(_showCreateLeaveModal()),
+            icon: Icon(Icons.event_available_rounded, color: colors.pineGreen, size: 22),
+            tooltip: 'Phép khả dụng',
+            onPressed: () => unawaited(ValidLeavePlansSheet.show(context)),
           ),
         ],
       ),
@@ -195,7 +228,10 @@ class _LeaveManageScreenState extends State<LeaveManageScreen> {
               children: [
                 MonthPickerButton(
                   selectedMonth: _selectedMonth,
-                  onMonthChanged: (m) => setState(() => _selectedMonth = m),
+                  onMonthChanged: (m) {
+                    setState(() => _selectedMonth = m);
+                    unawaited(_loadData());
+                  },
                 ),
                 Text(
                   '${filtered.length} ${l10n.requests.toLowerCase()}',
@@ -239,21 +275,7 @@ class _LeaveManageScreenState extends State<LeaveManageScreen> {
                               final req = filtered[index];
                               return InkWell(
                                 borderRadius: BorderRadius.circular(18),
-                                onTap: () => context.push(
-                                  AppRoutes.requestDetail,
-                                  extra: {
-                                    'code': req.type,
-                                    'title': req.type,
-                                    'category': 'leave',
-                                    'requesterName': 'Nhân viên',
-                                    'initialStatus': req.statusCode == 2
-                                        ? 'approved'
-                                        : req.statusCode == 3
-                                            ? 'rejected'
-                                            : 'pending',
-                                    'isApprover': false,
-                                  },
-                                ),
+                                onTap: () => _openDetail(req),
                                 child: RequestCard(item: req),
                               );
                             },

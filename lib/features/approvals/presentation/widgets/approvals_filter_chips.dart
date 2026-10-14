@@ -4,7 +4,7 @@ import 'package:vstech_hrm/core/theme/app_colors.dart';
 
 /// Horizontal filter chips for approval categories.
 class ApprovalsFilterChips extends StatelessWidget {
-  const ApprovalsFilterChips({
+  const new({
     required this.options,
     required this.selectedKey,
     required this.onSelected,

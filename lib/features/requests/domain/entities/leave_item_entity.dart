@@ -7,6 +7,8 @@ class LeaveItemEntity extends Equatable {
     required this.leavePlan,
     required this.statusText,
     required this.status,
+    this.employeeName,
+    this.employeeCode,
     this.from,
     this.to,
     this.validFrom,
@@ -20,6 +22,8 @@ class LeaveItemEntity extends Equatable {
   final String leavePlan;
   final String statusText;
   final int status;
+  final String? employeeName;
+  final String? employeeCode;
   final String? from;
   final String? to;
   final String? validFrom;
@@ -38,6 +42,8 @@ class LeaveItemEntity extends Equatable {
         leavePlan,
         statusText,
         status,
+        employeeName,
+        employeeCode,
         from,
         to,
         validFrom,

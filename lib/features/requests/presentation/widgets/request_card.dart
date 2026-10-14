@@ -13,6 +13,13 @@ class RequestData {
     required this.completedSteps,
     this.totalSteps = 2,
     this.requestTypeKey = 'all',
+    this.code,
+    this.requesterName,
+    this.reason,
+    this.worktime,
+    this.createdBy,
+    this.isProxy = false,
+    this.confirmerName,
   });
 
   final String mark;
@@ -24,6 +31,13 @@ class RequestData {
   final int completedSteps;
   final int totalSteps;
   final String requestTypeKey;
+  final String? code;
+  final String? requesterName;
+  final String? reason;
+  final double? worktime;
+  final String? createdBy;
+  final bool isProxy;
+  final String? confirmerName;
 }
 
 class RequestCard extends StatelessWidget {
@@ -87,8 +101,23 @@ class RequestCard extends StatelessWidget {
                         fontWeight: FontWeight.w800,
                         color: colors.textPrimary,
                       ),
+                      maxLines: 3,
+                      softWrap: true,
                     ),
-                    2.gapH,
+                    if (item.code != null && item.code!.isNotEmpty) ...[
+                      2.gapH,
+                      Text(
+                        '#${item.code}',
+                        style: TextStyle(
+                          fontSize: 11,
+                          fontWeight: FontWeight.w700,
+                          color: colors.primaryIndigo,
+                        ),
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ],
+                    3.gapH,
                     Text(
                       item.dates,
                       style: TextStyle(
@@ -96,10 +125,55 @@ class RequestCard extends StatelessWidget {
                         fontWeight: FontWeight.w600,
                         color: colors.textSecondary,
                       ),
+                      maxLines: 3,
+                      softWrap: true,
                     ),
+                    if (item.createdBy != null && item.createdBy!.isNotEmpty) ...[
+                      3.gapH,
+                      Row(
+                        children: [
+                          Icon(Icons.person_outline_rounded, size: 12, color: colors.accentAmber),
+                          3.gapW,
+                          Expanded(
+                            child: Text(
+                              'Tạo bởi: ${item.createdBy}',
+                              style: TextStyle(
+                                fontSize: 11,
+                                fontWeight: FontWeight.w600,
+                                color: colors.accentAmber,
+                              ),
+                              maxLines: 2,
+                              softWrap: true,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                    if (item.confirmerName != null && item.confirmerName!.isNotEmpty) ...[
+                      3.gapH,
+                      Row(
+                        children: [
+                          Icon(Icons.verified_outlined, size: 12, color: colors.tealPrimary),
+                          3.gapW,
+                          Expanded(
+                            child: Text(
+                              'Người xác nhận: ${item.confirmerName}',
+                              style: TextStyle(
+                                fontSize: 11,
+                                fontWeight: FontWeight.w600,
+                                color: colors.tealPrimary,
+                              ),
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
                   ],
                 ),
               ),
+              8.gapW,
               Container(
                 padding: const EdgeInsets.symmetric(horizontal: 9, vertical: 5),
                 decoration: BoxDecoration(

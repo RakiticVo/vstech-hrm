@@ -5,7 +5,7 @@ import 'package:vstech_hrm/features/requests/domain/repositories/requests_reposi
 
 /// UseCase to fetch available leave plans (loại nghỉ phép).
 class GetLeavePlansUseCase {
-  const GetLeavePlansUseCase(this._repository);
+  const new(this._repository);
 
   final RequestsRepository _repository;
 

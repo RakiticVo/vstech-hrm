@@ -11,7 +11,7 @@ import 'package:vstech_hrm/core/widgets/app_icon.dart';
 
 /// Top role indicator banner in Requests Screen.
 class RequestsRoleIndicator extends StatelessWidget {
-  const RequestsRoleIndicator({
+  const new({
     required this.isManager,
     super.key,
   });

@@ -6,7 +6,7 @@ import 'package:vstech_hrm/features/requests/domain/entities/request_params.dart
 
 /// Reusable Date/Time picker tile for Attendance Correction Modal.
 class CorrectionPickerTile extends StatelessWidget {
-  const CorrectionPickerTile({
+  const new({
     required this.label,
     required this.value,
     required this.iconName,
@@ -57,7 +57,7 @@ class CorrectionPickerTile extends StatelessWidget {
 
 /// Selector chips for correction reasons in Attendance Correction Modal.
 class CorrectionReasonChips extends StatelessWidget {
-  const CorrectionReasonChips({
+  const new({
     required this.reasons,
     required this.selectedReason,
     required this.onSelected,

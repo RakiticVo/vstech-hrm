@@ -9,7 +9,7 @@ import 'package:vstech_hrm/features/requests/presentation/widgets/correction_mod
 
 /// Modal bottom sheet to pick date, issue/reason, corrected time, and explanation.
 class AttendanceCorrectionModal extends StatefulWidget {
-  const AttendanceCorrectionModal({
+  const new({
     required this.initialDate,
     required this.onConfirm,
     this.availableReasons = const [],

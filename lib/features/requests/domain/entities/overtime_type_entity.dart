@@ -2,7 +2,7 @@ import 'package:equatable/equatable.dart';
 
 /// Pure domain entity representing an Overtime Type (loại tăng ca).
 class OvertimeTypeEntity extends Equatable {
-  const OvertimeTypeEntity({
+  const new({
     required this.code,
     required this.name,
     this.scale = 1.5,

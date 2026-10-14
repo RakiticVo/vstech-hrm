@@ -6,7 +6,7 @@ import 'package:vstech_hrm/core/widgets/app_icon.dart';
 
 /// Modal dialog confirming request cancellation with high contrast and smooth feedback.
 class CancelRequestDialog extends StatelessWidget {
-  const CancelRequestDialog({
+  const new({
     required this.onConfirmed,
     super.key,
   });

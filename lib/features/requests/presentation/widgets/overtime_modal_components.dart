@@ -164,4 +164,83 @@ class OvertimeTypeSelector extends StatelessWidget {
   }
 }
 
+/// Date picker tile component for Overtime Modal.
+class OvertimeDatePickerTile extends StatelessWidget {
+  const new({
+    required this.dateStr,
+    required this.onTap,
+    required this.colors,
+    super.key,
+  });
+
+  final String dateStr;
+  final VoidCallback onTap;
+  final AppColorsExtension colors;
+
+  @override
+  Widget build(BuildContext context) {
+    return InkWell(
+      borderRadius: BorderRadius.circular(12),
+      onTap: onTap,
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 11),
+        decoration: BoxDecoration(
+          color: colors.cardSecondary,
+          borderRadius: BorderRadius.circular(12),
+          border: Border.all(color: colors.border),
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(dateStr, style: TextStyle(fontSize: 14, fontWeight: FontWeight.w700, color: colors.textPrimary)),
+            AppIcon(AppIcons.calendar, size: 18, color: colors.primaryIndigo),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+/// Debounced submit button with loading spinner for Overtime Modal.
+class OvertimeSubmitButton extends StatelessWidget {
+  const new({
+    required this.title,
+    required this.isSubmitting,
+    required this.onPressed,
+    super.key,
+  });
+
+  final String title;
+  final bool isSubmitting;
+  final VoidCallback? onPressed;
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      height: 48,
+      width: double.infinity,
+      child: ElevatedButton(
+        style: ElevatedButton.styleFrom(
+          backgroundColor: const Color(0xFFF59E0B),
+          foregroundColor: const Color(0xFF1C1408),
+          disabledBackgroundColor: const Color(0xFFF59E0B).withValues(alpha: 0.6),
+          elevation: 0,
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
+        ),
+        onPressed: isSubmitting ? null : onPressed,
+        child: isSubmitting
+            ? const SizedBox(
+                width: 22,
+                height: 22,
+                child: CircularProgressIndicator(
+                  strokeWidth: 2.5,
+                  valueColor: AlwaysStoppedAnimation<Color>(Color(0xFF1C1408)),
+                ),
+              )
+            : Text(title, style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w800)),
+      ),
+    );
+  }
+}
+
 typedef OvertimeTypeChips = OvertimeTypeSelector;

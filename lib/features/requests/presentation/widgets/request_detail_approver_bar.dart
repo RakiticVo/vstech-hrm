@@ -7,7 +7,7 @@ import 'package:vstech_hrm/core/widgets/app_icon.dart';
 
 /// Bottom action bar for request detail (Employee mode vs Approver mode).
 class RequestDetailApproverBar extends StatefulWidget {
-  const RequestDetailApproverBar({
+  const new({
     required this.isApprover,
     required this.isPending,
     required this.onCancel,

@@ -73,11 +73,9 @@ void main() {
       await tester.pumpAndSettle();
 
       expect(find.text('Quản lý Nghỉ phép'), findsOneWidget);
-      expect(find.text('Tạo đơn nghỉ phép'), findsOneWidget);
-
-      final plusBtn = find.byTooltip('Tạo đơn nghỉ phép');
-      expect(plusBtn, findsOneWidget);
-      await tester.tap(plusBtn);
+      final createBtn = find.text('Tạo đơn nghỉ phép');
+      expect(createBtn, findsOneWidget);
+      await tester.tap(createBtn);
       await tester.pumpAndSettle();
       expect(find.text('Tạo đơn xin nghỉ phép'), findsOneWidget);
     });
@@ -87,11 +85,9 @@ void main() {
       await tester.pumpAndSettle();
 
       expect(find.text('Tổng giờ tăng ca'), findsOneWidget);
-      expect(find.text('Đăng ký tăng ca'), findsOneWidget);
-
-      final plusBtn = find.byTooltip('Đăng ký tăng ca');
-      expect(plusBtn, findsOneWidget);
-      await tester.tap(plusBtn);
+      final createBtn = find.text('Đăng ký tăng ca');
+      expect(createBtn, findsOneWidget);
+      await tester.tap(createBtn);
       await tester.pumpAndSettle();
       expect(find.text('Nhập thông tin tăng ca'), findsOneWidget);
     });

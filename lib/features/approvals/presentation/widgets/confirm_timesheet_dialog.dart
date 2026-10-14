@@ -6,7 +6,7 @@ import 'package:vstech_hrm/features/approvals/presentation/widgets/approval_card
 
 /// Dialog for manager to verify and confirm employee's worktime.
 class ConfirmTimesheetDialog extends StatefulWidget {
-  const ConfirmTimesheetDialog({
+  const new({
     required this.item,
     required this.onConfirm,
     super.key,

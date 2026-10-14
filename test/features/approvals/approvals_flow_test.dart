@@ -10,15 +10,17 @@ import 'package:vstech_hrm/features/approvals/domain/usecases/approve_leave_usec
 import 'package:vstech_hrm/features/approvals/domain/usecases/approve_overtime_usecase.dart';
 import 'package:vstech_hrm/features/approvals/domain/usecases/approve_timesheet_correction_usecase.dart';
 import 'package:vstech_hrm/features/approvals/domain/usecases/get_pending_approvals_usecase.dart';
+import 'package:vstech_hrm/features/approvals/domain/usecases/get_pending_leave_approvals_usecase.dart';
+import 'package:vstech_hrm/features/approvals/domain/usecases/get_pending_overtime_approvals_usecase.dart';
 import 'package:vstech_hrm/features/approvals/domain/usecases/reject_leave_usecase.dart';
 import 'package:vstech_hrm/features/approvals/domain/usecases/reject_overtime_usecase.dart';
 import 'package:vstech_hrm/features/approvals/domain/usecases/reject_timesheet_correction_usecase.dart';
 
-class MockDioClient extends Mock implements DioClient {}
+class MockDioClient extends Mock implements DioClient;
 
 void main() {
   setUpAll(() {
-    registerFallbackValue(RequestOptions(path: ''));
+    registerFallbackValue(RequestOptions());
   });
 
   group('Flow 4: Manager Approvals OpenAPI Integration Tests', () {
@@ -178,6 +180,87 @@ void main() {
           expect(items.first.id, equals(101));
           expect(items.first.employeeCode, equals('NV0091'));
           expect(items.first.isPending, isTrue);
+        },
+      );
+    });
+
+    test('TC-APPV-04: Manager fetches subordinate leave requests via admin-mobile endpoint', () async {
+      when(() => mockDioClient.get<dynamic>(
+            ApiEndpoints.leaveRequestsAdminMobile,
+            queryParameters: any<Map<String, dynamic>>(named: 'queryParameters'),
+          )).thenAnswer(
+        (_) async => Response<dynamic>(
+          data: <String, dynamic>{
+            'data': <dynamic>[
+              <String, dynamic>{
+                'code': 'LR-002',
+                'leavePlan': 'Nghỉ phép năm',
+                'employeeCode': 'NV0089',
+                'employeeName': 'Trần Thị Mai',
+                'departmentName': 'Kinh doanh',
+                'from': '2026-10-10',
+                'to': '2026-10-10',
+                'status': 0,
+                'statusText': 'Chờ duyệt',
+              }
+            ]
+          },
+          statusCode: 200,
+          requestOptions: RequestOptions(path: ApiEndpoints.leaveRequestsAdminMobile),
+        ),
+      );
+
+      final useCase = GetPendingLeaveApprovalsUseCase(repository);
+      final result = await useCase(month: '2026-10');
+
+      expect(result.isRight(), isTrue);
+      result.fold(
+        (failure) => fail('Should succeed'),
+        (items) {
+          expect(items.length, equals(1));
+          expect(items.first.code, equals('LR-002'));
+          expect(items.first.employeeName, equals('Trần Thị Mai'));
+          expect(items.first.employeeCode, equals('NV0089'));
+        },
+      );
+    });
+
+    test('TC-APPV-05: Manager fetches subordinate overtime requests via admin-mobile endpoint', () async {
+      when(() => mockDioClient.get<dynamic>(
+            ApiEndpoints.overtimeRequestsAdminMobile,
+            queryParameters: any<Map<String, dynamic>>(named: 'queryParameters'),
+          )).thenAnswer(
+        (_) async => Response<dynamic>(
+          data: <String, dynamic>{
+            'items': <dynamic>[
+              <String, dynamic>{
+                'code': 'OT-002',
+                'employee': 'Lê Văn Cường',
+                'employeeCode': 'NV0102',
+                'dateStr': '2026-10-09',
+                'overtimeTimeStr': '18:00 - 20:30',
+                'overtimeType': 'Tăng ca ngày thường',
+                'status': 0,
+                'statusText': 'Chờ duyệt',
+              }
+            ]
+          },
+          statusCode: 200,
+          requestOptions: RequestOptions(path: ApiEndpoints.overtimeRequestsAdminMobile),
+        ),
+      );
+
+      final useCase = GetPendingOvertimeApprovalsUseCase(repository);
+      final result = await useCase(month: '2026-10');
+
+      expect(result.isRight(), isTrue);
+      result.fold(
+        (failure) => fail('Should succeed'),
+        (items) {
+          expect(items.length, equals(1));
+          expect(items.first.code, equals('OT-002'));
+          expect(items.first.employeeName, equals('Lê Văn Cường'));
+          expect(items.first.employeeCode, equals('NV0102'));
         },
       );
     });

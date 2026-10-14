@@ -2,21 +2,37 @@ import 'package:flutter/material.dart';
 import 'package:vstech_hrm/core/extensions/l10n_extension.dart';
 import 'package:vstech_hrm/core/responsive/app_layout.dart';
 import 'package:vstech_hrm/core/theme/app_colors.dart';
+import 'package:vstech_hrm/features/requests/domain/entities/overtime_item_entity.dart';
 
-/// Top summary hero card for overtime statistics with rate breakdown badges.
+/// Top summary hero card for overtime statistics.
 class OvertimeSummaryCard extends StatelessWidget {
   const new({
-    this.totalHours = '10.0h',
-    this.rate150Hours = '6.0h',
-    this.rate200Hours = '4.0h',
-    this.rate300Hours = '0.0h',
+    this.totalHours = '0.0h',
     super.key,
   });
 
+  /// Factory creating an OvertimeSummaryCard by calculating hours from API entities.
+  factory fromEntities({
+    required List<OvertimeItemEntity> entities,
+    Key? key,
+  }) {
+    double total = 0;
+
+    for (final e in entities) {
+      if (e.status == 2) continue; // Exclude rejected requests
+      final h = e.length ?? 0.0;
+      total += h;
+    }
+
+    String fmt(double val) => '${val % 1 == 0 ? val.toInt() : val.toStringAsFixed(1)}h';
+
+    return OvertimeSummaryCard(
+      key: key,
+      totalHours: fmt(total),
+    );
+  }
+
   final String totalHours;
-  final String rate150Hours;
-  final String rate200Hours;
-  final String rate300Hours;
 
   @override
   Widget build(BuildContext context) {
@@ -72,70 +88,6 @@ class OvertimeSummaryCard extends StatelessWidget {
               fontWeight: FontWeight.w800,
               color: Colors.white,
               letterSpacing: -0.5,
-            ),
-          ),
-          12.gapH,
-          // 3 Breakdown badges (no ellipsis clipping on first badge)
-          Row(
-            children: [
-              Expanded(
-                child: _buildBreakdownItem(
-                  l10n.rateNormal150,
-                  rate150Hours,
-                  Colors.white.withValues(alpha: 0.15),
-                ),
-              ),
-              8.gapW,
-              Expanded(
-                child: _buildBreakdownItem(
-                  l10n.rateWeekend200,
-                  rate200Hours,
-                  Colors.white.withValues(alpha: 0.15),
-                ),
-              ),
-              8.gapW,
-              Expanded(
-                child: _buildBreakdownItem(
-                  l10n.rateHoliday300,
-                  rate300Hours,
-                  Colors.white.withValues(alpha: 0.15),
-                ),
-              ),
-            ],
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildBreakdownItem(String label, String hours, Color bg) {
-    return Container(
-      padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 4),
-      decoration: BoxDecoration(
-        color: bg,
-        borderRadius: BorderRadius.circular(10),
-      ),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Text(
-            label,
-            style: const TextStyle(
-              fontSize: 10,
-              fontWeight: FontWeight.w700,
-              color: Colors.white70,
-              height: 1.15,
-            ),
-            textAlign: TextAlign.center,
-            maxLines: 2,
-          ),
-          4.gapH,
-          Text(
-            hours,
-            style: const TextStyle(
-              fontSize: 13,
-              fontWeight: FontWeight.w800,
-              color: Colors.white,
             ),
           ),
         ],

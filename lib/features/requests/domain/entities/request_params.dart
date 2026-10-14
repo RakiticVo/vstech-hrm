@@ -53,6 +53,8 @@ class CreateOvertimeParams extends Equatable {
     this.endOvertime,
     this.note,
     this.overtimeReasonCode,
+    this.adminEmployeeCode,
+    this.accept,
   });
 
   final String employeeCode;
@@ -63,9 +65,19 @@ class CreateOvertimeParams extends Equatable {
   final String? endOvertime;
   final String? note;
   final String? overtimeReasonCode;
+  final String? adminEmployeeCode;
+  final bool? accept;
 
   @override
-  List<Object?> get props => [employeeCode, date, length, overtimeTypeCode, note];
+  List<Object?> get props => [
+        employeeCode,
+        date,
+        length,
+        overtimeTypeCode,
+        note,
+        adminEmployeeCode,
+        accept,
+      ];
 }
 
 class CreateCorrectionParams extends Equatable {

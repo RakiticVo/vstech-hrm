@@ -14,6 +14,8 @@ import 'package:vstech_hrm/features/requests/domain/usecases/get_leave_plans_use
 import 'package:vstech_hrm/features/requests/domain/usecases/get_leave_requests_usecase.dart';
 import 'package:vstech_hrm/features/requests/domain/usecases/get_overtime_requests_usecase.dart';
 import 'package:vstech_hrm/features/requests/domain/usecases/get_overtime_types_usecase.dart';
+import 'package:vstech_hrm/features/requests/domain/usecases/get_valid_leave_plans_usecase.dart';
+import 'package:vstech_hrm/features/requests/domain/usecases/get_valid_max_hour_usecase.dart';
 
 /// Registers all Requests feature dependencies in GetIt.
 void initRequestsDependencies(GetIt sl) {
@@ -34,6 +36,9 @@ void initRequestsDependencies(GetIt sl) {
   sl.registerLazySingleton<GetLeavePlansUseCase>(
     () => GetLeavePlansUseCase(sl<RequestsRepository>()),
   );
+  sl.registerLazySingleton<GetValidLeavePlansUseCase>(
+    () => GetValidLeavePlansUseCase(sl<RequestsRepository>()),
+  );
   sl.registerLazySingleton<CreateLeaveRequestUseCase>(
     () => CreateLeaveRequestUseCase(sl<RequestsRepository>()),
   );
@@ -45,6 +50,9 @@ void initRequestsDependencies(GetIt sl) {
   );
   sl.registerLazySingleton<GetOvertimeTypesUseCase>(
     () => GetOvertimeTypesUseCase(sl<RequestsRepository>()),
+  );
+  sl.registerLazySingleton<GetValidMaxHourUseCase>(
+    () => GetValidMaxHourUseCase(sl<RequestsRepository>()),
   );
   sl.registerLazySingleton<CreateOvertimeRequestUseCase>(
     () => CreateOvertimeRequestUseCase(sl<RequestsRepository>()),

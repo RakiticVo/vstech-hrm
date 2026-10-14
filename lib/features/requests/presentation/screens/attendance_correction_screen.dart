@@ -9,6 +9,7 @@ import 'package:vstech_hrm/core/session/auth_state.dart';
 import 'package:vstech_hrm/core/theme/app_colors.dart';
 import 'package:vstech_hrm/core/widgets/app_icon.dart';
 import 'package:vstech_hrm/core/widgets/app_success_dialog.dart';
+import 'package:vstech_hrm/core/widgets/app_toast.dart';
 import 'package:vstech_hrm/features/requests/domain/entities/request_params.dart';
 import 'package:vstech_hrm/features/requests/domain/usecases/create_correction_request_usecase.dart';
 import 'package:vstech_hrm/features/requests/domain/usecases/get_correction_reasons_usecase.dart';
@@ -16,7 +17,7 @@ import 'package:vstech_hrm/features/requests/presentation/widgets/attendance_cor
 
 /// Screen 12: Attendance Correction with quick creation modal and warning alert.
 class AttendanceCorrectionScreen extends StatefulWidget {
-  const AttendanceCorrectionScreen({super.key});
+  const new({super.key});
 
   @override
   State<AttendanceCorrectionScreen> createState() => _AttendanceCorrectionScreenState();
@@ -26,7 +27,7 @@ class _AttendanceCorrectionScreenState extends State<AttendanceCorrectionScreen>
   List<CorrectionReasonEntity> _reasons = [];
   CorrectionReasonEntity? _selectedReason;
   DateTime _date = DateTime.now().subtract(const Duration(days: 1));
-  double _worktime = 8.0;
+  double _worktime = 8;
   bool _isSubmitting = false;
 
   @override
@@ -99,11 +100,7 @@ class _AttendanceCorrectionScreenState extends State<AttendanceCorrectionScreen>
 
     final l10n = context.l10n;
     result.fold(
-      (failure) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text(failure.message), backgroundColor: Colors.red),
-        );
-      },
+      (failure) => context.showErrorToast(failure.message),
       (_) {
         unawaited(
           AppSuccessDialog.show(

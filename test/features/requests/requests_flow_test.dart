@@ -33,15 +33,15 @@ void main() {
       repository = RequestsRepositoryImpl(remoteDataSource: remoteDataSource);
     });
 
-    test('TC-LEAVE-01: Create leave request submits to /api/LeaveRequests successfully', () async {
+    test('TC-LEAVE-01: Create leave request submits to /api/LeaveRequests/self successfully', () async {
       when(() => mockDioClient.post<dynamic>(
-            ApiEndpoints.leaveRequests,
+            ApiEndpoints.leaveRequestsSelf,
             data: any<dynamic>(named: 'data'),
           )).thenAnswer(
         (_) async => Response<dynamic>(
           data: <String, dynamic>{'message': 'Đơn xin nghỉ phép đã được tạo'},
           statusCode: 200,
-          requestOptions: RequestOptions(path: ApiEndpoints.leaveRequests),
+          requestOptions: RequestOptions(path: ApiEndpoints.leaveRequestsSelf),
         ),
       );
 
@@ -69,7 +69,7 @@ void main() {
         (success) => expect(success, isTrue),
       );
       verify(() => mockDioClient.post<dynamic>(
-            ApiEndpoints.leaveRequests,
+            ApiEndpoints.leaveRequestsSelf,
             data: any<dynamic>(
               named: 'data',
               that: isA<Map<String, dynamic>>()

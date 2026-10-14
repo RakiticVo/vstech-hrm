@@ -8,6 +8,7 @@ import 'package:vstech_hrm/core/router/routes.dart';
 import 'package:vstech_hrm/core/theme/app_colors.dart';
 import 'package:vstech_hrm/core/widgets/app_icon.dart';
 import 'package:vstech_hrm/core/widgets/app_success_dialog.dart';
+import 'package:vstech_hrm/core/widgets/app_toast.dart';
 import 'package:vstech_hrm/features/requests/domain/entities/leave_plan_entity.dart';
 import 'package:vstech_hrm/features/requests/domain/entities/request_params.dart';
 import 'package:vstech_hrm/features/requests/domain/usecases/create_leave_request_usecase.dart';
@@ -93,7 +94,7 @@ class _LeaveRequestScreenState extends State<LeaveRequestScreen> {
     setState(() => _isSubmitting = true);
     final fromStr = _toYmd(from);
     final toStr = _toYmd(to);
-    final validFromStr = _cleanYmd(plan.validFrom, DateTime(from.year, 1, 1));
+    final validFromStr = _cleanYmd(plan.validFrom, DateTime(from.year));
     final validToStr = _cleanYmd(plan.validTo, DateTime(from.year + 1, 3, 31));
 
     final params = CreateLeaveParams(
@@ -114,11 +115,7 @@ class _LeaveRequestScreenState extends State<LeaveRequestScreen> {
 
     final l10n = context.l10n;
     result.fold(
-      (failure) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text(failure.message), backgroundColor: Colors.red),
-        );
-      },
+      (failure) => context.showErrorToast(failure.message),
       (_) {
         unawaited(
           AppSuccessDialog.show(

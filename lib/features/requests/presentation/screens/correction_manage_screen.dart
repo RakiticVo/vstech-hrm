@@ -13,7 +13,7 @@ import 'package:vstech_hrm/features/requests/presentation/widgets/request_card.d
 
 /// Screen 13: Dedicated Timesheet Correction Management Screen (`correction` in mockup & flow).
 class CorrectionManageScreen extends StatefulWidget {
-  const CorrectionManageScreen({super.key});
+  const new({super.key});
 
   @override
   State<CorrectionManageScreen> createState() => _CorrectionManageScreenState();
@@ -32,7 +32,7 @@ class _CorrectionManageScreenState extends State<CorrectionManageScreen> {
   Future<void> _loadData() async {
     if (!sl.isRegistered<GetCorrectionRequestsUseCase>()) return;
     setState(() => _isLoading = true);
-    final result = await sl<GetCorrectionRequestsUseCase>()(personal: true);
+    final result = await sl<GetCorrectionRequestsUseCase>()();
     if (!mounted) return;
     result.fold(
       (_) => setState(() => _isLoading = false),
@@ -53,6 +53,11 @@ class _CorrectionManageScreenState extends State<CorrectionManageScreen> {
               stage: statusText,
               completedSteps: statusCode,
               requestTypeKey: 'correction',
+              code: 'TC-${e.id}',
+              requesterName: e.employeeName,
+              reason: e.note ?? e.reasonTypeName,
+              worktime: e.worktime,
+              confirmerName: e.confirmerName,
             );
           }).toList();
         });
@@ -236,27 +241,27 @@ class _CorrectionManageScreenState extends State<CorrectionManageScreen> {
                               final req = _correctionRequests[index];
                               return InkWell(
                                 borderRadius: BorderRadius.circular(18),
-                                onTap: () {
-                                  context.push(
-                                    AppRoutes.requestDetail,
-                                    extra: {
-                                      'code': 'RQ-2026-0929',
-                                      'title': req.type,
-                                      'category': 'correction',
-                                      'requesterName': 'Nguyễn Minh Tuấn (NV-04821)',
-                                      'initialStatus': req.statusCode == 2 ? 'approved' : 'pending',
-                                      'isApprover': false,
-                                      'attendanceSnippet': 'Log quẹt thẻ cổng: Vào 07:52, Ra 17:05 (Bảo vệ ghi sổ)',
-                                      'fields': [
-                                        ('Ngày cần sửa', '15/09/2026'),
-                                        ('Vấn đề phát sinh', 'Quên quẹt thẻ ra do cúp điện cửa quét'),
-                                        ('Giờ vào đúng', '07:52'),
-                                        ('Giờ ra đề nghị', '17:05'),
-                                        ('Minh chứng', 'Ảnh chụp xác nhận của bảo vệ trực cổng'),
-                                      ],
-                                    },
-                                  );
-                                },
+                                onTap: () => context.push(
+                                  AppRoutes.requestDetail,
+                                  extra: {
+                                    'code': req.code ?? 'TC',
+                                    'title': req.type,
+                                    'category': 'correction',
+                                    'requesterName': req.requesterName ?? 'Nhân viên',
+                                    'initialStatus': req.statusCode == 2
+                                        ? 'approved'
+                                        : (req.statusCode == 3 ? 'rejected' : 'pending'),
+                                    'isApprover': false,
+                                    'fields': [
+                                      ('Mã đơn', req.code ?? 'TC'),
+                                      ('Thời gian', req.dates),
+                                      if (req.worktime != null) ('Giờ công', '${req.worktime} giờ'),
+                                      ('Trạng thái', req.status),
+                                      if (req.confirmerName != null && req.confirmerName!.isNotEmpty) ('Người xác nhận', req.confirmerName!),
+                                      if (req.reason != null && req.reason!.isNotEmpty) ('Lý do / Giải trình', req.reason!),
+                                    ],
+                                  },
+                                ),
                                 child: RequestCard(item: req),
                               );
                             },

@@ -105,7 +105,7 @@ class LeaveDateTile extends StatelessWidget {
 
 /// Attachment selector button for Leave Request modal.
 class LeaveAttachmentButton extends StatelessWidget {
-  const LeaveAttachmentButton({
+  const new({
     required this.attachedFileName,
     required this.onTap,
     required this.colors,
@@ -152,7 +152,7 @@ class LeaveAttachmentButton extends StatelessWidget {
 
 /// Draft and Submit button pair for Leave Request modal.
 class LeaveActionButtons extends StatelessWidget {
-  const LeaveActionButtons({
+  const new({
     required this.onDraft,
     required this.onSubmit,
     required this.draftLabel,
@@ -209,7 +209,7 @@ class LeaveActionButtons extends StatelessWidget {
 
 /// Reusable plan chips selector for Leave Request modal.
 class LeavePlanSelector extends StatelessWidget {
-  const LeavePlanSelector({
+  const new({
     required this.plans,
     required this.selectedPlan,
     required this.onSelected,

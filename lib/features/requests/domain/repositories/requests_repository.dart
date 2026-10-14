@@ -6,14 +6,23 @@ import 'package:vstech_hrm/features/requests/domain/entities/leave_plan_entity.d
 import 'package:vstech_hrm/features/requests/domain/entities/overtime_item_entity.dart';
 import 'package:vstech_hrm/features/requests/domain/entities/overtime_type_entity.dart';
 import 'package:vstech_hrm/features/requests/domain/entities/request_params.dart';
+import 'package:vstech_hrm/features/requests/domain/entities/valid_leave_plan_entity.dart';
+import 'package:vstech_hrm/features/requests/domain/entities/valid_max_hour_entity.dart';
 
 /// Pure domain repository contract for employee requests.
 abstract class RequestsRepository {
-  /// Fetches personal leave requests.
-  Future<Either<Failure, List<LeaveItemEntity>>> getLeaveRequests();
+  /// Fetches personal leave requests for optional [from] and [to] dates.
+  Future<Either<Failure, List<LeaveItemEntity>>> getLeaveRequests({String? from, String? to});
 
   /// Fetches leave plans (categories of leave).
   Future<Either<Failure, List<LeavePlanEntity>>> getLeavePlans();
+
+  /// Fetches available leave plans with remaining days and validity period (GET /api/LeavePlans/valid-leave-plan2).
+  Future<Either<Failure, List<ValidLeavePlanEntity>>> getValidLeavePlans({
+    String? execDate,
+    String? customEmployeeCode,
+    int all = 0,
+  });
 
   /// Submits a new leave request.
   Future<Either<Failure, bool>> createLeaveRequest(CreateLeaveParams params);
@@ -32,6 +41,13 @@ abstract class RequestsRepository {
 
   /// Deletes/cancels an existing overtime request by [id].
   Future<Either<Failure, bool>> cancelOvertimeRequest(String id);
+
+  /// Fetches valid max hours and lock status for overtime date (GET /api/OvertimeRequests/valid-max-hour).
+  Future<Either<Failure, ValidMaxHourEntity>> getValidMaxHour({
+    required String date,
+    String? overtimeTypeCode,
+    String? adminEmployee,
+  });
 
   /// Fetches timesheet correction requests for optional [month] (yyyy-MM).
   Future<Either<Failure, List<CorrectionItemEntity>>> getCorrectionRequests({

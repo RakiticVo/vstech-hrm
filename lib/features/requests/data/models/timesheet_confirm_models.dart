@@ -104,6 +104,7 @@ class TimesheetCorrectionItemModel extends Equatable {
     this.reasonTypeName,
     this.confirmLevel = 0,
     this.isReject = false,
+    this.confirmerName,
   });
 
   factory fromJson(Map<String, dynamic> json) {
@@ -119,6 +120,11 @@ class TimesheetCorrectionItemModel extends Equatable {
       reasonTypeName: json['reasonTypeName']?.toString(),
       confirmLevel: json['confirmLevel'] is int ? json['confirmLevel'] as int : 0,
       isReject: json['isReject'] as bool? ?? false,
+      confirmerName: json['hrManagerName']?.toString() ??
+          json['hrAdminName']?.toString() ??
+          json['managerName']?.toString() ??
+          json['confirmByName']?.toString() ??
+          json['confirmBy']?.toString(),
     );
   }
 
@@ -133,6 +139,7 @@ class TimesheetCorrectionItemModel extends Equatable {
   final String? reasonTypeName;
   final int confirmLevel;
   final bool isReject;
+  final String? confirmerName;
 
   Map<String, dynamic> toJson() => <String, dynamic>{
         'id': id,

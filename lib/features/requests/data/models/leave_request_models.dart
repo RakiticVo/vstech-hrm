@@ -176,7 +176,7 @@ class LeaveRequestCreateCommand extends Equatable {
 
 /// DTO mapping to LeavePlan from OpenAPI 3.0.1 (docs/api/api-1.json).
 class LeavePlanModel extends Equatable {
-  const LeavePlanModel({
+  const new({
     required this.code,
     required this.name,
     this.symbol,
@@ -185,7 +185,7 @@ class LeavePlanModel extends Equatable {
     this.validTo,
   });
 
-  factory LeavePlanModel.fromJson(Map<String, dynamic> json) {
+  factory fromJson(Map<String, dynamic> json) {
     return LeavePlanModel(
       code: json['code']?.toString() ?? json['leavePlanCode']?.toString() ?? '',
       name: json['name']?.toString() ?? json['leavePlanName']?.toString() ?? json['description']?.toString() ?? '',
@@ -215,4 +215,3 @@ class LeavePlanModel extends Equatable {
   @override
   List<Object?> get props => [code, name, symbol, amount, validFrom, validTo];
 }
-

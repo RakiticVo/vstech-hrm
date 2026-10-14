@@ -1,38 +1,46 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:fpdart/fpdart.dart' hide State;
+import 'package:vstech_hrm/core/di/injector.dart';
+import 'package:vstech_hrm/core/errors/failures.dart';
 import 'package:vstech_hrm/core/extensions/l10n_extension.dart';
 import 'package:vstech_hrm/core/responsive/app_layout.dart';
+import 'package:vstech_hrm/core/session/auth_cubit.dart';
+import 'package:vstech_hrm/core/session/auth_state.dart';
 import 'package:vstech_hrm/core/theme/app_colors.dart';
 import 'package:vstech_hrm/core/widgets/app_icon.dart';
+import 'package:vstech_hrm/core/widgets/app_toast.dart';
 import 'package:vstech_hrm/core/widgets/status_chip.dart';
+import 'package:vstech_hrm/features/approvals/presentation/helpers/approvals_action_handler.dart';
+import 'package:vstech_hrm/features/approvals/presentation/widgets/approval_card.dart';
+import 'package:vstech_hrm/features/requests/domain/usecases/cancel_leave_request_usecase.dart';
+import 'package:vstech_hrm/features/requests/domain/usecases/cancel_overtime_request_usecase.dart';
 import 'package:vstech_hrm/features/requests/presentation/widgets/cancel_request_dialog.dart';
 import 'package:vstech_hrm/features/requests/presentation/widgets/request_detail_approver_bar.dart';
 import 'package:vstech_hrm/features/requests/presentation/widgets/request_detail_header_card.dart';
 import 'package:vstech_hrm/features/requests/presentation/widgets/request_detail_submitted_card.dart';
-import 'package:vstech_hrm/features/requests/presentation/widgets/request_detail_timeline.dart';
 
 /// Screen 10 / G3: Universal Request Detail Screen (Employee view & Approver view).
 class RequestDetailScreen extends StatefulWidget {
-  const RequestDetailScreen({
+  const new({
     this.requestCode = 'RQ-2026-0934',
     this.title = 'Nghỉ phép năm · 1 ngày',
     this.category = 'leave',
-    this.requesterName = 'Nguyễn Minh Tuấn (NV-04821)',
-    this.department = 'Vận hành · Chi nhánh 01 (Quận 1)',
+    this.requesterName = '',
+    this.department,
     this.initialStatus = 'pending',
     this.isApprover = false,
     this.fields = const [
       ('Loại phép', 'Nghỉ phép năm (Phép hưởng 100% lương)'),
       ('Thời gian', '24/09/2026 (08:00 — 17:00)'),
       ('Số ngày nghỉ', '1.0 ngày'),
-      ('Người bàn giao', 'Lê Văn Tùng (NV-0142)'),
-      ('Lý do', 'Việc cá nhân giải quyết thủ tục hành chính tại phường.'),
     ],
     this.swapComparison,
     this.attendanceSnippet,
     this.disputePayslipValue,
     this.disputeExpectedValue,
     this.disputeDifference,
+    this.rawItem,
     super.key,
   });
 
@@ -40,7 +48,7 @@ class RequestDetailScreen extends StatefulWidget {
   final String title;
   final String category;
   final String requesterName;
-  final String department;
+  final String? department;
   final String initialStatus;
   final bool isApprover;
   final List<(String, String)> fields;
@@ -49,6 +57,7 @@ class RequestDetailScreen extends StatefulWidget {
   final String? disputePayslipValue;
   final String? disputeExpectedValue;
   final String? disputeDifference;
+  final ApprovalItem? rawItem;
 
   @override
   State<RequestDetailScreen> createState() => _RequestDetailScreenState();
@@ -56,6 +65,7 @@ class RequestDetailScreen extends StatefulWidget {
 
 class _RequestDetailScreenState extends State<RequestDetailScreen> {
   late String _status;
+  bool _isSubmitting = false;
 
   @override
   void initState() {
@@ -63,43 +73,122 @@ class _RequestDetailScreenState extends State<RequestDetailScreen> {
     _status = widget.initialStatus;
   }
 
-  void _handleCancel() {
+  Future<void> _handleCancel() async {
     final l10n = context.l10n;
-    unawaited(
-      CancelRequestDialog.show(context).then((confirmed) {
-        if (confirmed == true && mounted) {
+    final confirmed = await CancelRequestDialog.show(context);
+    if (confirmed != true || !mounted) return;
+
+    setState(() => _isSubmitting = true);
+    Either<Failure, bool>? result;
+    if (widget.category == 'leave' && sl.isRegistered<CancelLeaveRequestUseCase>()) {
+      result = await sl<CancelLeaveRequestUseCase>()(widget.requestCode);
+    } else if (widget.category == 'ot' && sl.isRegistered<CancelOvertimeRequestUseCase>()) {
+      result = await sl<CancelOvertimeRequestUseCase>()(widget.requestCode);
+    }
+
+    if (!mounted) return;
+    setState(() => _isSubmitting = false);
+
+    if (result != null) {
+      result.fold(
+        (f) => context.showErrorToast(f.message),
+        (_) {
           setState(() => _status = 'cancelled');
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text(l10n.requestCancelledSuccess)),
+          context.showSuccessToast(l10n.requestCancelledSuccess);
+          Future.delayed(const Duration(milliseconds: 500), () {
+            if (mounted && Navigator.of(context).canPop()) {
+              Navigator.of(context).pop('cancelled');
+            }
+          });
+        },
+      );
+      return;
+    }
+
+    setState(() => _status = 'cancelled');
+    context.showSuccessToast(l10n.requestCancelledSuccess);
+    Future.delayed(const Duration(milliseconds: 500), () {
+      if (mounted && Navigator.of(context).canPop()) {
+        Navigator.of(context).pop('cancelled');
+      }
+    });
+  }
+
+  Future<void> _handleApprove(String internalNote) async {
+    final item = widget.rawItem;
+    if (item != null) {
+      setState(() => _isSubmitting = true);
+      final res = await ApprovalsActionHandler.approve(
+        item,
+        hours: item.worktime,
+        note: internalNote.isNotEmpty ? internalNote : null,
+      );
+      if (!mounted) return;
+      setState(() => _isSubmitting = false);
+      res.fold(
+        (f) => context.showErrorToast(f.message),
+        (msg) {
+          setState(() => _status = 'approved');
+          context.showSuccessToast(
+            msg.isNotEmpty
+                ? msg
+                : context.l10n.requestApprovedSuccess(widget.requesterName),
           );
           Future.delayed(const Duration(milliseconds: 500), () {
             if (mounted && Navigator.of(context).canPop()) {
-              Navigator.of(context).pop(true);
+              Navigator.of(context).pop('approved');
             }
           });
-        }
-      }),
-    );
-  }
+        },
+      );
+      return;
+    }
 
-  void _handleApprove(String internalNote) {
     setState(() => _status = 'approved');
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text(context.l10n.requestApprovedSuccess(widget.requesterName))),
+    context.showSuccessToast(
+      context.l10n.requestApprovedSuccess(widget.requesterName),
     );
-    unawaited(Future.delayed(const Duration(milliseconds: 600), () {
+    Future.delayed(const Duration(milliseconds: 500), () {
       if (mounted && Navigator.of(context).canPop()) Navigator.of(context).pop(true);
-    }));
+    });
   }
 
-  void _handleReject(String reason, String internalNote) {
+  Future<void> _handleReject(String reason, String internalNote) async {
+    final item = widget.rawItem;
+    if (item != null) {
+      setState(() => _isSubmitting = true);
+      final res = await ApprovalsActionHandler.reject(
+        item,
+        reason: reason,
+      );
+      if (!mounted) return;
+      setState(() => _isSubmitting = false);
+      res.fold(
+        (f) => context.showErrorToast(f.message),
+        (msg) {
+          setState(() => _status = 'rejected');
+          context.showSuccessToast(
+            msg.isNotEmpty
+                ? msg
+                : context.l10n.requestRejectedSuccess(widget.requesterName),
+          );
+          Future.delayed(const Duration(milliseconds: 500), () {
+            if (mounted && Navigator.of(context).canPop()) {
+              Navigator.of(context).pop('rejected');
+            }
+          });
+        },
+      );
+      return;
+    }
+
     setState(() => _status = 'rejected');
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text(context.l10n.requestRejectedSuccess(widget.requesterName))),
+    context.showSuccessToast(
+      context.l10n.requestRejectedSuccess(widget.requesterName),
     );
-    unawaited(Future.delayed(const Duration(milliseconds: 600), () {
+    Future.delayed(const Duration(milliseconds: 500), () {
       if (mounted && Navigator.of(context).canPop()) Navigator.of(context).pop(true);
-    }));
+    });
   }
 
   @override
@@ -108,35 +197,12 @@ class _RequestDetailScreenState extends State<RequestDetailScreen> {
     final l10n = context.l10n;
 
     final isPending = _status == 'pending';
-
-    final timelineSteps = [
-      TimelineStep(
-        title: 'Nhân viên gửi yêu cầu',
-        subtitle: widget.requesterName,
-        timestamp: '16/09/2026 09:15',
-        isCompleted: true,
-      ),
-      TimelineStep(
-        title: 'Quản lý trực tiếp phê duyệt',
-        subtitle: 'Lê Minh Quân (Giám đốc Vận hành)',
-        timestamp: _status == 'approved' ? '16/09/2026 10:30' : 'Đang chờ',
-        isCompleted: _status == 'approved',
-        isRejected: _status == 'rejected',
-        comment: _status == 'approved' ? 'Đồng ý phân công Tùng phụ trách ca' : null,
-      ),
-      const TimelineStep(
-        title: 'Nhân sự đối soát quỹ phép & bảng công',
-        subtitle: 'Phạm Thu Trang (HR Admin)',
-        timestamp: 'Chờ bước trước',
-        isCompleted: false,
-      ),
-      const TimelineStep(
-        title: 'Phê duyệt cấp cuối (nếu vượt ngưỡng)',
-        subtitle: 'Ban Giám đốc',
-        timestamp: 'Chỉ đơn > 10 ngày',
-        isCompleted: false,
-      ),
-    ];
+    final currentSessionUser = sl.isRegistered<AuthCubit>() && sl<AuthCubit>().state is Authenticated
+        ? (sl<AuthCubit>().state as Authenticated).user.name
+        : null;
+    final displayRequester = (widget.requesterName.isNotEmpty && widget.requesterName != 'Nhân viên')
+        ? widget.requesterName
+        : (currentSessionUser ?? 'Nhân viên');
 
     return Scaffold(
       backgroundColor: colors.background,
@@ -155,6 +221,12 @@ class _RequestDetailScreenState extends State<RequestDetailScreen> {
             color: colors.textPrimary,
           ),
         ),
+        bottom: _isSubmitting
+            ? const PreferredSize(
+                preferredSize: Size.fromHeight(3),
+                child: LinearProgressIndicator(),
+              )
+            : null,
         actions: [
           Padding(
             padding: const EdgeInsets.only(right: 16),
@@ -184,7 +256,7 @@ class _RequestDetailScreenState extends State<RequestDetailScreen> {
             requestCode: widget.requestCode,
             department: widget.department,
             title: widget.title,
-            requesterName: widget.requesterName,
+            requesterName: displayRequester,
           ),
           14.gapH,
 
@@ -198,10 +270,6 @@ class _RequestDetailScreenState extends State<RequestDetailScreen> {
             disputeExpectedValue: widget.disputeExpectedValue,
             disputeDifference: widget.disputeDifference,
           ),
-          14.gapH,
-
-          // 4-Tier Approval Timeline
-          RequestDetailTimeline(steps: timelineSteps),
         ],
       ),
       bottomNavigationBar: RequestDetailApproverBar(

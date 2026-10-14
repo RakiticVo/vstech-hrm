@@ -6,16 +6,16 @@ import 'package:vstech_hrm/core/widgets/app_icon.dart';
 
 /// Top header card showing request code, department, title and requester information.
 class RequestDetailHeaderCard extends StatelessWidget {
-  const RequestDetailHeaderCard({
+  const new({
     required this.requestCode,
-    required this.department,
     required this.title,
     required this.requesterName,
+    this.department,
     super.key,
   });
 
   final String requestCode;
-  final String department;
+  final String? department;
   final String title;
   final String requesterName;
 
@@ -54,10 +54,11 @@ class RequestDetailHeaderCard extends StatelessWidget {
                       ),
                     ),
                   ),
-                  Text(
-                    department,
-                    style: TextStyle(fontSize: 11.5, color: colors.textTertiary),
-                  ),
+                  if (department != null && department!.trim().isNotEmpty)
+                    Text(
+                      department!,
+                      style: TextStyle(fontSize: 11.5, color: colors.textTertiary),
+                    ),
                 ],
               ),
               8.gapH,

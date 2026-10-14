@@ -5,7 +5,7 @@ import 'package:vstech_hrm/core/theme/app_colors.dart';
 import 'package:vstech_hrm/core/widgets/app_icon.dart';
 
 class TimelineStep {
-  const TimelineStep({
+  const new({
     required this.title,
     required this.subtitle,
     required this.timestamp,
@@ -24,7 +24,7 @@ class TimelineStep {
 
 /// 4-tier visual timeline for request approval lifecycle.
 class RequestDetailTimeline extends StatelessWidget {
-  const RequestDetailTimeline({
+  const new({
     required this.steps,
     super.key,
   });

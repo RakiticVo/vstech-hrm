@@ -9,6 +9,7 @@ import 'package:vstech_hrm/core/session/auth_state.dart';
 import 'package:vstech_hrm/core/theme/app_colors.dart';
 import 'package:vstech_hrm/core/widgets/app_icon.dart';
 import 'package:vstech_hrm/core/widgets/app_success_dialog.dart';
+import 'package:vstech_hrm/core/widgets/app_toast.dart';
 import 'package:vstech_hrm/features/requests/domain/entities/overtime_type_entity.dart';
 import 'package:vstech_hrm/features/requests/domain/entities/request_params.dart';
 import 'package:vstech_hrm/features/requests/domain/usecases/create_overtime_request_usecase.dart';
@@ -53,14 +54,30 @@ class _OvertimeRequestScreenState extends State<OvertimeRequestScreen> {
   String _formatDate(DateTime dt) =>
       '${dt.day.toString().padLeft(2, '0')}/${dt.month.toString().padLeft(2, '0')}/${dt.year}';
 
+  AuthState? _auth() {
+    try {
+      return context.read<AuthCubit>().state;
+    } on Object catch (_) {
+      return sl.isRegistered<AuthCubit>() ? sl<AuthCubit>().state : null;
+    }
+  }
+
   void _openInputModal() {
+    final auth = _auth();
+    final isManager = auth is Authenticated &&
+        (auth.user.role.isManager ||
+            auth.user.role.isAdmin ||
+            auth.user.claims.contains('manager.approve') ||
+            auth.user.claims.contains('hr:admin'));
+
     unawaited(
       OvertimeRequestModal.show(
         context,
         initialDate: _date,
         availableTypes: _types,
         initialTypeCode: _selectedType?.code,
-        onConfirm: (type, date, start, end, length, reason) async {
+        isManager: isManager,
+        onConfirm: (type, date, start, end, length, reason, {employeeCode, employeeName, accept}) async {
           setState(() {
             _selectedType = type;
             _date = date;
@@ -69,55 +86,80 @@ class _OvertimeRequestScreenState extends State<OvertimeRequestScreen> {
             final endStr = '${end.hour.toString().padLeft(2, '0')}:${end.minute.toString().padLeft(2, '0')}';
             _time = '$startStr — $endStr';
           });
-          await _submitOvertime(type, date, start, end, length, reason);
+          return await _submitOvertime(
+            type, date, start, end, length, reason,
+            employeeCode: employeeCode,
+            employeeName: employeeName,
+            accept: accept,
+          );
         },
       ),
     );
   }
 
-  Future<void> _submitOvertime(
+  Future<String?> _submitOvertime(
     OvertimeTypeEntity type,
     DateTime date,
     DateTime start,
     DateTime end,
     double length,
-    String reason,
-  ) async {
-    final authState = context.read<AuthCubit>().state;
-    final empCode = authState is Authenticated ? authState.user.employeeCode : 'NV001';
-
+    String reason, {
+    String? employeeCode,
+    String? employeeName,
+    bool? accept,
+  }) async {
+    if (_isSubmitting) return 'Đang gửi yêu cầu...';
     setState(() => _isSubmitting = true);
-    final params = CreateOvertimeParams(
-      employeeCode: empCode,
-      date: date.toIso8601String(),
-      startOvertime: start.toIso8601String(),
-      endOvertime: end.toIso8601String(),
-      length: length,
-      overtimeTypeCode: type.code,
-      note: reason,
-    );
 
-    final result = await sl<CreateOvertimeRequestUseCase>()(params);
-    if (!mounted) return;
-    setState(() => _isSubmitting = false);
+    try {
+      final auth = _auth();
+      final curEmp = auth is Authenticated ? auth.user.employeeCode : 'NV001';
+      final empCode = employeeCode ?? curEmp;
+      final isSub = employeeCode != null && employeeCode != curEmp;
 
-    final l10n = context.l10n;
-    result.fold(
-      (failure) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text(failure.message), backgroundColor: Colors.red),
-        );
-      },
-      (_) {
-        unawaited(
-          AppSuccessDialog.show(
-            context,
-            title: l10n.overtimeSubmittedTitle,
-            message: l10n.overtimeSubmittedMsg(_formatDate(date), _time),
-          ),
-        );
-      },
-    );
+      final ymd = '${date.year}-${date.month.toString().padLeft(2, '0')}-${date.day.toString().padLeft(2, '0')}';
+      final sStr = '${ymd}T${start.hour.toString().padLeft(2, '0')}:${start.minute.toString().padLeft(2, '0')}:00';
+      final eStr = '${ymd}T${end.hour.toString().padLeft(2, '0')}:${end.minute.toString().padLeft(2, '0')}:00';
+
+      final params = CreateOvertimeParams(
+        employeeCode: empCode,
+        adminEmployeeCode: isSub ? empCode : null,
+        accept: accept,
+        date: ymd,
+        startOvertime: sStr,
+        endOvertime: eStr,
+        length: length,
+        overtimeTypeCode: type.code,
+        note: reason,
+      );
+
+      final result = await sl<CreateOvertimeRequestUseCase>()(params);
+      if (!mounted) return null;
+
+      final l10n = context.l10n;
+      final successMsg = isSub
+          ? l10n.overtimeSubmittedForSubordinateMsg(_formatDate(date), employeeName ?? empCode)
+          : l10n.overtimeSubmittedMsg(_formatDate(date), _time);
+
+      return await result.fold(
+        (failure) async {
+          context.showErrorToast(failure.message);
+          return failure.message;
+        },
+        (_) async {
+          unawaited(
+            AppSuccessDialog.show(
+              context,
+              title: l10n.overtimeSubmittedTitle,
+              message: successMsg,
+            ),
+          );
+          return null;
+        },
+      );
+    } finally {
+      if (mounted) setState(() => _isSubmitting = false);
+    }
   }
 
   @override
@@ -178,7 +220,7 @@ class _OvertimeRequestScreenState extends State<OvertimeRequestScreen> {
           10.gapH,
           InkWell(
             borderRadius: BorderRadius.circular(18),
-            onTap: _openInputModal,
+            onTap: _isSubmitting ? null : _openInputModal,
             child: Container(
               decoration: BoxDecoration(
                 color: colors.surface,

@@ -9,7 +9,7 @@ class GetLeaveRequestsUseCase {
 
   final RequestsRepository _repository;
 
-  Future<Either<Failure, List<LeaveItemEntity>>> call() {
-    return _repository.getLeaveRequests();
+  Future<Either<Failure, List<LeaveItemEntity>>> call({String? from, String? to}) {
+    return _repository.getLeaveRequests(from: from, to: to);
   }
 }

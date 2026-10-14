@@ -5,7 +5,7 @@ import 'package:vstech_hrm/features/requests/domain/repositories/requests_reposi
 
 /// UseCase to fetch available overtime types (loại tăng ca).
 class GetOvertimeTypesUseCase {
-  const GetOvertimeTypesUseCase(this._repository);
+  const new(this._repository);
 
   final RequestsRepository _repository;
 

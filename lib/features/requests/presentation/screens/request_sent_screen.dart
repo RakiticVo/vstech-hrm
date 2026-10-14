@@ -11,7 +11,7 @@ import 'package:vstech_hrm/core/widgets/secondary_button.dart';
 
 /// Screen displaying submission confirmation for any request (Leave, OT, Fix, Swap).
 class RequestSentScreen extends StatelessWidget {
-  const RequestSentScreen({
+  const new({
     this.requestCode = 'RQ-2026-0935',
     this.requestTitle = 'Nghỉ phép năm · 1 ngày',
     this.assignedTo = 'Lê Minh Quân (Quản lý trực tiếp)',
