@@ -128,13 +128,20 @@ class _ProfileScreenState extends State<ProfileScreen> {
               child: Container(
                 padding: const EdgeInsets.all(7),
                 decoration: BoxDecoration(
-                  color: const Color(0xFFFFF8EC).withValues(alpha: 0.2),
+                  color: Colors.white,
                   borderRadius: BorderRadius.circular(10),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withValues(alpha: 0.08),
+                      blurRadius: 4,
+                      offset: const Offset(0, 1),
+                    ),
+                  ],
                 ),
-                child: const AppIcon(
+                child: AppIcon(
                   AppIcons.settings,
                   size: 20,
-                  color: Color(0xFFFFF8EC),
+                  color: colors.tealPrimary,
                 ),
               ),
             ),

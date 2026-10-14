@@ -73,28 +73,32 @@ class PayrollHeroCard extends StatelessWidget {
                       ),
                       8.gapW,
                       Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3.5),
+                        padding: const EdgeInsets.symmetric(horizontal: 9, vertical: 4),
                         decoration: BoxDecoration(
-                          color: const Color(0xFFFFF8EC).withValues(alpha: 0.18),
+                          color: Colors.white,
                           borderRadius: BorderRadius.circular(8),
-                          border: Border.all(
-                            color: const Color(0xFFFFF8EC).withValues(alpha: 0.25),
-                          ),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.black.withValues(alpha: 0.08),
+                              blurRadius: 4,
+                              offset: const Offset(0, 1),
+                            ),
+                          ],
                         ),
                         child: Row(
                           mainAxisSize: MainAxisSize.min,
                           children: [
-                            const AppIcon(AppIcons.calendar, size: 12, color: Color(0xFFFFF8EC)),
+                            AppIcon(AppIcons.calendar, size: 12, color: colors.primaryIndigo),
                             4.gapW,
                             Text(
                               context.l10n.timesheetMonthDisplay(
                                 int.tryParse(periodMonth) ?? DateTime.now().month,
                                 DateTime.now().year,
                               ),
-                              style: const TextStyle(
+                              style: TextStyle(
                                 fontSize: 11,
                                 fontWeight: FontWeight.w800,
-                                color: Color(0xFFFFF8EC),
+                                color: colors.primaryIndigo,
                               ),
                             ),
                           ],

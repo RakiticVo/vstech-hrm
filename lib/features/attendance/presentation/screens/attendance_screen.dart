@@ -51,9 +51,9 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
         _hasCheckedOut = today.hasCheckedOut;
         _inTime = today.checkInTime ?? '—';
         _outTime = today.checkOutTime ?? '—';
-        if (today.shiftName?.isNotEmpty == true) {
+        if (today.shiftName.isNotEmpty) {
           _shiftName = today.shiftName;
-          if (today.shiftStart?.isNotEmpty == true && today.shiftEnd?.isNotEmpty == true) {
+          if (today.shiftStart.isNotEmpty && today.shiftEnd.isNotEmpty) {
             _shiftTime = '${today.shiftStart} - ${today.shiftEnd}';
           }
         }
@@ -144,20 +144,27 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
               child: Container(
                 padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
                 decoration: BoxDecoration(
-                  color: const Color(0xFFFFF8EC).withValues(alpha: 0.2),
+                  color: Colors.white,
                   borderRadius: BorderRadius.circular(8),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withValues(alpha: 0.08),
+                      blurRadius: 4,
+                      offset: const Offset(0, 1),
+                    ),
+                  ],
                 ),
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    const AppIcon(AppIcons.calendar, size: 14, color: Color(0xFFFFF8EC)),
+                    AppIcon(AppIcons.calendar, size: 14, color: colors.tealPrimary),
                     5.gapW,
                     Text(
                       l10n.calendarScreenTitle,
-                      style: const TextStyle(
+                      style: TextStyle(
                         fontSize: 11.5,
                         fontWeight: FontWeight.w800,
-                        color: Color(0xFFFFF8EC),
+                        color: colors.tealPrimary,
                       ),
                     ),
                   ],

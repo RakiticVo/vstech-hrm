@@ -16,7 +16,7 @@ import 'package:vstech_hrm/features/payroll/presentation/widgets/payslip_auth_di
 
 /// Screen displaying payroll overview, Saigon tile hero card, breakdown, and history.
 class PayrollScreen extends StatefulWidget {
-  const PayrollScreen({super.key});
+  const new({super.key});
 
   @override
   State<PayrollScreen> createState() => _PayrollScreenState();
@@ -62,21 +62,28 @@ class _PayrollScreenState extends State<PayrollScreen> {
                     onAuthenticated: () => context.push(AppRoutes.rewards),
                   ),
                   child: Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                    padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
                     decoration: BoxDecoration(
-                      color: const Color(0xFFFFF8EC).withValues(alpha: 0.2),
+                      color: Colors.white,
                       borderRadius: BorderRadius.circular(8),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black.withValues(alpha: 0.08),
+                          blurRadius: 4,
+                          offset: const Offset(0, 1),
+                        ),
+                      ],
                     ),
                     child: Row(
                       children: [
-                        const AppIcon(AppIcons.bonus, size: 14, color: Color(0xFFFFF8EC)),
+                        AppIcon(AppIcons.bonus, size: 14, color: colors.tealPrimary),
                         4.gapW,
                         Text(
                           context.l10n.rewardsAction,
-                          style: const TextStyle(
+                          style: TextStyle(
                             fontSize: 11.5,
                             fontWeight: FontWeight.w800,
-                            color: Color(0xFFFFF8EC),
+                            color: colors.tealPrimary,
                           ),
                         ),
                       ],
