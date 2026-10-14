@@ -1389,10 +1389,30 @@ class AppLocalizationsVi extends AppLocalizations {
   String get legendLeave => 'Nghỉ phép';
 
   @override
+  String get legendOvertime => 'Tăng ca';
+
+  @override
+  String get legendCorrection => 'Giải trình';
+
+  @override
   String get legendMissingTime => 'Thiếu giờ';
 
   @override
   String get legendHoliday => 'Ngày lễ';
+
+  @override
+  String get timesheetCorrectionSummary => 'Giải trình / Sửa công';
+
+  @override
+  String get timesheetSendCorrectionCta => 'Gửi giải trình / Sửa công';
+
+  @override
+  String get timesheetRelatedSlipsTitle => 'Phiếu liên quan & Đơn từ';
+
+  @override
+  String timesheetApproverLabel(String name) {
+    return 'Người duyệt: $name';
+  }
 
   @override
   String get holidaysTitle => 'Ngày lễ';

@@ -1395,10 +1395,30 @@ class AppLocalizationsEn extends AppLocalizations {
   String get legendLeave => 'Leave';
 
   @override
+  String get legendOvertime => 'Overtime';
+
+  @override
+  String get legendCorrection => 'Correction';
+
+  @override
   String get legendMissingTime => 'Missing Time';
 
   @override
   String get legendHoliday => 'Holiday';
+
+  @override
+  String get timesheetCorrectionSummary => 'Correction / Regularization';
+
+  @override
+  String get timesheetSendCorrectionCta => 'Submit Correction Request';
+
+  @override
+  String get timesheetRelatedSlipsTitle => 'Related Requests & Slips';
+
+  @override
+  String timesheetApproverLabel(String name) {
+    return 'Approved by: $name';
+  }
 
   @override
   String get holidaysTitle => 'Holidays';

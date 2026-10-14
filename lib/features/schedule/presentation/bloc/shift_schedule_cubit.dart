@@ -1,11 +1,14 @@
 import 'dart:async';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:vstech_hrm/core/di/injector.dart';
 import 'package:vstech_hrm/features/approvals/domain/usecases/get_managed_employees_usecase.dart';
-import 'package:vstech_hrm/features/schedule/domain/entities/department_shift_day_entity.dart';
+import 'package:vstech_hrm/features/approvals/domain/usecases/get_pending_approvals_usecase.dart';
+import 'package:vstech_hrm/features/approvals/domain/usecases/get_pending_leave_approvals_usecase.dart';
+import 'package:vstech_hrm/features/approvals/domain/usecases/get_pending_overtime_approvals_usecase.dart';
 import 'package:vstech_hrm/features/schedule/domain/entities/my_shift_day_entity.dart';
-import 'package:vstech_hrm/features/schedule/domain/entities/shift_roster_item_entity.dart';
 import 'package:vstech_hrm/features/schedule/domain/usecases/get_department_shift_schedule_usecase.dart';
 import 'package:vstech_hrm/features/schedule/domain/usecases/get_my_shift_schedule_usecase.dart';
+import 'package:vstech_hrm/features/schedule/presentation/bloc/department_roster_loader.dart';
 import 'package:vstech_hrm/features/schedule/presentation/bloc/shift_schedule_state.dart';
 import 'package:vstech_hrm/features/schedule/presentation/bloc/shift_week_mapper.dart';
 
@@ -15,8 +18,23 @@ class ShiftScheduleCubit extends Cubit<ShiftScheduleState> {
     required this.getMyShiftScheduleUseCase,
     required this.getDepartmentShiftScheduleUseCase,
     required this.getManagedEmployeesUseCase,
+    GetPendingLeaveApprovalsUseCase? getPendingLeaveApprovalsUseCase,
+    GetPendingOvertimeApprovalsUseCase? getPendingOvertimeApprovalsUseCase,
+    GetPendingApprovalsUseCase? getPendingApprovalsUseCase,
     DateTime? initialDate,
-  }) : super(
+  })  : getPendingLeaveApprovalsUseCase = getPendingLeaveApprovalsUseCase ??
+            (sl.isRegistered<GetPendingLeaveApprovalsUseCase>()
+                ? sl<GetPendingLeaveApprovalsUseCase>()
+                : null),
+        getPendingOvertimeApprovalsUseCase = getPendingOvertimeApprovalsUseCase ??
+            (sl.isRegistered<GetPendingOvertimeApprovalsUseCase>()
+                ? sl<GetPendingOvertimeApprovalsUseCase>()
+                : null),
+        getPendingApprovalsUseCase = getPendingApprovalsUseCase ??
+            (sl.isRegistered<GetPendingApprovalsUseCase>()
+                ? sl<GetPendingApprovalsUseCase>()
+                : null),
+        super(
           ShiftScheduleState(
             selectedDate: initialDate ?? DateTime.now(),
           ),
@@ -25,6 +43,9 @@ class ShiftScheduleCubit extends Cubit<ShiftScheduleState> {
   final GetMyShiftScheduleUseCase getMyShiftScheduleUseCase;
   final GetDepartmentShiftScheduleUseCase getDepartmentShiftScheduleUseCase;
   final GetManagedEmployeesUseCase getManagedEmployeesUseCase;
+  final GetPendingLeaveApprovalsUseCase? getPendingLeaveApprovalsUseCase;
+  final GetPendingOvertimeApprovalsUseCase? getPendingOvertimeApprovalsUseCase;
+  final GetPendingApprovalsUseCase? getPendingApprovalsUseCase;
   String _monthKey(DateTime d) => '${d.year}-${d.month}';
 
   String _formatDate(DateTime d) {
@@ -137,112 +158,36 @@ class ShiftScheduleCubit extends Cubit<ShiftScheduleState> {
     String? departmentCode,
   }) async {
     final target = date ?? state.selectedDate;
-    final dateStr = _formatDate(target);
-
     emit(state.copyWith(rosterStatus: ScheduleLoadingStatus.loading));
 
-    final subordinatesRes = await getManagedEmployeesUseCase(
-      from: dateStr,
-      to: dateStr,
-    );
+    try {
+      final activeDeptCode = departmentCode ?? state.selectedDepartmentCode;
+      final result = await DepartmentRosterLoader.load(
+        target: target,
+        activeDeptCode: activeDeptCode,
+        getManagedEmployeesUseCase: getManagedEmployeesUseCase,
+        getDepartmentShiftScheduleUseCase: getDepartmentShiftScheduleUseCase,
+        getPendingLeaveApprovalsUseCase: getPendingLeaveApprovalsUseCase,
+        getPendingOvertimeApprovalsUseCase: getPendingOvertimeApprovalsUseCase,
+        getPendingApprovalsUseCase: getPendingApprovalsUseCase,
+      );
 
-    await subordinatesRes.fold(
-      (failure) async {
-        emit(
-          state.copyWith(
-            rosterStatus: ScheduleLoadingStatus.failure,
-            errorMessage: failure.message,
-          ),
-        );
-      },
-      (subordinates) async {
-        final deptMap = <String, String>{};
-        for (final emp in subordinates) {
-          if (emp.departmentCode != null && emp.departmentCode!.isNotEmpty) {
-            deptMap[emp.departmentCode!] = emp.department ?? emp.departmentCode!;
-          }
-        }
-
-        final activeDeptCode = departmentCode ?? state.selectedDepartmentCode;
-
-        var assignedShifts = <DepartmentShiftDayEntity>[];
-        if (activeDeptCode != null && activeDeptCode != 'ALL' && activeDeptCode.isNotEmpty) {
-          final assignedRes = await getDepartmentShiftScheduleUseCase(
-            from: dateStr,
-            to: dateStr,
-            departmentCode: activeDeptCode,
-          );
-          assignedShifts = assignedRes.getOrElse((_) => []);
-        } else if (deptMap.isNotEmpty) {
-          final results = await Future.wait(
-            deptMap.keys.map(
-              (code) => getDepartmentShiftScheduleUseCase(
-                from: dateStr,
-                to: dateStr,
-                departmentCode: code,
-              ),
-            ),
-          );
-          for (final res in results) {
-            assignedShifts.addAll(res.getOrElse((_) => []));
-          }
-        }
-
-        final roster = subordinates.map((emp) {
-          final assigned = assignedShifts.where((s) => s.employeeCode == emp.code);
-          if (assigned.isNotEmpty) {
-            final first = assigned.first;
-            return ShiftRosterItemEntity(
-              employeeCode: emp.code,
-              employeeName: emp.name,
-              date: target,
-              departmentCode: emp.departmentCode,
-              departmentName: emp.department,
-              shiftCode: first.shiftCode,
-              shiftName: first.shiftName ?? 'Ca làm việc',
-              startHour: emp.shiftStart,
-              endHour: emp.shiftEnd,
-              source: 'SCHEDULE',
-              assignedBy: first.createdBy,
-              assignedAt: first.createdAt,
-            );
-          }
-
-          if (emp.shiftCode != null && emp.shiftCode!.isNotEmpty) {
-            return ShiftRosterItemEntity(
-              employeeCode: emp.code,
-              employeeName: emp.name,
-              date: target,
-              departmentCode: emp.departmentCode,
-              departmentName: emp.department,
-              shiftCode: emp.shiftCode,
-              shiftName: emp.shiftName ?? 'Ca cố định',
-              startHour: emp.shiftStart,
-              endHour: emp.shiftEnd,
-            );
-          }
-
-          return ShiftRosterItemEntity(
-            employeeCode: emp.code,
-            employeeName: emp.name,
-            date: target,
-            departmentCode: emp.departmentCode,
-            departmentName: emp.department,
-            shiftName: 'Nghỉ tuần',
-            source: 'OFF',
-          );
-        }).toList();
-
-        emit(
-          state.copyWith(
-            rosterStatus: ScheduleLoadingStatus.success,
-            rosterItems: roster,
-            selectedDepartmentCode: activeDeptCode,
-            availableDepartments: deptMap,
-          ),
-        );
-      },
-    );
+      emit(
+        state.copyWith(
+          rosterStatus: ScheduleLoadingStatus.success,
+          rosterItems: result.roster,
+          selectedDepartmentCode: activeDeptCode,
+          availableDepartments: result.departmentMap,
+        ),
+      );
+    } on Object catch (e) {
+      emit(
+        state.copyWith(
+          rosterStatus: ScheduleLoadingStatus.failure,
+          errorMessage: e.toString(),
+        ),
+      );
+    }
   }
 
   /// Changes active department for manager view and reloads roster.

@@ -17,6 +17,8 @@ class CalendarLegendRow extends StatelessWidget {
       (l10n.legendLateEarly, colors.accentAmber),
       (l10n.legendMissingTime, colors.error),
       (l10n.legendLeave, const Color(0xFF8B5CF6)), // Purple for approved leave
+      (l10n.legendOvertime, const Color(0xFFEA580C)), // Orange for overtime
+      (l10n.legendCorrection, const Color(0xFF0284C7)), // Blue for explanation / correction
       (l10n.legendHoliday, colors.textTertiary),   // Grey for weekly off / holiday
     ];
 

@@ -1,4 +1,7 @@
 import 'package:equatable/equatable.dart';
+import 'package:vstech_hrm/features/requests/domain/entities/correction_item_entity.dart';
+import 'package:vstech_hrm/features/requests/domain/entities/leave_item_entity.dart';
+import 'package:vstech_hrm/features/requests/domain/entities/overtime_item_entity.dart';
 
 /// Domain entity representing a subordinate employee's daily shift status
 /// in the Manager's Daily Roster view.
@@ -17,6 +20,9 @@ class ShiftRosterItemEntity extends Equatable {
     this.source = 'DEFAULT',
     this.assignedBy,
     this.assignedAt,
+    this.leaveRequests = const [],
+    this.overtimeRequests = const [],
+    this.correctionRequests = const [],
   });
 
   /// Subordinate employee code.
@@ -58,10 +64,21 @@ class ShiftRosterItemEntity extends Equatable {
   /// Time when shift was assigned.
   final String? assignedAt;
 
+  /// List of leave requests associated with this employee.
+  final List<LeaveItemEntity> leaveRequests;
+
+  /// List of overtime requests associated with this employee.
+  final List<OvertimeItemEntity> overtimeRequests;
+
+  /// List of timesheet correction/explanation requests associated with this employee.
+  final List<CorrectionItemEntity> correctionRequests;
+
   bool get hasShift => shiftCode != null && shiftCode!.trim().isNotEmpty;
   bool get isScheduled => source.toUpperCase() == 'SCHEDULE';
   bool get isDefault => source.toUpperCase() == 'DEFAULT';
   bool get isDayOff => !hasShift || source.toUpperCase() == 'OFF';
+  bool get hasTickets =>
+      leaveRequests.isNotEmpty || overtimeRequests.isNotEmpty || correctionRequests.isNotEmpty;
 
   String get timeRange =>
       hasShift ? '${startHour ?? '—'} - ${endHour ?? '—'}' : 'Nghỉ';
@@ -81,5 +98,8 @@ class ShiftRosterItemEntity extends Equatable {
         source,
         assignedBy,
         assignedAt,
+        leaveRequests,
+        overtimeRequests,
+        correctionRequests,
       ];
 }

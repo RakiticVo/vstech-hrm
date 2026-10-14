@@ -54,11 +54,20 @@ class _CalendarTimesheetBody extends StatelessWidget {
                 isLoading: state.isLoading,
                 hasError: state.hasError,
                 dayMap: state.dayMap,
+                overtimeMap: state.overtimeMap,
+                correctionMap: state.correctionMap,
                 onPreviousMonth: cubit.previousMonth,
                 onNextMonth: cubit.nextMonth,
                 onRetry: cubit.loadTimesheet,
                 onDayTap: (date, timesheet) {
-                  TimesheetDayDetailSheet.show(context, date: date, timesheet: timesheet);
+                  TimesheetDayDetailSheet.show(
+                    context,
+                    date: date,
+                    timesheet: timesheet,
+                    leaves: state.leaveMap[date.day] ?? const [],
+                    overtimes: state.overtimeMap[date.day] ?? const [],
+                    corrections: state.correctionMap[date.day] ?? const [],
+                  );
                 },
               ),
               14.gapH,
@@ -79,6 +88,9 @@ class _CalendarTimesheetBody extends StatelessWidget {
                 totalWorkHoursText: '${state.totalWorkHours.toStringAsFixed(1)} giờ',
                 cumulativeOvertimeText: '${state.cumulativeOvertime.toStringAsFixed(1)} giờ',
                 paidLeaveDaysText: '${state.paidLeaveDays.toStringAsFixed(1)} ngày',
+                correctionSummaryText: state.correctionCount > 0
+                    ? '${state.correctionCount} phiếu (${state.correctionHours.toStringAsFixed(1)}h)'
+                    : null,
                 lateEarlyArrivalsText: '${state.lateEarlyArrivalsCount} lần',
               ),
             ],

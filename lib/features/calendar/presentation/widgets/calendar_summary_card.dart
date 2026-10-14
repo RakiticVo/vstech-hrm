@@ -10,6 +10,7 @@ class CalendarSummaryCard extends StatelessWidget {
     this.cumulativeOvertimeText,
     this.paidLeaveDaysText,
     this.lateEarlyArrivalsText,
+    this.correctionSummaryText,
   });
 
   final String? payableWorkdaysText;
@@ -17,6 +18,7 @@ class CalendarSummaryCard extends StatelessWidget {
   final String? cumulativeOvertimeText;
   final String? paidLeaveDaysText;
   final String? lateEarlyArrivalsText;
+  final String? correctionSummaryText;
 
   @override
   Widget build(BuildContext context) {
@@ -24,8 +26,10 @@ class CalendarSummaryCard extends StatelessWidget {
     final rows = [
       (context.l10n.payableWorkdays, payableWorkdaysText ?? '--', colors.textPrimary),
       (context.l10n.totalWorkHours, totalWorkHoursText ?? '--', colors.textPrimary),
-      (context.l10n.cumulativeOvertime, cumulativeOvertimeText ?? '--', colors.textPrimary),
-      (context.l10n.paidLeaveDays, paidLeaveDaysText ?? '--', colors.primaryIndigo),
+      (context.l10n.cumulativeOvertime, cumulativeOvertimeText ?? '--', const Color(0xFFEA580C)),
+      (context.l10n.paidLeaveDays, paidLeaveDaysText ?? '--', const Color(0xFF8B5CF6)),
+      if (correctionSummaryText != null)
+        (context.l10n.timesheetCorrectionSummary, correctionSummaryText!, const Color(0xFF0284C7)),
       (context.l10n.lateEarlyArrivals, lateEarlyArrivalsText ?? '--', colors.accentAmber),
     ];
 

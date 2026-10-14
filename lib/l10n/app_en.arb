@@ -671,8 +671,19 @@
   "lateEarlyArrivals": "Late / Early Arrivals",
   "legendFullWork": "Full Work",
   "legendLeave": "Leave",
+  "legendOvertime": "Overtime",
+  "legendCorrection": "Correction",
   "legendMissingTime": "Missing Time",
   "legendHoliday": "Holiday",
+  "timesheetCorrectionSummary": "Correction / Regularization",
+  "timesheetSendCorrectionCta": "Submit Correction Request",
+  "timesheetRelatedSlipsTitle": "Related Requests & Slips",
+  "timesheetApproverLabel": "Approved by: {name}",
+  "@timesheetApproverLabel": {
+    "placeholders": {
+      "name": {"type": "String"}
+    }
+  },
 
   "holidaysTitle": "Holidays",
   "year2026": "Year 2026",

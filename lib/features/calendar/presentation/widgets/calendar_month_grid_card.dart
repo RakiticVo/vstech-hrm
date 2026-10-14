@@ -6,7 +6,7 @@ import 'package:vstech_hrm/core/widgets/app_icon.dart';
 import 'package:vstech_hrm/features/attendance/domain/entities/account_timesheet_entity.dart';
 
 class CalendarMonthGridCard extends StatelessWidget {
-  const new({
+  const CalendarMonthGridCard({
     required this.selectedMonth,
     required this.isLoading,
     required this.hasError,
@@ -14,6 +14,8 @@ class CalendarMonthGridCard extends StatelessWidget {
     required this.onPreviousMonth,
     required this.onNextMonth,
     required this.onDayTap,
+    this.overtimeMap = const {},
+    this.correctionMap = const {},
     this.onRetry,
     super.key,
   });
@@ -22,6 +24,8 @@ class CalendarMonthGridCard extends StatelessWidget {
   final bool isLoading;
   final bool hasError;
   final Map<int, AccountTimesheetEntity> dayMap;
+  final Map<int, List<dynamic>> overtimeMap;
+  final Map<int, List<dynamic>> correctionMap;
   final VoidCallback onPreviousMonth;
   final VoidCallback onNextMonth;
   final void Function(DateTime date, AccountTimesheetEntity? timesheet) onDayTap;
@@ -187,6 +191,9 @@ class CalendarMonthGridCard extends StatelessWidget {
           isRedDay = true;
         }
 
+        final hasOt = (item != null && item.overtime > 0) || (overtimeMap[day]?.isNotEmpty ?? false);
+        final hasCorr = correctionMap[day]?.isNotEmpty ?? false;
+
         return InkWell(
           borderRadius: BorderRadius.circular(11),
           onTap: () => onDayTap(date, item),
@@ -210,10 +217,33 @@ class CalendarMonthGridCard extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(height: 2),
-                Container(
-                  width: 4.5,
-                  height: 4.5,
-                  decoration: BoxDecoration(color: dotColor, shape: BoxShape.circle),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    if (dotColor != Colors.transparent)
+                      Container(
+                        width: 4.5,
+                        height: 4.5,
+                        decoration: BoxDecoration(color: dotColor, shape: BoxShape.circle),
+                      ),
+                    if (hasOt) ...[
+                      const SizedBox(width: 2),
+                      Container(
+                        width: 4.5,
+                        height: 4.5,
+                        decoration: const BoxDecoration(color: Color(0xFFEA580C), shape: BoxShape.circle),
+                      ),
+                    ],
+                    if (hasCorr) ...[
+                      const SizedBox(width: 2),
+                      Container(
+                        width: 4.5,
+                        height: 4.5,
+                        decoration: const BoxDecoration(color: Color(0xFF0284C7), shape: BoxShape.circle),
+                      ),
+                    ],
+                  ],
                 ),
               ],
             ),

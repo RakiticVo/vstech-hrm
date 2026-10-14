@@ -671,8 +671,19 @@
   "lateEarlyArrivals": "Đi muộn / Về sớm",
   "legendFullWork": "Đủ công",
   "legendLeave": "Nghỉ phép",
+  "legendOvertime": "Tăng ca",
+  "legendCorrection": "Giải trình",
   "legendMissingTime": "Thiếu giờ",
   "legendHoliday": "Ngày lễ",
+  "timesheetCorrectionSummary": "Giải trình / Sửa công",
+  "timesheetSendCorrectionCta": "Gửi giải trình / Sửa công",
+  "timesheetRelatedSlipsTitle": "Phiếu liên quan & Đơn từ",
+  "timesheetApproverLabel": "Người duyệt: {name}",
+  "@timesheetApproverLabel": {
+    "placeholders": {
+      "name": {"type": "String"}
+    }
+  },
 
   "holidaysTitle": "Ngày lễ",
   "year2026": "Năm 2026",

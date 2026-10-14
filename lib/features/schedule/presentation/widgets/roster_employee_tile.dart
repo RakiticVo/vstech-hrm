@@ -4,6 +4,7 @@ import 'package:vstech_hrm/core/responsive/app_layout.dart';
 import 'package:vstech_hrm/core/theme/app_colors.dart';
 import 'package:vstech_hrm/core/widgets/app_icon.dart';
 import 'package:vstech_hrm/features/schedule/domain/entities/shift_roster_item_entity.dart';
+import 'package:vstech_hrm/features/schedule/presentation/widgets/roster_ticket_badges.dart';
 import 'package:vstech_hrm/l10n/app_localizations.dart';
 
 /// Tile displaying an individual employee's daily shift details in the roster.
@@ -50,6 +51,7 @@ class RosterEmployeeTile extends StatelessWidget {
                 _buildDepartment(colors),
                 8.gapH,
                 _buildShiftInfo(context, colors, l10n),
+                RosterTicketBadges(item: item),
               ],
             ),
           ),

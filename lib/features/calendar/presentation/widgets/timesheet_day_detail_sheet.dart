@@ -5,21 +5,34 @@ import 'package:vstech_hrm/core/extensions/l10n_extension.dart';
 import 'package:vstech_hrm/core/responsive/app_layout.dart';
 import 'package:vstech_hrm/core/theme/app_colors.dart';
 import 'package:vstech_hrm/features/attendance/domain/entities/account_timesheet_entity.dart';
+import 'package:vstech_hrm/features/calendar/presentation/widgets/timesheet_day_slips_card.dart';
+import 'package:vstech_hrm/features/requests/domain/entities/correction_item_entity.dart';
+import 'package:vstech_hrm/features/requests/domain/entities/leave_item_entity.dart';
+import 'package:vstech_hrm/features/requests/domain/entities/overtime_item_entity.dart';
 
 class TimesheetDayDetailSheet extends StatelessWidget {
-  const new({
+  const TimesheetDayDetailSheet({
     required this.date,
     this.timesheet,
+    this.leaves = const [],
+    this.overtimes = const [],
+    this.corrections = const [],
     super.key,
   });
 
   final DateTime date;
   final AccountTimesheetEntity? timesheet;
+  final List<LeaveItemEntity> leaves;
+  final List<OvertimeItemEntity> overtimes;
+  final List<CorrectionItemEntity> corrections;
 
   static void show(
     BuildContext context, {
     required DateTime date,
     AccountTimesheetEntity? timesheet,
+    List<LeaveItemEntity> leaves = const [],
+    List<OvertimeItemEntity> overtimes = const [],
+    List<CorrectionItemEntity> corrections = const [],
   }) {
     unawaited(
       showModalBottomSheet<void>(
@@ -27,7 +40,13 @@ class TimesheetDayDetailSheet extends StatelessWidget {
         useRootNavigator: true,
         isScrollControlled: true,
         backgroundColor: Colors.transparent,
-        builder: (ctx) => TimesheetDayDetailSheet(date: date, timesheet: timesheet),
+        builder: (ctx) => TimesheetDayDetailSheet(
+          date: date,
+          timesheet: timesheet,
+          leaves: leaves,
+          overtimes: overtimes,
+          corrections: corrections,
+        ),
       ),
     );
   }
@@ -190,6 +209,16 @@ class TimesheetDayDetailSheet extends StatelessWidget {
             _buildDivider(colors),
             _buildRow(colors, l10n.timesheetNoteLabel, timesheet!.note!),
           ],
+          TimesheetDaySlipsCard(
+            date: date,
+            leaves: leaves,
+            overtimes: overtimes,
+            corrections: corrections,
+            showSubmitCorrection: (timesheet == null ||
+                    timesheet!.isRejected ||
+                    timesheet!.validActualTime < 8.0) &&
+                date.isBefore(DateTime.now()),
+          ),
         ],
       ),
     );

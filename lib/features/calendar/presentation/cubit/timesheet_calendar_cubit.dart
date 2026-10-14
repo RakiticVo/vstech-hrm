@@ -8,18 +8,28 @@ import 'package:vstech_hrm/features/attendance/domain/usecases/get_account_times
 import 'package:vstech_hrm/features/attendance/domain/usecases/get_attendance_history_usecase.dart';
 import 'package:vstech_hrm/features/calendar/presentation/cubit/timesheet_calendar_state.dart';
 import 'package:vstech_hrm/features/requests/domain/entities/correction_item_entity.dart';
+import 'package:vstech_hrm/features/requests/domain/entities/leave_item_entity.dart';
+import 'package:vstech_hrm/features/requests/domain/entities/overtime_item_entity.dart';
 import 'package:vstech_hrm/features/requests/domain/usecases/get_correction_requests_usecase.dart';
+import 'package:vstech_hrm/features/requests/domain/usecases/get_leave_requests_usecase.dart';
+import 'package:vstech_hrm/features/requests/domain/usecases/get_overtime_requests_usecase.dart';
 
 class TimesheetCalendarCubit extends Cubit<TimesheetCalendarState> {
-  new({
+  TimesheetCalendarCubit({
     required this.getAccountTimesheetUseCase,
     GetAttendanceHistoryUseCase? getAttendanceHistoryUseCase,
     GetCorrectionRequestsUseCase? getCorrectionRequestsUseCase,
+    GetLeaveRequestsUseCase? getLeaveRequestsUseCase,
+    GetOvertimeRequestsUseCase? getOvertimeRequestsUseCase,
     DateTime? initialMonth,
   })  : _getAttendanceHistoryUseCase = getAttendanceHistoryUseCase ??
             (sl.isRegistered<GetAttendanceHistoryUseCase>() ? sl<GetAttendanceHistoryUseCase>() : null),
         _getCorrectionRequestsUseCase = getCorrectionRequestsUseCase ??
             (sl.isRegistered<GetCorrectionRequestsUseCase>() ? sl<GetCorrectionRequestsUseCase>() : null),
+        _getLeaveRequestsUseCase = getLeaveRequestsUseCase ??
+            (sl.isRegistered<GetLeaveRequestsUseCase>() ? sl<GetLeaveRequestsUseCase>() : null),
+        _getOvertimeRequestsUseCase = getOvertimeRequestsUseCase ??
+            (sl.isRegistered<GetOvertimeRequestsUseCase>() ? sl<GetOvertimeRequestsUseCase>() : null),
         super(
           TimesheetCalendarState(
             selectedMonth: DateTime(
@@ -32,6 +42,8 @@ class TimesheetCalendarCubit extends Cubit<TimesheetCalendarState> {
   final GetAccountTimesheetUseCase getAccountTimesheetUseCase;
   final GetAttendanceHistoryUseCase? _getAttendanceHistoryUseCase;
   final GetCorrectionRequestsUseCase? _getCorrectionRequestsUseCase;
+  final GetLeaveRequestsUseCase? _getLeaveRequestsUseCase;
+  final GetOvertimeRequestsUseCase? _getOvertimeRequestsUseCase;
 
   Future<void> loadTimesheet([DateTime? targetMonth]) async {
     final month = targetMonth ?? state.selectedMonth;
@@ -74,12 +86,38 @@ class TimesheetCalendarCubit extends Cubit<TimesheetCalendarState> {
       return;
     }
 
-    // 3. Fetch correction requests
-    var corrections = <CorrectionItemEntity>[];
+    // 3. Fetch correction, leave, and overtime requests in parallel
+    var allCorrections = <CorrectionItemEntity>[];
+    var leaves = <LeaveItemEntity>[];
+    var overtimes = <OvertimeItemEntity>[];
+
+    final requestsFutures = <Future<void>>[];
     if (_getCorrectionRequestsUseCase != null) {
-      final corRes = await _getCorrectionRequestsUseCase(month: monthStr);
-      corRes.fold((_) {}, (list) => corrections = list.where((c) => c.isApproved).toList());
+      requestsFutures.add(
+        _getCorrectionRequestsUseCase(month: monthStr).then((res) {
+          res.fold((_) {}, (list) => allCorrections = list);
+        }),
+      );
     }
+    if (_getLeaveRequestsUseCase != null) {
+      requestsFutures.add(
+        _getLeaveRequestsUseCase(from: monthStr).then((res) {
+          res.fold((_) {}, (list) => leaves = list);
+        }),
+      );
+    }
+    if (_getOvertimeRequestsUseCase != null) {
+      requestsFutures.add(
+        _getOvertimeRequestsUseCase(month: monthStr).then((res) {
+          res.fold((_) {}, (list) => overtimes = list);
+        }),
+      );
+    }
+    if (requestsFutures.isNotEmpty) {
+      await Future.wait(requestsFutures);
+    }
+
+    final approvedCorrections = allCorrections.where((c) => c.isApproved).toList();
 
     // 4. Merge by day
     final mergedMap = <int, AccountTimesheetEntity>{};
@@ -129,8 +167,8 @@ class TimesheetCalendarCubit extends Cubit<TimesheetCalendarState> {
       }
     }
 
-    // Merge corrections
-    for (final cor in corrections) {
+    // Merge approved corrections
+    for (final cor in approvedCorrections) {
       if (cor.workDate != null) {
         final d = AccountTimesheetModel.parseWorkDate(cor.workDate);
         if (d.year == normalizedMonth.year && d.month == normalizedMonth.month) {
@@ -154,6 +192,9 @@ class TimesheetCalendarCubit extends Cubit<TimesheetCalendarState> {
     emit(state.copyWith(
       status: TimesheetStatus.success,
       items: mergedList,
+      leaveRequests: leaves,
+      overtimeRequests: overtimes,
+      correctionRequests: allCorrections,
     ));
   }
 

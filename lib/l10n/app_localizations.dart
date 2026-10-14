@@ -2683,6 +2683,18 @@ abstract class AppLocalizations {
   /// **'Nghỉ phép'**
   String get legendLeave;
 
+  /// No description provided for @legendOvertime.
+  ///
+  /// In vi, this message translates to:
+  /// **'Tăng ca'**
+  String get legendOvertime;
+
+  /// No description provided for @legendCorrection.
+  ///
+  /// In vi, this message translates to:
+  /// **'Giải trình'**
+  String get legendCorrection;
+
   /// No description provided for @legendMissingTime.
   ///
   /// In vi, this message translates to:
@@ -2694,6 +2706,30 @@ abstract class AppLocalizations {
   /// In vi, this message translates to:
   /// **'Ngày lễ'**
   String get legendHoliday;
+
+  /// No description provided for @timesheetCorrectionSummary.
+  ///
+  /// In vi, this message translates to:
+  /// **'Giải trình / Sửa công'**
+  String get timesheetCorrectionSummary;
+
+  /// No description provided for @timesheetSendCorrectionCta.
+  ///
+  /// In vi, this message translates to:
+  /// **'Gửi giải trình / Sửa công'**
+  String get timesheetSendCorrectionCta;
+
+  /// No description provided for @timesheetRelatedSlipsTitle.
+  ///
+  /// In vi, this message translates to:
+  /// **'Phiếu liên quan & Đơn từ'**
+  String get timesheetRelatedSlipsTitle;
+
+  /// No description provided for @timesheetApproverLabel.
+  ///
+  /// In vi, this message translates to:
+  /// **'Người duyệt: {name}'**
+  String timesheetApproverLabel(String name);
 
   /// No description provided for @holidaysTitle.
   ///
