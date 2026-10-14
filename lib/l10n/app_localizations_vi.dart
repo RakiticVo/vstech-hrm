@@ -3458,4 +3458,14 @@ class AppLocalizationsVi extends AppLocalizations {
 
   @override
   String get rosterDepartmentLabel => 'Xưởng / Phòng ban';
+
+  @override
+  String get sessionExpiredTitle => 'Phiên đăng nhập hết hạn';
+
+  @override
+  String get sessionExpiredMessage =>
+      'Phiên làm việc của bạn đã hết hạn hoặc tài khoản được đăng nhập ở thiết bị khác. Vui lòng đăng nhập lại để tiếp tục sử dụng.';
+
+  @override
+  String get sessionExpiredRelogin => 'Đăng nhập lại';
 }

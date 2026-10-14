@@ -1563,5 +1563,8 @@
   "timesheetWorkDate": "Ngày làm việc",
   "timesheetOnTime": "Đúng giờ",
   "rosterAllDepartments": "Tất cả xưởng / phòng ban",
-  "rosterDepartmentLabel": "Xưởng / Phòng ban"
+  "rosterDepartmentLabel": "Xưởng / Phòng ban",
+  "sessionExpiredTitle": "Phiên đăng nhập hết hạn",
+  "sessionExpiredMessage": "Phiên làm việc của bạn đã hết hạn hoặc tài khoản được đăng nhập ở thiết bị khác. Vui lòng đăng nhập lại để tiếp tục sử dụng.",
+  "sessionExpiredRelogin": "Đăng nhập lại"
 }

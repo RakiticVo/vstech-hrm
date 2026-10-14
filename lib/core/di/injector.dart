@@ -1,20 +1,25 @@
 import 'dart:async';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get_it/get_it.dart';
+import 'package:vstech_hrm/core/constants/app_constants.dart';
 import 'package:vstech_hrm/core/network/dio_client.dart';
 import 'package:vstech_hrm/core/network/face_dio_client.dart';
 import 'package:vstech_hrm/core/network/logging_interceptor.dart';
+import 'package:vstech_hrm/core/router/app_router.dart';
 import 'package:vstech_hrm/core/session/auth_cubit.dart';
+import 'package:vstech_hrm/core/session/auth_state.dart';
 import 'package:vstech_hrm/core/session/locale_cubit.dart';
 import 'package:vstech_hrm/core/session/theme_cubit.dart';
+import 'package:vstech_hrm/core/widgets/session_expired_warning_dialog.dart';
 import 'package:vstech_hrm/features/announcements/announcements_injection.dart';
+import 'package:vstech_hrm/features/approvals/approvals_injection.dart';
 import 'package:vstech_hrm/features/attendance/attendance_injection.dart';
 import 'package:vstech_hrm/features/auth/auth_injection.dart';
 import 'package:vstech_hrm/features/auth/domain/usecases/check_auth_usecase.dart';
 import 'package:vstech_hrm/features/auth/domain/usecases/login_usecase.dart';
 import 'package:vstech_hrm/features/compliance/compliance_injection.dart';
 import 'package:vstech_hrm/features/executive/executive_injection.dart';
-import 'package:vstech_hrm/features/approvals/approvals_injection.dart';
 import 'package:vstech_hrm/features/holidays/holidays_injection.dart';
 import 'package:vstech_hrm/features/labor_profile/labor_profile_injection.dart';
 import 'package:vstech_hrm/features/notifications/notifications_injection.dart';
@@ -41,11 +46,28 @@ Future<void> initDependencies() async {
     () => DioClient(
       secureStorage: sl<FlutterSecureStorage>(),
       onAuthExpired: () {
-        unawaited(sl<AuthCubit>().logout());
+        if (sl.isRegistered<FlutterSecureStorage>()) {
+          unawaited(sl<FlutterSecureStorage>().delete(key: AppConstants.tokenStorageKey));
+        }
+        void trigger() {
+          final context = rootNavigatorKey.currentContext;
+          final authState = sl.isRegistered<AuthCubit>() ? sl<AuthCubit>().state : null;
+          if (authState is Authenticated && context != null && context.mounted) {
+            unawaited(SessionExpiredWarningDialog.show(context));
+          } else if (sl.isRegistered<AuthCubit>()) {
+            unawaited(sl<AuthCubit>().logout());
+          }
+        }
+
+        try {
+          WidgetsBinding.instance.addPostFrameCallback((_) => trigger());
+        } on Object {
+          trigger();
+        }
       },
     ),
   );
-  sl.registerLazySingleton<FaceDioClient>(() => FaceDioClient());
+  sl.registerLazySingleton<FaceDioClient>(FaceDioClient.new);
 
   // 4. Feature Modules
   initAuthInjection(sl);
@@ -77,4 +99,3 @@ Future<void> initDependencies() async {
     () => LocaleCubit(secureStorage: sl<FlutterSecureStorage>()),
   );
 }
-

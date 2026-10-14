@@ -1563,5 +1563,8 @@
   "timesheetWorkDate": "Work Date",
   "timesheetOnTime": "On time",
   "rosterAllDepartments": "All workshops / departments",
-  "rosterDepartmentLabel": "Workshop / Department"
+  "rosterDepartmentLabel": "Workshop / Department",
+  "sessionExpiredTitle": "Session Expired",
+  "sessionExpiredMessage": "Your session has expired or your account was logged in on another device. Please log in again to continue.",
+  "sessionExpiredRelogin": "Log In Again"
 }

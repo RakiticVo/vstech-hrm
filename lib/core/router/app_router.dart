@@ -1,3 +1,4 @@
+import 'package:flutter/widgets.dart';
 import 'package:go_router/go_router.dart';
 import 'package:vstech_hrm/core/router/app_shell.dart';
 import 'package:vstech_hrm/core/router/feature_routes.dart';
@@ -15,6 +16,9 @@ import 'package:vstech_hrm/features/payroll/presentation/screens/payroll_screen.
 import 'package:vstech_hrm/features/profile/presentation/screens/profile_screen.dart';
 import 'package:vstech_hrm/features/requests/presentation/screens/requests_screen.dart';
 
+/// Global navigator key for presenting dialogs and accessing root navigation context.
+final GlobalKey<NavigatorState> rootNavigatorKey = GlobalKey<NavigatorState>(debugLabel: 'root');
+
 /// Central application router configuration using declarative GoRouter.
 class AppRouter {
   new({required this.authCubit});
@@ -22,6 +26,7 @@ class AppRouter {
   final AuthCubit authCubit;
 
   late final GoRouter router = GoRouter(
+    navigatorKey: rootNavigatorKey,
     initialLocation: AppRoutes.splash,
     refreshListenable: GoRouterRefreshStream(authCubit.stream),
     redirect: (context, state) => authRedirectGuard(context, state, authCubit.state),

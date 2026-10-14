@@ -6486,6 +6486,24 @@ abstract class AppLocalizations {
   /// In vi, this message translates to:
   /// **'Xưởng / Phòng ban'**
   String get rosterDepartmentLabel;
+
+  /// No description provided for @sessionExpiredTitle.
+  ///
+  /// In vi, this message translates to:
+  /// **'Phiên đăng nhập hết hạn'**
+  String get sessionExpiredTitle;
+
+  /// No description provided for @sessionExpiredMessage.
+  ///
+  /// In vi, this message translates to:
+  /// **'Phiên làm việc của bạn đã hết hạn hoặc tài khoản được đăng nhập ở thiết bị khác. Vui lòng đăng nhập lại để tiếp tục sử dụng.'**
+  String get sessionExpiredMessage;
+
+  /// No description provided for @sessionExpiredRelogin.
+  ///
+  /// In vi, this message translates to:
+  /// **'Đăng nhập lại'**
+  String get sessionExpiredRelogin;
 }
 
 class _AppLocalizationsDelegate

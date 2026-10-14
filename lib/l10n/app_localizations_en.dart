@@ -3463,4 +3463,14 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get rosterDepartmentLabel => 'Workshop / Department';
+
+  @override
+  String get sessionExpiredTitle => 'Session Expired';
+
+  @override
+  String get sessionExpiredMessage =>
+      'Your session has expired or your account was logged in on another device. Please log in again to continue.';
+
+  @override
+  String get sessionExpiredRelogin => 'Log In Again';
 }
