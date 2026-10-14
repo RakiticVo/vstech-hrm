@@ -53,8 +53,8 @@ title Kiến trúc Clean Architecture của ứng dụng Mobile
 top to bottom direction
 package "Presentation (lib/features/*/presentation)" as P {
   rectangle "Screens\n(≤ 300 dòng / file)" as SCR
-  rectangle "Widgets dùng lại" as WID
-  rectangle "BLoC / Cubit\n(AttendanceBloc, AuthCubit,\nOfflineQueueCubit…)" as BLOC
+  rectangle "Widgets dùng lại\n+ helpers" as WID
+  rectangle "BLoC / Cubit\n(AttendanceBloc, AuthCubit…)" as BLOC
 }
 package "Domain (thuần Dart)" as D {
   rectangle "Entities" as ENT
@@ -72,10 +72,10 @@ package "Core" as CO {
   rectangle "GoRouter + authRedirectGuard\nAppShell (5 tab theo vai trò)" as ROUTER
   rectangle "AuthCubit · ThemeCubit · LocaleCubit" as SES
   rectangle "Theme Saigon Tile · AppLayout\nl10n (vi / en)" as THEME
-  rectangle "OfflineAttendanceService\nAppPermissionHandler" as SRV
+  rectangle "AppPermissionHandler" as SRV
 }
 SCR --> BLOC
-SCR --> UC : gọi trực tiếp qua GetIt\n(màn hình form đơn giản)
+SCR --> UC : gọi qua GetIt\n(màn hình form / helper)
 BLOC --> UC
 UC --> RI
 UC --> ENT

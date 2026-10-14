@@ -61,7 +61,7 @@ package "Tầng người dùng" {
 }
 
 package "Tầng dịch vụ" {
-  rectangle "<b>HRM Backend API</b>\nREST · JSON · JWT\nAccount · Enrollments · LeaveRequests\nOvertimeRequests · TimesheetConfirmRequests\nConfirmRequests · EmployeeSalaryPayrolls\nBaseNotifications · Holidays · FCM" as API
+  rectangle "<b>HRM Backend API</b>\nREST · JSON · JWT\nAccount · Enrollments · LeaveRequests · LeavePlans\nOvertimeRequests · OvertimeTypes\nTimesheetConfirmRequests · ConfirmRequests\nEmployeeSalaryPayrolls · BaseNotifications\nHolidays · FCM" as API
   rectangle "<b>Face Authentication API</b>\nREST · multipart\ncheckreg · register · update\ndelete · verify · live_verify" as FACE
 }
 

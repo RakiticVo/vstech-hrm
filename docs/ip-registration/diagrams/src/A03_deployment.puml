@@ -52,7 +52,7 @@ skinparam state {
 title Sơ đồ triển khai (Deployment)
 node "Điện thoại nhân viên\n(Android 8.0+ / iOS 14+)" as PHONE {
   rectangle "App HRM VSTECH\n(Flutter)" as APP
-  database "Keychain / Keystore\n(FlutterSecureStorage)\nJWT · phiên · hàng đợi\nchấm công ngoại tuyến" as KS
+  database "Keychain / Keystore\n(FlutterSecureStorage)\nJWT · phiên đăng nhập" as KS
   rectangle "Camera · GPS · Wi-Fi\nSinh trắc học (local_auth)" as HW
 }
 node "Máy trạm HR" as PC {

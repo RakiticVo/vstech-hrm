@@ -1,0 +1,74 @@
+@startuml
+
+skinparam dpi 160
+skinparam defaultFontName Arial
+skinparam defaultFontSize 12
+skinparam shadowing false
+skinparam roundCorner 8
+skinparam maxMessageSize 230
+skinparam sequenceMessageAlign left
+skinparam responseMessageBelowArrow true
+skinparam ParticipantPadding 4
+skinparam BoxPadding 4
+skinparam titleFontSize 16
+skinparam titleFontStyle bold
+skinparam titleFontColor #0A544E
+skinparam sequence {
+  ArrowColor #0F766E
+  ArrowThickness 1.2
+  LifeLineBorderColor #94A3B8
+  LifeLineBackgroundColor #CCFBF1
+  ParticipantBorderColor #0F766E
+  ParticipantBackgroundColor #FFFFFF
+  ParticipantFontStyle bold
+  ActorBorderColor #0F766E
+  ActorBackgroundColor #FFF8EC
+  BoxBorderColor #CBD5E1
+  GroupBorderColor #B45309
+  GroupBackgroundColor #FFFBEB
+  GroupHeaderFontColor #92400E
+  DividerBackgroundColor #F0FDFA
+  DividerBorderColor #0F766E
+  ReferenceBackgroundColor #F8FAFC
+}
+skinparam note {
+  BackgroundColor #FFF8EC
+  BorderColor #F59E0B
+  FontSize 11
+}
+
+autonumber "<b>00."
+title SD03 · Đăng ký / cập nhật dữ liệu khuôn mặt\n<size:12>Mobile – Phần 1/2: Kiểm tra trạng thái và chụp ảnh</size>
+actor "Nhân viên" as U
+box "Presentation" #E6F4F1
+participant "Hồ sơ / FaceScan" as P
+participant "FaceEnrollmentScreen" as S
+end box
+box "Thiết bị" #F1F5F9
+participant "Camera" as CAM
+end box
+box "Domain" #FEF9E7
+participant "UseCases" as UC
+end box
+box "Data" #EEF2FF
+participant "FaceAuthRepository\n→ DataSource" as REPO
+end box
+box "Máy chủ" #FFF1F2
+participant "Face Auth API" as FAPI
+end box
+
+hide unlinked
+
+U -> P : Hồ sơ → "Xác thực khuôn mặt"\n(hoặc từ hộp thoại chưa đăng ký)
+P -> S : Mở /profile/face-enrollment
+S -> UC : CheckFaceRegistrationUseCase()
+UC -> REPO : checkRegistration()
+REPO -> FAPI : GET /checkreg/
+FAPI --> REPO : {registered, count}
+REPO --> UC : FaceCheckRegEntity
+UC --> S : trạng thái đăng ký
+S --> U : Hướng dẫn chụp (đủ sáng, nhìn thẳng)
+U -> S : Bấm chụp
+S -> CAM : takePicture()
+CAM --> S : ảnh
+@enduml

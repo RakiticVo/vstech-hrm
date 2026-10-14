@@ -1,0 +1,79 @@
+@startuml
+
+skinparam dpi 160
+skinparam defaultFontName Arial
+skinparam defaultFontSize 12
+skinparam shadowing false
+skinparam roundCorner 8
+skinparam maxMessageSize 230
+skinparam sequenceMessageAlign left
+skinparam responseMessageBelowArrow true
+skinparam ParticipantPadding 4
+skinparam BoxPadding 4
+skinparam titleFontSize 16
+skinparam titleFontStyle bold
+skinparam titleFontColor #0A544E
+skinparam sequence {
+  ArrowColor #0F766E
+  ArrowThickness 1.2
+  LifeLineBorderColor #94A3B8
+  LifeLineBackgroundColor #CCFBF1
+  ParticipantBorderColor #0F766E
+  ParticipantBackgroundColor #FFFFFF
+  ParticipantFontStyle bold
+  ActorBorderColor #0F766E
+  ActorBackgroundColor #FFF8EC
+  BoxBorderColor #CBD5E1
+  GroupBorderColor #B45309
+  GroupBackgroundColor #FFFBEB
+  GroupHeaderFontColor #92400E
+  DividerBackgroundColor #F0FDFA
+  DividerBorderColor #0F766E
+  ReferenceBackgroundColor #F8FAFC
+}
+skinparam note {
+  BackgroundColor #FFF8EC
+  BorderColor #F59E0B
+  FontSize 11
+}
+
+autonumber "<b>00."
+title SD12 · Hồ sơ cá nhân, cài đặt và đăng xuất\n<size:12>Mobile – Hồ sơ, cài đặt và đăng xuất</size>
+actor "Người dùng" as U
+box "Presentation" #E6F4F1
+participant "ProfileScreen" as S
+participant "SettingsScreen" as ST
+participant "AuthCubit · Theme ·\nLocale Cubit" as AC
+end box
+box "Data" #EEF2FF
+participant "AuthRemoteDataSource" as DS
+participant "SecureStorage" as SEC
+end box
+
+box "Máy chủ" #FFF1F2
+participant "HRM Backend API" as API
+end box
+
+
+hide unlinked
+
+U -> S : Mở tab "Cá nhân"
+S -> DS : getFullProfile()
+DS -> API : GET /api/Account
+API --> DS : {employee, account, danh mục}
+DS --> S : hồ sơ
+S --> U : Thông tin cá nhân · công việc · ngân hàng
+U -> ST : Cài đặt
+ST --> U : Thông báo đẩy, email báo cáo, nhắc chấm công;\ngiao diện, ngôn ngữ; mở khoá sinh trắc;\nquyền thiết bị; xoá bộ nhớ đệm
+opt Đổi giao diện / ngôn ngữ
+  U -> ST : Chọn sáng/tối, Việt/Anh
+  ST -> AC : ThemeCubit / LocaleCubit
+  AC --> U : Áp dụng ngay toàn ứng dụng
+end
+opt Đăng xuất
+  U -> ST : "Đăng xuất" → xác nhận
+  ST -> AC : AuthCubit.logout()
+  AC -> SEC : Xoá token, phiên, hạn token
+  AC --> U : Về màn Đăng nhập
+end
+@enduml
