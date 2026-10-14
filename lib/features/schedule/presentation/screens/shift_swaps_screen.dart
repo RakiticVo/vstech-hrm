@@ -10,7 +10,7 @@ import 'package:vstech_hrm/core/widgets/status_chip.dart';
 
 /// Screen for managing Shift Swap requests (`swaps` in mockup & flow).
 class ShiftSwapsScreen extends StatefulWidget {
-  const ShiftSwapsScreen({super.key});
+  const new({super.key});
 
   @override
   State<ShiftSwapsScreen> createState() => _ShiftSwapsScreenState();
@@ -246,7 +246,7 @@ class _ShiftSwapsScreenState extends State<ShiftSwapsScreen> {
 }
 
 class _SwapItemData {
-  const _SwapItemData({
+  const new({
     required this.code,
     required this.colleague,
     required this.dates,

@@ -1,60 +1,19 @@
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
+import 'package:intl/intl.dart';
 import 'package:vstech_hrm/core/extensions/l10n_extension.dart';
 import 'package:vstech_hrm/core/responsive/app_layout.dart';
-import 'package:vstech_hrm/core/router/routes.dart';
 import 'package:vstech_hrm/core/theme/app_colors.dart';
 import 'package:vstech_hrm/core/widgets/app_icon.dart';
 import 'package:vstech_hrm/features/schedule/domain/entities/shift_schedule_entity.dart';
-import 'package:vstech_hrm/features/schedule/presentation/widgets/shift_swap_modal.dart';
 
 /// Detailed card displaying all metadata for a selected shift.
 class ShiftDetailCard extends StatelessWidget {
-  const ShiftDetailCard({
+  const new({
     required this.shift,
     super.key,
   });
 
   final ShiftScheduleEntity shift;
-
-  Widget _buildStatusBadge(BuildContext context) {
-    final colors = context.colors;
-    final l10n = context.l10n;
-    String label;
-    Color bg;
-    Color fg;
-
-    switch (shift.status) {
-      case ShiftStatus.active:
-        label = l10n.shiftStatusActive;
-        bg = colors.tealPrimary.withValues(alpha: 0.15);
-        fg = colors.tealPrimary;
-      case ShiftStatus.completed:
-        label = l10n.shiftStatusCompleted;
-        bg = Colors.grey.withValues(alpha: 0.15);
-        fg = colors.textSecondary;
-      case ShiftStatus.upcoming:
-        label = l10n.shiftStatusUpcoming;
-        bg = Colors.blue.withValues(alpha: 0.15);
-        fg = Colors.blue.shade700;
-      case ShiftStatus.dayOff:
-        label = l10n.shiftStatusDayOff;
-        bg = Colors.orange.withValues(alpha: 0.15);
-        fg = Colors.orange.shade800;
-    }
-
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
-      decoration: BoxDecoration(
-        color: bg,
-        borderRadius: BorderRadius.circular(20),
-      ),
-      child: Text(
-        label,
-        style: TextStyle(fontSize: 12, fontWeight: FontWeight.w600, color: fg),
-      ),
-    );
-  }
 
   Widget _buildInfoRow({
     required String iconName,
@@ -63,24 +22,37 @@ class ShiftDetailCard extends StatelessWidget {
     required BuildContext context,
   }) {
     final colors = context.colors;
+    final cleanLabel = label.replaceAll(':', '').trim();
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 6),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          AppIcon(iconName, size: 18, color: colors.textSecondary),
-          10.gapW,
-          SizedBox(
-            width: 80,
-            child: Text(
-              label,
-              style: TextStyle(fontSize: 13, color: colors.textSecondary),
-            ),
+          Padding(
+            padding: const EdgeInsets.only(top: 2),
+            child: AppIcon(iconName, size: 18, color: colors.textSecondary),
           ),
+          10.gapW,
           Expanded(
-            child: Text(
-              value,
-              style: TextStyle(fontSize: 13, fontWeight: FontWeight.w600, color: colors.textPrimary),
+            child: Text.rich(
+              TextSpan(
+                text: '$cleanLabel: ',
+                style: TextStyle(
+                  fontSize: 13.5,
+                  fontWeight: FontWeight.w500,
+                  color: colors.textSecondary,
+                ),
+                children: [
+                  TextSpan(
+                    text: value,
+                    style: TextStyle(
+                      fontSize: 13.5,
+                      fontWeight: FontWeight.w700,
+                      color: colors.textPrimary,
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
         ],
@@ -124,22 +96,11 @@ class ShiftDetailCard extends StatelessWidget {
               l10n.dayOffTitle,
               style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: colors.textPrimary),
             ),
-            6.gapH,
+            10.gapH,
             Text(
               l10n.dayOffDescription,
               textAlign: TextAlign.center,
               style: TextStyle(fontSize: 13, color: colors.textSecondary),
-            ),
-            20.gapH,
-            OutlinedButton.icon(
-              onPressed: () => context.push(AppRoutes.overtimeCreate),
-              icon: AppIcon(AppIcons.plus, size: 18, color: colors.tealPrimary),
-              label: Text(l10n.registerOvertimeCta),
-              style: OutlinedButton.styleFrom(
-                foregroundColor: colors.tealPrimary,
-                side: BorderSide(color: colors.tealPrimary),
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-              ),
             ),
           ],
         ),
@@ -181,76 +142,55 @@ class ShiftDetailCard extends StatelessWidget {
                   style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: colors.textPrimary),
                 ),
               ),
-              _buildStatusBadge(context),
+              if (shift.isOvernight) ...[
+                8.gapW,
+                Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
+                  decoration: BoxDecoration(
+                    color: const Color(0xFF7C3AED).withValues(alpha: 0.12),
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  child: Text(
+                    l10n.shiftOvernightBadge,
+                    style: const TextStyle(
+                      fontSize: 11,
+                      fontWeight: FontWeight.bold,
+                      color: Color(0xFF7C3AED),
+                    ),
+                  ),
+                ),
+              ],
             ],
           ),
-          16.gapH,
+          14.gapH,
+          _buildInfoRow(
+            iconName: AppIcons.calendar,
+            label: l10n.shiftLabelDate,
+            value: DateFormat('EEEE, dd/MM/yyyy', 'vi').format(shift.date),
+            context: context,
+          ),
+          if (shift.shiftCode != null && shift.shiftCode!.isNotEmpty)
+            _buildInfoRow(
+              iconName: AppIcons.idCard,
+              label: l10n.shiftLabelCode,
+              value: shift.shiftCode!,
+              context: context,
+            ),
           _buildInfoRow(
             iconName: AppIcons.shift,
             label: l10n.shiftLabelTime,
-            value: '${shift.startTime} — ${shift.endTime}',
+            value: shift.isOvernight
+                ? '${shift.startTime} — ${shift.endTime} (${l10n.shiftOvernightBadge})'
+                : '${shift.startTime} — ${shift.endTime}',
             context: context,
           ),
-          _buildInfoRow(
-            iconName: AppIcons.attendance,
-            label: l10n.shiftLabelBreak,
-            value: shift.breakTime,
-            context: context,
-          ),
-          _buildInfoRow(
-            iconName: AppIcons.location,
-            label: l10n.shiftLabelLocation,
-            value: shift.branchName,
-            context: context,
-          ),
-          _buildInfoRow(
-            iconName: AppIcons.idCard,
-            label: l10n.shiftLabelManager,
-            value: shift.managerName,
-            context: context,
-          ),
-          if (shift.notes != null)
+          if (shift.source != null)
             _buildInfoRow(
-              iconName: AppIcons.comment,
-              label: l10n.shiftLabelNotes,
-              value: shift.notes!,
+              iconName: AppIcons.attendance,
+              label: l10n.shiftLabelSource,
+              value: shift.isScheduled ? l10n.shiftSourceScheduled : l10n.shiftSourceDefault,
               context: context,
             ),
-          18.gapH,
-          const Divider(height: 1),
-          14.gapH,
-          Row(
-            children: [
-              Expanded(
-                child: OutlinedButton.icon(
-                  onPressed: () => ShiftSwapModal.show(context, shift),
-                  icon: AppIcon(AppIcons.shiftSwap, size: 18, color: colors.tealPrimary),
-                  label: Text(l10n.shiftSwapButton),
-                  style: OutlinedButton.styleFrom(
-                    foregroundColor: colors.tealPrimary,
-                    side: BorderSide(color: colors.tealPrimary),
-                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-                    padding: const EdgeInsets.symmetric(vertical: 10),
-                  ),
-                ),
-              ),
-              12.gapW,
-              Expanded(
-                child: ElevatedButton.icon(
-                  onPressed: () => context.push(AppRoutes.overtimeCreate),
-                  icon: const AppIcon(AppIcons.overtime, size: 18, color: Colors.white),
-                  label: Text(l10n.shiftOvertimeButton),
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: colors.tealPrimary,
-                    foregroundColor: Colors.white,
-                    elevation: 0,
-                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-                    padding: const EdgeInsets.symmetric(vertical: 10),
-                  ),
-                ),
-              ),
-            ],
-          ),
         ],
       ),
     );

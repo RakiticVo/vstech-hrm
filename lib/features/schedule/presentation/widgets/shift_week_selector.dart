@@ -36,7 +36,8 @@ class ShiftWeekSelector extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: weekShifts.map((shift) {
           final isSelected = _isSameDay(shift.date, selectedDate);
-          final isToday = _isSameDay(shift.date, DateTime(2026, 9, 22));
+          final now = DateTime.now();
+          final isToday = _isSameDay(shift.date, DateTime(now.year, now.month, now.day));
 
           return Expanded(
             child: Padding(

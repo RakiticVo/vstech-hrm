@@ -1,13 +1,17 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:vstech_hrm/core/extensions/l10n_extension.dart';
 import 'package:vstech_hrm/core/responsive/app_layout.dart';
 import 'package:vstech_hrm/core/theme/app_colors.dart';
 import 'package:vstech_hrm/core/widgets/app_icon.dart';
+import 'package:vstech_hrm/features/schedule/domain/entities/my_shift_day_entity.dart';
+import 'package:vstech_hrm/features/schedule/presentation/bloc/shift_schedule_cubit.dart';
+import 'package:vstech_hrm/features/schedule/presentation/bloc/shift_schedule_state.dart';
 
-/// Dialog showing a 30-day month calendar grid with color-coded shift dots.
-class ShiftMonthGridDialog extends StatelessWidget {
-  const new({
+/// Spacious dialog showing a month calendar grid mapped to real API shift schedules.
+class ShiftMonthGridDialog extends StatefulWidget {
+  const ShiftMonthGridDialog({
     required this.currentMonth,
     required this.selectedDate,
     required this.onDatePicked,
@@ -22,29 +26,59 @@ class ShiftMonthGridDialog extends StatelessWidget {
     BuildContext context, {
     required DateTime currentMonth,
     required DateTime selectedDate,
+    required ShiftScheduleCubit cubit,
     required ValueChanged<DateTime> onDatePicked,
   }) {
     unawaited(
       showDialog<void>(
         context: context,
-        builder: (ctx) => ShiftMonthGridDialog(
-          currentMonth: currentMonth,
-          selectedDate: selectedDate,
-          onDatePicked: onDatePicked,
+        builder: (ctx) => BlocProvider.value(
+          value: cubit,
+          child: ShiftMonthGridDialog(
+            currentMonth: currentMonth,
+            selectedDate: selectedDate,
+            onDatePicked: onDatePicked,
+          ),
         ),
       ),
     );
   }
 
-  Color _getShiftColorForDay(int day) {
-    // Deterministic mock pattern for September 2026
-    final mod = day % 7;
-    if (mod == 0) return Colors.grey.shade400; // Day off
-    if (mod == 1 || mod == 2) return const Color(0xFF0F766E); // Ca sáng
-    if (mod == 3) return const Color(0xFF6366F1); // Ca chiều
-    if (mod == 4) return const Color(0xFFD97706); // Ca gãy
-    if (mod == 5) return const Color(0xFF0F766E); // Ca hành chính
-    return const Color(0xFF7C3AED); // Ca đêm
+  @override
+  State<ShiftMonthGridDialog> createState() => _ShiftMonthGridDialogState();
+}
+
+class _ShiftMonthGridDialogState extends State<ShiftMonthGridDialog> {
+  late DateTime _displayedMonth;
+
+  @override
+  void initState() {
+    super.initState();
+    _displayedMonth = DateTime(widget.currentMonth.year, widget.currentMonth.month);
+    unawaited(context.read<ShiftScheduleCubit>().fetchShiftsForMonth(_displayedMonth));
+  }
+
+  void _prevMonth() {
+    setState(() => _displayedMonth = DateTime(_displayedMonth.year, _displayedMonth.month - 1));
+    unawaited(context.read<ShiftScheduleCubit>().fetchShiftsForMonth(_displayedMonth));
+  }
+
+  void _nextMonth() {
+    setState(() => _displayedMonth = DateTime(_displayedMonth.year, _displayedMonth.month + 1));
+    unawaited(context.read<ShiftScheduleCubit>().fetchShiftsForMonth(_displayedMonth));
+  }
+
+  MyShiftDayEntity? _findShift(List<MyShiftDayEntity> shifts, DateTime date) {
+    for (final s in shifts) {
+      if (s.date.year == date.year && s.date.month == date.month && s.date.day == date.day) return s;
+    }
+    return null;
+  }
+
+  Color _getShiftDotColor(MyShiftDayEntity? shift) {
+    if (shift == null || !shift.hasShift) return const Color(0xFF94A3B8);
+    if (shift.isOvernight) return const Color(0xFF7C3AED);
+    return const Color(0xFF0F766E);
   }
 
   Widget _buildLegendItem(String label, Color color) {
@@ -53,12 +87,8 @@ class ShiftMonthGridDialog extends StatelessWidget {
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Container(
-            width: 8,
-            height: 8,
-            decoration: BoxDecoration(color: color, shape: BoxShape.circle),
-          ),
-          const SizedBox(width: 4),
+          Container(width: 8, height: 8, decoration: BoxDecoration(color: color, shape: BoxShape.circle)),
+          4.gapW,
           Text(label, style: const TextStyle(fontSize: 11)),
         ],
       ),
@@ -69,162 +99,199 @@ class ShiftMonthGridDialog extends StatelessWidget {
   Widget build(BuildContext context) {
     final colors = context.colors;
     final l10n = context.l10n;
-    final daysInMonth = DateUtils.getDaysInMonth(
-      currentMonth.year,
-      currentMonth.month,
-    );
-    // Sep 1, 2026 is Tuesday (weekday = 2, where Monday = 1)
-    final firstWeekday =
-        DateTime(currentMonth.year, currentMonth.month).weekday;
+    final now = DateTime.now();
+    final today = DateTime(now.year, now.month, now.day);
+
+    final daysInMonth = DateUtils.getDaysInMonth(_displayedMonth.year, _displayedMonth.month);
+    final firstWeekday = DateTime(_displayedMonth.year, _displayedMonth.month).weekday;
     final leadEmptyDays = firstWeekday - 1;
 
-    return Dialog(
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-      backgroundColor: colors.cardBackground,
-      child: Padding(
-        padding: const EdgeInsets.all(18),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Row(
-              children: [
-                AppIcon(AppIcons.calendar, color: colors.tealPrimary, size: 22),
-                8.gapW,
-                Expanded(
-                  child: Text(
-                    l10n.shiftCalendarMonthTitle(currentMonth.month, currentMonth.year),
-                    style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
-                      color: colors.textPrimary,
-                    ),
-                  ),
-                ),
-                IconButton(
-                  icon: const AppIcon(AppIcons.close, size: 20),
-                  onPressed: () => Navigator.of(context).pop(),
-                ),
-              ],
-            ),
-            12.gapH,
-            // Weekday headers
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                l10n.dayMon,
-                l10n.dayTue,
-                l10n.dayWed,
-                l10n.dayThu,
-                l10n.dayFri,
-                l10n.daySat,
-                l10n.daySun,
-              ]
-                  .map(
-                    (d) => SizedBox(
-                      width: 32,
-                      child: Center(
-                        child: Text(
-                          d,
-                          style: TextStyle(
-                            fontSize: 12,
-                            fontWeight: FontWeight.bold,
-                            color: colors.textSecondary,
-                          ),
+    return BlocBuilder<ShiftScheduleCubit, ShiftScheduleState>(
+      builder: (context, state) {
+        final monthKey = '${_displayedMonth.year}-${_displayedMonth.month}';
+        final monthShifts = state.monthlyShiftsCache[monthKey] ??
+            (state.selectedDate.year == _displayedMonth.year &&
+                    state.selectedDate.month == _displayedMonth.month
+                ? state.myShifts
+                : const <MyShiftDayEntity>[]);
+
+        return Dialog(
+          insetPadding: const EdgeInsets.symmetric(horizontal: 14, vertical: 24),
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+          backgroundColor: colors.cardBackground,
+          child: ConstrainedBox(
+            constraints: const BoxConstraints(maxWidth: 440),
+            child: Padding(
+              padding: const EdgeInsets.all(18),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Row(
+                    children: [
+                      AppIcon(AppIcons.calendar, color: colors.tealPrimary, size: 22),
+                      8.gapW,
+                      Text(
+                        l10n.shiftScheduleTitle,
+                        style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                          color: colors.textPrimary,
                         ),
                       ),
-                    ),
-                  )
-                  .toList(),
-            ),
-            8.gapH,
-            // Month grid
-            GridView.builder(
-              shrinkWrap: true,
-              physics: const NeverScrollableScrollPhysics(),
-              itemCount: leadEmptyDays + daysInMonth,
-              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 7,
-                mainAxisSpacing: 4,
-                crossAxisSpacing: 4,
-              ),
-              itemBuilder: (ctx, idx) {
-                if (idx < leadEmptyDays) {
-                  return const SizedBox.shrink();
-                }
-                final day = idx - leadEmptyDays + 1;
-                final date =
-                    DateTime(currentMonth.year, currentMonth.month, day);
-                final isSelected = date.year == selectedDate.year &&
-                    date.month == selectedDate.month &&
-                    date.day == selectedDate.day;
-                final isToday = day == 22 && currentMonth.month == 9;
-                final shiftColor = _getShiftColorForDay(day);
-
-                return InkWell(
-                  onTap: () {
-                    onDatePicked(date);
-                    Navigator.of(context).pop();
-                  },
-                  borderRadius: BorderRadius.circular(8),
-                  child: Container(
+                      const Spacer(),
+                      IconButton(
+                        icon: const AppIcon(AppIcons.close, size: 20),
+                        visualDensity: VisualDensity.compact,
+                        onPressed: () => Navigator.of(context).pop(),
+                      ),
+                    ],
+                  ),
+                  8.gapH,
+                  Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 2),
                     decoration: BoxDecoration(
-                      color: isSelected
-                          ? colors.tealPrimary
-                          : (isToday
-                              ? colors.tealPrimary.withValues(alpha: 0.15)
-                              : null),
-                      borderRadius: BorderRadius.circular(8),
-                      border: isToday && !isSelected
-                          ? Border.all(color: colors.tealPrimary, width: 1.2)
-                          : null,
+                      color: colors.tealPrimary.withValues(alpha: 0.08),
+                      borderRadius: BorderRadius.circular(10),
                     ),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
+                        IconButton(
+                          icon: AppIcon(AppIcons.chevronLeft, size: 18, color: colors.tealPrimary),
+                          visualDensity: VisualDensity.compact,
+                          onPressed: _prevMonth,
+                        ),
                         Text(
-                          '$day',
+                          l10n.timesheetMonthDisplay(_displayedMonth.month, _displayedMonth.year),
                           style: TextStyle(
-                            fontSize: 12,
-                            fontWeight: isSelected || isToday
-                                ? FontWeight.bold
-                                : FontWeight.normal,
-                            color: isSelected
-                                ? Colors.white
-                                : colors.textPrimary,
+                            fontSize: 14.5,
+                            fontWeight: FontWeight.w700,
+                            color: colors.tealPrimary,
                           ),
                         ),
-                        const SizedBox(height: 2),
-                        Container(
-                          width: 5,
-                          height: 5,
-                          decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            color: isSelected ? Colors.white : shiftColor,
-                          ),
+                        IconButton(
+                          icon: AppIcon(AppIcons.chevronRight, size: 18, color: colors.tealPrimary),
+                          visualDensity: VisualDensity.compact,
+                          onPressed: _nextMonth,
                         ),
                       ],
                     ),
                   ),
-                );
-              },
+                  12.gapH,
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      l10n.dayMon,
+                      l10n.dayTue,
+                      l10n.dayWed,
+                      l10n.dayThu,
+                      l10n.dayFri,
+                      l10n.daySat,
+                      l10n.daySun,
+                    ].map(
+                      (d) => Expanded(
+                        child: Center(
+                          child: Text(
+                            d,
+                            style: TextStyle(
+                              fontSize: 12,
+                              fontWeight: FontWeight.bold,
+                              color: colors.textSecondary,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ).toList(),
+                  ),
+                  8.gapH,
+                  GridView.builder(
+                    shrinkWrap: true,
+                    physics: const NeverScrollableScrollPhysics(),
+                    itemCount: leadEmptyDays + daysInMonth,
+                    gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 7,
+                      mainAxisSpacing: 6,
+                      crossAxisSpacing: 6,
+                      childAspectRatio: 0.95,
+                    ),
+                    itemBuilder: (ctx, idx) {
+                      if (idx < leadEmptyDays) {
+                        return const SizedBox.shrink();
+                      }
+                      final day = idx - leadEmptyDays + 1;
+                      final date = DateTime(_displayedMonth.year, _displayedMonth.month, day);
+                      final isSelected = date.year == widget.selectedDate.year &&
+                          date.month == widget.selectedDate.month &&
+                          date.day == widget.selectedDate.day;
+                      final isToday = date.isAtSameMomentAs(today);
+
+                      final shift = _findShift(monthShifts, date);
+                      final dotColor = _getShiftDotColor(shift);
+
+                      return InkWell(
+                        onTap: () {
+                          widget.onDatePicked(date);
+                          Navigator.of(context).pop();
+                        },
+                        borderRadius: BorderRadius.circular(10),
+                        child: Container(
+                          decoration: BoxDecoration(
+                            color: isSelected
+                                ? colors.tealPrimary
+                                : (isToday ? colors.tealPrimary.withValues(alpha: 0.12) : colors.surface),
+                            borderRadius: BorderRadius.circular(10),
+                            border: Border.all(
+                              color: isSelected
+                                  ? colors.tealPrimary
+                                  : (isToday ? colors.tealPrimary : colors.border),
+                              width: isToday ? 1.5 : 1.0,
+                            ),
+                          ),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text(
+                                '$day',
+                                style: TextStyle(
+                                  fontSize: 12.5,
+                                  fontWeight: isSelected || isToday ? FontWeight.bold : FontWeight.w600,
+                                  color: isSelected ? Colors.white : colors.textPrimary,
+                                ),
+                              ),
+                              const SizedBox(height: 3),
+                              Container(
+                                width: 6,
+                                height: 6,
+                                decoration: BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  color: isSelected ? Colors.white : dotColor,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      );
+                    },
+                  ),
+                  14.gapH,
+                  const Divider(height: 1),
+                  10.gapH,
+                  Wrap(
+                    alignment: WrapAlignment.center,
+                    spacing: 8,
+                    runSpacing: 4,
+                    children: [
+                      _buildLegendItem(l10n.shiftSourceScheduled, const Color(0xFF0F766E)),
+                      _buildLegendItem(l10n.shiftOvernightBadge, const Color(0xFF7C3AED)),
+                      _buildLegendItem(l10n.shiftSourceOff, const Color(0xFF94A3B8)),
+                    ],
+                  ),
+                ],
+              ),
             ),
-            14.gapH,
-            const Divider(height: 1),
-            10.gapH,
-            // Legend
-            Wrap(
-              alignment: WrapAlignment.center,
-              children: [
-                _buildLegendItem(l10n.shiftMorning, const Color(0xFF0F766E)),
-                _buildLegendItem(l10n.shiftAfternoon, const Color(0xFF6366F1)),
-                _buildLegendItem(l10n.shiftSplit, const Color(0xFFD97706)),
-                _buildLegendItem(l10n.shiftNight, const Color(0xFF7C3AED)),
-                _buildLegendItem(l10n.shiftOff, Colors.grey.shade400),
-              ],
-            ),
-          ],
-        ),
-      ),
+          ),
+        );
+      },
     );
   }
 }
