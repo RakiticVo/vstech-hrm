@@ -86,13 +86,13 @@ class RequestsRemoteDataSourceImpl implements RequestsRemoteDataSource {
   }
 
   @override
-  Future<List<OvertimeRequestSelfItemModel>> getOvertimeRequests({String? month}) async {
+  Future<List<OvertimeRequestSelfItemModel>> getOvertimeRequests({String? month, bool includeCreated = false}) async {
     try {
       final response = await dioClient.get<dynamic>(
         ApiEndpoints.overtimeRequestsSelf,
         queryParameters: <String, dynamic>{
           if (month != null && month.isNotEmpty) 'month': month,
-          'includeCreated': true,
+          if (includeCreated) 'includeCreated': true,
         },
       );
       final list = _extractList(response.data);

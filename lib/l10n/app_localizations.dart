@@ -4939,11 +4939,41 @@ abstract class AppLocalizations {
   /// **'Đăng ký tăng ca'**
   String get createOvertimeBtn;
 
+  /// No description provided for @overtimeScopePersonal.
+  ///
+  /// In vi, this message translates to:
+  /// **'Đơn của tôi'**
+  String get overtimeScopePersonal;
+
+  /// No description provided for @overtimeScopeProxy.
+  ///
+  /// In vi, this message translates to:
+  /// **'Tạo hộ nhân viên'**
+  String get overtimeScopeProxy;
+
   /// No description provided for @correctionManageTitle.
   ///
   /// In vi, this message translates to:
-  /// **'Quản lý Sửa công'**
+  /// **'Quản lý Giải trình / Sửa công'**
   String get correctionManageTitle;
+
+  /// No description provided for @createCorrectionBtn.
+  ///
+  /// In vi, this message translates to:
+  /// **'Tạo giải trình / Sửa công'**
+  String get createCorrectionBtn;
+
+  /// No description provided for @correctionSummaryTitle.
+  ///
+  /// In vi, this message translates to:
+  /// **'Tổng hợp giải trình tháng này'**
+  String get correctionSummaryTitle;
+
+  /// No description provided for @noCorrectionInMonth.
+  ///
+  /// In vi, this message translates to:
+  /// **'Không có yêu cầu giải trình nào trong {month}'**
+  String noCorrectionInMonth(String month);
 
   /// No description provided for @correctionQuotaTitle.
   ///

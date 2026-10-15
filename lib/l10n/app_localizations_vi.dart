@@ -2606,7 +2606,24 @@ class AppLocalizationsVi extends AppLocalizations {
   String get createOvertimeBtn => 'Đăng ký tăng ca';
 
   @override
-  String get correctionManageTitle => 'Quản lý Sửa công';
+  String get overtimeScopePersonal => 'Đơn của tôi';
+
+  @override
+  String get overtimeScopeProxy => 'Tạo hộ nhân viên';
+
+  @override
+  String get correctionManageTitle => 'Quản lý Giải trình / Sửa công';
+
+  @override
+  String get createCorrectionBtn => 'Tạo giải trình / Sửa công';
+
+  @override
+  String get correctionSummaryTitle => 'Tổng hợp giải trình tháng này';
+
+  @override
+  String noCorrectionInMonth(String month) {
+    return 'Không có yêu cầu giải trình nào trong $month';
+  }
 
   @override
   String get correctionQuotaTitle => 'Hạn mức sửa công tháng này';

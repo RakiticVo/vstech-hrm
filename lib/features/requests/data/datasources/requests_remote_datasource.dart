@@ -13,7 +13,7 @@ abstract class RequestsRemoteDataSource {
   Future<bool> createLeaveRequest(LeaveRequestCreateCommand command);
   Future<bool> deleteLeaveRequest(String id);
 
-  Future<List<OvertimeRequestSelfItemModel>> getOvertimeRequests({String? month});
+  Future<List<OvertimeRequestSelfItemModel>> getOvertimeRequests({String? month, bool includeCreated = false});
   Future<List<OvertimeTypeModel>> getOvertimeTypes();
   Future<bool> createOvertimeRequest(OvertimeRequestCreateModel command);
   Future<bool> deleteOvertimeRequest(String id);

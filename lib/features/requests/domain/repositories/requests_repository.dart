@@ -31,7 +31,7 @@ abstract class RequestsRepository {
   Future<Either<Failure, bool>> cancelLeaveRequest(String id);
 
   /// Fetches personal overtime requests for optional [month] (yyyy-MM).
-  Future<Either<Failure, List<OvertimeItemEntity>>> getOvertimeRequests({String? month});
+  Future<Either<Failure, List<OvertimeItemEntity>>> getOvertimeRequests({String? month, bool includeCreated = false});
 
   /// Fetches overtime types (e.g. weekday x1.5, weekend x2.0, holiday x3.0).
   Future<Either<Failure, List<OvertimeTypeEntity>>> getOvertimeTypes();

@@ -9,18 +9,16 @@ import 'package:vstech_hrm/core/session/auth_cubit.dart';
 import 'package:vstech_hrm/core/session/auth_state.dart';
 import 'package:vstech_hrm/core/theme/app_colors.dart';
 import 'package:vstech_hrm/core/widgets/app_icon.dart';
-import 'package:vstech_hrm/core/widgets/app_success_dialog.dart';
-import 'package:vstech_hrm/core/widgets/app_toast.dart';
 import 'package:vstech_hrm/core/widgets/month_picker_button.dart';
 import 'package:vstech_hrm/core/widgets/month_picker_dialog.dart';
 import 'package:vstech_hrm/core/widgets/primary_button.dart';
 import 'package:vstech_hrm/features/requests/domain/entities/overtime_item_entity.dart';
 import 'package:vstech_hrm/features/requests/domain/entities/overtime_type_entity.dart';
-import 'package:vstech_hrm/features/requests/domain/entities/request_params.dart';
-import 'package:vstech_hrm/features/requests/domain/usecases/create_overtime_request_usecase.dart';
 import 'package:vstech_hrm/features/requests/domain/usecases/get_overtime_requests_usecase.dart';
 import 'package:vstech_hrm/features/requests/domain/usecases/get_overtime_types_usecase.dart';
+import 'package:vstech_hrm/features/requests/presentation/helpers/overtime_submission_helper.dart';
 import 'package:vstech_hrm/features/requests/presentation/widgets/overtime_request_modal.dart';
+import 'package:vstech_hrm/features/requests/presentation/widgets/overtime_scope_selector.dart';
 import 'package:vstech_hrm/features/requests/presentation/widgets/overtime_summary_card.dart';
 import 'package:vstech_hrm/features/requests/presentation/widgets/request_card.dart';
 import 'package:vstech_hrm/features/requests/presentation/widgets/request_status_filter_chips.dart';
@@ -36,6 +34,7 @@ class OvertimeManageScreen extends StatefulWidget {
 class _OvertimeManageScreenState extends State<OvertimeManageScreen> {
   late String _selectedMonth;
   String _selectedStatus = 'all';
+  String _selectedScope = 'personal';
   bool _isLoading = false;
   bool _isSubmitting = false;
   List<OvertimeItemEntity> _rawOvertimeEntities = [];
@@ -61,7 +60,10 @@ class _OvertimeManageScreenState extends State<OvertimeManageScreen> {
       return;
     }
     final range = AppMonthPickerDialog.getMonthDateRange(_selectedMonth);
-    final result = await sl<GetOvertimeRequestsUseCase>()(month: range?.from);
+    final result = await sl<GetOvertimeRequestsUseCase>()(
+      month: range?.from,
+      includeCreated: true,
+    );
     if (!mounted) return;
     result.fold(
       (_) => setState(() => _isLoading = false),
@@ -69,36 +71,38 @@ class _OvertimeManageScreenState extends State<OvertimeManageScreen> {
         setState(() {
           _isLoading = false;
           _rawOvertimeEntities = entities;
-          _overtimeRequests = entities.map((e) {
-            final rawTn = e.overtimeTypeName?.trim();
-            final typeName = (rawTn != null && rawTn.isNotEmpty && rawTn != '.')
-                ? rawTn
-                : (_overtimeTypes.where((t) => t.code == e.overtimeTypeCode).firstOrNull?.name ??
-                    ((e.overtimeReason?.trim().isNotEmpty == true && e.overtimeReason != '.') ? e.overtimeReason!.trim() : 'Tăng ca'));
-            final len = e.length ?? 0;
-            final typeTitle = len > 0 ? '$typeName · ${len % 1 == 0 ? len.toInt() : len} giờ' : typeName;
-            final statusCode = e.isApproved ? 2 : (e.isRejected ? 3 : 1);
-            final cBy = e.createdByName ?? e.createdByCode;
-            return RequestData(
-              mark: 'T',
-              type: typeTitle,
-              dates: '${e.date ?? ''} (${e.timeRange ?? ''})',
-              status: e.statusText,
-              statusCode: statusCode,
-              stage: e.statusText,
-              completedSteps: statusCode,
-              requestTypeKey: 'ot',
-              code: e.code,
-              requesterName: e.employeeName,
-              reason: e.note ?? e.overtimeReason,
-              worktime: e.length,
-              createdBy: cBy,
-              isProxy: e.isCreatedByOther,
-              confirmerName: e.confirmedBy,
-            );
-          }).toList();
+          _overtimeRequests = entities.map(_mapToRequestData).toList();
         });
       },
+    );
+  }
+
+  RequestData _mapToRequestData(OvertimeItemEntity e) {
+    final rawTn = e.overtimeTypeName?.trim();
+    final typeName = (rawTn != null && rawTn.isNotEmpty && rawTn != '.')
+        ? rawTn
+        : (_overtimeTypes.where((t) => t.code == e.overtimeTypeCode).firstOrNull?.name ??
+            ((e.overtimeReason?.trim().isNotEmpty == true && e.overtimeReason != '.') ? e.overtimeReason!.trim() : 'Tăng ca'));
+    final len = e.length ?? 0;
+    final typeTitle = len > 0 ? '$typeName · ${len % 1 == 0 ? len.toInt() : len} giờ' : typeName;
+    final statusCode = e.isApproved ? 2 : (e.isRejected ? 3 : 1);
+    final cBy = e.createdByName ?? e.createdByCode;
+    return RequestData(
+      mark: 'T',
+      type: typeTitle,
+      dates: '${e.date ?? ''} (${e.timeRange ?? ''})',
+      status: e.statusText,
+      statusCode: statusCode,
+      stage: e.statusText,
+      completedSteps: statusCode,
+      requestTypeKey: 'ot',
+      code: e.code,
+      requesterName: e.employeeName,
+      reason: e.note ?? e.overtimeReason,
+      worktime: e.length,
+      createdBy: cBy,
+      isProxy: e.isCreatedByOther,
+      confirmerName: e.confirmedBy,
     );
   }
 
@@ -124,46 +128,20 @@ class _OvertimeManageScreenState extends State<OvertimeManageScreen> {
   }) async {
     if (_isSubmitting) return 'Đang gửi yêu cầu...';
     setState(() => _isSubmitting = true);
-
     try {
-      final auth = _auth();
-      final curEmp = auth is Authenticated ? auth.user.employeeCode : 'NV001';
-      final empCode = employeeCode ?? curEmp;
-      final isSub = employeeCode != null && employeeCode != curEmp;
-      final ymd = '${date.year}-${date.month.toString().padLeft(2, '0')}-${date.day.toString().padLeft(2, '0')}';
-      final sTime = '${start.hour.toString().padLeft(2, '0')}:${start.minute.toString().padLeft(2, '0')}';
-      final eTime = '${end.hour.toString().padLeft(2, '0')}:${end.minute.toString().padLeft(2, '0')}';
-
-      final params = CreateOvertimeParams(
-        employeeCode: empCode,
-        adminEmployeeCode: isSub ? empCode : null,
-        accept: accept,
-        date: ymd,
+      return await OvertimeSubmissionHelper.submit(
+        context: context,
+        type: type,
+        date: date,
+        start: start,
+        end: end,
         length: length,
-        overtimeTypeCode: type.code,
-        startOvertime: '${ymd}T$sTime:00',
-        endOvertime: '${ymd}T$eTime:00',
-        note: reason,
+        reason: reason,
+        employeeCode: employeeCode,
+        employeeName: employeeName,
+        accept: accept,
+        onReload: _loadData,
       );
-
-      final result = await sl<CreateOvertimeRequestUseCase>()(params);
-      if (!mounted) return null;
-
-      if (result.isLeft()) {
-        final msg = result.getLeft().toNullable()?.message ?? 'Lỗi gửi yêu cầu tăng ca';
-        context.showErrorToast(msg);
-        return msg;
-      }
-
-      await _loadData();
-      if (!mounted) return null;
-      final l10n = context.l10n;
-      final dStr = '${date.day.toString().padLeft(2, '0')}/${date.month.toString().padLeft(2, '0')}/${date.year}';
-      final msg = isSub
-          ? l10n.overtimeSubmittedForSubordinateMsg(dStr, employeeName ?? empCode)
-          : l10n.overtimeSubmittedMsg(dStr, '$sTime - $eTime');
-      await AppSuccessDialog.show(context, title: l10n.overtimeSubmittedTitle, message: msg);
-      return null;
     } finally {
       if (mounted) setState(() => _isSubmitting = false);
     }
@@ -192,6 +170,10 @@ class _OvertimeManageScreenState extends State<OvertimeManageScreen> {
   Widget build(BuildContext context) {
     final colors = context.colors;
     final l10n = context.l10n;
+    final auth = _auth();
+    final isManager = auth is Authenticated &&
+        (auth.user.role.isManager || auth.user.role.isAdmin || auth.user.claims.contains('manager.approve') || auth.user.claims.contains('hr:admin'));
+    final hasProxy = _overtimeRequests.any((r) => r.isProxy);
 
     final filterOptions = [
       ('all', l10n.leaveStatusFilterAll), ('pending', l10n.leaveStatusFilterPending),
@@ -199,6 +181,8 @@ class _OvertimeManageScreenState extends State<OvertimeManageScreen> {
     ];
 
     final filtered = _overtimeRequests.where((req) {
+      if (isManager && hasProxy && _selectedScope == 'personal' && req.isProxy) return false;
+      if (isManager && hasProxy && _selectedScope == 'proxy' && !req.isProxy) return false;
       final matchSt = switch (_selectedStatus) {
         'pending' => req.statusCode == 1,
         'approved' => req.statusCode == 2,
@@ -226,8 +210,22 @@ class _OvertimeManageScreenState extends State<OvertimeManageScreen> {
         children: [
           Padding(
             padding: const EdgeInsets.fromLTRB(16, 12, 16, 10),
-            child: OvertimeSummaryCard.fromEntities(entities: _rawOvertimeEntities),
+            child: OvertimeSummaryCard.fromEntities(
+              entities: _rawOvertimeEntities.where((e) => !e.isCreatedByOther).toList(),
+            ),
           ),
+          if (isManager && hasProxy) ...[
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              child: OvertimeScopeSelector(
+                selectedScope: _selectedScope,
+                onScopeChanged: (s) => setState(() => _selectedScope = s),
+                personalLabel: l10n.overtimeScopePersonal,
+                proxyLabel: l10n.overtimeScopeProxy,
+              ),
+            ),
+            8.gapH,
+          ],
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16),
             child: Row(

@@ -105,8 +105,8 @@ class RequestsRepositoryImpl implements RequestsRepository {
   Future<Either<Failure, bool>> cancelLeaveRequest(String id) => _guard(() => _remoteDataSource.deleteLeaveRequest(id));
 
   @override
-  Future<Either<Failure, List<OvertimeItemEntity>>> getOvertimeRequests({String? month}) => _guard(() async {
-        final models = await _remoteDataSource.getOvertimeRequests(month: month);
+  Future<Either<Failure, List<OvertimeItemEntity>>> getOvertimeRequests({String? month, bool includeCreated = false}) => _guard(() async {
+        final models = await _remoteDataSource.getOvertimeRequests(month: month, includeCreated: includeCreated);
         return models.map((m) => OvertimeItemEntity(
               code: m.code,
               statusText: m.statusText,

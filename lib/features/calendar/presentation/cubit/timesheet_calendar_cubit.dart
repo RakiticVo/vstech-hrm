@@ -15,7 +15,7 @@ import 'package:vstech_hrm/features/requests/domain/usecases/get_leave_requests_
 import 'package:vstech_hrm/features/requests/domain/usecases/get_overtime_requests_usecase.dart';
 
 class TimesheetCalendarCubit extends Cubit<TimesheetCalendarState> {
-  TimesheetCalendarCubit({
+  new({
     required this.getAccountTimesheetUseCase,
     GetAttendanceHistoryUseCase? getAttendanceHistoryUseCase,
     GetCorrectionRequestsUseCase? getCorrectionRequestsUseCase,
@@ -109,7 +109,9 @@ class TimesheetCalendarCubit extends Cubit<TimesheetCalendarState> {
     if (_getOvertimeRequestsUseCase != null) {
       requestsFutures.add(
         _getOvertimeRequestsUseCase(month: monthStr).then((res) {
-          res.fold((_) {}, (list) => overtimes = list);
+          res.fold((_) {}, (list) {
+            overtimes = list.where((o) => !o.isCreatedByOther).toList();
+          });
         }),
       );
     }

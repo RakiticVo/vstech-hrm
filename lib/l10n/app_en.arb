@@ -1176,7 +1176,17 @@
   "rateWeekend200": "Weekend",
   "rateHoliday300": "Holiday",
   "createOvertimeBtn": "Request Overtime",
-  "correctionManageTitle": "Timesheet Correction Management",
+  "overtimeScopePersonal": "My Overtime",
+  "overtimeScopeProxy": "Created on Behalf",
+  "correctionManageTitle": "Explanation & Correction Management",
+  "createCorrectionBtn": "Create Explanation / Correction",
+  "correctionSummaryTitle": "Monthly Explanation Summary",
+  "noCorrectionInMonth": "No explanation requests in {month}",
+  "@noCorrectionInMonth": {
+    "placeholders": {
+      "month": {"type": "String"}
+    }
+  },
   "correctionQuotaTitle": "Monthly Correction Quota",
   "correctionQuotaUsage": "Used {used}/{total} times",
   "@correctionQuotaUsage": {

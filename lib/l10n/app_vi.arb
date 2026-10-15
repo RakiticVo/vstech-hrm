@@ -1176,7 +1176,17 @@
   "rateWeekend200": "Cuối tuần",
   "rateHoliday300": "Ngày lễ",
   "createOvertimeBtn": "Đăng ký tăng ca",
-  "correctionManageTitle": "Quản lý Sửa công",
+  "overtimeScopePersonal": "Đơn của tôi",
+  "overtimeScopeProxy": "Tạo hộ nhân viên",
+  "correctionManageTitle": "Quản lý Giải trình / Sửa công",
+  "createCorrectionBtn": "Tạo giải trình / Sửa công",
+  "correctionSummaryTitle": "Tổng hợp giải trình tháng này",
+  "noCorrectionInMonth": "Không có yêu cầu giải trình nào trong {month}",
+  "@noCorrectionInMonth": {
+    "placeholders": {
+      "month": {"type": "String"}
+    }
+  },
   "correctionQuotaTitle": "Hạn mức sửa công tháng này",
   "correctionQuotaUsage": "Đã dùng {used}/{total} lần",
   "@correctionQuotaUsage": {

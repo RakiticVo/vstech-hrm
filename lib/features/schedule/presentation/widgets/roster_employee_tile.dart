@@ -167,55 +167,59 @@ class RosterEmployeeTile extends StatelessWidget {
     final badgeColor = item.isOvernight ? const Color(0xFF7C3AED) : colors.tealPrimary;
 
     final rawName = item.shiftName ?? item.shiftCode ?? 'Ca làm việc';
-    final hasTimeInName = rawName.contains('(') || rawName.contains(':');
+    final cleanName = rawName.replaceFirst(RegExp(r'^Ca\s*[:\-]?\s*', caseSensitive: false), '').trim();
+    final hasTimeInName = cleanName.contains('(') || cleanName.contains(':');
     final timeSuffix = (!hasTimeInName && item.startHour != null && item.endHour != null)
         ? ' (${item.startHour} - ${item.endHour})'
         : '';
-    final labelText = '$rawName$timeSuffix';
+    final labelText = '$cleanName$timeSuffix';
 
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-      decoration: BoxDecoration(
-        color: badgeColor.withValues(alpha: 0.08),
-        borderRadius: BorderRadius.circular(8),
-        border: Border.all(color: badgeColor.withValues(alpha: 0.25)),
-      ),
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          AppIcon(AppIcons.shift, size: 14, color: badgeColor),
-          6.gapW,
-          Flexible(
-            child: Text(
-              labelText,
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
-              style: TextStyle(
-                fontSize: 12,
-                fontWeight: FontWeight.w600,
-                color: badgeColor,
-              ),
-            ),
-          ),
-          if (item.isOvernight) ...[
-            6.gapW,
-            Container(
-              padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 1.5),
-              decoration: BoxDecoration(
-                color: const Color(0xFF7C3AED).withValues(alpha: 0.15),
-                borderRadius: BorderRadius.circular(4),
-              ),
+    return ConstrainedBox(
+      constraints: BoxConstraints(maxWidth: context.w(0.68)),
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 9, vertical: 4.5),
+        decoration: BoxDecoration(
+          color: badgeColor.withValues(alpha: 0.08),
+          borderRadius: BorderRadius.circular(8),
+          border: Border.all(color: badgeColor.withValues(alpha: 0.25)),
+        ),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            AppIcon(AppIcons.shift, size: 13, color: badgeColor),
+            5.gapW,
+            Flexible(
               child: Text(
-                l10n.shiftOvernightBadge,
-                style: const TextStyle(
-                  fontSize: 9,
-                  fontWeight: FontWeight.bold,
-                  color: Color(0xFF7C3AED),
+                labelText,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+                style: TextStyle(
+                  fontSize: 11.5,
+                  fontWeight: FontWeight.w600,
+                  color: badgeColor,
                 ),
               ),
             ),
+            if (item.isOvernight) ...[
+              5.gapW,
+              Container(
+                padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 1.5),
+                decoration: BoxDecoration(
+                  color: const Color(0xFF7C3AED).withValues(alpha: 0.15),
+                  borderRadius: BorderRadius.circular(4),
+                ),
+                child: Text(
+                  l10n.shiftOvernightBadge,
+                  style: const TextStyle(
+                    fontSize: 9,
+                    fontWeight: FontWeight.bold,
+                    color: Color(0xFF7C3AED),
+                  ),
+                ),
+              ),
+            ],
           ],
-        ],
+        ),
       ),
     );
   }

@@ -58,6 +58,7 @@ class AllServicesScreen extends StatelessWidget {
             items: [
               _ServiceItem(context.l10n.leaveManageTitle, AppIcons.leave, () => context.push(AppRoutes.leaveManage)),
               _ServiceItem(context.l10n.overtimeManageTitle, AppIcons.overtime, () => context.push(AppRoutes.overtimeManage)),
+              _ServiceItem(context.l10n.correctionManageTitle, AppIcons.correction, () => context.push(AppRoutes.correctionManage)),
               if (isManager)
                 _ServiceItem(
                   context.l10n.approvalsCenterTitle,

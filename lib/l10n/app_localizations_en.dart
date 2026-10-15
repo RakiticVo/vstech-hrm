@@ -2610,7 +2610,24 @@ class AppLocalizationsEn extends AppLocalizations {
   String get createOvertimeBtn => 'Request Overtime';
 
   @override
-  String get correctionManageTitle => 'Timesheet Correction Management';
+  String get overtimeScopePersonal => 'My Overtime';
+
+  @override
+  String get overtimeScopeProxy => 'Created on Behalf';
+
+  @override
+  String get correctionManageTitle => 'Explanation & Correction Management';
+
+  @override
+  String get createCorrectionBtn => 'Create Explanation / Correction';
+
+  @override
+  String get correctionSummaryTitle => 'Monthly Explanation Summary';
+
+  @override
+  String noCorrectionInMonth(String month) {
+    return 'No explanation requests in $month';
+  }
 
   @override
   String get correctionQuotaTitle => 'Monthly Correction Quota';

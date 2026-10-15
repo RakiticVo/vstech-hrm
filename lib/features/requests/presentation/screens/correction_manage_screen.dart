@@ -5,11 +5,24 @@ import 'package:vstech_hrm/core/di/injector.dart';
 import 'package:vstech_hrm/core/extensions/l10n_extension.dart';
 import 'package:vstech_hrm/core/responsive/app_layout.dart';
 import 'package:vstech_hrm/core/router/routes.dart';
+import 'package:vstech_hrm/core/session/auth_cubit.dart';
+import 'package:vstech_hrm/core/session/auth_state.dart';
 import 'package:vstech_hrm/core/theme/app_colors.dart';
 import 'package:vstech_hrm/core/widgets/app_icon.dart';
+import 'package:vstech_hrm/core/widgets/app_success_dialog.dart';
+import 'package:vstech_hrm/core/widgets/app_toast.dart';
+import 'package:vstech_hrm/core/widgets/month_picker_button.dart';
+import 'package:vstech_hrm/core/widgets/month_picker_dialog.dart';
 import 'package:vstech_hrm/core/widgets/primary_button.dart';
+import 'package:vstech_hrm/features/requests/domain/entities/correction_item_entity.dart';
+import 'package:vstech_hrm/features/requests/domain/entities/request_params.dart';
+import 'package:vstech_hrm/features/requests/domain/usecases/create_correction_request_usecase.dart';
+import 'package:vstech_hrm/features/requests/domain/usecases/get_correction_reasons_usecase.dart';
 import 'package:vstech_hrm/features/requests/domain/usecases/get_correction_requests_usecase.dart';
+import 'package:vstech_hrm/features/requests/presentation/widgets/attendance_correction_modal.dart';
+import 'package:vstech_hrm/features/requests/presentation/widgets/correction_summary_card.dart';
 import 'package:vstech_hrm/features/requests/presentation/widgets/request_card.dart';
+import 'package:vstech_hrm/features/requests/presentation/widgets/request_status_filter_chips.dart';
 
 /// Screen 13: Dedicated Timesheet Correction Management Screen (`correction` in mockup & flow).
 class CorrectionManageScreen extends StatefulWidget {
@@ -20,55 +33,166 @@ class CorrectionManageScreen extends StatefulWidget {
 }
 
 class _CorrectionManageScreenState extends State<CorrectionManageScreen> {
+  late String _selectedMonth;
+  String _selectedStatus = 'all';
   bool _isLoading = false;
+  bool _isSubmitting = false;
+  List<CorrectionItemEntity> _rawCorrections = [];
   List<RequestData> _correctionRequests = [];
+  List<CorrectionReasonEntity> _correctionReasons = [];
 
   @override
   void initState() {
     super.initState();
+    final now = DateTime.now();
+    _selectedMonth = 'Tháng ${now.month}, ${now.year}';
     unawaited(_loadData());
   }
 
   Future<void> _loadData() async {
-    if (!sl.isRegistered<GetCorrectionRequestsUseCase>()) return;
     setState(() => _isLoading = true);
-    final result = await sl<GetCorrectionRequestsUseCase>()();
+    if (sl.isRegistered<GetCorrectionReasonsUseCase>()) {
+      final res = await sl<GetCorrectionReasonsUseCase>()();
+      res.fold((_) {}, (r) => _correctionReasons = r);
+    }
+    if (!sl.isRegistered<GetCorrectionRequestsUseCase>()) {
+      setState(() => _isLoading = false);
+      return;
+    }
+    final range = AppMonthPickerDialog.getMonthDateRange(_selectedMonth);
+    final result = await sl<GetCorrectionRequestsUseCase>()(month: range?.from);
     if (!mounted) return;
     result.fold(
       (_) => setState(() => _isLoading = false),
       (entities) {
         setState(() {
           _isLoading = false;
-          _correctionRequests = entities.map((e) {
-            final statusCode = e.isApproved ? 2 : (e.isReject ? 3 : 1);
-            final statusText = e.isApproved
-                ? 'Đã duyệt'
-                : (e.isReject ? 'Từ chối' : 'Chờ duyệt');
-            return RequestData(
-              mark: 'S',
-              type: 'Sửa công · ${e.reasonTypeName ?? 'Giải trình'}',
-              dates: '${e.workDate ?? ''} (${e.worktime ?? 0}h)',
-              status: statusText,
-              statusCode: statusCode,
-              stage: statusText,
-              completedSteps: statusCode,
-              requestTypeKey: 'correction',
-              code: 'TC-${e.id}',
-              requesterName: e.employeeName,
-              reason: e.note ?? e.reasonTypeName,
-              worktime: e.worktime,
-              confirmerName: e.confirmerName,
-            );
-          }).toList();
+          _rawCorrections = entities;
+          _correctionRequests = entities.map(_mapToRequestData).toList();
         });
       },
     );
+  }
+
+  RequestData _mapToRequestData(CorrectionItemEntity e) {
+    final statusCode = e.isApproved ? 2 : (e.isReject ? 3 : 1);
+    final statusText = e.isApproved
+        ? 'Đã duyệt'
+        : (e.isReject ? 'Từ chối' : 'Chờ duyệt');
+    final reasonName = e.reasonTypeName?.trim().isNotEmpty == true
+        ? e.reasonTypeName!.trim()
+        : 'Giải trình';
+    return RequestData(
+      mark: 'S',
+      type: 'Sửa công · $reasonName',
+      dates: e.workDate ?? '',
+      status: statusText,
+      statusCode: statusCode,
+      stage: statusText,
+      completedSteps: statusCode,
+      requestTypeKey: 'correction',
+      code: 'TC-${e.id}',
+      requesterName: e.employeeName,
+      reason: e.note ?? e.reasonTypeName,
+      worktime: e.confirmedWorktime ?? e.worktime,
+      confirmerName: e.confirmerName,
+    );
+  }
+
+  AuthState? _auth() => sl.isRegistered<AuthCubit>() ? sl<AuthCubit>().state : null;
+
+  Future<void> _showCreateModal() async {
+    await AttendanceCorrectionModal.show(
+      context,
+      initialDate: DateTime.now(),
+      availableReasons: _correctionReasons,
+      onConfirm: _submitCorrection,
+    );
+  }
+
+  Future<void> _submitCorrection(
+    CorrectionReasonEntity reason,
+    DateTime date,
+    double worktime,
+    String note,
+    String? imageUrl,
+  ) async {
+    if (_isSubmitting) return;
+    setState(() => _isSubmitting = true);
+    final auth = _auth();
+    final empCode = auth is Authenticated ? auth.user.employeeCode : 'NV001';
+
+    final params = CreateCorrectionParams(
+      employeeCode: empCode,
+      workDate: date.toIso8601String(),
+      worktime: 0,
+      reasonTypeCode: reason.code,
+      note: note,
+      imageUrl: imageUrl,
+    );
+
+    final result = await sl<CreateCorrectionRequestUseCase>()(params);
+    if (!mounted) return;
+    setState(() => _isSubmitting = false);
+
+    final l10n = context.l10n;
+    await result.fold(
+      (failure) async => context.showErrorToast(failure.message),
+      (_) async {
+        await _loadData();
+        if (!mounted) return;
+        final dStr = '${date.day.toString().padLeft(2, '0')}/${date.month.toString().padLeft(2, '0')}/${date.year}';
+        await AppSuccessDialog.show(
+          context,
+          title: l10n.correctionSubmittedTitle,
+          message: l10n.correctionSubmittedMsg(reason.name, dStr, '0h'),
+        );
+      },
+    );
+  }
+
+  Future<void> _openDetail(RequestData req) async {
+    final status = req.statusCode == 2 ? 'approved' : (req.statusCode == 3 ? 'rejected' : 'pending');
+    final res = await context.push(AppRoutes.requestDetail, extra: {
+      'code': req.code ?? 'TC',
+      'title': req.type,
+      'category': 'correction',
+      'requesterName': req.requesterName ?? 'Nhân viên',
+      'initialStatus': status,
+      'isApprover': false,
+      'fields': [
+        ('Mã đơn', req.code ?? 'TC'),
+        ('Thời gian', req.dates),
+        if (req.worktime != null && req.worktime! > 0) ('Giờ công', '${req.worktime} giờ'),
+        ('Trạng thái', req.status),
+        if (req.confirmerName != null && req.confirmerName!.isNotEmpty) ('Người xác nhận', req.confirmerName!),
+        if (req.reason != null && req.reason!.isNotEmpty) ('Lý do / Giải trình', req.reason!),
+      ],
+    });
+    if (res == true || res == 'cancelled') await _loadData();
   }
 
   @override
   Widget build(BuildContext context) {
     final colors = context.colors;
     final l10n = context.l10n;
+
+    final filterOptions = [
+      ('all', l10n.leaveStatusFilterAll),
+      ('pending', l10n.leaveStatusFilterPending),
+      ('approved', l10n.leaveStatusFilterApproved),
+      ('rejected', l10n.leaveStatusFilterRejected),
+    ];
+
+    final filtered = _correctionRequests.where((req) {
+      final matchSt = switch (_selectedStatus) {
+        'pending' => req.statusCode == 1,
+        'approved' => req.statusCode == 2,
+        'rejected' => req.statusCode == 3,
+        _ => true,
+      };
+      return matchSt && AppMonthPickerDialog.matchesMonth(req.dates, _selectedMonth, context);
+    }).toList();
 
     return Scaffold(
       backgroundColor: colors.background,
@@ -81,156 +205,54 @@ class _CorrectionManageScreenState extends State<CorrectionManageScreen> {
         ),
         title: Text(
           l10n.correctionManageTitle,
-          style: TextStyle(
-            fontSize: 18,
-            fontWeight: FontWeight.w800,
-            color: colors.textPrimary,
-          ),
+          style: TextStyle(fontSize: 18, fontWeight: FontWeight.w800, color: colors.textPrimary),
         ),
       ),
       body: Column(
         children: [
-          // Quota Usage Card
           Padding(
             padding: const EdgeInsets.fromLTRB(16, 12, 16, 10),
-            child: Container(
-              padding: const EdgeInsets.all(16),
-              decoration: BoxDecoration(
-                color: colors.surface,
-                borderRadius: BorderRadius.circular(18),
-                border: Border.all(color: colors.border),
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        l10n.correctionQuotaTitle,
-                        style: TextStyle(
-                          fontSize: 13,
-                          fontWeight: FontWeight.w700,
-                          color: colors.textSecondary,
-                        ),
-                      ),
-                      Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
-                        decoration: BoxDecoration(
-                          color: colors.accentAmber.withValues(alpha: 0.15),
-                          borderRadius: BorderRadius.circular(6),
-                        ),
-                        child: Text(
-                          l10n.correctionQuotaUsage('1', '3'),
-                          style: TextStyle(
-                            fontSize: 11.5,
-                            fontWeight: FontWeight.w800,
-                            color: colors.accentAmber,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                  10.gapH,
-                  ClipRRect(
-                    borderRadius: BorderRadius.circular(4),
-                    child: LinearProgressIndicator(
-                      value: 1 / 3,
-                      minHeight: 8,
-                      backgroundColor: colors.borderSubtle,
-                      valueColor: AlwaysStoppedAnimation(colors.accentAmber),
-                    ),
-                  ),
-                  6.gapH,
-                  Text(
-                    'Tối đa 3 lần/tháng theo quy định Điều 107 BLLĐ · gửi trước ngày 20',
-                    style: TextStyle(fontSize: 11, color: colors.textTertiary),
-                  ),
-                ],
-              ),
-            ),
+            child: CorrectionSummaryCard(corrections: _rawCorrections),
           ),
-
-          // Missing Punch Warning Alert Card
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16),
-            child: Container(
-              padding: const EdgeInsets.all(14),
-              decoration: BoxDecoration(
-                color: colors.error.withValues(alpha: 0.08),
-                borderRadius: BorderRadius.circular(16),
-                border: Border.all(color: colors.error.withValues(alpha: 0.3)),
-              ),
-              child: Row(
-                children: [
-                  Container(
-                    width: 36,
-                    height: 36,
-                    decoration: BoxDecoration(
-                      color: colors.error.withValues(alpha: 0.15),
-                      shape: BoxShape.circle,
-                    ),
-                    child: Center(
-                      child: AppIcon(AppIcons.alertTriangle, size: 20, color: colors.error),
-                    ),
-                  ),
-                  12.gapW,
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          'Thứ Ba, 15/09 · Thiếu giờ ra',
-                          style: TextStyle(
-                            fontSize: 13,
-                            fontWeight: FontWeight.w800,
-                            color: colors.textPrimary,
-                          ),
-                        ),
-                        2.gapH,
-                        Text(
-                          'Giờ vào: 07:56 · Giờ ra: Chưa ghi nhận',
-                          style: TextStyle(fontSize: 11.5, color: colors.textSecondary),
-                        ),
-                      ],
-                    ),
-                  ),
-                  ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: colors.error,
-                      foregroundColor: Colors.white,
-                      elevation: 0,
-                      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-                    ),
-                    onPressed: () async {
-                      await context.push(AppRoutes.attendanceCorrection);
-                      if (mounted) unawaited(_loadData());
-                    },
-                    child: Text(
-                      l10n.fixPunchBtn,
-                      style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w800),
-                    ),
-                  ),
-                ],
-              ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                MonthPickerButton(
+                  selectedMonth: _selectedMonth,
+                  onMonthChanged: (m) {
+                    setState(() => _selectedMonth = m);
+                    unawaited(_loadData());
+                  },
+                ),
+                Text(
+                  '${filtered.length} ${l10n.requests.toLowerCase()}',
+                  style: TextStyle(fontSize: 12, fontWeight: FontWeight.w700, color: colors.textSecondary),
+                ),
+              ],
             ),
           ),
+          10.gapH,
+          RequestStatusFilterChips(
+            selectedStatus: _selectedStatus,
+            onStatusChanged: (s) => setState(() => _selectedStatus = s),
+            options: filterOptions,
+            colors: colors,
+          ),
           12.gapH,
-
-          // List of Correction Requests
           Expanded(
             child: _isLoading
                 ? const Center(child: CircularProgressIndicator())
                 : RefreshIndicator(
                     onRefresh: _loadData,
-                    child: _correctionRequests.isEmpty
+                    child: filtered.isEmpty
                         ? ListView(
                             children: [
                               60.gapH,
                               Center(
                                 child: Text(
-                                  'Chưa có yêu cầu sửa công nào',
+                                  l10n.noCorrectionInMonth(_selectedMonth),
                                   style: TextStyle(fontSize: 13, color: colors.textSecondary),
                                 ),
                               ),
@@ -238,50 +260,26 @@ class _CorrectionManageScreenState extends State<CorrectionManageScreen> {
                           )
                         : ListView.separated(
                             padding: const EdgeInsets.fromLTRB(16, 4, 16, 16),
-                            itemCount: _correctionRequests.length,
+                            itemCount: filtered.length,
                             separatorBuilder: (_, _) => 10.gapH,
                             itemBuilder: (ctx, index) {
-                              final req = _correctionRequests[index];
+                              final req = filtered[index];
                               return InkWell(
                                 borderRadius: BorderRadius.circular(18),
-                                onTap: () => context.push(
-                                  AppRoutes.requestDetail,
-                                  extra: {
-                                    'code': req.code ?? 'TC',
-                                    'title': req.type,
-                                    'category': 'correction',
-                                    'requesterName': req.requesterName ?? 'Nhân viên',
-                                    'initialStatus': req.statusCode == 2
-                                        ? 'approved'
-                                        : (req.statusCode == 3 ? 'rejected' : 'pending'),
-                                    'isApprover': false,
-                                    'fields': [
-                                      ('Mã đơn', req.code ?? 'TC'),
-                                      ('Thời gian', req.dates),
-                                      if (req.worktime != null) ('Giờ công', '${req.worktime} giờ'),
-                                      ('Trạng thái', req.status),
-                                      if (req.confirmerName != null && req.confirmerName!.isNotEmpty) ('Người xác nhận', req.confirmerName!),
-                                      if (req.reason != null && req.reason!.isNotEmpty) ('Lý do / Giải trình', req.reason!),
-                                    ],
-                                  },
-                                ),
+                                onTap: () => _openDetail(req),
                                 child: RequestCard(item: req),
                               );
                             },
                           ),
                   ),
           ),
-
-          // Bottom Action Button
           Padding(
             padding: const EdgeInsets.fromLTRB(16, 8, 16, 24),
             child: PrimaryButton(
-              text: 'Tạo yêu cầu sửa công',
-              iconName: AppIcons.correction,
-              onPressed: () async {
-                await context.push(AppRoutes.attendanceCorrection);
-                if (mounted) unawaited(_loadData());
-              },
+              text: l10n.createCorrectionBtn,
+              iconName: AppIcons.plus,
+              isLoading: _isSubmitting,
+              onPressed: _isSubmitting ? null : () => unawaited(_showCreateModal()),
             ),
           ),
         ],

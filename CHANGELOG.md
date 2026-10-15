@@ -5,6 +5,23 @@
 ## [Unreleased]
 
 ### Added
+- Trang Quản lý Giải trình / Sửa công chuyên biệt (`CorrectionManageScreen`) đồng bộ với Quản lý Nghỉ phép và Tăng ca:
+  - Hỗ trợ bộ chọn tháng (`MonthPickerButton`) tải dữ liệu theo tháng được chọn.
+  - Bộ lọc trạng thái đơn trực quan (Tất cả, Chờ duyệt, Đã duyệt, Từ chối).
+  - Thẻ thống kê tổng hợp số lượng phiếu trong tháng (`CorrectionSummaryCard`).
+  - Nút thao tác nhanh "Tạo giải trình / Sửa công" mở modal `AttendanceCorrectionModal` và điều hướng chi tiết phiếu.
+  - Bổ sung lối tắt "Quản lý Giải trình" tại mục Yêu cầu trong Tất cả dịch vụ (`AllServicesScreen`).
+- Bộ lọc phân luồng Đơn của tôi vs Tạo hộ nhân viên tại Quản lý tăng ca (`OvertimeManageScreen`, `OvertimeScopeSelector`):
+  - Cho phép cấp quản lý xem và quản lý các phiếu tăng ca làm thay/tạo hộ cho nhân sự cấp dưới mà không lẫn vào danh sách đơn cá nhân.
+
+### Fixed
+- Tách biệt hoàn toàn phiếu tăng ca tạo hộ (`isCreatedByOther` / `isProxy`) khỏi Bảng công cá nhân (`TimesheetCalendarCubit`):
+  - Chuẩn hóa gọi `GET /api/OvertimeRequests/self` mặc định `includeCreated=false` theo đúng đặc tả OpenAPI v12 (chỉ lấy đơn của chính mình).
+  - Bổ sung tầng lọc phòng thủ (defense-in-depth) loại bỏ triệt để các phiếu tạo hộ khỏi danh sách tăng ca và giờ làm tính công của người quản lý.
+- Khắc phục triệt để lỗi tràn viền (overflow) tại tab "Đội ngũ" của Lịch & Ca làm việc (`RosterTicketBadges`, `RosterEmployeeTile`):
+  - Chuyển đổi cách sắp xếp tag sang `Wrap(spacing: 6, runSpacing: 4)` tự động xuống dòng linh hoạt.
+  - Rút gọn tiêu đề nhãn (tag): nghỉ phép hiển thị tên gói ngắn gọn, tăng ca hiển thị `+Xh Tăng ca`, giải trình hiển thị lý do ngắn gọn (loại bỏ `0.0h`).
+  - Bổ sung giới hạn chiều rộng tối đa (`ConstrainedBox(maxWidth: ...)`) và cắt bớt văn bản (`TextOverflow.ellipsis`) cho cả tag phiếu và tên ca làm việc.
 - Tích hợp gọi API và hiển thị huy hiệu phiếu Nghỉ phép (`/api/LeaveRequests/admin-mobile`), Phiếu tăng ca (`/api/OvertimeRequests/admin-mobile`) và Phiếu giải trình (`/api/TimesheetConfirmRequests`) theo từng nhân sự tại tab "Đội ngũ" của Lịch & Ca làm việc (`ShiftScheduleScreen`, `RosterTicketBadges`).
 - Nâng cấp toàn diện Bảng công (`TimesheetCalendarCubit`):
   - Bổ sung chỉ số Tăng ca và Giải trình / Sửa công bên cạnh Nghỉ phép trên Chú giải trạng thái (`CalendarLegendRow`) và Thẻ tổng hợp tháng (`CalendarSummaryCard`).

@@ -9,23 +9,29 @@ import 'package:vstech_hrm/features/attendance/domain/usecases/get_attendance_hi
 import 'package:vstech_hrm/features/calendar/presentation/cubit/timesheet_calendar_cubit.dart';
 import 'package:vstech_hrm/features/calendar/presentation/cubit/timesheet_calendar_state.dart';
 
-class MockGetAccountTimesheetUseCase extends Mock implements GetAccountTimesheetUseCase {}
+import 'package:vstech_hrm/features/requests/domain/entities/overtime_item_entity.dart';
+import 'package:vstech_hrm/features/requests/domain/usecases/get_overtime_requests_usecase.dart';
 
-class MockGetAttendanceHistoryUseCase extends Mock implements GetAttendanceHistoryUseCase {}
+class MockGetAccountTimesheetUseCase extends Mock implements GetAccountTimesheetUseCase;
+
+class MockGetAttendanceHistoryUseCase extends Mock implements GetAttendanceHistoryUseCase;
+
+class MockGetOvertimeRequestsUseCase extends Mock implements GetOvertimeRequestsUseCase;
 
 void main() {
   late MockGetAccountTimesheetUseCase mockUseCase;
+  late MockGetOvertimeRequestsUseCase mockOvertimeUseCase;
   late TimesheetCalendarCubit cubit;
 
-  final testDate = DateTime(2026, 10, 1);
+  final testDate = DateTime(2026, 10);
   final sampleItems = [
     AccountTimesheetEntity(
       workDate: DateTime(2026, 10, 5),
       actualWorkTime: 8.5,
-      validActualTime: 8.0,
-      lunch: 1.0,
-      extendedTime: 0.0,
-      leaveTime: 0.0,
+      validActualTime: 8,
+      lunch: 1,
+      extendedTime: 0,
+      leaveTime: 0,
       overtime: 1.5,
       overtimeScale: 1.5,
       isConfirmed: true,
@@ -33,13 +39,13 @@ void main() {
     ),
     AccountTimesheetEntity(
       workDate: DateTime(2026, 10, 6),
-      actualWorkTime: 4.0,
-      validActualTime: 4.0,
-      lunch: 0.0,
-      extendedTime: 0.0,
-      leaveTime: 4.0,
-      overtime: 0.0,
-      overtimeScale: 1.0,
+      actualWorkTime: 4,
+      validActualTime: 4,
+      lunch: 0,
+      extendedTime: 0,
+      leaveTime: 4,
+      overtime: 0,
+      overtimeScale: 1,
       isConfirmed: true,
       note: 'Nửa ngày phép',
     ),
@@ -53,8 +59,8 @@ void main() {
     );
   });
 
-  tearDown(() {
-    cubit.close();
+  tearDown(() async {
+    await cubit.close();
   });
 
   group('TimesheetCalendarCubit Tests', () {
@@ -142,6 +148,49 @@ void main() {
       expect(day10.isConfirmed, isFalse);
       expect(day10.validActualTime, equals(0.0));
       await cubitWithHist.close();
+    });
+
+    test('loadTimesheet filters out proxy overtime tickets created for subordinates', () async {
+      mockOvertimeUseCase = MockGetOvertimeRequestsUseCase();
+      final cubitWithOt = TimesheetCalendarCubit(
+        getAccountTimesheetUseCase: mockUseCase,
+        getOvertimeRequestsUseCase: mockOvertimeUseCase,
+        initialMonth: testDate,
+      );
+
+      when(() => mockUseCase.call(monthYear: any(named: 'monthYear')))
+          .thenAnswer((_) async => right([]));
+
+      const personalOt = OvertimeItemEntity(
+        code: 'OT-001',
+        statusText: 'Đã duyệt',
+        status: 1,
+        isLock: false,
+        createdByCode: 'MGR01',
+        employeeCode: 'MGR01',
+        date: '2026-10-05',
+        length: 2,
+      );
+      const proxyOt = OvertimeItemEntity(
+        code: 'OT-002',
+        statusText: 'Đã duyệt',
+        status: 1,
+        isLock: false,
+        createdByCode: 'MGR01',
+        employeeCode: 'EMP99',
+        date: '2026-10-05',
+        length: 3,
+      );
+
+      when(() => mockOvertimeUseCase.call(month: any(named: 'month'), includeCreated: any(named: 'includeCreated')))
+          .thenAnswer((_) async => right([personalOt, proxyOt]));
+
+      await cubitWithOt.loadTimesheet();
+
+      expect(cubitWithOt.state.overtimeRequests.length, equals(1));
+      expect(cubitWithOt.state.overtimeRequests.first.code, equals('OT-001'));
+      expect(cubitWithOt.state.overtimeRequests.any((o) => o.code == 'OT-002'), isFalse);
+      await cubitWithOt.close();
     });
   });
 }

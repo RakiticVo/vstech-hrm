@@ -9,7 +9,7 @@ class GetOvertimeRequestsUseCase {
 
   final RequestsRepository _repository;
 
-  Future<Either<Failure, List<OvertimeItemEntity>>> call({String? month}) {
-    return _repository.getOvertimeRequests(month: month);
+  Future<Either<Failure, List<OvertimeItemEntity>>> call({String? month, bool includeCreated = false}) {
+    return _repository.getOvertimeRequests(month: month, includeCreated: includeCreated);
   }
 }
