@@ -1421,6 +1421,9 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
+  String get requestLockedPeriodNotice => 'Timesheet closed, request is locked';
+
+  @override
   String get holidaysTitle => 'Holidays';
 
   @override

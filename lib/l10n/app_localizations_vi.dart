@@ -1415,6 +1415,9 @@ class AppLocalizationsVi extends AppLocalizations {
   }
 
   @override
+  String get requestLockedPeriodNotice => 'Kỳ công đã chốt, phiếu đã bị khóa';
+
+  @override
   String get holidaysTitle => 'Ngày lễ';
 
   @override

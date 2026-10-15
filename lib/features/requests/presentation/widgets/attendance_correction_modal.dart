@@ -67,7 +67,6 @@ class _AttendanceCorrectionModalState extends State<AttendanceCorrectionModal> {
   late TimeOfDay _time;
   String? _attachedFileName;
   late TextEditingController _reasonController;
-  late TextEditingController _worktimeController;
   late List<CorrectionReasonEntity> _reasons;
   late CorrectionReasonEntity _selectedReason;
 
@@ -77,7 +76,6 @@ class _AttendanceCorrectionModalState extends State<AttendanceCorrectionModal> {
     _selectedDate = widget.initialDate;
     _time = const TimeOfDay(hour: 17, minute: 30);
     _reasonController = TextEditingController();
-    _worktimeController = TextEditingController(text: '8.0');
   }
 
   @override
@@ -101,7 +99,6 @@ class _AttendanceCorrectionModalState extends State<AttendanceCorrectionModal> {
   @override
   void dispose() {
     _reasonController.dispose();
-    _worktimeController.dispose();
     super.dispose();
   }
 
@@ -112,11 +109,16 @@ class _AttendanceCorrectionModalState extends State<AttendanceCorrectionModal> {
       '${t.hour.toString().padLeft(2, '0')}:${t.minute.toString().padLeft(2, '0')}';
 
   Future<void> _pickDate() async {
+    final now = DateTime.now();
+    final firstDayOfMonth = DateTime(now.year, now.month);
+    final initial = _selectedDate.isBefore(firstDayOfMonth) || _selectedDate.isAfter(now)
+        ? now
+        : _selectedDate;
     final picked = await showDatePicker(
       context: context,
-      initialDate: _selectedDate,
-      firstDate: DateTime.now().subtract(const Duration(days: 30)),
-      lastDate: DateTime.now(),
+      initialDate: initial,
+      firstDate: firstDayOfMonth,
+      lastDate: now,
     );
     if (picked != null) {
       setState(() => _selectedDate = picked);
@@ -147,11 +149,10 @@ class _AttendanceCorrectionModalState extends State<AttendanceCorrectionModal> {
 
   void _onConfirmTap() {
     Navigator.pop(context);
-    final worktime = double.tryParse(_worktimeController.text.trim()) ?? 8.0;
     widget.onConfirm(
       _selectedReason,
       _selectedDate,
-      worktime,
+      0,
       _reasonController.text.trim(),
       _attachedFileName,
     );
@@ -193,21 +194,6 @@ class _AttendanceCorrectionModalState extends State<AttendanceCorrectionModal> {
               selectedReason: _selectedReason,
               onSelected: (r) => setState(() => _selectedReason = r),
               colors: colors,
-            ),
-            14.gapH,
-            Text('Số giờ công xác nhận (giờ)', style: TextStyle(fontSize: 13, fontWeight: FontWeight.w700, color: colors.textSecondary)),
-            6.gapH,
-            TextField(
-              controller: _worktimeController,
-              keyboardType: const TextInputType.numberWithOptions(decimal: true),
-              style: TextStyle(fontSize: 13, color: colors.textPrimary),
-              decoration: InputDecoration(
-                filled: true,
-                fillColor: colors.surface,
-                contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
-                border: OutlineInputBorder(borderRadius: BorderRadius.circular(12), borderSide: BorderSide(color: colors.border)),
-                enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(12), borderSide: BorderSide(color: colors.border)),
-              ),
             ),
             14.gapH,
             Text(l10n.explanationDetailLabel, style: TextStyle(fontSize: 13, fontWeight: FontWeight.w700, color: colors.textSecondary)),

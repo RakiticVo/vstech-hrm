@@ -145,9 +145,9 @@ void main() {
       expect(rejectResult.isRight(), isTrue);
     });
 
-    test('Manager fetches pending timesheet requests with personal=false', () async {
+    test('TC-APPV-03b: Manager fetches subordinate timesheet confirm requests via admin-mobile endpoint', () async {
       when(() => mockDioClient.get<dynamic>(
-            ApiEndpoints.timesheetConfirmRequests,
+            ApiEndpoints.timesheetConfirmRequestsAdminMobile,
             queryParameters: any<Map<String, dynamic>>(named: 'queryParameters'),
           )).thenAnswer(
         (_) async => Response<dynamic>(
@@ -165,7 +165,7 @@ void main() {
             ]
           },
           statusCode: 200,
-          requestOptions: RequestOptions(path: ApiEndpoints.timesheetConfirmRequests),
+          requestOptions: RequestOptions(path: ApiEndpoints.timesheetConfirmRequestsAdminMobile),
         ),
       );
 

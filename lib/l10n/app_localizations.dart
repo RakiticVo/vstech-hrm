@@ -2731,6 +2731,12 @@ abstract class AppLocalizations {
   /// **'Người duyệt: {name}'**
   String timesheetApproverLabel(String name);
 
+  /// No description provided for @requestLockedPeriodNotice.
+  ///
+  /// In vi, this message translates to:
+  /// **'Kỳ công đã chốt, phiếu đã bị khóa'**
+  String get requestLockedPeriodNotice;
+
   /// No description provided for @holidaysTitle.
   ///
   /// In vi, this message translates to:

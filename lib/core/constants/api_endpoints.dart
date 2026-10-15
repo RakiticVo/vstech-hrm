@@ -38,13 +38,14 @@ class ApiEndpoints {
 
   // 5. Timesheet Regularization & Sửa công
   static const String timesheetConfirmRequests = '/api/TimesheetConfirmRequests';
+  static const String timesheetConfirmRequestsAdminMobile = '/api/TimesheetConfirmRequests/admin-mobile';
   static const String timesheetConfirmReasons = '/api/TimesheetConfirmRequests/reasons';
   static String timesheetConfirmInfo(int id) => '/api/TimesheetConfirmRequests/info/$id';
   static String timesheetConfirmAccept(int id) => '/api/TimesheetConfirmRequests/confirm/$id';
   static String timesheetConfirmReject(int id) => '/api/TimesheetConfirmRequests/reject/$id';
 
   // 6. Confirm Requests (Manager Approvals)
-  static const String pendingApprovals = '/api/TimesheetConfirmRequests';
+  static const String pendingApprovals = '/api/TimesheetConfirmRequests/admin-mobile';
   static String leaveAccept(String id) => '/api/ConfirmRequests/leave/accept/$id';
   static String leaveDeny(String id) => '/api/ConfirmRequests/leave/deny/$id';
   static String businessAccept(String id) => '/api/ConfirmRequests/business/accept/$id';

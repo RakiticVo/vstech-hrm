@@ -684,6 +684,7 @@
       "name": {"type": "String"}
     }
   },
+  "requestLockedPeriodNotice": "Kỳ công đã chốt, phiếu đã bị khóa",
 
   "holidaysTitle": "Ngày lễ",
   "year2026": "Năm 2026",

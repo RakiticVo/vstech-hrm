@@ -11,8 +11,10 @@
   - Lưới lịch tháng (`CalendarMonthGridCard`) hiển thị trực quan các chấm màu đa sắc cho Tăng ca (Cam) và Giải trình (Xanh da trời).
   - Bottom sheet chi tiết ngày công (`TimesheetDayDetailSheet`, `TimesheetDaySlipsCard`) hiển thị danh sách phiếu Nghỉ phép, Tăng ca, Giải trình đi kèm và nút tắt "Gửi giải trình / Sửa công" khi bị thiếu giờ.
 - Mở lại và tích hợp toàn diện tính năng "Giải trình / Sửa công" (`/api/TimesheetConfirmRequests`) cho mọi nhân viên và cấp quản lý:
-  - Nhân viên (NV): Mở quyền truy cập danh sách và gửi yêu cầu giải trình/sửa công tại Trung tâm yêu cầu (`RequestsScreen`) và menu tạo nhanh (`NewRequestBottomSheet`).
-  - Quản lý (QL): Tích hợp bộ lọc "Giải trình / Sửa công" tại Trung tâm xác nhận (`ApprovalsScreen`), hỗ trợ duyệt đơn (`POST /api/TimesheetConfirmRequests/confirm/{id}`) và từ chối đơn (`POST /api/TimesheetConfirmRequests/reject/{id}`).
+  - Nhân viên (NV): Mở quyền truy cập danh sách và gửi yêu cầu giải trình/sửa công tại Trung tâm yêu cầu (`RequestsScreen`) và menu tạo nhanh (`NewRequestBottomSheet`). Cập nhật form tạo phiếu theo OpenAPI v12: giới hạn ngày chọn từ ngày 1 đến hôm nay trong tháng hiện tại, loại bỏ nhập `worktime` (mặc định 0h).
+  - Quản lý (QL): Tích hợp endpoint chuyên dụng `GET /api/TimesheetConfirmRequests/admin-mobile?month=...` theo OpenAPI v12 tại Trung tâm xác nhận (`ApprovalsScreen`), hỗ trợ duyệt đơn (`POST /api/TimesheetConfirmRequests/confirm/{id}`) và từ chối đơn (`POST /api/TimesheetConfirmRequests/reject/{id}`).
+  - Xử lý trạng thái khóa (`isLock`): khi kỳ bảng công đã chốt (`TimeRollProcesses`), tự động ẩn các nút thao tác duyệt/từ chối và hiển thị thông báo khóa phiếu an toàn.
+  - Hỗ trợ cờ `hasPendingConfirmRequest` trong bảng công nhân sự (`GET /api/TimeSheets/mobile`).
 - Triển khai API Đăng xuất (`POST /api/Account/logout`) theo OpenAPI spec v11, thu hồi token trên backend và dọn dẹp phiên lưu trữ an toàn.
 - Bổ sung Dialog cảnh báo phiên đăng nhập hết hạn khi nhận mã lỗi 400 trước khi điều hướng an toàn ra màn hình Đăng nhập.
 - Đồng bộ mở tính năng xem Thưởng trực tiếp từ Phiếu lương và đồng bộ kỳ lương hiển thị.

@@ -110,6 +110,7 @@ class TimesheetMobileItemModel extends Equatable {
     this.staticSymbol,
     this.isConfirmed = false,
     this.isConfirmText,
+    this.hasPendingConfirmRequest = false,
     this.workDate,
     this.workDateRaw,
     this.note,
@@ -129,6 +130,7 @@ class TimesheetMobileItemModel extends Equatable {
       staticSymbol: json['staticSymbol']?.toString(),
       isConfirmed: json['isConfirmed'] == true,
       isConfirmText: json['isConfirmText']?.toString(),
+      hasPendingConfirmRequest: json['hasPendingConfirmRequest'] == true,
       workDate: json['workDate']?.toString(),
       workDateRaw: json['workDateRaw']?.toString(),
       note: json['note']?.toString(),
@@ -147,6 +149,7 @@ class TimesheetMobileItemModel extends Equatable {
   final String? staticSymbol;
   final bool isConfirmed;
   final String? isConfirmText;
+  final bool hasPendingConfirmRequest;
   final String? workDate;
   final String? workDateRaw;
   final String? note;
@@ -165,6 +168,7 @@ class TimesheetMobileItemModel extends Equatable {
         staticSymbol,
         isConfirmed,
         isConfirmText,
+        hasPendingConfirmRequest,
         workDate,
         workDateRaw,
         note,

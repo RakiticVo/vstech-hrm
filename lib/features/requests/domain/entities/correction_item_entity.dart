@@ -13,6 +13,7 @@ class CorrectionItemEntity extends Equatable {
     this.note,
     this.isReject = false,
     this.confirmLevel = 0,
+    this.isLock = false,
     this.confirmerName,
   });
 
@@ -26,10 +27,12 @@ class CorrectionItemEntity extends Equatable {
   final String? note;
   final bool isReject;
   final int confirmLevel;
+  final bool isLock;
   final String? confirmerName;
 
   bool get isApproved => confirmLevel > 0 && !isReject;
   bool get isPending => confirmLevel == 0 && !isReject;
+  bool get isCompleted => confirmLevel >= 3 && !isReject;
 
   @override
   List<Object?> get props => [
@@ -43,6 +46,7 @@ class CorrectionItemEntity extends Equatable {
         note,
         isReject,
         confirmLevel,
+        isLock,
         confirmerName,
       ];
 }

@@ -192,6 +192,7 @@ class RequestsRepositoryImpl implements RequestsRepository {
               note: m.note,
               isReject: m.isReject,
               confirmLevel: m.confirmLevel,
+              isLock: m.isLock,
               confirmerName: m.confirmerName,
             )).toList();
       });

@@ -684,6 +684,7 @@
       "name": {"type": "String"}
     }
   },
+  "requestLockedPeriodNotice": "Timesheet closed, request is locked",
 
   "holidaysTitle": "Holidays",
   "year2026": "Year 2026",

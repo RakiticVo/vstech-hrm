@@ -213,9 +213,8 @@ class ApprovalsRemoteDataSourceImpl implements ApprovalsRemoteDataSource {
     try {
       final queryMonth = _normalizeMonth(month);
       final response = await dioClient.get<dynamic>(
-        ApiEndpoints.timesheetConfirmRequests,
+        ApiEndpoints.timesheetConfirmRequestsAdminMobile,
         queryParameters: <String, dynamic>{
-          'personal': false,
           'month': queryMonth,
         },
       );

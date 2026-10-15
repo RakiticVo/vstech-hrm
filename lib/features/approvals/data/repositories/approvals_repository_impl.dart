@@ -100,6 +100,8 @@ class ApprovalsRepositoryImpl implements ApprovalsRepository {
             note: m.note,
             isReject: m.isReject,
             confirmLevel: m.confirmLevel,
+            isLock: m.isLock,
+            confirmerName: m.confirmerName,
           )).toList();
       return Right(entities);
     } on AppException catch (e) {

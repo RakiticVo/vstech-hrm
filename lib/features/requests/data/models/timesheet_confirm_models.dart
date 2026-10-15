@@ -104,6 +104,7 @@ class TimesheetCorrectionItemModel extends Equatable {
     this.reasonTypeName,
     this.confirmLevel = 0,
     this.isReject = false,
+    this.isLock = false,
     this.confirmerName,
   });
 
@@ -120,6 +121,7 @@ class TimesheetCorrectionItemModel extends Equatable {
       reasonTypeName: json['reasonTypeName']?.toString(),
       confirmLevel: json['confirmLevel'] is int ? json['confirmLevel'] as int : 0,
       isReject: json['isReject'] as bool? ?? false,
+      isLock: json['isLock'] as bool? ?? false,
       confirmerName: json['hrManagerName']?.toString() ??
           json['hrAdminName']?.toString() ??
           json['managerName']?.toString() ??
@@ -139,6 +141,7 @@ class TimesheetCorrectionItemModel extends Equatable {
   final String? reasonTypeName;
   final int confirmLevel;
   final bool isReject;
+  final bool isLock;
   final String? confirmerName;
 
   Map<String, dynamic> toJson() => <String, dynamic>{
@@ -153,6 +156,7 @@ class TimesheetCorrectionItemModel extends Equatable {
         'reasonTypeName': reasonTypeName,
         'confirmLevel': confirmLevel,
         'isReject': isReject,
+        'isLock': isLock,
       };
 
   @override
@@ -164,5 +168,6 @@ class TimesheetCorrectionItemModel extends Equatable {
         reasonTypeName,
         confirmLevel,
         isReject,
+        isLock,
       ];
 }

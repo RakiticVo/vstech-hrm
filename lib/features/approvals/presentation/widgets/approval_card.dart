@@ -185,7 +185,7 @@ class _ApprovalCardState extends State<ApprovalCard> {
           12.gapH,
 
           // Action Buttons or Processed Status Bar
-          if (item.isPending)
+          if (item.isPending && !item.isLock)
             Row(
               children: [
                 Expanded(
@@ -227,6 +227,26 @@ class _ApprovalCardState extends State<ApprovalCard> {
                   ),
                 ),
               ],
+            )
+          else if (item.isLock)
+            Container(
+              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+              decoration: BoxDecoration(
+                color: colors.cardSecondary,
+                borderRadius: BorderRadius.circular(10),
+              ),
+              child: Row(
+                children: [
+                  Icon(Icons.lock_outline_rounded, size: 16, color: colors.textSecondary),
+                  8.gapW,
+                  Expanded(
+                    child: Text(
+                      l10n.requestLockedPeriodNotice,
+                      style: TextStyle(fontSize: 12.5, fontWeight: FontWeight.w600, color: colors.textSecondary),
+                    ),
+                  ),
+                ],
+              ),
             )
           else
             Container(

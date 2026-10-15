@@ -16,6 +16,7 @@ class ApprovalItem {
     this.department,
     this.status = 0,
     this.statusText = 'Chờ duyệt',
+    this.isLock = false,
   });
 
   final String? id;
@@ -33,6 +34,7 @@ class ApprovalItem {
   final String? department;
   final int status;
   final String statusText;
+  final bool isLock;
 
   bool get isPending => status == 0;
   bool get isApproved => status == 1;

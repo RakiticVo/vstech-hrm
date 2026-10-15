@@ -133,6 +133,7 @@ abstract final class ApprovalsActionHandler {
           worktime: e.worktime,
           status: e.isApproved ? 1 : (e.isReject ? 2 : 0),
           statusText: e.isApproved ? 'Đã duyệt' : (e.isReject ? 'Từ chối' : 'Chờ duyệt'),
+          isLock: e.isLock,
         ));
       }
     });

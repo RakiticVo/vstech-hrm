@@ -189,7 +189,6 @@ class _OvertimeRequestModalState extends State<OvertimeRequestModal> {
       reason: reason,
       length: length,
       validInfo: _validInfo,
-      skipMaxHour: true,
     );
     if (validationErr != null) {
       setState(() => _errorMessage = validationErr);
