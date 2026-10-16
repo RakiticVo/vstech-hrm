@@ -1,0 +1,2 @@
+# The Play Store JSON key path is passed explicitly by the deploy_play_store lane.
+package_name("com.vstech.vstech_hrm")

@@ -49,3 +49,14 @@ ios/Runner/GoogleService-Info.plist
 .DS_Store
 Thumbs.db
 coverage/
+
+# CI/CD — signing material & credentials (written on the runner, never committed)
+*.jks
+*.keystore
+*.p8
+android/fastlane/*.json
+ios/fastlane/*.json
+**/fastlane/report.xml
+**/fastlane/README.md
+**/fastlane/test_output/
+**/fastlane/metadata/

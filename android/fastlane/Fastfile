@@ -1,0 +1,52 @@
+default_platform(:android)
+
+# Lane bodies run inside android/fastlane, actions run from android/ — resolve every path absolutely.
+def project_root
+  File.expand_path("../..", Dir.pwd)
+end
+
+def flutter_build(target)
+  build_name = ENV["BUILD_NAME"].to_s.strip
+  build_number = ENV["BUILD_NUMBER"].to_s.strip
+  UI.user_error!("BUILD_NAME and BUILD_NUMBER must be set") if build_name.empty? || build_number.empty?
+  UI.user_error!("Missing .env at the project root (written by CI from DOTENV_*)") unless File.exist?(File.join(project_root, ".env"))
+
+  Dir.chdir(project_root) do
+    sh("flutter", "build", target, "--release", "--build-name=#{build_name}", "--build-number=#{build_number}")
+  end
+end
+
+platform :android do
+  desc "UAT: build a release-signed APK and upload it to Firebase App Distribution"
+  lane :distribute_firebase do
+    flutter_build("apk")
+
+    groups = ENV["FIREBASE_TESTER_GROUPS"].to_s.strip
+    firebase_app_distribution(
+      app: ENV["FIREBASE_ANDROID_APP_ID"],
+      service_credentials_file: File.expand_path("firebase-distribution.json"),
+      groups: groups.empty? ? "internal-testers" : groups,
+      release_notes: ENV["RELEASE_NOTES"].to_s.empty? ? "Build triggered via GitHub Actions tag push." : ENV["RELEASE_NOTES"],
+      apk_path: File.join(project_root, "build/app/outputs/flutter-apk/app-release.apk")
+    )
+  end
+
+  desc "Production: build a release-signed AAB and publish it to Google Play"
+  lane :deploy_play_store do
+    flutter_build("appbundle")
+
+    track = ENV["PLAY_STORE_TRACK"].to_s.strip
+    release_status = ENV["PLAY_STORE_RELEASE_STATUS"].to_s.strip
+
+    upload_to_play_store(
+      json_key: File.expand_path("fastlane-play-store.json"),
+      track: track.empty? ? "production" : track,
+      release_status: release_status.empty? ? "completed" : release_status,
+      aab: File.join(project_root, "build/app/outputs/bundle/release/app-release.aab"),
+      skip_upload_metadata: true,
+      skip_upload_images: true,
+      skip_upload_screenshots: true,
+      skip_upload_changelogs: true
+    )
+  end
+end

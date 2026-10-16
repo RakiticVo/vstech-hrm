@@ -78,9 +78,11 @@ Semantic Versioning cho app: `MAJOR.MINOR.PATCH`
 - `MINOR`: thêm chức năng P0/P1 mới hoàn chỉnh.
 - `PATCH`: fix bug, cải thiện nhỏ.
 
-## 5. CI (GitHub Actions) — hiện tại
+## 5. CI/CD (GitHub Actions)
 
-File `.github/workflows/ci.yml` (tạo khi bắt đầu code, chưa tạo ở bước planning này) chỉ chạy:
-- `flutter analyze` trên mọi push/PR vào `develop`/`main`.
+Tag-driven release pipeline (`.github/workflows/release.yml`):
+- `vX.Y.Z-uat` on `develop` → APK to Firebase App Distribution + IPA to TestFlight.
+- `vX.Y.Z` on `main` → AAB to Google Play (production) + IPA to TestFlight.
+- Every run runs `flutter analyze` + `flutter test` first, uploads the builds as Actions artifacts and reports to Telegram.
 
-Chưa bật `flutter test` hay build APK/IPA trong CI — bổ sung sau khi có MVP chạy ổn định, tránh phí thời gian setup sớm khi codebase còn thay đổi cấu trúc nhiều.
+Setup, secrets and the release procedure: [docs/guide/cicd-secrets-setup.md](guide/cicd-secrets-setup.md).

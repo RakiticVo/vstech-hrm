@@ -1,0 +1,7 @@
+# Never add a fallback URL here: an unset secret must fail loudly instead of cloning a wrong repo.
+git_url(ENV["MATCH_GIT_URL"])
+storage_mode("git")
+type("appstore")
+app_identifier(["com.vstech.vstechHrm"]) # Array of strings!
+username(ENV["APPLE_ID"])
+clone_branch_directly(true)

@@ -1,0 +1,4 @@
+# app_identifier accepts a single String here (the Matchfile takes an Array).
+app_identifier("com.vstech.vstechHrm")
+apple_id(ENV["APPLE_ID"])
+team_id(ENV["APPLE_TEAM_ID"])
