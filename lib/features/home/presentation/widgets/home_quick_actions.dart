@@ -28,9 +28,9 @@ class HomeQuickActions extends StatelessWidget {
         onTap: () => context.push(AppRoutes.overtimeManage),
       ),
       _ActionItem(
-        label: l10n.quickActionPayroll,
-        iconName: AppIcons.payslip,
-        onTap: () => context.push(AppRoutes.payroll),
+        label: l10n.quickActionCorrection,
+        iconName: AppIcons.correction,
+        onTap: () => context.push(AppRoutes.correctionManage),
       ),
       _ActionItem(
         label: l10n.shiftScheduleNav,

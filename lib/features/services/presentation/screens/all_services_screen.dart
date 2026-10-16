@@ -1,11 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:vstech_hrm/core/extensions/l10n_extension.dart';
 import 'package:vstech_hrm/core/responsive/app_layout.dart';
 import 'package:vstech_hrm/core/router/routes.dart';
-import 'package:vstech_hrm/core/session/auth_cubit.dart';
-import 'package:vstech_hrm/core/session/auth_state.dart';
 import 'package:vstech_hrm/core/theme/app_colors.dart';
 import 'package:vstech_hrm/core/widgets/app_icon.dart';
 
@@ -16,12 +13,6 @@ class AllServicesScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colors = context.colors;
-    final authState = context.watch<AuthCubit>().state;
-    final isManager = authState is Authenticated &&
-        (authState.user.role.isManager ||
-            authState.user.role.isAdmin ||
-            authState.user.claims.contains('manager.approve') ||
-            authState.user.claims.contains('hr:admin'));
 
     return Scaffold(
       backgroundColor: colors.background,
@@ -45,6 +36,18 @@ class AllServicesScreen extends StatelessWidget {
         padding: const EdgeInsets.fromLTRB(16, 16, 16, 32),
         children: [
           _buildCategory(
+            title: context.l10n.approvalsCenterTitle,
+            items: [
+              _ServiceItem(
+                context.l10n.approvalsCenterTitle,
+                AppIcons.approvals,
+                () => context.go(AppRoutes.approvals),
+              ),
+            ],
+            colors: colors,
+          ),
+          22.gapH,
+          _buildCategory(
             title: context.l10n.categoryAttendanceTime,
             items: [
               _ServiceItem(context.l10n.serviceCheckInOut, AppIcons.checkIn, () => context.go(AppRoutes.attendance)),
@@ -59,12 +62,6 @@ class AllServicesScreen extends StatelessWidget {
               _ServiceItem(context.l10n.leaveManageTitle, AppIcons.leave, () => context.push(AppRoutes.leaveManage)),
               _ServiceItem(context.l10n.overtimeManageTitle, AppIcons.overtime, () => context.push(AppRoutes.overtimeManage)),
               _ServiceItem(context.l10n.correctionManageTitle, AppIcons.correction, () => context.push(AppRoutes.correctionManage)),
-              if (isManager)
-                _ServiceItem(
-                  context.l10n.approvalsCenterTitle,
-                  AppIcons.approvals,
-                  () => context.go(AppRoutes.approvals),
-                ),
             ],
             colors: colors,
           ),
