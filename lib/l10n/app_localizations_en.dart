@@ -170,7 +170,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get quickActionOvertime => 'Overtime';
 
   @override
-  String get quickActionCorrection => 'Correction';
+  String get quickActionCorrection => 'Explanation';
 
   @override
   String get quickActionPayroll => 'Payslip';
@@ -267,7 +267,7 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
-  String get sendCorrectionRequest => 'Submit Attendance Correction';
+  String get sendCorrectionRequest => 'Submit Explanation';
 
   @override
   String get statusCheckedIn => 'Checked in';
@@ -495,14 +495,13 @@ class AppLocalizationsEn extends AppLocalizations {
   String get requestTypeOvertime => 'Overtime Request';
 
   @override
-  String get requestTypeCorrection => 'Correction Request';
+  String get requestTypeCorrection => 'Explanation';
 
   @override
   String get requestsCenterTitle => 'Requests Center';
 
   @override
-  String get requestsCenterSubtitle =>
-      'Leave · Overtime · Attendance Correction';
+  String get requestsCenterSubtitle => 'Leave · Overtime · Explanation';
 
   @override
   String get monthlyRequestsTitle => 'Monthly Requests';
@@ -585,13 +584,13 @@ class AppLocalizationsEn extends AppLocalizations {
   String get newOvertimeRequestSection => 'New Overtime Request';
 
   @override
-  String get newCorrectionRequestSection => 'New Correction Request';
+  String get newCorrectionRequestSection => 'New Explanation Request';
 
   @override
   String get overtimeHistorySection => 'Overtime History';
 
   @override
-  String get correctionHistorySection => 'Correction History';
+  String get correctionHistorySection => 'Explanation History';
 
   @override
   String get approvalsCenterTitle => 'Approvals Center';
@@ -729,13 +728,13 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
-  String get createCorrectionTitle => 'Create Correction Request';
+  String get createCorrectionTitle => 'Create Explanation Request';
 
   @override
-  String get correctionDateLabel => 'Correction Date';
+  String get correctionDateLabel => 'Explanation Date';
 
   @override
-  String get correctionTimeLabel => 'Corrected Time';
+  String get correctionTimeLabel => 'Time';
 
   @override
   String get correctionIssueLabel => 'Issue Encountered';
@@ -767,21 +766,21 @@ class AppLocalizationsEn extends AppLocalizations {
   String get confirmSendCorrection => 'Confirm Submit Request';
 
   @override
-  String get correctionSubmittedTitle => 'Correction request submitted!';
+  String get correctionSubmittedTitle => 'Explanation request submitted!';
 
   @override
   String correctionSubmittedMsg(String issue, String date, String time) {
-    return 'Correction for $issue on $date ($time) has been sent to HR & Manager.';
+    return 'Explanation for $issue on $date ($time) has been sent to HR & Manager.';
   }
 
   @override
   String noCorrectionsInMonth(String month) {
-    return 'No attendance corrections in $month';
+    return 'No explanation requests in $month';
   }
 
   @override
   String get correctionWarningBanner =>
-      'Date 15/09/2026 missing check-out time. This day counts as incomplete attendance until correction is approved.';
+      'Date 15/09/2026 missing check-out time. This day counts as incomplete attendance until explanation is approved.';
 
   @override
   String get correctionIssueTitle => 'Issue';
@@ -1308,7 +1307,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get serviceOvertime => 'Overtime Request';
 
   @override
-  String get serviceCorrection => 'Attendance Correction';
+  String get serviceCorrection => 'Explanation';
 
   @override
   String get serviceTrackRequests => 'Track Requests';
@@ -1398,7 +1397,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get legendOvertime => 'Overtime';
 
   @override
-  String get legendCorrection => 'Correction';
+  String get legendCorrection => 'Explanation';
 
   @override
   String get legendMissingTime => 'Missing Time';
@@ -1407,10 +1406,10 @@ class AppLocalizationsEn extends AppLocalizations {
   String get legendHoliday => 'Holiday';
 
   @override
-  String get timesheetCorrectionSummary => 'Correction / Regularization';
+  String get timesheetCorrectionSummary => 'Explanation';
 
   @override
-  String get timesheetSendCorrectionCta => 'Submit Correction Request';
+  String get timesheetSendCorrectionCta => 'Submit Explanation';
 
   @override
   String get timesheetRelatedSlipsTitle => 'Related Requests & Slips';
@@ -2420,7 +2419,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get approvalTypeFilterAll => 'All';
 
   @override
-  String get approvalTypeFilterCorrection => 'Attendance Correction';
+  String get approvalTypeFilterCorrection => 'Explanation';
 
   @override
   String get approvalTypeFilterTimesheet => 'Timesheets';
@@ -2616,10 +2615,10 @@ class AppLocalizationsEn extends AppLocalizations {
   String get overtimeScopeProxy => 'Created on Behalf';
 
   @override
-  String get correctionManageTitle => 'Explanation & Correction Management';
+  String get correctionManageTitle => 'Explanation Management';
 
   @override
-  String get createCorrectionBtn => 'Create Explanation / Correction';
+  String get createCorrectionBtn => 'Create Explanation';
 
   @override
   String get correctionSummaryTitle => 'Monthly Explanation Summary';
@@ -2630,7 +2629,7 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
-  String get correctionQuotaTitle => 'Monthly Correction Quota';
+  String get correctionQuotaTitle => 'Monthly Explanation Quota';
 
   @override
   String correctionQuotaUsage(String used, String total) {
@@ -2642,7 +2641,7 @@ class AppLocalizationsEn extends AppLocalizations {
       'Missing Punches Requiring Attention';
 
   @override
-  String get fixPunchBtn => 'Fix Punch Now';
+  String get fixPunchBtn => 'Explain Punch Now';
 
   @override
   String get noMissingPunches => 'No missing punches recorded';

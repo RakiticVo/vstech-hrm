@@ -194,6 +194,10 @@ class RequestsRepositoryImpl implements RequestsRepository {
               confirmLevel: m.confirmLevel,
               isLock: m.isLock,
               confirmerName: m.confirmerName,
+              shiftCode: m.shiftCode,
+              shiftName: m.shiftName,
+              shiftStart: m.shiftStart,
+              shiftEnd: m.shiftEnd,
             )).toList();
       });
 

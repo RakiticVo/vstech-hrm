@@ -2,6 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:fpdart/fpdart.dart';
 import 'package:vstech_hrm/core/di/injector.dart';
 import 'package:vstech_hrm/core/errors/failures.dart';
+import 'package:vstech_hrm/core/extensions/date_formatter_extension.dart';
 import 'package:vstech_hrm/features/approvals/domain/entities/timesheet_mobile_item_entity.dart';
 import 'package:vstech_hrm/features/approvals/domain/usecases/admin_confirm_timesheet_usecase.dart';
 import 'package:vstech_hrm/features/approvals/domain/usecases/approve_leave_usecase.dart';
@@ -104,7 +105,7 @@ abstract final class ApprovalsActionHandler {
           initials: (e.employeeName?.isNotEmpty == true) ? e.employeeName![0].toUpperCase() : 'CC',
           name: _formatName(e.employeeName, e.employeeCode),
           type: 'Xác nhận công',
-          dates: e.workDate ?? '',
+          dates: e.workDate.toDisplayDate(),
           reason: note,
           category: 'timesheet',
           attendanceSnippet: 'Công: ${workHours}h (Ca ${shiftHours}h)',
@@ -126,7 +127,7 @@ abstract final class ApprovalsActionHandler {
           initials: (e.employeeName?.isNotEmpty == true) ? e.employeeName![0].toUpperCase() : 'GC',
           name: _formatName(e.employeeName, e.employeeCode),
           type: e.reasonTypeName ?? 'Giải trình công',
-          dates: e.workDate ?? '',
+          dates: e.workDate.toDisplayDate(),
           reason: note,
           category: 'correction',
           attendanceSnippet: e.worktime != null ? 'Giờ làm: ${e.worktime}h' : null,

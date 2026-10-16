@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:vstech_hrm/core/extensions/date_formatter_extension.dart';
 import 'package:vstech_hrm/core/extensions/l10n_extension.dart';
 import 'package:vstech_hrm/core/responsive/app_layout.dart';
 import 'package:vstech_hrm/core/theme/app_colors.dart';
@@ -9,7 +10,7 @@ import 'package:vstech_hrm/features/approvals/presentation/widgets/approval_reje
 
 export 'package:vstech_hrm/features/approvals/presentation/models/approval_item.dart';
 
-class ApprovalCard extends StatefulWidget {
+class ApprovalCard extends StatelessWidget {
   const new({
     required this.item,
     required this.onApprove,
@@ -22,16 +23,8 @@ class ApprovalCard extends StatefulWidget {
   final void Function(String reason) onReject;
 
   @override
-  State<ApprovalCard> createState() => _ApprovalCardState();
-}
-
-class _ApprovalCardState extends State<ApprovalCard> {
-  bool _showDetails = false;
-
-  @override
   Widget build(BuildContext context) {
     final colors = context.colors;
-    final item = widget.item;
     final l10n = context.l10n;
 
     final statusBg = item.isApproved
@@ -52,7 +45,7 @@ class _ApprovalCardState extends State<ApprovalCard> {
 
     final subtitleParts = <String>[
       item.type,
-      if (item.dates.isNotEmpty) item.dates,
+      if (item.dates.isNotEmpty) item.dates.toDisplayDate(),
       if (item.worktime != null && item.worktime! > 0) '${item.worktime}h',
     ];
 
@@ -87,10 +80,11 @@ class _ApprovalCardState extends State<ApprovalCard> {
                       style: TextStyle(
                         fontSize: 14,
                         fontWeight: FontWeight.w800,
+                        height: 1.25,
                         color: colors.textPrimary,
                       ),
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
+                      maxLines: 3,
+                      softWrap: true,
                     ),
                     if (item.id != null && item.id!.isNotEmpty) ...[
                       2.gapH,
@@ -163,25 +157,6 @@ class _ApprovalCardState extends State<ApprovalCard> {
             ),
           ],
 
-          // Attendance snapshot
-          if (item.attendanceSnippet != null) ...[
-            8.gapH,
-            InkWell(
-              onTap: () => setState(() => _showDetails = !_showDetails),
-              child: Row(
-                children: [
-                  AppIcon(AppIcons.attendance, size: 15, color: colors.primaryIndigo),
-                  6.gapW,
-                  Expanded(
-                    child: Text(
-                      '${l10n.approvalAttendanceSnippet}: ${item.attendanceSnippet}',
-                      style: TextStyle(fontSize: 11.5, color: colors.primaryIndigo, fontWeight: FontWeight.w600),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ],
           12.gapH,
 
           // Action Buttons or Processed Status Bar
@@ -197,7 +172,7 @@ class _ApprovalCardState extends State<ApprovalCard> {
                         side: BorderSide(color: colors.error),
                         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
                       ),
-                      onPressed: () => unawaited(ApprovalRejectDialog.show(context, onConfirm: widget.onReject)),
+                      onPressed: () => unawaited(ApprovalRejectDialog.show(context, onConfirm: onReject)),
                       child: Text(l10n.actionReject, style: TextStyle(fontSize: 13, fontWeight: FontWeight.w800, color: colors.error)),
                     ),
                   ),
@@ -214,7 +189,7 @@ class _ApprovalCardState extends State<ApprovalCard> {
                         elevation: 0,
                         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
                       ),
-                      onPressed: widget.onApprove,
+                      onPressed: onApprove,
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [

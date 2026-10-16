@@ -102,6 +102,10 @@ class ApprovalsRepositoryImpl implements ApprovalsRepository {
             confirmLevel: m.confirmLevel,
             isLock: m.isLock,
             confirmerName: m.confirmerName,
+            shiftCode: m.shiftCode,
+            shiftName: m.shiftName,
+            shiftStart: m.shiftStart,
+            shiftEnd: m.shiftEnd,
           )).toList();
       return Right(entities);
     } on AppException catch (e) {

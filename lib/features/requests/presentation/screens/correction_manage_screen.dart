@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:vstech_hrm/core/di/injector.dart';
+import 'package:vstech_hrm/core/extensions/date_formatter_extension.dart';
 import 'package:vstech_hrm/core/extensions/l10n_extension.dart';
 import 'package:vstech_hrm/core/responsive/app_layout.dart';
 import 'package:vstech_hrm/core/router/routes.dart';
@@ -76,16 +77,14 @@ class _CorrectionManageScreenState extends State<CorrectionManageScreen> {
 
   RequestData _mapToRequestData(CorrectionItemEntity e) {
     final statusCode = e.isApproved ? 2 : (e.isReject ? 3 : 1);
-    final statusText = e.isApproved
-        ? 'Đã duyệt'
-        : (e.isReject ? 'Từ chối' : 'Chờ duyệt');
-    final reasonName = e.reasonTypeName?.trim().isNotEmpty == true
-        ? e.reasonTypeName!.trim()
-        : 'Giải trình';
+    final statusText = e.isApproved ? 'Đã duyệt' : (e.isReject ? 'Từ chối' : 'Chờ duyệt');
+    final reasonName = e.reasonTypeName?.trim().isNotEmpty == true ? e.reasonTypeName!.trim() : 'Giải trình';
+    final title = reasonName.toLowerCase().startsWith('giải trình') ? reasonName : 'Giải trình · $reasonName';
+    final dateDisplay = e.workDate.toDisplayDate();
     return RequestData(
-      mark: 'S',
-      type: 'Sửa công · $reasonName',
-      dates: e.workDate ?? '',
+      mark: 'G',
+      type: title,
+      dates: (e.shiftName != null && e.shiftName!.isNotEmpty) ? '$dateDisplay · ${e.shiftName}' : dateDisplay,
       status: statusText,
       statusCode: statusCode,
       stage: statusText,
@@ -94,7 +93,6 @@ class _CorrectionManageScreenState extends State<CorrectionManageScreen> {
       code: 'TC-${e.id}',
       requesterName: e.employeeName,
       reason: e.note ?? e.reasonTypeName,
-      worktime: e.confirmedWorktime ?? e.worktime,
       confirmerName: e.confirmerName,
     );
   }

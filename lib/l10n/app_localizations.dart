@@ -419,7 +419,7 @@ abstract class AppLocalizations {
   /// No description provided for @quickActionCorrection.
   ///
   /// In vi, this message translates to:
-  /// **'Sửa công'**
+  /// **'Giải trình'**
   String get quickActionCorrection;
 
   /// No description provided for @quickActionPayroll.
@@ -599,7 +599,7 @@ abstract class AppLocalizations {
   /// No description provided for @sendCorrectionRequest.
   ///
   /// In vi, this message translates to:
-  /// **'Gửi yêu cầu sửa công'**
+  /// **'Gửi yêu cầu giải trình'**
   String get sendCorrectionRequest;
 
   /// No description provided for @statusCheckedIn.
@@ -1019,7 +1019,7 @@ abstract class AppLocalizations {
   /// No description provided for @requestTypeCorrection.
   ///
   /// In vi, this message translates to:
-  /// **'Sửa công'**
+  /// **'Giải trình'**
   String get requestTypeCorrection;
 
   /// No description provided for @requestsCenterTitle.
@@ -1031,7 +1031,7 @@ abstract class AppLocalizations {
   /// No description provided for @requestsCenterSubtitle.
   ///
   /// In vi, this message translates to:
-  /// **'Nghỉ phép · Tăng ca · Sửa công'**
+  /// **'Nghỉ phép · Tăng ca · Giải trình'**
   String get requestsCenterSubtitle;
 
   /// No description provided for @monthlyRequestsTitle.
@@ -1174,7 +1174,7 @@ abstract class AppLocalizations {
   /// No description provided for @newCorrectionRequestSection.
   ///
   /// In vi, this message translates to:
-  /// **'Sửa công mới'**
+  /// **'Giải trình mới'**
   String get newCorrectionRequestSection;
 
   /// No description provided for @overtimeHistorySection.
@@ -1186,7 +1186,7 @@ abstract class AppLocalizations {
   /// No description provided for @correctionHistorySection.
   ///
   /// In vi, this message translates to:
-  /// **'Lịch sử sửa công'**
+  /// **'Lịch sử giải trình'**
   String get correctionHistorySection;
 
   /// No description provided for @approvalsCenterTitle.
@@ -1438,19 +1438,19 @@ abstract class AppLocalizations {
   /// No description provided for @createCorrectionTitle.
   ///
   /// In vi, this message translates to:
-  /// **'Tạo yêu cầu sửa công'**
+  /// **'Tạo yêu cầu giải trình'**
   String get createCorrectionTitle;
 
   /// No description provided for @correctionDateLabel.
   ///
   /// In vi, this message translates to:
-  /// **'Ngày sửa'**
+  /// **'Ngày giải trình'**
   String get correctionDateLabel;
 
   /// No description provided for @correctionTimeLabel.
   ///
   /// In vi, this message translates to:
-  /// **'Sửa thành giờ'**
+  /// **'Thời gian'**
   String get correctionTimeLabel;
 
   /// No description provided for @correctionIssueLabel.
@@ -1510,7 +1510,7 @@ abstract class AppLocalizations {
   /// No description provided for @correctionSubmittedTitle.
   ///
   /// In vi, this message translates to:
-  /// **'Đã gửi yêu cầu sửa công!'**
+  /// **'Đã gửi yêu cầu giải trình!'**
   String get correctionSubmittedTitle;
 
   /// No description provided for @correctionSubmittedMsg.
@@ -1522,13 +1522,13 @@ abstract class AppLocalizations {
   /// No description provided for @noCorrectionsInMonth.
   ///
   /// In vi, this message translates to:
-  /// **'Không có phiếu sửa công nào trong {month}'**
+  /// **'Không có phiếu giải trình nào trong {month}'**
   String noCorrectionsInMonth(String month);
 
   /// No description provided for @correctionWarningBanner.
   ///
   /// In vi, this message translates to:
-  /// **'Ngày 15/09/2026 chưa có giờ ra. Ngày này bị tính thiếu công cho đến khi được duyệt sửa.'**
+  /// **'Ngày 15/09/2026 chưa có giờ ra. Ngày này bị tính thiếu công cho đến khi được duyệt giải trình.'**
   String get correctionWarningBanner;
 
   /// No description provided for @correctionIssueTitle.
@@ -2512,7 +2512,7 @@ abstract class AppLocalizations {
   /// No description provided for @serviceCorrection.
   ///
   /// In vi, this message translates to:
-  /// **'Sửa công'**
+  /// **'Giải trình'**
   String get serviceCorrection;
 
   /// No description provided for @serviceTrackRequests.
@@ -2710,13 +2710,13 @@ abstract class AppLocalizations {
   /// No description provided for @timesheetCorrectionSummary.
   ///
   /// In vi, this message translates to:
-  /// **'Giải trình / Sửa công'**
+  /// **'Giải trình'**
   String get timesheetCorrectionSummary;
 
   /// No description provided for @timesheetSendCorrectionCta.
   ///
   /// In vi, this message translates to:
-  /// **'Gửi giải trình / Sửa công'**
+  /// **'Gửi giải trình'**
   String get timesheetSendCorrectionCta;
 
   /// No description provided for @timesheetRelatedSlipsTitle.
@@ -4582,7 +4582,7 @@ abstract class AppLocalizations {
   /// No description provided for @approvalTypeFilterCorrection.
   ///
   /// In vi, this message translates to:
-  /// **'Giải trình / Sửa công'**
+  /// **'Giải trình'**
   String get approvalTypeFilterCorrection;
 
   /// No description provided for @approvalTypeFilterTimesheet.
@@ -4954,13 +4954,13 @@ abstract class AppLocalizations {
   /// No description provided for @correctionManageTitle.
   ///
   /// In vi, this message translates to:
-  /// **'Quản lý Giải trình / Sửa công'**
+  /// **'Quản lý Giải trình'**
   String get correctionManageTitle;
 
   /// No description provided for @createCorrectionBtn.
   ///
   /// In vi, this message translates to:
-  /// **'Tạo giải trình / Sửa công'**
+  /// **'Tạo giải trình'**
   String get createCorrectionBtn;
 
   /// No description provided for @correctionSummaryTitle.
@@ -4978,7 +4978,7 @@ abstract class AppLocalizations {
   /// No description provided for @correctionQuotaTitle.
   ///
   /// In vi, this message translates to:
-  /// **'Hạn mức sửa công tháng này'**
+  /// **'Hạn mức giải trình tháng này'**
   String get correctionQuotaTitle;
 
   /// No description provided for @correctionQuotaUsage.
@@ -4996,7 +4996,7 @@ abstract class AppLocalizations {
   /// No description provided for @fixPunchBtn.
   ///
   /// In vi, this message translates to:
-  /// **'Sửa công ngay'**
+  /// **'Giải trình ngay'**
   String get fixPunchBtn;
 
   /// No description provided for @noMissingPunches.

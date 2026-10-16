@@ -60,7 +60,7 @@
 
   "quickActionLeave": "Nghỉ phép",
   "quickActionOvertime": "Tăng ca",
-  "quickActionCorrection": "Sửa công",
+  "quickActionCorrection": "Giải trình",
   "quickActionPayroll": "Bảng lương",
   "quickActionAll": "Tất cả",
 
@@ -111,7 +111,7 @@
       }
     }
   },
-  "sendCorrectionRequest": "Gửi yêu cầu sửa công",
+  "sendCorrectionRequest": "Gửi yêu cầu giải trình",
   "statusCheckedIn": "Đã chấm công vào",
   "statusNotCheckedIn": "Chưa chấm công",
   "shiftPromptArrive": "Vui lòng chấm công khi đến nơi làm việc.",
@@ -254,9 +254,9 @@
   "createNewRequestTitle": "Tạo yêu cầu mới",
   "requestTypeLeave": "Xin nghỉ phép",
   "requestTypeOvertime": "Đăng ký tăng ca",
-  "requestTypeCorrection": "Sửa công",
+  "requestTypeCorrection": "Giải trình",
   "requestsCenterTitle": "Trung tâm yêu cầu",
-  "requestsCenterSubtitle": "Nghỉ phép · Tăng ca · Sửa công",
+  "requestsCenterSubtitle": "Nghỉ phép · Tăng ca · Giải trình",
   "monthlyRequestsTitle": "Yêu cầu theo tháng",
   "selectMonthToView": "Chọn tháng xem dữ liệu",
   "noRequestsInMonth": "Không có yêu cầu nào trong {month}",
@@ -316,9 +316,9 @@
   "paidStat": "Đã thanh toán",
   "needsActionStat": "Cần xử lý",
   "newOvertimeRequestSection": "Tăng ca mới",
-  "newCorrectionRequestSection": "Sửa công mới",
+  "newCorrectionRequestSection": "Giải trình mới",
   "overtimeHistorySection": "Lịch sử tăng ca",
-  "correctionHistorySection": "Lịch sử sửa công",
+  "correctionHistorySection": "Lịch sử giải trình",
   "approvalsCenterTitle": "Trung tâm phê duyệt",
   "awaitingYourAction": "Chờ bạn xử lý",
   "noPendingApprovals": "Không có yêu cầu nào đang chờ duyệt",
@@ -399,9 +399,9 @@
       "month": {"type": "String"}
     }
   },
-  "createCorrectionTitle": "Tạo yêu cầu sửa công",
-  "correctionDateLabel": "Ngày sửa",
-  "correctionTimeLabel": "Sửa thành giờ",
+  "createCorrectionTitle": "Tạo yêu cầu giải trình",
+  "correctionDateLabel": "Ngày giải trình",
+  "correctionTimeLabel": "Thời gian",
   "correctionIssueLabel": "Vấn đề phát sinh",
   "issueMissingCheckout": "Thiếu giờ ra",
   "issueMissingCheckin": "Thiếu giờ vào",
@@ -417,7 +417,7 @@
     }
   },
   "confirmSendCorrection": "Xác nhận gửi yêu cầu",
-  "correctionSubmittedTitle": "Đã gửi yêu cầu sửa công!",
+  "correctionSubmittedTitle": "Đã gửi yêu cầu giải trình!",
   "correctionSubmittedMsg": "Yêu cầu {issue} ngày {date} ({time}) đã được chuyển tới HR & Quản lý duyệt.",
   "@correctionSubmittedMsg": {
     "placeholders": {
@@ -426,13 +426,13 @@
       "time": {"type": "String"}
     }
   },
-  "noCorrectionsInMonth": "Không có phiếu sửa công nào trong {month}",
+  "noCorrectionsInMonth": "Không có phiếu giải trình nào trong {month}",
   "@noCorrectionsInMonth": {
     "placeholders": {
       "month": {"type": "String"}
     }
   },
-  "correctionWarningBanner": "Ngày 15/09/2026 chưa có giờ ra. Ngày này bị tính thiếu công cho đến khi được duyệt sửa.",
+  "correctionWarningBanner": "Ngày 15/09/2026 chưa có giờ ra. Ngày này bị tính thiếu công cho đến khi được duyệt giải trình.",
   "correctionIssueTitle": "Vấn đề",
   "correctionChangeTo": "Sửa thành",
 
@@ -640,7 +640,7 @@
   "serviceHolidays": "Ngày lễ trong năm",
   "serviceLeave": "Xin nghỉ phép",
   "serviceOvertime": "Đăng ký tăng ca",
-  "serviceCorrection": "Sửa công",
+  "serviceCorrection": "Giải trình",
   "serviceTrackRequests": "Theo dõi yêu cầu",
   "serviceSalaryTable": "Bảng lương tháng",
   "servicePayslip": "Phiếu lương",
@@ -675,8 +675,8 @@
   "legendCorrection": "Giải trình",
   "legendMissingTime": "Thiếu giờ",
   "legendHoliday": "Ngày lễ",
-  "timesheetCorrectionSummary": "Giải trình / Sửa công",
-  "timesheetSendCorrectionCta": "Gửi giải trình / Sửa công",
+  "timesheetCorrectionSummary": "Giải trình",
+  "timesheetSendCorrectionCta": "Gửi giải trình",
   "timesheetRelatedSlipsTitle": "Phiếu liên quan & Đơn từ",
   "timesheetApproverLabel": "Người duyệt: {name}",
   "@timesheetApproverLabel": {
@@ -1099,7 +1099,7 @@
   "faceThumbnailLabel": "Ảnh chụp đối chiếu AI",
 
   "approvalTypeFilterAll": "Tất cả",
-  "approvalTypeFilterCorrection": "Giải trình / Sửa công",
+  "approvalTypeFilterCorrection": "Giải trình",
   "approvalTypeFilterTimesheet": "Bảng công",
   "approvalTypeFilterOT": "Tăng ca",
   "approvalTypeFilterLeave": "Nghỉ phép",
@@ -1178,8 +1178,8 @@
   "createOvertimeBtn": "Đăng ký tăng ca",
   "overtimeScopePersonal": "Đơn của tôi",
   "overtimeScopeProxy": "Tạo hộ nhân viên",
-  "correctionManageTitle": "Quản lý Giải trình / Sửa công",
-  "createCorrectionBtn": "Tạo giải trình / Sửa công",
+  "correctionManageTitle": "Quản lý Giải trình",
+  "createCorrectionBtn": "Tạo giải trình",
   "correctionSummaryTitle": "Tổng hợp giải trình tháng này",
   "noCorrectionInMonth": "Không có yêu cầu giải trình nào trong {month}",
   "@noCorrectionInMonth": {
@@ -1187,7 +1187,7 @@
       "month": {"type": "String"}
     }
   },
-  "correctionQuotaTitle": "Hạn mức sửa công tháng này",
+  "correctionQuotaTitle": "Hạn mức giải trình tháng này",
   "correctionQuotaUsage": "Đã dùng {used}/{total} lần",
   "@correctionQuotaUsage": {
     "placeholders": {
@@ -1196,7 +1196,7 @@
     }
   },
   "missingPunchesSectionTitle": "Ngày thiếu chấm công cần xử lý",
-  "fixPunchBtn": "Sửa công ngay",
+  "fixPunchBtn": "Giải trình ngay",
   "noMissingPunches": "Không có ngày nào bị thiếu chấm công",
   "shiftSwapsManageTitle": "Quản lý Đổi ca",
   "swapsSentTab": "Đơn gửi đi",

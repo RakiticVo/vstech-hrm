@@ -96,7 +96,7 @@ void main() {
       await tester.pumpWidget(_wrapWithApp(const CorrectionManageScreen()));
       await tester.pumpAndSettle();
 
-      expect(find.text('Tạo giải trình / Sửa công'), findsOneWidget);
+      expect(find.text('Tạo giải trình'), findsOneWidget);
     });
 
     testWidgets('ShiftSwapsScreen toggles between sent and received tabs', (tester) async {

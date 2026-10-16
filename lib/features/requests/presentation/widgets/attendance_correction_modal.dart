@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:vstech_hrm/core/extensions/l10n_extension.dart';
 import 'package:vstech_hrm/core/responsive/app_layout.dart';
-import 'package:vstech_hrm/core/services/app_permission_handler.dart';
 import 'package:vstech_hrm/core/theme/app_colors.dart';
 import 'package:vstech_hrm/core/widgets/app_icon.dart';
 import 'package:vstech_hrm/features/requests/domain/entities/request_params.dart';
@@ -64,8 +63,6 @@ class AttendanceCorrectionModal extends StatefulWidget {
 
 class _AttendanceCorrectionModalState extends State<AttendanceCorrectionModal> {
   late DateTime _selectedDate;
-  late TimeOfDay _time;
-  String? _attachedFileName;
   late TextEditingController _reasonController;
   late List<CorrectionReasonEntity> _reasons;
   late CorrectionReasonEntity _selectedReason;
@@ -74,7 +71,6 @@ class _AttendanceCorrectionModalState extends State<AttendanceCorrectionModal> {
   void initState() {
     super.initState();
     _selectedDate = widget.initialDate;
-    _time = const TimeOfDay(hour: 17, minute: 30);
     _reasonController = TextEditingController();
   }
 
@@ -103,10 +99,7 @@ class _AttendanceCorrectionModalState extends State<AttendanceCorrectionModal> {
   }
 
   String _formatDate(DateTime dt) =>
-      '${dt.day.toString().padLeft(2, '0')}/${dt.month.toString().padLeft(2, '0')}/${dt.year}';
-
-  String _formatTime(TimeOfDay t) =>
-      '${t.hour.toString().padLeft(2, '0')}:${t.minute.toString().padLeft(2, '0')}';
+      '${dt.day.toString().padLeft(2, '0')}-${dt.month.toString().padLeft(2, '0')}-${dt.year}';
 
   Future<void> _pickDate() async {
     final now = DateTime.now();
@@ -125,28 +118,6 @@ class _AttendanceCorrectionModalState extends State<AttendanceCorrectionModal> {
     }
   }
 
-  Future<void> _pickTime() async {
-    final picked = await showTimePicker(
-      context: context,
-      initialTime: _time,
-    );
-    if (picked != null) {
-      setState(() => _time = picked);
-    }
-  }
-
-  Future<void> _pickAttachment() async {
-    final granted = await AppPermissionHandler.requestPhotos(context);
-    if (!mounted || !granted) return;
-    setState(() => _attachedFileName = 'bang_chung_cham_cong.jpg');
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text(context.l10n.proofSelected('bang_chung_cham_cong.jpg', '850 KB')),
-        backgroundColor: const Color(0xFF0F766E),
-      ),
-    );
-  }
-
   void _onConfirmTap() {
     Navigator.pop(context);
     widget.onConfirm(
@@ -154,7 +125,7 @@ class _AttendanceCorrectionModalState extends State<AttendanceCorrectionModal> {
       _selectedDate,
       0,
       _reasonController.text.trim(),
-      _attachedFileName,
+      null,
     );
   }
 
@@ -179,12 +150,12 @@ class _AttendanceCorrectionModalState extends State<AttendanceCorrectionModal> {
               ],
             ),
             12.gapH,
-            Row(
-              children: [
-                Expanded(child: CorrectionPickerTile(label: l10n.correctionDateLabel, value: _formatDate(_selectedDate), iconName: AppIcons.calendar, onTap: _pickDate, colors: colors)),
-                10.gapW,
-                Expanded(child: CorrectionPickerTile(label: l10n.correctionTimeLabel, value: _formatTime(_time), iconName: AppIcons.attendance, onTap: _pickTime, colors: colors)),
-              ],
+            CorrectionPickerTile(
+              label: l10n.correctionDateLabel,
+              value: _formatDate(_selectedDate),
+              iconName: AppIcons.calendar,
+              onTap: _pickDate,
+              colors: colors,
             ),
             14.gapH,
             Text(l10n.correctionIssueLabel, style: TextStyle(fontSize: 13, fontWeight: FontWeight.w700, color: colors.textSecondary)),
@@ -208,23 +179,6 @@ class _AttendanceCorrectionModalState extends State<AttendanceCorrectionModal> {
                 contentPadding: const EdgeInsets.all(12),
                 border: OutlineInputBorder(borderRadius: BorderRadius.circular(12), borderSide: BorderSide(color: colors.border)),
                 enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(12), borderSide: BorderSide(color: colors.border)),
-              ),
-            ),
-            12.gapH,
-            InkWell(
-              borderRadius: BorderRadius.circular(12),
-              onTap: _pickAttachment,
-              child: Container(
-                height: 40,
-                decoration: BoxDecoration(color: colors.surface, borderRadius: BorderRadius.circular(12), border: Border.all(color: colors.border)),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    AppIcon(_attachedFileName != null ? AppIcons.check : AppIcons.attach, size: 16, color: _attachedFileName != null ? colors.primaryIndigo : colors.textSecondary),
-                    6.gapW,
-                    Text(_attachedFileName ?? l10n.addProofOptional, style: TextStyle(fontSize: 12, fontWeight: FontWeight.w600, color: colors.textSecondary)),
-                  ],
-                ),
               ),
             ),
             18.gapH,

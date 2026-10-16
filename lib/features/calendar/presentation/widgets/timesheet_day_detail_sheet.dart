@@ -11,7 +11,7 @@ import 'package:vstech_hrm/features/requests/domain/entities/leave_item_entity.d
 import 'package:vstech_hrm/features/requests/domain/entities/overtime_item_entity.dart';
 
 class TimesheetDayDetailSheet extends StatelessWidget {
-  const TimesheetDayDetailSheet({
+  const new({
     required this.date,
     this.timesheet,
     this.leaves = const [],
@@ -233,22 +233,30 @@ class TimesheetDayDetailSheet extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 8),
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            label,
-            style: TextStyle(
-              fontSize: 14,
-              fontWeight: FontWeight.w500,
-              color: colors.textSecondary,
+          Expanded(
+            flex: 4,
+            child: Text(
+              label,
+              style: TextStyle(
+                fontSize: 14,
+                fontWeight: FontWeight.w500,
+                color: colors.textSecondary,
+              ),
             ),
           ),
-          Text(
-            value,
-            style: TextStyle(
-              fontSize: 14,
-              fontWeight: FontWeight.w700,
-              color: highlightColor ?? colors.textPrimary,
+          12.gapW,
+          Expanded(
+            flex: 5,
+            child: Text(
+              value,
+              textAlign: TextAlign.end,
+              style: TextStyle(
+                fontSize: 14,
+                fontWeight: FontWeight.w700,
+                color: highlightColor ?? colors.textPrimary,
+              ),
             ),
           ),
         ],

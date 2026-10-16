@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:vstech_hrm/core/extensions/date_formatter_extension.dart';
 import 'package:vstech_hrm/core/responsive/app_layout.dart';
 import 'package:vstech_hrm/core/theme/app_colors.dart';
 
@@ -119,7 +120,7 @@ class RequestCard extends StatelessWidget {
                     ],
                     3.gapH,
                     Text(
-                      item.dates,
+                      item.dates.toDisplayDate(),
                       style: TextStyle(
                         fontSize: 12,
                         fontWeight: FontWeight.w600,
@@ -157,13 +158,14 @@ class RequestCard extends StatelessWidget {
                           3.gapW,
                           Expanded(
                             child: Text(
-                              'Người xác nhận: ${item.confirmerName}',
+                              'Duyệt bởi: ${item.confirmerName}',
                               style: TextStyle(
                                 fontSize: 11,
                                 fontWeight: FontWeight.w600,
                                 color: colors.tealPrimary,
                               ),
-                              maxLines: 1,
+                              maxLines: 2,
+                              softWrap: true,
                               overflow: TextOverflow.ellipsis,
                             ),
                           ),

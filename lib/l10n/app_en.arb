@@ -60,7 +60,7 @@
 
   "quickActionLeave": "Leave",
   "quickActionOvertime": "Overtime",
-  "quickActionCorrection": "Correction",
+  "quickActionCorrection": "Explanation",
   "quickActionPayroll": "Payslip",
   "quickActionAll": "All",
 
@@ -111,7 +111,7 @@
       }
     }
   },
-  "sendCorrectionRequest": "Submit Attendance Correction",
+  "sendCorrectionRequest": "Submit Explanation",
   "statusCheckedIn": "Checked in",
   "statusNotCheckedIn": "Not checked in",
   "shiftPromptArrive": "Please punch in upon arriving at work.",
@@ -254,9 +254,9 @@
   "createNewRequestTitle": "Create New Request",
   "requestTypeLeave": "Leave Request",
   "requestTypeOvertime": "Overtime Request",
-  "requestTypeCorrection": "Correction Request",
+  "requestTypeCorrection": "Explanation",
   "requestsCenterTitle": "Requests Center",
-  "requestsCenterSubtitle": "Leave · Overtime · Attendance Correction",
+  "requestsCenterSubtitle": "Leave · Overtime · Explanation",
   "monthlyRequestsTitle": "Monthly Requests",
   "selectMonthToView": "Select month to view",
   "noRequestsInMonth": "No requests in {month}",
@@ -316,9 +316,9 @@
   "paidStat": "Paid",
   "needsActionStat": "Action Required",
   "newOvertimeRequestSection": "New Overtime Request",
-  "newCorrectionRequestSection": "New Correction Request",
+  "newCorrectionRequestSection": "New Explanation Request",
   "overtimeHistorySection": "Overtime History",
-  "correctionHistorySection": "Correction History",
+  "correctionHistorySection": "Explanation History",
   "approvalsCenterTitle": "Approvals Center",
   "awaitingYourAction": "Awaiting Your Action",
   "noPendingApprovals": "No pending approval requests",
@@ -399,9 +399,9 @@
       "month": {"type": "String"}
     }
   },
-  "createCorrectionTitle": "Create Correction Request",
-  "correctionDateLabel": "Correction Date",
-  "correctionTimeLabel": "Corrected Time",
+  "createCorrectionTitle": "Create Explanation Request",
+  "correctionDateLabel": "Explanation Date",
+  "correctionTimeLabel": "Time",
   "correctionIssueLabel": "Issue Encountered",
   "issueMissingCheckout": "Missing Check-out",
   "issueMissingCheckin": "Missing Check-in",
@@ -417,8 +417,8 @@
     }
   },
   "confirmSendCorrection": "Confirm Submit Request",
-  "correctionSubmittedTitle": "Correction request submitted!",
-  "correctionSubmittedMsg": "Correction for {issue} on {date} ({time}) has been sent to HR & Manager.",
+  "correctionSubmittedTitle": "Explanation request submitted!",
+  "correctionSubmittedMsg": "Explanation for {issue} on {date} ({time}) has been sent to HR & Manager.",
   "@correctionSubmittedMsg": {
     "placeholders": {
       "issue": {"type": "String"},
@@ -426,13 +426,13 @@
       "time": {"type": "String"}
     }
   },
-  "noCorrectionsInMonth": "No attendance corrections in {month}",
+  "noCorrectionsInMonth": "No explanation requests in {month}",
   "@noCorrectionsInMonth": {
     "placeholders": {
       "month": {"type": "String"}
     }
   },
-  "correctionWarningBanner": "Date 15/09/2026 missing check-out time. This day counts as incomplete attendance until correction is approved.",
+  "correctionWarningBanner": "Date 15/09/2026 missing check-out time. This day counts as incomplete attendance until explanation is approved.",
   "correctionIssueTitle": "Issue",
   "correctionChangeTo": "Correct To",
 
@@ -640,7 +640,7 @@
   "serviceHolidays": "Public Holidays",
   "serviceLeave": "Leave Request",
   "serviceOvertime": "Overtime Request",
-  "serviceCorrection": "Attendance Correction",
+  "serviceCorrection": "Explanation",
   "serviceTrackRequests": "Track Requests",
   "serviceSalaryTable": "Monthly Payroll",
   "servicePayslip": "Payslip",
@@ -672,11 +672,11 @@
   "legendFullWork": "Full Work",
   "legendLeave": "Leave",
   "legendOvertime": "Overtime",
-  "legendCorrection": "Correction",
+  "legendCorrection": "Explanation",
   "legendMissingTime": "Missing Time",
   "legendHoliday": "Holiday",
-  "timesheetCorrectionSummary": "Correction / Regularization",
-  "timesheetSendCorrectionCta": "Submit Correction Request",
+  "timesheetCorrectionSummary": "Explanation",
+  "timesheetSendCorrectionCta": "Submit Explanation",
   "timesheetRelatedSlipsTitle": "Related Requests & Slips",
   "timesheetApproverLabel": "Approved by: {name}",
   "@timesheetApproverLabel": {
@@ -1099,7 +1099,7 @@
   "faceThumbnailLabel": "AI Face Verification Snapshot",
 
   "approvalTypeFilterAll": "All",
-  "approvalTypeFilterCorrection": "Attendance Correction",
+  "approvalTypeFilterCorrection": "Explanation",
   "approvalTypeFilterTimesheet": "Timesheets",
   "approvalTypeFilterOT": "Overtime",
   "approvalTypeFilterLeave": "Leave",
@@ -1178,8 +1178,8 @@
   "createOvertimeBtn": "Request Overtime",
   "overtimeScopePersonal": "My Overtime",
   "overtimeScopeProxy": "Created on Behalf",
-  "correctionManageTitle": "Explanation & Correction Management",
-  "createCorrectionBtn": "Create Explanation / Correction",
+  "correctionManageTitle": "Explanation Management",
+  "createCorrectionBtn": "Create Explanation",
   "correctionSummaryTitle": "Monthly Explanation Summary",
   "noCorrectionInMonth": "No explanation requests in {month}",
   "@noCorrectionInMonth": {
@@ -1187,7 +1187,7 @@
       "month": {"type": "String"}
     }
   },
-  "correctionQuotaTitle": "Monthly Correction Quota",
+  "correctionQuotaTitle": "Monthly Explanation Quota",
   "correctionQuotaUsage": "Used {used}/{total} times",
   "@correctionQuotaUsage": {
     "placeholders": {
@@ -1196,7 +1196,7 @@
     }
   },
   "missingPunchesSectionTitle": "Missing Punches Requiring Attention",
-  "fixPunchBtn": "Fix Punch Now",
+  "fixPunchBtn": "Explain Punch Now",
   "noMissingPunches": "No missing punches recorded",
   "shiftSwapsManageTitle": "Shift Swaps Management",
   "swapsSentTab": "Sent Requests",

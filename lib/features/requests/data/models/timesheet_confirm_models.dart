@@ -64,16 +64,11 @@ class CreateTimesheetCorrectionCommand extends Equatable {
 
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{
-      'employeeCode': employeeCode,
       'workDate': workDate,
-      'worktime': worktime,
       'reasonTypeCode': reasonTypeCode,
     };
-    if (note != null) map['note'] = note;
-    if (imageUrl != null) map['imageUrl'] = imageUrl;
-    if (latitude != null) map['latitude'] = latitude;
-    if (longitude != null) map['longitude'] = longitude;
-    if (address != null) map['address'] = address;
+    if (employeeCode.isNotEmpty) map['employeeCode'] = employeeCode;
+    if (note != null && note!.trim().isNotEmpty) map['note'] = note!.trim();
     return map;
   }
 
@@ -106,6 +101,10 @@ class TimesheetCorrectionItemModel extends Equatable {
     this.isReject = false,
     this.isLock = false,
     this.confirmerName,
+    this.shiftCode,
+    this.shiftName,
+    this.shiftStart,
+    this.shiftEnd,
   });
 
   factory fromJson(Map<String, dynamic> json) {
@@ -127,6 +126,10 @@ class TimesheetCorrectionItemModel extends Equatable {
           json['managerName']?.toString() ??
           json['confirmByName']?.toString() ??
           json['confirmBy']?.toString(),
+      shiftCode: json['shiftCode']?.toString(),
+      shiftName: json['shiftName']?.toString(),
+      shiftStart: json['shiftStart']?.toString(),
+      shiftEnd: json['shiftEnd']?.toString(),
     );
   }
 
@@ -143,6 +146,10 @@ class TimesheetCorrectionItemModel extends Equatable {
   final bool isReject;
   final bool isLock;
   final String? confirmerName;
+  final String? shiftCode;
+  final String? shiftName;
+  final String? shiftStart;
+  final String? shiftEnd;
 
   Map<String, dynamic> toJson() => <String, dynamic>{
         'id': id,
@@ -157,6 +164,10 @@ class TimesheetCorrectionItemModel extends Equatable {
         'confirmLevel': confirmLevel,
         'isReject': isReject,
         'isLock': isLock,
+        'shiftCode': shiftCode,
+        'shiftName': shiftName,
+        'shiftStart': shiftStart,
+        'shiftEnd': shiftEnd,
       };
 
   @override
@@ -169,5 +180,9 @@ class TimesheetCorrectionItemModel extends Equatable {
         confirmLevel,
         isReject,
         isLock,
+        shiftCode,
+        shiftName,
+        shiftStart,
+        shiftEnd,
       ];
 }

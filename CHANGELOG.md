@@ -5,16 +5,63 @@
 ## [Unreleased]
 
 ### Added
-- Trang Quản lý Giải trình / Sửa công chuyên biệt (`CorrectionManageScreen`) đồng bộ với Quản lý Nghỉ phép và Tăng ca:
+- Đồng bộ toàn diện theo đặc tả API mới OpenAPI v13 (`docs/api/main/api-1 (13).json`):
+  - **Màu ca làm việc (Shift Colors) dùng chung từ server**:
+    - Bổ sung tiện ích `AppColorUtils.parseHex()` và `AppColorUtils.isDefaultOrWhite()` trong [app_colors.dart](file:///Users/admin/Documents/StudioProjects/vstech-hrm/lib/core/theme/app_colors.dart) xử lý chuẩn hóa định dạng màu `#RRGGBB`, `{#RRGGBB}` và bảo đảm tương phản khi nền trắng `#FFFFFF`.
+    - Lịch ca cá nhân (`GET /api/ShiftSchedules/me`): Bổ sung `color` và `textColor` vào `MyShiftDayModel`, `MyShiftDayEntity`, `ShiftScheduleEntity`, ánh xạ tự động trong `ShiftWeekMapper` và hiển thị trực quan trên chấm tròn tuần (`ShiftWeekSelector`), thanh viền và thẻ chi tiết ca (`ShiftDetailCard`), cùng lưới lịch tháng (`ShiftMonthGridDialog`).
+    - Tab Đội ngũ (`GET /api/TimeSheets/mobile-employees`): Bổ sung `shiftColor` và `shiftTextColor` vào `ManagedEmployeeModel`, `ManagedEmployeeEntity`, `ShiftRosterItemEntity`, áp dụng màu nền và màu chữ tùy chỉnh cho Avatar nhân sự và Tag ca làm việc tại danh sách đội ngũ (`RosterEmployeeTile`).
+  - **Thông tin ca làm việc trong Phiếu giải trình**:
+    - Bổ sung `shiftCode`, `shiftName`, `shiftStart`, `shiftEnd` vào `TimesheetCorrectionItemModel` và `CorrectionItemEntity` (`GET /api/TimesheetConfirmRequests` & `admin-mobile`).
+    - Hiển thị tên ca và khung giờ làm việc tương ứng của phiếu giải trình tại trang Quản lý Giải trình (`CorrectionManageScreen`) và thẻ danh sách phiếu ngày công (`TimesheetDaySlipsCard`).
+  - **Mô hình DTO Nghỉ phép khoảng ngày (Leave Range)**:
+    - Tạo mới `LeaveRangeRequestModel`, `LeaveRangeDayModel`, `LeaveRangeResultModel` tại [leave_range_models.dart](file:///Users/admin/Documents/StudioProjects/vstech-hrm/lib/features/requests/data/models/leave_range_models.dart) hỗ trợ API xác thực kiểm tra trước số phép còn lại (`POST /api/LeaveRequests/validate`) và gửi đơn theo khoảng ngày một lần (`POST /api/LeaveRequests/range`).
+- Trang Quản lý Giải trình chuyên biệt (`CorrectionManageScreen`) đồng bộ với Quản lý Nghỉ phép và Tăng ca:
   - Hỗ trợ bộ chọn tháng (`MonthPickerButton`) tải dữ liệu theo tháng được chọn.
   - Bộ lọc trạng thái đơn trực quan (Tất cả, Chờ duyệt, Đã duyệt, Từ chối).
   - Thẻ thống kê tổng hợp số lượng phiếu trong tháng (`CorrectionSummaryCard`).
-  - Nút thao tác nhanh "Tạo giải trình / Sửa công" mở modal `AttendanceCorrectionModal` và điều hướng chi tiết phiếu.
+  - Nút thao tác nhanh "Tạo giải trình" mở modal `AttendanceCorrectionModal` và điều hướng chi tiết phiếu.
   - Bổ sung lối tắt "Quản lý Giải trình" tại mục Yêu cầu trong Tất cả dịch vụ (`AllServicesScreen`).
 - Bộ lọc phân luồng Đơn của tôi vs Tạo hộ nhân viên tại Quản lý tăng ca (`OvertimeManageScreen`, `OvertimeScopeSelector`):
   - Cho phép cấp quản lý xem và quản lý các phiếu tăng ca làm thay/tạo hộ cho nhân sự cấp dưới mà không lẫn vào danh sách đơn cá nhân.
 
 ### Fixed
+- Cho phép tag tên ca trong Chi tiết ca (`ShiftDetailCard` & `ShiftScheduleTabView`) xuống dòng tự nhiên:
+  - Bọc tiêu đề ca và khối tag ca làm việc vào `Expanded` kèm `softWrap: true` và `height: 1.25`, loại bỏ hoàn toàn hiện tượng tên ca dài bị cắt cụt bằng dấu ba chấm hay tràn viền.
+- Tối ưu thẻ phê duyệt tại Trung tâm phê duyệt (`ApprovalCard`):
+  - Loại bỏ hoàn toàn dòng thông tin phụ "Chấm công ngày liên quan..." (`approvalAttendanceSnippet`) không cần thiết giúp thẻ duyệt gọn gàng, trực quan và chuyển `ApprovalCard` sang `StatelessWidget` tối ưu hiệu năng render.
+- Cập nhật mục Tiện ích nhanh tại Trang chủ (`HomeQuickActions`):
+  - Thay thế nút "Bảng lương" bằng "Giải trình" (`AppIcons.correction`, `AppRoutes.correctionManage`), hỗ trợ truy cập trực tiếp trang Quản lý Giải trình từ Trang chủ.
+- Sắp xếp lại danh mục trang Tất cả dịch vụ (`AllServicesScreen`):
+  - Đưa danh mục "Trung tâm phê duyệt" (`approvalsCenterTitle`) lên vị trí đầu tiên của trang Tất cả dịch vụ trước các mục chấm công, yêu cầu và tiền lương, giúp cấp quản lý thao tác phê duyệt nhanh chóng.
+- Khắc phục lỗi `RenderFlex horizontal overflow` tại chi tiết ca làm việc cá nhân (`ShiftDetailCard`):
+  - Bọc khối chứa tên ca vào `Expanded` và `Flexible(child: Text(..., maxLines: 1, overflow: TextOverflow.ellipsis))` giúp tiêu đề ca dài co dãn an toàn trong kích thước màn hình mà không bị overflow.
+- Cập nhật hiển thị màu sắc ca làm việc trong Dialog Lịch ca làm việc (`ShiftMonthGridDialog`):
+  - Đồng bộ màu sắc các ngày có ca trong lưới tháng theo mã màu `shiftColor` trả về từ server, bao gồm nền ngày có ca (`shiftColor.withValues(alpha: 0.14)`), viền ô ngày, số ngày và chấm ca nổi bật.
+- Khắc phục lỗi cắt ngắn văn bản (ellipsis) tại danh sách Phiếu liên quan & đơn từ của Chi tiết ngày công (`TimesheetDaySlipsCard`):
+  - Căn lề `CrossAxisAlignment.start`, mở rộng `maxLines: 2` cho tiêu đề phiếu và `maxLines: 3` cho thông tin chi tiết (ca làm việc, người duyệt, ghi chú) giúp hiển thị trọn vẹn nội dung nhiều dòng mà không bị cắt cụt.
+- Chuẩn hóa phần Tạo yêu cầu giải trình và định dạng ngày tháng phiếu (`AttendanceCorrectionModal`, `AttendanceCorrectionScreen`, `RequestCard`):
+  - Bỏ phần chọn "Thời gian" (Time / Hour picker) không cần thiết tại modal tạo giải trình, chỉ giữ lại bộ chọn ngày tháng toàn chiều rộng.
+  - Tạo tiện ích `DateFormatterExtension.toDisplayDate()` định dạng các chuỗi ngày ISO (`2026-10-14T00:00:00` / `2026-10-14`) thành định dạng chuẩn `dd-MM-yyyy` (`14-10-2026`) trên toàn bộ phiếu đã tạo tại Quản lý Giải trình, Danh sách Yêu cầu và Trung tâm Phê duyệt.
+- Khắc phục lỗi tiêu đề phiếu yêu cầu "Tên Nhân viên + MSNV" bị cắt cụt bằng dấu ba chấm tại Trung tâm phê duyệt (`ApprovalCard`):
+  - Mở rộng tiêu đề phiếu với `maxLines: 3`, `softWrap: true` và `height: 1.25`, cho phép tên nhân viên và mã số nhân viên xuống dòng tự nhiên, hiển thị đầy đủ và rõ ràng trên mọi kích thước màn hình.
+- Khắc phục lỗi các tag phiếu nhân viên và tag ca làm việc tại tab "Đội ngũ" bị thu hẹp thành đường kẻ 1mm (`roster_ticket_badges.dart`, `roster_employee_tile.dart`):
+  - Thay thế `context.w(0.65)` và `context.w(0.68)` bằng `context.wp(65)` và `context.wp(68)` (phần trăm bề rộng màn hình thực tế thay vì làm tròn số thập phân về 1.0 dp).
+  - Giúp các tag Nghỉ phép, Tăng ca, Giải trình và Tag ca làm việc hiển thị đầy đủ, co dãn tự nhiên và không bị tràn viền.
+- Cập nhật màu ca làm việc trực tiếp từ response của server:
+  - Bổ sung `color` và `textColor` vào `DepartmentShiftDayModel` và `DepartmentShiftDayEntity` từ `GET /api/ShiftSchedules`.
+  - Ánh xạ trực tiếp màu ca được phân (`first.color`) sang `ShiftRosterItemEntity` trong `department_roster_loader.dart`.
+  - Hiển thị trực tiếp màu nền ca làm việc (`shiftColor` / `color`) trên thẻ chi tiết ca (`ShiftDetailCard`), tag ca nhân viên (`RosterEmployeeTile`) và chấm trạng thái tại bộ lọc ca (`RosterFilterChips`), tự động tính toán màu chữ tương phản cao mà không phụ thuộc vào `textColor`.
+- Khắc phục lỗi mất huy hiệu (tag) phiếu của nhân viên tại tab "Đội ngũ" của Lịch & Ca làm việc (`department_roster_loader.dart`):
+  - Chuẩn hóa bộ parser đa định dạng ngày (`yyyy-MM-ddTHH:mm:ss`, `yyyy-MM-dd`, `dd/MM/yyyy`) hỗ trợ so khớp chính xác ngày và khoảng ngày nghỉ phép (date range).
+  - So khớp mã nhân viên không phân biệt hoa thường (`equalsIgnoreCase`), đảm bảo hiển thị đầy đủ phiếu Nghỉ phép, Tăng ca và Giải trình.
+- Khắc phục lỗi văng `RenderFlex overflowed by 59 pixels on the right` tại `TimesheetDayDetailSheet` (`_buildRow`):
+  - Bọc nhãn và giá trị vào `Expanded(flex: 4)` và `Expanded(flex: 5)` với căn lề tự co dãn linh hoạt, tránh tràn dòng khi lý do giải trình hoặc ghi chú từ chối dài.
+- Chuẩn hóa toàn diện từ ngữ từ "Sửa công" / "Giải trình / Sửa công" thành "Giải trình" trên toàn bộ giao diện:
+  - Rút gọn tiêu đề trang và nhãn nút thành "Quản lý Giải trình" và "Tạo giải trình".
+  - Bỏ phần hiển thị giờ (`0h` / `0.0h`) trên tiêu đề và phụ đề phiếu giải trình do API không áp dụng giờ công cho loại phiếu này.
+  - Khắc phục lỗi tràn viền tại "Người xác nhận" trên thẻ phiếu (`RequestCard`) bằng cách rút gọn thành "Duyệt bởi:" kèm `TextOverflow.ellipsis`, và dùng cấu trúc `Expanded` trên thẻ chi tiết (`RequestDetailSubmittedCard`).
+  - Loại bỏ hoàn toàn phần đính kèm ảnh minh chứng không cần thiết tại modal tạo giải trình (`AttendanceCorrectionModal`), tinh gọn payload `POST /api/TimesheetConfirmRequests` chỉ gửi các trường cốt lõi.
+  - Cập nhật đồng bộ các chuỗi bản địa hóa (`app_vi.arb`, `app_en.arb`) và cập nhật bộ kiểm thử tương ứng.
 - Tách biệt hoàn toàn phiếu tăng ca tạo hộ (`isCreatedByOther` / `isProxy`) khỏi Bảng công cá nhân (`TimesheetCalendarCubit`):
   - Chuẩn hóa gọi `GET /api/OvertimeRequests/self` mặc định `includeCreated=false` theo đúng đặc tả OpenAPI v12 (chỉ lấy đơn của chính mình).
   - Bổ sung tầng lọc phòng thủ (defense-in-depth) loại bỏ triệt để các phiếu tạo hộ khỏi danh sách tăng ca và giờ làm tính công của người quản lý.

@@ -12,7 +12,7 @@ import 'package:vstech_hrm/features/requests/domain/entities/overtime_item_entit
 
 /// Card displaying attached leave, overtime, and explanation slips for a specific day.
 class TimesheetDaySlipsCard extends StatelessWidget {
-  const TimesheetDaySlipsCard({
+  const new({
     required this.date,
     this.leaves = const [],
     this.overtimes = const [],
@@ -82,10 +82,15 @@ class TimesheetDaySlipsCard extends StatelessWidget {
               colors: colors,
               color: const Color(0xFF0284C7),
               icon: Icons.edit_note_rounded,
-              title: '${l10n.timesheetExplanationSlip}: ${c.reasonTypeName ?? l10n.legendCorrection} (${c.worktime ?? 0}h)',
-              subtitle: c.confirmerName != null
-                  ? l10n.timesheetApproverLabel(c.confirmerName!)
-                  : (c.note ?? ''),
+              title: '${l10n.timesheetExplanationSlip}: ${c.reasonTypeName ?? l10n.legendCorrection}',
+              subtitle: [
+                if (c.shiftName != null && c.shiftName!.isNotEmpty)
+                  'Ca: ${c.shiftName}${c.shiftStart != null && c.shiftEnd != null ? ' (${c.shiftStart}-${c.shiftEnd})' : ''}',
+                if (c.confirmerName != null)
+                  l10n.timesheetApproverLabel(c.confirmerName!)
+                else if (c.note != null && c.note!.isNotEmpty)
+                  c.note!,
+              ].join(' · '),
               statusText: c.isApproved
                   ? l10n.statusApproved
                   : (c.isReject ? l10n.statusRejected : l10n.statusPending),
@@ -127,15 +132,19 @@ class TimesheetDaySlipsCard extends StatelessWidget {
   }) {
     return Container(
       margin: const EdgeInsets.symmetric(vertical: 4),
-      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 7),
+      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
       decoration: BoxDecoration(
         color: color.withValues(alpha: 0.08),
         borderRadius: BorderRadius.circular(8),
         border: Border.all(color: color.withValues(alpha: 0.2)),
       ),
       child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Icon(icon, size: 16, color: color),
+          Padding(
+            padding: const EdgeInsets.only(top: 2),
+            child: Icon(icon, size: 16, color: color),
+          ),
           8.gapW,
           Expanded(
             child: Column(
@@ -143,36 +152,48 @@ class TimesheetDaySlipsCard extends StatelessWidget {
               children: [
                 Text(
                   title,
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
                   style: TextStyle(
                     fontSize: 12.5,
                     fontWeight: FontWeight.w700,
                     color: colors.textPrimary,
                   ),
                 ),
-                if (subtitle.isNotEmpty)
+                if (subtitle.isNotEmpty) ...[
+                  3.gapH,
                   Text(
                     subtitle,
-                    maxLines: 1,
+                    maxLines: 3,
                     overflow: TextOverflow.ellipsis,
-                    style: TextStyle(fontSize: 11, color: colors.textSecondary),
+                    style: TextStyle(
+                      fontSize: 11,
+                      color: colors.textSecondary,
+                      height: 1.25,
+                    ),
                   ),
+                ],
               ],
             ),
           ),
-          Container(
-            padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
-            decoration: BoxDecoration(
-              color: isApproved
-                  ? const Color(0xFF10B981).withValues(alpha: 0.15)
-                  : color.withValues(alpha: 0.15),
-              borderRadius: BorderRadius.circular(5),
-            ),
-            child: Text(
-              statusText,
-              style: TextStyle(
-                fontSize: 10.5,
-                fontWeight: FontWeight.bold,
-                color: isApproved ? const Color(0xFF10B981) : color,
+          8.gapW,
+          Padding(
+            padding: const EdgeInsets.only(top: 2),
+            child: Container(
+              padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+              decoration: BoxDecoration(
+                color: isApproved
+                    ? const Color(0xFF10B981).withValues(alpha: 0.15)
+                    : color.withValues(alpha: 0.15),
+                borderRadius: BorderRadius.circular(5),
+              ),
+              child: Text(
+                statusText,
+                style: TextStyle(
+                  fontSize: 10.5,
+                  fontWeight: FontWeight.bold,
+                  color: isApproved ? const Color(0xFF10B981) : color,
+                ),
               ),
             ),
           ),

@@ -27,7 +27,6 @@ class _AttendanceCorrectionScreenState extends State<AttendanceCorrectionScreen>
   List<CorrectionReasonEntity> _reasons = [];
   CorrectionReasonEntity? _selectedReason;
   DateTime _date = DateTime.now().subtract(const Duration(days: 1));
-  double _worktime = 8;
   bool _isSubmitting = false;
 
   @override
@@ -50,7 +49,7 @@ class _AttendanceCorrectionScreenState extends State<AttendanceCorrectionScreen>
   }
 
   String _formatDate(DateTime dt) =>
-      '${dt.day.toString().padLeft(2, '0')}/${dt.month.toString().padLeft(2, '0')}/${dt.year}';
+      '${dt.day.toString().padLeft(2, '0')}-${dt.month.toString().padLeft(2, '0')}-${dt.year}';
 
   void _openModal() {
     unawaited(
@@ -63,7 +62,6 @@ class _AttendanceCorrectionScreenState extends State<AttendanceCorrectionScreen>
           setState(() {
             _selectedReason = reason;
             _date = date;
-            _worktime = worktime;
           });
           await _submitCorrection(reason, date, worktime, note, imageUrl);
         },
@@ -207,8 +205,6 @@ class _AttendanceCorrectionScreenState extends State<AttendanceCorrectionScreen>
                   _buildFormRow(l10n.correctionDateLabel, _formatDate(_date), colors),
                   Divider(height: 20, color: colors.border.withValues(alpha: 0.6)),
                   _buildFormRow(l10n.correctionIssueTitle, _selectedReason?.name ?? 'Quên chấm công', colors),
-                  Divider(height: 20, color: colors.border.withValues(alpha: 0.6)),
-                  _buildFormRow(l10n.correctionChangeTo, '${_worktime.toStringAsFixed(1)} giờ', colors, isHighlight: true),
                 ],
               ),
             ),

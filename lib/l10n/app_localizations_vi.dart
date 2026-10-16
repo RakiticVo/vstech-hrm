@@ -170,7 +170,7 @@ class AppLocalizationsVi extends AppLocalizations {
   String get quickActionOvertime => 'Tăng ca';
 
   @override
-  String get quickActionCorrection => 'Sửa công';
+  String get quickActionCorrection => 'Giải trình';
 
   @override
   String get quickActionPayroll => 'Bảng lương';
@@ -266,7 +266,7 @@ class AppLocalizationsVi extends AppLocalizations {
   }
 
   @override
-  String get sendCorrectionRequest => 'Gửi yêu cầu sửa công';
+  String get sendCorrectionRequest => 'Gửi yêu cầu giải trình';
 
   @override
   String get statusCheckedIn => 'Đã chấm công vào';
@@ -495,13 +495,13 @@ class AppLocalizationsVi extends AppLocalizations {
   String get requestTypeOvertime => 'Đăng ký tăng ca';
 
   @override
-  String get requestTypeCorrection => 'Sửa công';
+  String get requestTypeCorrection => 'Giải trình';
 
   @override
   String get requestsCenterTitle => 'Trung tâm yêu cầu';
 
   @override
-  String get requestsCenterSubtitle => 'Nghỉ phép · Tăng ca · Sửa công';
+  String get requestsCenterSubtitle => 'Nghỉ phép · Tăng ca · Giải trình';
 
   @override
   String get monthlyRequestsTitle => 'Yêu cầu theo tháng';
@@ -583,13 +583,13 @@ class AppLocalizationsVi extends AppLocalizations {
   String get newOvertimeRequestSection => 'Tăng ca mới';
 
   @override
-  String get newCorrectionRequestSection => 'Sửa công mới';
+  String get newCorrectionRequestSection => 'Giải trình mới';
 
   @override
   String get overtimeHistorySection => 'Lịch sử tăng ca';
 
   @override
-  String get correctionHistorySection => 'Lịch sử sửa công';
+  String get correctionHistorySection => 'Lịch sử giải trình';
 
   @override
   String get approvalsCenterTitle => 'Trung tâm phê duyệt';
@@ -727,13 +727,13 @@ class AppLocalizationsVi extends AppLocalizations {
   }
 
   @override
-  String get createCorrectionTitle => 'Tạo yêu cầu sửa công';
+  String get createCorrectionTitle => 'Tạo yêu cầu giải trình';
 
   @override
-  String get correctionDateLabel => 'Ngày sửa';
+  String get correctionDateLabel => 'Ngày giải trình';
 
   @override
-  String get correctionTimeLabel => 'Sửa thành giờ';
+  String get correctionTimeLabel => 'Thời gian';
 
   @override
   String get correctionIssueLabel => 'Vấn đề phát sinh';
@@ -765,7 +765,7 @@ class AppLocalizationsVi extends AppLocalizations {
   String get confirmSendCorrection => 'Xác nhận gửi yêu cầu';
 
   @override
-  String get correctionSubmittedTitle => 'Đã gửi yêu cầu sửa công!';
+  String get correctionSubmittedTitle => 'Đã gửi yêu cầu giải trình!';
 
   @override
   String correctionSubmittedMsg(String issue, String date, String time) {
@@ -774,12 +774,12 @@ class AppLocalizationsVi extends AppLocalizations {
 
   @override
   String noCorrectionsInMonth(String month) {
-    return 'Không có phiếu sửa công nào trong $month';
+    return 'Không có phiếu giải trình nào trong $month';
   }
 
   @override
   String get correctionWarningBanner =>
-      'Ngày 15/09/2026 chưa có giờ ra. Ngày này bị tính thiếu công cho đến khi được duyệt sửa.';
+      'Ngày 15/09/2026 chưa có giờ ra. Ngày này bị tính thiếu công cho đến khi được duyệt giải trình.';
 
   @override
   String get correctionIssueTitle => 'Vấn đề';
@@ -1302,7 +1302,7 @@ class AppLocalizationsVi extends AppLocalizations {
   String get serviceOvertime => 'Đăng ký tăng ca';
 
   @override
-  String get serviceCorrection => 'Sửa công';
+  String get serviceCorrection => 'Giải trình';
 
   @override
   String get serviceTrackRequests => 'Theo dõi yêu cầu';
@@ -1401,10 +1401,10 @@ class AppLocalizationsVi extends AppLocalizations {
   String get legendHoliday => 'Ngày lễ';
 
   @override
-  String get timesheetCorrectionSummary => 'Giải trình / Sửa công';
+  String get timesheetCorrectionSummary => 'Giải trình';
 
   @override
-  String get timesheetSendCorrectionCta => 'Gửi giải trình / Sửa công';
+  String get timesheetSendCorrectionCta => 'Gửi giải trình';
 
   @override
   String get timesheetRelatedSlipsTitle => 'Phiếu liên quan & Đơn từ';
@@ -2416,7 +2416,7 @@ class AppLocalizationsVi extends AppLocalizations {
   String get approvalTypeFilterAll => 'Tất cả';
 
   @override
-  String get approvalTypeFilterCorrection => 'Giải trình / Sửa công';
+  String get approvalTypeFilterCorrection => 'Giải trình';
 
   @override
   String get approvalTypeFilterTimesheet => 'Bảng công';
@@ -2612,10 +2612,10 @@ class AppLocalizationsVi extends AppLocalizations {
   String get overtimeScopeProxy => 'Tạo hộ nhân viên';
 
   @override
-  String get correctionManageTitle => 'Quản lý Giải trình / Sửa công';
+  String get correctionManageTitle => 'Quản lý Giải trình';
 
   @override
-  String get createCorrectionBtn => 'Tạo giải trình / Sửa công';
+  String get createCorrectionBtn => 'Tạo giải trình';
 
   @override
   String get correctionSummaryTitle => 'Tổng hợp giải trình tháng này';
@@ -2626,7 +2626,7 @@ class AppLocalizationsVi extends AppLocalizations {
   }
 
   @override
-  String get correctionQuotaTitle => 'Hạn mức sửa công tháng này';
+  String get correctionQuotaTitle => 'Hạn mức giải trình tháng này';
 
   @override
   String correctionQuotaUsage(String used, String total) {
@@ -2637,7 +2637,7 @@ class AppLocalizationsVi extends AppLocalizations {
   String get missingPunchesSectionTitle => 'Ngày thiếu chấm công cần xử lý';
 
   @override
-  String get fixPunchBtn => 'Sửa công ngay';
+  String get fixPunchBtn => 'Giải trình ngay';
 
   @override
   String get noMissingPunches => 'Không có ngày nào bị thiếu chấm công';

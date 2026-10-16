@@ -1,4 +1,5 @@
 import 'package:vstech_hrm/core/di/injector.dart';
+import 'package:vstech_hrm/core/extensions/date_formatter_extension.dart';
 import 'package:vstech_hrm/core/widgets/month_picker_dialog.dart';
 import 'package:vstech_hrm/features/requests/domain/usecases/get_correction_requests_usecase.dart';
 import 'package:vstech_hrm/features/requests/domain/usecases/get_leave_requests_usecase.dart';
@@ -103,17 +104,20 @@ abstract final class RequestsLoader {
 
     corrResult.fold((_) {}, (list) {
       for (final c in list) {
+        final reason = c.reasonTypeName?.trim() ?? '';
+        final title = reason.toLowerCase().startsWith('giải trình')
+            ? reason
+            : (reason.isNotEmpty ? 'Giải trình · $reason' : 'Giải trình');
         addReq(
-          'S',
-          'Sửa công · ${c.reasonTypeName ?? 'Giải trình'}',
-          '${c.workDate ?? ''} (${c.worktime ?? 0}h)',
+          'G',
+          title,
+          c.workDate.toDisplayDate(),
           'correction',
           isApproved: c.isApproved,
           isRejected: c.isReject,
           code: 'TC-${c.id}',
           requesterName: c.employeeName ?? c.employeeCode,
           reason: c.note ?? c.reasonTypeName,
-          worktime: c.worktime,
           confirmerName: c.confirmerName,
         );
       }
