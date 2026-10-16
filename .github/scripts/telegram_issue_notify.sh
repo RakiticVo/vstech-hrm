@@ -2,7 +2,7 @@
 # Sends a GitHub issue / issue-comment event to a Telegram chat (optionally a forum topic) as plain
 # text:
 #
-#   ✅ Issue #100 closed (RakiticVo/vstech-hrm)
+#   ✅ Issue #100 closed (V-STECH/hrm-mobile)
 #   <issue title>
 #   by <actor>
 #   <issue url>

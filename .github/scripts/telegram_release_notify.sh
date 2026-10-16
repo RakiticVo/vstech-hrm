@@ -2,7 +2,7 @@
 # Posts the outcome of a release pipeline run to Telegram, in the same plain-text style as the
 # issue notifications:
 #
-#   🚀 Release v1.0.0-uat (RakiticVo/vstech-hrm)
+#   🚀 Release v1.0.0-uat (V-STECH/hrm-mobile)
 #   UAT · version 1.0.0 (build 12)
 #   by RakiticVo
 #   🤖 Android: ✅ Firebase App Distribution

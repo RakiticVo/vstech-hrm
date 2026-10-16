@@ -14,7 +14,8 @@ Project-specific companion to [agent-cicd-universal-blueprint.md](agent-cicd-uni
 - **Version name** comes from the tag (`v1.2.3-uat` → `1.2.3`). **Build number** = workflow run number + `BUILD_NUMBER_OFFSET`, so it always increases. `pubspec.yaml` does not need a manual bump.
 - Release notes = the annotated tag message.
 - Every run posts its result to Telegram (success or failure). Issues and issue comments are posted too.
-- Artifacts are kept for 30 days under the run's **Summary → Artifacts**. The repo is **public**, so any signed-in GitHub user can download them.
+- Artifacts are kept for 30 days under the run's **Summary → Artifacts**, downloadable by members with access to the private `V-STECH/hrm-mobile` repo.
+- The repo is private, so macOS runner minutes (iOS jobs) count against the organization's Actions quota at a higher rate than Linux minutes.
 
 Files: `.github/workflows/{release,issue-telegram,ios-setup-certificates}.yml`, `.github/scripts/telegram_*.sh`, `android/{Gemfile,fastlane/}`, `ios/{Gemfile,fastlane/}`, `android/app/build.gradle.kts` (signing).
 
@@ -88,7 +89,7 @@ base64 < upload_keystore.jks | tr -d '\n' | pbcopy   # → ANDROID_KEYSTORE_BASE
 
 ### 3.5 Fastlane Match repo (`MATCH_*`)
 
-1. Create an **empty private** GitHub repo, e.g. `RakiticVo/vstech-hrm-certificates`.
+1. Create an **empty private** GitHub repo, e.g. `V-STECH/hrm-mobile-certificates`.
 2. Create a deploy key pair:
 
    ```bash
@@ -97,7 +98,7 @@ base64 < upload_keystore.jks | tr -d '\n' | pbcopy   # → ANDROID_KEYSTORE_BASE
 
    - Repo → **Settings → Deploy keys → Add** the content of `match_deploy_key.pub`, tick **Allow write access**.
    - `MATCH_SSH_KEY` = content of `match_deploy_key` (private key).
-3. `MATCH_GIT_URL` = `git@github.com:RakiticVo/vstech-hrm-certificates.git`.
+3. `MATCH_GIT_URL` = `git@github.com:V-STECH/hrm-mobile-certificates.git`.
 4. `MATCH_PASSWORD` = a strong random passphrase (`openssl rand -base64 24`). Store it in a password manager; it decrypts the certificates.
 5. Run **Actions → iOS Setup Certificates (one-time) → Run workflow** once. The Match repo then contains `certs/distribution/*` and `profiles/appstore/*`. Afterwards you may untick write access on the deploy key.
 
