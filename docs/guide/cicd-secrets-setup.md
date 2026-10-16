@@ -157,13 +157,13 @@ gh secret set MATCH_SSH_KEY < match_deploy_key
 ```bash
 # UAT — the commit must already be on origin/develop
 git checkout develop && git pull
-git tag -a v1.0.0-uat -m "UAT: what testers should check"
-git push origin v1.0.0-uat
+git tag -a v0.0.1-uat -m "UAT: what testers should check"
+git push origin v0.0.1-uat
 
 # Production — the commit must already be on origin/main (merged from release/*)
 git checkout main && git pull
-git tag -a v1.0.0 -m "Release notes"
-git push origin v1.0.0
+git tag -a v0.0.1 -m "Release notes"
+git push origin v0.0.1
 ```
 
 After a production run: Google Play rolls the build out on the configured track; for iOS, open App Store Connect, attach the TestFlight build to the new version and **Submit for Review**.
