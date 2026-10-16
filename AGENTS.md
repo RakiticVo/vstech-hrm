@@ -2,7 +2,7 @@
 
 > This file is the canonical context source for any AI coding agent working on this repository — Antigravity, Claude Code, ChatGPT/Codex, Cursor, Copilot, OpenCode, Aider, etc. Read this file before undertaking any task. Deeper architectural and operational details are documented in `docs/*.md`.
 >
-> Remote repository: https://github.com/RakiticVo/vstech-hrm. All agents must strictly comply with the architectural rules and conventions specified here and in `docs/`.
+> Remote repository: https://github.com/V-STECH/hrm-mobile. All agents must strictly comply with the architectural rules and conventions specified here and in `docs/`.
 
 ---
 

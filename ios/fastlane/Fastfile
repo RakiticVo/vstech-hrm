@@ -1,0 +1,99 @@
+default_platform(:ios)
+
+APP_ID = "com.vstech.vstechHrm"
+APP_NAME = "vstech_hrm"
+
+# Lane bodies run inside ios/fastlane, actions run from ios/ — resolve every path absolutely.
+def ios_root
+  File.expand_path("..", Dir.pwd)
+end
+
+def project_root
+  File.expand_path("../..", Dir.pwd)
+end
+
+def app_store_api_key
+  app_store_connect_api_key(
+    key_id: ENV["APP_STORE_CONNECT_KEY_ID"],
+    issuer_id: ENV["APP_STORE_CONNECT_ISSUER_ID"],
+    key_filepath: File.expand_path("api_key.p8"),
+    in_house: false
+  )
+end
+
+platform :ios do
+  desc "Build an App Store-signed IPA and upload it to TestFlight (UAT and Production)"
+  lane :deploy_app_store do
+    setup_ci if ENV["CI"]
+    api_key = app_store_api_key
+
+    # CI only reads the Match repo; certificates are created once by setup_certificates.
+    match(
+      type: "appstore",
+      readonly: true,
+      api_key: api_key,
+      team_id: ENV["APPLE_TEAM_ID"]
+    )
+
+    # Guard against FlutterGeneratedPluginSwiftPackage declaring an older target than the Runner (15.0).
+    package_swift_path = File.join(ios_root, "Flutter/ephemeral/Packages/FlutterGeneratedPluginSwiftPackage/Package.swift")
+    if File.exist?(package_swift_path)
+      content = File.read(package_swift_path)
+      if content.include?('.iOS("13.0")')
+        UI.message("Adjusting iOS deployment target in #{package_swift_path} to 15.0...")
+        File.write(package_swift_path, content.gsub('.iOS("13.0")', '.iOS("15.0")'))
+      end
+    end
+
+    profile_name = ENV["sigh_#{APP_ID}_appstore"] || "match AppStore #{APP_ID}"
+
+    # Manual signing for the Runner target only — a profile passed through xcargs would also be
+    # applied to package targets, which fail with "does not support provisioning profiles".
+    update_code_signing_settings(
+      use_automatic_signing: false,
+      path: File.join(ios_root, "Runner.xcodeproj"),
+      targets: ["Runner"],
+      build_configurations: ["Release"],
+      team_id: ENV["APPLE_TEAM_ID"],
+      code_sign_identity: "Apple Distribution",
+      profile_name: profile_name
+    )
+
+    # Version, build number and the bundled .env come from `flutter build ios --config-only`
+    # run by the workflow beforehand (Generated.xcconfig).
+    output_directory = File.join(project_root, "build/ios/ipa")
+    build_app(
+      workspace: File.join(ios_root, "Runner.xcworkspace"),
+      scheme: "Runner",
+      configuration: "Release",
+      output_directory: output_directory,
+      output_name: "#{APP_NAME}.ipa",
+      export_method: "app-store",
+      export_options: {
+        provisioningProfiles: { APP_ID => profile_name }
+      }
+    )
+
+    changelog = ENV["RELEASE_NOTES"].to_s.strip
+    upload_to_testflight(
+      ipa: File.join(output_directory, "#{APP_NAME}.ipa"),
+      skip_waiting_for_build_processing: true,
+      api_key: api_key,
+      changelog: changelog.empty? ? "New release build." : changelog[0, 4000]
+    )
+  end
+
+  desc "One-time: create the App Store certificate + profile and store them in the Match repo"
+  lane :setup_certificates do
+    setup_ci if ENV["CI"]
+
+    # clone_branch_directly(true) in the Matchfile fails on an empty repo — let match create the branch.
+    match(
+      type: "appstore",
+      readonly: false,
+      api_key: app_store_api_key,
+      team_id: ENV["APPLE_TEAM_ID"],
+      clone_branch_directly: false
+    )
+  end
+end

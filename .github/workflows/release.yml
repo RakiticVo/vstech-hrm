@@ -1,0 +1,330 @@
+name: CI/CD Release Pipeline
+
+# Tag-driven releases (see docs/guide/cicd-secrets-setup.md):
+#   vX.Y.Z-uat on origin/develop -> Android APK to Firebase App Distribution + iOS IPA to TestFlight
+#   vX.Y.Z     on origin/main    -> Android AAB to Google Play + iOS IPA to TestFlight
+# Every build is also uploaded as a GitHub Actions artifact.
+on:
+  push:
+    tags:
+      - 'v*'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: release-${{ github.ref }}
+  cancel-in-progress: false
+
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: 'true'
+  FLUTTER_VERSION: '3.47.6'
+
+jobs:
+  # -------------------------------------------------------------
+  # STAGE 1: Tag validation, version resolution, analysis & tests
+  # -------------------------------------------------------------
+  test:
+    name: Validate, Analyze & Test
+    runs-on: ubuntu-latest
+    outputs:
+      channel: ${{ steps.meta.outputs.channel }}
+      build_name: ${{ steps.meta.outputs.build_name }}
+      build_number: ${{ steps.meta.outputs.build_number }}
+      release_notes: ${{ steps.notes.outputs.release_notes }}
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Resolve Channel, Version & Branch Integrity
+        id: meta
+        env:
+          TAG: ${{ github.ref_name }}
+          BUILD_NUMBER_OFFSET: ${{ vars.BUILD_NUMBER_OFFSET || '0' }}
+        run: |
+          if [[ "$TAG" =~ ^v([0-9]+\.[0-9]+\.[0-9]+)-uat$ ]]; then
+            channel=uat; branch=develop
+          elif [[ "$TAG" =~ ^v([0-9]+\.[0-9]+\.[0-9]+)$ ]]; then
+            channel=prod; branch=main
+          else
+            echo "::error::Tag '$TAG' must be vX.Y.Z-uat (UAT) or vX.Y.Z (Production)."
+            exit 1
+          fi
+          build_name="${BASH_REMATCH[1]}"
+
+          # Release tags are only allowed on commits already merged into the matching branch.
+          if ! git merge-base --is-ancestor "$GITHUB_SHA" "origin/$branch"; then
+            echo "::error::Tag '$TAG' must point to a commit on origin/$branch."
+            exit 1
+          fi
+
+          build_number=$(( GITHUB_RUN_NUMBER + BUILD_NUMBER_OFFSET ))
+          echo "Channel: $channel · version $build_name (build $build_number)"
+          {
+            echo "channel=$channel"
+            echo "build_name=$build_name"
+            echo "build_number=$build_number"
+          } >> "$GITHUB_OUTPUT"
+
+      - name: Extract Release Notes from Tag Message
+        id: notes
+        env:
+          TAG: ${{ github.ref_name }}
+        run: |
+          # actions/checkout stores annotated tags as lightweight ones — refetch to read the message.
+          git fetch --force origin "refs/tags/$TAG:refs/tags/$TAG"
+          notes=$(git tag -l --format='%(contents)' "$TAG" | sed '/-----BEGIN PGP SIGNATURE-----/,$d')
+          if [ -z "$(echo "$notes" | tr -d '[:space:]')" ]; then
+            notes=$(git log -1 --pretty=%B)
+          fi
+          delimiter="NOTES_$(openssl rand -hex 8)"
+          {
+            echo "release_notes<<$delimiter"
+            echo "$notes"
+            echo "$delimiter"
+          } >> "$GITHUB_OUTPUT"
+
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: ${{ env.FLUTTER_VERSION }}
+          channel: 'stable'
+          cache: true
+
+      - name: Install Dependencies
+        run: |
+          # .env is a bundled asset; tests only need a placeholder.
+          cp .env.example .env
+          flutter pub get
+
+      - name: Run Static Analyzer
+        run: flutter analyze --no-fatal-infos --no-fatal-warnings
+
+      - name: Run Automated Tests
+        run: flutter test
+
+  # -------------------------------------------------------------
+  # STAGE 2A: Android UAT (Firebase App Distribution)
+  # -------------------------------------------------------------
+  android-uat:
+    name: Android UAT (Firebase App Distribution)
+    needs: test
+    if: needs.test.outputs.channel == 'uat'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Setup Java 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'zulu'
+          java-version: '17'
+
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: ${{ env.FLUTTER_VERSION }}
+          channel: 'stable'
+          cache: true
+
+      - name: Setup Ruby 3.3
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.3'
+          bundler-cache: true
+          working-directory: android
+
+      - name: Write .env, Keystore & Firebase Credentials
+        env:
+          DOTENV: ${{ secrets.DOTENV_UAT }}
+          ANDROID_KEYSTORE_BASE64: ${{ secrets.ANDROID_KEYSTORE_BASE64 }}
+          FIREBASE_APP_DISTRIBUTION_CREDENTIALS: ${{ secrets.FIREBASE_APP_DISTRIBUTION_CREDENTIALS }}
+        run: |
+          if [ -z "$DOTENV" ]; then echo "::error::Secret DOTENV_UAT is not set."; exit 1; fi
+          printf '%s\n' "$DOTENV" > .env
+          printf '%s' "$ANDROID_KEYSTORE_BASE64" | tr -d '[:space:]' | base64 --decode > android/app/upload_keystore.jks
+          printf '%s' "$FIREBASE_APP_DISTRIBUTION_CREDENTIALS" > android/fastlane/firebase-distribution.json
+
+      - name: Build APK & Deploy to Firebase App Distribution
+        run: bundle exec fastlane distribute_firebase
+        working-directory: android
+        env:
+          BUILD_NAME: ${{ needs.test.outputs.build_name }}
+          BUILD_NUMBER: ${{ needs.test.outputs.build_number }}
+          FIREBASE_ANDROID_APP_ID: ${{ secrets.FIREBASE_ANDROID_APP_ID }}
+          FIREBASE_TESTER_GROUPS: ${{ vars.FIREBASE_TESTER_GROUPS }}
+          ANDROID_KEYSTORE_PASSWORD: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
+          ANDROID_KEY_ALIAS: ${{ secrets.ANDROID_KEY_ALIAS }}
+          ANDROID_KEY_PASSWORD: ${{ secrets.ANDROID_KEY_PASSWORD }}
+          RELEASE_NOTES: ${{ needs.test.outputs.release_notes }}
+
+      - name: Upload APK Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: vstech-hrm-${{ github.ref_name }}-android-apk
+          path: build/app/outputs/flutter-apk/app-release.apk
+          retention-days: 30
+
+  # -------------------------------------------------------------
+  # STAGE 2B: Android Production (Google Play)
+  # -------------------------------------------------------------
+  android-prod:
+    name: Android Production (Google Play)
+    needs: test
+    if: needs.test.outputs.channel == 'prod'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Setup Java 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'zulu'
+          java-version: '17'
+
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: ${{ env.FLUTTER_VERSION }}
+          channel: 'stable'
+          cache: true
+
+      - name: Setup Ruby 3.3
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.3'
+          bundler-cache: true
+          working-directory: android
+
+      - name: Write .env, Keystore & Play Store Service Account
+        env:
+          DOTENV: ${{ secrets.DOTENV_PROD }}
+          ANDROID_KEYSTORE_BASE64: ${{ secrets.ANDROID_KEYSTORE_BASE64 }}
+          PLAY_STORE_JSON_KEY: ${{ secrets.PLAY_STORE_JSON_KEY }}
+        run: |
+          if [ -z "$DOTENV" ]; then echo "::error::Secret DOTENV_PROD is not set."; exit 1; fi
+          printf '%s\n' "$DOTENV" > .env
+          printf '%s' "$ANDROID_KEYSTORE_BASE64" | tr -d '[:space:]' | base64 --decode > android/app/upload_keystore.jks
+          printf '%s' "$PLAY_STORE_JSON_KEY" > android/fastlane/fastlane-play-store.json
+
+      - name: Build AAB & Publish to Google Play
+        run: bundle exec fastlane deploy_play_store
+        working-directory: android
+        env:
+          BUILD_NAME: ${{ needs.test.outputs.build_name }}
+          BUILD_NUMBER: ${{ needs.test.outputs.build_number }}
+          ANDROID_KEYSTORE_PASSWORD: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
+          ANDROID_KEY_ALIAS: ${{ secrets.ANDROID_KEY_ALIAS }}
+          ANDROID_KEY_PASSWORD: ${{ secrets.ANDROID_KEY_PASSWORD }}
+          PLAY_STORE_TRACK: ${{ vars.PLAY_STORE_TRACK || 'production' }}
+          PLAY_STORE_RELEASE_STATUS: ${{ vars.PLAY_STORE_RELEASE_STATUS || 'completed' }}
+
+      - name: Upload AAB Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: vstech-hrm-${{ github.ref_name }}-android-aab
+          path: build/app/outputs/bundle/release/app-release.aab
+          retention-days: 30
+
+  # -------------------------------------------------------------
+  # STAGE 3: iOS (TestFlight) — UAT and Production differ only in .env
+  # -------------------------------------------------------------
+  ios:
+    name: iOS (TestFlight)
+    needs: test
+    runs-on: macos-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: ${{ env.FLUTTER_VERSION }}
+          channel: 'stable'
+          cache: true
+
+      - name: Setup SSH Key for Fastlane Match
+        uses: webfactory/ssh-agent@v0.9.0
+        with:
+          ssh-private-key: ${{ secrets.MATCH_SSH_KEY }}
+
+      - name: Setup Ruby 3.3
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.3'
+          bundler-cache: true
+          working-directory: ios
+
+      - name: Write .env & App Store Connect API Key
+        env:
+          DOTENV: ${{ needs.test.outputs.channel == 'uat' && secrets.DOTENV_UAT || secrets.DOTENV_PROD }}
+          APP_STORE_CONNECT_API_KEY_P8: ${{ secrets.APP_STORE_CONNECT_API_KEY_P8 }}
+        run: |
+          if [ -z "$DOTENV" ]; then echo "::error::Secret DOTENV_UAT / DOTENV_PROD is not set."; exit 1; fi
+          printf '%s\n' "$DOTENV" > .env
+          printf '%s' "$APP_STORE_CONNECT_API_KEY_P8" > ios/fastlane/api_key.p8
+
+      - name: Generate Flutter iOS Configuration
+        env:
+          BUILD_NAME: ${{ needs.test.outputs.build_name }}
+          BUILD_NUMBER: ${{ needs.test.outputs.build_number }}
+        run: |
+          flutter pub get
+          flutter build ios --release --config-only --no-codesign \
+            --build-name="$BUILD_NAME" --build-number="$BUILD_NUMBER"
+
+      - name: Build IPA & Upload to TestFlight
+        run: bundle exec fastlane deploy_app_store
+        working-directory: ios
+        env:
+          APPLE_ID: ${{ secrets.APPLE_ID }}
+          APPLE_TEAM_ID: ${{ secrets.APPLE_TEAM_ID }}
+          MATCH_GIT_URL: ${{ secrets.MATCH_GIT_URL }}
+          MATCH_PASSWORD: ${{ secrets.MATCH_PASSWORD }}
+          APP_STORE_CONNECT_KEY_ID: ${{ secrets.APP_STORE_CONNECT_KEY_ID }}
+          APP_STORE_CONNECT_ISSUER_ID: ${{ secrets.APP_STORE_CONNECT_ISSUER_ID }}
+          RELEASE_NOTES: ${{ needs.test.outputs.release_notes }}
+
+      - name: Upload IPA Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: vstech-hrm-${{ github.ref_name }}-ios-ipa
+          path: build/ios/ipa/vstech_hrm.ipa
+          retention-days: 30
+
+  # -------------------------------------------------------------
+  # STAGE 4: Telegram release notification (success or failure)
+  # -------------------------------------------------------------
+  notify-telegram:
+    name: Notify Telegram
+    needs: [test, android-uat, android-prod, ios]
+    if: always()
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Checkout notifier scripts
+        uses: actions/checkout@v4
+        with:
+          sparse-checkout: .github/scripts
+          sparse-checkout-cone-mode: false
+
+      - name: Send release status
+        run: bash .github/scripts/telegram_release_notify.sh
+        env:
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+          TELEGRAM_MESSAGE_THREAD_ID: ${{ secrets.TELEGRAM_MESSAGE_THREAD_ID }}
+          TAG: ${{ github.ref_name }}
+          REPO: ${{ github.repository }}
+          ACTOR: ${{ github.actor }}
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+          BUILD_NAME: ${{ needs.test.outputs.build_name }}
+          BUILD_NUMBER: ${{ needs.test.outputs.build_number }}
+          TEST_RESULT: ${{ needs.test.result }}
+          ANDROID_RESULT: ${{ contains(github.ref_name, '-uat') && needs.android-uat.result || needs.android-prod.result }}
+          IOS_RESULT: ${{ needs.ios.result }}
