@@ -24,6 +24,9 @@
 - Bộ lọc phân luồng Đơn của tôi vs Tạo hộ nhân viên tại Quản lý tăng ca (`OvertimeManageScreen`, `OvertimeScopeSelector`):
   - Cho phép cấp quản lý xem và quản lý các phiếu tăng ca làm thay/tạo hộ cho nhân sự cấp dưới mà không lẫn vào danh sách đơn cá nhân.
 
+### Changed
+- Ứng dụng iOS chỉ hỗ trợ iPhone (giữ màn hình dọc); iPad vẫn chạy được ở chế độ tương thích iPhone.
+
 ### Fixed
 - Cho phép tag tên ca trong Chi tiết ca (`ShiftDetailCard` & `ShiftScheduleTabView`) xuống dòng tự nhiên:
   - Bọc tiêu đề ca và khối tag ca làm việc vào `Expanded` kèm `softWrap: true` và `height: 1.25`, loại bỏ hoàn toàn hiện tượng tên ca dài bị cắt cụt bằng dấu ba chấm hay tràn viền.
