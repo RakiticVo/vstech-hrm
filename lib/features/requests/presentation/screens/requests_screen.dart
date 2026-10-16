@@ -1,19 +1,23 @@
 import 'dart:async';
+
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:material_symbols_icons/symbols.dart';
 import 'package:vstech_hrm/core/extensions/l10n_extension.dart';
 import 'package:vstech_hrm/core/responsive/app_layout.dart';
 import 'package:vstech_hrm/core/router/routes.dart';
-import 'package:vstech_hrm/core/session/auth_cubit.dart';
-import 'package:vstech_hrm/core/session/auth_state.dart';
 import 'package:vstech_hrm/core/theme/app_colors.dart';
+import 'package:vstech_hrm/core/widgets/app_icon.dart';
 import 'package:vstech_hrm/core/widgets/month_picker_button.dart';
+import 'package:vstech_hrm/core/widgets/month_picker_dialog.dart';
 import 'package:vstech_hrm/core/widgets/tile_header_banner.dart';
+import 'package:vstech_hrm/features/requests/presentation/helpers/requests_badge_handler.dart';
+import 'package:vstech_hrm/features/requests/presentation/helpers/requests_loader.dart';
+import 'package:vstech_hrm/features/requests/presentation/widgets/new_request_bottom_sheet.dart';
 import 'package:vstech_hrm/features/requests/presentation/widgets/request_card.dart';
+import 'package:vstech_hrm/features/requests/presentation/widgets/requests_category_tiles.dart';
+import 'package:vstech_hrm/features/requests/presentation/widgets/requests_summary_header.dart';
 
-/// Screen listing leave, overtime, and correction requests with month and status filters.
+/// Screen listing leave, overtime, correction, shift swap and off-site requests.
 class RequestsScreen extends StatefulWidget {
   const new({super.key});
 
@@ -23,89 +27,30 @@ class RequestsScreen extends StatefulWidget {
 
 class _RequestsScreenState extends State<RequestsScreen> {
   int _selectedTab = 0;
-  String _selectedMonth = 'Tháng 9, 2026';
+  late String _selectedMonth;
+  bool _isLoading = false;
+  List<RequestData> _requests = [];
 
-  final _requests = const [
-    RequestData(
-      mark: 'P',
-      type: 'Nghỉ phép năm · 3 ngày',
-      dates: '21–23/09/2026',
-      status: 'Chờ duyệt',
-      statusCode: 1,
-      stage: 'Chờ quản lý',
-      completedSteps: 1,
-    ),
-    RequestData(
-      mark: 'T',
-      type: 'Tăng ca · 3 giờ',
-      dates: '12/09/2026',
-      status: 'Đã duyệt',
-      statusCode: 2,
-      stage: 'Hoàn tất',
-      completedSteps: 4,
-    ),
-    RequestData(
-      mark: 'C',
-      type: 'Công tác · Hà Nội',
-      dates: '21–23/09/2026',
-      status: 'Chờ duyệt',
-      statusCode: 1,
-      stage: 'Chờ giám đốc',
-      completedSteps: 3,
-    ),
-    RequestData(
-      mark: 'S',
-      type: 'Sửa công · thiếu giờ ra',
-      dates: '15/09/2026',
-      status: 'Cần bổ sung',
-      statusCode: 1,
-      stage: 'Chờ HR',
-      completedSteps: 2,
-    ),
-    RequestData(
-      mark: 'P',
-      type: 'Nghỉ không lương · 1 ngày',
-      dates: '28/08/2026',
-      status: 'Từ chối',
-      statusCode: 3,
-      stage: 'Từ chối',
-      completedSteps: 1,
-    ),
-  ];
-
-  void _showNewRequestSheet(BuildContext context, AppColorsExtension colors) {
-    final l10n = context.l10n;
-    unawaited(
-      showModalBottomSheet<void>(
-        context: context,
-        backgroundColor: colors.surface,
-        shape: const RoundedRectangleBorder(borderRadius: BorderRadius.vertical(top: Radius.circular(22))),
-        builder: (ctx) => Padding(
-          padding: const EdgeInsets.fromLTRB(16, 18, 16, 28),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(l10n.createNewRequestTitle, style: TextStyle(fontSize: 16, fontWeight: FontWeight.w800, color: colors.textPrimary)),
-              14.gapH,
-              _buildOptionTile(ctx, Symbols.beach_access, l10n.requestTypeLeave, AppRoutes.leaveCreate, colors),
-              _buildOptionTile(ctx, Symbols.schedule, l10n.requestTypeOvertime, AppRoutes.overtimeCreate, colors),
-              _buildOptionTile(ctx, Symbols.edit_note, l10n.requestTypeCorrection, AppRoutes.attendanceCorrection, colors),
-            ],
-          ),
-        ),
-      ),
-    );
+  @override
+  void initState() {
+    super.initState();
+    final now = DateTime.now();
+    _selectedMonth = 'Tháng ${now.month}, ${now.year}';
+    unawaited(_loadRequests());
   }
 
-  Widget _buildOptionTile(BuildContext ctx, IconData icon, String title, String route, AppColorsExtension colors) {
-    return ListTile(
-      leading: Icon(icon, color: colors.primaryIndigo),
-      title: Text(title, style: const TextStyle(fontWeight: FontWeight.w700)),
-      onTap: () {
-        Navigator.pop(ctx);
-        unawaited(context.push(route));
-      },
+  Future<void> _loadRequests() async {
+    setState(() => _isLoading = true);
+    final items = await RequestsLoader.loadRequests(
+      selectedMonth: _selectedMonth,
+    );
+    if (!mounted) return;
+    setState(() {
+      _isLoading = false;
+      _requests = items;
+    });
+    RequestsBadgeHandler.updateCount(
+      items.where((r) => r.statusCode == 1).length,
     );
   }
 
@@ -113,18 +58,20 @@ class _RequestsScreenState extends State<RequestsScreen> {
   Widget build(BuildContext context) {
     final colors = context.colors;
     final l10n = context.l10n;
-    final authState = context.watch<AuthCubit>().state;
-    final isManager = authState is Authenticated && authState.role.isManager;
-
-    final tabs = [l10n.tabAll, l10n.tabPending, l10n.tabApproved, l10n.tabRejected];
+    final tabs = [
+      l10n.tabAll,
+      l10n.tabPending,
+      l10n.tabApproved,
+      l10n.tabRejected,
+    ];
 
     final filtered = _requests.where((r) {
       final matchesTab = _selectedTab == 0 || r.statusCode == _selectedTab;
-      final matchesMonth = _selectedMonth == 'Tất cả' ||
-          (_selectedMonth.contains('9') && r.dates.contains('09/')) ||
-          (_selectedMonth.contains('8') && r.dates.contains('08/')) ||
-          (_selectedMonth.contains('7') && r.dates.contains('07/')) ||
-          (_selectedMonth.contains('6') && r.dates.contains('06/'));
+      final matchesMonth = AppMonthPickerDialog.matchesMonth(
+        r.dates,
+        _selectedMonth,
+        context,
+      );
       return matchesTab && matchesMonth;
     }).toList();
 
@@ -138,18 +85,45 @@ class _RequestsScreenState extends State<RequestsScreen> {
             trailing: Container(
               width: 38,
               height: 38,
-              decoration: BoxDecoration(color: colors.accentAmber, borderRadius: BorderRadius.circular(13)),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(13),
+              ),
               child: Material(
                 color: Colors.transparent,
                 child: InkWell(
                   borderRadius: BorderRadius.circular(13),
-                  onTap: () => _showNewRequestSheet(context, colors),
-                  child: const Center(child: Icon(Symbols.add, color: Color(0xFF1C1408), size: 22, weight: 700)),
+                  onTap: () => unawaited(NewRequestBottomSheet.show(context)),
+                  child: Center(
+                    child: AppIcon(
+                      AppIcons.plus,
+                      size: 20,
+                      color: colors.tealPrimary,
+                    ),
+                  ),
                 ),
               ),
             ),
           ),
-          _buildRoleIndicator(isManager, colors),
+          RequestsSummaryHeader(
+            pendingCount: _requests.where((r) => r.statusCode == 1).length,
+            approvedCount: _requests.where((r) => r.statusCode == 2).length,
+            rejectedCount: _requests.where((r) => r.statusCode == 3).length,
+            onTabSelected: (tab) => setState(() => _selectedTab = tab),
+          ),
+          RequestsCategoryTiles(
+            leavePendingCount: _requests
+                .where((r) => r.requestTypeKey == 'leave' && r.statusCode == 1)
+                .length,
+            otPendingCount: _requests
+                .where((r) => r.requestTypeKey == 'ot' && r.statusCode == 1)
+                .length,
+            correctionPendingCount: _requests
+                .where(
+                  (r) => r.requestTypeKey == 'correction' && r.statusCode == 1,
+                )
+                .length,
+          ),
 
           // Month selector row
           Padding(
@@ -157,10 +131,20 @@ class _RequestsScreenState extends State<RequestsScreen> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text(l10n.monthlyRequestsTitle, style: TextStyle(fontSize: 13, fontWeight: FontWeight.w700, color: colors.textSecondary)),
+                Text(
+                  l10n.monthlyRequestsTitle,
+                  style: TextStyle(
+                    fontSize: 13,
+                    fontWeight: FontWeight.w700,
+                    color: colors.textSecondary,
+                  ),
+                ),
                 MonthPickerButton(
                   selectedMonth: _selectedMonth,
-                  onMonthChanged: (m) => setState(() => _selectedMonth = m),
+                  onMonthChanged: (m) {
+                    setState(() => _selectedMonth = m);
+                    unawaited(_loadRequests());
+                  },
                   isCompact: true,
                 ),
               ],
@@ -185,16 +169,24 @@ class _RequestsScreenState extends State<RequestsScreen> {
                       padding: const EdgeInsets.symmetric(horizontal: 14),
                       alignment: Alignment.center,
                       decoration: BoxDecoration(
-                        color: isSelected ? colors.primaryIndigo : colors.surface,
+                        color: isSelected
+                            ? colors.primaryIndigo
+                            : colors.surface,
                         borderRadius: BorderRadius.circular(11),
-                        border: Border.all(color: isSelected ? colors.primaryIndigo : colors.border),
+                        border: Border.all(
+                          color: isSelected
+                              ? colors.primaryIndigo
+                              : colors.border,
+                        ),
                       ),
                       child: Text(
                         tabs[index],
                         style: TextStyle(
                           fontSize: 12.5,
                           fontWeight: FontWeight.w700,
-                          color: isSelected ? const Color(0xFFFFF8EC) : colors.textSecondary,
+                          color: isSelected
+                              ? const Color(0xFFFFF8EC)
+                              : colors.textSecondary,
                         ),
                       ),
                     ),
@@ -206,18 +198,39 @@ class _RequestsScreenState extends State<RequestsScreen> {
 
           // Requests list
           Expanded(
-            child: filtered.isEmpty
-                ? Center(
-                    child: Text(
-                      l10n.noRequestsInMonth(_selectedMonth),
-                      style: TextStyle(fontSize: 13, color: colors.textSecondary),
-                    ),
-                  )
-                : ListView.separated(
-                    padding: const EdgeInsets.fromLTRB(16, 4, 16, 24),
-                    itemCount: filtered.length,
-                    separatorBuilder: (_, _) => 11.gapH,
-                    itemBuilder: (ctx, index) => RequestCard(item: filtered[index]),
+            child: _isLoading
+                ? const Center(child: CircularProgressIndicator())
+                : RefreshIndicator(
+                    onRefresh: _loadRequests,
+                    child: filtered.isEmpty
+                        ? ListView(
+                            children: [
+                              100.gapH,
+                              Center(
+                                child: Text(
+                                  l10n.noRequestsInMonth(_selectedMonth),
+                                  style: TextStyle(
+                                    fontSize: 13,
+                                    color: colors.textSecondary,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          )
+                        : ListView.separated(
+                            padding: const EdgeInsets.fromLTRB(16, 4, 16, 24),
+                            itemCount: filtered.length,
+                            separatorBuilder: (_, _) => 11.gapH,
+                            itemBuilder: (ctx, index) {
+                              final item = filtered[index];
+                              return InkWell(
+                                borderRadius: BorderRadius.circular(18),
+                                onTap: () =>
+                                    unawaited(_openDetail(item, index)),
+                                child: RequestCard(item: item),
+                              );
+                            },
+                          ),
                   ),
           ),
         ],
@@ -225,47 +238,33 @@ class _RequestsScreenState extends State<RequestsScreen> {
     );
   }
 
-  Widget _buildRoleIndicator(bool isManager, AppColorsExtension colors) {
-    final l10n = context.l10n;
+  Future<void> _openDetail(RequestData item, int index) async {
+    final fields = <(String, String)>[
+      ('Mã yêu cầu', item.code ?? 'RQ-2026-09${20 + index}'),
+      ('Loại yêu cầu', item.type),
+      ('Thời gian', item.dates),
+      ('Trạng thái', item.status),
+      if (item.confirmerName != null && item.confirmerName!.isNotEmpty)
+        ('Người xác nhận', item.confirmerName!),
+      if (item.reason != null && item.reason!.isNotEmpty)
+        ('Lý do', item.reason!),
+      if (item.worktime != null) ('Số giờ', '${item.worktime}h'),
+    ];
 
-    if (!isManager) {
-      return Container(
-        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-        color: colors.cardSecondary,
-        child: Row(
-          children: [
-            Icon(Symbols.info, size: 16, color: colors.textSecondary),
-            8.gapW,
-            Expanded(
-              child: Text(l10n.roleIndicatorEmployee, style: TextStyle(fontSize: 12, color: colors.textSecondary, fontWeight: FontWeight.w600)),
-            ),
-            GestureDetector(
-              onTap: () async {
-                await context.read<AuthCubit>().loginAsDemo(UserRole.manager);
-                if (mounted) context.go(AppRoutes.approvals);
-              },
-              child: Text(l10n.roleIndicatorSwitchToManager, style: TextStyle(fontSize: 12, fontWeight: FontWeight.w800, color: colors.accentAmber)),
-            ),
-          ],
-        ),
-      );
-    }
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-      color: colors.accentAmber.withValues(alpha: 0.15),
-      child: Row(
-        children: [
-          Icon(Symbols.fact_check, size: 16, color: colors.accentAmber),
-          8.gapW,
-          Expanded(
-            child: Text(l10n.managerPendingApprovalsBanner(9), style: TextStyle(fontSize: 12, color: colors.textPrimary, fontWeight: FontWeight.w700)),
-          ),
-          GestureDetector(
-            onTap: () => context.go(AppRoutes.approvals),
-            child: Text(l10n.openApprovalsLink, style: TextStyle(fontSize: 12, fontWeight: FontWeight.w800, color: colors.primaryIndigo)),
-          ),
-        ],
-      ),
+    final res = await context.push(
+      AppRoutes.requestDetail,
+      extra: {
+        'code': item.code ?? 'RQ-2026-09${20 + index}',
+        'title': item.type,
+        'category': item.requestTypeKey,
+        'requesterName': item.requesterName ?? 'Nhân viên',
+        'initialStatus': item.statusCode == 2
+            ? 'approved'
+            : (item.statusCode == 3 ? 'rejected' : 'pending'),
+        'isApprover': false,
+        'fields': fields,
+      },
     );
+    if (res == true || res == 'cancelled') await _loadRequests();
   }
 }

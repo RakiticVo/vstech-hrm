@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:material_symbols_icons/symbols.dart';
 import 'package:vstech_hrm/core/extensions/l10n_extension.dart';
 import 'package:vstech_hrm/core/responsive/app_layout.dart';
 import 'package:vstech_hrm/core/theme/app_colors.dart';
 import 'package:vstech_hrm/core/theme/app_text_styles.dart';
 import 'package:vstech_hrm/core/widgets/app_card.dart';
+import 'package:vstech_hrm/core/widgets/app_icon.dart';
 import 'package:vstech_hrm/core/widgets/primary_button.dart';
 import 'package:vstech_hrm/core/widgets/status_chip.dart';
 import 'package:vstech_hrm/features/attendance/domain/entities/attendance_record_entity.dart';
@@ -50,11 +50,12 @@ class AttendanceSuccessSheet extends StatelessWidget {
                 color: colors.pineGreen.withValues(alpha: 0.15),
                 shape: BoxShape.circle,
               ),
-              child: Icon(
-                Symbols.check_circle,
-                color: colors.pineGreen,
-                size: 40,
-                weight: 600,
+              child: Center(
+                child: AppIcon(
+                  AppIcons.check,
+                  color: colors.pineGreen,
+                  size: 36,
+                ),
               ),
             ),
           ),

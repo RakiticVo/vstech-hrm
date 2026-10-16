@@ -51,11 +51,21 @@ class AttendanceRecordEntity extends Equatable {
     required this.type,
     required this.classification,
     required this.locationName,
+    this.shiftName,
+    this.checkinTime,
+    this.checkoutTime,
+    this.actualHours = 0.0,
+    this.lateHours = 0.0,
+    this.earlyHours = 0.0,
+    this.isConfirmed = false,
+    this.validHours = 0.0,
     this.lat,
     this.lng,
     this.bssid,
     this.imagePath,
     this.note,
+    this.lateWarning,
+    this.earlyWarning,
   });
 
   final String id;
@@ -63,11 +73,73 @@ class AttendanceRecordEntity extends Equatable {
   final AttendanceType type;
   final AttendanceClassification classification;
   final String locationName;
+  final String? shiftName;
+  final String? checkinTime;
+  final String? checkoutTime;
+  final double actualHours;
+  final double lateHours;
+  final double earlyHours;
+  final bool isConfirmed;
+  final double validHours;
   final double? lat;
   final double? lng;
   final String? bssid;
   final String? imagePath;
   final String? note;
+  final bool? lateWarning;
+  final bool? earlyWarning;
+
+  /// True if checkin was late (respects backend lateWarning flag when present).
+  bool get isLate => lateWarning ?? (lateHours > 0 || classification == AttendanceClassification.late);
+
+  /// True if checkout was early (respects backend earlyWarning flag when present).
+  bool get isEarly => earlyWarning ?? (earlyHours > 0 || classification == AttendanceClassification.earlyLeave);
+
+  AttendanceRecordEntity copyWith({
+    String? id,
+    DateTime? timestamp,
+    AttendanceType? type,
+    AttendanceClassification? classification,
+    String? locationName,
+    String? shiftName,
+    String? checkinTime,
+    String? checkoutTime,
+    double? actualHours,
+    double? lateHours,
+    double? earlyHours,
+    bool? isConfirmed,
+    double? validHours,
+    double? lat,
+    double? lng,
+    String? bssid,
+    String? imagePath,
+    String? note,
+    bool? lateWarning,
+    bool? earlyWarning,
+  }) {
+    return AttendanceRecordEntity(
+      id: id ?? this.id,
+      timestamp: timestamp ?? this.timestamp,
+      type: type ?? this.type,
+      classification: classification ?? this.classification,
+      locationName: locationName ?? this.locationName,
+      shiftName: shiftName ?? this.shiftName,
+      checkinTime: checkinTime ?? this.checkinTime,
+      checkoutTime: checkoutTime ?? this.checkoutTime,
+      actualHours: actualHours ?? this.actualHours,
+      lateHours: lateHours ?? this.lateHours,
+      earlyHours: earlyHours ?? this.earlyHours,
+      isConfirmed: isConfirmed ?? this.isConfirmed,
+      validHours: validHours ?? this.validHours,
+      lat: lat ?? this.lat,
+      lng: lng ?? this.lng,
+      bssid: bssid ?? this.bssid,
+      imagePath: imagePath ?? this.imagePath,
+      note: note ?? this.note,
+      lateWarning: lateWarning ?? this.lateWarning,
+      earlyWarning: earlyWarning ?? this.earlyWarning,
+    );
+  }
 
   @override
   List<Object?> get props => [
@@ -76,10 +148,20 @@ class AttendanceRecordEntity extends Equatable {
         type,
         classification,
         locationName,
+        shiftName,
+        checkinTime,
+        checkoutTime,
+        actualHours,
+        lateHours,
+        earlyHours,
+        isConfirmed,
+        validHours,
         lat,
         lng,
         bssid,
         imagePath,
         note,
+        lateWarning,
+        earlyWarning,
       ];
 }

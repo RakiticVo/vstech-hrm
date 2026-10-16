@@ -1,11 +1,11 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:material_symbols_icons/symbols.dart';
 import 'package:vstech_hrm/core/extensions/l10n_extension.dart';
 import 'package:vstech_hrm/core/responsive/app_layout.dart';
 import 'package:vstech_hrm/core/services/offline_attendance_service.dart';
 import 'package:vstech_hrm/core/theme/app_colors.dart';
+import 'package:vstech_hrm/core/widgets/app_icon.dart';
 import 'package:vstech_hrm/features/attendance/presentation/cubit/offline_queue_cubit.dart';
 import 'package:vstech_hrm/features/attendance/presentation/cubit/offline_queue_state.dart';
 import 'package:vstech_hrm/features/attendance/presentation/widgets/factory_reminders_dialog.dart';
@@ -64,7 +64,7 @@ class _OfflineQueueScreenState extends State<OfflineQueueScreen> {
             backgroundColor: colors.surface,
             elevation: 0,
             leading: IconButton(
-              icon: Icon(Symbols.arrow_back, color: colors.textPrimary),
+              icon: AppIcon(AppIcons.back, color: colors.textPrimary),
               onPressed: () => Navigator.of(context).pop(),
             ),
             title: Text(
@@ -77,12 +77,12 @@ class _OfflineQueueScreenState extends State<OfflineQueueScreen> {
             ),
             actions: [
               IconButton(
-                icon: Icon(Symbols.alarm, color: colors.primaryIndigo),
+                icon: AppIcon(AppIcons.shift, color: colors.primaryIndigo, size: 20),
                 tooltip: l10n.factoryRemindersTitle,
                 onPressed: () => _showRemindersDialog(context, state.remindersConfig),
               ),
               IconButton(
-                icon: Icon(Symbols.refresh, color: colors.textPrimary),
+                icon: AppIcon(AppIcons.sync, color: colors.textPrimary, size: 20),
                 onPressed: () => unawaited(context.read<OfflineQueueCubit>().loadQueue()),
               ),
               4.gapW,
@@ -97,7 +97,7 @@ class _OfflineQueueScreenState extends State<OfflineQueueScreen> {
                   color: const Color(0xFFFEF2F2),
                   child: Row(
                     children: [
-                      const Icon(Symbols.warning, size: 20, color: Color(0xFFDC2626)),
+                      const AppIcon(AppIcons.warning, size: 20, color: Color(0xFFDC2626)),
                       10.gapW,
                       Expanded(
                         child: Text(
@@ -164,7 +164,7 @@ class _OfflineQueueScreenState extends State<OfflineQueueScreen> {
                                 valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
                               ),
                             )
-                          : const Icon(Symbols.cloud_upload, size: 20),
+                          : const AppIcon(AppIcons.sync, size: 20, color: Colors.white),
                       label: Text(
                         state.isSyncing
                             ? 'Đang đồng bộ ${state.pendingCount} lượt công...'

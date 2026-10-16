@@ -1,0 +1,89 @@
+@startuml
+
+!pragma layout smetana
+skinparam dpi 160
+skinparam defaultFontName Arial
+skinparam defaultFontSize 12
+skinparam shadowing false
+skinparam roundCorner 10
+skinparam titleFontSize 16
+skinparam titleFontStyle bold
+skinparam titleFontColor #0A544E
+skinparam ArrowColor #0F766E
+skinparam componentStyle rectangle
+skinparam rectangle {
+  BorderColor #0F766E
+  BackgroundColor #FFFFFF
+}
+skinparam package {
+  BorderColor #0A544E
+  BackgroundColor #F0FDFA
+  FontColor #0A544E
+}
+skinparam node {
+  BorderColor #0A544E
+  BackgroundColor #F8FAFC
+}
+skinparam database {
+  BorderColor #0A544E
+  BackgroundColor #ECFEFF
+}
+skinparam cloud {
+  BorderColor #B45309
+  BackgroundColor #FFFBEB
+}
+skinparam note {
+  BackgroundColor #FFF8EC
+  BorderColor #F59E0B
+}
+skinparam class {
+  BorderColor #0F766E
+  BackgroundColor #FFFFFF
+  HeaderBackgroundColor #CCFBF1
+  ArrowColor #0F766E
+}
+skinparam state {
+  BorderColor #0F766E
+  BackgroundColor #F0FDFA
+  ArrowColor #0F766E
+}
+
+
+title Kiến trúc tổng thể hệ thống HRM VSTECH
+left to right direction
+actor "Nhân viên (NV)" as NV
+actor "Quản lý (QL)" as QL
+actor "HR / Quản trị" as HR
+
+package "Tầng người dùng" {
+  rectangle "<b>Ứng dụng Mobile</b>\nFlutter · Android 8.0+ / iOS 14+\n(ESS / MSS)" as MOB
+  rectangle "<b>Web Quản trị</b>\n(Admin Portal)\n<color:#B91C1C>[Web bổ sung]</color>" as WEB
+}
+
+package "Tầng dịch vụ" {
+  rectangle "<b>HRM Backend API</b>\nREST · JSON · JWT\nAccount · Enrollments · LeaveRequests · LeavePlans\nOvertimeRequests · OvertimeTypes\nTimesheetConfirmRequests · ConfirmRequests\nEmployeeSalaryPayrolls · BaseNotifications\nHolidays · FCM" as API
+  rectangle "<b>Face Authentication API</b>\nREST · multipart\ncheckreg · register · update\ndelete · verify · live_verify" as FACE
+}
+
+package "Tầng dữ liệu" {
+  database "<b>CSDL HRM</b>\nNhân sự · Chấm công · Đơn từ\nLương · Thông báo\n<color:#B91C1C>[DB bổ sung]</color>" as DB
+  database "<b>Kho vector khuôn mặt</b>" as FDB
+}
+
+cloud "Dịch vụ bên thứ ba" {
+  rectangle "Firebase Cloud\nMessaging (FCM)" as FCM
+  rectangle "Dịch vụ định vị\n(GPS / GNSS)" as GNSS
+}
+
+NV --> MOB
+QL --> MOB
+HR --> WEB
+MOB --> API : HTTPS · Bearer JWT
+MOB --> FACE : HTTPS · ảnh khuôn mặt
+WEB --> API : HTTPS
+API --> DB
+FACE --> FDB
+API --> FCM : gửi thông báo
+FCM ..> MOB : push notification
+GNSS ..> MOB : toạ độ chấm công
+@enduml

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:material_symbols_icons/symbols.dart';
 import 'package:vstech_hrm/core/extensions/l10n_extension.dart';
 import 'package:vstech_hrm/core/responsive/app_layout.dart';
 import 'package:vstech_hrm/core/theme/app_colors.dart';
+import 'package:vstech_hrm/core/widgets/app_icon.dart';
 import 'package:vstech_hrm/features/qr_auth/domain/entities/qr_login_request_entity.dart';
 
 /// Modal bottom sheet displaying detailed QR login request metadata and confirmation actions.
@@ -56,7 +56,7 @@ class QrConfirmationBottomSheet extends StatelessWidget {
                   color: colors.primaryIndigo.withValues(alpha: 0.12),
                   borderRadius: BorderRadius.circular(12),
                 ),
-                child: Icon(Symbols.desktop_windows, color: colors.primaryIndigo, size: 24),
+                child: AppIcon(AppIcons.screen, color: colors.primaryIndigo, size: 24),
               ),
               12.gapW,
               Expanded(
@@ -93,15 +93,15 @@ class QrConfirmationBottomSheet extends StatelessWidget {
             ),
             child: Column(
               children: [
-                _buildRow(l10n.qrBrowserLabel, request.browser, Symbols.web, colors),
+                _buildRow(l10n.qrBrowserLabel, request.browser, AppIcons.globe, colors),
                 Divider(height: 14, color: colors.border.withValues(alpha: 0.5)),
-                _buildRow(l10n.qrDeviceLabel, request.device, Symbols.computer, colors),
+                _buildRow(l10n.qrDeviceLabel, request.device, AppIcons.screen, colors),
                 Divider(height: 14, color: colors.border.withValues(alpha: 0.5)),
-                _buildRow(l10n.qrLocationLabel, request.location, Symbols.pin_drop, colors),
+                _buildRow(l10n.qrLocationLabel, request.location, AppIcons.mapPin, colors),
                 Divider(height: 14, color: colors.border.withValues(alpha: 0.5)),
-                _buildRow(l10n.qrIpAddressLabel, request.ipAddress, Symbols.dns, colors),
+                _buildRow(l10n.qrIpAddressLabel, request.ipAddress, AppIcons.tag, colors),
                 Divider(height: 14, color: colors.border.withValues(alpha: 0.5)),
-                _buildRow(l10n.qrRequestTimeLabel, timeStr, Symbols.schedule, colors),
+                _buildRow(l10n.qrRequestTimeLabel, timeStr, AppIcons.clock, colors),
               ],
             ),
           ),
@@ -111,7 +111,7 @@ class QrConfirmationBottomSheet extends StatelessWidget {
           Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Icon(Symbols.shield, color: Color(0xFFD97706), size: 16),
+              const AppIcon(AppIcons.shield, color: Color(0xFFD97706), size: 16),
               8.gapW,
               Expanded(
                 child: Text(
@@ -161,7 +161,7 @@ class QrConfirmationBottomSheet extends StatelessWidget {
                             valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
                           ),
                         )
-                      : const Icon(Symbols.fingerprint, size: 20),
+                      : const AppIcon(AppIcons.fingerprint, size: 20, color: Colors.white),
                   label: Text(
                     isProcessing ? 'Đang xác thực...' : l10n.qrApproveButton,
                     style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w800),
@@ -175,10 +175,10 @@ class QrConfirmationBottomSheet extends StatelessWidget {
     );
   }
 
-  Widget _buildRow(String label, String value, IconData icon, AppColorsExtension colors) {
+  Widget _buildRow(String label, String value, String iconName, AppColorsExtension colors) {
     return Row(
       children: [
-        Icon(icon, size: 16, color: colors.textTertiary),
+        AppIcon(iconName, size: 16, color: colors.textTertiary),
         8.gapW,
         Text(
           label,

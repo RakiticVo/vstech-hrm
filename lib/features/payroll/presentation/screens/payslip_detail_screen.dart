@@ -1,28 +1,115 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
-import 'package:material_symbols_icons/symbols.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
+import 'package:intl/intl.dart';
+import 'package:vstech_hrm/core/di/injector.dart';
 import 'package:vstech_hrm/core/extensions/l10n_extension.dart';
 import 'package:vstech_hrm/core/responsive/app_layout.dart';
+import 'package:vstech_hrm/core/router/routes.dart';
+import 'package:vstech_hrm/core/session/auth_cubit.dart';
+import 'package:vstech_hrm/core/session/auth_state.dart';
 import 'package:vstech_hrm/core/theme/app_colors.dart';
+import 'package:vstech_hrm/core/widgets/app_icon.dart';
+import 'package:vstech_hrm/core/widgets/primary_button.dart';
+import 'package:vstech_hrm/core/widgets/secondary_button.dart';
+import 'package:vstech_hrm/features/payroll/domain/entities/payslip_entity.dart';
+import 'package:vstech_hrm/features/payroll/domain/usecases/get_payslip_detail_usecase.dart';
+import 'package:vstech_hrm/features/payroll/presentation/widgets/payslip_breakdown_items.dart';
+import 'package:vstech_hrm/features/payroll/presentation/widgets/payslip_signed_card.dart';
+import 'package:vstech_hrm/features/payroll/presentation/widgets/signature_pad_modal.dart';
+import 'package:vstech_hrm/l10n/app_localizations.dart';
 
-/// Screen 14: Detailed Electronic Payslip (Phiếu Lương).
-class PayslipDetailScreen extends StatelessWidget {
-  const new({super.key});
+/// Screen 14: Detailed Electronic Payslip (Phiếu Lương) with Signing & Dispute.
+class PayslipDetailScreen extends StatefulWidget {
+  const PayslipDetailScreen({super.key});
+
+  @override
+  State<PayslipDetailScreen> createState() => _PayslipDetailScreenState();
+}
+
+class _PayslipDetailScreenState extends State<PayslipDetailScreen> {
+  bool _isSigned = false;
+  List<List<Offset>>? _signatureStrokes;
+  String _signedAt = '';
+  final String _verificationHash = 'SHA256: e7a9c24f8b1d30ac68';
+  PayslipEntity? _payslip;
+
+  @override
+  void initState() {
+    super.initState();
+    unawaited(_loadPayslip());
+  }
+
+  Future<void> _loadPayslip() async {
+    if (!sl.isRegistered<GetPayslipDetailUseCase>()) return;
+    final result = await sl<GetPayslipDetailUseCase>()(1);
+    if (!mounted) return;
+    result.fold((_) {}, (data) => setState(() => _payslip = data));
+  }
+
+  void _handleOpenSignPad() {
+    unawaited(
+      SignaturePadModal.show(
+        context,
+        onConfirmed: (strokes) {
+          final now = DateTime.now();
+          setState(() {
+            _isSigned = true;
+            _signatureStrokes = strokes;
+            _signedAt = DateFormat('dd/MM/yyyy HH:mm:ss').format(now);
+          });
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text('Đã ký xác nhận phiếu lương thành công!')),
+          );
+        },
+      ),
+    );
+  }
+
+  String _fmt(double amount, {bool isNegative = false}) {
+    if (amount == 0) return '0 ₫';
+    final str = NumberFormat('#,###', 'vi_VN').format(amount);
+    return isNegative ? '-$str ₫' : '$str ₫';
+  }
+
+  UserSession? _resolveUser(BuildContext context) {
+    try {
+      final s = context.watch<AuthCubit>().state;
+      return s is Authenticated ? s.user : null;
+    } on Object catch (_) {
+      final s = sl.isRegistered<AuthCubit>() ? sl<AuthCubit>().state : null;
+      return s is Authenticated ? s.user : null;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     final colors = context.colors;
+    final l10n = context.l10n;
+    final user = _resolveUser(context);
+    final userName = user?.name ?? 'Nhân viên';
+    final userCode = user?.employeeCode ?? (_payslip?.employeeCode ?? 'NV');
+
+    final baseSalary = _payslip?.actualBaseSalary ?? 0;
+    final allowance = (_payslip?.actualLunchFee ?? 0) + (_payslip?.actualAllowance ?? 0);
+    final otSalary = _payslip?.actualOvertimeSalary ?? 0;
+    final kpiSalary = _payslip?.actualKpiSalary ?? 0;
+    final insurance = _payslip?.subtractionFund ?? 0;
+    final tax = _payslip?.taxAddition ?? 0;
+    final netSalary = _payslip?.sumPayAmount ?? 0;
 
     final incomes = [
-      (context.l10n.basicSalaryLabel, '20.000.000 ₫'),
-      (context.l10n.lunchAndTransportAllowance, '1.200.000 ₫'),
-      (context.l10n.overtimePayLabel, '1.800.000 ₫'),
-      (context.l10n.kpiQuarterBonus(3), '2.500.000 ₫'),
+      (l10n.basicSalaryLabel, _fmt(baseSalary)),
+      (l10n.lunchAndTransportAllowance, _fmt(allowance)),
+      (l10n.overtimePayLabel, _fmt(otSalary)),
+      (l10n.kpiQuarterBonus(3), _fmt(kpiSalary)),
     ];
 
     final deductions = [
-      (context.l10n.socialInsuranceDeduction, '-2.135.000 ₫'),
-      (context.l10n.personalIncomeTaxDeduction, '-865.000 ₫'),
-      (context.l10n.unionFeeDeduction, '-0 ₫'),
+      (l10n.socialInsuranceDeduction, _fmt(insurance, isNegative: insurance > 0)),
+      (l10n.personalIncomeTaxDeduction, _fmt(tax, isNegative: tax > 0)),
+      (l10n.unionFeeDeduction, '-0 ₫'),
     ];
 
     return Scaffold(
@@ -31,11 +118,11 @@ class PayslipDetailScreen extends StatelessWidget {
         backgroundColor: colors.surface,
         elevation: 0,
         leading: IconButton(
-          icon: const Icon(Symbols.arrow_back),
+          icon: const AppIcon(AppIcons.back, size: 20),
           onPressed: () => Navigator.of(context).pop(),
         ),
         title: Text(
-          context.l10n.payslipTitle,
+          l10n.payslipTitle,
           style: TextStyle(
             fontSize: 18,
             fontWeight: FontWeight.w800,
@@ -44,191 +131,160 @@ class PayslipDetailScreen extends StatelessWidget {
         ),
         actions: [
           IconButton(
-            icon: Icon(Symbols.download, color: colors.primaryIndigo),
+            icon: const AppIcon(AppIcons.bonus, size: 20),
+            tooltip: l10n.rewardsTitle,
+            onPressed: () => context.push(AppRoutes.rewards),
+          ),
+          IconButton(
+            icon: const AppIcon(AppIcons.dispute, size: 20),
+            tooltip: l10n.disputeManageTitle,
+            onPressed: () => context.push(AppRoutes.salaryDisputes),
+          ),
+          IconButton(
+            icon: AppIcon(AppIcons.download, size: 20, color: colors.primaryIndigo),
             onPressed: () {
               ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(content: Text(context.l10n.downloadingPdfSnackbar)),
+                SnackBar(content: Text(l10n.downloadingPdfSnackbar)),
               );
             },
           ),
         ],
       ),
-      body: ListView(
-        padding: const EdgeInsets.fromLTRB(16, 14, 16, 24),
-        children: [
-          // Employee Header Card
-          Container(
-            decoration: BoxDecoration(
-              color: colors.surface,
-              borderRadius: BorderRadius.circular(18),
-              border: Border.all(color: colors.border),
-            ),
-            padding: const EdgeInsets.all(16),
-            child: Column(
-              children: [
-                Row(
-                  children: [
-                    Container(
-                      width: 44,
-                      height: 44,
-                      decoration: BoxDecoration(
-                        color: colors.primaryIndigo,
-                        borderRadius: BorderRadius.circular(14),
-                      ),
-                      child: const Center(
-                        child: Text(
-                          'MT',
-                          style: TextStyle(
-                            fontSize: 15,
-                            fontWeight: FontWeight.w800,
-                            color: Color(0xFFFFF8EC),
-                          ),
-                        ),
-                      ),
-                    ),
-                    const SizedBox(width: 12),
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            'Nguyễn Minh Tuấn',
-                            style: TextStyle(
-                              fontSize: 15,
-                              fontWeight: FontWeight.w800,
-                              color: colors.textPrimary,
-                            ),
-                          ),
-                          const SizedBox(height: 2),
-                          Text(
-                            'NV-04821 · Vận hành',
-                            style: TextStyle(
-                              fontSize: 12,
-                              fontWeight: FontWeight.w600,
-                              color: colors.textSecondary,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-                14.gapH,
-                Divider(height: 1, color: colors.border),
-                12.gapH,
-                Text(
-                  context.l10n.payslipNetSalaryMonth('9', '2026'),
-                  style: TextStyle(fontSize: 11.5, color: colors.textSecondary, fontWeight: FontWeight.w600),
-                ),
-                4.gapH,
-                Text(
-                  '25.500.000 ₫',
-                  style: TextStyle(
-                    fontSize: 28,
-                    fontWeight: FontWeight.w800,
-                    color: colors.pineGreen,
-                    letterSpacing: -0.5,
-                    fontFeatures: const [FontFeature.tabularFigures()],
-                  ),
-                ),
-              ],
-            ),
-          ),
-          20.gapH,
+      body: RefreshIndicator(
+        onRefresh: _loadPayslip,
+        child: ListView(
+          padding: const EdgeInsets.fromLTRB(16, 14, 16, 32),
+          children: [
+            _buildEmployeeHeaderCard(colors, l10n, userName, userCode),
+            12.gapH,
+            _buildRewardsLink(colors, l10n),
+            18.gapH,
 
-          // Thu nhập
-          Text(
-            context.l10n.incomeSectionTitle,
-            style: TextStyle(fontSize: 13, fontWeight: FontWeight.w700, color: colors.textSecondary),
-          ),
-          10.gapH,
-          _buildItemCard(incomes, colors.textPrimary, colors),
-          20.gapH,
-
-          // Khoản trừ
-          Text(
-            context.l10n.deductionSectionTitle,
-            style: TextStyle(fontSize: 13, fontWeight: FontWeight.w700, color: colors.textSecondary),
-          ),
-          10.gapH,
-          _buildItemCard(deductions, colors.error, colors),
-          20.gapH,
-
-          // Lương thực nhận Footer Card
-          Container(
-            decoration: BoxDecoration(
-              color: colors.surface,
-              borderRadius: BorderRadius.circular(16),
-              border: Border.all(color: colors.pineGreen.withValues(alpha: 0.3)),
+            Text(
+              l10n.incomeSectionTitle,
+              style: TextStyle(fontSize: 13, fontWeight: FontWeight.w700, color: colors.textSecondary),
             ),
-            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  context.l10n.netSalaryLabel,
-                  style: TextStyle(
-                    fontSize: 14,
-                    fontWeight: FontWeight.w800,
-                    color: colors.textPrimary,
-                  ),
-                ),
-                Text(
-                  '25.500.000 ₫',
-                  style: TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.w800,
-                    color: colors.pineGreen,
-                    fontFeatures: const [FontFeature.tabularFigures()],
-                  ),
-                ),
-              ],
+            10.gapH,
+            PayslipBreakdownItems(
+              items: incomes,
+              valueColor: colors.textPrimary,
             ),
-          ),
-        ],
-      ),
-    );
-  }
+            20.gapH,
 
-  Widget _buildItemCard(List<(String, String)> items, Color valueColor, AppColorsExtension colors) {
-    return Container(
-      decoration: BoxDecoration(
-        color: colors.surface,
-        borderRadius: BorderRadius.circular(18),
-        border: Border.all(color: colors.border),
-      ),
-      child: Column(
-        children: [
-          for (var i = 0; i < items.length; i++) ...[
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 13),
+            Text(
+              l10n.deductionSectionTitle,
+              style: TextStyle(fontSize: 13, fontWeight: FontWeight.w700, color: colors.textSecondary),
+            ),
+            10.gapH,
+            PayslipBreakdownItems(
+              items: deductions,
+              valueColor: colors.error,
+            ),
+            20.gapH,
+
+            Container(
+              decoration: BoxDecoration(
+                color: colors.surface,
+                borderRadius: BorderRadius.circular(16),
+                border: Border.all(color: colors.pineGreen.withValues(alpha: 0.3)),
+              ),
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    items[i].$1,
-                    style: TextStyle(
-                      fontSize: 13,
-                      fontWeight: FontWeight.w600,
-                      color: colors.textSecondary,
-                    ),
+                    l10n.netSalaryLabel,
+                    style: TextStyle(fontSize: 14, fontWeight: FontWeight.w800, color: colors.textPrimary),
                   ),
                   Text(
-                    items[i].$2,
+                    _fmt(netSalary),
                     style: TextStyle(
-                      fontSize: 13.5,
+                      fontSize: 16,
                       fontWeight: FontWeight.w800,
-                      color: valueColor,
+                      color: colors.pineGreen,
                       fontFeatures: const [FontFeature.tabularFigures()],
                     ),
                   ),
                 ],
               ),
             ),
-            if (i < items.length - 1)
-              Divider(height: 1, color: colors.border.withValues(alpha: 0.6)),
+            20.gapH,
+
+            if (_isSigned)
+              PayslipSignedCard(
+                signerName: '$userName ($userCode)',
+                signedAt: _signedAt,
+                verificationHash: _verificationHash,
+                signatureStrokes: _signatureStrokes,
+              )
+            else ...[
+              PrimaryButton(
+                text: l10n.signPayslipBtn,
+                onPressed: _handleOpenSignPad,
+              ),
+              12.gapH,
+              SecondaryButton(
+                text: l10n.disputePayslipBtn,
+                onPressed: () => context.push(AppRoutes.salaryDisputeNew),
+              ),
+            ],
           ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildEmployeeHeaderCard(AppColorsExtension colors, AppLocalizations l10n, String name, String code) {
+    final period = '${_payslip?.month ?? DateTime.now().month}/${DateTime.now().year}';
+    return Container(
+      decoration: BoxDecoration(
+        color: colors.surface,
+        borderRadius: BorderRadius.circular(18),
+        border: Border.all(color: colors.border),
+      ),
+      padding: const EdgeInsets.all(16),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                name,
+                style: TextStyle(fontSize: 16, fontWeight: FontWeight.w800, color: colors.textPrimary),
+              ),
+              Container(
+                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
+                decoration: BoxDecoration(color: colors.pineGreen.withValues(alpha: 0.12), borderRadius: BorderRadius.circular(6)),
+                child: Text(period, style: TextStyle(fontSize: 12, fontWeight: FontWeight.w700, color: colors.pineGreen)),
+              ),
+            ],
+          ),
+          4.gapH,
+          Text(
+            'Mã NV: $code',
+            style: TextStyle(fontSize: 12.5, fontWeight: FontWeight.w600, color: colors.textSecondary),
+          ),
         ],
+      ),
+    );
+  }
+
+  Widget _buildRewardsLink(AppColorsExtension colors, AppLocalizations l10n) {
+    return InkWell(
+      borderRadius: BorderRadius.circular(12),
+      onTap: () => context.push(AppRoutes.rewards),
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
+        decoration: BoxDecoration(color: colors.cardSecondary, borderRadius: BorderRadius.circular(12), border: Border.all(color: colors.border)),
+        child: Row(
+          children: [
+            AppIcon(AppIcons.bonus, size: 18, color: colors.tealPrimary),
+            10.gapW,
+            Expanded(child: Text(l10n.rewardsTitle, style: TextStyle(fontSize: 13, fontWeight: FontWeight.w700, color: colors.textPrimary))),
+            AppIcon(AppIcons.chevronRight, size: 16, color: colors.textTertiary),
+          ],
+        ),
       ),
     );
   }

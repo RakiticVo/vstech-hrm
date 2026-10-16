@@ -3,10 +3,10 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
-import 'package:material_symbols_icons/symbols.dart';
 import 'package:vstech_hrm/core/extensions/l10n_extension.dart';
 import 'package:vstech_hrm/core/responsive/app_layout.dart';
 import 'package:vstech_hrm/core/theme/app_colors.dart';
+import 'package:vstech_hrm/core/widgets/app_icon.dart';
 import 'package:vstech_hrm/features/announcements/domain/entities/announcement_entity.dart';
 import 'package:vstech_hrm/features/announcements/presentation/cubit/announcements_cubit.dart';
 
@@ -52,7 +52,7 @@ class _AnnouncementDetailScreenState extends State<AnnouncementDetailScreen> {
         backgroundColor: colors.surface,
         elevation: 0,
         leading: IconButton(
-          icon: Icon(Symbols.arrow_back, color: colors.textPrimary),
+          icon: AppIcon(AppIcons.arrowLeft, color: colors.textPrimary),
           onPressed: () => Navigator.of(context).pop(),
         ),
         title: Text(
@@ -73,7 +73,7 @@ class _AnnouncementDetailScreenState extends State<AnnouncementDetailScreen> {
               Container(
                 padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
                 decoration: BoxDecoration(
-                  color: colors.primaryIndigo.withValues(alpha: 0.12),
+                  color: colors.tealPrimary.withValues(alpha: 0.14),
                   borderRadius: BorderRadius.circular(8),
                 ),
                 child: Text(
@@ -81,7 +81,7 @@ class _AnnouncementDetailScreenState extends State<AnnouncementDetailScreen> {
                   style: TextStyle(
                     fontSize: 12,
                     fontWeight: FontWeight.w800,
-                    color: colors.primaryIndigo,
+                    color: colors.tealPrimary,
                   ),
                 ),
               ),
@@ -119,7 +119,7 @@ class _AnnouncementDetailScreenState extends State<AnnouncementDetailScreen> {
                 CircleAvatar(
                   radius: 18,
                   backgroundColor: colors.pineGreen.withValues(alpha: 0.15),
-                  child: Icon(Symbols.corporate_fare, size: 20, color: colors.pineGreen),
+                  child: AppIcon(AppIcons.building, size: 20, color: colors.pineGreen),
                 ),
                 12.gapW,
                 Expanded(
@@ -145,15 +145,15 @@ class _AnnouncementDetailScreenState extends State<AnnouncementDetailScreen> {
                 Container(
                   padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                   decoration: BoxDecoration(
-                    color: const Color(0xFFDCFCE7),
+                    color: colors.success.withValues(alpha: 0.16),
                     borderRadius: BorderRadius.circular(6),
                   ),
-                  child: const Text(
+                  child: Text(
                     'CHÍNH THỨC',
                     style: TextStyle(
                       fontSize: 10,
                       fontWeight: FontWeight.w900,
-                      color: Color(0xFF16A34A),
+                      color: colors.success,
                     ),
                   ),
                 ),
@@ -185,7 +185,7 @@ class _AnnouncementDetailScreenState extends State<AnnouncementDetailScreen> {
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Icon(Symbols.check_circle, size: 16, color: colors.pineGreen),
+              AppIcon(AppIcons.checkCircle2, size: 16, color: colors.success),
               6.gapW,
               Text(
                 l10n.announcementReadConfirmed,

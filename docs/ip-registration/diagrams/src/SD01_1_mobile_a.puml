@@ -1,0 +1,88 @@
+@startuml
+
+skinparam dpi 160
+skinparam defaultFontName Arial
+skinparam defaultFontSize 12
+skinparam shadowing false
+skinparam roundCorner 8
+skinparam maxMessageSize 230
+skinparam sequenceMessageAlign left
+skinparam responseMessageBelowArrow true
+skinparam ParticipantPadding 4
+skinparam BoxPadding 4
+skinparam titleFontSize 16
+skinparam titleFontStyle bold
+skinparam titleFontColor #0A544E
+skinparam sequence {
+  ArrowColor #0F766E
+  ArrowThickness 1.2
+  LifeLineBorderColor #94A3B8
+  LifeLineBackgroundColor #CCFBF1
+  ParticipantBorderColor #0F766E
+  ParticipantBackgroundColor #FFFFFF
+  ParticipantFontStyle bold
+  ActorBorderColor #0F766E
+  ActorBackgroundColor #FFF8EC
+  BoxBorderColor #CBD5E1
+  GroupBorderColor #B45309
+  GroupBackgroundColor #FFFBEB
+  GroupHeaderFontColor #92400E
+  DividerBackgroundColor #F0FDFA
+  DividerBorderColor #0F766E
+  ReferenceBackgroundColor #F8FAFC
+}
+skinparam note {
+  BackgroundColor #FFF8EC
+  BorderColor #F59E0B
+  FontSize 11
+}
+
+autonumber "<b>00."
+title SD01 · Đăng nhập và khôi phục phiên làm việc\n<size:12>Mobile – Phần 1/3: Khởi động – khôi phục phiên</size>
+actor "Người dùng" as U
+box "Presentation" #E6F4F1
+participant "Splash /\nLoginScreen" as S
+participant "AuthCubit" as C
+participant "GoRouter\n(authRedirectGuard)" as R
+end box
+box "Domain" #FEF9E7
+participant "CheckAuth /\nLogin UseCase" as UC
+end box
+box "Data" #EEF2FF
+participant "AuthRepository\n→ RemoteDataSource\n(Dio + JWT)" as REPO
+participant "SecureStorage\n(Keychain/Keystore)" as SEC
+end box
+
+box "Máy chủ" #FFF1F2
+participant "HRM Backend API" as API
+end box
+
+
+hide unlinked
+
+U -> S : Mở ứng dụng
+S -> C : checkAuthStatus()
+C -> SEC : Đọc token và phiên đã lưu
+SEC --> C : token, userJson
+alt Có token
+  C -> UC : CheckAuthUseCase()
+  UC -> REPO : checkAuth()
+  REPO -> API : GET /api/Account/check-auth\n(Bearer JWT)
+  alt 200 – token còn hiệu lực
+    API --> REPO : 200
+    REPO --> UC : Right(true)
+    UC --> C : true
+    C -> C : emit(Authenticated(user, role))
+  else 401 – hết hạn
+    API --> REPO : 401
+    REPO --> UC : Right(false)
+    UC --> C : false
+    C -> SEC : Xoá token, phiên
+    C -> C : emit(Unauthenticated)
+  end
+else Chưa đăng nhập
+  C -> C : emit(Unauthenticated)
+end
+C -> R : Thông báo đổi trạng thái
+R --> S : Authenticated → /home\nUnauthenticated → /login
+@enduml

@@ -1,12 +1,12 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
-import 'package:material_symbols_icons/symbols.dart';
 import 'package:safe_device/safe_device.dart';
 import 'package:vstech_hrm/core/extensions/l10n_extension.dart';
 import 'package:vstech_hrm/core/responsive/app_layout.dart';
 import 'package:vstech_hrm/core/theme/app_colors.dart';
 import 'package:vstech_hrm/core/theme/app_text_styles.dart';
 import 'package:vstech_hrm/core/widgets/app_card.dart';
+import 'package:vstech_hrm/core/widgets/app_icon.dart';
 import 'package:vstech_hrm/core/widgets/primary_button.dart';
 
 /// BottomSheet to inspect linked hardware device and verify security checks via safe_device.
@@ -120,7 +120,7 @@ class _DeviceSecuritySheetState extends State<DeviceSecuritySheet> {
                           color: colors.tealPrimary.withValues(alpha: 0.1),
                           shape: BoxShape.circle,
                         ),
-                        child: Icon(Symbols.smartphone, size: 24, color: colors.tealPrimary),
+                        child: AppIcon(AppIcons.smartphone, size: 24, color: colors.tealPrimary),
                       ),
                       12.gapW,
                       Expanded(
@@ -143,7 +143,7 @@ class _DeviceSecuritySheetState extends State<DeviceSecuritySheet> {
                   ),
                   Divider(height: 20, color: colors.border.withValues(alpha: 0.5)),
                   _buildSecurityRow(
-                    icon: Symbols.verified_user,
+                    iconName: AppIcons.shieldCheck,
                     label: context.l10n.physicalDeviceLabel,
                     status: _isRealDevice ? context.l10n.physicalDeviceValid : context.l10n.physicalDeviceWarning,
                     isSafe: _isRealDevice,
@@ -151,7 +151,7 @@ class _DeviceSecuritySheetState extends State<DeviceSecuritySheet> {
                   ),
                   8.gapH,
                   _buildSecurityRow(
-                    icon: Symbols.security,
+                    iconName: AppIcons.shield,
                     label: context.l10n.jailbreakLabel,
                     status: !_isJailBroken ? context.l10n.jailbreakSafe : context.l10n.jailbreakDetected,
                     isSafe: !_isJailBroken,
@@ -159,7 +159,7 @@ class _DeviceSecuritySheetState extends State<DeviceSecuritySheet> {
                   ),
                   8.gapH,
                   _buildSecurityRow(
-                    icon: Symbols.location_on,
+                    iconName: AppIcons.mapPin,
                     label: context.l10n.mockGpsLabel,
                     status: !_isMockLocation ? context.l10n.mockGpsNotDetected : context.l10n.mockGpsDetected,
                     isSafe: !_isMockLocation,
@@ -167,7 +167,7 @@ class _DeviceSecuritySheetState extends State<DeviceSecuritySheet> {
                   ),
                   8.gapH,
                   _buildSecurityRow(
-                    icon: Symbols.code,
+                    iconName: AppIcons.fileCode,
                     label: context.l10n.developerModeLabel,
                     status: _isDevMode ? context.l10n.devModeOn : context.l10n.devModeOff,
                     isSafe: !_isDevMode,
@@ -188,7 +188,7 @@ class _DeviceSecuritySheetState extends State<DeviceSecuritySheet> {
   }
 
   Widget _buildSecurityRow({
-    required IconData icon,
+    required String iconName,
     required String label,
     required String status,
     required bool isSafe,
@@ -196,7 +196,7 @@ class _DeviceSecuritySheetState extends State<DeviceSecuritySheet> {
   }) {
     return Row(
       children: [
-        Icon(icon, size: 18, color: colors.textTertiary),
+        AppIcon(iconName, size: 18, color: colors.textTertiary),
         const SizedBox(width: 8),
         Expanded(
           child: Text(label, style: AppTextStyles.bodySmall(color: colors.textSecondary)),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:vstech_hrm/core/extensions/date_formatter_extension.dart';
 import 'package:vstech_hrm/core/responsive/app_layout.dart';
 import 'package:vstech_hrm/core/theme/app_colors.dart';
 
@@ -11,6 +12,15 @@ class RequestData {
     required this.statusCode,
     required this.stage,
     required this.completedSteps,
+    this.totalSteps = 2,
+    this.requestTypeKey = 'all',
+    this.code,
+    this.requesterName,
+    this.reason,
+    this.worktime,
+    this.createdBy,
+    this.isProxy = false,
+    this.confirmerName,
   });
 
   final String mark;
@@ -20,6 +30,15 @@ class RequestData {
   final int statusCode;
   final String stage;
   final int completedSteps;
+  final int totalSteps;
+  final String requestTypeKey;
+  final String? code;
+  final String? requesterName;
+  final String? reason;
+  final double? worktime;
+  final String? createdBy;
+  final bool isProxy;
+  final String? confirmerName;
 }
 
 class RequestCard extends StatelessWidget {
@@ -83,19 +102,80 @@ class RequestCard extends StatelessWidget {
                         fontWeight: FontWeight.w800,
                         color: colors.textPrimary,
                       ),
+                      maxLines: 3,
+                      softWrap: true,
                     ),
-                    2.gapH,
+                    if (item.code != null && item.code!.isNotEmpty) ...[
+                      2.gapH,
+                      Text(
+                        '#${item.code}',
+                        style: TextStyle(
+                          fontSize: 11,
+                          fontWeight: FontWeight.w700,
+                          color: colors.primaryIndigo,
+                        ),
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ],
+                    3.gapH,
                     Text(
-                      item.dates,
+                      item.dates.toDisplayDate(),
                       style: TextStyle(
                         fontSize: 12,
                         fontWeight: FontWeight.w600,
                         color: colors.textSecondary,
                       ),
+                      maxLines: 3,
+                      softWrap: true,
                     ),
+                    if (item.createdBy != null && item.createdBy!.isNotEmpty) ...[
+                      3.gapH,
+                      Row(
+                        children: [
+                          Icon(Icons.person_outline_rounded, size: 12, color: colors.accentAmber),
+                          3.gapW,
+                          Expanded(
+                            child: Text(
+                              'Tạo bởi: ${item.createdBy}',
+                              style: TextStyle(
+                                fontSize: 11,
+                                fontWeight: FontWeight.w600,
+                                color: colors.accentAmber,
+                              ),
+                              maxLines: 2,
+                              softWrap: true,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                    if (item.confirmerName != null && item.confirmerName!.isNotEmpty) ...[
+                      3.gapH,
+                      Row(
+                        children: [
+                          Icon(Icons.verified_outlined, size: 12, color: colors.tealPrimary),
+                          3.gapW,
+                          Expanded(
+                            child: Text(
+                              'Duyệt bởi: ${item.confirmerName}',
+                              style: TextStyle(
+                                fontSize: 11,
+                                fontWeight: FontWeight.w600,
+                                color: colors.tealPrimary,
+                              ),
+                              maxLines: 2,
+                              softWrap: true,
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
                   ],
                 ),
               ),
+              8.gapW,
               Container(
                 padding: const EdgeInsets.symmetric(horizontal: 9, vertical: 5),
                 decoration: BoxDecoration(
@@ -117,10 +197,10 @@ class RequestCard extends StatelessWidget {
           Divider(height: 1, color: colors.border),
           12.gapH,
 
-          // 4-step progress bar
+          // Dynamic approval chain progress bar matching request type
           Row(
             children: [
-              for (var i = 0; i < 4; i++) ...[
+              for (var i = 0; i < item.totalSteps; i++) ...[
                 Expanded(
                   child: Container(
                     height: 4,
@@ -130,7 +210,7 @@ class RequestCard extends StatelessWidget {
                     ),
                   ),
                 ),
-                if (i < 3) 5.gapW,
+                if (i < item.totalSteps - 1) 5.gapW,
               ],
               8.gapW,
               Text(

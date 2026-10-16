@@ -85,7 +85,14 @@ class AppLocalizationsEn extends AppLocalizations {
   String get loginInstruction => 'Enter your employee ID and password';
 
   @override
+  String get noSavedCredentialsForBiometric =>
+      'Please log in with your credentials at least once to enable this feature';
+
+  @override
   String get loginButton => 'LOG IN';
+
+  @override
+  String get rememberMe => 'Remember me';
 
   @override
   String get biometricLogin => 'Sign in with Face ID / Biometrics';
@@ -118,10 +125,10 @@ class AppLocalizationsEn extends AppLocalizations {
   String get todayShiftLabel => 'Today\'s Shift';
 
   @override
-  String get clockInCta => 'CLOCK IN';
+  String get clockInCta => 'CHECK IN';
 
   @override
-  String get clockOutCta => 'CLOCK OUT';
+  String get clockOutCta => 'CHECK OUT';
 
   @override
   String get timeIn => 'Time in';
@@ -148,7 +155,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get metricWorkdays => 'Workdays';
 
   @override
-  String get metricLeaveBalance => 'Leave Left';
+  String get metricLeaveBalance => 'Annual Leave Left';
 
   @override
   String get metricOvertime => 'Overtime';
@@ -163,7 +170,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get quickActionOvertime => 'Overtime';
 
   @override
-  String get quickActionCorrection => 'Correction';
+  String get quickActionCorrection => 'Explanation';
 
   @override
   String get quickActionPayroll => 'Payslip';
@@ -190,16 +197,16 @@ class AppLocalizationsEn extends AppLocalizations {
   String get shiftCheckOutLabel => 'CHECK-OUT';
 
   @override
-  String get shiftDoneCta => 'SHIFT DONE';
+  String get shiftDoneCta => 'CHECK OUT';
 
   @override
   String get shiftCheckOutCta => 'CHECK OUT';
 
   @override
-  String get todayShiftDefault => 'Today\'s shift 08:00 — 17:00';
+  String get todayShiftDefault => 'Today\'s shift';
 
   @override
-  String get metricLateEarly => 'LATE / EARLY';
+  String get metricLateEarly => 'Late In / Early Out';
 
   @override
   String get daysUnit => 'days';
@@ -260,7 +267,7 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
-  String get sendCorrectionRequest => 'Submit Attendance Correction';
+  String get sendCorrectionRequest => 'Submit Explanation';
 
   @override
   String get statusCheckedIn => 'Checked in';
@@ -269,11 +276,10 @@ class AppLocalizationsEn extends AppLocalizations {
   String get statusNotCheckedIn => 'Not checked in';
 
   @override
-  String get shiftPromptArrive =>
-      'Your shift starts at 08:00. Punch in upon arrival.';
+  String get shiftPromptArrive => 'Please punch in upon arriving at work.';
 
   @override
-  String get hcmOfficeVerified => 'HCM Office - Location verified';
+  String get hcmOfficeVerified => 'Attendance location verified';
 
   @override
   String get zeroMinutes => '0 min';
@@ -285,19 +291,25 @@ class AppLocalizationsEn extends AppLocalizations {
   String get onlineAttendanceModeLabel => 'Online Mode';
 
   @override
-  String get faceScanCheckInTitle => 'Clock-in Face Scan';
+  String get faceScanCheckInTitle => 'Face Check In';
 
   @override
-  String get faceScanCheckOutTitle => 'Clock-out Face Scan';
+  String get faceScanCheckOutTitle => 'Face Check Out';
 
   @override
-  String get faceScanCaptureCheckInCta => 'Capture & Clock In';
+  String get faceScanCaptureCheckInCta => 'Capture & Check In';
 
   @override
-  String get faceScanCaptureCheckOutCta => 'Capture & Clock Out';
+  String get faceScanCaptureCheckOutCta => 'Capture & Check Out';
 
   @override
-  String get offlineLocationLabel => 'HCM Office (Local GPS Check)';
+  String get faceCheckingRegistration => 'Checking face registration...';
+
+  @override
+  String get faceCheckingButton => 'Checking...';
+
+  @override
+  String get offlineLocationLabel => 'Local GPS Check';
 
   @override
   String offlineMatchSuccess(String pct) {
@@ -372,6 +384,15 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get shiftLabelTime => 'Time:';
+
+  @override
+  String get shiftLabelDate => 'Work Date:';
+
+  @override
+  String get shiftLabelCode => 'Shift Code:';
+
+  @override
+  String get shiftLabelSource => 'Shift Source:';
 
   @override
   String get shiftLabelBreak => 'Break:';
@@ -474,14 +495,13 @@ class AppLocalizationsEn extends AppLocalizations {
   String get requestTypeOvertime => 'Overtime Request';
 
   @override
-  String get requestTypeCorrection => 'Correction Request';
+  String get requestTypeCorrection => 'Explanation';
 
   @override
   String get requestsCenterTitle => 'Requests Center';
 
   @override
-  String get requestsCenterSubtitle =>
-      'Leave · Overtime · Attendance Correction';
+  String get requestsCenterSubtitle => 'Leave · Overtime · Explanation';
 
   @override
   String get monthlyRequestsTitle => 'Monthly Requests';
@@ -564,13 +584,13 @@ class AppLocalizationsEn extends AppLocalizations {
   String get newOvertimeRequestSection => 'New Overtime Request';
 
   @override
-  String get newCorrectionRequestSection => 'New Correction Request';
+  String get newCorrectionRequestSection => 'New Explanation Request';
 
   @override
   String get overtimeHistorySection => 'Overtime History';
 
   @override
-  String get correctionHistorySection => 'Correction History';
+  String get correctionHistorySection => 'Explanation History';
 
   @override
   String get approvalsCenterTitle => 'Approvals Center';
@@ -628,7 +648,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get leaveTypeAnnual => 'Annual Leave';
 
   @override
-  String get leaveTypeSick => 'Sick Leave';
+  String get leaveTypeSick => 'Sick Leave (Social Ins.)';
 
   @override
   String get leaveTypeUnpaid => 'Unpaid Leave';
@@ -708,13 +728,13 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
-  String get createCorrectionTitle => 'Create Correction Request';
+  String get createCorrectionTitle => 'Create Explanation Request';
 
   @override
-  String get correctionDateLabel => 'Correction Date';
+  String get correctionDateLabel => 'Explanation Date';
 
   @override
-  String get correctionTimeLabel => 'Corrected Time';
+  String get correctionTimeLabel => 'Time';
 
   @override
   String get correctionIssueLabel => 'Issue Encountered';
@@ -746,21 +766,21 @@ class AppLocalizationsEn extends AppLocalizations {
   String get confirmSendCorrection => 'Confirm Submit Request';
 
   @override
-  String get correctionSubmittedTitle => 'Correction request submitted!';
+  String get correctionSubmittedTitle => 'Explanation request submitted!';
 
   @override
   String correctionSubmittedMsg(String issue, String date, String time) {
-    return 'Correction for $issue on $date ($time) has been sent to HR & Manager.';
+    return 'Explanation for $issue on $date ($time) has been sent to HR & Manager.';
   }
 
   @override
   String noCorrectionsInMonth(String month) {
-    return 'No attendance corrections in $month';
+    return 'No explanation requests in $month';
   }
 
   @override
   String get correctionWarningBanner =>
-      'Date 15/09/2026 missing check-out time. This day counts as incomplete attendance until correction is approved.';
+      'Date 15/09/2026 missing check-out time. This day counts as incomplete attendance until explanation is approved.';
 
   @override
   String get correctionIssueTitle => 'Issue';
@@ -927,6 +947,12 @@ class AppLocalizationsEn extends AppLocalizations {
   String get roleBadgeEmployee => 'EMP';
 
   @override
+  String get roleNameManager => 'Manager';
+
+  @override
+  String get roleNameEmployee => 'Employee';
+
+  @override
   String get readyToUploadAvatarSnackbar =>
       'Ready to upload new profile avatar';
 
@@ -1056,7 +1082,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get testBiometricNow => 'Test Biometric Sensor';
 
   @override
-  String get deviceSecurityTitle => 'DEVICE & SYSTEM INTEGRITY';
+  String get deviceSecurityTitle => 'Device Security';
 
   @override
   String get linkedDeviceTitle => 'Bound Hardware Device';
@@ -1199,16 +1225,26 @@ class AppLocalizationsEn extends AppLocalizations {
   String get securityAndPrivacySection => 'Security & Privacy';
 
   @override
-  String get biometricUnlock => 'Biometric Unlock';
+  String get biometricUnlock => 'Face ID / Fingerprint Auth';
 
   @override
-  String get biometricUnlockDesc => 'Use Face ID or Fingerprint to unlock';
+  String get biometricUnlockDesc =>
+      'Use Face ID or fingerprint for app & payslip unlock';
 
   @override
   String get autoLock => 'Auto Lock';
 
   @override
   String get autoLockDesc => 'Lock app immediately when switching apps';
+
+  @override
+  String get displaySection => 'Display';
+
+  @override
+  String get themeModeLabel => 'Theme Mode';
+
+  @override
+  String get languageLabel => 'Language';
 
   @override
   String get designAndSystemSection => 'Design & System';
@@ -1232,6 +1268,9 @@ class AppLocalizationsEn extends AppLocalizations {
       'Please enable notification permissions in system settings';
 
   @override
+  String get appVersionFooter => 'Version 1.0.0 · Build 2026';
+
+  @override
   String get allServicesTitle => 'All Services';
 
   @override
@@ -1245,6 +1284,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get categoryCareerProfile => 'Career & Profile';
+
+  @override
+  String get categoryGovernance => 'Governance & Executive';
 
   @override
   String get serviceCheckInOut => 'Punch In / Out';
@@ -1265,7 +1307,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get serviceOvertime => 'Overtime Request';
 
   @override
-  String get serviceCorrection => 'Attendance Correction';
+  String get serviceCorrection => 'Explanation';
 
   @override
   String get serviceTrackRequests => 'Track Requests';
@@ -1328,7 +1370,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get calendarSubtitle => 'Month 09/2026 · 22 Standard Workdays';
 
   @override
-  String get monthSummaryTitle => 'September Summary';
+  String get monthSummaryTitle => 'Monthly Summary';
 
   @override
   String get payableWorkdays => 'Payable Workdays';
@@ -1352,10 +1394,33 @@ class AppLocalizationsEn extends AppLocalizations {
   String get legendLeave => 'Leave';
 
   @override
+  String get legendOvertime => 'Overtime';
+
+  @override
+  String get legendCorrection => 'Explanation';
+
+  @override
   String get legendMissingTime => 'Missing Time';
 
   @override
   String get legendHoliday => 'Holiday';
+
+  @override
+  String get timesheetCorrectionSummary => 'Explanation';
+
+  @override
+  String get timesheetSendCorrectionCta => 'Submit Explanation';
+
+  @override
+  String get timesheetRelatedSlipsTitle => 'Related Requests & Slips';
+
+  @override
+  String timesheetApproverLabel(String name) {
+    return 'Approved by: $name';
+  }
+
+  @override
+  String get requestLockedPeriodNotice => 'Timesheet closed, request is locked';
 
   @override
   String get holidaysTitle => 'Holidays';
@@ -1459,7 +1524,54 @@ class AppLocalizationsEn extends AppLocalizations {
   String get filterAll => 'All';
 
   @override
-  String get forgotPasswordShort => 'Forgot?';
+  String get forgotPasswordShort => 'Forgot password?';
+
+  @override
+  String get forgotPasswordTitle => 'Forgot password?';
+
+  @override
+  String get forgotPasswordSubtitle =>
+      'For security reasons, passwords can only be reset by the IT department. Please contact IT and provide your employee ID for assistance.';
+
+  @override
+  String get itHotlineLabel => 'IT Hotline · ext 1234';
+
+  @override
+  String get itHotlineNumber => '028 3930 1234';
+
+  @override
+  String get itEmailLabel => 'Email';
+
+  @override
+  String get itEmailValue => 'it.helpdesk@vstech.vn';
+
+  @override
+  String get itSupportHoursLabel => 'Support hours';
+
+  @override
+  String get itSupportHoursValue => 'Mon – Sat · 07:30 – 18:00';
+
+  @override
+  String get itSecurityDisclaimer =>
+      'IT will verify your identity via your direct manager before issuing a temporary password. Change your password immediately upon first login.';
+
+  @override
+  String get callItDepartmentBtn => 'Call IT Department';
+
+  @override
+  String get backToLoginBtn => 'Back to login';
+
+  @override
+  String get loginWithFaceId => 'Login with Face ID';
+
+  @override
+  String get loginWithFingerprint => 'Login with Fingerprint';
+
+  @override
+  String get faceIdAuthReason => 'Authenticate with Face ID to log in';
+
+  @override
+  String get fingerprintAuthReason => 'Scan your fingerprint to log in';
 
   @override
   String get orDivider => 'or';
@@ -1546,7 +1658,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String statusLateMinutes(String minutes) {
-    return 'Late $minutes mins';
+    return '$minutes mins';
   }
 
   @override
@@ -1659,7 +1771,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get laborProfileTitle => 'Labor Profile & Contracts';
 
   @override
-  String get contractSectionTitle => 'Current Labor Contract';
+  String get contractSectionTitle => 'Labor Contracts & Addendums';
 
   @override
   String get contractNumberLabel => 'Contract Number';
@@ -1867,4 +1979,1540 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get qrCancelledWarning =>
       'This login request has been cancelled by the workstation.';
+
+  @override
+  String get execDashboardTitle => 'Executive Dashboard';
+
+  @override
+  String get execRoleTag => 'CHIEF EXECUTIVE OFFICER';
+
+  @override
+  String get execGreeting => 'Welcome, Mr. Le Hoang';
+
+  @override
+  String get execWaitingBadge => 'PENDING FINAL APPROVAL';
+
+  @override
+  String get execWaitingSub => 'Requires Director sign-off';
+
+  @override
+  String get execOldestWaiting => 'Oldest request: 18h ago';
+
+  @override
+  String get execCompanyNow => 'ENTERPRISE REAL-TIME STATUS';
+
+  @override
+  String get execHeadcount => 'Total Headcount';
+
+  @override
+  String get execAttendanceRate => 'Attendance Rate';
+
+  @override
+  String get execMonthlyPayroll => 'Monthly Payroll';
+
+  @override
+  String get execOvertimeHours => 'Monthly OT Hours';
+
+  @override
+  String get execTurnoverRate => 'Turnover Rate';
+
+  @override
+  String get execNeedAttention => 'Risk & Compliance Alerts';
+
+  @override
+  String get execSeeAllAlerts => 'View All Alerts';
+
+  @override
+  String get execAttendanceByDept => 'Attendance by Workshop & Division';
+
+  @override
+  String get finalApprovalTitle => 'Final Approval';
+
+  @override
+  String get finalApprovalCaption =>
+      'Highest authorization tier · Closes the pipeline';
+
+  @override
+  String get finalApprovalDelegateBtn => 'Delegation';
+
+  @override
+  String get finalApprovalBatchHint =>
+      'Quick-approve requests verified by HR & Finance';
+
+  @override
+  String get finalApprovalApproveAll => 'Approve All';
+
+  @override
+  String get finalApprovalFinancialImpact => 'FINANCIAL IMPACT';
+
+  @override
+  String get finalApprovalBudget => 'CONTINGENCY BUDGET';
+
+  @override
+  String get finalApprovalApproveBtn => 'Final Approve';
+
+  @override
+  String get finalApprovalRejectBtn => 'Reject';
+
+  @override
+  String get finalApprovalSuccess =>
+      'Final approval recorded. HR will execute.';
+
+  @override
+  String get finalApprovalRejected => 'Request has been rejected.';
+
+  @override
+  String get riskTitle => 'Risk & Compliance Alerts';
+
+  @override
+  String get riskCaption =>
+      'Three-tier compliance alerts · Assign to HR directly';
+
+  @override
+  String get riskTierCritical => 'Critical';
+
+  @override
+  String get riskTierHigh => 'High Risk';
+
+  @override
+  String get riskTierMedium => 'Medium';
+
+  @override
+  String get riskAssignHr => 'Assign to HR';
+
+  @override
+  String get riskAssignedSuccess => 'Task assigned to HR team successfully!';
+
+  @override
+  String get delTitle => 'Delegation Center';
+
+  @override
+  String get delCaption =>
+      'Transfer approval authority during leave or business trips';
+
+  @override
+  String get delSelectPerson => 'Authorized Delegate';
+
+  @override
+  String get delPeriod => 'Delegation Period';
+
+  @override
+  String get delFromDate => 'From Date';
+
+  @override
+  String get delToDate => 'To Date';
+
+  @override
+  String get delTotalDays => 'Total';
+
+  @override
+  String get delScope => 'Authority Scope';
+
+  @override
+  String get delAllScope => 'All Permissions';
+
+  @override
+  String get delPartialScope => 'Selected Request Types';
+
+  @override
+  String get delLimit => 'Approval Financial Limit';
+
+  @override
+  String get delLimitHint =>
+      'Requests exceeding this cap will still be routed to you when online';
+
+  @override
+  String get delUnlimited => 'Unlimited';
+
+  @override
+  String get delSubmit => 'Confirm & Activate Delegation';
+
+  @override
+  String get delActiveList => 'Active Delegations';
+
+  @override
+  String get delRevoke => 'Revoke Delegation';
+
+  @override
+  String get delRevokeSuccess => 'Delegation revoked successfully!';
+
+  @override
+  String get delCreateSuccess => 'Delegation established successfully!';
+
+  @override
+  String get delRunning => 'Running';
+
+  @override
+  String get requestTypeOnDuty => 'On Duty';
+
+  @override
+  String get requestTypeBusinessTrip => 'Business Trip';
+
+  @override
+  String get requestTypeShiftSwap => 'Shift Swap';
+
+  @override
+  String get onDutyTitle => 'Apply On Duty';
+
+  @override
+  String get onDutySubtitle =>
+      'Short off-site errand or client visit during shift';
+
+  @override
+  String get onDutyFromTime => 'From Time';
+
+  @override
+  String get onDutyToTime => 'To Time';
+
+  @override
+  String get onDutyLocation => 'Destination / Location';
+
+  @override
+  String get onDutyDescription => 'Work Description';
+
+  @override
+  String get onDutyShiftConstraintWarning =>
+      'On duty hours must fall within your scheduled shift';
+
+  @override
+  String get onDutySubmitSuccess => 'On Duty request submitted successfully!';
+
+  @override
+  String get businessTripTitle => 'Apply Business Trip';
+
+  @override
+  String get businessTripSubtitle =>
+      'Multi-day domestic or overseas business trip';
+
+  @override
+  String get businessTripDestination => 'Destination';
+
+  @override
+  String get businessTripColleagues => 'Accompanying Colleagues';
+
+  @override
+  String get businessTripPurpose => 'Trip Purpose';
+
+  @override
+  String get businessTripPlan => 'Schedule / Plan';
+
+  @override
+  String get businessTripSubmitSuccess =>
+      'Business Trip request submitted successfully!';
+
+  @override
+  String get offSiteTimesheetLabel => 'Off-site';
+
+  @override
+  String get offSiteCreditDesc => 'Credited as full worked time';
+
+  @override
+  String get leaveBalanceBreakdownTitle => 'Leave Balance Breakdown';
+
+  @override
+  String get leaveTypeCompOff => 'Comp-off (from Overtime)';
+
+  @override
+  String get leaveTypeMaternity => 'Maternity Leave';
+
+  @override
+  String get leaveTypePaidPersonal => 'Paid Personal Leave';
+
+  @override
+  String get leaveBalanceEntitlement => 'Entitled';
+
+  @override
+  String get leaveBalanceUsed => 'Used';
+
+  @override
+  String get leaveBalancePending => 'Pending';
+
+  @override
+  String get leaveBalanceAvailable => 'Available';
+
+  @override
+  String get leaveHalfDayMorning => 'First Half (Morning)';
+
+  @override
+  String get leaveHalfDayAfternoon => 'Second Half (Afternoon)';
+
+  @override
+  String get leaveHandoverPerson => 'Handover Colleague';
+
+  @override
+  String get leaveAttachment => 'Supporting Document / Certificate';
+
+  @override
+  String leaveExceedBalanceWarning(String days) {
+    return 'Requested days exceed available balance ($days days)!';
+  }
+
+  @override
+  String get leaveExcludeWeekendHint =>
+      'Weekends and public holidays are automatically excluded';
+
+  @override
+  String get leaveSaveDraftBtn => 'Save Draft';
+
+  @override
+  String get leaveDraftSaved => 'Draft saved successfully!';
+
+  @override
+  String get otRateWeekday => 'Weekday';
+
+  @override
+  String get otRateWeekend => 'Weekend';
+
+  @override
+  String get otRateHoliday => 'Holiday';
+
+  @override
+  String get otCompensationType => 'Compensation Type';
+
+  @override
+  String get otCompensationPay => 'Paid Overtime';
+
+  @override
+  String get otCompensationCompOff => 'Convert to Comp-off';
+
+  @override
+  String otMonthlyCapWarning(String current) {
+    return 'Notice: You have accumulated ${current}h/40h monthly OT cap';
+  }
+
+  @override
+  String get otMonthlyCapExceeded =>
+      'Cannot submit: Total OT exceeds 40h/mo per Labour Code 2019!';
+
+  @override
+  String otMonthlyApprovedHeader(String hours) {
+    return 'Total approved OT this month: ${hours}h';
+  }
+
+  @override
+  String get extraHoursBalanceTitle => 'Extra Hours & Comp-off';
+
+  @override
+  String get extraHoursMonth => 'Month OT Hours';
+
+  @override
+  String get extraHoursQuarter => 'Quarter OT Hours';
+
+  @override
+  String get extraHoursPayable => 'Payable Hours';
+
+  @override
+  String get extraHoursConvertedCompOff => 'Converted to Comp-off';
+
+  @override
+  String get compOffConversionRule => 'Conversion: 8 OT hours = 1 comp-off day';
+
+  @override
+  String get shiftSwapEligibilityCheck => 'Shift Swap Eligibility Check';
+
+  @override
+  String shiftSwapBranchMismatch(String branch) {
+    return 'Colleague is at a different branch ($branch)';
+  }
+
+  @override
+  String get shiftSwapGradeMismatch => 'Job grade is not equivalent';
+
+  @override
+  String get shiftSwapOnLeaveConflict => 'Colleague is on leave on this date';
+
+  @override
+  String get shiftSwapSameShiftConflict =>
+      'Both are currently on the same shift';
+
+  @override
+  String get shiftSwapRestConflict =>
+      'Rest between shifts < 12 hours (Labour Code 2019 Art 109)';
+
+  @override
+  String get shiftSwapOvertimeExceed =>
+      'Normal weekly hours would exceed 48 hours';
+
+  @override
+  String get shiftSwapConflictAlert => 'Swap Conflict Detected';
+
+  @override
+  String get shiftSwapApprovedTag => 'Swapped';
+
+  @override
+  String get shiftMonthUnpublished =>
+      'Next month\'s schedule will be published on the 25th';
+
+  @override
+  String get shiftNetworkRetry => 'Retry Connection';
+
+  @override
+  String get registeredDeviceTitle => 'Registered Device';
+
+  @override
+  String get registeredDeviceSub =>
+      'Attendance is permitted only on your registered device';
+
+  @override
+  String get deviceModelLabel => 'Device Model';
+
+  @override
+  String get deviceIdLabel => 'Device Identifier (UUID)';
+
+  @override
+  String get deviceRegisteredDate => 'Registration Date';
+
+  @override
+  String get deviceCheckRegistered => 'Valid Registered Device';
+
+  @override
+  String get deviceCheckNotRooted => 'No Root / Jailbreak Detected';
+
+  @override
+  String get deviceCheckNoMockGps => 'No Mock GPS Detected';
+
+  @override
+  String get deviceCheckIntegrity => 'App Package Integrity Verified';
+
+  @override
+  String get deviceBlockRootTitle => 'Device is Rooted / Jailbroken';
+
+  @override
+  String get deviceBlockRootMsg =>
+      'For security reasons, check-in is blocked on modified OS devices. Please contact HR.';
+
+  @override
+  String get deviceBlockMockGpsTitle => 'Mock Location Detected';
+
+  @override
+  String get deviceBlockMockGpsMsg =>
+      'Mock location provider detected. Please disable location spoofing apps and tap \'Re-check\'.';
+
+  @override
+  String get deviceRecheckBtn => 'Re-check';
+
+  @override
+  String get deviceDemoTogglesTitle => 'Security Simulation (Demo Sandbox)';
+
+  @override
+  String get deviceSimulateMockGps => 'Simulate Mock GPS Detection';
+
+  @override
+  String get deviceSimulateRoot => 'Simulate Rooted Device';
+
+  @override
+  String get punchResultOnTime => 'On Time';
+
+  @override
+  String get punchResultLate => 'Late';
+
+  @override
+  String get punchResultEarly => 'Early Leave';
+
+  @override
+  String get punchLateReasonPrompt => 'Late / Early explanation';
+
+  @override
+  String get faceThumbnailLabel => 'AI Face Verification Snapshot';
+
+  @override
+  String get approvalTypeFilterAll => 'All';
+
+  @override
+  String get approvalTypeFilterCorrection => 'Explanation';
+
+  @override
+  String get approvalTypeFilterTimesheet => 'Timesheets';
+
+  @override
+  String get approvalTypeFilterOT => 'Overtime';
+
+  @override
+  String get approvalTypeFilterLeave => 'Leave';
+
+  @override
+  String get approvalTypeFilterSwap => 'Shift Swap';
+
+  @override
+  String get approvalTypeFilterOffSite => 'Off-site';
+
+  @override
+  String get confirmTimesheetDialogTitle => 'Timesheet Confirmation';
+
+  @override
+  String get confirmTimesheetHoursLabel => 'Confirmed Work Hours';
+
+  @override
+  String get confirmTimesheetNoteLabel => 'Confirmation Note (Optional)';
+
+  @override
+  String get confirmTimesheetSubmitBtn => 'Confirm Worktime';
+
+  @override
+  String confirmTimesheetSuccess(String name) {
+    return 'Confirmed timesheet for $name';
+  }
+
+  @override
+  String get approvalAttendanceSnippet => 'Attendance on relevant date';
+
+  @override
+  String get approvalSwapBothSchedules => 'Both employees\' schedules';
+
+  @override
+  String get approvalInternalNoteLabel => 'Internal Note (Manager only)';
+
+  @override
+  String get approvalMandatoryRejectReason =>
+      'Please provide a rejection reason (mandatory)';
+
+  @override
+  String get legendLateEarly => 'Late / Early Leave';
+
+  @override
+  String get dateLabel => 'Date';
+
+  @override
+  String get fillRequiredField => 'Please fill in this required field';
+
+  @override
+  String get submitButton => 'Submit Request';
+
+  @override
+  String annualLeaveRemaining(String days) {
+    return '$days days remaining';
+  }
+
+  @override
+  String availableDays(String days) {
+    return '$days days available';
+  }
+
+  @override
+  String get attendanceTitle => 'Attendance';
+
+  @override
+  String get loadingState => 'Loading data...';
+
+  @override
+  String get errorStateTitle => 'Unable to load data';
+
+  @override
+  String get networkError => 'Network connection error, please retry';
+
+  @override
+  String get currentMonthSchedule => 'Current month schedule';
+
+  @override
+  String get deviceGpsRecheckedValid => 'Rechecking GPS coordinates... Valid!';
+
+  @override
+  String get deviceContactHrSent => 'Support request sent to HR.';
+
+  @override
+  String get deviceContactHrBtn => 'Contact HR Department';
+
+  @override
+  String get deviceTestBlockCta => 'Test Block Check-in (Demo)';
+
+  @override
+  String get deviceCheckSafetyBtn => 'Check Device Safety';
+
+  @override
+  String get requestDetailTitle => 'Request Detail';
+
+  @override
+  String get requestCodeLabel => 'Request Code';
+
+  @override
+  String get requesterLabel => 'Requester';
+
+  @override
+  String get cancelRequestBtn => 'Cancel Request';
+
+  @override
+  String get cancelRequestConfirm =>
+      'Are you sure you want to cancel this request?';
+
+  @override
+  String get requestCancelledSuccess =>
+      'Request has been cancelled successfully';
+
+  @override
+  String get internalNoteHint =>
+      'Enter internal note (visible to approvers only)...';
+
+  @override
+  String get approveRequestConfirm => 'Confirm approval of this request?';
+
+  @override
+  String get rejectRequestConfirm => 'Confirm rejection of this request?';
+
+  @override
+  String get approvalTimelineTitle => 'Approval Timeline (4 Tiers)';
+
+  @override
+  String get submittedFieldsTitle => 'Submitted Details';
+
+  @override
+  String get attachedFilesTitle => 'Attachments & Proof';
+
+  @override
+  String get shiftComparisonTitle => 'Both Employees\' Shift Schedules';
+
+  @override
+  String get attendanceLogComparisonTitle => 'Actual Card Swipe Log Comparison';
+
+  @override
+  String get disputeComparisonTitle => 'Disputed Line Item Comparison';
+
+  @override
+  String get disputedAmountDiff => 'Discrepancy Difference';
+
+  @override
+  String get leaveManageTitle => 'Leave Management';
+
+  @override
+  String get annualLeaveHeroTitle => 'Annual Leave Balance 2026';
+
+  @override
+  String get leaveStatusFilterAll => 'All';
+
+  @override
+  String get leaveStatusFilterPending => 'Pending';
+
+  @override
+  String get leaveStatusFilterApproved => 'Approved';
+
+  @override
+  String get leaveStatusFilterRejected => 'Rejected';
+
+  @override
+  String get createLeaveBtn => 'New Leave Request';
+
+  @override
+  String get overtimeManageTitle => 'Overtime Management';
+
+  @override
+  String get totalOvertimeHours => 'Total Overtime Hours';
+
+  @override
+  String get rateNormal150 => 'Weekday';
+
+  @override
+  String get rateWeekend200 => 'Weekend';
+
+  @override
+  String get rateHoliday300 => 'Holiday';
+
+  @override
+  String get createOvertimeBtn => 'Request Overtime';
+
+  @override
+  String get overtimeScopePersonal => 'My Overtime';
+
+  @override
+  String get overtimeScopeProxy => 'Created on Behalf';
+
+  @override
+  String get correctionManageTitle => 'Explanation Management';
+
+  @override
+  String get createCorrectionBtn => 'Create Explanation';
+
+  @override
+  String get correctionSummaryTitle => 'Monthly Explanation Summary';
+
+  @override
+  String noCorrectionInMonth(String month) {
+    return 'No explanation requests in $month';
+  }
+
+  @override
+  String get correctionQuotaTitle => 'Monthly Explanation Quota';
+
+  @override
+  String correctionQuotaUsage(String used, String total) {
+    return 'Used $used/$total times';
+  }
+
+  @override
+  String get missingPunchesSectionTitle =>
+      'Missing Punches Requiring Attention';
+
+  @override
+  String get fixPunchBtn => 'Explain Punch Now';
+
+  @override
+  String get noMissingPunches => 'No missing punches recorded';
+
+  @override
+  String get shiftSwapsManageTitle => 'Shift Swaps Management';
+
+  @override
+  String get swapsSentTab => 'Sent Requests';
+
+  @override
+  String get swapsReceivedTab => 'Received Requests';
+
+  @override
+  String get colleagueLabel => 'Colleague';
+
+  @override
+  String get swapStatusPending => 'Pending';
+
+  @override
+  String get swapStatusApproved => 'Swapped';
+
+  @override
+  String get swapStatusRejected => 'Rejected';
+
+  @override
+  String get requestSentTitle => 'Request Sent';
+
+  @override
+  String get requestSentSuccess =>
+      'Your request has been submitted successfully!';
+
+  @override
+  String requestAssignedTo(String name) {
+    return 'Assigned to: $name';
+  }
+
+  @override
+  String get backToListBtn => 'Back to List';
+
+  @override
+  String get viewRequestDetailBtn => 'View Request Detail';
+
+  @override
+  String get payslipLockTitle => 'Security Verification';
+
+  @override
+  String get payslipLockSubtitle =>
+      'Enter 6-digit PIN or use biometrics to view payslip';
+
+  @override
+  String payslipLockWrongPin(String remaining) {
+    return 'Incorrect PIN. $remaining attempts remaining';
+  }
+
+  @override
+  String get payslipLockLocked =>
+      'Temporarily locked for 30 seconds due to too many failed attempts';
+
+  @override
+  String get payslipLockBiometricPrompt => 'Authenticate to unlock payslip';
+
+  @override
+  String get payslipLockForgotPin => 'Forgot PIN?';
+
+  @override
+  String get useBiometricsBtn => 'Use Biometrics';
+
+  @override
+  String get signPayslipBtn => 'Sign Electronic Payslip';
+
+  @override
+  String get signPadTitle => 'Electronic Signature';
+
+  @override
+  String get signPadSubtitle => 'Please sign your name in the box below';
+
+  @override
+  String get signPadClear => 'Clear Signature';
+
+  @override
+  String get signPadConfirm => 'Confirm Signature';
+
+  @override
+  String get signPadDisclaimer =>
+      'I confirm that I have verified all income, deductions and work hours in accordance with the Labor Code.';
+
+  @override
+  String get signPadEmptyAlert => 'Please sign before confirming';
+
+  @override
+  String get payslipSignedBadge => 'Electronically Signed';
+
+  @override
+  String payslipSignedAt(String time) {
+    return 'Signed at: $time';
+  }
+
+  @override
+  String payslipSignedHash(String hash) {
+    return 'Verification hash: $hash';
+  }
+
+  @override
+  String payslipSignedSigner(String name) {
+    return 'Signer: $name';
+  }
+
+  @override
+  String get disputePayslipBtn => 'Dispute Payslip';
+
+  @override
+  String get disputeLineBtn => 'Dispute this item';
+
+  @override
+  String get disputeManageTitle => 'Salary Disputes Management';
+
+  @override
+  String get disputeNewTitle => 'Create Salary Dispute';
+
+  @override
+  String get disputeMonthLabel => 'Dispute Period';
+
+  @override
+  String get disputeItemLabel => 'Disputed Item';
+
+  @override
+  String get disputeCurrentAmountLabel => 'Payslip Amount (₫)';
+
+  @override
+  String get disputeExpectedAmountLabel => 'Expected Amount (₫)';
+
+  @override
+  String get disputeDifferenceLabel => 'Proposed Difference';
+
+  @override
+  String get disputeReasonLabel => 'Detailed Explanation';
+
+  @override
+  String get disputeReasonHint => 'Describe discrepancy cause, date, shift...';
+
+  @override
+  String get disputeAttachmentLabel => 'Evidence Attachments';
+
+  @override
+  String get submitDisputeBtn => 'Submit Dispute';
+
+  @override
+  String get disputeCreatedSuccess => 'Salary dispute submitted successfully';
+
+  @override
+  String get noDisputesFound => 'No salary disputes found';
+
+  @override
+  String get disputeStatusPending => 'Under Review';
+
+  @override
+  String get disputeStatusApproved => 'Approved for Adjustment';
+
+  @override
+  String get disputeStatusRejected => 'Dispute Declined';
+
+  @override
+  String get rewardsTabBonus => 'Bonus';
+
+  @override
+  String get rewardsTabCommission => 'Commission';
+
+  @override
+  String get rewardsTabTargets => 'Targets';
+
+  @override
+  String commissionTotalTitle(String month) {
+    return 'Total Commission $month';
+  }
+
+  @override
+  String get commissionFilterDay => 'Day';
+
+  @override
+  String get commissionFilterWeek => 'Week';
+
+  @override
+  String get commissionFilterMonth => 'Month';
+
+  @override
+  String get commissionSourceDirect => 'Direct Sales';
+
+  @override
+  String get commissionSourceTeam => 'Team Volume';
+
+  @override
+  String get commissionSourceRenewal => 'Contract Renewal';
+
+  @override
+  String commissionContractsCount(int count) {
+    return '$count transactions';
+  }
+
+  @override
+  String get targetPersonalTitle => 'Personal Monthly Target';
+
+  @override
+  String get targetTeamTitle => 'Branch Team Target';
+
+  @override
+  String get targetTiersTitle => 'Milestone Bonus Tiers';
+
+  @override
+  String get targetTierAchieved => 'Tier Achieved';
+
+  @override
+  String targetTierRemaining(String remaining) {
+    return 'Remaining $remaining';
+  }
+
+  @override
+  String get targetTierNext => 'Next Target';
+
+  @override
+  String get referCandidateBtn => 'Refer Candidate';
+
+  @override
+  String get referralFormTitle => 'Refer a Candidate';
+
+  @override
+  String get candidateNameLabel => 'Candidate Full Name';
+
+  @override
+  String get candidatePhoneLabel => 'Phone Number';
+
+  @override
+  String get candidateEmailLabel => 'Email Address';
+
+  @override
+  String get candidatePositionLabel => 'Position';
+
+  @override
+  String get candidateBranchLabel => 'Desired Branch';
+
+  @override
+  String get candidateCvLabel => 'Upload CV (PDF, DOCX)';
+
+  @override
+  String candidateCvSelected(String fileName) {
+    return 'CV Attached: $fileName';
+  }
+
+  @override
+  String get candidateDuplicateError =>
+      'Candidate already has a profile within the last 6 months';
+
+  @override
+  String get submitReferralBtn => 'Submit Referral';
+
+  @override
+  String get referralSuccessTitle => 'Referral Submitted Successfully';
+
+  @override
+  String get referralSuccessMsg =>
+      'Candidate profile has been forwarded directly to Talent Acquisition';
+
+  @override
+  String get referralCodeLabel => 'Referral Tracking Code';
+
+  @override
+  String get referralBonusNotice =>
+      'Referral Bonus: 3,000,000 ₫ (after passing probation)';
+
+  @override
+  String get viewMyReferralsBtn => 'View My Referrals';
+
+  @override
+  String get myReferralsTitle => 'My Referred Candidates';
+
+  @override
+  String get myReferralLinkTitle => 'Your Referral Link & QR Code';
+
+  @override
+  String get copyLinkBtn => 'Copy link';
+
+  @override
+  String get shareQrBtn => 'Share QR';
+
+  @override
+  String get linkCopiedSnackbar => 'Referral link copied to clipboard';
+
+  @override
+  String get stageReceived => 'Application Received';
+
+  @override
+  String get stageInterview => 'Interview';
+
+  @override
+  String get stageProbation => 'Probation';
+
+  @override
+  String get stageHired => 'Hired & Bonus Paid';
+
+  @override
+  String get noReferralsFound => 'No referred candidates found';
+
+  @override
+  String get profileEditTitle => 'Edit Profile';
+
+  @override
+  String get profileEditHeader => 'Personal & Account Information';
+
+  @override
+  String get freeEditSection => 'Contact Information (Instant Update)';
+
+  @override
+  String get sensitiveEditSection =>
+      'Identification & Bank Account (Requires HR Approval)';
+
+  @override
+  String get sensitiveEditNotice =>
+      'Modifications to Citizen ID and Bank Account require approval from Human Resources before taking official effect.';
+
+  @override
+  String get phoneEditLabel => 'Phone Number';
+
+  @override
+  String get emailEditLabel => 'Personal Email';
+
+  @override
+  String get addressEditLabel => 'Current Address';
+
+  @override
+  String get emergencyNameLabel => 'Emergency Contact Name';
+
+  @override
+  String get emergencyPhoneLabel => 'Emergency Contact Phone';
+
+  @override
+  String get bankNameEditLabel => 'Beneficiary Bank';
+
+  @override
+  String get bankAccountEditLabel => 'Account Number';
+
+  @override
+  String get bankHolderEditLabel => 'Account Holder Name';
+
+  @override
+  String get cccdEditLabel => 'Citizen ID / Passport Number';
+
+  @override
+  String get cccdIssueDateLabel => 'Issue Date';
+
+  @override
+  String get cccdIssuePlaceLabel => 'Place of Issue';
+
+  @override
+  String get permanentAddressLabel => 'Permanent Address (per ID)';
+
+  @override
+  String get saveChangesBtn => 'Save Changes';
+
+  @override
+  String get profileEditSuccess => 'Profile updated successfully';
+
+  @override
+  String profilePendingHrAlert(String code) {
+    return 'Sensitive profile update request submitted to HR (Tracking Code: $code)';
+  }
+
+  @override
+  String get statusPendingHr => 'Pending HR Approval';
+
+  @override
+  String get documentManagementTitle => 'Documents & Records';
+
+  @override
+  String get expiringDocAlertTitle => 'Expiring Document Alert';
+
+  @override
+  String expiringDocAlertMsg(int days, String date) {
+    return 'Periodic health certificate expires in $days days ($date). Please submit an updated document.';
+  }
+
+  @override
+  String get legalDocSectionTitle => 'Legal Documents & Certifications';
+
+  @override
+  String get viewContractBtn => 'View Contract';
+
+  @override
+  String get contractViewerTitle => 'Digital Labor Contract';
+
+  @override
+  String contractWatermark(String employeeCode, String name, String date) {
+    return 'DIGITAL COPY - $employeeCode - $name - $date';
+  }
+
+  @override
+  String get uploadNewDocBtn => 'Upload New Document';
+
+  @override
+  String get downloadDocBtn => 'Download PDF';
+
+  @override
+  String get dependantsManageTitle => 'Dependants';
+
+  @override
+  String get dependantsTaxReliefTitle => 'Family Circumstance Tax Relief (PIT)';
+
+  @override
+  String dependantsCountLabel(int count) {
+    return 'Number of dependants: $count';
+  }
+
+  @override
+  String dependantsTotalReliefLabel(String amount) {
+    return 'Total monthly tax deduction: $amount ₫/month';
+  }
+
+  @override
+  String get dependantPolicyNotice =>
+      'Family circumstance deduction of 4,400,000 ₫/person/month pursuant to Standing Committee of the National Assembly resolution.';
+
+  @override
+  String get addDependantBtn => 'Register New Dependant';
+
+  @override
+  String get dependantNewTitle => 'Register Dependant';
+
+  @override
+  String get dependantFullNameLabel => 'Dependant Full Name';
+
+  @override
+  String get dependantRelationshipLabel => 'Relationship';
+
+  @override
+  String get dependantDobLabel => 'Date of Birth';
+
+  @override
+  String get dependantTaxIdLabel => 'Tax ID / Citizen ID / Birth Cert No.';
+
+  @override
+  String get dependantStartMonthLabel => 'Effective Deduction Start Month';
+
+  @override
+  String get dependantProofUploadLabel =>
+      'Supporting Document (Birth Cert / ID)';
+
+  @override
+  String get dependantDisclaimer =>
+      'I declare that all submitted dependant details are true, correct, and I assume full legal responsibility.';
+
+  @override
+  String get submitDependantBtn => 'Submit Dependant Registration';
+
+  @override
+  String get dependantCreatedSuccess =>
+      'Dependant registration submitted to Human Resources successfully';
+
+  @override
+  String get noDependantsFound => 'No registered dependants found';
+
+  @override
+  String get onboardingHomeTitle => 'Onboarding Journey';
+
+  @override
+  String get onboardingWelcomeMsg => 'Welcome to VSTECH!';
+
+  @override
+  String onboardingCountdownDays(int days, String date) {
+    return '$days days left until Day One ($date)';
+  }
+
+  @override
+  String onboardingProgressSummary(int completed, int total) {
+    return 'Preparation progress: $completed/$total steps';
+  }
+
+  @override
+  String get offerLetterTitle => 'Job Offer Letter';
+
+  @override
+  String get offerAcceptBtn => 'Accept Offer Letter';
+
+  @override
+  String get offerAcceptedBadge => 'Offer Accepted';
+
+  @override
+  String offerSalaryProbation(String amount) {
+    return 'Probation Salary (85%): $amount ₫';
+  }
+
+  @override
+  String get orgIntroTitle => 'Team & Buddy Introduction';
+
+  @override
+  String get buddyCardTitle => 'Your Assigned Onboarding Buddy';
+
+  @override
+  String get uploadDocsTitle => 'Submit HR Documents';
+
+  @override
+  String uploadDocsProgress(int uploaded, int total) {
+    return 'Submitted $uploaded/$total documents';
+  }
+
+  @override
+  String get capturePhotoTitle => 'Employee Badge Photo';
+
+  @override
+  String get capturePhotoGuide =>
+      'Take a 3x4 portrait against a plain background, looking straight at the camera';
+
+  @override
+  String get capturePhotoBtn => 'Take Photo';
+
+  @override
+  String get confirmPhotoBtn => 'Confirm & Use This Photo';
+
+  @override
+  String get ocrVerificationTitle => 'Identity Verification (Citizen ID OCR)';
+
+  @override
+  String get ocrScanBtn => 'Scan Citizen ID Front';
+
+  @override
+  String get ocrVerifiedBadge => '100% Identity Match Verified';
+
+  @override
+  String get probationContractTitle => 'Digital Probation Contract';
+
+  @override
+  String get signContractBtn => 'Sign Digital Contract';
+
+  @override
+  String get contractSignedSuccess =>
+      'Digital probation contract signed successfully';
+
+  @override
+  String get dayOneGuideTitle => 'Day One Survival Guide';
+
+  @override
+  String get dayOneChecklistTitle => 'Essential Notes for Day One';
+
+  @override
+  String get startNextStepBtn => 'Continue Next Step';
+
+  @override
+  String get faceAuthTitle => 'Face Authentication';
+
+  @override
+  String get faceNotRegisteredPrompt =>
+      'Your face is not registered in the system. Please register your face in your Profile before clocking in/out.';
+
+  @override
+  String get goToProfileCta => 'Go to Profile';
+
+  @override
+  String get systemAndSupportSection => 'SYSTEM & SUPPORT';
+
+  @override
+  String get faqTitle => 'Frequently Asked Questions (FAQ)';
+
+  @override
+  String get privacyPolicyTitle => 'Privacy Policy';
+
+  @override
+  String get payslipAuthDialogTitle => 'Verify to View Payslip';
+
+  @override
+  String get payslipAuthDialogSubtitleBiometric =>
+      'To protect salary information, please enter account password or use biometrics:';
+
+  @override
+  String get payslipAuthDialogSubtitlePasswordOnly =>
+      'To protect salary information, please enter your account password:';
+
+  @override
+  String get payslipAuthPasswordHint => 'Enter account password';
+
+  @override
+  String get payslipAuthIncorrectPassword =>
+      'Incorrect password, please try again';
+
+  @override
+  String get payslipAuthEmptyPassword => 'Please enter your account password';
+
+  @override
+  String get useBiometricsButton => 'Use Fingerprint / Face ID';
+
+  @override
+  String get faqCategoryAll => 'All';
+
+  @override
+  String get faqCategoryAttendance => 'Attendance';
+
+  @override
+  String get faqCategoryPayroll => 'Payroll';
+
+  @override
+  String get faqCategoryRequests => 'Requests';
+
+  @override
+  String get faqCategoryAccount => 'Account';
+
+  @override
+  String get faqSearchHint => 'Search questions & answers...';
+
+  @override
+  String get faqQ1 => 'How do I check in when there is no internet connection?';
+
+  @override
+  String get faqA1 =>
+      'The system supports an Offline Attendance Queue. When disconnected, check-ins along with facial feature vectors are stored securely on your device and automatically synced once an internet connection is restored.';
+
+  @override
+  String get faqQ2 => 'Why is security verification required to view payslips?';
+
+  @override
+  String get faqA2 =>
+      'Payslips contain sensitive personal financial data. The system requires account password or biometrics (Fingerprint / Face ID) to ensure that only you can view your earnings.';
+
+  @override
+  String get faqQ3 => 'What is the request approval process?';
+
+  @override
+  String get faqA3 =>
+      'Leave and overtime requests are submitted to your direct manager for initial approval, followed by HR confirmation before final execution.';
+
+  @override
+  String get faqQ4 => 'How do I update my personal information?';
+
+  @override
+  String get faqA4 =>
+      'Sensitive records such as Citizen ID and bank account details require HR verification to maintain record accuracy and security.';
+
+  @override
+  String get faqQ5 => 'How do I enable Fingerprint / Face ID login?';
+
+  @override
+  String get faqA5 =>
+      'Navigate to Profile > System Settings > toggle on \'Biometric Authentication (Fingerprint / Face ID)\'. Once enabled, you can quickly log in and unlock payslips.';
+
+  @override
+  String get faqQ6 => 'What should I do if I forget my login password?';
+
+  @override
+  String get faqA6 =>
+      'For enterprise security, passwords are managed by the IT department. Please tap \'Forgot Password\' on the login screen for IT support contact details.';
+
+  @override
+  String get privacyLastUpdated => 'Last updated: October 2026';
+
+  @override
+  String get privacySec1Title => '1. Biometric Data Collection';
+
+  @override
+  String get privacySec1Content =>
+      'Facial recognition data is encoded as 128-dimensional mathematical vectors and stored securely on your device via FlutterSecureStorage. Original photos are not saved on company servers.';
+
+  @override
+  String get privacySec2Title => '2. Location Data & Attendance';
+
+  @override
+  String get privacySec2Content =>
+      'GPS location is accessed strictly at the moment you punch in or out to verify branch geofencing. There is no continuous background tracking.';
+
+  @override
+  String get privacySec3Title => '3. Salary and Profile Security';
+
+  @override
+  String get privacySec3Content =>
+      'All financial, payroll, and employee records are encrypted in transit via TLS 1.3 and access-controlled strictly for you and your direct reporting manager.';
+
+  @override
+  String get privacySec4Title => '4. Privacy & Data Control';
+
+  @override
+  String get privacySec4Content =>
+      'Employees have full access to inspect attendance logs, view historical requests, review payslips, and request corrections through HR.';
+
+  @override
+  String get privacySec5Title => '5. Compliance & Data Retention';
+
+  @override
+  String get privacySec5Content =>
+      'The system complies with personal data protection regulations (Decree 13/2023/ND-CP) and enterprise internal privacy policies.';
+
+  @override
+  String get faqEmptySearch => 'No matching questions found';
+
+  @override
+  String get homeQuickActionsSection => 'Quick Actions';
+
+  @override
+  String get homeMonthlyStatsSection => 'Monthly Statistics';
+
+  @override
+  String get createOvertimeForSubordinate => 'Create Overtime on Behalf';
+
+  @override
+  String get createOvertimeForSubordinateSubtitle =>
+      'Register overtime for subordinate employee';
+
+  @override
+  String get overtimeTargetEmployee => 'Target Employee';
+
+  @override
+  String get overtimeTargetSelf => 'Myself';
+
+  @override
+  String get selectSubordinateEmployee => 'Select Subordinate';
+
+  @override
+  String get searchEmployeePlaceholder => 'Search by name or employee code...';
+
+  @override
+  String get noSubordinatesFound => 'No subordinates found';
+
+  @override
+  String overtimeSubmittedForSubordinateMsg(String date, String employee) {
+    return 'Overtime request on $date for $employee has been submitted successfully.';
+  }
+
+  @override
+  String get timesheetDetailTitle => 'Timesheet Detail';
+
+  @override
+  String get timesheetShift => 'Shift';
+
+  @override
+  String get timesheetCheckIn => 'Check-in';
+
+  @override
+  String get timesheetCheckOut => 'Check-out';
+
+  @override
+  String get timesheetActualHours => 'Actual Work Hours';
+
+  @override
+  String get timesheetValidHours => 'Valid Hours';
+
+  @override
+  String get timesheetLate => 'Late';
+
+  @override
+  String get timesheetEarly => 'Early departure';
+
+  @override
+  String get timesheetStatus => 'Timesheet Status';
+
+  @override
+  String get timesheetConfirmed => 'Confirmed';
+
+  @override
+  String get timesheetNotConfirmed => 'Not confirmed';
+
+  @override
+  String get timesheetRejected => 'Rejected';
+
+  @override
+  String get timesheetRejectReason => 'Reject reason';
+
+  @override
+  String get timesheetOvertimeSlip => 'Overtime Slip';
+
+  @override
+  String get timesheetLeaveSlip => 'Leave Slip';
+
+  @override
+  String get timesheetBusinessSlip => 'Business Slip';
+
+  @override
+  String get timesheetExplanationSlip => 'Explanation Slip';
+
+  @override
+  String get shiftTabPersonal => 'Personal';
+
+  @override
+  String get shiftTabDepartment => 'Team';
+
+  @override
+  String get shiftTabTimesheet => 'Timesheet';
+
+  @override
+  String get shiftSourceScheduled => 'Scheduled';
+
+  @override
+  String get shiftSourceDefault => 'Default Shift';
+
+  @override
+  String get shiftSourceOff => 'Day Off';
+
+  @override
+  String get shiftOvernightBadge => 'Overnight Shift';
+
+  @override
+  String get rosterSearchHint => 'Search by name or employee code...';
+
+  @override
+  String get rosterFilterAll => 'All';
+
+  @override
+  String rosterTotalEmployees(int count) {
+    return '$count staff';
+  }
+
+  @override
+  String rosterOnDutyCount(int count) {
+    return '$count on duty';
+  }
+
+  @override
+  String rosterOffDutyCount(int count) {
+    return '$count off';
+  }
+
+  @override
+  String get rosterEmptyTitle => 'No matching employees';
+
+  @override
+  String get rosterEmptySubtitle =>
+      'No shift roster data found for the selected date.';
+
+  @override
+  String rosterAssignedByLabel(String name) {
+    return 'Assigned by: $name';
+  }
+
+  @override
+  String get rosterDatePickTooltip => 'Pick roster date';
+
+  @override
+  String get rosterRefreshTooltip => 'Refresh data';
+
+  @override
+  String timesheetMonthDisplay(int month, int year) {
+    return 'Month $month/$year';
+  }
+
+  @override
+  String get timesheetOvertimeHours => 'Overtime';
+
+  @override
+  String get timesheetLeaveHours => 'Leave';
+
+  @override
+  String get timesheetLunchLabel => 'Lunch Allowance';
+
+  @override
+  String get timesheetNoteLabel => 'Notes';
+
+  @override
+  String get timesheetNoData => 'No timesheet data for this month';
+
+  @override
+  String get timesheetWorkDate => 'Work Date';
+
+  @override
+  String get timesheetOnTime => 'On time';
+
+  @override
+  String get rosterAllDepartments => 'All workshops / departments';
+
+  @override
+  String get rosterDepartmentLabel => 'Workshop / Department';
+
+  @override
+  String get sessionExpiredTitle => 'Session Expired';
+
+  @override
+  String get sessionExpiredMessage =>
+      'Your session has expired or your account was logged in on another device. Please log in again to continue.';
+
+  @override
+  String get sessionExpiredRelogin => 'Log In Again';
 }

@@ -1,13 +1,13 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:material_symbols_icons/symbols.dart';
 import 'package:vstech_hrm/core/extensions/l10n_extension.dart';
 import 'package:vstech_hrm/core/responsive/app_layout.dart';
 import 'package:vstech_hrm/core/session/auth_cubit.dart';
 import 'package:vstech_hrm/core/session/auth_state.dart';
 import 'package:vstech_hrm/core/theme/app_colors.dart';
 import 'package:vstech_hrm/core/theme/app_text_styles.dart';
+import 'package:vstech_hrm/core/widgets/app_icon.dart';
 import 'package:vstech_hrm/core/widgets/primary_button.dart';
 
 /// BottomSheet to switch user roles for Standalone Demo (NV vs QL).
@@ -71,7 +71,7 @@ class RoleSwitcherSheet extends StatelessWidget {
             title: context.l10n.roleEmployeeTitle,
             subtitle: context.l10n.roleEmployeeDesc,
             isSelected: currentRole == UserRole.employee,
-            icon: Symbols.badge,
+            iconName: AppIcons.profile,
             colors: colors,
           ),
           12.gapH,
@@ -81,7 +81,7 @@ class RoleSwitcherSheet extends StatelessWidget {
             title: context.l10n.roleManagerTitle,
             subtitle: context.l10n.roleManagerDesc,
             isSelected: currentRole == UserRole.manager,
-            icon: Symbols.supervisor_account,
+            iconName: AppIcons.approvals,
             colors: colors,
           ),
           20.gapH,
@@ -100,7 +100,7 @@ class RoleSwitcherSheet extends StatelessWidget {
     required String title,
     required String subtitle,
     required bool isSelected,
-    required IconData icon,
+    required String iconName,
     required AppColorsExtension colors,
   }) {
     final borderColor = isSelected ? colors.tealPrimary : colors.border;
@@ -139,8 +139,8 @@ class RoleSwitcherSheet extends StatelessWidget {
                     : colors.border.withValues(alpha: 0.3),
                 shape: BoxShape.circle,
               ),
-              child: Icon(
-                icon,
+              child: AppIcon(
+                iconName,
                 size: 22,
                 color: isSelected ? Colors.white : colors.textSecondary,
               ),
@@ -164,7 +164,7 @@ class RoleSwitcherSheet extends StatelessWidget {
               ),
             ),
             if (isSelected)
-              Icon(Symbols.check_circle, size: 22, color: colors.tealPrimary),
+              AppIcon(AppIcons.check, size: 22, color: colors.tealPrimary, filled: true),
           ],
         ),
       ),

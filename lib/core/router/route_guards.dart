@@ -8,17 +8,28 @@ String? authRedirectGuard(BuildContext context, GoRouterState state, AuthState a
   final currentPath = state.uri.path;
   final isGoingToLogin = currentPath == AppRoutes.login;
   final isGoingToSplash = currentPath == AppRoutes.splash;
+  final isGoingToForgotPassword = currentPath == AppRoutes.forgotPassword;
 
-  if (authState is AuthInitial || authState is AuthLoading) {
+  if (authState is AuthLoading) {
+    if (isGoingToLogin || isGoingToForgotPassword) {
+      return null;
+    }
+    return isGoingToSplash ? null : AppRoutes.splash;
+  }
+
+  if (authState is AuthInitial) {
     return isGoingToSplash ? null : AppRoutes.splash;
   }
 
   if (authState is Unauthenticated) {
-    return isGoingToLogin ? null : AppRoutes.login;
+    return (isGoingToLogin || isGoingToForgotPassword) ? null : AppRoutes.login;
   }
 
   if (authState is Authenticated) {
     if (isGoingToLogin || isGoingToSplash) {
+      if (authState.role.isCandidate) {
+        return AppRoutes.onboardingHome;
+      }
       return AppRoutes.home;
     }
 

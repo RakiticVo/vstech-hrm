@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<template id="__bundler_thumbnail"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><rect width="100" height="100" fill="#0A544E"/><rect x="32" y="32" width="14" height="14" rx="3" fill="#FFF8EC"/><rect x="54" y="32" width="14" height="14" rx="3" fill="#FFF8EC"/><rect x="32" y="54" width="14" height="14" rx="3" fill="#FFF8EC"/><rect x="54" y="54" width="14" height="14" rx="3" fill="#F59E0B"/></svg></template>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap">
+<script src="./hrm-icons.js"></script>
+<style>
+body{margin:0;background:#EDEAE2;font-family:Manrope,system-ui,sans-serif;color:#111827}
+a{color:#0A544E;text-decoration:none}a:hover{color:#083F3A}
+</style>
+</helmet>
+
+<div style="min-height:100vh;background:{{ C.page }};color:{{ C.ink }};padding:36px 40px 80px">
+  <div style="max-width:1180px;margin:0 auto">
+    <div style="display:flex;align-items:flex-end;gap:24px;flex-wrap:wrap">
+      <div style="flex:1;min-width:280px">
+        <div style="font-size:11px;font-weight:800;letter-spacing:1.4px;color:{{ C.muted }}">HRM · MOBILE · BỘ ICON</div>
+        <div style="font-size:30px;font-weight:800;letter-spacing:-.8px;margin-top:7px">Bộ icon HRM</div>
+        <div style="font-size:14px;font-weight:500;color:{{ C.muted }};margin-top:8px;max-width:700px;line-height:1.55;text-wrap:pretty">{{ sub }}</div>
+      </div>
+      <div style="display:flex;gap:10px;flex-wrap:wrap">
+        <sc-for list="{{ controls }}" as="c" hint-placeholder-count="3">
+          <div style="background:{{ C.card }};border:1px solid {{ C.line }};border-radius:14px;padding:9px 11px">
+            <div style="font-size:9.5px;font-weight:800;letter-spacing:.9px;color:{{ C.muted }};margin-bottom:7px">{{ c.k }}</div>
+            <div style="display:flex;gap:4px">
+              <sc-for list="{{ c.opts }}" as="o" hint-placeholder-count="3"><div onClick="{{ o.on }}" style="padding:6px 11px;border-radius:9px;font-size:12px;font-weight:700;cursor:pointer;background:{{ o.bg }};color:{{ o.fg }}">{{ o.l }}</div></sc-for>
+            </div>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+
+    <div style="display:flex;flex-wrap:wrap;gap:8px 20px;margin-top:20px;padding:13px 16px;background:{{ C.card }};border:1px solid {{ C.line }};border-radius:16px;font-size:12.5px;font-weight:600;color:{{ C.muted }}">
+      <sc-for list="{{ specs }}" as="s" hint-placeholder-count="4"><div><span style="font-weight:800;color:{{ C.ink }}">{{ s.k }}</span> {{ s.v }}</div></sc-for>
+    </div>
+
+    <div style="margin-top:28px;background:{{ C.card }};border:1px solid {{ C.line }};border-radius:20px;padding:18px 20px">
+      <div style="font-size:11px;font-weight:800;letter-spacing:1.1px;color:{{ C.muted }}">{{ navH }}</div>
+      <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:14px">
+        <sc-for list="{{ nav }}" as="n" hint-placeholder-count="6">
+          <div style="flex:1;min-width:120px;border:1px solid {{ C.line }};border-radius:16px;padding:14px 10px;display:flex;flex-direction:column;align-items:center;gap:10px">
+            <div style="display:flex;gap:18px;align-items:center">
+              <div style="display:flex;flex-direction:column;align-items:center;gap:5px"><div style="display:flex;color:{{ C.muted }}" dangerouslySetInnerHTML="{{ n.off }}"></div><div style="font-size:10px;font-weight:700;color:{{ C.muted }}">{{ offL }}</div></div>
+              <div style="display:flex;flex-direction:column;align-items:center;gap:5px"><div style="display:flex;color:{{ C.pri }}" dangerouslySetInnerHTML="{{ n.on }}"></div><div style="font-size:10px;font-weight:800;color:{{ C.pri }}">{{ onL }}</div></div>
+            </div>
+            <div style="font-size:12.5px;font-weight:800">{{ n.l }}</div>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+
+    <sc-for list="{{ groups }}" as="g" hint-placeholder-count="3">
+      <div style="margin-top:30px">
+        <div style="display:flex;align-items:baseline;gap:10px"><div style="font-size:18px;font-weight:800;letter-spacing:-.3px">{{ g.t }}</div><div style="font-size:12px;font-weight:700;color:{{ C.muted }}">{{ g.n }}</div></div>
+        <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(128px,1fr));gap:10px;margin-top:12px">
+          <sc-for list="{{ g.items }}" as="i" hint-placeholder-count="10">
+            <div onClick="{{ i.dl }}" title="{{ i.tip }}" style="background:{{ C.card }};border:1px solid {{ C.line }};border-radius:16px;padding:18px 10px 12px;display:flex;flex-direction:column;align-items:center;gap:10px;cursor:pointer" style-hover="border-color:#0A544E">
+              <div style="display:flex;color:{{ C.iconC }}" dangerouslySetInnerHTML="{{ i.svg }}"></div>
+              <div style="text-align:center"><div style="font-size:12.5px;font-weight:800;line-height:1.3">{{ i.l }}</div><div style="font-family:ui-monospace,Menlo,monospace;font-size:10.5px;font-weight:600;color:{{ C.muted }};margin-top:3px">{{ i.id }}</div></div>
+            </div>
+          </sc-for>
+        </div>
+      </div>
+    </sc-for>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  state={size:24,stroke:2,dark:false,ready:!!window.HRM_ICONS};
+  componentDidMount(){ if(!this.state.ready){ const tick=()=>{ if(window.HRM_ICONS) this.setState({ready:true}); else this._t=setTimeout(tick,100); }; tick(); } }
+  componentWillUnmount(){ clearTimeout(this._t); }
+  download(id,inner){ const s=window.HRM_ICON_SVG(inner,24,2); const b=new Blob([s+'\n'],{type:'image/svg+xml'}); const a=document.createElement('a'); a.href=URL.createObjectURL(b); a.download=id+'.svg'; document.body.appendChild(a); a.click(); a.remove(); setTimeout(()=>URL.revokeObjectURL(a.href),500); }
+  renderVals(){
+    const st=this.state, D=st.dark, SET=window.HRM_ICONS||[], mk=window.HRM_ICON_SVG||(()=>'');
+    const C=D?{page:'#0B1220',card:'#151E2E',line:'#24304A',ink:'#F8FAFC',muted:'#94A3B8',pri:'#2DD4BF',iconC:'#E2E8F0'}:{page:'#EDEAE2',card:'#FFFFFF',line:'#DCD7CC',ink:'#111827',muted:'#5B6572',pri:'#0F766E',iconC:'#111827'};
+    const opt=(l,a,on)=>({l,on,bg:a?'#0A544E':(D?'#1E293B':'#F0EDE5'),fg:a?'#FFF8EC':C.muted});
+    const set=o=>()=>this.setState(o);
+    const h=inner=>({__html:mk(inner,st.size,st.stroke)});
+    const total=SET.reduce((a,g)=>a+g.items.length,0), filled=SET.reduce((a,g)=>a+g.items.filter(i=>i.fill).length,0);
+    const navItems=SET.length?SET[0].items.filter(i=>i.fill):[];
+    return {C,
+      sub:total+' icon nét và '+filled+' icon đặc cho thanh điều hướng, gom theo chức năng của app. Bấm vào một icon để tải file SVG; cả bộ nằm trong thư mục assets/icons.',
+      controls:[{k:'CỠ',opts:[20,24,32].map(n=>opt(n+'px',st.size===n,set({size:n})))},{k:'NÉT',opts:[1.5,2].map(n=>opt(String(n),st.stroke===n,set({stroke:n})))},{k:'NỀN',opts:[opt('Sáng',!D,set({dark:false})),opt('Tối',D,set({dark:true}))]}],
+      specs:[{k:'Lưới',v:'24×24'},{k:'Nét',v:'2px, đầu tròn'},{k:'Màu',v:'currentColor'},{k:'Cỡ dùng',v:'20px nút · 24px điều hướng'},{k:'Nguồn',v:'dựa trên Lucide (ISC)'}],
+      navH:'THANH ĐIỀU HƯỚNG · NÉT KHI CHƯA CHỌN, ĐẶC KHI ĐANG CHỌN',offL:'Chưa chọn',onL:'Đang chọn',
+      nav:navItems.map(i=>({l:i.vi,off:h(i.d),on:{__html:mk(i.fill,st.size,st.stroke)}})),
+      groups:SET.map(g=>({t:g.g,n:g.items.length+' icon',items:g.items.map(i=>({id:i.id,l:i.vi,tip:i.en+' · tải '+i.id+'.svg',svg:h(i.d),dl:()=>this.download(i.id,i.d)}))}))};
+  }
+}
+</script>
+</body>
+</html>

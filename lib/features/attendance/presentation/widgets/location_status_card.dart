@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:material_symbols_icons/symbols.dart';
 import 'package:vstech_hrm/core/theme/app_colors.dart';
 import 'package:vstech_hrm/core/theme/app_text_styles.dart';
+import 'package:vstech_hrm/core/widgets/app_icon.dart';
 
 /// Card widget displaying Geofence location accuracy and Wi-Fi validation state.
 class LocationStatusCard extends StatelessWidget {
@@ -29,8 +29,8 @@ class LocationStatusCard extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 13),
       child: Row(
         children: [
-          Icon(
-            Symbols.location_on,
+          AppIcon(
+            AppIcons.location,
             size: 20,
             color: colors.cream,
           ),
@@ -54,11 +54,12 @@ class LocationStatusCard extends StatelessWidget {
               color: isVerified ? colors.pineGreen : colors.accentAmber,
               shape: BoxShape.circle,
             ),
-            child: Icon(
-              isVerified ? Symbols.check : Symbols.sync,
-              size: 14,
-              color: Colors.white,
-              weight: 700,
+            child: Center(
+              child: AppIcon(
+                isVerified ? AppIcons.check : AppIcons.sync,
+                size: 14,
+                color: Colors.white,
+              ),
             ),
           ),
         ],

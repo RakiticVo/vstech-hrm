@@ -1,0 +1,76 @@
+@startuml
+
+!pragma layout smetana
+skinparam dpi 160
+skinparam defaultFontName Arial
+skinparam defaultFontSize 12
+skinparam shadowing false
+skinparam roundCorner 10
+skinparam titleFontSize 16
+skinparam titleFontStyle bold
+skinparam titleFontColor #0A544E
+skinparam ArrowColor #0F766E
+skinparam componentStyle rectangle
+skinparam rectangle {
+  BorderColor #0F766E
+  BackgroundColor #FFFFFF
+}
+skinparam package {
+  BorderColor #0A544E
+  BackgroundColor #F0FDFA
+  FontColor #0A544E
+}
+skinparam node {
+  BorderColor #0A544E
+  BackgroundColor #F8FAFC
+}
+skinparam database {
+  BorderColor #0A544E
+  BackgroundColor #ECFEFF
+}
+skinparam cloud {
+  BorderColor #B45309
+  BackgroundColor #FFFBEB
+}
+skinparam note {
+  BackgroundColor #FFF8EC
+  BorderColor #F59E0B
+}
+skinparam class {
+  BorderColor #0F766E
+  BackgroundColor #FFFFFF
+  HeaderBackgroundColor #CCFBF1
+  ArrowColor #0F766E
+}
+skinparam state {
+  BorderColor #0F766E
+  BackgroundColor #F0FDFA
+  ArrowColor #0F766E
+}
+
+
+title Vòng đời trạng thái đơn từ và quy trình duyệt 4 bước
+[*] --> Nhap : Nhân viên tạo đơn
+state "Nháp" as Nhap
+state "Chờ duyệt" as Cho {
+  state "Quản lý trực tiếp duyệt" as B1
+  state "HR xác nhận" as B2
+  state "Giám đốc phê duyệt" as B3
+  [*] --> B1
+  B1 --> B2 : Đồng ý
+  B2 --> B3 : Xác nhận
+}
+state "Đã duyệt" as Duyet
+state "Từ chối" as TuChoi
+state "Đã huỷ" as Huy
+state "Cần bổ sung" as BoSung
+Nhap --> Cho : Gửi duyệt
+Cho --> Duyet : Phê duyệt bước cuối
+Cho --> TuChoi : Từ chối (lý do bắt buộc)
+Cho --> Huy : Nhân viên thu hồi\n(chỉ khi chưa duyệt)
+Cho --> BoSung : Yêu cầu bổ sung
+BoSung --> Cho : Nhân viên cập nhật
+Duyet --> [*]
+TuChoi --> [*]
+Huy --> [*]
+@enduml

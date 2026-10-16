@@ -2,19 +2,46 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:material_symbols_icons/symbols.dart';
+import 'package:vstech_hrm/core/di/injector.dart';
 import 'package:vstech_hrm/core/extensions/l10n_extension.dart';
 import 'package:vstech_hrm/core/responsive/app_layout.dart';
 import 'package:vstech_hrm/core/router/routes.dart';
 import 'package:vstech_hrm/core/session/auth_cubit.dart';
 import 'package:vstech_hrm/core/session/auth_state.dart';
 import 'package:vstech_hrm/core/theme/app_colors.dart';
+import 'package:vstech_hrm/core/widgets/app_icon.dart';
+import 'package:vstech_hrm/core/widgets/logout_confirm_dialog.dart';
+import 'package:vstech_hrm/core/widgets/tile_header_banner.dart';
+import 'package:vstech_hrm/features/auth/data/datasources/auth_remote_datasource.dart';
 import 'package:vstech_hrm/features/profile/presentation/widgets/profile_header_card.dart';
 import 'package:vstech_hrm/features/profile/presentation/widgets/profile_info_card.dart';
 
 /// Screen 19: Comprehensive Employee Profile matching Screen 19 reference image.
-class ProfileScreen extends StatelessWidget {
+class ProfileScreen extends StatefulWidget {
   const new({super.key});
+
+  @override
+  State<ProfileScreen> createState() => _ProfileScreenState();
+}
+
+class _ProfileScreenState extends State<ProfileScreen> {
+  Map<String, dynamic>? _profileData;
+
+  @override
+  void initState() {
+    super.initState();
+    unawaited(_loadProfile());
+  }
+
+  Future<void> _loadProfile() async {
+    try {
+      final data = await sl<AuthRemoteDataSource>().getFullProfile();
+      if (!mounted) return;
+      setState(() => _profileData = data);
+    } on Object {
+      // Handled cleanly with empty fallbacks
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -24,132 +51,201 @@ class ProfileScreen extends StatelessWidget {
     final user = authState is Authenticated ? authState.user : null;
     final isManager = authState is Authenticated && authState.role.isManager;
 
-    final userName = user?.name ?? 'Nguyễn Minh Tuấn';
-    final userCode = user?.employeeCode ?? 'NV-04821';
-    final department = user?.department ?? 'Vận hành';
-    final userEmail = user?.email ?? 'minh.tuan@company.vn';
+    final emp = (_profileData?['employee'] as Map<String, dynamic>?) ??
+        (_profileData?['data'] as Map<String, dynamic>?) ??
+        _profileData ??
+        <String, dynamic>{};
+
+    final userName = emp['name']?.toString() ??
+        emp['fullName']?.toString() ??
+        user?.name ??
+        'Nhân viên';
+    final userCode = emp['code']?.toString() ??
+        emp['employeeCode']?.toString() ??
+        user?.employeeCode ??
+        '—';
+    final department = emp['departmentName']?.toString() ??
+        (emp['department'] is Map ? (emp['department'] as Map)['name']?.toString() : null) ??
+        user?.department ??
+        'VSTech';
+    final userEmail = emp['mail']?.toString() ??
+        emp['email']?.toString() ??
+        user?.email ??
+        '—';
+
+    final phone = emp['phoneNumber']?.toString() ??
+        emp['phone']?.toString() ??
+        '—';
+    final dob = emp['birthDay']?.toString() ??
+        emp['birthday']?.toString() ??
+        emp['dob']?.toString() ??
+        '—';
+    final address = emp['address']?.toString() ?? '—';
+    final jobTitle = emp['positionName']?.toString() ??
+        (emp['position'] is Map ? (emp['position'] as Map)['name']?.toString() : null) ??
+        emp['jobTitle']?.toString() ??
+        (isManager ? 'Quản lý bộ phận' : 'Chuyên viên');
+    final directManager = emp['managerName']?.toString() ?? '—';
+    final joinDate = emp['hireDate']?.toString() ??
+        emp['joinDate']?.toString() ??
+        '—';
+    final bankName = emp['bankName']?.toString() ?? '—';
+    final bankAccount = emp['bankNumber']?.toString() ??
+        emp['bankAccountNumber']?.toString() ??
+        '—';
 
     final personalRows = [
       (context.l10n.fullNameLabel, userName),
-      (context.l10n.dateOfBirthLabel, '14/03/1994'),
-      (context.l10n.phoneLabel, '+84 908 221 470'),
-      (context.l10n.emailLabel, userEmail),
-      (context.l10n.addressLabel, 'Q.3, TP. Hồ Chí Minh'),
+      (context.l10n.dateOfBirthLabel, dob),
+      (context.l10n.phoneLabel, phone),
+      (context.l10n.emailLabel, userEmail.isNotEmpty ? userEmail : '—'),
+      (context.l10n.addressLabel, address),
     ];
 
     final workRows = [
       (context.l10n.departmentLabel, department),
-      (context.l10n.jobTitleLabel, 'Giám sát cửa hàng'),
-      (context.l10n.directManagerLabel, 'Lê Thu Hà'),
-      (context.l10n.joinDateLabel, '02/05/2021'),
+      (context.l10n.jobTitleLabel, jobTitle),
+      (context.l10n.directManagerLabel, directManager),
+      (context.l10n.joinDateLabel, joinDate),
       (context.l10n.employmentStatusLabel, context.l10n.officialStatus),
     ];
 
     final bankRows = [
-      (context.l10n.bankNameLabel, 'Vietcombank'),
-      (context.l10n.accountNumberLabel, '•••• 4821'),
+      (context.l10n.bankNameLabel, bankName),
+      (context.l10n.accountNumberLabel, bankAccount),
     ];
 
     return Scaffold(
       backgroundColor: colors.background,
-      appBar: AppBar(
-        backgroundColor: colors.surface,
-        elevation: 0,
-        title: Text(
-          context.l10n.profileTitle,
-          style: TextStyle(
-            fontSize: 18,
-            fontWeight: FontWeight.w800,
-            color: colors.textPrimary,
-          ),
-        ),
-        actions: [
-          IconButton(
-            icon: Icon(Symbols.settings, size: 22, color: colors.textPrimary),
-            onPressed: () => context.push(AppRoutes.settings),
-          ),
-          4.gapW,
-        ],
-      ),
-      body: ListView(
-        padding: const EdgeInsets.fromLTRB(16, 12, 16, 32),
+      body: Column(
         children: [
-          // Part 1: Bounded Header Card
-          ProfileHeaderCard(
-            name: userName,
-            employeeCode: userCode,
-            position: 'Giám sát cửa hàng · Vận hành',
-            isManager: isManager,
-          ),
-          18.gapH,
-
-          // Thông tin cá nhân
-          ProfileInfoCard(
-            title: context.l10n.personalInfoSection,
-            rows: personalRows,
-          ),
-          16.gapH,
-
-          // Part 2: Thông tin công việc
-          ProfileInfoCard(
-            title: context.l10n.workInfoSection,
-            rows: workRows,
-          ),
-          16.gapH,
-
-          // Tài khoản ngân hàng
-          ProfileInfoCard(
-            title: context.l10n.bankAccountSection,
-            rows: bankRows,
-          ),
-          16.gapH,
-
-          // Profile Quick Links (K, H, T, C)
-          Container(
-            decoration: BoxDecoration(
-              color: colors.surface,
-              borderRadius: BorderRadius.circular(16),
-              border: Border.all(color: colors.border),
-            ),
-            child: Column(
-              children: [
-                _buildLetterLinkTile('K', context.l10n.emergencyContactLink, () {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(content: Text(context.l10n.emergencyContactInfo)),
-                  );
-                }, colors),
-                Divider(height: 1, indent: 62, color: colors.border.withValues(alpha: 0.5)),
-                _buildLetterLinkTile('H', context.l10n.documentsAndRecordsLink, () => context.push(AppRoutes.laborProfile), colors),
-                Divider(height: 1, indent: 62, color: colors.border.withValues(alpha: 0.5)),
-                _buildLetterLinkTile('T', context.l10n.internalRecruitmentLink, () => context.push(AppRoutes.jobRecruitment), colors),
-                Divider(height: 1, indent: 62, color: colors.border.withValues(alpha: 0.5)),
-                _buildLetterLinkTile('C', context.l10n.settingsLink, () => context.push(AppRoutes.settings), colors),
-              ],
+          TileHeaderBanner(
+            title: context.l10n.profileTitle,
+            subtitle: userCode != '—' ? '#$userCode · $department' : department,
+            trailing: InkWell(
+              borderRadius: BorderRadius.circular(10),
+              onTap: () => context.push(AppRoutes.settings),
+              child: Container(
+                padding: const EdgeInsets.all(7),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(10),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withValues(alpha: 0.08),
+                      blurRadius: 4,
+                      offset: const Offset(0, 1),
+                    ),
+                  ],
+                ),
+                child: AppIcon(
+                  AppIcons.settings,
+                  size: 20,
+                  color: colors.tealPrimary,
+                ),
+              ),
             ),
           ),
-          20.gapH,
+          Expanded(
+            child: RefreshIndicator(
+              onRefresh: _loadProfile,
+              child: ListView(
+                padding: const EdgeInsets.fromLTRB(16, 12, 16, 32),
+                children: [
+            ProfileHeaderCard(
+              name: userName,
+              employeeCode: userCode,
+              position: jobTitle,
+              department: department,
+              isManager: isManager,
+            ),
+            18.gapH,
 
-          // Nút Đăng xuất
-          OutlinedButton.icon(
-            style: OutlinedButton.styleFrom(
-              foregroundColor: colors.error,
-              side: BorderSide(color: colors.error.withValues(alpha: 0.5)),
-              minimumSize: const Size.fromHeight(48),
-              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
+            ProfileInfoCard(
+              title: context.l10n.personalInfoSection,
+              rows: personalRows,
             ),
-            onPressed: () => _confirmLogout(context, colors),
-            icon: const Icon(Symbols.logout, size: 18),
-            label: Text(
-              context.l10n.logoutButton,
-              style: const TextStyle(fontSize: 14.5, fontWeight: FontWeight.w800),
+            16.gapH,
+
+            ProfileInfoCard(
+              title: context.l10n.workInfoSection,
+              rows: workRows,
             ),
-          ),
-        ],
+            16.gapH,
+
+            ProfileInfoCard(
+              title: context.l10n.bankAccountSection,
+              rows: bankRows,
+            ),
+            18.gapH,
+
+            Text(
+              context.l10n.systemAndSupportSection,
+              style: TextStyle(
+                fontSize: 12,
+                fontWeight: FontWeight.w800,
+                color: colors.textSecondary,
+                letterSpacing: 0.5,
+              ),
+            ),
+            8.gapH,
+
+            Container(
+              decoration: BoxDecoration(
+                color: colors.surface,
+                borderRadius: BorderRadius.circular(16),
+                border: Border.all(color: colors.border),
+              ),
+              child: Column(
+                children: [
+                  _buildIconLinkTile(AppIcons.scanFace, context.l10n.faceAuthTitle, () => context.push(AppRoutes.faceEnrollment), colors),
+                  Divider(height: 1, indent: 62, color: colors.border.withValues(alpha: 0.5)),
+                  _buildIconLinkTile(AppIcons.settings, context.l10n.settingsLink, () => context.push(AppRoutes.settings), colors),
+                  Divider(height: 1, indent: 62, color: colors.border.withValues(alpha: 0.5)),
+                  _buildIconLinkTile(AppIcons.info, context.l10n.faqTitle, () => context.push(AppRoutes.faq), colors),
+                  Divider(height: 1, indent: 62, color: colors.border.withValues(alpha: 0.5)),
+                  _buildIconLinkTile(AppIcons.shieldCheck, context.l10n.privacyPolicyTitle, () => context.push(AppRoutes.privacyPolicy), colors),
+                ],
+              ),
+            ),
+            20.gapH,
+
+            OutlinedButton.icon(
+              style: OutlinedButton.styleFrom(
+                foregroundColor: colors.error,
+                side: BorderSide(color: colors.error.withValues(alpha: 0.5)),
+                minimumSize: const Size.fromHeight(48),
+                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
+              ),
+              onPressed: () => LogoutConfirmDialog.show(context),
+              icon: AppIcon(AppIcons.logout, size: 18, color: colors.error),
+              label: Text(
+                context.l10n.logoutButton,
+                style: const TextStyle(fontSize: 14.5, fontWeight: FontWeight.w800),
+              ),
+            ),
+            16.gapH,
+
+            Center(
+              child: Text(
+                context.l10n.appVersionFooter,
+                style: TextStyle(
+                  fontSize: 11.5,
+                  fontWeight: FontWeight.w600,
+                  color: colors.textTertiary,
+                ),
+              ),
+            ),
+          ],
+        ),
       ),
-    );
-  }
+    ),
+  ],
+),
+);
+}
 
-  Widget _buildLetterLinkTile(String letter, String title, VoidCallback onTap, AppColorsExtension colors) {
+  Widget _buildIconLinkTile(String iconName, String title, VoidCallback onTap, AppColorsExtension colors) {
     return Material(
       color: Colors.transparent,
       child: InkWell(
@@ -160,20 +256,17 @@ class ProfileScreen extends StatelessWidget {
           child: Row(
             children: [
               Container(
-                width: 32,
-                height: 32,
+                width: 34,
+                height: 34,
                 decoration: BoxDecoration(
-                  color: const Color(0xFFF0FDF4),
-                  borderRadius: BorderRadius.circular(9),
+                  color: colors.pineGreen.withValues(alpha: 0.1),
+                  borderRadius: BorderRadius.circular(10),
                 ),
                 child: Center(
-                  child: Text(
-                    letter,
-                    style: TextStyle(
-                      fontSize: 14,
-                      fontWeight: FontWeight.w800,
-                      color: colors.primaryIndigo,
-                    ),
+                  child: AppIcon(
+                    iconName,
+                    size: 18,
+                    color: colors.pineGreen,
                   ),
                 ),
               ),
@@ -188,47 +281,9 @@ class ProfileScreen extends StatelessWidget {
                   ),
                 ),
               ),
-              Icon(Symbols.chevron_right, size: 18, color: colors.textTertiary),
+              AppIcon(AppIcons.chevronRight, size: 18, color: colors.textTertiary),
             ],
           ),
-        ),
-      ),
-    );
-  }
-
-  void _confirmLogout(BuildContext context, AppColorsExtension colors) {
-    unawaited(
-      showDialog<void>(
-        context: context,
-        builder: (dialogContext) => AlertDialog(
-          backgroundColor: colors.surface,
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-          title: Text(
-            context.l10n.logoutConfirmTitle,
-            style: TextStyle(fontSize: 16.5, fontWeight: FontWeight.w800, color: colors.textPrimary),
-          ),
-          content: Text(
-            context.l10n.logoutConfirmMsg,
-            style: TextStyle(fontSize: 13, color: colors.textSecondary),
-          ),
-          actions: [
-            TextButton(
-              onPressed: () => Navigator.pop(dialogContext),
-              child: Text(context.l10n.cancelButton, style: TextStyle(fontWeight: FontWeight.w700, color: colors.textSecondary)),
-            ),
-            ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                backgroundColor: colors.error,
-                foregroundColor: Colors.white,
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-              ),
-              onPressed: () {
-                Navigator.pop(dialogContext);
-                unawaited(context.read<AuthCubit>().logout());
-              },
-              child: Text(context.l10n.logoutButton, style: const TextStyle(fontWeight: FontWeight.w800)),
-            ),
-          ],
         ),
       ),
     );

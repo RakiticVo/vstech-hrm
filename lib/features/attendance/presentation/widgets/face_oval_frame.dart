@@ -1,20 +1,25 @@
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
-import 'package:material_symbols_icons/symbols.dart';
+import 'package:vstech_hrm/core/responsive/app_layout.dart';
 import 'package:vstech_hrm/core/theme/app_colors.dart';
+import 'package:vstech_hrm/core/widgets/app_icon.dart';
 
 /// Oval Face Detection Frame with 4 corner guide brackets, animated laser line, and camera feed.
 class FaceOvalFrame extends StatefulWidget {
-  const new({
+  const FaceOvalFrame({
     required this.cameraController,
     required this.isSuccess,
     this.isScanning = true,
+    this.isLoading = false,
+    this.loadingMessage,
     super.key,
   });
 
   final CameraController? cameraController;
   final bool isSuccess;
   final bool isScanning;
+  final bool isLoading;
+  final String? loadingMessage;
 
   @override
   State<FaceOvalFrame> createState() => _FaceOvalFrameState();
@@ -68,7 +73,7 @@ class _FaceOvalFrameState extends State<FaceOvalFrame>
           ),
 
           // 2. Animated Amber Scan Laser Line
-          if (widget.isScanning && !widget.isSuccess)
+          if (widget.isScanning && !widget.isSuccess && !widget.isLoading)
             AnimatedBuilder(
               animation: _scanAnimation,
               builder: (context, child) {
@@ -92,6 +97,45 @@ class _FaceOvalFrameState extends State<FaceOvalFrame>
                   ),
                 );
               },
+            ),
+
+          // 2b. Loading Overlay when checking face registration
+          if (widget.isLoading)
+            ClipRRect(
+              borderRadius: const BorderRadius.all(Radius.elliptical(118, 145)),
+              child: Container(
+                width: frameWidth,
+                height: frameHeight,
+                color: Colors.black.withValues(alpha: 0.65),
+                child: Center(
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      SizedBox(
+                        width: 36,
+                        height: 36,
+                        child: CircularProgressIndicator(
+                          strokeWidth: 3,
+                          color: colors.accentAmber,
+                        ),
+                      ),
+                      12.gapH,
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 16),
+                        child: Text(
+                          widget.loadingMessage ?? 'Đang kiểm tra...',
+                          style: const TextStyle(
+                            color: Colors.white,
+                            fontSize: 12,
+                            fontWeight: FontWeight.w600,
+                          ),
+                          textAlign: TextAlign.center,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
             ),
 
           // 3. 4 Corner Bracket Guidelines
@@ -121,11 +165,12 @@ class _FaceOvalFrameState extends State<FaceOvalFrame>
                   ),
                 ],
               ),
-              child: const Icon(
-                Symbols.check,
-                color: Colors.white,
-                size: 52,
-                weight: 600,
+              child: const Center(
+                child: AppIcon(
+                  AppIcons.check,
+                  color: Colors.white,
+                  size: 52,
+                ),
               ),
             ),
         ],
@@ -162,8 +207,8 @@ class _FaceOvalFrameState extends State<FaceOvalFrame>
             ),
           ),
         ),
-        Icon(
-          Symbols.person,
+        AppIcon(
+          AppIcons.profile,
           size: 140,
           color: Colors.white.withValues(alpha: 0.22),
         ),

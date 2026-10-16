@@ -1,24 +1,14 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
-import 'package:material_symbols_icons/symbols.dart';
+import 'package:vstech_hrm/core/extensions/date_formatter_extension.dart';
 import 'package:vstech_hrm/core/extensions/l10n_extension.dart';
 import 'package:vstech_hrm/core/responsive/app_layout.dart';
 import 'package:vstech_hrm/core/theme/app_colors.dart';
+import 'package:vstech_hrm/core/widgets/app_icon.dart';
+import 'package:vstech_hrm/features/approvals/presentation/models/approval_item.dart';
+import 'package:vstech_hrm/features/approvals/presentation/widgets/approval_reject_dialog.dart';
 
-class ApprovalItem {
-  const new({
-    required this.initials,
-    required this.name,
-    required this.type,
-    required this.dates,
-    required this.reason,
-  });
-
-  final String initials;
-  final String name;
-  final String type;
-  final String dates;
-  final String reason;
-}
+export 'package:vstech_hrm/features/approvals/presentation/models/approval_item.dart';
 
 class ApprovalCard extends StatelessWidget {
   const new({
@@ -30,11 +20,34 @@ class ApprovalCard extends StatelessWidget {
 
   final ApprovalItem item;
   final VoidCallback onApprove;
-  final VoidCallback onReject;
+  final void Function(String reason) onReject;
 
   @override
   Widget build(BuildContext context) {
     final colors = context.colors;
+    final l10n = context.l10n;
+
+    final statusBg = item.isApproved
+        ? colors.pineGreen.withValues(alpha: 0.15)
+        : item.isRejected
+            ? colors.error.withValues(alpha: 0.15)
+            : colors.accentAmber.withValues(alpha: 0.15);
+    final statusColor = item.isApproved
+        ? colors.pineGreen
+        : item.isRejected
+            ? colors.error
+            : colors.accentAmber;
+    final statusLabel = item.isApproved
+        ? l10n.leaveStatusFilterApproved
+        : item.isRejected
+            ? l10n.leaveStatusFilterRejected
+            : l10n.statusPending;
+
+    final subtitleParts = <String>[
+      item.type,
+      if (item.dates.isNotEmpty) item.dates.toDisplayDate(),
+      if (item.worktime != null && item.worktime! > 0) '${item.worktime}h',
+    ];
 
     return Container(
       decoration: BoxDecoration(
@@ -52,19 +65,9 @@ class ApprovalCard extends StatelessWidget {
               Container(
                 width: 38,
                 height: 38,
-                decoration: BoxDecoration(
-                  color: colors.cardSecondary,
-                  borderRadius: BorderRadius.circular(13),
-                ),
+                decoration: BoxDecoration(color: colors.cardSecondary, borderRadius: BorderRadius.circular(13)),
                 child: Center(
-                  child: Text(
-                    item.initials,
-                    style: TextStyle(
-                      fontSize: 13.5,
-                      fontWeight: FontWeight.w800,
-                      color: colors.primaryIndigo,
-                    ),
-                  ),
+                  child: Text(item.initials, style: TextStyle(fontSize: 13.5, fontWeight: FontWeight.w800, color: colors.primaryIndigo)),
                 ),
               ),
               11.gapW,
@@ -77,116 +80,177 @@ class ApprovalCard extends StatelessWidget {
                       style: TextStyle(
                         fontSize: 14,
                         fontWeight: FontWeight.w800,
+                        height: 1.25,
                         color: colors.textPrimary,
                       ),
+                      maxLines: 3,
+                      softWrap: true,
                     ),
-                    2.gapH,
+                    if (item.id != null && item.id!.isNotEmpty) ...[
+                      2.gapH,
+                      Text(
+                        '#${item.id}',
+                        style: TextStyle(
+                          fontSize: 11,
+                          fontWeight: FontWeight.w700,
+                          color: colors.primaryIndigo,
+                        ),
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ],
+                    3.gapH,
                     Text(
-                      '${item.type} · ${item.dates}',
+                      subtitleParts.join(' · '),
                       style: TextStyle(
                         fontSize: 12,
                         fontWeight: FontWeight.w600,
                         color: colors.textSecondary,
                       ),
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
                     ),
                   ],
                 ),
               ),
               Container(
                 padding: const EdgeInsets.symmetric(horizontal: 9, vertical: 5),
-                decoration: BoxDecoration(
-                  color: colors.accentAmber.withValues(alpha: 0.15),
-                  borderRadius: BorderRadius.circular(8),
-                ),
-                child: Text(
-                  context.l10n.statusPending,
-                  style: TextStyle(
-                    fontSize: 10.5,
-                    fontWeight: FontWeight.w800,
-                    color: colors.accentAmber,
-                  ),
-                ),
+                decoration: BoxDecoration(color: statusBg, borderRadius: BorderRadius.circular(8)),
+                child: Text(statusLabel, style: TextStyle(fontSize: 10.5, fontWeight: FontWeight.w800, color: statusColor)),
               ),
             ],
           ),
-          11.gapH,
-          Container(
-            width: double.infinity,
-            padding: const EdgeInsets.all(11),
-            decoration: BoxDecoration(
-              color: colors.cardSecondary,
-              borderRadius: BorderRadius.circular(12),
+          // Reason card - only shown if reason is not empty
+          if (item.reason != null && item.reason!.trim().isNotEmpty) ...[
+            10.gapH,
+            Container(
+              width: double.infinity,
+              padding: const EdgeInsets.all(11),
+              decoration: BoxDecoration(color: colors.cardSecondary, borderRadius: BorderRadius.circular(12)),
+              child: Text(item.reason!, style: TextStyle(fontSize: 12.5, fontWeight: FontWeight.w600, height: 1.45, color: colors.textSecondary)),
             ),
-            child: Text(
-              item.reason,
-              style: TextStyle(
-                fontSize: 12.5,
-                fontWeight: FontWeight.w600,
-                height: 1.5,
-                color: colors.textSecondary,
+          ],
+
+          // Shift swap schedules comparison
+          if (item.swapBothSchedules != null) ...[
+            8.gapH,
+            Container(
+              width: double.infinity,
+              padding: const EdgeInsets.all(10),
+              decoration: BoxDecoration(
+                color: colors.primaryIndigo.withValues(alpha: 0.08),
+                borderRadius: BorderRadius.circular(10),
+                border: Border.all(color: colors.primaryIndigo.withValues(alpha: 0.2)),
               ),
-            ),
-          ),
-          12.gapH,
-          Row(
-            children: [
-              Expanded(
-                flex: 10,
-                child: SizedBox(
-                  height: 44,
-                  child: OutlinedButton(
-                    style: OutlinedButton.styleFrom(
-                      side: BorderSide(color: colors.error),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(13),
-                      ),
-                    ),
-                    onPressed: onReject,
+              child: Row(
+                children: [
+                  AppIcon(AppIcons.shiftSwap, size: 18, color: colors.primaryIndigo),
+                  8.gapW,
+                  Expanded(
                     child: Text(
-                      context.l10n.actionReject,
-                      style: TextStyle(
-                        fontSize: 13.5,
-                        fontWeight: FontWeight.w800,
-                        color: colors.error,
+                      '${l10n.approvalSwapBothSchedules}:\n${item.swapBothSchedules}',
+                      style: TextStyle(fontSize: 11.5, fontWeight: FontWeight.w700, color: colors.textPrimary),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
+
+          12.gapH,
+
+          // Action Buttons or Processed Status Bar
+          if (item.isPending && !item.isLock)
+            Row(
+              children: [
+                Expanded(
+                  flex: 10,
+                  child: SizedBox(
+                    height: 42,
+                    child: OutlinedButton(
+                      style: OutlinedButton.styleFrom(
+                        side: BorderSide(color: colors.error),
+                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                      ),
+                      onPressed: () => unawaited(ApprovalRejectDialog.show(context, onConfirm: onReject)),
+                      child: Text(l10n.actionReject, style: TextStyle(fontSize: 13, fontWeight: FontWeight.w800, color: colors.error)),
+                    ),
+                  ),
+                ),
+                9.gapW,
+                Expanded(
+                  flex: 14,
+                  child: SizedBox(
+                    height: 42,
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: colors.pineGreen,
+                        foregroundColor: Colors.white,
+                        elevation: 0,
+                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                      ),
+                      onPressed: onApprove,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          const AppIcon(AppIcons.check, size: 18, color: Colors.white),
+                          6.gapW,
+                          Text(l10n.actionApprove, style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w800)),
+                        ],
                       ),
                     ),
                   ),
                 ),
+              ],
+            )
+          else if (item.isLock)
+            Container(
+              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+              decoration: BoxDecoration(
+                color: colors.cardSecondary,
+                borderRadius: BorderRadius.circular(10),
               ),
-              9.gapW,
-              Expanded(
-                flex: 14,
-                child: SizedBox(
-                  height: 44,
-                  child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: colors.pineGreen,
-                      foregroundColor: Colors.white,
-                      elevation: 0,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(13),
-                      ),
-                    ),
-                    onPressed: onApprove,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        const Icon(Symbols.check, size: 18, weight: 700),
-                        6.gapW,
-                        Text(
-                          context.l10n.actionApprove,
-                          style: const TextStyle(
-                            fontSize: 13.5,
-                            fontWeight: FontWeight.w800,
-                          ),
-                        ),
-                      ],
+              child: Row(
+                children: [
+                  Icon(Icons.lock_outline_rounded, size: 16, color: colors.textSecondary),
+                  8.gapW,
+                  Expanded(
+                    child: Text(
+                      l10n.requestLockedPeriodNotice,
+                      style: TextStyle(fontSize: 12.5, fontWeight: FontWeight.w600, color: colors.textSecondary),
                     ),
                   ),
-                ),
+                ],
               ),
-            ],
-          ),
+            )
+          else
+            Container(
+              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+              decoration: BoxDecoration(
+                color: statusBg,
+                borderRadius: BorderRadius.circular(10),
+              ),
+              child: Row(
+                children: [
+                  AppIcon(
+                    item.isApproved ? AppIcons.check : AppIcons.close,
+                    size: 16,
+                    color: statusColor,
+                  ),
+                  8.gapW,
+                  Expanded(
+                    child: Text(
+                      item.isApproved ? 'Đã được phê duyệt' : 'Đã từ chối phiếu',
+                      style: TextStyle(fontSize: 12.5, fontWeight: FontWeight.w700, color: statusColor),
+                    ),
+                  ),
+                  Text(
+                    'Xem chi tiết ›',
+                    style: TextStyle(fontSize: 12, fontWeight: FontWeight.w600, color: colors.textSecondary),
+                  ),
+                ],
+              ),
+            ),
         ],
       ),
     );

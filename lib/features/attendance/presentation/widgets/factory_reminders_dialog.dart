@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:material_symbols_icons/symbols.dart';
 import 'package:vstech_hrm/core/extensions/l10n_extension.dart';
 import 'package:vstech_hrm/core/responsive/app_layout.dart';
 import 'package:vstech_hrm/core/services/offline_attendance_service.dart';
 import 'package:vstech_hrm/core/theme/app_colors.dart';
+import 'package:vstech_hrm/core/widgets/app_icon.dart';
 
 /// Modal dialog for configuring local shift & lunch-break reminders for factory workers.
 class FactoryRemindersDialog extends StatefulWidget {
@@ -51,7 +51,7 @@ class _FactoryRemindersDialogState extends State<FactoryRemindersDialog> {
               color: colors.primaryIndigo.withValues(alpha: 0.12),
               borderRadius: BorderRadius.circular(10),
             ),
-            child: Icon(Symbols.alarm, color: colors.primaryIndigo, size: 22),
+            child: AppIcon(AppIcons.shift, color: colors.primaryIndigo, size: 22),
           ),
           10.gapW,
           Expanded(
@@ -90,7 +90,7 @@ class _FactoryRemindersDialogState extends State<FactoryRemindersDialog> {
               ),
               child: Row(
                 children: [
-                  const Icon(Symbols.info, size: 16, color: Color(0xFFD97706)),
+                  const AppIcon(AppIcons.info, size: 16, color: Color(0xFFD97706)),
                   8.gapW,
                   Expanded(
                     child: Text(

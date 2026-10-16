@@ -1,67 +1,124 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
-import 'package:material_symbols_icons/symbols.dart';
+import 'package:vstech_hrm/core/di/injector.dart';
 import 'package:vstech_hrm/core/extensions/l10n_extension.dart';
 import 'package:vstech_hrm/core/responsive/app_layout.dart';
 import 'package:vstech_hrm/core/theme/app_colors.dart';
+import 'package:vstech_hrm/features/approvals/domain/entities/managed_employee_entity.dart';
+import 'package:vstech_hrm/features/requests/domain/entities/overtime_type_entity.dart';
+import 'package:vstech_hrm/features/requests/domain/entities/valid_max_hour_entity.dart';
+import 'package:vstech_hrm/features/requests/domain/usecases/get_overtime_types_usecase.dart';
+import 'package:vstech_hrm/features/requests/presentation/widgets/overtime_modal_components.dart';
+import 'package:vstech_hrm/features/requests/presentation/widgets/overtime_modal_form.dart';
+import 'package:vstech_hrm/features/requests/presentation/widgets/overtime_modal_header.dart';
+import 'package:vstech_hrm/features/requests/presentation/widgets/overtime_validation_helper.dart';
+import 'package:vstech_hrm/features/requests/presentation/widgets/subordinate_employee_picker_sheet.dart';
 
-/// Modal bottom sheet to pick date, start/end hours, and reason for overtime request.
+/// Modal bottom sheet to pick date, hours, reason, and overtime type.
 class OvertimeRequestModal extends StatefulWidget {
   const new({
     required this.initialDate,
-    required this.initialStart,
-    required this.initialEnd,
     required this.onConfirm,
+    this.availableTypes = const [],
+    this.initialTypeCode,
+    this.isManager = false,
+    this.initialEmployee,
     super.key,
   });
 
-  final String initialDate;
-  final String initialStart;
-  final String initialEnd;
-  final void Function(String date, String time, String total, String reason) onConfirm;
+  final DateTime initialDate;
+  final List<OvertimeTypeEntity> availableTypes;
+  final String? initialTypeCode;
+  final OvertimeConfirmCallback onConfirm;
+  final bool isManager;
+  final ManagedEmployeeEntity? initialEmployee;
 
   static Future<void> show(
     BuildContext context, {
-    required String initialDate,
-    required String initialStart,
-    required String initialEnd,
-    required void Function(String date, String time, String total, String reason) onConfirm,
-  }) {
-    final colors = context.colors;
-    return showModalBottomSheet<void>(
-      context: context,
-      isScrollControlled: true,
-      backgroundColor: colors.surface,
-      shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(top: Radius.circular(22)),
-      ),
-      builder: (_) => OvertimeRequestModal(
-        initialDate: initialDate,
-        initialStart: initialStart,
-        initialEnd: initialEnd,
-        onConfirm: onConfirm,
-      ),
-    );
-  }
+    required DateTime initialDate,
+    required OvertimeConfirmCallback onConfirm,
+    List<OvertimeTypeEntity> availableTypes = const [],
+    String? initialTypeCode,
+    bool isManager = false,
+    ManagedEmployeeEntity? initialEmployee,
+  }) => showModalBottomSheet<void>(
+        context: context,
+        isScrollControlled: true,
+        backgroundColor: context.colors.surface,
+        shape: const RoundedRectangleBorder(borderRadius: BorderRadius.vertical(top: Radius.circular(22))),
+        builder: (_) => OvertimeRequestModal(
+          initialDate: initialDate,
+          availableTypes: availableTypes,
+          initialTypeCode: initialTypeCode,
+          isManager: isManager,
+          initialEmployee: initialEmployee,
+          onConfirm: onConfirm,
+        ),
+      );
 
   @override
   State<OvertimeRequestModal> createState() => _OvertimeRequestModalState();
 }
 
 class _OvertimeRequestModalState extends State<OvertimeRequestModal> {
-  late String _selectedDate;
-  late String _startTime;
-  late String _endTime;
-  late TextEditingController _reasonController;
+  late DateTime _selectedDate;
+  TimeOfDay _startTime = const TimeOfDay(hour: 18, minute: 0);
+  TimeOfDay _endTime = const TimeOfDay(hour: 21, minute: 0);
+  final TextEditingController _reasonController = TextEditingController();
+  List<OvertimeTypeEntity> _types = [];
+  OvertimeTypeEntity? _selectedType;
+  ValidMaxHourEntity? _validInfo;
+  ManagedEmployeeEntity? _selectedEmployee;
+  bool _isSubmitting = false;
+  bool _acceptImmediately = false;
+  String? _errorMessage;
 
   @override
   void initState() {
     super.initState();
     _selectedDate = widget.initialDate;
-    _startTime = widget.initialStart;
-    _endTime = widget.initialEnd;
-    _reasonController = TextEditingController(
-      text: 'Kiểm kê cuối tháng và hỗ trợ đóng hàng bàn giao đối tác.',
+    _selectedEmployee = widget.initialEmployee;
+
+    if (widget.availableTypes.isNotEmpty) {
+      _types = OvertimeValidationHelper.cleanTypes(widget.availableTypes);
+      _selectedType = _types.where((t) => t.code == widget.initialTypeCode).firstOrNull ?? _types.firstOrNull;
+    }
+    unawaited(widget.availableTypes.isNotEmpty ? _checkValidation() : _fetchTypes());
+  }
+
+  Future<void> _fetchTypes() async {
+    if (!sl.isRegistered<GetOvertimeTypesUseCase>()) return;
+    final res = await sl<GetOvertimeTypesUseCase>()();
+    if (!mounted) return;
+    res.fold((_) {}, (types) {
+      if (types.isNotEmpty) {
+        final clean = OvertimeValidationHelper.cleanTypes(types);
+        setState(() {
+          _types = clean;
+          _selectedType = clean.where((t) => t.code == widget.initialTypeCode).firstOrNull ?? clean.firstOrNull;
+        });
+        unawaited(_checkValidation());
+      }
+    });
+  }
+
+  Future<void> _checkValidation() async {
+    final info = await OvertimeValidationHelper.fetchValidMaxHour(
+      date: _selectedDate,
+      overtimeType: _selectedType?.code ?? 'OT_WEEKDAY',
+      adminEmployee: _selectedEmployee?.code,
     );
+    if (mounted) setState(() => _validInfo = info);
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    if (_types.isEmpty) {
+      _types = OvertimeValidationHelper.defaultTypes(context.l10n);
+      _selectedType ??= _types.first;
+      unawaited(_checkValidation());
+    }
   }
 
   @override
@@ -70,178 +127,170 @@ class _OvertimeRequestModalState extends State<OvertimeRequestModal> {
     super.dispose();
   }
 
+  double _computedLength() => OvertimeValidationHelper.computeLength(_startTime, _endTime);
+
+  Future<void> _pickEmployee() async {
+    final picked = await SubordinateEmployeePickerSheet.show(context, selectedEmployee: _selectedEmployee);
+    if (!mounted) return;
+    setState(() {
+      _selectedEmployee = picked;
+      _errorMessage = null;
+    });
+    await _checkValidation();
+  }
+
+  Future<void> _pickDate() async {
+    final picked = await OvertimeValidationHelper.pickDate(context, _selectedDate);
+    if (picked != null) {
+      setState(() {
+        _selectedDate = picked;
+        _errorMessage = null;
+      });
+      await _checkValidation();
+    }
+  }
+
+  Future<void> _pickTime(bool isStart) async {
+    final picked = await OvertimeValidationHelper.pickTime(context, isStart ? _startTime : _endTime);
+    if (picked != null) {
+      setState(() {
+        if (isStart) {
+          _startTime = picked;
+        } else {
+          _endTime = picked;
+        }
+        _errorMessage = null;
+      });
+    }
+  }
+
+  void _onSelectType(OvertimeTypeEntity t) {
+    setState(() {
+      _selectedType = t;
+      _errorMessage = null;
+    });
+    unawaited(_checkValidation());
+  }
+
+  void _onReasonChanged(String _) {
+    if (_errorMessage != null) setState(() => _errorMessage = null);
+  }
+
+  Future<void> _onConfirmTap() async {
+    if (_isSubmitting) return;
+
+    final selected = _selectedType ?? (_types.isNotEmpty ? _types.first : null);
+    final reason = _reasonController.text.trim();
+    final length = _computedLength();
+    final isProxy = widget.isManager || _selectedEmployee != null;
+
+    final validationErr = OvertimeValidationHelper.validateSubmission(
+      selectedType: selected,
+      reason: reason,
+      length: length,
+      validInfo: _validInfo,
+    );
+    if (validationErr != null) {
+      setState(() => _errorMessage = validationErr);
+      return;
+    }
+
+    setState(() {
+      _errorMessage = null;
+      _isSubmitting = true;
+    });
+
+    final startDt = DateTime(_selectedDate.year, _selectedDate.month, _selectedDate.day, _startTime.hour, _startTime.minute);
+    final endDt = DateTime(_selectedDate.year, _selectedDate.month, _selectedDate.day, _endTime.hour, _endTime.minute);
+
+    try {
+      final err = await widget.onConfirm(
+        selected!,
+        _selectedDate,
+        startDt,
+        endDt,
+        length,
+        reason,
+        employeeCode: _selectedEmployee?.code,
+        employeeName: _selectedEmployee?.name,
+        accept: isProxy ? _acceptImmediately : null,
+      );
+      if (!mounted) return;
+      if (err == null) {
+        Navigator.pop(context);
+        return;
+      }
+      setState(() => _errorMessage = err);
+    } on Exception catch (_) {
+      if (mounted) setState(() => _errorMessage = context.l10n.errorOccurred);
+    } finally {
+      if (mounted) setState(() => _isSubmitting = false);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final colors = context.colors;
     final l10n = context.l10n;
     final bottomInset = MediaQuery.of(context).viewInsets.bottom;
+    final length = _computedLength();
+    final currentType = _selectedType ??
+        (_types.isNotEmpty ? _types.first : const OvertimeTypeEntity(code: 'OT', name: 'Tăng ca'));
 
-    return Padding(
-      padding: EdgeInsets.fromLTRB(18, 20, 18, bottomInset + 24),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                l10n.overtimeModalTitle,
-                style: TextStyle(
-                  fontSize: 17,
-                  fontWeight: FontWeight.w800,
-                  color: colors.textPrimary,
-                ),
-              ),
-              IconButton(
-                icon: const Icon(Symbols.close, size: 20),
-                onPressed: () => Navigator.pop(context),
-              ),
-            ],
-          ),
-          14.gapH,
-
-          // Date Selection
-          Text(
-            l10n.overtimeDateLabel,
-            style: TextStyle(fontSize: 12.5, fontWeight: FontWeight.w700, color: colors.textSecondary),
-          ),
-          6.gapH,
-          InkWell(
-            borderRadius: BorderRadius.circular(12),
-            onTap: () async {
-              final picked = await showDatePicker(
-                context: context,
-                initialDate: DateTime(2026, 9, 16),
-                firstDate: DateTime(2026, 8),
-                lastDate: DateTime(2026, 12),
-              );
-              if (picked != null) {
-                setState(() {
-                  _selectedDate =
-                      '${picked.day.toString().padLeft(2, '0')}/${picked.month.toString().padLeft(2, '0')}/${picked.year}';
-                });
-              }
-            },
-            child: Container(
-              padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
-              decoration: BoxDecoration(
-                color: colors.cardSecondary,
-                borderRadius: BorderRadius.circular(12),
-                border: Border.all(color: colors.border),
-              ),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(_selectedDate, style: TextStyle(fontSize: 14, fontWeight: FontWeight.w700, color: colors.textPrimary)),
-                  Icon(Symbols.calendar_month, size: 18, color: colors.primaryIndigo),
-                ],
-              ),
-            ),
-          ),
-          14.gapH,
-
-          // Time range
-          Text(
-            l10n.overtimeTimeRangeLabel,
-            style: TextStyle(fontSize: 12.5, fontWeight: FontWeight.w700, color: colors.textSecondary),
-          ),
-          6.gapH,
-          Row(
-            children: [
-              Expanded(
-                child: _buildTimePickerTile(l10n.startTimeLabel, _startTime, (val) => setState(() => _startTime = val), colors),
-              ),
-              10.gapW,
-              Expanded(
-                child: _buildTimePickerTile(l10n.endTimeLabel, _endTime, (val) => setState(() => _endTime = val), colors),
-              ),
-            ],
-          ),
-          12.gapH,
-
-          // Estimate badge
-          Container(
-            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-            decoration: BoxDecoration(
-              color: colors.pineGreen.withValues(alpha: 0.12),
-              borderRadius: BorderRadius.circular(10),
-            ),
-            child: Row(
+    return PopScope(
+      canPop: !_isSubmitting,
+      child: SafeArea(
+        top: false,
+        child: Padding(
+          padding: EdgeInsets.fromLTRB(18, 20, 18, bottomInset + 16),
+          child: SingleChildScrollView(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Icon(Symbols.schedule, size: 16, color: colors.pineGreen),
-                6.gapW,
-                Text(
-                  l10n.overtimeEstimateCalc(3, 'x1.5', l10n.overtimeDayTypeNormal),
-                  style: TextStyle(fontSize: 12, fontWeight: FontWeight.w700, color: colors.pineGreen),
+                OvertimeModalHeader(
+                  title: l10n.overtimeModalTitle,
+                  colors: colors,
+                  onClose: _isSubmitting ? null : () => Navigator.pop(context),
+                ),
+                12.gapH,
+                AbsorbPointer(
+                  absorbing: _isSubmitting,
+                  child: OvertimeModalFormFields(
+                    selectedDate: _selectedDate,
+                    startTime: _startTime,
+                    endTime: _endTime,
+                    types: _types,
+                    selectedType: currentType,
+                    length: length,
+                    reasonController: _reasonController,
+                    validInfo: _validInfo,
+                    selectedEmployee: _selectedEmployee,
+                    isManager: widget.isManager,
+                    acceptImmediately: _acceptImmediately,
+                    onAcceptChanged: (val) => setState(() => _acceptImmediately = val),
+                    onPickEmployee: widget.isManager ? _pickEmployee : null,
+                    onPickDate: _pickDate,
+                    onPickTime: ({required isStart}) => _pickTime(isStart),
+                    onSelectType: _onSelectType,
+                    onReasonChanged: _onReasonChanged,
+                    colors: colors,
+                  ),
+                ),
+                14.gapH,
+                if (_errorMessage != null) ...[
+                  OvertimeErrorBanner(message: _errorMessage!),
+                  12.gapH,
+                ],
+                OvertimeSubmitButton(
+                  title: l10n.confirmSendOvertime,
+                  isSubmitting: _isSubmitting,
+                  onPressed: _onConfirmTap,
                 ),
               ],
             ),
           ),
-          14.gapH,
-
-          // Reason field
-          Text(
-            l10n.overtimeReasonLabel,
-            style: TextStyle(fontSize: 12.5, fontWeight: FontWeight.w700, color: colors.textSecondary),
-          ),
-          6.gapH,
-          TextField(
-            controller: _reasonController,
-            maxLines: 2,
-            style: TextStyle(fontSize: 13, color: colors.textPrimary),
-            decoration: InputDecoration(
-              filled: true,
-              fillColor: colors.cardSecondary,
-              contentPadding: const EdgeInsets.all(12),
-              border: OutlineInputBorder(borderRadius: BorderRadius.circular(12), borderSide: BorderSide(color: colors.border)),
-              enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(12), borderSide: BorderSide(color: colors.border)),
-            ),
-          ),
-          20.gapH,
-
-          // Confirm Button
-          SizedBox(
-            height: 48,
-            width: double.infinity,
-            child: ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                backgroundColor: const Color(0xFFF59E0B),
-                foregroundColor: const Color(0xFF1C1408),
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
-              ),
-              onPressed: () {
-                Navigator.pop(context);
-                widget.onConfirm(
-                  _selectedDate,
-                  '$_startTime — $_endTime',
-                  '3h · x1.5',
-                  _reasonController.text,
-                );
-              },
-              child: Text(l10n.confirmSendOvertime, style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w800)),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildTimePickerTile(String label, String value, ValueChanged<String> onChanged, AppColorsExtension colors) {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
-      decoration: BoxDecoration(
-        color: colors.cardSecondary,
-        borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: colors.border),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(label, style: TextStyle(fontSize: 11, color: colors.textSecondary)),
-          2.gapH,
-          Text(value, style: TextStyle(fontSize: 14, fontWeight: FontWeight.w800, color: colors.textPrimary)),
-        ],
+        ),
       ),
     );
   }

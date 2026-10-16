@@ -1,18 +1,33 @@
 {
-  "success": true,
-  "data": {
-    "id": "mgr-001",
-    "employeeCode": "QL-0421",
-    "fullName": "Trần Thị Bích",
-    "avatarUrl": "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=200",
-    "role": "manager",
-    "department": "Khối Công Nghệ & Kỹ Thuật",
-    "title": "Trưởng phòng Kỹ thuật",
-    "branch": "Trụ sở chính — TP. Hồ Chí Minh",
-    "managerName": "Lê Hoàng Long",
-    "joinDate": "2021-08-01",
-    "pendingApprovalsCount": 4
+  "faceDetectRs": true,
+  "employee": {
+    "code": "NV0089",
+    "name": "Trần Thị Mai",
+    "birthDay": "1992-04-18",
+    "gender": false,
+    "marriage": "KH",
+    "marriageText": "Đã kết hôn",
+    "phoneNumber": "0908889999",
+    "emergencyPhoneNumber": "0907778888",
+    "idNumber": "079092005678",
+    "idDate": "2020-10-12",
+    "idPlace": "Cục Cảnh sát QLHC về TTXH",
+    "bankCode": "TCB",
+    "bankName": "Ngân hàng Kỹ thương Việt Nam (Techcombank)",
+    "bankNumber": "19034567890123",
+    "hireDate": "2021-08-01",
+    "mail": "tran.mai@vstech.vn",
+    "departmentCode": "KD",
+    "departmentName": "Phòng Kinh doanh",
+    "positionCode": "MGR",
+    "positionName": "Trưởng phòng Kinh doanh",
+    "positionStateName": "Chính thức",
+    "shiftName": "Ca hành chính (08:00 - 17:30)",
+    "address": "45 Lê Lợi, Phường Bến Nghé, Quận 1, TP. Hồ Chí Minh"
   },
-  "message": null,
-  "errorCode": null
+  "account": {
+    "id": 2,
+    "userName": "tran.mai",
+    "email": "tran.mai@vstech.vn"
+  }
 }

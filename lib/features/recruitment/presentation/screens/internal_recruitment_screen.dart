@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:material_symbols_icons/symbols.dart';
 import 'package:vstech_hrm/core/extensions/l10n_extension.dart';
 import 'package:vstech_hrm/core/responsive/app_layout.dart';
 import 'package:vstech_hrm/core/router/routes.dart';
 import 'package:vstech_hrm/core/theme/app_colors.dart';
+import 'package:vstech_hrm/core/widgets/app_icon.dart';
 
 /// Screen 16: Internal Job Recruitment board.
 class InternalRecruitmentScreen extends StatelessWidget {
-  const new({super.key});
+  const InternalRecruitmentScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -55,7 +55,7 @@ class InternalRecruitmentScreen extends StatelessWidget {
         backgroundColor: colors.surface,
         elevation: 0,
         leading: IconButton(
-          icon: const Icon(Symbols.arrow_back),
+          icon: AppIcon(AppIcons.arrowLeft, color: colors.textPrimary),
           onPressed: () => Navigator.of(context).pop(),
         ),
         title: Text(
@@ -66,16 +66,62 @@ class InternalRecruitmentScreen extends StatelessWidget {
             color: colors.textPrimary,
           ),
         ),
+        actions: [
+          IconButton(
+            icon: AppIcon(AppIcons.users, color: colors.textPrimary),
+            tooltip: 'Hồ sơ đã giới thiệu',
+            onPressed: () => context.push(AppRoutes.myReferrals),
+          ),
+        ],
       ),
       body: ListView(
         padding: const EdgeInsets.fromLTRB(16, 14, 16, 24),
         children: [
+          // Referral Banner
+          InkWell(
+            borderRadius: BorderRadius.circular(16),
+            onTap: () => context.push(AppRoutes.myReferrals),
+            child: Container(
+              margin: const EdgeInsets.only(bottom: 14),
+              padding: const EdgeInsets.all(14),
+              decoration: BoxDecoration(
+                color: colors.primaryIndigo,
+                borderRadius: BorderRadius.circular(16),
+              ),
+              child: Row(
+                children: [
+                  AppIcon(AppIcons.award, color: colors.accentAmber, size: 28),
+                  12.gapW,
+                  const Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'Giới thiệu bạn bè — Thưởng 3.000.000 ₫',
+                          style: TextStyle(fontSize: 13, fontWeight: FontWeight.w800, color: Color(0xFFFFF8EC)),
+                        ),
+                        Text(
+                          'Theo dõi tiến độ hồ sơ & hoa hồng tuyển dụng',
+                          style: TextStyle(fontSize: 11.5, color: Color(0xFFFFF8EC)),
+                        ),
+                      ],
+                    ),
+                  ),
+                  8.gapW,
+                  const AppIcon(AppIcons.chevronRight, size: 18, color: Color(0xFFFFF8EC)),
+                ],
+              ),
+            ),
+          ),
           // Search box
           TextField(
             decoration: InputDecoration(
               hintText: context.l10n.searchJobPlaceholder,
               hintStyle: TextStyle(fontSize: 13.5, color: colors.textTertiary),
-              prefixIcon: Icon(Symbols.search, size: 20, color: colors.textSecondary),
+              prefixIcon: Padding(
+                padding: const EdgeInsets.all(12),
+                child: AppIcon(AppIcons.search, size: 20, color: colors.textSecondary),
+              ),
               filled: true,
               fillColor: colors.surface,
               border: OutlineInputBorder(

@@ -9,6 +9,7 @@ enum ShiftStatus {
 }
 
 /// Domain entity representing an employee's shift schedule.
+/// Aligned strictly with OpenAPI 3.0.1 (GET /api/ShiftSchedules/me).
 class ShiftScheduleEntity {
   const new({
     required this.id,
@@ -17,12 +18,12 @@ class ShiftScheduleEntity {
     required this.shiftName,
     required this.startTime,
     required this.endTime,
-    required this.breakTime,
-    required this.branchName,
-    required this.managerName,
     required this.status,
     required this.color,
-    this.notes,
+    this.textColor,
+    this.shiftCode,
+    this.source,
+    this.isOvernight = false,
   });
 
   final String id;
@@ -31,13 +32,18 @@ class ShiftScheduleEntity {
   final String shiftName;
   final String startTime;
   final String endTime;
-  final String breakTime;
-  final String branchName;
-  final String managerName;
   final ShiftStatus status;
   final Color color;
-  final String? notes;
+  final Color? textColor;
+  final String? shiftCode;
+  final String? source;
+  final bool isOvernight;
 
-  bool get isDayOff => status == ShiftStatus.dayOff;
+  bool get isDayOff =>
+      status == ShiftStatus.dayOff ||
+      shiftName == 'Nghỉ tuần' ||
+      (shiftCode == null && startTime == '—');
+  bool get isScheduled => source?.toUpperCase() == 'SCHEDULE';
+  bool get isDefault => source?.toUpperCase() == 'DEFAULT';
   String get formattedTime => isDayOff ? 'Nghỉ tuần' : '$startTime — $endTime';
 }

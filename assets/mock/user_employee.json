@@ -1,17 +1,33 @@
 {
-  "success": true,
-  "data": {
-    "id": "emp-001",
-    "employeeCode": "NV-1082",
-    "fullName": "Nguyễn Văn An",
-    "avatarUrl": "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=200",
-    "role": "employee",
-    "department": "Khối Công Nghệ & Kỹ Thuật",
-    "title": "Kỹ sư phần mềm cao cấp",
-    "branch": "Trụ sở chính — TP. Hồ Chí Minh",
-    "managerName": "Trần Thị Bích",
-    "joinDate": "2023-03-15"
+  "faceDetectRs": true,
+  "employee": {
+    "code": "NV-1082",
+    "name": "Nguyễn Văn An",
+    "birthDay": "1995-08-20",
+    "gender": true,
+    "marriage": "DT",
+    "marriageText": "Độc thân",
+    "phoneNumber": "0912345678",
+    "emergencyPhoneNumber": "0987654321",
+    "idNumber": "079095001234",
+    "idDate": "2021-05-15",
+    "idPlace": "Cục Cảnh sát QLHC về TTXH",
+    "bankCode": "VCB",
+    "bankName": "Ngân hàng Ngoại thương Việt Nam (Vietcombank)",
+    "bankNumber": "0071001234567",
+    "hireDate": "2023-03-15",
+    "mail": "nguyen.an@vstech.vn",
+    "departmentCode": "CNTT",
+    "departmentName": "Khối Công Nghệ & Kỹ Thuật",
+    "positionCode": "DEV",
+    "positionName": "Kỹ sư phần mềm cao cấp",
+    "positionStateName": "Chính thức",
+    "shiftName": "Ca hành chính (08:00 - 17:30)",
+    "address": "128 Nguyễn Trãi, Phường 3, Quận 5, TP. Hồ Chí Minh"
   },
-  "message": null,
-  "errorCode": null
+  "account": {
+    "id": 1,
+    "userName": "nv1082",
+    "email": "nguyen.an@vstech.vn"
+  }
 }

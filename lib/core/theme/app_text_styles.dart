@@ -25,10 +25,22 @@ class AppTextStyles {
         height: 1.3,
       );
 
+  static TextStyle get h3 => GoogleFonts.sourceSans3(
+        fontSize: 15,
+        fontWeight: FontWeight.w700,
+        height: 1.3,
+      );
+
   static TextStyle get subhead => GoogleFonts.sourceSans3(
         fontSize: 14,
         fontWeight: FontWeight.w600,
         height: 1.35,
+      );
+
+  static TextStyle get bodyBold => GoogleFonts.sourceSans3(
+        fontSize: 13,
+        fontWeight: FontWeight.w700,
+        height: 1.4,
       );
 
   static TextStyle get body => GoogleFonts.sourceSans3(

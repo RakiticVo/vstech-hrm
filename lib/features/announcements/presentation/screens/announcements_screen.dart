@@ -3,11 +3,11 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:material_symbols_icons/symbols.dart';
 import 'package:vstech_hrm/core/extensions/l10n_extension.dart';
 import 'package:vstech_hrm/core/responsive/app_layout.dart';
 import 'package:vstech_hrm/core/router/routes.dart';
 import 'package:vstech_hrm/core/theme/app_colors.dart';
+import 'package:vstech_hrm/core/widgets/app_icon.dart';
 import 'package:vstech_hrm/features/announcements/domain/entities/announcement_entity.dart';
 import 'package:vstech_hrm/features/announcements/presentation/cubit/announcements_cubit.dart';
 import 'package:vstech_hrm/features/announcements/presentation/cubit/announcements_state.dart';
@@ -47,7 +47,7 @@ class _AnnouncementsScreenState extends State<AnnouncementsScreen> {
         backgroundColor: colors.surface,
         elevation: 0,
         leading: IconButton(
-          icon: Icon(Symbols.arrow_back, color: colors.textPrimary),
+          icon: AppIcon(AppIcons.arrowLeft, color: colors.textPrimary),
           onPressed: () => context.pop(),
         ),
         title: Text(
@@ -60,7 +60,7 @@ class _AnnouncementsScreenState extends State<AnnouncementsScreen> {
         ),
         actions: [
           IconButton(
-            icon: Icon(Symbols.refresh, color: colors.textPrimary),
+            icon: AppIcon(AppIcons.refreshCw, color: colors.textPrimary),
             onPressed: () => context.read<AnnouncementsCubit>().loadAnnouncements(),
           ),
           4.gapW,
@@ -77,7 +77,7 @@ class _AnnouncementsScreenState extends State<AnnouncementsScreen> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Icon(Symbols.error, size: 48, color: colors.error),
+                  AppIcon(AppIcons.alertTriangle, size: 48, color: colors.error),
                   12.gapH,
                   Text(
                     state.errorMessage ?? l10n.errorOccurredMessage,
@@ -103,7 +103,10 @@ class _AnnouncementsScreenState extends State<AnnouncementsScreen> {
                   onChanged: (val) => context.read<AnnouncementsCubit>().setSearchQuery(val),
                   decoration: InputDecoration(
                     hintText: 'Tìm kiếm thông báo, nội dung, ban hành...',
-                    prefixIcon: const Icon(Symbols.search, size: 20),
+                    prefixIcon: Padding(
+                      padding: const EdgeInsets.all(12),
+                      child: AppIcon(AppIcons.search, size: 20, color: colors.textSecondary),
+                    ),
                     contentPadding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
                     filled: true,
                     fillColor: colors.surface,
@@ -188,7 +191,7 @@ class _AnnouncementsScreenState extends State<AnnouncementsScreen> {
                 ),
               ),
               selected: isSelected,
-              selectedColor: colors.primaryIndigo,
+              selectedColor: colors.tealPrimary,
               backgroundColor: colors.surface,
               shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
               onSelected: (_) => context.read<AnnouncementsCubit>().setScopeFilter(tuple.$1),

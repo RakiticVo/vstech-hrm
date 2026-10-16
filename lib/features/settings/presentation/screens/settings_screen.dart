@@ -1,15 +1,22 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:go_router/go_router.dart';
-import 'package:material_symbols_icons/symbols.dart';
+import 'package:local_auth/local_auth.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:vstech_hrm/core/constants/app_constants.dart';
+import 'package:vstech_hrm/core/di/injector.dart';
 import 'package:vstech_hrm/core/extensions/l10n_extension.dart';
 import 'package:vstech_hrm/core/responsive/app_layout.dart';
 import 'package:vstech_hrm/core/router/routes.dart';
 import 'package:vstech_hrm/core/services/app_permission_handler.dart';
 import 'package:vstech_hrm/core/theme/app_colors.dart';
+import 'package:vstech_hrm/core/widgets/app_icon.dart';
+import 'package:vstech_hrm/core/widgets/logout_confirm_dialog.dart';
+import 'package:vstech_hrm/features/settings/presentation/widgets/settings_common_widgets.dart';
+import 'package:vstech_hrm/features/settings/presentation/widgets/settings_display_section.dart';
 
-/// Screen 16: Application Settings for Notifications, Privacy, Permissions, and States.
+/// Screen 16: Application Settings for Notifications, Appearance, Security, and Session.
 class SettingsScreen extends StatefulWidget {
   const new({super.key});
 
@@ -21,8 +28,67 @@ class _SettingsScreenState extends State<SettingsScreen> {
   bool _pushNotification = true;
   bool _emailReport = false;
   bool _punchReminder = true;
-  bool _biometrics = true;
-  bool _autoLock = false;
+  bool _hasBiometrics = false;
+  bool _biometrics = false;
+
+  @override
+  void initState() {
+    super.initState();
+    unawaited(_checkBiometricSupport());
+  }
+
+  Future<void> _checkBiometricSupport() async {
+    try {
+      if (sl.isRegistered<FlutterSecureStorage>()) {
+        final storage = sl<FlutterSecureStorage>();
+        final enabledStr = await storage.read(key: AppConstants.keyBiometricEnabled);
+        if (mounted) {
+          setState(() => _biometrics = enabledStr == 'true');
+        }
+      }
+      final localAuth = LocalAuthentication();
+      final isSupported = await localAuth.isDeviceSupported();
+      final canCheck = await localAuth.canCheckBiometrics;
+      if (mounted) {
+        setState(() => _hasBiometrics = isSupported && canCheck);
+      }
+    } on Object {
+      // Fallback
+    }
+  }
+
+  Future<void> _toggleBiometrics(bool value) async {
+    if (value) {
+      var didAuth = true;
+      if (_hasBiometrics) {
+        try {
+          final localAuth = LocalAuthentication();
+          didAuth = await localAuth.authenticate(
+            localizedReason: context.l10n.biometricUnlockDesc,
+          );
+        } on Object {
+          didAuth = false;
+        }
+      }
+      if (didAuth && mounted) {
+        setState(() => _biometrics = true);
+        if (sl.isRegistered<FlutterSecureStorage>()) {
+          await sl<FlutterSecureStorage>().write(
+            key: AppConstants.keyBiometricEnabled,
+            value: 'true',
+          );
+        }
+      }
+    } else {
+      setState(() => _biometrics = false);
+      if (sl.isRegistered<FlutterSecureStorage>()) {
+        await sl<FlutterSecureStorage>().write(
+          key: AppConstants.keyBiometricEnabled,
+          value: 'false',
+        );
+      }
+    }
+  }
 
   Future<void> _togglePushNotification(bool value) async {
     if (value) {
@@ -49,7 +115,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
         backgroundColor: colors.surface,
         elevation: 0,
         leading: IconButton(
-          icon: const Icon(Symbols.arrow_back),
+          icon: AppIcon(AppIcons.arrowLeft, color: colors.textPrimary),
           onPressed: () => Navigator.of(context).pop(),
         ),
         title: Text(
@@ -65,39 +131,62 @@ class _SettingsScreenState extends State<SettingsScreen> {
         padding: const EdgeInsets.fromLTRB(16, 14, 16, 32),
         children: [
           // Section: Thông báo
-          _buildSectionHeader(context.l10n.notificationsSection, colors),
-          _buildContainer([
-            _buildSwitchTile(
-              context.l10n.pushNotifications,
-              context.l10n.pushNotificationsDesc,
-              _pushNotification,
-              _togglePushNotification,
-              colors,
+          SettingsSectionHeader(title: context.l10n.notificationsSection),
+          SettingsContainer(children: [
+            SettingsSwitchTile(
+              title: context.l10n.pushNotifications,
+              subtitle: context.l10n.pushNotificationsDesc,
+              value: _pushNotification,
+              onChanged: _togglePushNotification,
             ),
             Divider(height: 1, color: colors.border),
-            _buildSwitchTile(
-              context.l10n.emailReport,
-              context.l10n.emailReportDesc,
-              _emailReport,
-              (v) => setState(() => _emailReport = v),
-              colors,
+            SettingsSwitchTile(
+              title: context.l10n.emailReport,
+              subtitle: context.l10n.emailReportDesc,
+              value: _emailReport,
+              onChanged: (v) => setState(() => _emailReport = v),
             ),
             Divider(height: 1, color: colors.border),
-            _buildSwitchTile(
-              context.l10n.punchReminder,
-              context.l10n.punchReminderDesc,
-              _punchReminder,
-              (v) => setState(() => _punchReminder = v),
-              colors,
+            SettingsSwitchTile(
+              title: context.l10n.punchReminder,
+              subtitle: context.l10n.punchReminderDesc,
+              value: _punchReminder,
+              onChanged: (v) => setState(() => _punchReminder = v),
             ),
-          ], colors),
-          22.gapH,
+          ]),
+          20.gapH,
 
-          // Section: Quyền truy cập hệ thống
-          _buildSectionHeader(context.l10n.systemPermissionsSection, colors),
-          _buildContainer([
+          // Section: Hiển thị & Giao diện (Theme & Language)
+          SettingsSectionHeader(title: context.l10n.displaySection),
+          const SettingsDisplaySection(),
+          20.gapH,
+
+          // Section: Quyền truy cập & Bảo mật
+          SettingsSectionHeader(title: context.l10n.securityAndPrivacySection),
+          SettingsContainer(children: [
+            SettingsSwitchTile(
+              title: context.l10n.biometricUnlock,
+              subtitle: context.l10n.biometricUnlockDesc,
+              value: _biometrics,
+              onChanged: _toggleBiometrics,
+            ),
+            Divider(height: 1, color: colors.border),
             ListTile(
-              leading: Icon(Symbols.shield, color: colors.primaryIndigo),
+              leading: AppIcon(AppIcons.smartphone, color: colors.primaryIndigo),
+              title: Text(
+                context.l10n.registeredDeviceTitle,
+                style: TextStyle(fontSize: 13.5, fontWeight: FontWeight.w700, color: colors.textPrimary),
+              ),
+              subtitle: Text(
+                context.l10n.registeredDeviceSub,
+                style: TextStyle(fontSize: 11.5, color: colors.textSecondary),
+              ),
+              trailing: AppIcon(AppIcons.chevronRight, size: 18, color: colors.textTertiary),
+              onTap: () => context.push(AppRoutes.registeredDevice),
+            ),
+            Divider(height: 1, color: colors.border),
+            ListTile(
+              leading: AppIcon(AppIcons.shieldCheck, color: colors.primaryIndigo),
               title: Text(
                 context.l10n.manageDevicePermissions,
                 style: TextStyle(fontSize: 13.5, fontWeight: FontWeight.w700, color: colors.textPrimary),
@@ -106,111 +195,35 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 context.l10n.permissionsSubtext,
                 style: TextStyle(fontSize: 11.5, color: colors.textSecondary),
               ),
-              trailing: Icon(Symbols.open_in_new, size: 18, color: colors.textTertiary),
+              trailing: AppIcon(AppIcons.externalLink, size: 18, color: colors.textTertiary),
               onTap: openAppSettings,
             ),
-          ], colors),
-          22.gapH,
+          ]),
+          20.gapH,
 
-          // Section: Bảo mật
-          _buildSectionHeader(context.l10n.securityAndPrivacySection, colors),
-          _buildContainer([
-            _buildSwitchTile(
-              context.l10n.biometricUnlock,
-              context.l10n.biometricUnlockDesc,
-              _biometrics,
-              (v) => setState(() => _biometrics = v),
-              colors,
+          OutlinedButton.icon(
+            style: OutlinedButton.styleFrom(
+              foregroundColor: colors.error,
+              side: BorderSide(color: colors.error.withValues(alpha: 0.5)),
+              minimumSize: const Size.fromHeight(48),
+              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
             ),
-            Divider(height: 1, color: colors.border),
-            _buildSwitchTile(
-              context.l10n.autoLock,
-              context.l10n.autoLockDesc,
-              _autoLock,
-              (v) => setState(() => _autoLock = v),
-              colors,
+            onPressed: () => unawaited(LogoutConfirmDialog.show(context)),
+            icon: AppIcon(AppIcons.logout, size: 18, color: colors.error),
+            label: Text(
+              context.l10n.logoutButton,
+              style: const TextStyle(fontSize: 14.5, fontWeight: FontWeight.w800),
             ),
-          ], colors),
-          22.gapH,
+          ),
+          20.gapH,
 
-          // Section: Trạng thái thiết kế & Dữ liệu
-          _buildSectionHeader(context.l10n.designAndSystemSection, colors),
-          _buildContainer([
-            ListTile(
-              leading: Icon(Symbols.palette, color: colors.primaryIndigo),
-              title: Text(
-                context.l10n.uiStateShowcase,
-                style: TextStyle(fontSize: 13.5, fontWeight: FontWeight.w700, color: colors.textPrimary),
-              ),
-              subtitle: Text(
-                context.l10n.uiStateShowcaseDesc,
-                style: TextStyle(fontSize: 11.5, color: colors.textSecondary),
-              ),
-              trailing: Icon(Symbols.chevron_right, size: 18, color: colors.textTertiary),
-              onTap: () => context.push(AppRoutes.stateShowcase),
+          Center(
+            child: Text(
+              context.l10n.appVersionFooter,
+              style: TextStyle(fontSize: 11.5, fontWeight: FontWeight.w600, color: colors.textTertiary),
             ),
-            Divider(height: 1, color: colors.border),
-            ListTile(
-              leading: Icon(Symbols.cleaning_services, color: colors.textSecondary),
-              title: Text(
-                context.l10n.clearCache,
-                style: TextStyle(fontSize: 13.5, fontWeight: FontWeight.w700, color: colors.textPrimary),
-              ),
-              trailing: Text(
-                '14.2 MB',
-                style: TextStyle(fontSize: 12, fontWeight: FontWeight.w600, color: colors.textTertiary),
-              ),
-              onTap: () {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(content: Text(context.l10n.cacheClearedSnackbar)),
-                );
-              },
-            ),
-          ], colors),
+          ),
         ],
-      ),
-    );
-  }
-
-  Widget _buildSectionHeader(String title, AppColorsExtension colors) {
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 10, left: 4),
-      child: Text(
-        title,
-        style: TextStyle(fontSize: 13, fontWeight: FontWeight.w700, color: colors.textSecondary),
-      ),
-    );
-  }
-
-  Widget _buildContainer(List<Widget> children, AppColorsExtension colors) {
-    return Container(
-      decoration: BoxDecoration(
-        color: colors.surface,
-        borderRadius: BorderRadius.circular(18),
-        border: Border.all(color: colors.border),
-      ),
-      child: Column(children: children),
-    );
-  }
-
-  Widget _buildSwitchTile(
-    String title,
-    String subtitle,
-    bool value,
-    ValueChanged<bool> onChanged,
-    AppColorsExtension colors,
-  ) {
-    return SwitchListTile(
-      value: value,
-      onChanged: onChanged,
-      activeThumbColor: colors.primaryIndigo,
-      title: Text(
-        title,
-        style: TextStyle(fontSize: 13.5, fontWeight: FontWeight.w700, color: colors.textPrimary),
-      ),
-      subtitle: Text(
-        subtitle,
-        style: TextStyle(fontSize: 11.5, color: colors.textSecondary),
       ),
     );
   }

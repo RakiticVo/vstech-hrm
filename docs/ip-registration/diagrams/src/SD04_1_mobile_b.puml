@@ -1,0 +1,81 @@
+@startuml
+
+skinparam dpi 160
+skinparam defaultFontName Arial
+skinparam defaultFontSize 12
+skinparam shadowing false
+skinparam roundCorner 8
+skinparam maxMessageSize 230
+skinparam sequenceMessageAlign left
+skinparam responseMessageBelowArrow true
+skinparam ParticipantPadding 4
+skinparam BoxPadding 4
+skinparam titleFontSize 16
+skinparam titleFontStyle bold
+skinparam titleFontColor #0A544E
+skinparam sequence {
+  ArrowColor #0F766E
+  ArrowThickness 1.2
+  LifeLineBorderColor #94A3B8
+  LifeLineBackgroundColor #CCFBF1
+  ParticipantBorderColor #0F766E
+  ParticipantBackgroundColor #FFFFFF
+  ParticipantFontStyle bold
+  ActorBorderColor #0F766E
+  ActorBackgroundColor #FFF8EC
+  BoxBorderColor #CBD5E1
+  GroupBorderColor #B45309
+  GroupBackgroundColor #FFFBEB
+  GroupHeaderFontColor #92400E
+  DividerBackgroundColor #F0FDFA
+  DividerBorderColor #0F766E
+  ReferenceBackgroundColor #F8FAFC
+}
+skinparam note {
+  BackgroundColor #FFF8EC
+  BorderColor #F59E0B
+  FontSize 11
+}
+
+autonumber "<b>00."
+title SD04 · Tab Chấm công, Lịch & Ca làm việc và Ngày lễ\n<size:12>Mobile – Phần 2/2: Lịch & Ca làm việc và Ngày lễ</size>
+actor "Nhân viên" as U
+box "Presentation" #E6F4F1
+participant "AttendanceScreen" as S
+participant "ShiftScheduleScreen\n(Lịch ca · Lịch công)" as CAL
+participant "HolidaysScreen" as HS
+end box
+box "Domain" #FEF9E7
+participant "UseCases" as UC
+end box
+box "Data" #EEF2FF
+participant "Attendance / Requests /\nHolidays Repository\n→ DataSource" as REPO
+end box
+
+box "Máy chủ" #FFF1F2
+participant "HRM Backend API" as API
+end box
+
+
+hide unlinked
+
+U -> CAL : Bấm "Lịch & Ca làm việc"
+CAL -> UC : GetTodayAttendanceUseCase()
+UC -> REPO : getTodayAttendance()
+REPO -> API : GET /api/Enrollments/info
+API --> REPO : thông tin ca hôm nay
+REPO --> UC : AttendanceTodayEntity
+UC --> CAL : ca hiện tại
+CAL --> U : Tab "Lịch ca": tuần 7 ngày, chi tiết ca\n(giờ, nghỉ giữa ca, địa điểm, quản lý ca)
+U -> CAL : Chọn tab "Lịch công"
+CAL --> U : Lịch tháng 5 mã màu + tổng hợp tháng\n(ngày công, giờ làm, tăng ca, phép, muộn/sớm)
+U -> S : Nhật ký từng ngày → "Ngày lễ"
+S -> HS : Mở /holidays
+HS -> UC : GetHolidaysUseCase()
+UC -> REPO : getHolidays()
+REPO -> API : GET /api/Holidays
+API --> REPO : items[{name, date, scale}]
+REPO --> UC : List‹HolidayEntity›
+UC --> HS : danh sách ngày lễ
+HS --> U : Ngày lễ và nghỉ bù trong năm
+@enduml

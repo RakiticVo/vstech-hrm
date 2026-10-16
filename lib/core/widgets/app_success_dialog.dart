@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:material_symbols_icons/symbols.dart';
 import 'package:vstech_hrm/core/extensions/l10n_extension.dart';
 import 'package:vstech_hrm/core/responsive/app_layout.dart';
 import 'package:vstech_hrm/core/theme/app_colors.dart';
+import 'package:vstech_hrm/core/widgets/app_icon.dart';
 
 /// Reusable success dialog or state card with animated green checkmark.
 class AppSuccessDialog extends StatelessWidget {
@@ -66,11 +66,12 @@ class AppSuccessDialog extends StatelessWidget {
               color: colors.pineGreen.withValues(alpha: 0.15),
               shape: BoxShape.circle,
             ),
-            child: Icon(
-              Symbols.check_circle,
-              size: 44,
-              color: colors.pineGreen,
-              weight: 600,
+            child: Center(
+              child: AppIcon(
+                AppIcons.checkCircle2,
+                size: 44,
+                color: colors.pineGreen,
+              ),
             ),
           ),
           18.gapH,

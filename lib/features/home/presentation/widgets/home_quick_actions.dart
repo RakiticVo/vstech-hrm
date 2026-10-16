@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:material_symbols_icons/symbols.dart';
 import 'package:vstech_hrm/core/extensions/l10n_extension.dart';
 import 'package:vstech_hrm/core/responsive/app_layout.dart';
 import 'package:vstech_hrm/core/router/routes.dart';
 import 'package:vstech_hrm/core/theme/app_colors.dart';
+import 'package:vstech_hrm/core/widgets/app_icon.dart';
 
 /// 5 circular action buttons in a row as defined in DESIGN.md §6 and Phone.dc.html.
 /// 4 white buttons with border + 1 deep teal button for "Tất cả".
 class HomeQuickActions extends StatelessWidget {
-  const new({super.key});
+  const HomeQuickActions({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -19,28 +19,27 @@ class HomeQuickActions extends StatelessWidget {
     final actions = [
       _ActionItem(
         label: l10n.quickActionLeave,
-        icon: Symbols.calendar_today,
-        onTap: () => context.push(AppRoutes.leaveCreate),
+        iconName: AppIcons.leave,
+        onTap: () => context.push(AppRoutes.leaveManage),
       ),
       _ActionItem(
         label: l10n.quickActionOvertime,
-        icon: Symbols.schedule,
-        onTap: () => context.push(AppRoutes.overtimeCreate),
+        iconName: AppIcons.overtime,
+        onTap: () => context.push(AppRoutes.overtimeManage),
       ),
       _ActionItem(
         label: l10n.quickActionCorrection,
-        icon: Symbols.edit_note,
-        badge: '1',
-        onTap: () => context.push(AppRoutes.attendanceCorrection),
+        iconName: AppIcons.correction,
+        onTap: () => context.push(AppRoutes.correctionManage),
       ),
       _ActionItem(
-        label: l10n.quickActionPayroll,
-        icon: Symbols.receipt_long,
-        onTap: () => context.push(AppRoutes.payslipDetail),
+        label: l10n.shiftScheduleNav,
+        iconName: AppIcons.calendar,
+        onTap: () => context.push(AppRoutes.shiftSchedule),
       ),
       _ActionItem(
         label: l10n.quickActionAll,
-        icon: Symbols.more_horiz,
+        iconName: AppIcons.more,
         isAllButton: true,
         onTap: () => context.push(AppRoutes.services),
       ),
@@ -91,12 +90,12 @@ class HomeQuickActions extends StatelessWidget {
         width: size,
         height: size,
         decoration: BoxDecoration(
-          color: colors.primaryIndigo,
+          color: colors.tileDark,
           shape: BoxShape.circle,
         ),
         child: Center(
-          child: Icon(
-            Symbols.more_horiz,
+          child: AppIcon(
+            AppIcons.more,
             size: iconSize + 2,
             color: const Color(0xFFFFF8EC),
           ),
@@ -104,69 +103,37 @@ class HomeQuickActions extends StatelessWidget {
       );
     }
 
-    final isBadgeItem = act.badge != null;
-
-    return Stack(
-      clipBehavior: Clip.none,
-      children: [
-        Container(
-          width: size,
-          height: size,
-          decoration: BoxDecoration(
-            color: colors.surface,
-            shape: BoxShape.circle,
-            border: Border.all(
-              color: isBadgeItem ? colors.error : colors.border,
-            ),
-          ),
-          child: Center(
-            child: Icon(
-              act.icon,
-              size: iconSize,
-              color: isBadgeItem ? colors.error : colors.primaryIndigo,
-            ),
-          ),
+    return Container(
+      width: size,
+      height: size,
+      decoration: BoxDecoration(
+        color: colors.surface,
+        shape: BoxShape.circle,
+        border: Border.all(
+          color: colors.border,
         ),
-        if (act.badge != null)
-          Positioned(
-            top: -2,
-            right: -2,
-            child: Container(
-              width: 18,
-              height: 18,
-              decoration: BoxDecoration(
-                color: colors.error,
-                shape: BoxShape.circle,
-              ),
-              child: Center(
-                child: Text(
-                  act.badge!,
-                  style: const TextStyle(
-                    fontSize: 10,
-                    fontWeight: FontWeight.w800,
-                    color: Colors.white,
-                  ),
-                ),
-              ),
-            ),
-          ),
-      ],
+      ),
+      child: Center(
+        child: AppIcon(
+          act.iconName,
+          size: iconSize,
+          color: colors.tealPrimary,
+        ),
+      ),
     );
   }
 }
 
 class _ActionItem {
-  const new({
+  const _ActionItem({
     required this.label,
-    required this.icon,
+    required this.iconName,
     required this.onTap,
-    this.badge,
     this.isAllButton = false,
   });
 
   final String label;
-  final IconData icon;
+  final String iconName;
   final VoidCallback onTap;
-  final String? badge;
   final bool isAllButton;
 }

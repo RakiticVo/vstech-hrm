@@ -1,12 +1,12 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:material_symbols_icons/symbols.dart';
 import 'package:vstech_hrm/core/extensions/l10n_extension.dart';
 import 'package:vstech_hrm/core/responsive/app_layout.dart';
 import 'package:vstech_hrm/core/session/theme_cubit.dart';
 import 'package:vstech_hrm/core/theme/app_colors.dart';
 import 'package:vstech_hrm/core/theme/app_text_styles.dart';
+import 'package:vstech_hrm/core/widgets/app_icon.dart';
 import 'package:vstech_hrm/core/widgets/primary_button.dart';
 
 /// BottomSheet to choose app appearance theme (system, light, dark).
@@ -68,7 +68,7 @@ class ThemeSelectionSheet extends StatelessWidget {
             mode: ThemeMode.system,
             title: context.l10n.themeSystem,
             subtitle: context.l10n.themeSystemDesc,
-            icon: Symbols.settings_brightness,
+            iconName: AppIcons.settings,
             isSelected: currentTheme == ThemeMode.system,
             colors: colors,
           ),
@@ -78,7 +78,7 @@ class ThemeSelectionSheet extends StatelessWidget {
             mode: ThemeMode.light,
             title: context.l10n.themeLight,
             subtitle: context.l10n.themeLightDesc,
-            icon: Symbols.light_mode,
+            iconName: AppIcons.darkMode,
             isSelected: currentTheme == ThemeMode.light,
             colors: colors,
           ),
@@ -88,7 +88,7 @@ class ThemeSelectionSheet extends StatelessWidget {
             mode: ThemeMode.dark,
             title: context.l10n.themeDark,
             subtitle: context.l10n.themeDarkDesc,
-            icon: Symbols.dark_mode,
+            iconName: AppIcons.darkMode,
             isSelected: currentTheme == ThemeMode.dark,
             colors: colors,
           ),
@@ -107,7 +107,7 @@ class ThemeSelectionSheet extends StatelessWidget {
     required ThemeMode mode,
     required String title,
     required String subtitle,
-    required IconData icon,
+    required String iconName,
     required bool isSelected,
     required AppColorsExtension colors,
   }) {
@@ -130,7 +130,7 @@ class ThemeSelectionSheet extends StatelessWidget {
         ),
         child: Row(
           children: [
-            Icon(icon, size: 24, color: isSelected ? colors.tealPrimary : colors.textSecondary),
+            AppIcon(iconName, size: 24, color: isSelected ? colors.tealPrimary : colors.textSecondary),
             const SizedBox(width: 12),
             Expanded(
               child: Column(
@@ -150,7 +150,7 @@ class ThemeSelectionSheet extends StatelessWidget {
               ),
             ),
             if (isSelected)
-              Icon(Symbols.check_circle, size: 20, color: colors.tealPrimary),
+              AppIcon(AppIcons.check, size: 20, color: colors.tealPrimary, filled: true),
           ],
         ),
       ),

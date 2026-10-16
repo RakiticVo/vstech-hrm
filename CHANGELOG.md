@@ -5,6 +5,167 @@
 ## [Unreleased]
 
 ### Added
+- Đồng bộ toàn diện theo đặc tả API mới OpenAPI v13 (`docs/api/main/api-1 (13).json`):
+  - **Màu ca làm việc (Shift Colors) dùng chung từ server**:
+    - Bổ sung tiện ích `AppColorUtils.parseHex()` và `AppColorUtils.isDefaultOrWhite()` trong [app_colors.dart](file:///Users/admin/Documents/StudioProjects/vstech-hrm/lib/core/theme/app_colors.dart) xử lý chuẩn hóa định dạng màu `#RRGGBB`, `{#RRGGBB}` và bảo đảm tương phản khi nền trắng `#FFFFFF`.
+    - Lịch ca cá nhân (`GET /api/ShiftSchedules/me`): Bổ sung `color` và `textColor` vào `MyShiftDayModel`, `MyShiftDayEntity`, `ShiftScheduleEntity`, ánh xạ tự động trong `ShiftWeekMapper` và hiển thị trực quan trên chấm tròn tuần (`ShiftWeekSelector`), thanh viền và thẻ chi tiết ca (`ShiftDetailCard`), cùng lưới lịch tháng (`ShiftMonthGridDialog`).
+    - Tab Đội ngũ (`GET /api/TimeSheets/mobile-employees`): Bổ sung `shiftColor` và `shiftTextColor` vào `ManagedEmployeeModel`, `ManagedEmployeeEntity`, `ShiftRosterItemEntity`, áp dụng màu nền và màu chữ tùy chỉnh cho Avatar nhân sự và Tag ca làm việc tại danh sách đội ngũ (`RosterEmployeeTile`).
+  - **Thông tin ca làm việc trong Phiếu giải trình**:
+    - Bổ sung `shiftCode`, `shiftName`, `shiftStart`, `shiftEnd` vào `TimesheetCorrectionItemModel` và `CorrectionItemEntity` (`GET /api/TimesheetConfirmRequests` & `admin-mobile`).
+    - Hiển thị tên ca và khung giờ làm việc tương ứng của phiếu giải trình tại trang Quản lý Giải trình (`CorrectionManageScreen`) và thẻ danh sách phiếu ngày công (`TimesheetDaySlipsCard`).
+  - **Mô hình DTO Nghỉ phép khoảng ngày (Leave Range)**:
+    - Tạo mới `LeaveRangeRequestModel`, `LeaveRangeDayModel`, `LeaveRangeResultModel` tại [leave_range_models.dart](file:///Users/admin/Documents/StudioProjects/vstech-hrm/lib/features/requests/data/models/leave_range_models.dart) hỗ trợ API xác thực kiểm tra trước số phép còn lại (`POST /api/LeaveRequests/validate`) và gửi đơn theo khoảng ngày một lần (`POST /api/LeaveRequests/range`).
+- Trang Quản lý Giải trình chuyên biệt (`CorrectionManageScreen`) đồng bộ với Quản lý Nghỉ phép và Tăng ca:
+  - Hỗ trợ bộ chọn tháng (`MonthPickerButton`) tải dữ liệu theo tháng được chọn.
+  - Bộ lọc trạng thái đơn trực quan (Tất cả, Chờ duyệt, Đã duyệt, Từ chối).
+  - Thẻ thống kê tổng hợp số lượng phiếu trong tháng (`CorrectionSummaryCard`).
+  - Nút thao tác nhanh "Tạo giải trình" mở modal `AttendanceCorrectionModal` và điều hướng chi tiết phiếu.
+  - Bổ sung lối tắt "Quản lý Giải trình" tại mục Yêu cầu trong Tất cả dịch vụ (`AllServicesScreen`).
+- Bộ lọc phân luồng Đơn của tôi vs Tạo hộ nhân viên tại Quản lý tăng ca (`OvertimeManageScreen`, `OvertimeScopeSelector`):
+  - Cho phép cấp quản lý xem và quản lý các phiếu tăng ca làm thay/tạo hộ cho nhân sự cấp dưới mà không lẫn vào danh sách đơn cá nhân.
+
+### Fixed
+- Cho phép tag tên ca trong Chi tiết ca (`ShiftDetailCard` & `ShiftScheduleTabView`) xuống dòng tự nhiên:
+  - Bọc tiêu đề ca và khối tag ca làm việc vào `Expanded` kèm `softWrap: true` và `height: 1.25`, loại bỏ hoàn toàn hiện tượng tên ca dài bị cắt cụt bằng dấu ba chấm hay tràn viền.
+- Tối ưu thẻ phê duyệt tại Trung tâm phê duyệt (`ApprovalCard`):
+  - Loại bỏ hoàn toàn dòng thông tin phụ "Chấm công ngày liên quan..." (`approvalAttendanceSnippet`) không cần thiết giúp thẻ duyệt gọn gàng, trực quan và chuyển `ApprovalCard` sang `StatelessWidget` tối ưu hiệu năng render.
+- Cập nhật mục Tiện ích nhanh tại Trang chủ (`HomeQuickActions`):
+  - Thay thế nút "Bảng lương" bằng "Giải trình" (`AppIcons.correction`, `AppRoutes.correctionManage`), hỗ trợ truy cập trực tiếp trang Quản lý Giải trình từ Trang chủ.
+- Sắp xếp lại danh mục trang Tất cả dịch vụ (`AllServicesScreen`):
+  - Đưa danh mục "Trung tâm phê duyệt" (`approvalsCenterTitle`) lên vị trí đầu tiên của trang Tất cả dịch vụ trước các mục chấm công, yêu cầu và tiền lương, giúp cấp quản lý thao tác phê duyệt nhanh chóng.
+- Khắc phục lỗi `RenderFlex horizontal overflow` tại chi tiết ca làm việc cá nhân (`ShiftDetailCard`):
+  - Bọc khối chứa tên ca vào `Expanded` và `Flexible(child: Text(..., maxLines: 1, overflow: TextOverflow.ellipsis))` giúp tiêu đề ca dài co dãn an toàn trong kích thước màn hình mà không bị overflow.
+- Cập nhật hiển thị màu sắc ca làm việc trong Dialog Lịch ca làm việc (`ShiftMonthGridDialog`):
+  - Đồng bộ màu sắc các ngày có ca trong lưới tháng theo mã màu `shiftColor` trả về từ server, bao gồm nền ngày có ca (`shiftColor.withValues(alpha: 0.14)`), viền ô ngày, số ngày và chấm ca nổi bật.
+- Khắc phục lỗi cắt ngắn văn bản (ellipsis) tại danh sách Phiếu liên quan & đơn từ của Chi tiết ngày công (`TimesheetDaySlipsCard`):
+  - Căn lề `CrossAxisAlignment.start`, mở rộng `maxLines: 2` cho tiêu đề phiếu và `maxLines: 3` cho thông tin chi tiết (ca làm việc, người duyệt, ghi chú) giúp hiển thị trọn vẹn nội dung nhiều dòng mà không bị cắt cụt.
+- Chuẩn hóa phần Tạo yêu cầu giải trình và định dạng ngày tháng phiếu (`AttendanceCorrectionModal`, `AttendanceCorrectionScreen`, `RequestCard`):
+  - Bỏ phần chọn "Thời gian" (Time / Hour picker) không cần thiết tại modal tạo giải trình, chỉ giữ lại bộ chọn ngày tháng toàn chiều rộng.
+  - Tạo tiện ích `DateFormatterExtension.toDisplayDate()` định dạng các chuỗi ngày ISO (`2026-10-14T00:00:00` / `2026-10-14`) thành định dạng chuẩn `dd-MM-yyyy` (`14-10-2026`) trên toàn bộ phiếu đã tạo tại Quản lý Giải trình, Danh sách Yêu cầu và Trung tâm Phê duyệt.
+- Khắc phục lỗi tiêu đề phiếu yêu cầu "Tên Nhân viên + MSNV" bị cắt cụt bằng dấu ba chấm tại Trung tâm phê duyệt (`ApprovalCard`):
+  - Mở rộng tiêu đề phiếu với `maxLines: 3`, `softWrap: true` và `height: 1.25`, cho phép tên nhân viên và mã số nhân viên xuống dòng tự nhiên, hiển thị đầy đủ và rõ ràng trên mọi kích thước màn hình.
+- Khắc phục lỗi các tag phiếu nhân viên và tag ca làm việc tại tab "Đội ngũ" bị thu hẹp thành đường kẻ 1mm (`roster_ticket_badges.dart`, `roster_employee_tile.dart`):
+  - Thay thế `context.w(0.65)` và `context.w(0.68)` bằng `context.wp(65)` và `context.wp(68)` (phần trăm bề rộng màn hình thực tế thay vì làm tròn số thập phân về 1.0 dp).
+  - Giúp các tag Nghỉ phép, Tăng ca, Giải trình và Tag ca làm việc hiển thị đầy đủ, co dãn tự nhiên và không bị tràn viền.
+- Cập nhật màu ca làm việc trực tiếp từ response của server:
+  - Bổ sung `color` và `textColor` vào `DepartmentShiftDayModel` và `DepartmentShiftDayEntity` từ `GET /api/ShiftSchedules`.
+  - Ánh xạ trực tiếp màu ca được phân (`first.color`) sang `ShiftRosterItemEntity` trong `department_roster_loader.dart`.
+  - Hiển thị trực tiếp màu nền ca làm việc (`shiftColor` / `color`) trên thẻ chi tiết ca (`ShiftDetailCard`), tag ca nhân viên (`RosterEmployeeTile`) và chấm trạng thái tại bộ lọc ca (`RosterFilterChips`), tự động tính toán màu chữ tương phản cao mà không phụ thuộc vào `textColor`.
+- Khắc phục lỗi mất huy hiệu (tag) phiếu của nhân viên tại tab "Đội ngũ" của Lịch & Ca làm việc (`department_roster_loader.dart`):
+  - Chuẩn hóa bộ parser đa định dạng ngày (`yyyy-MM-ddTHH:mm:ss`, `yyyy-MM-dd`, `dd/MM/yyyy`) hỗ trợ so khớp chính xác ngày và khoảng ngày nghỉ phép (date range).
+  - So khớp mã nhân viên không phân biệt hoa thường (`equalsIgnoreCase`), đảm bảo hiển thị đầy đủ phiếu Nghỉ phép, Tăng ca và Giải trình.
+- Khắc phục lỗi văng `RenderFlex overflowed by 59 pixels on the right` tại `TimesheetDayDetailSheet` (`_buildRow`):
+  - Bọc nhãn và giá trị vào `Expanded(flex: 4)` và `Expanded(flex: 5)` với căn lề tự co dãn linh hoạt, tránh tràn dòng khi lý do giải trình hoặc ghi chú từ chối dài.
+- Chuẩn hóa toàn diện từ ngữ từ "Sửa công" / "Giải trình / Sửa công" thành "Giải trình" trên toàn bộ giao diện:
+  - Rút gọn tiêu đề trang và nhãn nút thành "Quản lý Giải trình" và "Tạo giải trình".
+  - Bỏ phần hiển thị giờ (`0h` / `0.0h`) trên tiêu đề và phụ đề phiếu giải trình do API không áp dụng giờ công cho loại phiếu này.
+  - Khắc phục lỗi tràn viền tại "Người xác nhận" trên thẻ phiếu (`RequestCard`) bằng cách rút gọn thành "Duyệt bởi:" kèm `TextOverflow.ellipsis`, và dùng cấu trúc `Expanded` trên thẻ chi tiết (`RequestDetailSubmittedCard`).
+  - Loại bỏ hoàn toàn phần đính kèm ảnh minh chứng không cần thiết tại modal tạo giải trình (`AttendanceCorrectionModal`), tinh gọn payload `POST /api/TimesheetConfirmRequests` chỉ gửi các trường cốt lõi.
+  - Cập nhật đồng bộ các chuỗi bản địa hóa (`app_vi.arb`, `app_en.arb`) và cập nhật bộ kiểm thử tương ứng.
+- Tách biệt hoàn toàn phiếu tăng ca tạo hộ (`isCreatedByOther` / `isProxy`) khỏi Bảng công cá nhân (`TimesheetCalendarCubit`):
+  - Chuẩn hóa gọi `GET /api/OvertimeRequests/self` mặc định `includeCreated=false` theo đúng đặc tả OpenAPI v12 (chỉ lấy đơn của chính mình).
+  - Bổ sung tầng lọc phòng thủ (defense-in-depth) loại bỏ triệt để các phiếu tạo hộ khỏi danh sách tăng ca và giờ làm tính công của người quản lý.
+- Khắc phục triệt để lỗi tràn viền (overflow) tại tab "Đội ngũ" của Lịch & Ca làm việc (`RosterTicketBadges`, `RosterEmployeeTile`):
+  - Chuyển đổi cách sắp xếp tag sang `Wrap(spacing: 6, runSpacing: 4)` tự động xuống dòng linh hoạt.
+  - Rút gọn tiêu đề nhãn (tag): nghỉ phép hiển thị tên gói ngắn gọn, tăng ca hiển thị `+Xh Tăng ca`, giải trình hiển thị lý do ngắn gọn (loại bỏ `0.0h`).
+  - Bổ sung giới hạn chiều rộng tối đa (`ConstrainedBox(maxWidth: ...)`) và cắt bớt văn bản (`TextOverflow.ellipsis`) cho cả tag phiếu và tên ca làm việc.
+- Tích hợp gọi API và hiển thị huy hiệu phiếu Nghỉ phép (`/api/LeaveRequests/admin-mobile`), Phiếu tăng ca (`/api/OvertimeRequests/admin-mobile`) và Phiếu giải trình (`/api/TimesheetConfirmRequests`) theo từng nhân sự tại tab "Đội ngũ" của Lịch & Ca làm việc (`ShiftScheduleScreen`, `RosterTicketBadges`).
+- Nâng cấp toàn diện Bảng công (`TimesheetCalendarCubit`):
+  - Bổ sung chỉ số Tăng ca và Giải trình / Sửa công bên cạnh Nghỉ phép trên Chú giải trạng thái (`CalendarLegendRow`) và Thẻ tổng hợp tháng (`CalendarSummaryCard`).
+  - Lưới lịch tháng (`CalendarMonthGridCard`) hiển thị trực quan các chấm màu đa sắc cho Tăng ca (Cam) và Giải trình (Xanh da trời).
+  - Bottom sheet chi tiết ngày công (`TimesheetDayDetailSheet`, `TimesheetDaySlipsCard`) hiển thị danh sách phiếu Nghỉ phép, Tăng ca, Giải trình đi kèm và nút tắt "Gửi giải trình / Sửa công" khi bị thiếu giờ.
+- Mở lại và tích hợp toàn diện tính năng "Giải trình / Sửa công" (`/api/TimesheetConfirmRequests`) cho mọi nhân viên và cấp quản lý:
+  - Nhân viên (NV): Mở quyền truy cập danh sách và gửi yêu cầu giải trình/sửa công tại Trung tâm yêu cầu (`RequestsScreen`) và menu tạo nhanh (`NewRequestBottomSheet`). Cập nhật form tạo phiếu theo OpenAPI v12: giới hạn ngày chọn từ ngày 1 đến hôm nay trong tháng hiện tại, loại bỏ nhập `worktime` (mặc định 0h).
+  - Quản lý (QL): Tích hợp endpoint chuyên dụng `GET /api/TimesheetConfirmRequests/admin-mobile?month=...` theo OpenAPI v12 tại Trung tâm xác nhận (`ApprovalsScreen`), hỗ trợ duyệt đơn (`POST /api/TimesheetConfirmRequests/confirm/{id}`) và từ chối đơn (`POST /api/TimesheetConfirmRequests/reject/{id}`).
+  - Xử lý trạng thái khóa (`isLock`): khi kỳ bảng công đã chốt (`TimeRollProcesses`), tự động ẩn các nút thao tác duyệt/từ chối và hiển thị thông báo khóa phiếu an toàn.
+  - Hỗ trợ cờ `hasPendingConfirmRequest` trong bảng công nhân sự (`GET /api/TimeSheets/mobile`).
+- Triển khai API Đăng xuất (`POST /api/Account/logout`) theo OpenAPI spec v11, thu hồi token trên backend và dọn dẹp phiên lưu trữ an toàn.
+- Bổ sung Dialog cảnh báo phiên đăng nhập hết hạn khi nhận mã lỗi 400 trước khi điều hướng an toàn ra màn hình Đăng nhập.
+- Đồng bộ mở tính năng xem Thưởng trực tiếp từ Phiếu lương và đồng bộ kỳ lương hiển thị.
+
+### Fixed
+- Khắc phục lỗi tràn viền (overflow) trên thẻ tổng quan lương khi hiển thị tag kỳ lương dài tại Bảng lương (`PayrollScreen`).
+- Cải thiện độ tương phản (đổi sang nền trắng) cho các nút điều hướng "Lịch & ca làm việc", "Thưởng" và bộ chọn kỳ lương tại màn hình Chấm công và Lương & Thu nhập.
+- Loại bỏ các thành phần UI thừa (nút "Gọi bộ phận IT" tại Quên mật khẩu, "Liên hệ HR" tại Đăng nhập, và dòng "trả ngày..." tại Trang chủ).
+  - Hỗ trợ 2 trường cảnh báo `lateWarning` và `earlyWarning` trong `AccountEnrollmentModel`, `AttendanceRecordModel`, `AttendanceRecordEntity`, `AccountTimesheetModel` và `AccountTimesheetEntity` (GET `/api/Account/enrollment`).
+  - Tự động hiển thị huy hiệu và cảnh báo đi muộn/về sớm cho ca sản xuất theo cờ cấu hình `Attendance:VnCalc` tại danh sách lịch sử chấm công (`AttendanceDailyLogCard`), thẻ chi tiết công (`TimesheetOverviewCard`) và bottom sheet chi tiết ngày công (`TimesheetDayDetailSheet`).
+  - Bổ sung bộ kiểm thử đơn vị và giao diện `test/features/attendance/account_enrollment_warning_test.dart` (5/5 tests passing).
+- Hệ thống Floating Toast mềm mại (`AppToast`, `AppToastCard`) với bo góc tròn, hiệu ứng trượt êm ái thay thế SnackBar mặc định.
+- Hiển thị tên người xác nhận (`confirmedBy` / `confirmerName`) trên thẻ yêu cầu và chi tiết phiếu (ẩn nếu chưa duyệt, hiện kèm icon xác thực khi đã duyệt).
+- Đồng bộ chỉ số "Phép năm còn lại" trên Trang chủ qua API `GetValidLeavePlansUseCase` (`/api/LeavePlans/valid-leave-plan2`).
+- Nâng cấp Header màn hình Chấm công và Cá nhân sang banner họa tiết gạch bông `TileHeaderBanner` đồng bộ với Bảng lương và Trung tâm yêu cầu.
+- Hoàn thiện trọn bộ các phân hệ mở rộng theo luồng nghiệp vụ HRM Process Flows & UI:
+  - Phân hệ Yêu cầu & Quản lý đơn từ (`lib/features/requests/`):
+    - Các màn hình quản lý chuyên biệt: Quản lý nghỉ phép (`LeaveManageScreen`), Quản lý tăng ca (`OvertimeManageScreen`), Quản lý sửa công (`CorrectionManageScreen`), Quản lý đổi ca (`ShiftSwapsScreen`).
+    - Màn hình Chi tiết yêu cầu 4 cấp (`RequestDetailScreen`) với tiến trình phê duyệt trực quan, hiển thị đối sánh thông tin và dialog hủy đơn chuẩn hóa (`CancelRequestDialog`).
+  - Phân hệ Hội nhập nhân sự mới Onboarding (`lib/features/onboarding/`):
+    - Lộ trình hội nhập ứng viên mới (`OnboardingHomeScreen`) với 7 bước chuẩn hóa (xem offer, ký HĐLĐ điện tử, chụp ảnh thẻ, tải hồ sơ, OCR CCCD, sơ đồ tổ chức, cẩm nang ngày đầu).
+  - Phân hệ Lương, Khóa bảo mật & Khiếu nại lương (`lib/features/payroll/`):
+    - Khóa mã PIN 6 số cho phiếu lương (`PayslipLockScreen`), chữ ký số và gửi khiếu nại lương (`SalaryDisputeScreen`, `SalaryDisputeNewScreen`).
+  - Phân hệ Khen thưởng, Hoa hồng & Mục tiêu (`lib/features/rewards/`):
+    - Giao diện 3 tab Khen thưởng - Hoa hồng - Mục tiêu doanh số (`RewardsScreen`).
+  - Phân hệ Tuyển dụng nội bộ & Giới thiệu ứng viên (`lib/features/recruitment/`):
+    - Tin tuyển dụng (`InternalRecruitmentScreen`), form giới thiệu ứng viên (`ReferralFormScreen`) với kiểm tra trùng lặp 6 tháng và theo dõi tiền thưởng (`MyReferralsScreen`).
+  - Phân hệ Hồ sơ cá nhân nâng cao (`lib/features/profile/`):
+    - Chỉnh sửa thông tin có phân luồng phê duyệt (`ProfileEditScreen`), Quản lý tài liệu hồ sơ (`DocumentManagementScreen`), Đăng ký người phụ thuộc giảm trừ gia cảnh (`DependantsScreen`, `DependantNewScreen`).
+  - Bổ sung bộ kiểm thử 91/91 unit & widget tests phủ toàn diện các phân hệ mới (100% passed).
+
+### Fixed
+- Khắc phục lỗi tính công khống: ngày công tính lương (`payableWorkdays`) và giờ công chỉ ghi nhận các ngày công đã được phê duyệt xác nhận (`isConfirmed == true` và `validActualTime > 0`).
+- Tự động hiển thị đúng tháng xem bảng công (ví dụ "Tổng hợp tháng 10") thay vì tháng cố định.
+- Tự động đăng xuất và điều hướng ra màn hình Đăng nhập khi gặp lỗi 400 (phiên đăng nhập hết hạn).
+- Đảo trạng thái nút chấm công thành "Check in lại" khi nhân viên đã check-out trong ngày kèm màu sắc phân biệt trực quan.
+- Loại bỏ tiền tố thừa `Ca: Ca...` và hỗ trợ xuống dòng tự động cho tên ca làm việc dài tại Trang chủ và Chấm công.
+- Tách thông tin phụ dưới tên nhân viên thành từng tag badge riêng biệt, loại bỏ tag "NV" trùng lặp.
+
+### Changed
+- Chuẩn hóa payload Tạo đơn nghỉ phép (`POST /api/LeaveRequests`): hỗ trợ cặp ngày thực tế `from` - `to`, thời hạn gói phép `validFrom` - `validTo`, cờ `isMultiple`, số lượng ngày `leaveAmountType` dạng chuỗi và loại bỏ `/self` riêng cho endpoint tạo phiếu.
+- Tích hợp Face ID / sinh trắc học thiết bị thật và cơ chế quét khuôn mặt sống (Live Face Scan & Face Enrollment).
+- Tách bộ lọc tháng và bộ lọc trạng thái thành 2 dòng riêng biệt tại các màn Quản lý nghỉ phép và Quản lý tăng ca, loại bỏ lỗi tràn viền (overflow).
+- Tái cấu trúc tiến trình phê duyệt tại màn Chi tiết yêu cầu: đưa trạng thái và thời gian xuống dưới tiêu đề bước để tiêu đề dài tự động xuống dòng linh hoạt.
+- Thiết kế lại dialog xác nhận Hủy yêu cầu với bo góc mềm mại, nút bấm tương phản cao, và cơ chế tự động quay về màn hình trước đó sau khi xác nhận.
+- Cải thiện giao diện Quỹ giờ làm thêm & Nghỉ bù theo lưới 2x2 cân đối, loại bỏ nút thừa gây lỗi hiển thị.
+- Lược bỏ phần lịch sử đơn trùng lặp ở 3 màn hình tạo đơn (Nghỉ phép, Tăng ca, Sửa công) nhằm tối ưu trải nghiệm nhập liệu cho nhân viên.
+
+### Added
+- Triển khai toàn bộ Phân hệ Chấm công - Ca kíp & Phê duyệt Phase 0 Demo Scope (`docs/demo/HRM_Phase0_Demo_Scope.md`):
+  - Nhóm A — Ca làm việc & Đổi ca:
+    - Bổ sung kiểm tra điều kiện đổi ca (`ShiftSwapModal`): kiểm tra cùng chi nhánh, cùng cấp bậc, không vắng phép, và ràng buộc tối thiểu 12 giờ nghỉ giữa 2 ca theo Điều 109 BLLĐ 2019; banner cảnh báo vi phạm và tự động khóa nút gửi đơn.
+    - Bổ sung 3 trạng thái giao diện lịch ca (`ShiftScheduleScreen`): Đang tải, Mất kết nối mạng kèm nút thử lại, và Lịch tháng sau chưa công bố (công bố vào ngày 25 hàng tháng).
+  - Nhóm B — Chấm công & Bảo mật thiết bị:
+    - Phân loại chấm công thông minh (`attendance_remote_datasource.dart`): Phân loại Đúng giờ (`onTime`), Đi muộn (`late` sau 08:05), Về sớm (`earlyLeave` trước 17:00), cùng phản hồi rung haptic `HapticFeedback.mediumImpact()` khi nhận biên nhận chấm công AI.
+    - Quản lý thiết bị định danh duy nhất (`RegisteredDeviceScreen`): Hiển thị UUID máy, 4 chỉ số kiểm tra bảo mật (Thiết bị chính chủ, Root/Jailbreak, Mock GPS, Package Integrity) và Sandbox giả lập vi phạm để phục vụ demo.
+    - Màn hình chặn chấm công khi vi phạm an toàn (`DeviceBlockScreen`): Chặn thiết bị can thiệp Root hoặc dùng ứng dụng giả lập toạ độ (Mock GPS) kèm lịch sử kiểm tra bảo mật và nút kiểm tra lại / liên hệ HR.
+  - Nhóm C — Lịch công & Ngày lễ:
+    - Chuẩn hóa 5 màu trạng thái lịch chấm công (`CalendarLegendRow`): Xanh lá (Đúng giờ), Vàng cam (Đi muộn / Về sớm), Đỏ (Chưa chấm công), Tím (Nghỉ phép), Xám (Nghỉ tuần / Ngày lễ).
+    - Màn hình lịch công (`CalendarScreen`): Bấm ngày thiếu công (15/09) chuyển thẳng đến màn hình Tạo đơn sửa công; hiển thị nhãn "Off-site" cho các ngày đi việc ngoài/công tác.
+    - Màn hình ngày lễ (`HolidaysScreen`): Bấm vào ngày lễ (ví dụ Quốc khánh 02/09) tự động chuyển đến Tạo đơn tăng ca với hệ số 300% ngày lễ.
+  - Nhóm D — Quỹ nghỉ phép & Đăng ký nâng cao:
+    - Màn hình chi tiết quỹ nghỉ phép (`LeaveBalanceScreen`): Theo dõi hạn mức và số dư khả dụng của 6 loại phép (Phép năm, Nghỉ bù comp-off, Nghỉ ốm BHXH, Việc riêng có lương, Không lương, Thai sản).
+    - Cải tiến modal xin nghỉ phép (`LeaveRequestModal` & `LeaveModeChip` / `LeaveDateTile`): Hỗ trợ chế độ nghỉ nửa ca (Cả ngày, Nửa ca sáng, Nửa ca chiều), người bàn giao công việc, tệp đính kèm chứng từ, và tính năng Lưu nháp đơn.
+  - Nhóm E — Làm thêm giờ & Quỹ giờ tích lũy (Comp-off):
+    - Đăng ký tăng ca linh hoạt (`OvertimeRequestModal`): Huy hiệu tỷ lệ tự động theo loại ngày (Ngày thường 150%, Nghỉ tuần 200%, Ngày lễ 300%), lựa chọn hưởng lương hoặc quy đổi nghỉ bù, và kiểm tra trần tăng ca 40h/tháng theo BLLĐ 2019.
+    - Màn hình quỹ giờ làm thêm (`ExtraHoursScreen`): Theo dõi giờ OT tháng/quý, giờ hưởng lương, giờ quy đổi nghỉ bù theo tỷ lệ 8 giờ OT = 1 ngày nghỉ bù.
+  - Nhóm F — Đi việc ngoài & Công tác:
+    - Màn hình Đi việc ngoài trong ca (`OnDutyRequestScreen`): Điền giờ trong ca, địa điểm đến (khách hàng, cơ quan ban ngành), nội dung công việc và tệp đính kèm.
+    - Màn hình Đăng ký công tác dài ngày (`BusinessTripRequestScreen`): Lựa chọn nơi đến, ngày đi/về, mục đích, đồng nghiệp cùng đi và đính kèm kế hoạch công tác.
+  - Nhóm G — Trung tâm yêu cầu & Hộp thư phê duyệt quản lý:
+    - Bảng chọn nhanh 6 loại yêu cầu (`NewRequestBottomSheet`).
+    - Hộp thư phê duyệt trực quan (`ApprovalsScreen` & `ApprovalCard`): Bộ lọc 6 loại đơn kèm số lượng chờ duyệt, hiển thị lịch làm việc đối sánh hai nhân viên khi đổi ca, hiển thị quẹt thẻ chấm công ngày liên quan, và hộp thoại bắt buộc nhập lý do khi từ chối.
+  - Bổ sung 50+ localized keys đồng bộ song ngữ Việt/Anh (`app_vi.arb`, `app_en.arb`) tuân thủ tuyệt đối Zero-Hardcoding Policy.
+  - Bổ sung kiểm thử đơn vị cho quy tắc nghiệp vụ Phase 0 (100% passed, 61/61 tests passing).
+  - Tối ưu kích thước file: 100% file `.dart` trong dự án đều tuân thủ nghiêm ngặt giới hạn $\le 300$ dòng.
+- Xây dựng Phân hệ Bảng điều khiển Điều hành cấp cao & Phê duyệt cuối C-Level (`lib/features/executive/`):
+  - Màn 21 — Executive Dashboard (`ExecutiveDashboardScreen`): Dashboard trực quan dành cho CEO/Ban Điều Hành hiển thị Headcount 3.142 lao động, tỷ lệ đi làm 98,2%, quỹ lương 42,8 tỷ VNĐ (+3,4%), tổng giờ OT 14.280h (TB 18,2h/người); Hero card hồ sơ chờ ký duyệt cao nhất; Khối cảnh báo rủi ro & tuân thủ cần chú ý; Tỷ lệ đi làm trực quan theo từng khối/xưởng sản xuất.
+  - Màn 22 — Final Approval C-Level (`FinalApprovalScreen`): Màn hình phê duyệt cấp cao nhất trước khi HR/Kế toán giải ngân; Chuỗi quy trình ký duyệt 4 cấp trực quan (`FinalApprovalChainTimeline`); Thống kê tác động tài chính & kiểm tra ngân sách dự phòng; Cơ chế phê duyệt nhanh toàn bộ ("Duyệt tất cả") và phê duyệt/từ chối từng hồ sơ kèm ghi chú HR.
+- Xây dựng Phân hệ Cảnh báo Rủi ro Tuân thủ & Trung tâm Ủy quyền (`lib/features/compliance/`):
+  - Màn 28 — Risk & Compliance Alerts (`RiskComplianceScreen`): Phân tầng 3 cấp độ cảnh báo (Nghiêm trọng, Cảnh báo cao, Theo dõi) với các chỉ số vi phạm luật lao động thực tế tại nhà máy (14 công nhân OT vượt 40h/tháng theo Điều 107 BLLĐ, 6 công nhân làm việc ca đêm 7 ngày liên tục chưa nghỉ bù, quá hạn phụ lục HĐLĐ); Hành động 1-chạm "Giao việc cho HR" tự động phân công bộ phận chuyên trách.
+  - Màn 29 — Delegation Center (`DelegationCenterScreen`): Trung tâm chuyển giao quyền phê duyệt khi lãnh đạo công tác/vắng mặt; Chọn người nhận ủy quyền từ danh sách cán bộ chủ chốt; Thiết lập khoảng thời gian linh hoạt qua bộ chọn ngày `DelegationPeriodCard`; Bộ chuyển đổi phạm vi quyền hạn `DelegationScopeToggle` (Toàn bộ vs Từng loại đơn); Thiết lập trần hạn mức tài chính `DelegationLimitCard` (Vô hạn, ≤ 20Tr, ≤ 50Tr, ≤ 100Tr); Quản lý danh sách ủy quyền đang hiệu lực `ActiveDelegationCard` và thao tác thu hồi quyền lực tức thì.
+- Hoàn thiện Kiến trúc Core & Tiện ích Design System:
+  - Bổ sung cấu trúc `AppGap` chuẩn hóa các khoảng cách cố định trong `lib/core/responsive/app_layout.dart`.
+  - Mở rộng semantic tokens trong `AppColorsExtension` (`primary`, `surfaceContainer`, `borderSubtle`) và `AppTextStyles` (`h3`, `bodyBold`).
+  - Tích hợp 4 dịch vụ mới vào danh mục "Quản trị & Điều hành" tại `AllServicesScreen`.
+  - Viết bộ kiểm thử đơn vị `test/features/executive/` và `test/features/compliance/` (100% passed, 50/50 tests passing).
 - Xây dựng Phân hệ Thông báo nội bộ (`lib/features/announcements/`):
   - Tra cứu thông báo ban hành từ HR/Admin theo 4 cấp phạm vi (Toàn công ty, Khối nhà xưởng, Khối văn phòng, Phòng ban).
   - Hỗ trợ thanh tìm kiếm nhanh, bộ lọc phân loại theo phạm vi, thẻ thông báo hiển thị huy hiệu chưa đọc, và màn hình chi tiết tự động cập nhật trạng thái đã xem.

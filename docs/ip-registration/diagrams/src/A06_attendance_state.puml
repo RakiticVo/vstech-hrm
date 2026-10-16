@@ -1,0 +1,67 @@
+@startuml
+
+!pragma layout smetana
+skinparam dpi 160
+skinparam defaultFontName Arial
+skinparam defaultFontSize 12
+skinparam shadowing false
+skinparam roundCorner 10
+skinparam titleFontSize 16
+skinparam titleFontStyle bold
+skinparam titleFontColor #0A544E
+skinparam ArrowColor #0F766E
+skinparam componentStyle rectangle
+skinparam rectangle {
+  BorderColor #0F766E
+  BackgroundColor #FFFFFF
+}
+skinparam package {
+  BorderColor #0A544E
+  BackgroundColor #F0FDFA
+  FontColor #0A544E
+}
+skinparam node {
+  BorderColor #0A544E
+  BackgroundColor #F8FAFC
+}
+skinparam database {
+  BorderColor #0A544E
+  BackgroundColor #ECFEFF
+}
+skinparam cloud {
+  BorderColor #B45309
+  BackgroundColor #FFFBEB
+}
+skinparam note {
+  BackgroundColor #FFF8EC
+  BorderColor #F59E0B
+}
+skinparam class {
+  BorderColor #0F766E
+  BackgroundColor #FFFFFF
+  HeaderBackgroundColor #CCFBF1
+  ArrowColor #0F766E
+}
+skinparam state {
+  BorderColor #0F766E
+  BackgroundColor #F0FDFA
+  ArrowColor #0F766E
+}
+
+
+title Trạng thái màn hình quét khuôn mặt (AttendanceProcessStatus)
+[*] --> initial
+initial --> loading : PrepareFaceScanEvent
+loading --> faceNotRegistered : Face API: chưa đăng ký
+loading --> readyToScan : Đã đăng ký + có vị trí
+faceNotRegistered --> loading : Đăng ký xong (SD03)
+readyToScan --> faceVerifying : SubmitFaceScanEvent
+faceVerifying --> faceVerifyFailed : Không khớp
+faceVerifyFailed --> faceVerifying : Chụp lại
+faceVerifying --> submitting : Khớp khuôn mặt
+submitting --> success : Enrollments 200
+submitting --> failure : Lỗi máy chủ / nghiệp vụ
+success --> readyToScan : ResetAttendanceStateEvent
+failure --> readyToScan : ResetAttendanceStateEvent
+success --> [*]
+@enduml

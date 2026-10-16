@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:material_symbols_icons/symbols.dart';
 import 'package:vstech_hrm/core/extensions/l10n_extension.dart';
 import 'package:vstech_hrm/core/responsive/app_layout.dart';
 import 'package:vstech_hrm/core/theme/app_colors.dart';
+import 'package:vstech_hrm/core/widgets/app_icon.dart';
 import 'package:vstech_hrm/features/labor_profile/domain/entities/labor_profile_entity.dart';
 
 /// Card presenting employment contract terms, dates, and official contract number.
@@ -45,7 +45,7 @@ class ContractInfoCard extends StatelessWidget {
             padding: const EdgeInsets.fromLTRB(16, 14, 16, 10),
             child: Row(
               children: [
-                Icon(Symbols.assignment, size: 20, color: colors.primaryIndigo),
+                AppIcon(AppIcons.fileText, size: 20, color: colors.primaryIndigo),
                 8.gapW,
                 Text(
                   l10n.contractSectionTitle,

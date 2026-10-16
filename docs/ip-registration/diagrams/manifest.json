@@ -1,0 +1,250 @@
+{
+ "SD01": {
+  "title": "Đăng nhập và khôi phục phiên làm việc",
+  "mobile": [
+   {
+    "file": "SD01_1_mobile_a",
+    "subtitle": "Mobile – Phần 1/3: Khởi động – khôi phục phiên"
+   },
+   {
+    "file": "SD01_1_mobile_b",
+    "subtitle": "Mobile – Phần 2/3: Đăng nhập bằng mã nhân viên và mật khẩu"
+   },
+   {
+    "file": "SD01_1_mobile_c",
+    "subtitle": "Mobile – Phần 3/3: Đăng nhập nhanh bằng sinh trắc học"
+   }
+  ],
+  "backend": [
+   {
+    "file": "SD01_2_backend_a",
+    "subtitle": "Backend (khung – bổ sung sau)"
+   }
+  ]
+ },
+ "SD02": {
+  "title": "Chấm công vào / ra ca bằng nhận diện khuôn mặt AI",
+  "mobile": [
+   {
+    "file": "SD02_1_mobile_a",
+    "subtitle": "Mobile – Phần 1/3: Chuẩn bị phiên quét"
+   },
+   {
+    "file": "SD02_1_mobile_b",
+    "subtitle": "Mobile – Phần 2/3: Chụp ảnh và xác thực khuôn mặt"
+   },
+   {
+    "file": "SD02_1_mobile_c",
+    "subtitle": "Mobile – Phần 3/3: Ghi nhận chấm công và biên lai"
+   }
+  ],
+  "backend": [
+   {
+    "file": "SD02_2_backend_a",
+    "subtitle": "Backend – Phần 1/2 (khung – bổ sung sau)"
+   },
+   {
+    "file": "SD02_2_backend_b",
+    "subtitle": "Backend – Phần 2/2 (khung – bổ sung sau)"
+   }
+  ]
+ },
+ "SD03": {
+  "title": "Đăng ký / cập nhật dữ liệu khuôn mặt",
+  "mobile": [
+   {
+    "file": "SD03_1_mobile_a",
+    "subtitle": "Mobile – Phần 1/2: Kiểm tra trạng thái và chụp ảnh"
+   },
+   {
+    "file": "SD03_1_mobile_b",
+    "subtitle": "Mobile – Phần 2/2: Gửi dữ liệu khuôn mặt và kết quả"
+   }
+  ],
+  "backend": [
+   {
+    "file": "SD03_2_backend_a",
+    "subtitle": "Backend (khung – bổ sung sau)"
+   }
+  ]
+ },
+ "SD04": {
+  "title": "Tab Chấm công, Lịch & Ca làm việc và Ngày lễ",
+  "mobile": [
+   {
+    "file": "SD04_1_mobile_a",
+    "subtitle": "Mobile – Phần 1/2: Tab Chấm công – hôm nay và nhật ký tháng"
+   },
+   {
+    "file": "SD04_1_mobile_b",
+    "subtitle": "Mobile – Phần 2/2: Lịch & Ca làm việc và Ngày lễ"
+   }
+  ],
+  "backend": [
+   {
+    "file": "SD04_2_backend_a",
+    "subtitle": "Backend – Phần 1/2 (khung – bổ sung sau)"
+   },
+   {
+    "file": "SD04_2_backend_b",
+    "subtitle": "Backend – Phần 2/2 (khung – bổ sung sau)"
+   }
+  ]
+ },
+ "SD05": {
+  "title": "Đơn xin nghỉ phép",
+  "mobile": [
+   {
+    "file": "SD05_1_mobile_a",
+    "subtitle": "Mobile – Phần 1/2: Tải loại phép và danh sách đơn theo tháng"
+   },
+   {
+    "file": "SD05_1_mobile_b",
+    "subtitle": "Mobile – Phần 2/2: Tạo đơn nghỉ phép"
+   }
+  ],
+  "backend": [
+   {
+    "file": "SD05_2_backend_a",
+    "subtitle": "Backend (khung – bổ sung sau)"
+   }
+  ]
+ },
+ "SD06": {
+  "title": "Trung tâm yêu cầu – theo dõi đơn theo tháng",
+  "mobile": [
+   {
+    "file": "SD06_1_mobile_a",
+    "subtitle": "Mobile – Tải và xem đơn theo tháng"
+   }
+  ],
+  "backend": [
+   {
+    "file": "SD06_2_backend_a",
+    "subtitle": "Backend (khung – bổ sung sau)"
+   }
+  ]
+ },
+ "SD07": {
+  "title": "Đăng ký làm thêm giờ (Tăng ca)",
+  "mobile": [
+   {
+    "file": "SD07_1_mobile_a",
+    "subtitle": "Mobile – Phần 1/2: Tải loại tăng ca và lịch sử trong tháng"
+   },
+   {
+    "file": "SD07_1_mobile_b",
+    "subtitle": "Mobile – Phần 2/2: Tạo đơn tăng ca"
+   }
+  ],
+  "backend": [
+   {
+    "file": "SD07_2_backend_a",
+    "subtitle": "Backend – Phần 1/2 (khung – bổ sung sau)"
+   },
+   {
+    "file": "SD07_2_backend_b",
+    "subtitle": "Backend – Phần 2/2 (khung – bổ sung sau)"
+   }
+  ]
+ },
+ "SD08": {
+  "title": "Giải trình / điều chỉnh công (vai trò Quản lý)",
+  "mobile": [
+   {
+    "file": "SD08_1_mobile_a",
+    "subtitle": "Mobile – Phần 1/2: Danh sách phiếu và danh mục lý do"
+   },
+   {
+    "file": "SD08_1_mobile_b",
+    "subtitle": "Mobile – Phần 2/2: Lập và gửi phiếu giải trình"
+   }
+  ],
+  "backend": [
+   {
+    "file": "SD08_2_backend_a",
+    "subtitle": "Backend (khung – bổ sung sau)"
+   }
+  ]
+ },
+ "SD09": {
+  "title": "Phê duyệt đơn: giải trình công, nghỉ phép, tăng ca",
+  "mobile": [
+   {
+    "file": "SD09_1_mobile_a",
+    "subtitle": "Mobile – Phần 1/3: Tải hộp thư phê duyệt"
+   },
+   {
+    "file": "SD09_1_mobile_b",
+    "subtitle": "Mobile – Phần 2/3: Duyệt đơn"
+   },
+   {
+    "file": "SD09_1_mobile_c",
+    "subtitle": "Mobile – Phần 3/3: Từ chối đơn (bắt buộc lý do)"
+   }
+  ],
+  "backend": [
+   {
+    "file": "SD09_2_backend_a",
+    "subtitle": "Backend – Phần 1/3 (khung – bổ sung sau)"
+   },
+   {
+    "file": "SD09_2_backend_b",
+    "subtitle": "Backend – Phần 2/3 (khung – bổ sung sau)"
+   },
+   {
+    "file": "SD09_2_backend_c",
+    "subtitle": "Backend – Phần 3/3 (khung – bổ sung sau)"
+   }
+  ]
+ },
+ "SD10": {
+  "title": "Bảng lương và phiếu lương có bảo vệ sinh trắc học",
+  "mobile": [
+   {
+    "file": "SD10_1_mobile_a",
+    "subtitle": "Mobile – Phần 1/2: Tab Bảng lương và cổng bảo vệ"
+   },
+   {
+    "file": "SD10_1_mobile_b",
+    "subtitle": "Mobile – Phần 2/2: Phiếu lương chi tiết"
+   }
+  ],
+  "backend": [
+   {
+    "file": "SD10_2_backend_a",
+    "subtitle": "Backend (khung – bổ sung sau)"
+   }
+  ]
+ },
+ "SD11": {
+  "title": "Trung tâm thông báo",
+  "mobile": [
+   {
+    "file": "SD11_1_mobile_a",
+    "subtitle": "Mobile – Nhận và xử lý thông báo"
+   }
+  ],
+  "backend": [
+   {
+    "file": "SD11_2_backend_a",
+    "subtitle": "Backend (khung – bổ sung sau)"
+   }
+  ]
+ },
+ "SD12": {
+  "title": "Hồ sơ cá nhân, cài đặt và đăng xuất",
+  "mobile": [
+   {
+    "file": "SD12_1_mobile_a",
+    "subtitle": "Mobile – Hồ sơ, cài đặt và đăng xuất"
+   }
+  ],
+  "backend": [
+   {
+    "file": "SD12_2_backend_a",
+    "subtitle": "Backend (khung – bổ sung sau)"
+   }
+  ]
+ }
+}

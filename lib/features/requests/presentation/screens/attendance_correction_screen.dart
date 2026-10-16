@@ -1,14 +1,21 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
-import 'package:material_symbols_icons/symbols.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:vstech_hrm/core/di/injector.dart';
 import 'package:vstech_hrm/core/extensions/l10n_extension.dart';
 import 'package:vstech_hrm/core/responsive/app_layout.dart';
+import 'package:vstech_hrm/core/session/auth_cubit.dart';
+import 'package:vstech_hrm/core/session/auth_state.dart';
 import 'package:vstech_hrm/core/theme/app_colors.dart';
+import 'package:vstech_hrm/core/widgets/app_icon.dart';
 import 'package:vstech_hrm/core/widgets/app_success_dialog.dart';
-import 'package:vstech_hrm/core/widgets/month_picker_button.dart';
+import 'package:vstech_hrm/core/widgets/app_toast.dart';
+import 'package:vstech_hrm/features/requests/domain/entities/request_params.dart';
+import 'package:vstech_hrm/features/requests/domain/usecases/create_correction_request_usecase.dart';
+import 'package:vstech_hrm/features/requests/domain/usecases/get_correction_reasons_usecase.dart';
 import 'package:vstech_hrm/features/requests/presentation/widgets/attendance_correction_modal.dart';
 
-/// Screen 12: Attendance Correction Management & History with monthly filter and quick creation modal.
+/// Screen 12: Attendance Correction with quick creation modal and warning alert.
 class AttendanceCorrectionScreen extends StatefulWidget {
   const new({super.key});
 
@@ -17,51 +24,90 @@ class AttendanceCorrectionScreen extends StatefulWidget {
 }
 
 class _AttendanceCorrectionScreenState extends State<AttendanceCorrectionScreen> {
-  String _date = '15/09/2026';
-  String _issue = 'Thiếu giờ ra';
-  String _time = '17:34';
-  String _selectedMonth = 'Tháng 9, 2026';
+  List<CorrectionReasonEntity> _reasons = [];
+  CorrectionReasonEntity? _selectedReason;
+  DateTime _date = DateTime.now().subtract(const Duration(days: 1));
+  bool _isSubmitting = false;
 
-  final List<({String date, String issue, String detail, String status, Color color})> _history = [
-    (date: '15/09/2026', issue: 'Thiếu giờ ra', detail: 'Sửa ra 17:34', status: 'Chờ duyệt', color: const Color(0xFFF59E0B)),
-    (date: '08/09/2026', issue: 'Thiếu giờ vào', detail: 'Sửa vào 08:02', status: 'Đã duyệt', color: const Color(0xFF0D9488)),
-    (date: '25/08/2026', issue: 'Sai ca làm', detail: 'Sửa ra 17:30', status: 'Đã duyệt', color: const Color(0xFF0D9488)),
-    (date: '12/08/2026', issue: 'Lỗi máy quét', detail: 'Sửa vào 08:30', status: 'Từ chối', color: const Color(0xFFE11D48)),
-  ];
+  @override
+  void initState() {
+    super.initState();
+    unawaited(_loadReasons());
+  }
+
+  Future<void> _loadReasons() async {
+    final res = await sl<GetCorrectionReasonsUseCase>()();
+    if (!mounted) return;
+    res.fold((_) {}, (reasons) {
+      if (reasons.isNotEmpty) {
+        setState(() {
+          _reasons = reasons;
+          _selectedReason = reasons.first;
+        });
+      }
+    });
+  }
+
+  String _formatDate(DateTime dt) =>
+      '${dt.day.toString().padLeft(2, '0')}-${dt.month.toString().padLeft(2, '0')}-${dt.year}';
 
   void _openModal() {
     unawaited(
       AttendanceCorrectionModal.show(
         context,
         initialDate: _date,
-        initialIssue: _issue,
-        initialTime: _time,
-        onConfirm: (newDate, newIssue, newTime, reason) {
+        availableReasons: _reasons,
+        initialReasonCode: _selectedReason?.code,
+        onConfirm: (reason, date, worktime, note, imageUrl) async {
           setState(() {
-            _date = newDate;
-            _issue = newIssue;
-            _time = newTime;
-            _history.insert(
-              0,
-              (
-                date: newDate,
-                issue: newIssue,
-                detail: 'Sửa $newTime',
-                status: 'Chờ duyệt',
-                color: const Color(0xFFF59E0B),
-              ),
-            );
+            _selectedReason = reason;
+            _date = date;
           });
-          final l10n = context.l10n;
-          unawaited(
-            AppSuccessDialog.show(
-              context,
-              title: l10n.correctionSubmittedTitle,
-              message: l10n.correctionSubmittedMsg(newIssue, newDate, newTime),
-            ),
-          );
+          await _submitCorrection(reason, date, worktime, note, imageUrl);
         },
       ),
+    );
+  }
+
+  Future<void> _submitCorrection(
+    CorrectionReasonEntity reason,
+    DateTime date,
+    double worktime,
+    String note,
+    String? imageUrl,
+  ) async {
+    final authState = context.read<AuthCubit>().state;
+    final empCode = authState is Authenticated ? authState.user.employeeCode : 'NV001';
+
+    setState(() => _isSubmitting = true);
+    final params = CreateCorrectionParams(
+      employeeCode: empCode,
+      workDate: date.toIso8601String(),
+      worktime: worktime,
+      reasonTypeCode: reason.code,
+      note: note,
+      imageUrl: imageUrl,
+      latitude: 10.7769,
+      longitude: 106.7009,
+      address: 'Trụ sở chính VSTech',
+    );
+
+    final result = await sl<CreateCorrectionRequestUseCase>()(params);
+    if (!mounted) return;
+    setState(() => _isSubmitting = false);
+
+    final l10n = context.l10n;
+    result.fold(
+      (failure) => context.showErrorToast(failure.message),
+      (_) {
+        unawaited(
+          AppSuccessDialog.show(
+            context,
+            title: l10n.correctionSubmittedTitle,
+            message: l10n.correctionSubmittedMsg(reason.name, _formatDate(date), '${worktime.toStringAsFixed(1)}h'),
+          ),
+        );
+      },
     );
   }
 
@@ -70,22 +116,13 @@ class _AttendanceCorrectionScreenState extends State<AttendanceCorrectionScreen>
     final colors = context.colors;
     final l10n = context.l10n;
 
-    final filteredHistory = _history.where((h) {
-      if (_selectedMonth == 'Tất cả') return true;
-      if (_selectedMonth.contains('9')) return h.date.contains('09/');
-      if (_selectedMonth.contains('8')) return h.date.contains('08/');
-      if (_selectedMonth.contains('7')) return h.date.contains('07/');
-      if (_selectedMonth.contains('6')) return h.date.contains('06/');
-      return true;
-    }).toList();
-
     return Scaffold(
       backgroundColor: colors.background,
       appBar: AppBar(
         backgroundColor: colors.surface,
         elevation: 0,
         leading: IconButton(
-          icon: const Icon(Symbols.arrow_back),
+          icon: const AppIcon(AppIcons.back, size: 22),
           onPressed: () => Navigator.of(context).pop(),
         ),
         title: Text(
@@ -105,8 +142,10 @@ class _AttendanceCorrectionScreenState extends State<AttendanceCorrectionScreen>
                 elevation: 0,
                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
               ),
-              onPressed: _openModal,
-              child: Text(l10n.submitRequestButton, style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w800)),
+              onPressed: _isSubmitting ? null : _openModal,
+              child: _isSubmitting
+                  ? const SizedBox(width: 22, height: 22, child: CircularProgressIndicator(strokeWidth: 2.5))
+                  : Text(l10n.submitRequestButton, style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w800)),
             ),
           ),
         ),
@@ -135,7 +174,7 @@ class _AttendanceCorrectionScreenState extends State<AttendanceCorrectionScreen>
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Icon(Symbols.error, size: 18, color: Color(0xFFE11D48)),
+                const AppIcon(AppIcons.warning, size: 18, color: Color(0xFFE11D48)),
                 8.gapW,
                 Expanded(
                   child: Text(
@@ -163,75 +202,13 @@ class _AttendanceCorrectionScreenState extends State<AttendanceCorrectionScreen>
               padding: const EdgeInsets.all(16),
               child: Column(
                 children: [
-                  _buildFormRow(l10n.correctionDateLabel, _date, colors),
+                  _buildFormRow(l10n.correctionDateLabel, _formatDate(_date), colors),
                   Divider(height: 20, color: colors.border.withValues(alpha: 0.6)),
-                  _buildFormRow(l10n.correctionIssueTitle, _issue, colors),
-                  Divider(height: 20, color: colors.border.withValues(alpha: 0.6)),
-                  _buildFormRow(l10n.correctionChangeTo, _time, colors, isHighlight: true),
+                  _buildFormRow(l10n.correctionIssueTitle, _selectedReason?.name ?? 'Quên chấm công', colors),
                 ],
               ),
             ),
           ),
-          24.gapH,
-
-          // Lịch sử sửa công with MonthPickerButton
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(l10n.correctionHistorySection, style: TextStyle(fontSize: 13, fontWeight: FontWeight.w700, color: colors.textSecondary)),
-              MonthPickerButton(
-                selectedMonth: _selectedMonth,
-                onMonthChanged: (m) => setState(() => _selectedMonth = m),
-                isCompact: true,
-              ),
-            ],
-          ),
-          10.gapH,
-          if (filteredHistory.isEmpty)
-            Container(
-              padding: const EdgeInsets.symmetric(vertical: 24),
-              alignment: Alignment.center,
-              child: Text(
-                l10n.noCorrectionsInMonth(_selectedMonth),
-                style: TextStyle(fontSize: 13, color: colors.textSecondary),
-              ),
-            )
-          else
-            ...filteredHistory.map((h) => Padding(
-                  padding: const EdgeInsets.only(bottom: 9),
-                  child: Container(
-                    decoration: BoxDecoration(
-                      color: colors.surface,
-                      borderRadius: BorderRadius.circular(16),
-                      border: Border.all(color: colors.border),
-                    ),
-                    padding: const EdgeInsets.all(14),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text('${h.date} · ${h.issue}', style: TextStyle(fontSize: 13.5, fontWeight: FontWeight.w800, color: colors.textPrimary)),
-                            3.gapH,
-                            Text(h.detail, style: TextStyle(fontSize: 12, color: colors.textSecondary)),
-                          ],
-                        ),
-                        Container(
-                          padding: const EdgeInsets.symmetric(horizontal: 9, vertical: 4),
-                          decoration: BoxDecoration(
-                            color: h.color.withValues(alpha: 0.12),
-                            borderRadius: BorderRadius.circular(8),
-                          ),
-                          child: Text(
-                            h.status,
-                            style: TextStyle(fontSize: 11, fontWeight: FontWeight.w800, color: h.color),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                )),
         ],
       ),
     );
@@ -260,19 +237,14 @@ class _AttendanceCorrectionScreenState extends State<AttendanceCorrectionScreen>
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Text(label, style: TextStyle(fontSize: 13, color: colors.textSecondary)),
+        Expanded(child: Text(label, maxLines: 1, overflow: TextOverflow.ellipsis, style: TextStyle(fontSize: 13, color: colors.textSecondary))),
+        8.gapW,
         Row(
+          mainAxisSize: MainAxisSize.min,
           children: [
-            Text(
-              value,
-              style: TextStyle(
-                fontSize: 14,
-                fontWeight: FontWeight.w800,
-                color: isHighlight ? colors.primaryIndigo : colors.textPrimary,
-              ),
-            ),
-            const SizedBox(width: 4),
-            Icon(Symbols.edit, size: 14, color: colors.textTertiary),
+            Text(value, style: TextStyle(fontSize: 14, fontWeight: FontWeight.w800, color: isHighlight ? colors.primaryIndigo : colors.textPrimary)),
+            4.gapW,
+            AppIcon(AppIcons.correction, size: 14, color: colors.textTertiary),
           ],
         ),
       ],

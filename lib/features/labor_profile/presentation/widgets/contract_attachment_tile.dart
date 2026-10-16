@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:material_symbols_icons/symbols.dart';
 import 'package:vstech_hrm/core/extensions/l10n_extension.dart';
 import 'package:vstech_hrm/core/responsive/app_layout.dart';
 import 'package:vstech_hrm/core/theme/app_colors.dart';
+import 'package:vstech_hrm/core/widgets/app_icon.dart';
 import 'package:vstech_hrm/features/labor_profile/domain/entities/labor_profile_entity.dart';
 
 /// Tile displaying an official contract attachment scan with download/preview triggers.
@@ -34,7 +34,7 @@ class ContractAttachmentTile extends StatelessWidget {
               color: colors.error.withValues(alpha: 0.1),
               borderRadius: BorderRadius.circular(8),
             ),
-            child: Icon(Symbols.picture_as_pdf, color: colors.error, size: 22),
+            child: AppIcon(AppIcons.fileText, color: colors.error, size: 22),
           ),
           12.gapW,
           Expanded(
@@ -60,7 +60,7 @@ class ContractAttachmentTile extends StatelessWidget {
             ),
           ),
           IconButton(
-            icon: Icon(Symbols.visibility, size: 20, color: colors.primaryIndigo),
+            icon: AppIcon(AppIcons.eye, size: 20, color: colors.primaryIndigo),
             tooltip: l10n.previewAttachmentButton,
             onPressed: () {
               ScaffoldMessenger.of(context).showSnackBar(
@@ -72,7 +72,7 @@ class ContractAttachmentTile extends StatelessWidget {
             },
           ),
           IconButton(
-            icon: Icon(Symbols.download, size: 20, color: colors.pineGreen),
+            icon: AppIcon(AppIcons.download, size: 20, color: colors.pineGreen),
             tooltip: l10n.downloadAttachmentButton,
             onPressed: () {
               ScaffoldMessenger.of(context).showSnackBar(

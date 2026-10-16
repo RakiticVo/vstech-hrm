@@ -2,14 +2,15 @@ import 'dart:async';
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:local_auth/local_auth.dart';
-import 'package:material_symbols_icons/symbols.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:vstech_hrm/core/constants/app_constants.dart';
+import 'package:vstech_hrm/core/di/injector.dart';
 import 'package:vstech_hrm/core/extensions/l10n_extension.dart';
 import 'package:vstech_hrm/core/responsive/app_layout.dart';
 import 'package:vstech_hrm/core/services/app_permission_handler.dart';
 import 'package:vstech_hrm/core/session/auth_cubit.dart';
-import 'package:vstech_hrm/core/session/auth_state.dart';
 import 'package:vstech_hrm/core/theme/app_colors.dart';
+import 'package:vstech_hrm/core/widgets/app_icon.dart';
 import 'package:vstech_hrm/features/auth/presentation/widgets/face_scan_frame.dart';
 
 /// Modal bottom sheet providing interactive Face ID and Biometric login.
@@ -32,15 +33,12 @@ class FaceIdLoginSheet extends StatefulWidget {
 
 class _FaceIdLoginSheetState extends State<FaceIdLoginSheet>
     with SingleTickerProviderStateMixin {
-  final LocalAuthentication _localAuth = LocalAuthentication();
   CameraController? _cameraController;
   late final AnimationController _animController;
   late final Animation<double> _scanAnimation;
 
-  UserRole _selectedRole = UserRole.employee;
   bool _isSuccess = false;
   String? _statusText;
-  bool _isHardwareBiometricAvailable = false;
 
   @override
   void initState() {
@@ -60,18 +58,7 @@ class _FaceIdLoginSheetState extends State<FaceIdLoginSheet>
   }
 
   Future<void> _initCameraAndAuth() async {
-    // 1. Check system biometrics support
-    try {
-      final isSupported = await _localAuth.isDeviceSupported();
-      final canCheck = await _localAuth.canCheckBiometrics;
-      if (mounted) setState(() => _isHardwareBiometricAvailable = isSupported && canCheck);
-    } on Object {
-      // Local biometrics unsupported fallback
-    }
-
-    if (!mounted) return;
-
-    // 2. Request Camera permission & initialize front camera if granted
+    // Request Camera permission & initialize front camera if granted
     final hasCamera = await AppPermissionHandler.requestCamera(context);
     if (hasCamera && mounted) {
       try {
@@ -88,24 +75,6 @@ class _FaceIdLoginSheetState extends State<FaceIdLoginSheet>
       }
     }
 
-    if (_isHardwareBiometricAvailable) {
-      await _trySystemBiometric();
-    } else {
-      await _runSimulatedFaceScan();
-    }
-  }
-
-  Future<void> _trySystemBiometric() async {
-    try {
-      final reason = mounted ? context.l10n.biometricAuthReason : 'Biometric authentication';
-      final didAuth = await _localAuth.authenticate(localizedReason: reason);
-      if (didAuth && mounted) {
-        await _onAuthSuccess();
-        return;
-      }
-    } on Object {
-      // Local authentication failure fallback
-    }
     await _runSimulatedFaceScan();
   }
 
@@ -122,18 +91,33 @@ class _FaceIdLoginSheetState extends State<FaceIdLoginSheet>
 
   Future<void> _onAuthSuccess() async {
     if (!mounted) return;
-    final userName = _selectedRole.isManager ? 'Quản lý (Trần Thị Mai)' : 'Nguyễn Văn An';
+    final storage = sl<FlutterSecureStorage>();
+    final savedUsername = await storage.read(key: AppConstants.keySavedUsername);
+    final savedPassword = await storage.read(key: AppConstants.keySavedPassword);
+
+    if (savedUsername == null || savedUsername.isEmpty || savedPassword == null || savedPassword.isEmpty) {
+      if (!mounted) return;
+      Navigator.of(context).pop();
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(context.l10n.noSavedCredentialsForBiometric),
+          backgroundColor: context.colors.error,
+        ),
+      );
+      return;
+    }
+
     setState(() {
       _isSuccess = true;
-      _statusText = context.l10n.faceAuthSuccessGreeting(userName);
+      _statusText = context.l10n.faceAuthSuccessGreeting(savedUsername);
     });
 
-    await Future<void>.delayed(const Duration(milliseconds: 700));
+    await Future<void>.delayed(const Duration(milliseconds: 600));
     if (!mounted) return;
 
     final authCubit = context.read<AuthCubit>();
     Navigator.of(context).pop();
-    await authCubit.loginAsDemo(_selectedRole);
+    await authCubit.login(username: savedUsername, password: savedPassword);
   }
 
   @override
@@ -184,8 +168,6 @@ class _FaceIdLoginSheetState extends State<FaceIdLoginSheet>
               color: colors.textSecondary,
             ),
           ),
-          16.gapH,
-          _buildRoleSelector(colors, l10n),
           18.gapH,
           FaceScanFrame(
             isSuccess: _isSuccess,
@@ -197,7 +179,7 @@ class _FaceIdLoginSheetState extends State<FaceIdLoginSheet>
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               if (_isSuccess)
-                Icon(Symbols.check_circle, color: colors.pineGreen, size: 20)
+                AppIcon(AppIcons.checkCircle2, color: colors.pineGreen, size: 20)
               else
                 SizedBox(
                   width: 16,
@@ -222,20 +204,6 @@ class _FaceIdLoginSheetState extends State<FaceIdLoginSheet>
             ],
           ),
           18.gapH,
-          if (_isHardwareBiometricAvailable && !_isSuccess)
-            Padding(
-              padding: const EdgeInsets.only(bottom: 10),
-              child: OutlinedButton.icon(
-                style: OutlinedButton.styleFrom(
-                  minimumSize: const Size.fromHeight(42),
-                  side: BorderSide(color: colors.primaryIndigo),
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-                ),
-                onPressed: _trySystemBiometric,
-                icon: const Icon(Symbols.fingerprint, size: 18),
-                label: Text(l10n.systemBiometricAuthButton, style: const TextStyle(fontWeight: FontWeight.w700)),
-              ),
-            ),
           TextButton(
             onPressed: () => Navigator.of(context).pop(),
             child: Text(
@@ -244,40 +212,6 @@ class _FaceIdLoginSheetState extends State<FaceIdLoginSheet>
             ),
           ),
         ],
-      ),
-    );
-  }
-
-  Widget _buildRoleSelector(AppColorsExtension colors, dynamic l10n) {
-    return Container(
-      padding: const EdgeInsets.all(4),
-      decoration: BoxDecoration(color: colors.cardSecondary, borderRadius: BorderRadius.circular(12)),
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          _buildRoleChip(context.l10n.demoEmployee, UserRole.employee, colors),
-          6.gapW,
-          _buildRoleChip(context.l10n.demoManager, UserRole.manager, colors),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildRoleChip(String label, UserRole role, AppColorsExtension colors) {
-    final isSelected = _selectedRole == role;
-    return InkWell(
-      borderRadius: BorderRadius.circular(9),
-      onTap: _isSuccess ? null : () => setState(() => _selectedRole = role),
-      child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 6),
-        decoration: BoxDecoration(
-          color: isSelected ? colors.primaryIndigo : Colors.transparent,
-          borderRadius: BorderRadius.circular(9),
-        ),
-        child: Text(
-          label,
-          style: TextStyle(fontSize: 12, fontWeight: FontWeight.w700, color: isSelected ? const Color(0xFFFFF8EC) : colors.textSecondary),
-        ),
       ),
     );
   }

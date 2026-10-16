@@ -1,15 +1,26 @@
 import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:material_symbols_icons/symbols.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:go_router/go_router.dart';
+import 'package:local_auth/local_auth.dart';
+import 'package:vstech_hrm/core/constants/app_constants.dart';
+import 'package:vstech_hrm/core/di/injector.dart';
 import 'package:vstech_hrm/core/extensions/l10n_extension.dart';
 import 'package:vstech_hrm/core/responsive/app_layout.dart';
+import 'package:vstech_hrm/core/router/routes.dart';
 import 'package:vstech_hrm/core/session/auth_cubit.dart';
 import 'package:vstech_hrm/core/session/auth_state.dart';
 import 'package:vstech_hrm/core/theme/app_colors.dart';
-import 'package:vstech_hrm/features/auth/presentation/widgets/face_id_login_sheet.dart';
+import 'package:vstech_hrm/core/widgets/app_icon.dart';
+import 'package:vstech_hrm/core/widgets/app_toast.dart';
+import 'package:vstech_hrm/features/auth/presentation/widgets/biometric_login_button.dart';
+import 'package:vstech_hrm/features/auth/presentation/widgets/login_header_widget.dart';
+import 'package:vstech_hrm/features/auth/presentation/widgets/login_submit_button.dart';
+import 'package:vstech_hrm/features/auth/presentation/widgets/remember_me_row.dart';
 
-/// Screen 02: Login Screen conforming to Clean Architecture and AppLayout.
+/// Screen 02: Login Screen connected to real OpenAPI backend.
 class LoginScreen extends StatefulWidget {
   const new({super.key});
 
@@ -18,10 +29,99 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  final _codeController = TextEditingController(text: 'NV-04821');
-  final _passwordController = TextEditingController(text: '123456');
+  final _codeController = TextEditingController();
+  final _passwordController = TextEditingController();
   bool _obscurePassword = true;
   bool _rememberMe = true;
+  BiometricType? _primaryBiometric;
+  bool _canUseBiometric = false;
+
+  @override
+  void initState() {
+    super.initState();
+    unawaited(_checkBiometrics());
+    unawaited(_loadSavedCredentials());
+  }
+
+  Future<void> _loadSavedCredentials() async {
+    try {
+      final storage = sl<FlutterSecureStorage>();
+      final isRemembered = await storage.read(key: AppConstants.keyRememberMe) == 'true';
+      if (!isRemembered || !mounted) return;
+      final savedUser = await storage.read(key: AppConstants.keySavedUsername);
+      final savedPass = await storage.read(key: AppConstants.keySavedPassword);
+      if (mounted) {
+        setState(() {
+          _rememberMe = true;
+          if (savedUser?.isNotEmpty ?? false) _codeController.text = savedUser!;
+          if (savedPass?.isNotEmpty ?? false) _passwordController.text = savedPass!;
+        });
+      }
+    } on Object {
+      // Storage read error fallback
+    }
+  }
+
+  Future<void> _saveRememberMeCredentials(String username, String password) async {
+    try {
+      final storage = sl<FlutterSecureStorage>();
+      await storage.write(key: AppConstants.keySavedUsername, value: username);
+      await storage.write(key: AppConstants.keySavedPassword, value: password);
+      await storage.write(key: AppConstants.keyRememberMe, value: _rememberMe ? 'true' : 'false');
+    } on Object {
+      // Storage write error ignored
+    }
+  }
+
+  void _onRememberMeChanged(bool? value) {
+    final enabled = value ?? false;
+    setState(() => _rememberMe = enabled);
+    unawaited(sl<FlutterSecureStorage>().write(
+      key: AppConstants.keyRememberMe,
+      value: enabled ? 'true' : 'false',
+    ));
+  }
+
+  Future<void> _checkBiometrics() async {
+    try {
+      final storage = sl<FlutterSecureStorage>();
+      final isEnabledInSettings =
+          (await storage.read(key: AppConstants.keyBiometricEnabled)) == 'true';
+      if (!isEnabledInSettings) {
+        if (mounted) {
+          setState(() {
+            _canUseBiometric = false;
+            _primaryBiometric = null;
+          });
+        }
+        return;
+      }
+
+      final localAuth = LocalAuthentication();
+      final isSupported = await localAuth.isDeviceSupported();
+      final canCheck = await localAuth.canCheckBiometrics;
+      if (isSupported && canCheck) {
+        final available = await localAuth.getAvailableBiometrics();
+        if (available.isNotEmpty && mounted) {
+          setState(() {
+            _canUseBiometric = true;
+            _primaryBiometric = available.contains(BiometricType.face)
+                ? BiometricType.face
+                : BiometricType.fingerprint;
+          });
+          return;
+        }
+      }
+    } on Object {
+      // Local biometrics hardware check fallback
+    }
+    if (mounted) {
+      setState(() {
+        _canUseBiometric = false;
+        _primaryBiometric = null;
+      });
+    }
+  }
 
   @override
   void dispose() {
@@ -31,16 +131,43 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   void _onLogin() {
-    unawaited(
-      context.read<AuthCubit>().login(
-            username: _codeController.text.trim(),
-            password: _passwordController.text.trim(),
-          ),
-    );
+    final username = _codeController.text.trim();
+    final password = _passwordController.text.trim();
+    if (username.isEmpty || password.isEmpty) {
+      context.showErrorToast(context.l10n.fillRequiredField);
+      return;
+    }
+
+    unawaited(_saveRememberMeCredentials(username, password));
+    unawaited(context.read<AuthCubit>().login(username: username, password: password));
   }
 
-  void _onFaceIdLogin() {
-    unawaited(FaceIdLoginSheet.show(context));
+  Future<void> _onBiometricLogin() async {
+    if (!_canUseBiometric) return;
+
+    final storage = sl<FlutterSecureStorage>();
+    final savedUser = await storage.read(key: AppConstants.keySavedUsername);
+    final savedPass = await storage.read(key: AppConstants.keySavedPassword);
+    final effectiveUser = (savedUser?.isNotEmpty ?? false) ? savedUser! : _codeController.text.trim();
+    final effectivePass = (savedPass?.isNotEmpty ?? false) ? savedPass! : _passwordController.text.trim();
+
+    if (effectiveUser.isEmpty || effectivePass.isEmpty) {
+      if (!mounted) return;
+      context.showErrorToast(context.l10n.noSavedCredentialsForBiometric);
+      return;
+    }
+
+    try {
+      final localAuth = LocalAuthentication();
+      final isFace = _primaryBiometric == BiometricType.face;
+      final reason = isFace ? context.l10n.faceIdAuthReason : context.l10n.fingerprintAuthReason;
+      final didAuth = await localAuth.authenticate(localizedReason: reason);
+      if (didAuth && mounted) {
+        unawaited(context.read<AuthCubit>().login(username: effectiveUser, password: effectivePass));
+      }
+    } on Object {
+      // Biometric canceled or failed
+    }
   }
 
   @override
@@ -50,184 +177,78 @@ class _LoginScreenState extends State<LoginScreen> {
     final authState = context.watch<AuthCubit>().state;
     final isLoading = authState is AuthLoading;
 
-    return Scaffold(
-      backgroundColor: colors.surface,
-      body: SafeArea(
-        child: SingleChildScrollView(
-          padding: context.paddingCustom(horizontal: 24, vertical: 20),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              12.gapH,
-              Container(
-                width: context.custom(normal: 48, compact: 40).toDouble(),
-                height: context.custom(normal: 48, compact: 40).toDouble(),
-                decoration: BoxDecoration(
-                  color: colors.primaryIndigo,
-                  borderRadius: BorderRadius.circular(16),
-                ),
-                child: const Icon(Symbols.person, color: Color(0xFFFFF8EC), size: 24),
-              ),
-              20.gapH,
-              Text(
-                '${l10n.greetingDefault}!',
-                style: TextStyle(
-                  fontSize: context.custom(normal: 26, compact: 22).toDouble(),
-                  fontWeight: FontWeight.w800,
-                  letterSpacing: -0.5,
-                  color: colors.textPrimary,
-                ),
-              ),
-              6.gapH,
-              Text(
-                l10n.loginInstruction,
-                style: TextStyle(
-                  fontSize: context.custom(normal: 13.5, compact: 12),
-                  fontWeight: FontWeight.w500,
-                  color: colors.textSecondary,
-                  height: 1.4,
-                ),
-              ),
-              24.gapH,
-              _buildFieldLabel(l10n.employeeCode, colors),
-              6.gapH,
-              TextField(
-                controller: _codeController,
-                decoration: _inputDecoration(
-                  prefixIcon: Icon(Symbols.badge, color: colors.textSecondary, size: 20),
-                  colors: colors,
-                ),
-              ),
-              16.gapH,
-              _buildFieldLabel(l10n.password, colors),
-              6.gapH,
-              TextField(
-                controller: _passwordController,
-                obscureText: _obscurePassword,
-                decoration: _inputDecoration(
-                  prefixIcon: Icon(Symbols.lock, color: colors.textSecondary, size: 20),
-                  colors: colors,
-                  suffixIcon: IconButton(
-                    icon: Icon(_obscurePassword ? Symbols.visibility_off : Symbols.visibility, size: 20),
-                    onPressed: () => setState(() => _obscurePassword = !_obscurePassword),
-                  ),
-                ),
-              ),
-              12.gapH,
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Row(
-                    children: [
-                      SizedBox(
-                        width: 24,
-                        height: 24,
-                        child: Checkbox(
-                          value: _rememberMe,
-                          activeColor: colors.primaryIndigo,
-                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
-                          onChanged: (v) => setState(() => _rememberMe = v ?? false),
-                        ),
-                      ),
-                      8.gapW,
-                      Text(
-                        'Ghi nhớ',
-                        style: TextStyle(fontSize: 12.5, fontWeight: FontWeight.w600, color: colors.textPrimary),
-                      ),
-                    ],
-                  ),
-                  TextButton(
-                    onPressed: () => ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(content: Text(l10n.contactHr)),
+    return BlocListener<AuthCubit, AuthState>(
+      listener: (context, state) {
+        if (state is Unauthenticated &&
+            state.message != null &&
+            state.message!.isNotEmpty) {
+          context.showErrorToast(state.message!);
+        }
+      },
+      child: Scaffold(
+        backgroundColor: colors.background,
+        body: SafeArea(
+          child: SingleChildScrollView(
+            padding: context.paddingCustom(horizontal: 24, vertical: 20),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const LoginHeaderWidget(),
+                24.gapH,
+                buildAuthFieldLabel(l10n.employeeCode, colors),
+                6.gapH,
+                TextField(
+                  controller: _codeController,
+                  decoration: buildAuthInputDecoration(
+                    prefixIcon: Padding(
+                      padding: const EdgeInsets.all(12),
+                      child: AppIcon(AppIcons.user, color: colors.textSecondary, size: 20),
                     ),
-                    child: Text(l10n.forgotPasswordShort, style: TextStyle(fontSize: 12.5, fontWeight: FontWeight.w700, color: colors.primaryIndigo)),
+                    colors: colors,
                   ),
-                ],
-              ),
-              20.gapH,
-              SizedBox(
-                width: double.infinity,
-                height: 48,
-                child: ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: colors.accentAmber,
-                    foregroundColor: const Color(0xFF1C1408),
-                    elevation: 0,
-                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
-                  ),
-                  onPressed: isLoading ? null : _onLogin,
-                  child: isLoading
-                      ? const SizedBox(width: 20, height: 20, child: CircularProgressIndicator(strokeWidth: 2))
-                      : Text(l10n.loginButton, style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w800)),
                 ),
-              ),
-              18.gapH,
-              Row(
-                children: [
-                  Expanded(child: Divider(color: colors.border)),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 14),
-                    child: Text(l10n.orDivider, style: TextStyle(fontSize: 12, fontWeight: FontWeight.w600, color: colors.textTertiary)),
+                16.gapH,
+                buildAuthFieldLabel(l10n.password, colors),
+                6.gapH,
+                TextField(
+                  controller: _passwordController,
+                  obscureText: _obscurePassword,
+                  decoration: buildAuthInputDecoration(
+                    prefixIcon: Padding(
+                      padding: const EdgeInsets.all(12),
+                      child: AppIcon(AppIcons.lock, color: colors.textSecondary, size: 20),
+                    ),
+                    colors: colors,
+                    suffixIcon: IconButton(
+                      icon: AppIcon(_obscurePassword ? AppIcons.eyeOff : AppIcons.eye, size: 20),
+                      onPressed: () => setState(() => _obscurePassword = !_obscurePassword),
+                    ),
                   ),
-                  Expanded(child: Divider(color: colors.border)),
-                ],
-              ),
-              18.gapH,
-              SizedBox(
-                width: double.infinity,
-                height: 48,
-                child: OutlinedButton.icon(
-                  style: OutlinedButton.styleFrom(
-                    side: BorderSide(color: colors.border),
-                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
-                  ),
-                  onPressed: isLoading ? null : _onFaceIdLogin,
-                  icon: Icon(Symbols.face, color: colors.primaryIndigo, size: 20),
-                  label: Text(l10n.biometricLogin, style: TextStyle(fontSize: 14, fontWeight: FontWeight.w700, color: colors.textPrimary)),
                 ),
-              ),
-              16.gapH,
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text('${l10n.demoQuickLogin}:', style: TextStyle(fontSize: 11.5, color: colors.textTertiary)),
-                  8.gapW,
-                  GestureDetector(
-                    onTap: () => context.read<AuthCubit>().loginAsDemo(UserRole.employee),
-                    child: Text(l10n.demoEmployee, style: TextStyle(fontSize: 12, fontWeight: FontWeight.w700, color: colors.primaryIndigo, decoration: TextDecoration.underline)),
-                  ),
-                  12.gapW,
-                  GestureDetector(
-                    onTap: () => context.read<AuthCubit>().loginAsDemo(UserRole.manager),
-                    child: Text(l10n.demoManager, style: TextStyle(fontSize: 12, fontWeight: FontWeight.w700, color: colors.accentAmber, decoration: TextDecoration.underline)),
+                12.gapH,
+                RememberMeRow(
+                  rememberMe: _rememberMe,
+                  onChanged: _onRememberMeChanged,
+                  onForgotPassword: () => unawaited(context.push(AppRoutes.forgotPassword)),
+                ),
+                20.gapH,
+                LoginSubmitButton(
+                  isLoading: isLoading,
+                  onPressed: _onLogin,
+                ),
+                if (_canUseBiometric) ...[
+                  18.gapH,
+                  BiometricLoginButton(
+                    primaryBiometric: _primaryBiometric,
+                    isLoading: isLoading,
+                    onPressed: _onBiometricLogin,
                   ),
                 ],
-              ),
-              24.gapH,
-              Center(
-                child: Text(l10n.contactHr, style: TextStyle(fontSize: 11.5, fontWeight: FontWeight.w600, color: colors.textTertiary)),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),
-    );
-  }
-
-  Widget _buildFieldLabel(String text, AppColorsExtension colors) {
-    return Text(text, style: TextStyle(fontSize: 12, fontWeight: FontWeight.w700, color: colors.textSecondary));
-  }
-
-  InputDecoration _inputDecoration({required Widget prefixIcon, required AppColorsExtension colors, Widget? suffixIcon}) {
-    return InputDecoration(
-      prefixIcon: prefixIcon,
-      suffixIcon: suffixIcon,
-      filled: true,
-      fillColor: colors.cardSecondary,
-      border: OutlineInputBorder(borderRadius: BorderRadius.circular(14), borderSide: BorderSide(color: colors.border)),
-      enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(14), borderSide: BorderSide(color: colors.border)),
-      focusedBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(14), borderSide: BorderSide(color: colors.primaryIndigo, width: 1.5)),
-      contentPadding: const EdgeInsets.symmetric(horizontal: 14, vertical: 14),
     );
   }
 }

@@ -1,16 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:material_symbols_icons/symbols.dart';
 import 'package:vstech_hrm/core/theme/app_colors.dart';
 import 'package:vstech_hrm/core/theme/app_text_styles.dart';
 import 'package:vstech_hrm/core/theme/tile_pattern_painter.dart';
+import 'package:vstech_hrm/core/widgets/app_icon.dart';
 
 /// Top header banner with Saigon Tile pattern and customizable content.
 class TileHeaderBanner extends StatelessWidget {
-  const new({
+  const TileHeaderBanner({
     required this.title,
     this.subtitle,
+    this.secondSubtitle,
     this.avatarUrl,
     this.avatarFallbackText,
+    this.onBack,
     this.onNotificationTap,
     this.hasUnreadNotification = false,
     this.trailing,
@@ -21,8 +23,10 @@ class TileHeaderBanner extends StatelessWidget {
 
   final String title;
   final String? subtitle;
+  final String? secondSubtitle;
   final String? avatarUrl;
   final String? avatarFallbackText;
+  final VoidCallback? onBack;
   final VoidCallback? onNotificationTap;
   final bool hasUnreadNotification;
   final Widget? trailing;
@@ -42,7 +46,7 @@ class TileHeaderBanner extends StatelessWidget {
       height: height,
       clipBehavior: Clip.hardEdge,
       decoration: BoxDecoration(
-        color: colors.primaryIndigo,
+        color: colors.tileDark,
       ),
       child: Stack(
         children: [
@@ -51,9 +55,8 @@ class TileHeaderBanner extends StatelessWidget {
             child: ClipRect(
               child: CustomPaint(
                 painter: TilePatternPainter(
-                  backgroundColor: colors.primaryIndigo,
+                  backgroundColor: colors.tileDark,
                   patternColor: patternColor,
-                  tileSize: 46,
                 ),
               ),
             ),
@@ -66,6 +69,12 @@ class TileHeaderBanner extends StatelessWidget {
               padding: EdgeInsets.fromLTRB(16, 8, 16, bottomPadding),
               child: Row(
                 children: [
+                  // Back button if onBack is provided
+                  if (onBack != null) ...[
+                    _buildBackButton(),
+                    const SizedBox(width: 12),
+                  ],
+
                   // Avatar or Fallback Initials
                   if (avatarUrl != null || avatarFallbackText != null) ...[
                     _buildAvatar(colors),
@@ -84,7 +93,7 @@ class TileHeaderBanner extends StatelessWidget {
                             fontWeight: FontWeight.w800,
                             letterSpacing: -0.2,
                           ),
-                          maxLines: 1,
+                          maxLines: 2,
                           overflow: TextOverflow.ellipsis,
                         ),
                         if (subtitle != null) ...[
@@ -99,6 +108,33 @@ class TileHeaderBanner extends StatelessWidget {
                             ),
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
+                          ),
+                        ],
+                        if (secondSubtitle != null) ...[
+                          const SizedBox(height: 2),
+                          Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              AppIcon(
+                                AppIcons.building,
+                                size: 13,
+                                color: const Color(0xFFFFF8EC).withValues(alpha: 0.85),
+                              ),
+                              const SizedBox(width: 4),
+                              Flexible(
+                                child: Text(
+                                  secondSubtitle!,
+                                  style: AppTextStyles.bodySmall(
+                                    color: const Color(0xFFFFF8EC).withValues(alpha: 0.85),
+                                  ).copyWith(
+                                    fontSize: 11.5,
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                              ),
+                            ],
                           ),
                         ],
                       ],
@@ -119,6 +155,31 @@ class TileHeaderBanner extends StatelessWidget {
     );
   }
 
+  Widget _buildBackButton() {
+    return Container(
+      width: 38,
+      height: 38,
+      decoration: BoxDecoration(
+        color: const Color(0xFFFFF8EC).withValues(alpha: 0.18),
+        borderRadius: BorderRadius.circular(12),
+      ),
+      child: Material(
+        color: Colors.transparent,
+        child: InkWell(
+          borderRadius: BorderRadius.circular(12),
+          onTap: onBack,
+          child: const Center(
+            child: AppIcon(
+              AppIcons.back,
+              color: Color(0xFFFFF8EC),
+              size: 20,
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
   Widget _buildAvatar(AppColorsExtension colors) {
     return Container(
       width: 42,
@@ -133,7 +194,7 @@ class TileHeaderBanner extends StatelessWidget {
           style: TextStyle(
             fontSize: 15,
             fontWeight: FontWeight.w800,
-            color: colors.primaryIndigo,
+            color: colors.tileDark,
           ),
         ),
       ),
@@ -156,11 +217,10 @@ class TileHeaderBanner extends StatelessWidget {
           child: Stack(
             alignment: Alignment.center,
             children: [
-              const Icon(
-                Symbols.notifications,
+              const AppIcon(
+                AppIcons.bell,
                 color: Color(0xFFFFF8EC),
                 size: 20,
-                weight: 500,
               ),
               if (hasUnreadNotification)
                 Positioned(

@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:material_symbols_icons/symbols.dart';
 import 'package:vstech_hrm/core/extensions/l10n_extension.dart';
 import 'package:vstech_hrm/core/responsive/app_layout.dart';
 import 'package:vstech_hrm/core/router/routes.dart';
 import 'package:vstech_hrm/core/theme/app_colors.dart';
+import 'package:vstech_hrm/core/widgets/app_icon.dart';
 
 /// Screen 04: All Services grid hub categorized into 4 departments.
 class AllServicesScreen extends StatelessWidget {
@@ -20,7 +20,7 @@ class AllServicesScreen extends StatelessWidget {
         backgroundColor: colors.surface,
         elevation: 0,
         leading: IconButton(
-          icon: const Icon(Symbols.arrow_back),
+          icon: const AppIcon(AppIcons.back, size: 20),
           onPressed: () => Navigator.of(context).pop(),
         ),
         title: Text(
@@ -36,12 +36,22 @@ class AllServicesScreen extends StatelessWidget {
         padding: const EdgeInsets.fromLTRB(16, 16, 16, 32),
         children: [
           _buildCategory(
+            title: context.l10n.approvalsCenterTitle,
+            items: [
+              _ServiceItem(
+                context.l10n.approvalsCenterTitle,
+                AppIcons.approvals,
+                () => context.go(AppRoutes.approvals),
+              ),
+            ],
+            colors: colors,
+          ),
+          22.gapH,
+          _buildCategory(
             title: context.l10n.categoryAttendanceTime,
             items: [
-              _ServiceItem(context.l10n.serviceCheckInOut, Symbols.power_settings_new, () => context.go(AppRoutes.attendance)),
-              _ServiceItem(context.l10n.serviceShiftSchedule, Symbols.schedule, () => context.push(AppRoutes.shiftSchedule)),
-              _ServiceItem(context.l10n.serviceMonthlyTimesheet, Symbols.calendar_month, () => context.push(AppRoutes.calendar)),
-              _ServiceItem(context.l10n.serviceHolidays, Symbols.flag, () => context.push(AppRoutes.holidays)),
+              _ServiceItem(context.l10n.serviceCheckInOut, AppIcons.checkIn, () => context.go(AppRoutes.attendance)),
+              _ServiceItem(context.l10n.calendarScreenTitle, AppIcons.calendar, () => context.push(AppRoutes.shiftSchedule)),
             ],
             colors: colors,
           ),
@@ -49,10 +59,9 @@ class AllServicesScreen extends StatelessWidget {
           _buildCategory(
             title: context.l10n.categoryRequests,
             items: [
-              _ServiceItem(context.l10n.serviceLeave, Symbols.beach_access, () => context.push(AppRoutes.leaveCreate)),
-              _ServiceItem(context.l10n.serviceOvertime, Symbols.schedule, () => context.push(AppRoutes.overtimeCreate)),
-              _ServiceItem(context.l10n.serviceCorrection, Symbols.edit_note, () => context.push(AppRoutes.attendanceCorrection)),
-              _ServiceItem(context.l10n.serviceTrackRequests, Symbols.list_alt, () => context.go(AppRoutes.requests)),
+              _ServiceItem(context.l10n.leaveManageTitle, AppIcons.leave, () => context.push(AppRoutes.leaveManage)),
+              _ServiceItem(context.l10n.overtimeManageTitle, AppIcons.overtime, () => context.push(AppRoutes.overtimeManage)),
+              _ServiceItem(context.l10n.correctionManageTitle, AppIcons.correction, () => context.push(AppRoutes.correctionManage)),
             ],
             colors: colors,
           ),
@@ -60,21 +69,17 @@ class AllServicesScreen extends StatelessWidget {
           _buildCategory(
             title: context.l10n.categoryPayrollRewards,
             items: [
-              _ServiceItem(context.l10n.serviceSalaryTable, Symbols.account_balance_wallet, () => context.go(AppRoutes.payroll)),
-              _ServiceItem(context.l10n.servicePayslip, Symbols.receipt_long, () => context.push(AppRoutes.payslipDetail)),
-              _ServiceItem(context.l10n.serviceRewards, Symbols.star, () => context.push(AppRoutes.rewards)),
-              _ServiceItem(context.l10n.serviceAllowance, Symbols.payments, () => context.go(AppRoutes.payroll)),
+              _ServiceItem(context.l10n.serviceSalaryTable, AppIcons.payroll, () => context.go(AppRoutes.payroll)),
+              _ServiceItem(context.l10n.disputeManageTitle, AppIcons.dispute, () => context.push(AppRoutes.salaryDisputes)),
             ],
             colors: colors,
           ),
           22.gapH,
           _buildCategory(
-            title: context.l10n.categoryCareerProfile,
+            title: context.l10n.profile,
             items: [
-              _ServiceItem(context.l10n.serviceInternalJobs, Symbols.work, () => context.push(AppRoutes.jobRecruitment)),
-              _ServiceItem(context.l10n.serviceProfile, Symbols.person, () => context.go(AppRoutes.profile)),
-              _ServiceItem(context.l10n.serviceSettings, Symbols.settings, () => context.push(AppRoutes.settings)),
-              _ServiceItem(context.l10n.serviceApprovals, Symbols.fact_check, () => context.push(AppRoutes.approvals)),
+              _ServiceItem(context.l10n.serviceProfile, AppIcons.profile, () => context.go(AppRoutes.profile)),
+              _ServiceItem(context.l10n.serviceSettings, AppIcons.settings, () => context.push(AppRoutes.settings)),
             ],
             colors: colors,
           ),
@@ -88,6 +93,8 @@ class AllServicesScreen extends StatelessWidget {
     required List<_ServiceItem> items,
     required AppColorsExtension colors,
   }) {
+    if (items.isEmpty) return const SizedBox.shrink();
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -100,50 +107,55 @@ class AllServicesScreen extends StatelessWidget {
           ),
         ),
         const SizedBox(height: 12),
-        Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: items.map((item) => Expanded(
-            child: InkWell(
+        GridView.builder(
+          shrinkWrap: true,
+          physics: const NeverScrollableScrollPhysics(),
+          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: 4,
+            mainAxisSpacing: 14,
+            crossAxisSpacing: 8,
+            childAspectRatio: 0.72,
+          ),
+          itemCount: items.length,
+          itemBuilder: (context, index) {
+            final item = items[index];
+            return InkWell(
               borderRadius: BorderRadius.circular(16),
               onTap: item.onTap,
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 4),
-                child: Column(
-                  children: [
-                    Container(
-                      width: 54,
-                      height: 54,
-                      decoration: BoxDecoration(
-                        color: colors.surface,
-                        borderRadius: BorderRadius.circular(16),
-                        border: Border.all(color: colors.border),
-                      ),
-                      child: Center(
-                        child: Icon(
-                          item.icon,
-                          size: 24,
-                          color: colors.primaryIndigo,
-                        ),
+              child: Column(
+                children: [
+                  Container(
+                    width: 52,
+                    height: 52,
+                    decoration: BoxDecoration(
+                      color: colors.surface,
+                      borderRadius: BorderRadius.circular(16),
+                      border: Border.all(color: colors.border),
+                    ),
+                    child: Center(
+                      child: AppIcon(
+                        item.iconName,
+                        color: colors.primaryIndigo,
                       ),
                     ),
-                    const SizedBox(height: 7),
-                    Text(
-                      item.label,
-                      style: TextStyle(
-                        fontSize: 11,
-                        fontWeight: FontWeight.w700,
-                        color: colors.textPrimary,
-                        height: 1.25,
-                      ),
-                      textAlign: TextAlign.center,
-                      maxLines: 2,
-                      overflow: TextOverflow.ellipsis,
+                  ),
+                  const SizedBox(height: 6),
+                  Text(
+                    item.label,
+                    style: TextStyle(
+                      fontSize: 10.5,
+                      fontWeight: FontWeight.w700,
+                      color: colors.textPrimary,
+                      height: 1.2,
                     ),
-                  ],
-                ),
+                    textAlign: TextAlign.center,
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ],
               ),
-            ),
-          )).toList(),
+            );
+          },
         ),
       ],
     );
@@ -151,9 +163,13 @@ class AllServicesScreen extends StatelessWidget {
 }
 
 class _ServiceItem {
-  const new(this.label, this.icon, this.onTap);
+  const new(
+    this.label,
+    this.iconName,
+    this.onTap,
+  );
 
   final String label;
-  final IconData icon;
-  final VoidCallback onTap;
+  final String iconName;
+  final VoidCallback? onTap;
 }

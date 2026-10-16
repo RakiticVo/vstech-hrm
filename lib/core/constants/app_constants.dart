@@ -14,6 +14,9 @@ class AppConstants {
   static const String keyDeviceFingerprint = 'device_fingerprint';
   static const String keyBiometricEnabled = 'biometric_enabled';
   static const String keyPinHash = 'user_pin_hash';
+  static const String keyRememberMe = 'remember_me';
+  static const String keySavedUsername = 'saved_username';
+  static const String keySavedPassword = 'saved_password';
 
   // Preferences Keys
   static const String keyThemeMode = 'theme_mode';

@@ -6,7 +6,18 @@ import 'package:vstech_hrm/core/theme/app_colors.dart';
 
 /// Donut chart and legend for monthly attendance summary (Screen 05).
 class AttendanceMonthSummaryCard extends StatelessWidget {
-  const new({super.key});
+  const AttendanceMonthSummaryCard({
+    this.present = 0,
+    this.leave = 0,
+    this.missing = 0,
+    this.holiday = 0,
+    super.key,
+  });
+
+  final int present;
+  final int leave;
+  final int missing;
+  final int holiday;
 
   @override
   Widget build(BuildContext context) {
@@ -14,10 +25,10 @@ class AttendanceMonthSummaryCard extends StatelessWidget {
     final l10n = context.l10n;
 
     final legends = [
-      (l10n.legendFullWork, l10n.daysCountUnit(18), colors.pineGreen),
-      (l10n.legendLeave, l10n.daysCountUnit(2), colors.accentAmber),
-      (l10n.legendMissingTime, l10n.daysCountUnit(1), colors.error),
-      (l10n.legendHoliday, l10n.daysCountUnit(1), colors.primaryIndigo),
+      (l10n.legendFullWork, l10n.daysCountUnit(present), colors.pineGreen),
+      (l10n.legendLeave, l10n.daysCountUnit(leave), colors.accentAmber),
+      (l10n.legendMissingTime, l10n.daysCountUnit(missing), colors.error),
+      (l10n.legendHoliday, l10n.daysCountUnit(holiday), colors.primaryIndigo),
     ];
 
     return Container(
@@ -29,25 +40,25 @@ class AttendanceMonthSummaryCard extends StatelessWidget {
       padding: const EdgeInsets.all(18),
       child: Row(
         children: [
-          // Donut chart with 18 in center
+          // Donut chart with present in center
           SizedBox(
             width: 96,
             height: 96,
             child: CustomPaint(
               painter: _AttendanceDonutPainter(
-                present: 18,
-                leave: 2,
-                missing: 1,
-                holiday: 1,
+                present: present,
+                leave: leave,
+                missing: missing,
+                holiday: holiday,
                 colors: colors,
               ),
               child: Center(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    const Text(
-                      '18',
-                      style: TextStyle(
+                    Text(
+                      '$present',
+                      style: const TextStyle(
                         fontSize: 22,
                         fontWeight: FontWeight.w800,
                         height: 1,
@@ -77,27 +88,34 @@ class AttendanceMonthSummaryCard extends StatelessWidget {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Row(
-                              children: [
-                                Container(
-                                  width: 8,
-                                  height: 8,
-                                  decoration: BoxDecoration(
-                                    color: l.$3,
-                                    shape: BoxShape.circle,
+                            Expanded(
+                              child: Row(
+                                children: [
+                                  Container(
+                                    width: 8,
+                                    height: 8,
+                                    decoration: BoxDecoration(
+                                      color: l.$3,
+                                      shape: BoxShape.circle,
+                                    ),
                                   ),
-                                ),
-                                8.gapW,
-                                Text(
-                                  l.$1,
-                                  style: TextStyle(
-                                    fontSize: 12.5,
-                                    fontWeight: FontWeight.w600,
-                                    color: colors.textSecondary,
+                                  8.gapW,
+                                  Expanded(
+                                    child: Text(
+                                      l.$1,
+                                      maxLines: 1,
+                                      overflow: TextOverflow.ellipsis,
+                                      style: TextStyle(
+                                        fontSize: 12.5,
+                                        fontWeight: FontWeight.w600,
+                                        color: colors.textSecondary,
+                                      ),
+                                    ),
                                   ),
-                                ),
-                              ],
+                                ],
+                              ),
                             ),
+                            6.gapW,
                             Text(
                               l.$2,
                               style: TextStyle(
@@ -119,7 +137,7 @@ class AttendanceMonthSummaryCard extends StatelessWidget {
 }
 
 class _AttendanceDonutPainter extends CustomPainter {
-  const new({
+  const _AttendanceDonutPainter({
     required this.present,
     required this.leave,
     required this.missing,
@@ -135,12 +153,19 @@ class _AttendanceDonutPainter extends CustomPainter {
 
   @override
   void paint(Canvas canvas, Size size) {
-    final total = present + leave + missing + holiday;
-    if (total == 0) return;
-
     final center = Offset(size.width / 2, size.height / 2);
     final radius = (size.width - 12) / 2;
     const strokeWidth = 10.0;
+
+    final total = present + leave + missing + holiday;
+    if (total == 0) {
+      final emptyPaint = Paint()
+        ..color = colors.cardSecondary
+        ..style = PaintingStyle.stroke
+        ..strokeWidth = strokeWidth;
+      canvas.drawCircle(center, radius, emptyPaint);
+      return;
+    }
 
     final segments = [
       (present, colors.pineGreen),
@@ -152,6 +177,7 @@ class _AttendanceDonutPainter extends CustomPainter {
     var startAngle = -math.pi / 2;
 
     for (final seg in segments) {
+      if (seg.$1 <= 0) continue;
       final sweepAngle = (seg.$1 / total) * 2 * math.pi;
       final paint = Paint()
         ..color = seg.$2
@@ -162,7 +188,7 @@ class _AttendanceDonutPainter extends CustomPainter {
       canvas.drawArc(
         Rect.fromCircle(center: center, radius: radius),
         startAngle,
-        sweepAngle - 0.05, // small gap between arcs
+        sweepAngle - 0.05,
         false,
         paint,
       );
@@ -171,5 +197,9 @@ class _AttendanceDonutPainter extends CustomPainter {
   }
 
   @override
-  bool shouldRepaint(covariant _AttendanceDonutPainter old) => false;
+  bool shouldRepaint(covariant _AttendanceDonutPainter old) =>
+      old.present != present ||
+      old.leave != leave ||
+      old.missing != missing ||
+      old.holiday != holiday;
 }

@@ -85,7 +85,14 @@ class AppLocalizationsVi extends AppLocalizations {
   String get loginInstruction => 'Nhập mã nhân viên và mật khẩu của bạn';
 
   @override
+  String get noSavedCredentialsForBiometric =>
+      'Vui lòng đăng nhập bằng tài khoản và mật khẩu trước để kích hoạt tính năng này';
+
+  @override
   String get loginButton => 'ĐĂNG NHẬP HỆ THỐNG';
+
+  @override
+  String get rememberMe => 'Ghi nhớ';
 
   @override
   String get biometricLogin => 'Đăng nhập bằng Face ID / Vân tay';
@@ -118,10 +125,10 @@ class AppLocalizationsVi extends AppLocalizations {
   String get todayShiftLabel => 'Ca hôm nay';
 
   @override
-  String get clockInCta => 'CHẤM CÔNG VÀO';
+  String get clockInCta => 'CHECK IN';
 
   @override
-  String get clockOutCta => 'CHẤM CÔNG RA';
+  String get clockOutCta => 'CHECK OUT';
 
   @override
   String get timeIn => 'Giờ vào';
@@ -148,7 +155,7 @@ class AppLocalizationsVi extends AppLocalizations {
   String get metricWorkdays => 'Ngày công';
 
   @override
-  String get metricLeaveBalance => 'Phép còn lại';
+  String get metricLeaveBalance => 'Phép năm còn lại';
 
   @override
   String get metricOvertime => 'Giờ tăng ca';
@@ -163,7 +170,7 @@ class AppLocalizationsVi extends AppLocalizations {
   String get quickActionOvertime => 'Tăng ca';
 
   @override
-  String get quickActionCorrection => 'Sửa công';
+  String get quickActionCorrection => 'Giải trình';
 
   @override
   String get quickActionPayroll => 'Bảng lương';
@@ -190,16 +197,16 @@ class AppLocalizationsVi extends AppLocalizations {
   String get shiftCheckOutLabel => 'RA VỀ';
 
   @override
-  String get shiftDoneCta => 'XONG CA';
+  String get shiftDoneCta => 'CHECK OUT';
 
   @override
-  String get shiftCheckOutCta => 'CHẤM RA';
+  String get shiftCheckOutCta => 'CHECK OUT';
 
   @override
-  String get todayShiftDefault => 'Ca hôm nay 08:00 — 17:00';
+  String get todayShiftDefault => 'Ca làm việc hôm nay';
 
   @override
-  String get metricLateEarly => 'MUỘN / SỚM';
+  String get metricLateEarly => 'Vào trễ / Ra sớm';
 
   @override
   String get daysUnit => 'ngày';
@@ -259,7 +266,7 @@ class AppLocalizationsVi extends AppLocalizations {
   }
 
   @override
-  String get sendCorrectionRequest => 'Gửi yêu cầu sửa công';
+  String get sendCorrectionRequest => 'Gửi yêu cầu giải trình';
 
   @override
   String get statusCheckedIn => 'Đã chấm công vào';
@@ -268,11 +275,10 @@ class AppLocalizationsVi extends AppLocalizations {
   String get statusNotCheckedIn => 'Chưa chấm công';
 
   @override
-  String get shiftPromptArrive =>
-      'Ca của bạn bắt đầu 08:00. Chấm công khi bạn đến.';
+  String get shiftPromptArrive => 'Vui lòng chấm công khi đến nơi làm việc.';
 
   @override
-  String get hcmOfficeVerified => 'Văn phòng HCM - đã xác thực vị trí';
+  String get hcmOfficeVerified => 'Đã xác thực vị trí chấm công';
 
   @override
   String get zeroMinutes => '0 phút';
@@ -285,19 +291,25 @@ class AppLocalizationsVi extends AppLocalizations {
   String get onlineAttendanceModeLabel => 'Chế độ Trực tuyến (Online)';
 
   @override
-  String get faceScanCheckInTitle => 'Chấm công Giờ vào';
+  String get faceScanCheckInTitle => 'Check in khuôn mặt';
 
   @override
-  String get faceScanCheckOutTitle => 'Chấm công Giờ ra';
+  String get faceScanCheckOutTitle => 'Check out khuôn mặt';
 
   @override
-  String get faceScanCaptureCheckInCta => 'Chụp ảnh & Chấm công Vào';
+  String get faceScanCaptureCheckInCta => 'Chụp ảnh & Check in';
 
   @override
-  String get faceScanCaptureCheckOutCta => 'Chụp ảnh & Chấm công Ra';
+  String get faceScanCaptureCheckOutCta => 'Chụp ảnh & Check out';
 
   @override
-  String get offlineLocationLabel => 'Văn phòng HCM (Đối soát GPS cục bộ)';
+  String get faceCheckingRegistration => 'Đang kiểm tra dữ liệu khuôn mặt...';
+
+  @override
+  String get faceCheckingButton => 'Đang kiểm tra...';
+
+  @override
+  String get offlineLocationLabel => 'Đối soát GPS cục bộ';
 
   @override
   String offlineMatchSuccess(String pct) {
@@ -372,6 +384,15 @@ class AppLocalizationsVi extends AppLocalizations {
 
   @override
   String get shiftLabelTime => 'Thời gian:';
+
+  @override
+  String get shiftLabelDate => 'Ngày làm việc:';
+
+  @override
+  String get shiftLabelCode => 'Mã ca:';
+
+  @override
+  String get shiftLabelSource => 'Phân loại ca:';
 
   @override
   String get shiftLabelBreak => 'Nghỉ giữa ca:';
@@ -474,13 +495,13 @@ class AppLocalizationsVi extends AppLocalizations {
   String get requestTypeOvertime => 'Đăng ký tăng ca';
 
   @override
-  String get requestTypeCorrection => 'Sửa công';
+  String get requestTypeCorrection => 'Giải trình';
 
   @override
   String get requestsCenterTitle => 'Trung tâm yêu cầu';
 
   @override
-  String get requestsCenterSubtitle => 'Nghỉ phép · Tăng ca · Sửa công';
+  String get requestsCenterSubtitle => 'Nghỉ phép · Tăng ca · Giải trình';
 
   @override
   String get monthlyRequestsTitle => 'Yêu cầu theo tháng';
@@ -562,13 +583,13 @@ class AppLocalizationsVi extends AppLocalizations {
   String get newOvertimeRequestSection => 'Tăng ca mới';
 
   @override
-  String get newCorrectionRequestSection => 'Sửa công mới';
+  String get newCorrectionRequestSection => 'Giải trình mới';
 
   @override
   String get overtimeHistorySection => 'Lịch sử tăng ca';
 
   @override
-  String get correctionHistorySection => 'Lịch sử sửa công';
+  String get correctionHistorySection => 'Lịch sử giải trình';
 
   @override
   String get approvalsCenterTitle => 'Trung tâm phê duyệt';
@@ -626,10 +647,10 @@ class AppLocalizationsVi extends AppLocalizations {
   String get leaveTypeAnnual => 'Phép năm';
 
   @override
-  String get leaveTypeSick => 'Nghỉ bệnh';
+  String get leaveTypeSick => 'Nghỉ ốm (BHXH)';
 
   @override
-  String get leaveTypeUnpaid => 'Không lương';
+  String get leaveTypeUnpaid => 'Nghỉ không lương';
 
   @override
   String get leaveTypeSpecial => 'Phép đặc biệt';
@@ -706,13 +727,13 @@ class AppLocalizationsVi extends AppLocalizations {
   }
 
   @override
-  String get createCorrectionTitle => 'Tạo yêu cầu sửa công';
+  String get createCorrectionTitle => 'Tạo yêu cầu giải trình';
 
   @override
-  String get correctionDateLabel => 'Ngày sửa';
+  String get correctionDateLabel => 'Ngày giải trình';
 
   @override
-  String get correctionTimeLabel => 'Sửa thành giờ';
+  String get correctionTimeLabel => 'Thời gian';
 
   @override
   String get correctionIssueLabel => 'Vấn đề phát sinh';
@@ -744,7 +765,7 @@ class AppLocalizationsVi extends AppLocalizations {
   String get confirmSendCorrection => 'Xác nhận gửi yêu cầu';
 
   @override
-  String get correctionSubmittedTitle => 'Đã gửi yêu cầu sửa công!';
+  String get correctionSubmittedTitle => 'Đã gửi yêu cầu giải trình!';
 
   @override
   String correctionSubmittedMsg(String issue, String date, String time) {
@@ -753,12 +774,12 @@ class AppLocalizationsVi extends AppLocalizations {
 
   @override
   String noCorrectionsInMonth(String month) {
-    return 'Không có phiếu sửa công nào trong $month';
+    return 'Không có phiếu giải trình nào trong $month';
   }
 
   @override
   String get correctionWarningBanner =>
-      'Ngày 15/09/2026 chưa có giờ ra. Ngày này bị tính thiếu công cho đến khi được duyệt sửa.';
+      'Ngày 15/09/2026 chưa có giờ ra. Ngày này bị tính thiếu công cho đến khi được duyệt giải trình.';
 
   @override
   String get correctionIssueTitle => 'Vấn đề';
@@ -925,6 +946,12 @@ class AppLocalizationsVi extends AppLocalizations {
   String get roleBadgeEmployee => 'NV';
 
   @override
+  String get roleNameManager => 'Quản lý';
+
+  @override
+  String get roleNameEmployee => 'Nhân viên';
+
+  @override
   String get readyToUploadAvatarSnackbar =>
       'Đã sẵn sàng tải lên ảnh đại diện mới';
 
@@ -1053,7 +1080,7 @@ class AppLocalizationsVi extends AppLocalizations {
   String get testBiometricNow => 'Kiểm tra cảm biến ngay';
 
   @override
-  String get deviceSecurityTitle => 'THIẾT BỊ & AN TOÀN HỆ THỐNG';
+  String get deviceSecurityTitle => 'Bảo mật thiết bị';
 
   @override
   String get linkedDeviceTitle => 'Thiết bị liên kết';
@@ -1193,16 +1220,26 @@ class AppLocalizationsVi extends AppLocalizations {
   String get securityAndPrivacySection => 'Bảo mật & Quyền riêng tư';
 
   @override
-  String get biometricUnlock => 'Mở khoá sinh trắc học';
+  String get biometricUnlock => 'Xác nhận Face ID / Vân tay';
 
   @override
-  String get biometricUnlockDesc => 'Dùng Face ID hoặc vân tay để mở app';
+  String get biometricUnlockDesc =>
+      'Dùng Face ID hoặc vân tay để mở app & phiếu lương';
 
   @override
   String get autoLock => 'Tự động khoá';
 
   @override
   String get autoLockDesc => 'Khoá app ngay khi chuyển sang ứng dụng khác';
+
+  @override
+  String get displaySection => 'Hiển thị';
+
+  @override
+  String get themeModeLabel => 'Chế độ giao diện';
+
+  @override
+  String get languageLabel => 'Ngôn ngữ';
 
   @override
   String get designAndSystemSection => 'Thiết kế & Hệ thống';
@@ -1226,6 +1263,9 @@ class AppLocalizationsVi extends AppLocalizations {
       'Vui lòng bật quyền Thông báo trong Cài đặt hệ thống';
 
   @override
+  String get appVersionFooter => 'Phiên bản 1.0.0 · Bản dựng 2026';
+
+  @override
   String get allServicesTitle => 'Tất cả dịch vụ';
 
   @override
@@ -1239,6 +1279,9 @@ class AppLocalizationsVi extends AppLocalizations {
 
   @override
   String get categoryCareerProfile => 'Nghề nghiệp & hồ sơ';
+
+  @override
+  String get categoryGovernance => 'Quản trị & Điều hành';
 
   @override
   String get serviceCheckInOut => 'Chấm công vào/ra';
@@ -1259,7 +1302,7 @@ class AppLocalizationsVi extends AppLocalizations {
   String get serviceOvertime => 'Đăng ký tăng ca';
 
   @override
-  String get serviceCorrection => 'Sửa công';
+  String get serviceCorrection => 'Giải trình';
 
   @override
   String get serviceTrackRequests => 'Theo dõi yêu cầu';
@@ -1322,7 +1365,7 @@ class AppLocalizationsVi extends AppLocalizations {
   String get calendarSubtitle => 'Tháng 09/2026 · 22 ngày công chuẩn';
 
   @override
-  String get monthSummaryTitle => 'Tổng hợp tháng 9';
+  String get monthSummaryTitle => 'Tổng hợp tháng';
 
   @override
   String get payableWorkdays => 'Ngày công tính lương';
@@ -1346,10 +1389,33 @@ class AppLocalizationsVi extends AppLocalizations {
   String get legendLeave => 'Nghỉ phép';
 
   @override
+  String get legendOvertime => 'Tăng ca';
+
+  @override
+  String get legendCorrection => 'Giải trình';
+
+  @override
   String get legendMissingTime => 'Thiếu giờ';
 
   @override
   String get legendHoliday => 'Ngày lễ';
+
+  @override
+  String get timesheetCorrectionSummary => 'Giải trình';
+
+  @override
+  String get timesheetSendCorrectionCta => 'Gửi giải trình';
+
+  @override
+  String get timesheetRelatedSlipsTitle => 'Phiếu liên quan & Đơn từ';
+
+  @override
+  String timesheetApproverLabel(String name) {
+    return 'Người duyệt: $name';
+  }
+
+  @override
+  String get requestLockedPeriodNotice => 'Kỳ công đã chốt, phiếu đã bị khóa';
 
   @override
   String get holidaysTitle => 'Ngày lễ';
@@ -1453,7 +1519,54 @@ class AppLocalizationsVi extends AppLocalizations {
   String get filterAll => 'Tất cả';
 
   @override
-  String get forgotPasswordShort => 'Quên?';
+  String get forgotPasswordShort => 'Quên mật khẩu?';
+
+  @override
+  String get forgotPasswordTitle => 'Quên mật khẩu?';
+
+  @override
+  String get forgotPasswordSubtitle =>
+      'Vì lý do bảo mật, mật khẩu chỉ được cấp lại bởi bộ phận IT. Vui lòng liên hệ IT và cung cấp mã nhân viên để được hỗ trợ.';
+
+  @override
+  String get itHotlineLabel => 'Tổng đài IT · máy lẻ 1234';
+
+  @override
+  String get itHotlineNumber => '028 3930 1234';
+
+  @override
+  String get itEmailLabel => 'Email';
+
+  @override
+  String get itEmailValue => 'it.helpdesk@vstech.vn';
+
+  @override
+  String get itSupportHoursLabel => 'Giờ hỗ trợ';
+
+  @override
+  String get itSupportHoursValue => 'T2 – T7 · 07:30 – 18:00';
+
+  @override
+  String get itSecurityDisclaimer =>
+      'IT sẽ xác minh danh tính qua quản lý trực tiếp trước khi cấp mật khẩu tạm. Đổi mật khẩu ngay sau lần đăng nhập đầu tiên.';
+
+  @override
+  String get callItDepartmentBtn => 'Gọi bộ phận IT';
+
+  @override
+  String get backToLoginBtn => 'Quay lại đăng nhập';
+
+  @override
+  String get loginWithFaceId => 'Đăng nhập bằng Face ID';
+
+  @override
+  String get loginWithFingerprint => 'Đăng nhập bằng vân tay';
+
+  @override
+  String get faceIdAuthReason => 'Xác thực Face ID để đăng nhập';
+
+  @override
+  String get fingerprintAuthReason => 'Quét vân tay để đăng nhập';
 
   @override
   String get orDivider => 'hoặc';
@@ -1541,7 +1654,7 @@ class AppLocalizationsVi extends AppLocalizations {
 
   @override
   String statusLateMinutes(String minutes) {
-    return 'Đi muộn $minutes phút';
+    return '$minutes phút';
   }
 
   @override
@@ -1654,7 +1767,7 @@ class AppLocalizationsVi extends AppLocalizations {
   String get laborProfileTitle => 'Hồ sơ lao động & Hợp đồng';
 
   @override
-  String get contractSectionTitle => 'Hợp đồng lao động hiện tại';
+  String get contractSectionTitle => 'Hợp đồng lao động & Phụ lục';
 
   @override
   String get contractNumberLabel => 'Số hợp đồng';
@@ -1863,4 +1976,1539 @@ class AppLocalizationsVi extends AppLocalizations {
   @override
   String get qrCancelledWarning =>
       'Yêu cầu đăng nhập này đã bị huỷ bởi máy tính trạm.';
+
+  @override
+  String get execDashboardTitle => 'Bảng điều hành Ban Giám Đốc';
+
+  @override
+  String get execRoleTag => 'TỔNG GIÁM ĐỐC / CEO';
+
+  @override
+  String get execGreeting => 'Chào anh Lê Hoàng';
+
+  @override
+  String get execWaitingBadge => 'ĐƠN CHỜ PHÊ DUYỆT CUỐI';
+
+  @override
+  String get execWaitingSub => 'Cần ý kiến phê duyệt của Giám đốc';
+
+  @override
+  String get execOldestWaiting => 'Đơn cũ nhất: 18h trước';
+
+  @override
+  String get execCompanyNow => 'TÌNH HÌNH DOANH NGHIỆP HÔM NAY';
+
+  @override
+  String get execHeadcount => 'Tổng nhân sự';
+
+  @override
+  String get execAttendanceRate => 'Tỷ lệ đi làm';
+
+  @override
+  String get execMonthlyPayroll => 'Quỹ lương tháng';
+
+  @override
+  String get execOvertimeHours => 'Giờ tăng ca tháng';
+
+  @override
+  String get execTurnoverRate => 'Tỷ lệ nghỉ việc';
+
+  @override
+  String get execNeedAttention => 'Rủi ro & Tuân thủ cần chú ý';
+
+  @override
+  String get execSeeAllAlerts => 'Xem tất cả cảnh báo';
+
+  @override
+  String get execAttendanceByDept => 'Tỷ lệ đi làm theo khối/xưởng';
+
+  @override
+  String get finalApprovalTitle => 'Phê duyệt cuối';
+
+  @override
+  String get finalApprovalCaption =>
+      'Cấp thẩm quyền cao nhất · Chu trình kết thúc';
+
+  @override
+  String get finalApprovalDelegateBtn => 'Ủy quyền';
+
+  @override
+  String get finalApprovalBatchHint =>
+      'Phê duyệt nhanh các đơn đã qua kiểm tra của HR & Kế toán';
+
+  @override
+  String get finalApprovalApproveAll => 'Duyệt tất cả';
+
+  @override
+  String get finalApprovalFinancialImpact => 'TÁC ĐỘNG TÀI CHÍNH';
+
+  @override
+  String get finalApprovalBudget => 'NGÂN SÁCH DỰ PHÒNG';
+
+  @override
+  String get finalApprovalApproveBtn => 'Phê duyệt cuối';
+
+  @override
+  String get finalApprovalRejectBtn => 'Từ chối';
+
+  @override
+  String get finalApprovalSuccess =>
+      'Đã phê duyệt cuối thành công. HR sẽ tiến hành thực thi.';
+
+  @override
+  String get finalApprovalRejected => 'Đã từ chối đơn đề xuất.';
+
+  @override
+  String get riskTitle => 'Cảnh báo Rủi ro & Tuân thủ';
+
+  @override
+  String get riskCaption =>
+      'Cảnh báo qua 3 phân tầng · Giao việc trực tiếp cho HR';
+
+  @override
+  String get riskTierCritical => 'Nghiêm trọng';
+
+  @override
+  String get riskTierHigh => 'Cảnh báo cao';
+
+  @override
+  String get riskTierMedium => 'Theo dõi';
+
+  @override
+  String get riskAssignHr => 'Giao việc cho HR';
+
+  @override
+  String get riskAssignedSuccess => 'Đã giao việc cho bộ phận HR xử lý!';
+
+  @override
+  String get delTitle => 'Trung tâm Ủy quyền';
+
+  @override
+  String get delCaption =>
+      'Chuyển giao quyền phê duyệt khi vắng mặt hoặc đi công tác';
+
+  @override
+  String get delSelectPerson => 'Người nhận ủy quyền';
+
+  @override
+  String get delPeriod => 'Thời gian ủy quyền';
+
+  @override
+  String get delFromDate => 'Từ ngày';
+
+  @override
+  String get delToDate => 'Đến ngày';
+
+  @override
+  String get delTotalDays => 'Tổng cộng';
+
+  @override
+  String get delScope => 'Phạm vi thẩm quyền';
+
+  @override
+  String get delAllScope => 'Toàn bộ thẩm quyền';
+
+  @override
+  String get delPartialScope => 'Theo từng loại đơn';
+
+  @override
+  String get delLimit => 'Hạn mức duyệt tối đa';
+
+  @override
+  String get delLimitHint =>
+      'Các đơn vượt hạn mức này vẫn sẽ chuyển trực tiếp cho bạn khi online';
+
+  @override
+  String get delUnlimited => 'Không giới hạn';
+
+  @override
+  String get delSubmit => 'Xác nhận thiết lập ủy quyền';
+
+  @override
+  String get delActiveList => 'Ủy quyền đang hiệu lực';
+
+  @override
+  String get delRevoke => 'Hủy ủy quyền';
+
+  @override
+  String get delRevokeSuccess => 'Đã hủy ủy quyền thành công!';
+
+  @override
+  String get delCreateSuccess => 'Thiết lập ủy quyền phê duyệt thành công!';
+
+  @override
+  String get delRunning => 'Đang chạy';
+
+  @override
+  String get requestTypeOnDuty => 'Đi việc ngoài';
+
+  @override
+  String get requestTypeBusinessTrip => 'Công tác';
+
+  @override
+  String get requestTypeShiftSwap => 'Đổi ca';
+
+  @override
+  String get onDutyTitle => 'Đăng ký Đi việc ngoài';
+
+  @override
+  String get onDutySubtitle =>
+      'Công tác ngắn hạn trong ngày (gặp khách hàng, cơ quan, việc gấp)';
+
+  @override
+  String get onDutyFromTime => 'Từ giờ';
+
+  @override
+  String get onDutyToTime => 'Đến giờ';
+
+  @override
+  String get onDutyLocation => 'Địa điểm đến';
+
+  @override
+  String get onDutyDescription => 'Nội dung công việc';
+
+  @override
+  String get onDutyShiftConstraintWarning =>
+      'Giờ đi việc ngoài phải nằm trong ca làm việc hôm nay';
+
+  @override
+  String get onDutySubmitSuccess => 'Đã gửi đơn Đi việc ngoài thành công!';
+
+  @override
+  String get businessTripTitle => 'Đăng ký Công tác';
+
+  @override
+  String get businessTripSubtitle =>
+      'Chuyến công tác nhiều ngày trong nước hoặc nước ngoài';
+
+  @override
+  String get businessTripDestination => 'Nơi đến / Địa điểm';
+
+  @override
+  String get businessTripColleagues => 'Đồng nghiệp cùng đi';
+
+  @override
+  String get businessTripPurpose => 'Mục đích công tác';
+
+  @override
+  String get businessTripPlan => 'Kế hoạch / Lịch trình';
+
+  @override
+  String get businessTripSubmitSuccess => 'Đã gửi đơn Công tác thành công!';
+
+  @override
+  String get offSiteTimesheetLabel => 'Công tác';
+
+  @override
+  String get offSiteCreditDesc =>
+      'Đã ghi nhận đủ công (không tính muộn/về sớm)';
+
+  @override
+  String get leaveBalanceBreakdownTitle => 'Chi tiết quỹ nghỉ phép';
+
+  @override
+  String get leaveTypeCompOff => 'Nghỉ bù (từ tăng ca)';
+
+  @override
+  String get leaveTypeMaternity => 'Nghỉ thai sản';
+
+  @override
+  String get leaveTypePaidPersonal => 'Việc riêng có lương';
+
+  @override
+  String get leaveBalanceEntitlement => 'Tiêu chuẩn';
+
+  @override
+  String get leaveBalanceUsed => 'Đã dùng';
+
+  @override
+  String get leaveBalancePending => 'Đang chờ duyệt';
+
+  @override
+  String get leaveBalanceAvailable => 'Khả dụng';
+
+  @override
+  String get leaveHalfDayMorning => 'Nửa ca sáng';
+
+  @override
+  String get leaveHalfDayAfternoon => 'Nửa ca chiều';
+
+  @override
+  String get leaveHandoverPerson => 'Người bàn giao / thay thế';
+
+  @override
+  String get leaveAttachment => 'Giấy tờ / Chứng từ đính kèm';
+
+  @override
+  String leaveExceedBalanceWarning(String days) {
+    return 'Số ngày nghỉ vượt quá số phép khả dụng ($days ngày)!';
+  }
+
+  @override
+  String get leaveExcludeWeekendHint =>
+      'Đã tự động trừ ngày nghỉ cuối tuần và ngày lễ';
+
+  @override
+  String get leaveSaveDraftBtn => 'Lưu nháp';
+
+  @override
+  String get leaveDraftSaved => 'Đã lưu bản nháp thành công!';
+
+  @override
+  String get otRateWeekday => 'Ngày thường';
+
+  @override
+  String get otRateWeekend => 'Cuối tuần';
+
+  @override
+  String get otRateHoliday => 'Ngày lễ';
+
+  @override
+  String get otCompensationType => 'Hình thức tính bù';
+
+  @override
+  String get otCompensationPay => 'Hưởng tiền lương tăng ca';
+
+  @override
+  String get otCompensationCompOff => 'Quy đổi nghỉ bù (Comp-off)';
+
+  @override
+  String otMonthlyCapWarning(String current) {
+    return 'Chú ý: Bạn đã tích lũy ${current}h/40h trần tăng ca tháng này';
+  }
+
+  @override
+  String get otMonthlyCapExceeded =>
+      'Không thể gửi đơn: Tổng giờ tăng ca vượt quá 40h/tháng theo BLLĐ 2019!';
+
+  @override
+  String otMonthlyApprovedHeader(String hours) {
+    return 'Tổng giờ tăng ca đã duyệt: ${hours}h';
+  }
+
+  @override
+  String get extraHoursBalanceTitle => 'Quỹ giờ làm thêm & Nghỉ bù';
+
+  @override
+  String get extraHoursMonth => 'Giờ OT tháng này';
+
+  @override
+  String get extraHoursQuarter => 'Giờ OT quý này';
+
+  @override
+  String get extraHoursPayable => 'Giờ hưởng lương';
+
+  @override
+  String get extraHoursConvertedCompOff => 'Giờ đã đổi nghỉ bù';
+
+  @override
+  String get compOffConversionRule => 'Quy đổi: 8 giờ tăng ca = 1 ngày nghỉ bù';
+
+  @override
+  String get shiftSwapEligibilityCheck => 'Kiểm tra điều kiện đổi ca';
+
+  @override
+  String shiftSwapBranchMismatch(String branch) {
+    return 'Đồng nghiệp khác chi nhánh ($branch)';
+  }
+
+  @override
+  String get shiftSwapGradeMismatch => 'Cấp bậc công việc không tương đương';
+
+  @override
+  String get shiftSwapOnLeaveConflict =>
+      'Đồng nghiệp đang nghỉ phép vào ngày này';
+
+  @override
+  String get shiftSwapSameShiftConflict =>
+      'Hai người đang cùng một ca làm việc';
+
+  @override
+  String get shiftSwapRestConflict =>
+      'Khoảng cách giữa hai ca < 12 giờ (Điều 109 BLLĐ 2019)';
+
+  @override
+  String get shiftSwapOvertimeExceed => 'Tổng giờ tuần sẽ vượt quá 48 giờ';
+
+  @override
+  String get shiftSwapConflictAlert => 'Không đủ điều kiện đổi ca';
+
+  @override
+  String get shiftSwapApprovedTag => 'Đã đổi ca';
+
+  @override
+  String get shiftMonthUnpublished =>
+      'Lịch tháng sau sẽ được công bố vào ngày 25';
+
+  @override
+  String get shiftNetworkRetry => 'Thử lại kết nối';
+
+  @override
+  String get registeredDeviceTitle => 'Thiết bị đã đăng ký';
+
+  @override
+  String get registeredDeviceSub =>
+      'Chỉ chấm công trên thiết bị định danh duy nhất của bạn';
+
+  @override
+  String get deviceModelLabel => 'Dòng máy / Thiết bị';
+
+  @override
+  String get deviceIdLabel => 'Mã định danh (UUID)';
+
+  @override
+  String get deviceRegisteredDate => 'Ngày đăng ký';
+
+  @override
+  String get deviceCheckRegistered => 'Thiết bị chính chủ hợp lệ';
+
+  @override
+  String get deviceCheckNotRooted => 'Không phát hiện Root / Jailbreak';
+
+  @override
+  String get deviceCheckNoMockGps => 'Không dùng định vị giả (Mock GPS)';
+
+  @override
+  String get deviceCheckIntegrity => 'Tính toàn vẹn ứng dụng chuẩn';
+
+  @override
+  String get deviceBlockRootTitle => 'Thiết bị đã bị can thiệp (Root)';
+
+  @override
+  String get deviceBlockRootMsg =>
+      'Vì lý do an toàn, tài khoản không thể chấm công trên thiết bị đã can thiệp hệ điều hành. Vui lòng liên hệ HR.';
+
+  @override
+  String get deviceBlockMockGpsTitle => 'Phát hiện vị trí giả lập (Mock GPS)';
+
+  @override
+  String get deviceBlockMockGpsMsg =>
+      'Hệ thống phát hiện bạn đang bật ứng dụng giả lập toạ độ. Vui lòng tắt ứng dụng giả lập vị trí và bấm \'Kiểm tra lại\'.';
+
+  @override
+  String get deviceRecheckBtn => 'Kiểm tra lại';
+
+  @override
+  String get deviceDemoTogglesTitle => 'Mô phỏng vi phạm (Demo Sandbox)';
+
+  @override
+  String get deviceSimulateMockGps => 'Mô phỏng phát hiện Mock GPS';
+
+  @override
+  String get deviceSimulateRoot => 'Mô phỏng thiết bị Root';
+
+  @override
+  String get punchResultOnTime => 'Đúng giờ';
+
+  @override
+  String get punchResultLate => 'Đi muộn';
+
+  @override
+  String get punchResultEarly => 'Về sớm';
+
+  @override
+  String get punchLateReasonPrompt => 'Lý do đi muộn / về sớm';
+
+  @override
+  String get faceThumbnailLabel => 'Ảnh chụp đối chiếu AI';
+
+  @override
+  String get approvalTypeFilterAll => 'Tất cả';
+
+  @override
+  String get approvalTypeFilterCorrection => 'Giải trình';
+
+  @override
+  String get approvalTypeFilterTimesheet => 'Bảng công';
+
+  @override
+  String get approvalTypeFilterOT => 'Tăng ca';
+
+  @override
+  String get approvalTypeFilterLeave => 'Nghỉ phép';
+
+  @override
+  String get approvalTypeFilterSwap => 'Đổi ca';
+
+  @override
+  String get approvalTypeFilterOffSite => 'Đi việc ngoài';
+
+  @override
+  String get confirmTimesheetDialogTitle => 'Xác nhận giờ công';
+
+  @override
+  String get confirmTimesheetHoursLabel => 'Số giờ công xác nhận';
+
+  @override
+  String get confirmTimesheetNoteLabel => 'Ghi chú xác nhận (tuỳ chọn)';
+
+  @override
+  String get confirmTimesheetSubmitBtn => 'Xác nhận công';
+
+  @override
+  String confirmTimesheetSuccess(String name) {
+    return 'Đã xác nhận giờ công cho $name';
+  }
+
+  @override
+  String get approvalAttendanceSnippet => 'Chấm công ngày liên quan';
+
+  @override
+  String get approvalSwapBothSchedules => 'Lịch làm việc hai nhân viên';
+
+  @override
+  String get approvalInternalNoteLabel => 'Ghi chú nội bộ (chỉ quản lý thấy)';
+
+  @override
+  String get approvalMandatoryRejectReason =>
+      'Vui lòng nhập lý do từ chối (bắt buộc)';
+
+  @override
+  String get legendLateEarly => 'Đi muộn / Về sớm';
+
+  @override
+  String get dateLabel => 'Ngày';
+
+  @override
+  String get fillRequiredField => 'Vui lòng nhập thông tin này';
+
+  @override
+  String get submitButton => 'Gửi yêu cầu';
+
+  @override
+  String annualLeaveRemaining(String days) {
+    return 'Còn $days ngày';
+  }
+
+  @override
+  String availableDays(String days) {
+    return '$days ngày khả dụng';
+  }
+
+  @override
+  String get attendanceTitle => 'Chấm công';
+
+  @override
+  String get loadingState => 'Đang tải dữ liệu...';
+
+  @override
+  String get errorStateTitle => 'Không thể tải dữ liệu';
+
+  @override
+  String get networkError => 'Lỗi kết nối mạng, vui lòng thử lại';
+
+  @override
+  String get currentMonthSchedule => 'Lịch ca tháng này';
+
+  @override
+  String get deviceGpsRecheckedValid =>
+      'Đang kiểm tra lại toạ độ GPS... Hợp lệ!';
+
+  @override
+  String get deviceContactHrSent =>
+      'Đã gửi yêu cầu hỗ trợ kiểm tra thiết bị tới HR.';
+
+  @override
+  String get deviceContactHrBtn => 'Liên hệ phòng Nhân sự (HR)';
+
+  @override
+  String get deviceTestBlockCta => 'Thử nghiệm Chặn Chấm công (Demo)';
+
+  @override
+  String get deviceCheckSafetyBtn => 'Kiểm tra an toàn';
+
+  @override
+  String get requestDetailTitle => 'Chi tiết yêu cầu';
+
+  @override
+  String get requestCodeLabel => 'Mã yêu cầu';
+
+  @override
+  String get requesterLabel => 'Người gửi';
+
+  @override
+  String get cancelRequestBtn => 'Hủy yêu cầu';
+
+  @override
+  String get cancelRequestConfirm => 'Bạn có chắc chắn muốn hủy yêu cầu này?';
+
+  @override
+  String get requestCancelledSuccess => 'Yêu cầu đã được hủy thành công';
+
+  @override
+  String get internalNoteHint =>
+      'Nhập ghi chú nội bộ (chỉ người duyệt thấy)...';
+
+  @override
+  String get approveRequestConfirm => 'Xác nhận phê duyệt yêu cầu này?';
+
+  @override
+  String get rejectRequestConfirm => 'Xác nhận từ chối yêu cầu?';
+
+  @override
+  String get approvalTimelineTitle => 'Tiến trình phê duyệt (4 cấp)';
+
+  @override
+  String get submittedFieldsTitle => 'Thông tin chi tiết';
+
+  @override
+  String get attachedFilesTitle => 'Tệp đính kèm & Minh chứng';
+
+  @override
+  String get shiftComparisonTitle => 'So sánh ca làm việc hai nhân viên';
+
+  @override
+  String get attendanceLogComparisonTitle => 'Đối chiếu giờ quẹt thẻ thực tế';
+
+  @override
+  String get disputeComparisonTitle => 'Đối chiếu khoản mục khiếu nại';
+
+  @override
+  String get disputedAmountDiff => 'Mức chênh lệch';
+
+  @override
+  String get leaveManageTitle => 'Quản lý Nghỉ phép';
+
+  @override
+  String get annualLeaveHeroTitle => 'Quỹ phép năm 2026';
+
+  @override
+  String get leaveStatusFilterAll => 'Tất cả';
+
+  @override
+  String get leaveStatusFilterPending => 'Chờ duyệt';
+
+  @override
+  String get leaveStatusFilterApproved => 'Đã duyệt';
+
+  @override
+  String get leaveStatusFilterRejected => 'Từ chối';
+
+  @override
+  String get createLeaveBtn => 'Tạo đơn nghỉ phép';
+
+  @override
+  String get overtimeManageTitle => 'Quản lý Tăng ca';
+
+  @override
+  String get totalOvertimeHours => 'Tổng giờ tăng ca';
+
+  @override
+  String get rateNormal150 => 'Ngày thường';
+
+  @override
+  String get rateWeekend200 => 'Cuối tuần';
+
+  @override
+  String get rateHoliday300 => 'Ngày lễ';
+
+  @override
+  String get createOvertimeBtn => 'Đăng ký tăng ca';
+
+  @override
+  String get overtimeScopePersonal => 'Đơn của tôi';
+
+  @override
+  String get overtimeScopeProxy => 'Tạo hộ nhân viên';
+
+  @override
+  String get correctionManageTitle => 'Quản lý Giải trình';
+
+  @override
+  String get createCorrectionBtn => 'Tạo giải trình';
+
+  @override
+  String get correctionSummaryTitle => 'Tổng hợp giải trình tháng này';
+
+  @override
+  String noCorrectionInMonth(String month) {
+    return 'Không có yêu cầu giải trình nào trong $month';
+  }
+
+  @override
+  String get correctionQuotaTitle => 'Hạn mức giải trình tháng này';
+
+  @override
+  String correctionQuotaUsage(String used, String total) {
+    return 'Đã dùng $used/$total lần';
+  }
+
+  @override
+  String get missingPunchesSectionTitle => 'Ngày thiếu chấm công cần xử lý';
+
+  @override
+  String get fixPunchBtn => 'Giải trình ngay';
+
+  @override
+  String get noMissingPunches => 'Không có ngày nào bị thiếu chấm công';
+
+  @override
+  String get shiftSwapsManageTitle => 'Quản lý Đổi ca';
+
+  @override
+  String get swapsSentTab => 'Đơn gửi đi';
+
+  @override
+  String get swapsReceivedTab => 'Đơn nhận được';
+
+  @override
+  String get colleagueLabel => 'Đồng nghiệp đổi ca';
+
+  @override
+  String get swapStatusPending => 'Chờ duyệt';
+
+  @override
+  String get swapStatusApproved => 'Đã đổi ca';
+
+  @override
+  String get swapStatusRejected => 'Từ chối';
+
+  @override
+  String get requestSentTitle => 'Gửi thành công';
+
+  @override
+  String get requestSentSuccess => 'Yêu cầu của bạn đã được gửi thành công!';
+
+  @override
+  String requestAssignedTo(String name) {
+    return 'Người tiếp nhận: $name';
+  }
+
+  @override
+  String get backToListBtn => 'Về danh sách';
+
+  @override
+  String get viewRequestDetailBtn => 'Xem chi tiết yêu cầu';
+
+  @override
+  String get payslipLockTitle => 'Xác thực bảo mật';
+
+  @override
+  String get payslipLockSubtitle =>
+      'Nhập mã PIN 6 số hoặc xác thực sinh trắc học để xem phiếu lương';
+
+  @override
+  String payslipLockWrongPin(String remaining) {
+    return 'Mã PIN không chính xác. Còn lại $remaining lần thử';
+  }
+
+  @override
+  String get payslipLockLocked =>
+      'Đã khóa tạm thời trong 30 giây do nhập sai nhiều lần';
+
+  @override
+  String get payslipLockBiometricPrompt => 'Xác thực để mở khóa phiếu lương';
+
+  @override
+  String get payslipLockForgotPin => 'Quên mã PIN?';
+
+  @override
+  String get useBiometricsBtn => 'Dùng sinh trắc học';
+
+  @override
+  String get signPayslipBtn => 'Ký xác nhận phiếu lương';
+
+  @override
+  String get signPadTitle => 'Ký xác nhận điện tử';
+
+  @override
+  String get signPadSubtitle => 'Vui lòng ký tên của bạn vào khung bên dưới';
+
+  @override
+  String get signPadClear => 'Xóa chữ ký';
+
+  @override
+  String get signPadConfirm => 'Xác nhận ký';
+
+  @override
+  String get signPadDisclaimer =>
+      'Tôi xác nhận đã kiểm tra kỹ các thông tin thu nhập, khấu trừ và công chuẩn theo Bộ luật Lao động.';
+
+  @override
+  String get signPadEmptyAlert => 'Vui lòng ký tên trước khi xác nhận';
+
+  @override
+  String get payslipSignedBadge => 'Đã ký điện tử';
+
+  @override
+  String payslipSignedAt(String time) {
+    return 'Thời gian ký: $time';
+  }
+
+  @override
+  String payslipSignedHash(String hash) {
+    return 'Mã băm xác thực: $hash';
+  }
+
+  @override
+  String payslipSignedSigner(String name) {
+    return 'Người ký: $name';
+  }
+
+  @override
+  String get disputePayslipBtn => 'Khiếu nại bảng lương';
+
+  @override
+  String get disputeLineBtn => 'Khiếu nại dòng này';
+
+  @override
+  String get disputeManageTitle => 'Quản lý Khiếu nại lương';
+
+  @override
+  String get disputeNewTitle => 'Tạo khiếu nại lương';
+
+  @override
+  String get disputeMonthLabel => 'Tháng khiếu nại';
+
+  @override
+  String get disputeItemLabel => 'Khoản mục sai lệch';
+
+  @override
+  String get disputeCurrentAmountLabel => 'Số tiền trên phiếu lương (₫)';
+
+  @override
+  String get disputeExpectedAmountLabel => 'Số tiền đề xuất đúng (₫)';
+
+  @override
+  String get disputeDifferenceLabel => 'Chênh lệch đề xuất';
+
+  @override
+  String get disputeReasonLabel => 'Lý do & giải trình chi tiết';
+
+  @override
+  String get disputeReasonHint =>
+      'Nêu rõ nguyên nhân chênh lệch, ngày phát sinh, ca làm việc...';
+
+  @override
+  String get disputeAttachmentLabel =>
+      'Minh chứng (bảng công, ảnh chụp phân ca...)';
+
+  @override
+  String get submitDisputeBtn => 'Gửi khiếu nại';
+
+  @override
+  String get disputeCreatedSuccess => 'Đã gửi khiếu nại lương thành công';
+
+  @override
+  String get noDisputesFound => 'Không có khiếu nại nào';
+
+  @override
+  String get disputeStatusPending => 'Đang đối soát';
+
+  @override
+  String get disputeStatusApproved => 'Đã duyệt bù';
+
+  @override
+  String get disputeStatusRejected => 'Không chấp thuận';
+
+  @override
+  String get rewardsTabBonus => 'Thưởng';
+
+  @override
+  String get rewardsTabCommission => 'Hoa hồng';
+
+  @override
+  String get rewardsTabTargets => 'Chỉ tiêu';
+
+  @override
+  String commissionTotalTitle(String month) {
+    return 'Tổng hoa hồng tháng $month';
+  }
+
+  @override
+  String get commissionFilterDay => 'Ngày';
+
+  @override
+  String get commissionFilterWeek => 'Tuần';
+
+  @override
+  String get commissionFilterMonth => 'Tháng';
+
+  @override
+  String get commissionSourceDirect => 'Bán hàng trực tiếp';
+
+  @override
+  String get commissionSourceTeam => 'Doanh số nhóm';
+
+  @override
+  String get commissionSourceRenewal => 'Tái tục hợp đồng';
+
+  @override
+  String commissionContractsCount(int count) {
+    return '$count giao dịch';
+  }
+
+  @override
+  String get targetPersonalTitle => 'Chỉ tiêu cá nhân tháng này';
+
+  @override
+  String get targetTeamTitle => 'Chỉ tiêu đội nhóm chi nhánh';
+
+  @override
+  String get targetTiersTitle => 'Các mốc thưởng bậc thang';
+
+  @override
+  String get targetTierAchieved => 'Đã đạt mốc';
+
+  @override
+  String targetTierRemaining(String remaining) {
+    return 'Còn thiếu $remaining';
+  }
+
+  @override
+  String get targetTierNext => 'Mục tiêu kế tiếp';
+
+  @override
+  String get referCandidateBtn => 'Giới thiệu ứng viên';
+
+  @override
+  String get referralFormTitle => 'Giới thiệu ứng viên';
+
+  @override
+  String get candidateNameLabel => 'Họ và tên ứng viên';
+
+  @override
+  String get candidatePhoneLabel => 'Số điện thoại';
+
+  @override
+  String get candidateEmailLabel => 'Email liên hệ';
+
+  @override
+  String get candidatePositionLabel => 'Vị trí ứng tuyển';
+
+  @override
+  String get candidateBranchLabel => 'Chi nhánh mong muốn';
+
+  @override
+  String get candidateCvLabel => 'Tải lên CV (PDF, DOCX)';
+
+  @override
+  String candidateCvSelected(String fileName) {
+    return 'Đã đính kèm CV: $fileName';
+  }
+
+  @override
+  String get candidateDuplicateError =>
+      'Ứng viên này đã có hồ sơ trong hệ thống trong vòng 6 tháng qua';
+
+  @override
+  String get submitReferralBtn => 'Gửi hồ sơ giới thiệu';
+
+  @override
+  String get referralSuccessTitle => 'Gửi giới thiệu thành công';
+
+  @override
+  String get referralSuccessMsg =>
+      'Hồ sơ ứng viên đã được chuyển trực tiếp đến bộ phận Tuyển dụng';
+
+  @override
+  String get referralCodeLabel => 'Mã theo dõi giới thiệu';
+
+  @override
+  String get referralBonusNotice =>
+      'Thưởng giới thiệu: 3.000.000 ₫ (khi ứng viên qua thử việc)';
+
+  @override
+  String get viewMyReferralsBtn => 'Xem ứng viên tôi đã giới thiệu';
+
+  @override
+  String get myReferralsTitle => 'Ứng viên tôi đã giới thiệu';
+
+  @override
+  String get myReferralLinkTitle => 'Link & Mã QR giới thiệu của bạn';
+
+  @override
+  String get copyLinkBtn => 'Sao chép link';
+
+  @override
+  String get shareQrBtn => 'Chia sẻ QR';
+
+  @override
+  String get linkCopiedSnackbar => 'Đã sao chép link giới thiệu vào clipboard';
+
+  @override
+  String get stageReceived => 'Tiếp nhận hồ sơ';
+
+  @override
+  String get stageInterview => 'Phỏng vấn';
+
+  @override
+  String get stageProbation => 'Thử việc';
+
+  @override
+  String get stageHired => 'Đã nhận việc & Thưởng';
+
+  @override
+  String get noReferralsFound => 'Chưa có ứng viên nào được giới thiệu';
+
+  @override
+  String get profileEditTitle => 'Chỉnh sửa hồ sơ';
+
+  @override
+  String get profileEditHeader => 'Thông tin cá nhân & Tài khoản';
+
+  @override
+  String get freeEditSection => 'Thông tin liên hệ (Cập nhật ngay)';
+
+  @override
+  String get sensitiveEditSection =>
+      'Thông tin định danh & Ngân hàng (Cần HR duyệt)';
+
+  @override
+  String get sensitiveEditNotice =>
+      'Các thay đổi về CCCD/Hộ chiếu và Tài khoản ngân hàng cần được phòng Nhân sự phê duyệt trước khi áp dụng chính thức.';
+
+  @override
+  String get phoneEditLabel => 'Số điện thoại';
+
+  @override
+  String get emailEditLabel => 'Email cá nhân';
+
+  @override
+  String get addressEditLabel => 'Địa chỉ hiện tại';
+
+  @override
+  String get emergencyNameLabel => 'Người liên hệ khẩn cấp';
+
+  @override
+  String get emergencyPhoneLabel => 'SĐT khẩn cấp';
+
+  @override
+  String get bankNameEditLabel => 'Ngân hàng thụ hưởng';
+
+  @override
+  String get bankAccountEditLabel => 'Số tài khoản';
+
+  @override
+  String get bankHolderEditLabel => 'Tên chủ tài khoản';
+
+  @override
+  String get cccdEditLabel => 'Số CCCD / Hộ chiếu';
+
+  @override
+  String get cccdIssueDateLabel => 'Ngày cấp';
+
+  @override
+  String get cccdIssuePlaceLabel => 'Nơi cấp';
+
+  @override
+  String get permanentAddressLabel => 'Địa chỉ thường trú (theo CCCD)';
+
+  @override
+  String get saveChangesBtn => 'Lưu thay đổi';
+
+  @override
+  String get profileEditSuccess => 'Đã cập nhật thông tin thành công';
+
+  @override
+  String profilePendingHrAlert(String code) {
+    return 'Yêu cầu thay đổi thông tin định danh/ngân hàng đã được gửi đến HR (Mã: $code)';
+  }
+
+  @override
+  String get statusPendingHr => 'Chờ HR duyệt';
+
+  @override
+  String get documentManagementTitle => 'Tài liệu & Hồ sơ';
+
+  @override
+  String get expiringDocAlertTitle => 'Cảnh báo giấy tờ sắp hết hạn';
+
+  @override
+  String expiringDocAlertMsg(int days, String date) {
+    return 'Giấy khám sức khỏe định kỳ sẽ hết hạn sau $days ngày ($date). Vui lòng cập nhật minh chứng mới.';
+  }
+
+  @override
+  String get legalDocSectionTitle => 'Hồ sơ pháp lý & Bằng cấp';
+
+  @override
+  String get viewContractBtn => 'Xem hợp đồng';
+
+  @override
+  String get contractViewerTitle => 'Hợp đồng lao động điện tử';
+
+  @override
+  String contractWatermark(String employeeCode, String name, String date) {
+    return 'BẢN SAO ĐIỆN TỬ - $employeeCode - $name - $date';
+  }
+
+  @override
+  String get uploadNewDocBtn => 'Tải lên tài liệu mới';
+
+  @override
+  String get downloadDocBtn => 'Tải về PDF';
+
+  @override
+  String get dependantsManageTitle => 'Người phụ thuộc';
+
+  @override
+  String get dependantsTaxReliefTitle => 'Giảm trừ gia cảnh (TNCN)';
+
+  @override
+  String dependantsCountLabel(int count) {
+    return 'Số người phụ thuộc: $count người';
+  }
+
+  @override
+  String dependantsTotalReliefLabel(String amount) {
+    return 'Tổng mức giảm trừ: $amount ₫/tháng';
+  }
+
+  @override
+  String get dependantPolicyNotice =>
+      'Mức giảm trừ gia cảnh 4.400.000 ₫/người/tháng theo Nghị quyết của Ủy ban Thường vụ Quốc hội.';
+
+  @override
+  String get addDependantBtn => 'Đăng ký người phụ thuộc mới';
+
+  @override
+  String get dependantNewTitle => 'Đăng ký người phụ thuộc';
+
+  @override
+  String get dependantFullNameLabel => 'Họ và tên người phụ thuộc';
+
+  @override
+  String get dependantRelationshipLabel => 'Mối quan hệ';
+
+  @override
+  String get dependantDobLabel => 'Ngày tháng năm sinh';
+
+  @override
+  String get dependantTaxIdLabel => 'Mã số thuế / CCCD / Giấy khai sinh';
+
+  @override
+  String get dependantStartMonthLabel => 'Tháng bắt đầu tính giảm trừ';
+
+  @override
+  String get dependantProofUploadLabel => 'Minh chứng (Giấy khai sinh / CCCD)';
+
+  @override
+  String get dependantDisclaimer =>
+      'Tôi cam đoan các thông tin kê khai về người phụ thuộc trên là hoàn toàn chính xác và chịu trách nhiệm trước pháp luật.';
+
+  @override
+  String get submitDependantBtn => 'Gửi hồ sơ đăng ký';
+
+  @override
+  String get dependantCreatedSuccess =>
+      'Đã gửi hồ sơ đăng ký người phụ thuộc đến phòng Nhân sự';
+
+  @override
+  String get noDependantsFound => 'Chưa có người phụ thuộc nào được đăng ký';
+
+  @override
+  String get onboardingHomeTitle => 'Hành trình Hội nhập';
+
+  @override
+  String get onboardingWelcomeMsg => 'Chào mừng bạn gia nhập VSTECH!';
+
+  @override
+  String onboardingCountdownDays(int days, String date) {
+    return 'Còn $days ngày nữa đến Ngày đầu tiên ($date)';
+  }
+
+  @override
+  String onboardingProgressSummary(int completed, int total) {
+    return 'Tiến độ chuẩn bị: $completed/$total bước';
+  }
+
+  @override
+  String get offerLetterTitle => 'Thư mời nhận việc (Offer)';
+
+  @override
+  String get offerAcceptBtn => 'Xác nhận chấp thuận Offer';
+
+  @override
+  String get offerAcceptedBadge => 'Đã chấp thuận Offer';
+
+  @override
+  String offerSalaryProbation(String amount) {
+    return 'Lương thử việc (85%): $amount ₫';
+  }
+
+  @override
+  String get orgIntroTitle => 'Đội ngũ & Người đồng hành';
+
+  @override
+  String get buddyCardTitle => 'Người hướng dẫn (Buddy) của bạn';
+
+  @override
+  String get uploadDocsTitle => 'Nộp hồ sơ nhân sự';
+
+  @override
+  String uploadDocsProgress(int uploaded, int total) {
+    return 'Đã nộp $uploaded/$total tài liệu';
+  }
+
+  @override
+  String get capturePhotoTitle => 'Chụp ảnh thẻ nhân viên';
+
+  @override
+  String get capturePhotoGuide =>
+      'Chụp ảnh chân dung 3x4 nền sáng, nhìn thẳng vào camera';
+
+  @override
+  String get capturePhotoBtn => 'Chụp ảnh';
+
+  @override
+  String get confirmPhotoBtn => 'Xác nhận dùng ảnh này';
+
+  @override
+  String get ocrVerificationTitle => 'Xác thực danh tính (OCR CCCD)';
+
+  @override
+  String get ocrScanBtn => 'Quét mặt trước CCCD';
+
+  @override
+  String get ocrVerifiedBadge => 'Đã xác thực trùng khớp 100%';
+
+  @override
+  String get probationContractTitle => 'Hợp đồng thử việc điện tử';
+
+  @override
+  String get signContractBtn => 'Xác nhận ký hợp đồng';
+
+  @override
+  String get contractSignedSuccess =>
+      'Đã hoàn tất ký hợp đồng thử việc điện tử';
+
+  @override
+  String get dayOneGuideTitle => 'Cẩm nang Ngày đầu tiên';
+
+  @override
+  String get dayOneChecklistTitle => 'Những điều cần lưu ý cho Ngày 1';
+
+  @override
+  String get startNextStepBtn => 'Thực hiện bước tiếp theo';
+
+  @override
+  String get faceAuthTitle => 'Nhận diện khuôn mặt';
+
+  @override
+  String get faceNotRegisteredPrompt =>
+      'Bạn chưa đăng ký khuôn mặt trên hệ thống. Vui lòng đăng ký nhận diện khuôn mặt tại trang Cá nhân trước khi chấm công.';
+
+  @override
+  String get goToProfileCta => 'Đến trang Cá nhân';
+
+  @override
+  String get systemAndSupportSection => 'HỆ THỐNG & HỖ TRỢ';
+
+  @override
+  String get faqTitle => 'Câu hỏi thường gặp (FAQ)';
+
+  @override
+  String get privacyPolicyTitle => 'Chính sách bảo mật';
+
+  @override
+  String get payslipAuthDialogTitle => 'Xác thực xem phiếu lương';
+
+  @override
+  String get payslipAuthDialogSubtitleBiometric =>
+      'Để bảo mật thông tin thu nhập, vui lòng nhập mật khẩu tài khoản hoặc dùng sinh trắc học:';
+
+  @override
+  String get payslipAuthDialogSubtitlePasswordOnly =>
+      'Để bảo mật thông tin thu nhập, vui lòng nhập mật khẩu tài khoản:';
+
+  @override
+  String get payslipAuthPasswordHint => 'Nhập mật khẩu tài khoản';
+
+  @override
+  String get payslipAuthIncorrectPassword =>
+      'Mật khẩu không chính xác, vui lòng thử lại';
+
+  @override
+  String get payslipAuthEmptyPassword => 'Vui lòng nhập mật khẩu tài khoản';
+
+  @override
+  String get useBiometricsButton => 'Sử dụng Vân tay / Face ID';
+
+  @override
+  String get faqCategoryAll => 'Tất cả';
+
+  @override
+  String get faqCategoryAttendance => 'Chấm công';
+
+  @override
+  String get faqCategoryPayroll => 'Phiếu lương';
+
+  @override
+  String get faqCategoryRequests => 'Đơn từ';
+
+  @override
+  String get faqCategoryAccount => 'Tài khoản';
+
+  @override
+  String get faqSearchHint => 'Tìm kiếm câu hỏi giải đáp...';
+
+  @override
+  String get faqQ1 => 'Làm sao để điểm danh khi mất kết nối mạng?';
+
+  @override
+  String get faqA1 =>
+      'Hệ thống hỗ trợ hàng đợi điểm danh ngoại tuyến (Offline Queue). Khi mất mạng, lượt chấm công kèm vector khuôn mặt sẽ được lưu trữ an toàn trong máy và tự động đồng bộ khi có Internet.';
+
+  @override
+  String get faqQ2 => 'Tại sao cần xác thực bảo mật khi xem phiếu lương?';
+
+  @override
+  String get faqA2 =>
+      'Phiếu lương chứa thông tin tài chính cá nhân nhạy cảm. Hệ thống yêu cầu xác thực mật khẩu hoặc sinh trắc học (vân tay / Face ID) để đảm bảo chỉ bạn mới có thể truy cập.';
+
+  @override
+  String get faqQ3 => 'Quy trình phê duyệt đơn từ diễn ra như thế nào?';
+
+  @override
+  String get faqA3 =>
+      'Đơn nghỉ phép hoặc tăng ca sau khi gửi sẽ chuyển qua Quản lý trực tiếp phê duyệt, sau đó chuyển tới phòng Nhân sự xác nhận.';
+
+  @override
+  String get faqQ4 => 'Tôi muốn cập nhật thông tin cá nhân thì làm thế nào?';
+
+  @override
+  String get faqA4 =>
+      'Các thông tin nhạy cảm như CCCD và Số tài khoản ngân hàng cần gửi yêu cầu xác nhận tới phòng Nhân sự để đảm bảo an toàn và tính chính xác dữ liệu.';
+
+  @override
+  String get faqQ5 => 'Làm thế nào để bật đăng nhập bằng Vân tay / Face ID?';
+
+  @override
+  String get faqA5 =>
+      'Vào mục Cá nhân > Cài đặt hệ thống > Bật công tắc \'Xác thực sinh trắc học (Vân tay / Face ID)\'. Sau khi kích hoạt, bạn có thể đăng nhập và mở khóa phiếu lương nhanh chóng.';
+
+  @override
+  String get faqQ6 => 'Nếu quên mật khẩu đăng nhập thì phải làm sao?';
+
+  @override
+  String get faqA6 =>
+      'Vì lý do bảo mật doanh nghiệp, mật khẩu tài khoản được quản lý tập trung bởi bộ phận IT. Vui lòng bấm \'Quên mật khẩu\' tại màn hình Đăng nhập để nhận hướng dẫn hỗ trợ.';
+
+  @override
+  String get privacyLastUpdated => 'Cập nhật lần cuối: Tháng 10/2026';
+
+  @override
+  String get privacySec1Title => '1. Thu thập dữ liệu sinh trắc học';
+
+  @override
+  String get privacySec1Content =>
+      'Dữ liệu nhận diện khuôn mặt và sinh trắc học được mã hóa theo vector toán học 128 chiều và lưu trữ an toàn trên thiết bị thông qua FlutterSecureStorage. Chúng tôi không lưu ảnh gốc khuôn mặt lên máy chủ.';
+
+  @override
+  String get privacySec2Title => '2. Dữ liệu vị trí và chấm công';
+
+  @override
+  String get privacySec2Content =>
+      'Vị trí GPS chỉ được truy cập tại thời điểm bạn thực hiện thao tác chấm công để xác minh trong bán kính văn phòng/chi nhánh cho phép, hoàn toàn không theo dõi vị trí nền liên tục.';
+
+  @override
+  String get privacySec3Title => '3. Bảo mật thông tin lương và hồ sơ';
+
+  @override
+  String get privacySec3Content =>
+      'Tất cả thông tin tài chính, lương thưởng và nhân sự được mã hóa theo chuẩn đường truyền TLS 1.3 và chỉ được phân quyền xem cho cá nhân và cấp quản lý trực tiếp được chỉ định.';
+
+  @override
+  String get privacySec4Title => '4. Quyền riêng tư và kiểm soát dữ liệu';
+
+  @override
+  String get privacySec4Content =>
+      'Nhân viên có toàn quyền kiểm tra lịch sử điểm danh, xem các đơn từ đã gửi, tra cứu bảng lương và yêu cầu phòng Nhân sự đính chính khi có sai lệch.';
+
+  @override
+  String get privacySec5Title => '5. Tiêu chuẩn tuân thủ và lưu trữ';
+
+  @override
+  String get privacySec5Content =>
+      'Hệ thống tuân thủ chặt chẽ các quy định pháp lý về bảo vệ dữ liệu cá nhân (Nghị định 13/2023/NĐ-CP) và chính sách bảo mật nội bộ của doanh nghiệp.';
+
+  @override
+  String get faqEmptySearch => 'Không tìm thấy câu hỏi phù hợp';
+
+  @override
+  String get homeQuickActionsSection => 'Tiện ích nhanh';
+
+  @override
+  String get homeMonthlyStatsSection => 'Thống kê tháng này';
+
+  @override
+  String get createOvertimeForSubordinate => 'Tạo tăng ca hộ';
+
+  @override
+  String get createOvertimeForSubordinateSubtitle =>
+      'Đăng ký làm thêm giờ cho nhân viên cấp dưới';
+
+  @override
+  String get overtimeTargetEmployee => 'Nhân viên tăng ca';
+
+  @override
+  String get overtimeTargetSelf => 'Chính mình';
+
+  @override
+  String get selectSubordinateEmployee => 'Chọn nhân viên cấp dưới';
+
+  @override
+  String get searchEmployeePlaceholder => 'Tìm theo tên hoặc mã NV...';
+
+  @override
+  String get noSubordinatesFound => 'Không tìm thấy nhân viên cấp dưới';
+
+  @override
+  String overtimeSubmittedForSubordinateMsg(String date, String employee) {
+    return 'Yêu cầu làm thêm giờ ngày $date cho $employee đã được gửi thành công.';
+  }
+
+  @override
+  String get timesheetDetailTitle => 'Chi tiết ngày công';
+
+  @override
+  String get timesheetShift => 'Ca làm việc';
+
+  @override
+  String get timesheetCheckIn => 'Giờ vào';
+
+  @override
+  String get timesheetCheckOut => 'Giờ ra';
+
+  @override
+  String get timesheetActualHours => 'Thời gian làm việc';
+
+  @override
+  String get timesheetValidHours => 'Công hợp lệ';
+
+  @override
+  String get timesheetLate => 'Đi muộn';
+
+  @override
+  String get timesheetEarly => 'Về sớm';
+
+  @override
+  String get timesheetStatus => 'Trạng thái công';
+
+  @override
+  String get timesheetConfirmed => 'Đã xác nhận';
+
+  @override
+  String get timesheetNotConfirmed => 'Chưa xác nhận';
+
+  @override
+  String get timesheetRejected => 'Đã từ chối';
+
+  @override
+  String get timesheetRejectReason => 'Lý do từ chối';
+
+  @override
+  String get timesheetOvertimeSlip => 'Phiếu tăng ca';
+
+  @override
+  String get timesheetLeaveSlip => 'Phiếu nghỉ phép';
+
+  @override
+  String get timesheetBusinessSlip => 'Phiếu công tác';
+
+  @override
+  String get timesheetExplanationSlip => 'Phiếu giải trình';
+
+  @override
+  String get shiftTabPersonal => 'Cá nhân';
+
+  @override
+  String get shiftTabDepartment => 'Đội ngũ';
+
+  @override
+  String get shiftTabTimesheet => 'Bảng công';
+
+  @override
+  String get shiftSourceScheduled => 'Theo lịch phân';
+
+  @override
+  String get shiftSourceDefault => 'Ca cố định';
+
+  @override
+  String get shiftSourceOff => 'Nghỉ tuần';
+
+  @override
+  String get shiftOvernightBadge => 'Ca qua đêm';
+
+  @override
+  String get rosterSearchHint => 'Tìm theo tên hoặc mã nhân viên...';
+
+  @override
+  String get rosterFilterAll => 'Tất cả';
+
+  @override
+  String rosterTotalEmployees(int count) {
+    return '$count nhân sự';
+  }
+
+  @override
+  String rosterOnDutyCount(int count) {
+    return '$count đi làm';
+  }
+
+  @override
+  String rosterOffDutyCount(int count) {
+    return '$count nghỉ';
+  }
+
+  @override
+  String get rosterEmptyTitle => 'Không có nhân viên phù hợp';
+
+  @override
+  String get rosterEmptySubtitle =>
+      'Không tìm thấy dữ liệu phân ca trong ngày đã chọn.';
+
+  @override
+  String rosterAssignedByLabel(String name) {
+    return 'Phân ca bởi: $name';
+  }
+
+  @override
+  String get rosterDatePickTooltip => 'Chọn ngày xem ca';
+
+  @override
+  String get rosterRefreshTooltip => 'Làm mới dữ liệu';
+
+  @override
+  String timesheetMonthDisplay(int month, int year) {
+    return 'Tháng $month/$year';
+  }
+
+  @override
+  String get timesheetOvertimeHours => 'Tăng ca';
+
+  @override
+  String get timesheetLeaveHours => 'Nghỉ phép';
+
+  @override
+  String get timesheetLunchLabel => 'Cơm trưa / Suất ăn';
+
+  @override
+  String get timesheetNoteLabel => 'Ghi chú';
+
+  @override
+  String get timesheetNoData => 'Không có dữ liệu công trong tháng này';
+
+  @override
+  String get timesheetWorkDate => 'Ngày làm việc';
+
+  @override
+  String get timesheetOnTime => 'Đúng giờ';
+
+  @override
+  String get rosterAllDepartments => 'Tất cả xưởng / phòng ban';
+
+  @override
+  String get rosterDepartmentLabel => 'Xưởng / Phòng ban';
+
+  @override
+  String get sessionExpiredTitle => 'Phiên đăng nhập hết hạn';
+
+  @override
+  String get sessionExpiredMessage =>
+      'Phiên làm việc của bạn đã hết hạn hoặc tài khoản được đăng nhập ở thiết bị khác. Vui lòng đăng nhập lại để tiếp tục sử dụng.';
+
+  @override
+  String get sessionExpiredRelogin => 'Đăng nhập lại';
 }

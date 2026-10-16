@@ -36,7 +36,8 @@ class ShiftWeekSelector extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: weekShifts.map((shift) {
           final isSelected = _isSameDay(shift.date, selectedDate);
-          final isToday = _isSameDay(shift.date, DateTime(2026, 9, 22));
+          final now = DateTime.now();
+          final isToday = _isSameDay(shift.date, DateTime(now.year, now.month, now.day));
 
           return Expanded(
             child: Padding(
@@ -101,8 +102,8 @@ class ShiftWeekSelector extends StatelessWidget {
                       6.gapH,
                       // Shift indicator dot
                       Container(
-                        width: 6,
-                        height: 6,
+                        width: 7,
+                        height: 7,
                         decoration: BoxDecoration(
                           shape: BoxShape.circle,
                           color: isSelected
@@ -110,6 +111,11 @@ class ShiftWeekSelector extends StatelessWidget {
                               : (shift.isDayOff
                                   ? Colors.grey.shade400
                                   : shift.color),
+                          border: (!isSelected &&
+                                  !shift.isDayOff &&
+                                  AppColorUtils.isWhite(shift.color))
+                              ? Border.all(color: colors.textSecondary)
+                              : null,
                         ),
                       ),
                     ],

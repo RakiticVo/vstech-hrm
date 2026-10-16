@@ -1,15 +1,19 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:material_symbols_icons/symbols.dart';
+import 'package:intl/intl.dart';
+import 'package:vstech_hrm/core/di/injector.dart';
 import 'package:vstech_hrm/core/extensions/l10n_extension.dart';
 import 'package:vstech_hrm/core/responsive/app_layout.dart';
 import 'package:vstech_hrm/core/router/routes.dart';
 import 'package:vstech_hrm/core/theme/app_colors.dart';
+import 'package:vstech_hrm/core/widgets/app_icon.dart';
+import 'package:vstech_hrm/features/payroll/domain/usecases/get_payslip_detail_usecase.dart';
 
 /// Monthly Net Salary Card with privacy toggle eye button.
 /// Follows DESIGN.md §7 & Phone.dc.html lines 200–213.
 class HomeSalaryCard extends StatefulWidget {
-  const new({super.key});
+  const HomeSalaryCard({super.key});
 
   @override
   State<HomeSalaryCard> createState() => _HomeSalaryCardState();
@@ -17,13 +21,36 @@ class HomeSalaryCard extends StatefulWidget {
 
 class _HomeSalaryCardState extends State<HomeSalaryCard> {
   bool _isSalaryRevealed = false;
+  double? _netAmount;
+
+  @override
+  void initState() {
+    super.initState();
+    unawaited(_loadSalary());
+  }
+
+  Future<void> _loadSalary() async {
+    final result = await sl<GetPayslipDetailUseCase>()(1);
+    if (!mounted) return;
+    result.fold(
+      (_) {},
+      (payslip) {
+        setState(() {
+          _netAmount = payslip.sumPayAmount;
+        });
+      },
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
     final colors = context.colors;
     final l10n = context.l10n;
 
-    final amountText = _isSalaryRevealed ? '25.500.000 ₫' : l10n.salaryMasked;
+    final formattedSalary = _netAmount != null
+        ? '${NumberFormat('#,###', 'vi_VN').format(_netAmount)} ₫'
+        : '25.500.000 ₫';
+    final amountText = _isSalaryRevealed ? formattedSalary : l10n.salaryMasked;
     final hintText = _isSalaryRevealed
         ? l10n.salaryHintRevealed
         : l10n.salaryHintHidden;
@@ -41,7 +68,7 @@ class _HomeSalaryCardState extends State<HomeSalaryCard> {
         color: Colors.transparent,
         child: InkWell(
           borderRadius: BorderRadius.circular(18),
-          onTap: () => context.push(AppRoutes.payslipDetail),
+          onTap: () => context.push(AppRoutes.payroll),
           child: Padding(
             padding: EdgeInsets.all(cardPadding),
             child: Column(
@@ -67,11 +94,11 @@ class _HomeSalaryCardState extends State<HomeSalaryCard> {
                         borderRadius: BorderRadius.circular(7),
                       ),
                       child: Text(
-                        'Th9',
+                        'Th${DateTime.now().month}',
                         style: TextStyle(
                           fontSize: 11,
                           fontWeight: FontWeight.w700,
-                          color: colors.primaryIndigo,
+                          color: colors.tealPrimary,
                         ),
                       ),
                     ),
@@ -108,12 +135,12 @@ class _HomeSalaryCardState extends State<HomeSalaryCard> {
                           color: colors.cardSecondary,
                           borderRadius: BorderRadius.circular(13),
                         ),
-                        child: Icon(
-                          _isSalaryRevealed
-                              ? Symbols.visibility
-                              : Symbols.visibility_off,
-                          size: 20,
-                          color: colors.primaryIndigo,
+                        child: Center(
+                          child: AppIcon(
+                            _isSalaryRevealed ? AppIcons.eye : AppIcons.eyeOff,
+                            size: 20,
+                            color: colors.tealPrimary,
+                          ),
                         ),
                       ),
                     ),
@@ -136,8 +163,8 @@ class _HomeSalaryCardState extends State<HomeSalaryCard> {
                         ),
                       ),
                     ),
-                    Icon(
-                      Symbols.chevron_right,
+                    AppIcon(
+                      AppIcons.chevronRight,
                       size: 18,
                       color: colors.textTertiary,
                     ),
