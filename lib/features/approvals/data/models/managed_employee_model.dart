@@ -11,6 +11,8 @@ class ManagedEmployeeModel {
     this.shiftName,
     this.shiftStart,
     this.shiftEnd,
+    this.shiftColor,
+    this.shiftTextColor,
   });
 
   factory fromJson(Map<String, dynamic> json) {
@@ -23,6 +25,8 @@ class ManagedEmployeeModel {
       shiftName: json['shiftName']?.toString(),
       shiftStart: json['shiftStart']?.toString(),
       shiftEnd: json['shiftEnd']?.toString(),
+      shiftColor: json['shiftColor']?.toString(),
+      shiftTextColor: json['shiftTextColor']?.toString(),
     );
   }
 
@@ -34,6 +38,8 @@ class ManagedEmployeeModel {
   final String? shiftName;
   final String? shiftStart;
   final String? shiftEnd;
+  final String? shiftColor;
+  final String? shiftTextColor;
 
   ManagedEmployeeEntity toEntity() => ManagedEmployeeEntity(
         code: code,
@@ -44,5 +50,7 @@ class ManagedEmployeeModel {
         shiftName: shiftName,
         shiftStart: shiftStart,
         shiftEnd: shiftEnd,
+        shiftColor: shiftColor,
+        shiftTextColor: shiftTextColor,
       );
 }

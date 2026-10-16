@@ -10,6 +10,8 @@ class MyShiftDayModel {
     this.endHour,
     this.isOvernight = false,
     this.source,
+    this.color,
+    this.textColor,
   });
 
   factory fromJson(Map<String, dynamic> json) {
@@ -21,6 +23,8 @@ class MyShiftDayModel {
       endHour: json['endHour']?.toString(),
       isOvernight: json['isOvernight'] == true,
       source: json['source']?.toString(),
+      color: json['color']?.toString(),
+      textColor: json['textColor']?.toString(),
     );
   }
 
@@ -31,6 +35,8 @@ class MyShiftDayModel {
   final String? endHour;
   final bool isOvernight;
   final String? source;
+  final String? color;
+  final String? textColor;
 
   MyShiftDayEntity toEntity() {
     DateTime parsedDate;
@@ -48,6 +54,8 @@ class MyShiftDayModel {
       endHour: endHour,
       isOvernight: isOvernight,
       source: source,
+      color: color,
+      textColor: textColor,
     );
   }
 }

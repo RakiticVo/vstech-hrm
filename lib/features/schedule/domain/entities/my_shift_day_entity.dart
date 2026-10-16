@@ -11,6 +11,8 @@ class MyShiftDayEntity extends Equatable {
     this.endHour,
     this.isOvernight = false,
     this.source,
+    this.color,
+    this.textColor,
   });
 
   /// The scheduled calendar date.
@@ -34,6 +36,12 @@ class MyShiftDayEntity extends Equatable {
   /// 'SCHEDULE' if assigned by manager, 'DEFAULT' if company default.
   final String? source;
 
+  /// Background hex color of the shift (#RRGGBB).
+  final String? color;
+
+  /// Text hex color on the shift background (#RRGGBB).
+  final String? textColor;
+
   bool get hasShift => shiftCode != null && shiftCode!.trim().isNotEmpty;
   bool get isScheduled => source?.toUpperCase() == 'SCHEDULE';
   bool get isDefault => source?.toUpperCase() == 'DEFAULT';
@@ -48,5 +56,7 @@ class MyShiftDayEntity extends Equatable {
         endHour,
         isOvernight,
         source,
+        color,
+        textColor,
       ];
 }

@@ -12,6 +12,8 @@ class ManagedEmployeeEntity extends Equatable {
     this.shiftName,
     this.shiftStart,
     this.shiftEnd,
+    this.shiftColor,
+    this.shiftTextColor,
   });
 
   /// Employee code (e.g. NV0123).
@@ -38,6 +40,12 @@ class ManagedEmployeeEntity extends Equatable {
   /// Default shift end (HH:mm).
   final String? shiftEnd;
 
+  /// Default shift background color (#RRGGBB).
+  final String? shiftColor;
+
+  /// Default shift text color (#RRGGBB).
+  final String? shiftTextColor;
+
   @override
   List<Object?> get props => [
         code,
@@ -48,5 +56,7 @@ class ManagedEmployeeEntity extends Equatable {
         shiftName,
         shiftStart,
         shiftEnd,
+        shiftColor,
+        shiftTextColor,
       ];
 }

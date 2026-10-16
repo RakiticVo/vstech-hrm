@@ -10,6 +10,8 @@ class DepartmentShiftDayModel {
     this.shiftName,
     this.createdBy,
     this.createdAt,
+    this.color,
+    this.textColor,
   });
 
   factory fromJson(Map<String, dynamic> json) {
@@ -21,6 +23,8 @@ class DepartmentShiftDayModel {
       shiftName: json['shiftName']?.toString(),
       createdBy: json['createdBy']?.toString(),
       createdAt: json['createdAt']?.toString(),
+      color: json['color']?.toString(),
+      textColor: json['textColor']?.toString(),
     );
   }
 
@@ -31,6 +35,8 @@ class DepartmentShiftDayModel {
   final String? shiftName;
   final String? createdBy;
   final String? createdAt;
+  final String? color;
+  final String? textColor;
 
   DepartmentShiftDayEntity toEntity() {
     DateTime parsedDate;
@@ -48,6 +54,8 @@ class DepartmentShiftDayModel {
       shiftName: shiftName,
       createdBy: createdBy,
       createdAt: createdAt,
+      color: color,
+      textColor: textColor,
     );
   }
 }

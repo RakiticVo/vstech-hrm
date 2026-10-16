@@ -68,17 +68,16 @@ class _ShiftMonthGridDialogState extends State<ShiftMonthGridDialog> {
     unawaited(context.read<ShiftScheduleCubit>().fetchShiftsForMonth(_displayedMonth));
   }
 
-  MyShiftDayEntity? _findShift(List<MyShiftDayEntity> shifts, DateTime date) {
-    for (final s in shifts) {
-      if (s.date.year == date.year && s.date.month == date.month && s.date.day == date.day) return s;
-    }
-    return null;
-  }
+  MyShiftDayEntity? _findShift(List<MyShiftDayEntity> shifts, DateTime date) =>
+      shifts.where((s) => s.date.year == date.year && s.date.month == date.month && s.date.day == date.day).firstOrNull;
 
   Color _getShiftDotColor(MyShiftDayEntity? shift) {
     if (shift == null || !shift.hasShift) return const Color(0xFF94A3B8);
-    if (shift.isOvernight) return const Color(0xFF7C3AED);
-    return const Color(0xFF0F766E);
+    if (!AppColorUtils.isDefaultOrWhite(shift.color)) {
+      final parsed = AppColorUtils.parseHex(shift.color);
+      if (parsed != null) return parsed;
+    }
+    return shift.isOvernight ? const Color(0xFF7C3AED) : const Color(0xFF0F766E);
   }
 
   Widget _buildLegendItem(String label, Color color) {
@@ -180,28 +179,13 @@ class _ShiftMonthGridDialogState extends State<ShiftMonthGridDialog> {
                   12.gapH,
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: [
-                      l10n.dayMon,
-                      l10n.dayTue,
-                      l10n.dayWed,
-                      l10n.dayThu,
-                      l10n.dayFri,
-                      l10n.daySat,
-                      l10n.daySun,
-                    ].map(
-                      (d) => Expanded(
-                        child: Center(
-                          child: Text(
-                            d,
-                            style: TextStyle(
-                              fontSize: 12,
-                              fontWeight: FontWeight.bold,
-                              color: colors.textSecondary,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ).toList(),
+                    children: [l10n.dayMon, l10n.dayTue, l10n.dayWed, l10n.dayThu, l10n.dayFri, l10n.daySat, l10n.daySun]
+                        .map((d) => Expanded(
+                              child: Center(
+                                child: Text(d, style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: colors.textSecondary)),
+                              ),
+                            ))
+                        .toList(),
                   ),
                   8.gapH,
                   GridView.builder(
@@ -215,9 +199,7 @@ class _ShiftMonthGridDialogState extends State<ShiftMonthGridDialog> {
                       childAspectRatio: 0.95,
                     ),
                     itemBuilder: (ctx, idx) {
-                      if (idx < leadEmptyDays) {
-                        return const SizedBox.shrink();
-                      }
+                      if (idx < leadEmptyDays) return const SizedBox.shrink();
                       final day = idx - leadEmptyDays + 1;
                       final date = DateTime(_displayedMonth.year, _displayedMonth.month, day);
                       final isSelected = date.year == widget.selectedDate.year &&
@@ -226,7 +208,21 @@ class _ShiftMonthGridDialogState extends State<ShiftMonthGridDialog> {
                       final isToday = date.isAtSameMomentAs(today);
 
                       final shift = _findShift(monthShifts, date);
-                      final dotColor = _getShiftDotColor(shift);
+                      final hasShift = shift != null && shift.hasShift;
+                      final shiftColor = _getShiftDotColor(shift);
+                      final hasCustom = hasShift && !AppColorUtils.isDefaultOrWhite(shift.color);
+
+                      final cellBg = isSelected
+                          ? (hasCustom ? shiftColor : colors.tealPrimary)
+                          : (isToday
+                              ? colors.tealPrimary.withValues(alpha: 0.12)
+                              : (hasCustom ? shiftColor.withValues(alpha: 0.14) : colors.surface));
+                      final cellBorder = isSelected
+                          ? cellBg
+                          : (isToday ? colors.tealPrimary : (hasCustom ? shiftColor.withValues(alpha: 0.45) : colors.border));
+                      final dayColor = isSelected
+                          ? Colors.white
+                          : (isToday ? colors.tealPrimary : (hasCustom ? shiftColor : colors.textPrimary));
 
                       return InkWell(
                         onTap: () {
@@ -236,16 +232,9 @@ class _ShiftMonthGridDialogState extends State<ShiftMonthGridDialog> {
                         borderRadius: BorderRadius.circular(10),
                         child: Container(
                           decoration: BoxDecoration(
-                            color: isSelected
-                                ? colors.tealPrimary
-                                : (isToday ? colors.tealPrimary.withValues(alpha: 0.12) : colors.surface),
+                            color: cellBg,
                             borderRadius: BorderRadius.circular(10),
-                            border: Border.all(
-                              color: isSelected
-                                  ? colors.tealPrimary
-                                  : (isToday ? colors.tealPrimary : colors.border),
-                              width: isToday ? 1.5 : 1.0,
-                            ),
+                            border: Border.all(color: cellBorder, width: isToday ? 1.5 : 1.0),
                           ),
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.center,
@@ -254,8 +243,10 @@ class _ShiftMonthGridDialogState extends State<ShiftMonthGridDialog> {
                                 '$day',
                                 style: TextStyle(
                                   fontSize: 12.5,
-                                  fontWeight: isSelected || isToday ? FontWeight.bold : FontWeight.w600,
-                                  color: isSelected ? Colors.white : colors.textPrimary,
+                                  fontWeight: isSelected || isToday || hasCustom
+                                      ? FontWeight.bold
+                                      : FontWeight.w600,
+                                  color: dayColor,
                                 ),
                               ),
                               const SizedBox(height: 3),
@@ -264,7 +255,7 @@ class _ShiftMonthGridDialogState extends State<ShiftMonthGridDialog> {
                                 height: 6,
                                 decoration: BoxDecoration(
                                   shape: BoxShape.circle,
-                                  color: isSelected ? Colors.white : dotColor,
+                                  color: isSelected ? Colors.white : shiftColor,
                                 ),
                               ),
                             ],

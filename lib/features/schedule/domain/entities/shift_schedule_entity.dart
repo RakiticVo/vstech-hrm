@@ -20,6 +20,7 @@ class ShiftScheduleEntity {
     required this.endTime,
     required this.status,
     required this.color,
+    this.textColor,
     this.shiftCode,
     this.source,
     this.isOvernight = false,
@@ -33,6 +34,7 @@ class ShiftScheduleEntity {
   final String endTime;
   final ShiftStatus status;
   final Color color;
+  final Color? textColor;
   final String? shiftCode;
   final String? source;
   final bool isOvernight;

@@ -25,10 +25,13 @@ class RosterFilterChips extends StatelessWidget {
     final colors = context.colors;
     final l10n = context.l10n;
 
-    final distinctShifts = <String, String>{};
+    final distinctShifts = <String, ({String name, String? color})>{};
     for (final item in rosterItems) {
       if (!item.isDayOff && item.shiftCode != null) {
-        distinctShifts[item.shiftCode!] = item.shiftName ?? item.shiftCode!;
+        distinctShifts[item.shiftCode!] = (
+          name: item.shiftName ?? item.shiftCode!,
+          color: item.shiftColor,
+        );
       }
     }
 
@@ -44,13 +47,17 @@ class RosterFilterChips extends StatelessWidget {
           ),
           ...distinctShifts.entries.map((entry) {
             final count = rosterItems.where((i) => i.shiftCode == entry.key).length;
+            final dotColor = !AppColorUtils.isDefaultOrWhite(entry.value.color)
+                ? AppColorUtils.parseHex(entry.value.color)
+                : null;
             return Padding(
               padding: const EdgeInsets.only(left: 6),
               child: _buildChip(
-                label: '${entry.value} ($count)',
+                label: '${entry.value.name} ($count)',
                 isSelected: selectedFilter == entry.key,
                 onTap: () => onFilterChanged(entry.key),
                 colors: colors,
+                dotColor: dotColor,
               ),
             );
           }),
@@ -61,6 +68,7 @@ class RosterFilterChips extends StatelessWidget {
               isSelected: selectedFilter == 'OFF',
               onTap: () => onFilterChanged('OFF'),
               colors: colors,
+              dotColor: Colors.grey.shade400,
             ),
           ),
         ],
@@ -73,6 +81,7 @@ class RosterFilterChips extends StatelessWidget {
     required bool isSelected,
     required VoidCallback onTap,
     required AppColorsExtension colors,
+    Color? dotColor,
   }) {
     return InkWell(
       onTap: onTap,
@@ -86,13 +95,29 @@ class RosterFilterChips extends StatelessWidget {
             color: isSelected ? colors.tealPrimary : colors.border,
           ),
         ),
-        child: Text(
-          label,
-          style: TextStyle(
-            fontSize: 12,
-            fontWeight: isSelected ? FontWeight.w700 : FontWeight.w500,
-            color: isSelected ? Colors.white : colors.textPrimary,
-          ),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            if (dotColor != null) ...[
+              Container(
+                width: 7,
+                height: 7,
+                margin: const EdgeInsets.only(right: 6),
+                decoration: BoxDecoration(
+                  color: isSelected ? Colors.white : dotColor,
+                  shape: BoxShape.circle,
+                ),
+              ),
+            ],
+            Text(
+              label,
+              style: TextStyle(
+                fontSize: 12,
+                fontWeight: isSelected ? FontWeight.w700 : FontWeight.w500,
+                color: isSelected ? Colors.white : colors.textPrimary,
+              ),
+            ),
+          ],
         ),
       ),
     );

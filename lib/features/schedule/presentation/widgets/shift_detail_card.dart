@@ -107,6 +107,11 @@ class ShiftDetailCard extends StatelessWidget {
       );
     }
 
+    final isWhite = AppColorUtils.isWhite(shift.color);
+    final isDark = shift.color.computeLuminance() < 0.65;
+    final chipTextColor = isWhite ? colors.textPrimary : (isDark ? Colors.white : const Color(0xFF0F172A));
+    final chipIconColor = isWhite ? colors.textSecondary : chipTextColor;
+
     return Container(
       margin: const EdgeInsets.all(16),
       padding: const EdgeInsets.all(18),
@@ -127,19 +132,38 @@ class ShiftDetailCard extends StatelessWidget {
         children: [
           Row(
             children: [
-              Container(
-                width: 4,
-                height: 24,
-                decoration: BoxDecoration(
-                  color: shift.color,
-                  borderRadius: BorderRadius.circular(2),
-                ),
-              ),
-              8.gapW,
               Expanded(
-                child: Text(
-                  shift.shiftName,
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: colors.textPrimary),
+                child: Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                  decoration: BoxDecoration(
+                    color: isWhite ? colors.cardSecondary : shift.color,
+                    borderRadius: BorderRadius.circular(8),
+                    border: Border.all(
+                      color: isWhite ? colors.border : shift.color,
+                    ),
+                  ),
+                  child: Row(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(top: 2),
+                        child: AppIcon(AppIcons.shift, size: 14, color: chipIconColor),
+                      ),
+                      6.gapW,
+                      Expanded(
+                        child: Text(
+                          shift.shiftName,
+                          style: TextStyle(
+                            fontSize: 14,
+                            fontWeight: FontWeight.bold,
+                            height: 1.25,
+                            color: chipTextColor,
+                          ),
+                          maxLines: 3,
+                          softWrap: true,
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ),
               if (shift.isOvernight) ...[

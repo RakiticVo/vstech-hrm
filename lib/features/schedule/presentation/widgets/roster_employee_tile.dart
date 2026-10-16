@@ -61,9 +61,15 @@ class RosterEmployeeTile extends StatelessWidget {
   }
 
   Widget _buildAvatar(AppColorsExtension colors, String initials) {
-    final avatarBg = item.isDayOff
-        ? Colors.grey.shade400
-        : (item.isScheduled ? colors.tealPrimary : const Color(0xFF3B82F6));
+    Color avatarBg;
+    if (item.isDayOff) {
+      avatarBg = Colors.grey.shade400;
+    } else if (!AppColorUtils.isDefaultOrWhite(item.shiftColor)) {
+      avatarBg = AppColorUtils.parseHex(item.shiftColor) ??
+          (item.isScheduled ? colors.tealPrimary : const Color(0xFF3B82F6));
+    } else {
+      avatarBg = item.isScheduled ? colors.tealPrimary : const Color(0xFF3B82F6);
+    }
 
     return Container(
       width: 42,
@@ -164,29 +170,51 @@ class RosterEmployeeTile extends StatelessWidget {
       );
     }
 
-    final badgeColor = item.isOvernight ? const Color(0xFF7C3AED) : colors.tealPrimary;
+    final rawColor = item.shiftColor;
+    final parsedColor = AppColorUtils.parseHex(rawColor);
+    final isWhite = rawColor == null || AppColorUtils.isDefaultOrWhite(rawColor);
+    final shiftColor = parsedColor ?? (item.isOvernight ? const Color(0xFF7C3AED) : colors.tealPrimary);
+
+    final Color containerBg;
+    final Color containerBorder;
+    final Color textColor;
+    final Color iconColor;
+
+    if (isWhite) {
+      containerBg = colors.cardSecondary;
+      containerBorder = colors.border;
+      textColor = colors.textPrimary;
+      iconColor = colors.textSecondary;
+    } else {
+      containerBg = shiftColor;
+      containerBorder = shiftColor;
+      final isDark = shiftColor.computeLuminance() < 0.65;
+      textColor = isDark ? Colors.white : const Color(0xFF0F172A);
+      iconColor = textColor;
+    }
 
     final rawName = item.shiftName ?? item.shiftCode ?? 'Ca làm việc';
     final cleanName = rawName.replaceFirst(RegExp(r'^Ca\s*[:\-]?\s*', caseSensitive: false), '').trim();
-    final hasTimeInName = cleanName.contains('(') || cleanName.contains(':');
+    final baseName = cleanName.isNotEmpty ? 'Ca $cleanName' : rawName;
+    final hasTimeInName = baseName.contains('(') || baseName.contains(':');
     final timeSuffix = (!hasTimeInName && item.startHour != null && item.endHour != null)
         ? ' (${item.startHour} - ${item.endHour})'
         : '';
-    final labelText = '$cleanName$timeSuffix';
+    final labelText = '$baseName$timeSuffix';
 
     return ConstrainedBox(
-      constraints: BoxConstraints(maxWidth: context.w(0.68)),
+      constraints: BoxConstraints(maxWidth: context.wp(68)),
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 9, vertical: 4.5),
         decoration: BoxDecoration(
-          color: badgeColor.withValues(alpha: 0.08),
+          color: containerBg,
           borderRadius: BorderRadius.circular(8),
-          border: Border.all(color: badgeColor.withValues(alpha: 0.25)),
+          border: Border.all(color: containerBorder),
         ),
         child: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
-            AppIcon(AppIcons.shift, size: 13, color: badgeColor),
+            AppIcon(AppIcons.shift, size: 13, color: iconColor),
             5.gapW,
             Flexible(
               child: Text(
@@ -196,7 +224,7 @@ class RosterEmployeeTile extends StatelessWidget {
                 style: TextStyle(
                   fontSize: 11.5,
                   fontWeight: FontWeight.w600,
-                  color: badgeColor,
+                  color: textColor,
                 ),
               ),
             ),

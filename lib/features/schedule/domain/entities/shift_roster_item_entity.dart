@@ -23,6 +23,8 @@ class ShiftRosterItemEntity extends Equatable {
     this.leaveRequests = const [],
     this.overtimeRequests = const [],
     this.correctionRequests = const [],
+    this.shiftColor,
+    this.shiftTextColor,
   });
 
   /// Subordinate employee code.
@@ -73,6 +75,12 @@ class ShiftRosterItemEntity extends Equatable {
   /// List of timesheet correction/explanation requests associated with this employee.
   final List<CorrectionItemEntity> correctionRequests;
 
+  /// Background hex color of the shift (#RRGGBB).
+  final String? shiftColor;
+
+  /// Text hex color on the shift background (#RRGGBB).
+  final String? shiftTextColor;
+
   bool get hasShift => shiftCode != null && shiftCode!.trim().isNotEmpty;
   bool get isScheduled => source.toUpperCase() == 'SCHEDULE';
   bool get isDefault => source.toUpperCase() == 'DEFAULT';
@@ -101,5 +109,7 @@ class ShiftRosterItemEntity extends Equatable {
         leaveRequests,
         overtimeRequests,
         correctionRequests,
+        shiftColor,
+        shiftTextColor,
       ];
 }

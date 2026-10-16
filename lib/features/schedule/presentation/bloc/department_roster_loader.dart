@@ -14,7 +14,7 @@ import 'package:vstech_hrm/features/schedule/domain/usecases/get_department_shif
 
 /// Roster loading result containing mapped roster items and discovered department list.
 class DepartmentRosterResult {
-  const DepartmentRosterResult({
+  const new({
     required this.roster,
     required this.departmentMap,
   });
@@ -30,6 +30,59 @@ abstract final class DepartmentRosterLoader {
     final m = d.month.toString().padLeft(2, '0');
     final day = d.day.toString().padLeft(2, '0');
     return '$y-$m-$day';
+  }
+
+  static DateTime? _parseDate(String? raw) {
+    if (raw == null || raw.trim().isEmpty) return null;
+    final clean = raw.split('T')[0].trim();
+    if (clean.contains('-')) {
+      final parts = clean.split('-');
+      if (parts.length == 3) {
+        if (parts[0].length == 4) {
+          final y = int.tryParse(parts[0]);
+          final m = int.tryParse(parts[1]);
+          final d = int.tryParse(parts[2]);
+          if (y != null && m != null && d != null) return DateTime(y, m, d);
+        } else {
+          final d = int.tryParse(parts[0]);
+          final m = int.tryParse(parts[1]);
+          final y = int.tryParse(parts[2]);
+          if (y != null && m != null && d != null) return DateTime(y, m, d);
+        }
+      }
+    } else if (clean.contains('/')) {
+      final parts = clean.split('/');
+      if (parts.length == 3) {
+        if (parts[2].length == 4) {
+          final d = int.tryParse(parts[0]);
+          final m = int.tryParse(parts[1]);
+          final y = int.tryParse(parts[2]);
+          if (y != null && m != null && d != null) return DateTime(y, m, d);
+        } else if (parts[0].length == 4) {
+          final y = int.tryParse(parts[0]);
+          final m = int.tryParse(parts[1]);
+          final d = int.tryParse(parts[2]);
+          if (y != null && m != null && d != null) return DateTime(y, m, d);
+        }
+      }
+    }
+    return DateTime.tryParse(raw);
+  }
+
+  static bool _isSameDay(String? raw, DateTime target) {
+    final parsed = _parseDate(raw);
+    if (parsed == null) return false;
+    return parsed.year == target.year && parsed.month == target.month && parsed.day == target.day;
+  }
+
+  static bool _isInRange(String? startRaw, String? endRaw, DateTime target) {
+    final start = _parseDate(startRaw);
+    if (start == null) return false;
+    final end = _parseDate(endRaw) ?? start;
+    final t = DateTime(target.year, target.month, target.day);
+    final s = DateTime(start.year, start.month, start.day);
+    final e = DateTime(end.year, end.month, end.day);
+    return !t.isBefore(s) && !t.isAfter(e);
   }
 
   static Future<DepartmentRosterResult> load({
@@ -118,28 +171,26 @@ abstract final class DepartmentRosterLoader {
     // 3. Match tickets for each subordinate employee
     final roster = subordinates.map((emp) {
       final assigned = assignedShifts.where((s) => s.employeeCode == emp.code);
+      final empCode = emp.code.trim().toUpperCase();
 
       // Match leave tickets for this employee
       final empLeaves = leaveList.where((l) {
-        if (l.employeeCode != emp.code) return false;
-        final start = l.from ?? l.validFrom ?? '';
-        final end = l.to ?? l.validTo ?? start;
-        return (start.contains(dateStr) || end.contains(dateStr)) ||
-            (start.isEmpty && end.isEmpty);
+        if (l.employeeCode?.trim().toUpperCase() != empCode) return false;
+        final start = l.from ?? l.validFrom;
+        final end = l.to ?? l.validTo;
+        return _isInRange(start, end, target);
       }).toList();
 
       // Match overtime tickets for this employee
       final empOts = otList.where((o) {
-        if (o.employeeCode != emp.code) return false;
-        final d = o.date ?? '';
-        return d.contains(dateStr) || d.isEmpty;
+        if (o.employeeCode?.trim().toUpperCase() != empCode) return false;
+        return _isSameDay(o.date, target);
       }).toList();
 
       // Match correction / explanation tickets for this employee
       final empCorrs = corrList.where((c) {
-        if (c.employeeCode != emp.code) return false;
-        final d = c.workDate ?? '';
-        return d.contains(dateStr) || d.isEmpty;
+        if (c.employeeCode?.trim().toUpperCase() != empCode) return false;
+        return _isSameDay(c.workDate, target);
       }).toList();
 
       if (assigned.isNotEmpty) {
@@ -160,6 +211,8 @@ abstract final class DepartmentRosterLoader {
           leaveRequests: empLeaves,
           overtimeRequests: empOts,
           correctionRequests: empCorrs,
+          shiftColor: first.color ?? emp.shiftColor,
+          shiftTextColor: first.textColor ?? emp.shiftTextColor,
         );
       }
 
@@ -177,6 +230,8 @@ abstract final class DepartmentRosterLoader {
           leaveRequests: empLeaves,
           overtimeRequests: empOts,
           correctionRequests: empCorrs,
+          shiftColor: emp.shiftColor,
+          shiftTextColor: emp.shiftTextColor,
         );
       }
 

@@ -178,3 +178,38 @@ extension AppColorsX on BuildContext {
   AppColorsExtension get colors =>
       Theme.of(this).extension<AppColorsExtension>() ?? AppColorsExtension.light;
 }
+
+/// Utility methods for parsing and manipulating colors (e.g. from API shift colors).
+class AppColorUtils {
+  const new _();
+
+  /// Parses a hex color string such as '#RRGGBB', 'RRGGBB', '{#RRGGBB}', or with alpha.
+  /// Returns [fallback] if parsing fails or string is invalid.
+  static Color? parseHex(String? hex, {Color? fallback}) {
+    if (hex == null) return fallback;
+    var clean = hex.trim().replaceAll('{', '').replaceAll('}', '');
+    if (clean.startsWith('#')) {
+      clean = clean.substring(1);
+    }
+    if (clean.length == 6) {
+      clean = 'FF$clean';
+    }
+    if (clean.length != 8) return fallback;
+    final val = int.tryParse(clean, radix: 16);
+    if (val == null) return fallback;
+    return Color(val);
+  }
+
+  /// Determines whether a hex color is considered "unset" or default white/blank.
+  static bool isDefaultOrWhite(String? hex) {
+    if (hex == null || hex.trim().isEmpty) return true;
+    final clean = hex.trim().replaceAll('{', '').replaceAll('}', '').toUpperCase();
+    return clean == '#FFFFFF' || clean == 'FFFFFF' || clean == '#FFF' || clean == 'FFF';
+  }
+
+  /// Returns true if [color] is null or white / near-white.
+  static bool isWhite(Color? color) {
+    if (color == null) return true;
+    return color.computeLuminance() > 0.92;
+  }
+}

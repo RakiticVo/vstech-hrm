@@ -102,8 +102,8 @@ class ShiftWeekSelector extends StatelessWidget {
                       6.gapH,
                       // Shift indicator dot
                       Container(
-                        width: 6,
-                        height: 6,
+                        width: 7,
+                        height: 7,
                         decoration: BoxDecoration(
                           shape: BoxShape.circle,
                           color: isSelected
@@ -111,6 +111,11 @@ class ShiftWeekSelector extends StatelessWidget {
                               : (shift.isDayOff
                                   ? Colors.grey.shade400
                                   : shift.color),
+                          border: (!isSelected &&
+                                  !shift.isDayOff &&
+                                  AppColorUtils.isWhite(shift.color))
+                              ? Border.all(color: colors.textSecondary)
+                              : null,
                         ),
                       ),
                     ],

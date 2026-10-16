@@ -18,10 +18,10 @@ class RosterTicketBadges extends StatelessWidget {
 
     final colors = context.colors;
     final l10n = context.l10n;
-    final maxBadgeWidth = context.w(0.65);
+    final maxBadgeWidth = context.wp(65);
 
     return Padding(
-      padding: const EdgeInsets.only(top: 5),
+      padding: const EdgeInsets.only(top: 6),
       child: Wrap(
         spacing: 6,
         runSpacing: 4,

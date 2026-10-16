@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:vstech_hrm/core/theme/app_colors.dart';
 import 'package:vstech_hrm/features/schedule/domain/entities/my_shift_day_entity.dart';
 import 'package:vstech_hrm/features/schedule/domain/entities/shift_schedule_entity.dart';
 
@@ -38,6 +39,12 @@ class ShiftWeekMapper {
           status = ShiftStatus.upcoming;
         }
 
+        final fallbackColor = match.isOvernight
+            ? const Color(0xFF7C3AED)
+            : (match.isScheduled ? const Color(0xFF0F766E) : const Color(0xFF3B82F6));
+        final shiftColor = AppColorUtils.parseHex(match.color) ?? fallbackColor;
+        final shiftTextColor = AppColorUtils.parseHex(match.textColor);
+
         week.add(
           ShiftScheduleEntity(
             id: 'shift_${date.year}_${date.month}_${date.day}',
@@ -47,7 +54,8 @@ class ShiftWeekMapper {
             startTime: match.startHour ?? '08:00',
             endTime: match.endHour ?? '17:00',
             status: status,
-            color: match.isScheduled ? const Color(0xFF0F766E) : const Color(0xFF3B82F6),
+            color: shiftColor,
+            textColor: shiftTextColor,
             shiftCode: match.shiftCode,
             source: match.source,
             isOvernight: match.isOvernight,

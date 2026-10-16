@@ -11,6 +11,8 @@ class DepartmentShiftDayEntity extends Equatable {
     this.shiftName,
     this.createdBy,
     this.createdAt,
+    this.color,
+    this.textColor,
   });
 
   /// Subordinate employee code.
@@ -34,6 +36,12 @@ class DepartmentShiftDayEntity extends Equatable {
   /// Creation timestamp (yyyy-MM-dd HH:mm).
   final String? createdAt;
 
+  /// Background color hex ({#RRGGBB}).
+  final String? color;
+
+  /// Text color hex ({#RRGGBB}).
+  final String? textColor;
+
   @override
   List<Object?> get props => [
         employeeCode,
@@ -43,5 +51,7 @@ class DepartmentShiftDayEntity extends Equatable {
         shiftName,
         createdBy,
         createdAt,
+        color,
+        textColor,
       ];
 }

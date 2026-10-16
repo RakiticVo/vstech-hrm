@@ -47,12 +47,17 @@ class ShiftScheduleTabView extends StatelessWidget {
               children: [
                 AppIcon(AppIcons.shift, size: 18, color: colors.tealPrimary),
                 6.gapW,
-                Text(
-                  l10n.shiftDetailHeader(selectedShift.dayOfWeek, dateStr),
-                  style: TextStyle(
-                    fontSize: 14,
-                    fontWeight: FontWeight.bold,
-                    color: colors.textPrimary,
+                Expanded(
+                  child: Text(
+                    l10n.shiftDetailHeader(selectedShift.dayOfWeek, dateStr),
+                    style: TextStyle(
+                      fontSize: 14,
+                      fontWeight: FontWeight.bold,
+                      height: 1.25,
+                      color: colors.textPrimary,
+                    ),
+                    maxLines: 2,
+                    softWrap: true,
                   ),
                 ),
               ],
