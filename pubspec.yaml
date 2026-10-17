@@ -1,7 +1,7 @@
 name: vstech_hrm
 description: "vstech-hrm Employee Mobile App"
 publish_to: 'none'
-version: 0.0.1+1
+version: 0.0.2+2
 
 environment:
   sdk: ^3.13.2
@@ -65,5 +65,6 @@ flutter:
     - .env
     - assets/mock/
     - assets/images/background/
+    - assets/images/logo/
     - assets/icons/outline/
     - assets/icons/filled/

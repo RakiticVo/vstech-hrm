@@ -4,6 +4,18 @@
 
 ## [Unreleased]
 
+## [0.0.2] - 2026-10-17
+
+### Added
+- Cập nhật giao diện màn hình khởi động (Splash Screen) theo nhận diện thương hiệu mới:
+  - Nền họa tiết gạch bông Sài Gòn (Saigon Tile) trên tông màu teal `#0A544E` đặc trưng.
+  - Tích hợp logo VStech màu kem chính thức cùng hiệu ứng xuất hiện nhẹ nhàng (`vs-pop`).
+  - Thanh tiến trình tải màu vàng hổ phách (amber) mượt mà (`vs-load`) và hiển thị số phiên bản ở chân trang.
+  - Tối ưu hóa thời gian hiển thị tối thiểu 2,5 giây trước khi chuyển tiếp vào ứng dụng.
+- Tích hợp và lưu trữ trọn bộ tài nguyên logo VStech chính thức (`assets/images/logo/`):
+  - Hỗ trợ các biến thể màu kem, teal, trắng, đen, biểu tượng VS độc lập và icon ứng dụng 1024px.
+  - Cung cấp widget `AppLogo` tái sử dụng linh hoạt trên toàn ứng dụng và bảo lưu widget badge cũ.
+
 ### Added
 - Đồng bộ toàn diện theo đặc tả API mới OpenAPI v13 (`docs/api/main/api-1 (13).json`):
   - **Màu ca làm việc (Shift Colors) dùng chung từ server**:

@@ -1271,6 +1271,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get appVersionFooter => 'Version 1.0.0 · Build 2026';
 
   @override
+  String get splashVersionText => 'Version 2.4.0';
+
+  @override
   String get allServicesTitle => 'All Services';
 
   @override

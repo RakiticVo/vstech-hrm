@@ -627,6 +627,7 @@
   "cacheClearedSnackbar": "Cache cleaned successfully",
   "enableNotificationInSettings": "Please enable notification permissions in system settings",
   "appVersionFooter": "Version 1.0.0 · Build 2026",
+  "splashVersionText": "Version 2.4.0",
 
   "allServicesTitle": "All Services",
   "categoryAttendanceTime": "Time & Attendance",

@@ -2437,6 +2437,12 @@ abstract class AppLocalizations {
   /// **'Phiên bản 1.0.0 · Bản dựng 2026'**
   String get appVersionFooter;
 
+  /// No description provided for @splashVersionText.
+  ///
+  /// In vi, this message translates to:
+  /// **'Phiên bản 2.4.0'**
+  String get splashVersionText;
+
   /// No description provided for @allServicesTitle.
   ///
   /// In vi, this message translates to:
