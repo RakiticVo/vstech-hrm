@@ -627,6 +627,7 @@
   "cacheClearedSnackbar": "Đã dọn dẹp bộ nhớ đệm thành công",
   "enableNotificationInSettings": "Vui lòng bật quyền Thông báo trong Cài đặt hệ thống",
   "appVersionFooter": "Phiên bản 1.0.0 · Bản dựng 2026",
+  "splashVersionText": "Phiên bản 2.4.0",
 
   "allServicesTitle": "Tất cả dịch vụ",
   "categoryAttendanceTime": "Chấm công & Thời gian",

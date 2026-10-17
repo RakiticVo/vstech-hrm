@@ -1266,6 +1266,9 @@ class AppLocalizationsVi extends AppLocalizations {
   String get appVersionFooter => 'Phiên bản 1.0.0 · Bản dựng 2026';
 
   @override
+  String get splashVersionText => 'Phiên bản 2.4.0';
+
+  @override
   String get allServicesTitle => 'Tất cả dịch vụ';
 
   @override

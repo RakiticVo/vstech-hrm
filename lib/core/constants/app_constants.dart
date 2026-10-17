@@ -2,7 +2,7 @@ class AppConstants {
   const new _();
 
   static const String appName = 'VSTech HRM';
-  static const String appVersion = '1.0.0';
+  static const String appVersion = '0.0.2';
 
   // Secure Storage Keys
   static const String keyAccessToken = 'access_token';
